@@ -1,214 +1,151 @@
-Received: from mail-yx1-f43.google.com (mail-yx1-f43.google.com [74.125.224.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14940.1794777512951602593
+Received: from mail-dy1-f172.google.com (mail-dy1-f172.google.com [74.125.82.172])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14963.1794777580052180964
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Nov 2026 13:18:33 -0800
+ Sun, 15 Nov 2026 13:19:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=WP0o1WLW;
- spf=pass (domain: gmail.com, ip: 74.125.224.43, mailfrom: raj.khem@gmail.com)
-Received: by mail-yx1-f43.google.com with SMTP id 956f58d0204a3-67dabd38cdfso678186d50.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 15 Nov 2026 13:18:32 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794777512; cv=none;
-        d=google.com; s=arc-20260327;
-        b=p1JVZQkq4mZLFCStCnroMhoDCeS9afEkIgUgjjsxHxLoOnjPXiAxoyBFZaQjYNWG9f
-         urOuWwk3V5gJWTImHaeyOpaXYKfecTSFIqTmnSDAWnmGtpe7CvZpme/+W4QVKCwBM3tX
-         5u+u0JbHT0lDJUW0nG946oSwst3YsXZxw0wp+wyh58PzqeYvsuO3bNTtqHGSi5wXn63o
-         a/uRE0POWMgjNdpQ0X4oWmGKz0bVYsqiiiH4z/INHaxT96W7kbHdj+ePuoycKwXa0Hyq
-         GY/fGrZWl/JhQmMT8OQhqOe9mzK3rcFSvGnIGLJ2PNHpltzJUd2h7sCIL1EHQMtgGuEY
-         2UJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=yAumhJ3dXJK7XZJG4ciZxtq6X41Eb+VYCVGCvxRVKrE=;
-        fh=tqzTG8ULmxT+Fnj66IgbpGqXg8tPqP6jBoTNpGpNm0I=;
-        b=fCvguEHmY3tVkJrquCG7geR3APFcMwS9qOlw3cJKaaR3IJ/1y1H8H7xyN6mjlvwmpI
-         uU5jMpBYEeMM4wER4zZWQl9YXHn97jTwemGdaQ1kGwdYwkmjAjoAtYSUJazq8xD3WdnM
-         S0LG5YBoR5WJaBQ8FCJcgjALNq46hhEymDXpq8O41iluwQXRweN63MUXeVACGigisqLk
-         5WosdnxSeZE75Ye9kMbk6dov/zAMhoVOOIn/yHy3BaOrIp6sdZcDrAExYs0MMhqwyreA
-         RDTkXLeVRUpCnF7rp/WUGFA3v9E5pXZMTaADwntGiyHsz2rJuJU3eGL6pi8CsLCw0dDX
-         oWVg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=fnXCRrhz;
+ spf=pass (domain: gmail.com, ip: 74.125.82.172, mailfrom: raj.khem@gmail.com)
+Received: by mail-dy1-f172.google.com with SMTP id 5a478bee46e88-36fc0a3fe93so5280188eec.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 15 Nov 2026 13:19:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794777512; x=1795382312; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=yAumhJ3dXJK7XZJG4ciZxtq6X41Eb+VYCVGCvxRVKrE=;
-        b=WP0o1WLWurgUMWLu2mhs+s/gKIH+l8r+AuuBbT3Oj4uSggpii31/j4wOfyll6zO1kp
-         TL3LNMk4THJUAt1woz/haKdPheuYJ/DqhrXlMwJEcV5kzck5LD4GqpJ6i9QSsdYg9hUY
-         y6aeUayrHPLGBKKodcxM9V35liHZTgkJGvCVKFtGuEv48URNfZq+SC48BeUsGXE7qHE/
-         Qw+ULOkFBmIIGIN05EWdH5Ve4okixaecgufiy0cx6xJRdRAx8QOqiqjZPsk6IQuSlnD3
-         HQwhkBQd5Rl/oiiv8rEL0R5Y/4m6Rb3lABpVPl1cA7nyY0971RgwQcLpZM38EK7DEUxf
-         80cg==
+        d=gmail.com; s=20260707; t=1794777579; x=1795382379; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=KgzwkwCyPNTkP9morMbGDJVXDJlN98Y8cFYT9VgMYdU=;
+        b=fnXCRrhzaf3U6u3JwIX8WfFcmoCl5v3hGB8wON7rPVNqYiUu4lDHoJEQgeB6x7Z/Nr
+         qAIPbi7HOcsUaqS2CF9WyhvwfoUet1CLo3wY2gtjKdRfOupgl5697Rwg2eJc6t0JkuGO
+         S/wW/gBJGvXpb3+YrxmPXj+HGgT0ZJlN0PuIiafYMbUflHkYbrG+UX8SMzlQhKLRCvxN
+         M4l2/9XAX/PfbExB+zxSOlQ5oG42SJhDjlVhv9Q/5jX2y7qUf8RSGwa2DbVOXvRne0ud
+         NAr+wyJlPXEw/ljXi49G+anfNx1qpbhZe55pxTZH9ttHRgWI+LwgKqvuHyql1z44qjuJ
+         0W0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794777512; x=1795382312;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=yAumhJ3dXJK7XZJG4ciZxtq6X41Eb+VYCVGCvxRVKrE=;
-        b=2Ivo8L1dnshIaZ/p2HJPM/Uadvx7t0wv8hEexnWN7y8hkQY1x3qDLcguB5UdCIEBkj
-         lYCIg5cGRyNdixwUqTcAveP89s8aWa2rhTUhV0hEBMnA26ODI8Ja+0knqg90l9jU2OWv
-         QclP1+UvEGLmK4ny11Xpe6j+w8jJk6iqmVlq3pFaD9ws6R8yHdJCltdfHlQmU/HGd86t
-         wQV3AffZM3EsFoxY3fNM4YLhtCQlYyl5R47+Hm2nkp9avdihHAOF0X2Ifch57Pkyqoez
-         iPunUag1kQ+MLwsgRkiUf6OVdC+1SskoYu0QzMCBEkgLj36RqxpSPLcer4x7EkNfASZm
-         gb5w==
-X-Gm-Message-State: APuU4Z/fPnJp3cbRmBTYRoaqwBY9RV0Oz/RIUMVudrYjOCO/1gPw+jbS
-	ihP0u7W2owvKRXlUMIjlofflBdaTBU0b2cCv8yoLKjVcRa7RxkVuQluMp+j28sUhKN70SDiq1vU
-	TaEUE/0ibgfpH4M2shUAjdKiPeEdIQFc=
-X-Gm-Gg: AYBFou1Vrj/+ztqqC7cfQ+ueIOaGeE0Rdu/6uvWIN8eXn8onYpcc1V2utkg6DE2lj6Q
-	C27Rc2fO4qhYtBHfMNm/vxevgRv4nSL5Qa6h71yM0/DpP7qyUhu+FGOpWoUdfl56A8N1NeOby31
-	oM5QaESO3/ne1MDvcRx9pUcPKoemBpXa18jFYiTYmjreh7KAOTFc4GlSoGwKuaOzQn+ZD4cKjbG
-	jRxDjzgyGMgykLWNB45KNQd180+R2IvJ0Mkno5xMSo2QnSAMdICi27UuBIr1f0H0DdgBR9FZ4rv
-	+/7DTxNxeljOKwzSeMCABYIf4BacOHNwpYjQrtK9qUoEB1QuYjyLww4vMuvsFA+x0j3EJySdp/j
-	23ILC37mDq8+2h+u+S0KGgssxVFLdG5YGhpiL9zn2LV71AtWoOIqI9DjvnTJwsglBcNuYvOL10m
-	odVJ8LlPuHq/HPGzGVU1c3YPuGWLapLZChGfojT5gEsXREItDpWJvF3YTRrCLeh1o3o8fS1sfys
-	Lmnt4I4pXmjKy460PjpYPqmct/qyI3kCapSPM04ZSlfuxXB8lAT6e9dE88ztzwHAm6cG1xTYI9N
-	os070VTRB/rQY6J5Asj2otGH2CxmsjE3Wk/WH7IcjWyXmW7fsLTaUui4YpH1BoQ=
-X-Received: by 2002:a05:690e:a43:b0:67d:b16a:d97f with SMTP id
- 956f58d0204a3-67db16add38mr1156575d50.16.1794777511888; Sun, 15 Nov 2026
- 13:18:31 -0800 (PST)
-MIME-Version: 1.0
-References: <20261108204558.3577002-1-khem.raj@oss.qualcomm.com> <ac8ff53e3255be6f3c080bbe56a9968e97ed53eb.camel@linuxfoundation.org>
-In-Reply-To: <ac8ff53e3255be6f3c080bbe56a9968e97ed53eb.camel@linuxfoundation.org>
+        d=1e100.net; s=20260707; t=1794777579; x=1795382379;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=KgzwkwCyPNTkP9morMbGDJVXDJlN98Y8cFYT9VgMYdU=;
+        b=Oo7zwdAPsJR2HE0/lf/ZKnvn6k8DADXFtk3HfzuZp5Brsp4Q8njCMxOsEVgAFPfePD
+         sVtQ0evP1I9suq2VuFCZtGb6Eq7Adu6ngGW8foVZYQteVA1j6psInsW5VKxUBhtOO2tn
+         Qgku3yY//AqORpF1XV+hCWp90yhN5+tGCqWqH/b9e5HkSg8HMpPaoCHCzCUTqZF1GZ60
+         YdZDG+EMqVTsY2N5wZClehbntxDPoKVB+psR8bGgjswdBDWJFCAM8Ct8J5GQaFMYABGc
+         r6caFv7ZFszaHNuEK1lnvMJ1rwGHqpsuD6mGzpr0JIWwpDtzJtKFV6eXnXntcQ47SMj1
+         r5Ag==
+X-Gm-Message-State: APuU4Z92ZRc8/B74+z2/WWMAX7SefXM4k8K0JeBfnyKUnkfkJS/t6fin
+	OH+G7NyZkr/KGbh7OtlsoHJpTpNcJ8f1S3bNpDEagF+3VJcc0tJcVFH6jB9w13xC
+X-Gm-Gg: AYBFou1Szfjd3uY8/8hiVfTyryB8zrf02WJPmNqRPT2DN1x8hRJo6YG2NiuvbgO7JnU
+	qJyg2Aw0P/6bGCNvmv4lgzGEdDH17QnYl8p6hRsM76oeyQG+nZP67Yvn3gvP8Uvk41hwhzmOhkO
+	VKStM0Kd363Ejv+aogy7/mfVhxxVgzi2zxKRAAoBRw+WZslbjYf6PvpX1HfV5iqR3UAbSPjI1BZ
+	AdAeaLOTqJ3GsBzDKXMgyh7z2KgRZ56JozN3prntgLYnj/w5Xr7Ul4A+34aphorrJNmRgnFOMav
+	kNlJM0iGUYokkJi2l5NKsKMee7rVcRHkR+/m286k2XpRxInC8X9/AwyF5L5p+H69Qk1PpQnMa/C
+	PHd+TmaHn2rjlZ8bDggpMZkHmbOi761zbPwA0C344t4zntjofAKEHCSZMMkLFj0geddTRrKDMQO
+	z+BTYo0NMm0NU2EUo3TRIDCXI4AL+MxOyyR1KpBEyqcfk+bRQT1n6s/EnqMwxJgx5O94UkqTHcj
+	+RbjXoFbjgcnmR3WC/Fzea6CTh4pQrcqUJfvaF9sf6vmadhm60BfTJAgNOOJzq1bw5etd0y5tXp
+	YJI2g1mgv9LuhEPPnSoLpTUT+Omyjj3BCMJAYldEHTtuGsHG6oqMKqr3tSk17w+rFP40gUy8xem
+	qrLyil7rd2Z4EpFDndp3OaaPAB8vPzWWVJMtYc1MBHjkGkj4sgB3UWHRRFL477NAMuZMKfbe6nX
+	yQH6T2pRvYWwp+nWP5kNDb88Saz0+4JHSrrZ5lE81T5OkHWCA7GbWn8FhEJOPlylF0hnKo9p9Em
+	HxuV91vIE6stDQBicVrUyyYJCIWrdPSXKnQBk4IDN44rrwrb2a4nHF6+8UlMleakKv/fs2q0IoK
+	DPTn
+X-Received: by 2002:a05:7301:5f0b:b0:378:7434:a526 with SMTP id 5a478bee46e88-3796628f413mr8315373eec.14.1794777579106;
+        Sun, 15 Nov 2026 13:19:39 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-379563df84fsm55075499eec.20.2026.11.15.13.19.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 15 Nov 2026 13:19:38 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 15 Nov 2026 13:18:04 -0800
-X-Gm-Features: AclHuK9g-i4Cq_JALYYqNvAFucgl6mWtQ1S_5k5rCjOJDIN-48aYaSsLcwuVX7M
-Message-ID: <CAMKF1sq2LyGCBRXOWBvaDio5EWmcEziM_9NazcOwH7uOLEQs9A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] packagegroups: Add clang to the SDK
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, 
-	Khem Raj <khem.raj@oss.qualcomm.com>, Sunil Dora <sunilkumar.dora@windriver.com>
-Content-Type: multipart/alternative; boundary="0000000000000c0d5f06605734cf"
+X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <khem.raj@oss.qualcomm.com>,
+	Joshua Watt <JPEWhacker@gmail.com>
+Subject: [PATCH] create-spdx-3.0: Install deploy task SPDX into the task's arch directory
+Date: Sun, 15 Nov 2026 13:19:36 -0800
+Message-ID: <20261115211936.3574127-1-khem.raj@oss.qualcomm.com>
+X-Mailer: git-send-email 2.56.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 15 Nov 2026 21:18:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250281
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 15 Nov 2026 21:19:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250282
+Content-Type: text/plain; charset="utf-8"
 
---0000000000000c0d5f06605734cf
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Deploy tasks write their SPDX documents to DEPLOY_DIR_SPDX/SSTATE_PKGARCH,
+but the sstate manifest of a machine specific deploy task, such as
+do_deploy, uses the stamp-extra-info arch (MACHINE_ARCH). For an allarch
+recipe with do_deploy, the documents therefore land in the shared allarch
+directory while each machine has its own manifest, so building it for a
+second machine in the same TMPDIR fails:
 
-On Thu, Nov 12, 2026 at 5:25=E2=80=AFAM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
+  ERROR: qcom-partition-conf-git-r0 do_deploy: Recipe qcom-partition-conf
+  is trying to install files into a shared area when those files already
+  exist.
+    .../deploy/spdx/3.0.1/allarch/deploy/qcom-partition-conf-do_deploy-deploy.spdx.json
+      (matched in manifest-uno_q-qcom-partition-conf.deploy)
 
-> On Sun, 2026-11-08 at 12:45 -0800, Khem Raj via openembedded-core wrote:
-> > diff --git a/meta/recipes-core/packagegroups/
-> packagegroup-clang-cross-canadian.bb b/meta/recipes-core/packagegroups/
-> packagegroup-clang-cross-canadian.bb
-> > new file mode 100644
-> > index 0000000000..a1d7445b71
-> > --- /dev/null
-> > +++ b/meta/recipes-core/packagegroups/
-> packagegroup-clang-cross-canadian.bb
-> > @@ -0,0 +1,11 @@
-> > +SUMMARY =3D "Host SDK package for clang cross canadian toolchain"
-> > +
-> > +include recipes-core/packagegroups/packagegroup-cross-canadian.bb
-> > +
-> > +PN =3D "packagegroup-clang-cross-canadian-${MACHINE}"
-> > +
-> > +CLANG =3D "clang-cross-canadian-${TRANSLATED_TARGET_ARCH}"
-> > +
-> > +RDEPENDS:${PN} +=3D "\
-> > +    ${@oe.utils.all_multilib_tune_values(d, 'CLANG')} \
-> > +"
->
-> Reviewing this, I did end up wondering if we really need cross-canadian
-> for clang?
->
-> Unlike gcc/gdb/binutils, a single clang binary supports all the targets
-> and the -cross-canadian pieces are just symlink farms. Do we need them
-> at all or could just just point at "clang" everywhere without the
-> triplets?
->
-> I'm wondering if we can simplify in this case rather than perpetuating
-> that complexity...
->
+Install the documents into the directory of the stamp-extra-info arch
+instead, falling back to SSTATE_PKGARCH. The arch must not be part of the
+sstate object itself, since an allarch recipe shares that object between
+machines, so write the documents without the arch directory, through a
+task scoped SPDX_PKGARCH that is empty, and add the arch to the sstate
+output directory, as do_deploy itself does with DEPLOY_DIR_IMAGE.
 
-I also wish the same, for that we have to change how we package varous gcc
-toolchains too
-SDK environment script expect ${TARGET_PREFIX}clang in the same place as
-the GCC tools.
-It also needs to packagegroup-cross-canadian-${MACHINE}, so clang needs a
-package of that shape to be pulled in.
-the symlinks also do an interesting work of passing right --target to clang
-which has to be passed externally
-otherwise. As such it makes is like a gcc based cross-compiler from usage
-point of view, which is
-also ease of use advantage.
+Fixes: 1b77fe51ec ("spdx: Add ability for deploy tasks to create SPDX")
 
->
-> Cheers,
->
-> Richard
->
+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+Cc: Joshua Watt <JPEWhacker@gmail.com>
+---
+ meta/classes/create-spdx-3.0.bbclass |  4 +++-
+ meta/lib/oe/sbom30.py                | 11 +++++++++--
+ 2 files changed, 12 insertions(+), 3 deletions(-)
 
---0000000000000c0d5f06605734cf
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Nov 12,=
- 2026 at 5:25=E2=80=AFAM Richard Purdie &lt;<a href=3D"mailto:richard.purdi=
-e@linuxfoundation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br=
-></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
-border-left:1px solid rgb(204,204,204);padding-left:1ex">On Sun, 2026-11-08=
- at 12:45 -0800, Khem Raj via openembedded-core wrote:<br>
-&gt; diff --git a/meta/recipes-core/packagegroups/<a href=3D"http://package=
-group-clang-cross-canadian.bb" rel=3D"noreferrer" target=3D"_blank">package=
-group-clang-cross-canadian.bb</a> b/meta/recipes-core/packagegroups/<a href=
-=3D"http://packagegroup-clang-cross-canadian.bb" rel=3D"noreferrer" target=
-=3D"_blank">packagegroup-clang-cross-canadian.bb</a><br>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..a1d7445b71<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-core/packagegroups/<a href=3D"http://packagegroup-c=
-lang-cross-canadian.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-c=
-lang-cross-canadian.bb</a><br>
-&gt; @@ -0,0 +1,11 @@<br>
-&gt; +SUMMARY =3D &quot;Host SDK package for clang cross canadian toolchain=
-&quot;<br>
-&gt; +<br>
-&gt; +include recipes-core/packagegroups/<a href=3D"http://packagegroup-cro=
-ss-canadian.bb" rel=3D"noreferrer" target=3D"_blank">packagegroup-cross-can=
-adian.bb</a><br>
-&gt; +<br>
-&gt; +PN =3D &quot;packagegroup-clang-cross-canadian-${MACHINE}&quot;<br>
-&gt; +<br>
-&gt; +CLANG =3D &quot;clang-cross-canadian-${TRANSLATED_TARGET_ARCH}&quot;<=
-br>
-&gt; +<br>
-&gt; +RDEPENDS:${PN} +=3D &quot;\<br>
-&gt; +=C2=A0=C2=A0=C2=A0 ${@oe.utils.all_multilib_tune_values(d, &#39;CLANG=
-&#39;)} \<br>
-&gt; +&quot;<br>
-<br>
-Reviewing this, I did end up wondering if we really need cross-canadian<br>
-for clang?<br>
-<br>
-Unlike gcc/gdb/binutils, a single clang binary supports all the targets<br>
-and the -cross-canadian pieces are just symlink farms. Do we need them<br>
-at all or could just just point at &quot;clang&quot; everywhere without the=
-<br>
-triplets?<br>
-<br>
-I&#39;m wondering if we can simplify in this case rather than perpetuating<=
-br>
-that complexity...<br></blockquote><div><br></div><div>I also wish the same=
-,=C2=A0for that we have to change how we=C2=A0package varous=C2=A0gcc toolc=
-hains too</div><div>SDK environment script expect <code dir=3D"ltr">${TARGE=
-T_PREFIX}clang</code> in the same place as the GCC tools.</div><div><code d=
-ir=3D"ltr"><font face=3D"Arial, Helvetica, sans-serif">It also needs to p</=
-font>ackagegroup-cross-canadian-${MACHINE}</code>, so clang needs a package=
- of that shape to be pulled in.</div><div>the symlinks also do an interesti=
-ng=C2=A0work of passing right --target to clang which has to be passed exte=
-rnally</div><div>otherwise. As such it makes is like a gcc based cross-comp=
-iler from usage point of view, which is</div><div>also ease of use advantag=
-e.</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex=
-;border-left:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-</blockquote></div></div>
-
---0000000000000c0d5f06605734cf--
+diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spdx-3.0.bbclass
+index 0d0bddcc67..f214448a1e 100644
+--- a/meta/classes/create-spdx-3.0.bbclass
++++ b/meta/classes/create-spdx-3.0.bbclass
+@@ -426,8 +426,10 @@ python () {
+         new_postfuncs.extend(postfuncs)
+ 
+         d.setVarFlag(task, "postfuncs", " ".join(new_postfuncs))
++        d.setVar("SPDX_PKGARCH:task-" + task[3:].replace("_", "-"), "")
++        spdx_arch = d.getVarFlag(task, "stamp-extra-info", False) or "${SSTATE_PKGARCH}"
+         d.prependVarFlag(task, "sstate-inputdirs", f"{spdx_deploy} ")
+-        d.prependVarFlag(task, "sstate-outputdirs", "${DEPLOY_DIR_SPDX} ")
++        d.prependVarFlag(task, "sstate-outputdirs", f"${{DEPLOY_DIR_SPDX}}/{spdx_arch} ")
+         d.prependVarFlag(task, "file-checksums", "${SPDX3_DEP_FILES} ")
+         d.prependVarFlag(task, "dirs", f"{spdx_deploy} ")
+         d.prependVarFlag(task, "cleandirs", f"{spdx_deploy} ")
+diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
+index 520f9df3ef..62e181b970 100644
+--- a/meta/lib/oe/sbom30.py
++++ b/meta/lib/oe/sbom30.py
+@@ -1043,6 +1043,13 @@ def load_jsonld(d, path, required=False):
+     return objset
+ 
+ 
++def get_pkg_arch(d):
++    pkg_arch = d.getVar("SPDX_PKGARCH")
++    if pkg_arch is None:
++        pkg_arch = d.getVar("SSTATE_PKGARCH")
++    return pkg_arch
++
++
+ def jsonld_arch_path(d, arch, subdir, name, deploydir=None):
+     if deploydir is None:
+         deploydir = Path(d.getVar("DEPLOY_DIR_SPDX"))
+@@ -1109,7 +1116,7 @@ def write_jsonld_doc(d, objset, dest):
+ 
+ 
+ def make_jsonld_link(d, fn, subdir, name, deploydir):
+-    pkg_arch = d.getVar("SSTATE_PKGARCH")
++    pkg_arch = get_pkg_arch(d)
+ 
+     link_name = jsonld_arch_path(
+         d,
+@@ -1136,7 +1143,7 @@ def write_recipe_jsonld_doc(
+     create_spdx_id_links=True,
+     create_task_link=False,
+ ):
+-    pkg_arch = d.getVar("SSTATE_PKGARCH")
++    pkg_arch = get_pkg_arch(d)
+ 
+     dest = jsonld_arch_path(d, pkg_arch, subdir, objset.doc.name, deploydir=deploydir)
+ 
