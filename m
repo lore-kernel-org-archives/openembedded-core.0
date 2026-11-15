@@ -1,137 +1,159 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4389.1794732576939660914
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4334.1794732577967770849
  for <openembedded-core@lists.openembedded.org>;
- Sun, 15 Nov 2026 00:49:37 -0800
+ Sun, 15 Nov 2026 00:49:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=eamqf2W8;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-49465892f7bso2045636f8f.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 15 Nov 2026 00:49:36 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KMmDIFUg;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4b467581b98so18535755e9.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 15 Nov 2026 00:49:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1794732575; x=1795337375; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1794732576; x=1795337376; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=bf4P3f9Gzu3gYu2q1dNwCaXpaQVZ0gbtr7u6c7HhnI4=;
-        b=eamqf2W8XQrdwMbtT9mbM+e0uQmTw3j9t5pLzrOKGNlZUNQJOceL70gXq3VpHO2BMF
-         4us22BHHB1Lcr4s6Psw/2loI8IGoBYGEHMtcDNc5YoGqruGG90VxDjI4yT8IXsjUWPBw
-         uLdDb1ozwmpzPJMsIwZuaNo50UT0Y+f1vKE7A=
+        bh=Em4LeCNW9oSi+h+npeEyWWkD20+DJgqJ6mntdYL+G5Q=;
+        b=KMmDIFUgh9DX7/mn2djXlfvZj0twg/prPl5tn6ErHRV58Q3sExemfLs0XWW1aLnoRD
+         j90BYyil+qUm/wJZXtq2lJjcBUS+fLupTxlvRTnw784h7FWbClO/leqek0TbxRDjibqV
+         aEFliwcacl6p6o6muQ8enwTkD/gXNuR9y5dOs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794732575; x=1795337375;
+        d=1e100.net; s=20260707; t=1794732576; x=1795337376;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=bf4P3f9Gzu3gYu2q1dNwCaXpaQVZ0gbtr7u6c7HhnI4=;
-        b=IbH8U4MaVzX0nn62YybKinF2O2tYCOekPqcqJwLMq6VUTCf2jevwvmHSy6Da+LbyHg
-         q365fuzI3tVGP4Bl/Hent5a4hwvcl7rn8365BseZ3BRZ4Bbx+VHqDw8ZmuDIX42zorNM
-         n0NUlvHIFhQZjFQg6TqAn32GmB7ZVQnK7cxX8d8A5bVn0Cj9yfs/ZRulDwk4ERqARdJq
-         Mxij2fq7F2bGvNgcsS8tiD6NTc7JD+c7wYOaywV0Ei43IdlpIQ2hi24iOzEA636pmeU7
-         SVKY9h5Z2LDx7FLuib9s7WabUdlc9hMuPq6oO+bHK8qKwLcIqFNoZFH0CFH7a0KMCwdz
-         DccA==
-X-Gm-Message-State: APuU4Z89iNTYv00TSamt5euEZX/mvUHJvEsR9VtucBe1QFE+i0vWRw7+
-	sQjH6ucEecmkbBHhCRhQbGnf/1ISgYQaN+ahhaEr/0bHdqDQjOH3fJKOmMb7uIV3vJB3bEQzFXY
-	k/GAxVo4=
-X-Gm-Gg: AYBFou1WUEswE5JKGiaM27sKEgbTN8t8w2V+82QdHuw40USrRPa/IYxW1T41vVpNp54
-	3OCxylwYuiP9AIou6DqPKXHVBNRAPnBrkg/jQwDeaBM459yQ8h8zSjvpQ8r14yDhXGP+yFyXGnm
-	a93cHgXVjaAsEvHnhCzsRLGYI6IUHSxumFoz8xelD2qYHreu0QlYJK5T4he8+G5+J5Gqe+g1QZE
-	Socnmi2jWM0jfKb7h1xmI/KiItk8TThqsQTre9p4YpCsbKLyryfatK7V9902/1kL5Sx+pa+1hWY
-	qDtcN7hdP0NJM3Cj1vLHwq49DaYAi0TU7+TPfsalKk4SfWJ9XNFIECL2mh7LU5RTN9AzgJega2d
-	xHhByOkB1XikIAYz7D5q5Jlvz8rWgedrR+py9uv8zbdu1bayMUVIu19LoZFVWdcSYShXzqd43yn
-	uEqpyhAlKrIQz+CM23+0uKdgdREJRodTyX+eGC7GtTZqW5ewhOKZjHOK88p+kCRXyUkl9VC02tX
-	4QDz5hjsC5qTyXUFWTRTprwUGBNSItFclx1wtQ8XV+WnQJSx/EN/IyZ47TDL4KT/eTyGLnSSZdo
-	MWjiSLTNwHnWhOWF9VBdunIwPdcZBoydK6uDAcmbeGWa6KsvUhFWlOct6g==
-X-Received: by 2002:a05:6000:2888:b0:493:d5f0:4e68 with SMTP id ffacd0b85a97d-49c72307130mr16960560f8f.36.1794732575067;
-        Sun, 15 Nov 2026 00:49:35 -0800 (PST)
+        bh=Em4LeCNW9oSi+h+npeEyWWkD20+DJgqJ6mntdYL+G5Q=;
+        b=ikfg9Qx742ZV2VjSk4fdQBf4+vHcSrJx9hOD/gzq0LN/EYFnY3ezmUxkMSH+YQ+KLY
+         T+HNfbgCtgLwDPRka4bgsak3zeO+SpfJxo/LvkHfqvO4nKRP7Zfv33QjFUpll4qxBoZh
+         5BmKl76XiJ9YVb49vKj6TvfuYrD9La9jOb9LOl+FJSr4rlI+M0jacXTL1etvnrXCu55E
+         czz+VZIYoYUigU8woXMPMXh8ZXSvq5dIQ2+AGD15looz/quGkc3kCIboOC+fBo2dOhW+
+         Ic1R1gNeIE+i1mI39yIxQfrQT2PUWqK2MbZaPqq/byofHQ//PcLEfkGyBty0UBy5yu7K
+         JhfA==
+X-Gm-Message-State: APuU4Z+eetOrjZ6jFeqev0YLNHGrUYtoBKnKqCM8Rug3J8MtDVj37d1L
+	GeP+0LV/+TwLJ86HUGsZ30tjwdK3E301zJOGI2PgmaOqrOP3TdXnvsIJSK5+Vy38NfTaFIExHxh
+	9iq/RN88=
+X-Gm-Gg: AYBFou1hf8PYRvqVuQ9urZn4DdwGvcLiOfrVnCtDW/Ne/SZT6Gq+Aj1Vm/vP9GeH+Ho
+	vgEP5cYOcxSuYnYduZK4Z1nCPUWha/2DzlNnxa2tX/tWUXOFW0j6GXOI8nRsDwhajEii3mxROSa
+	BnHdzUGgM4nCiuAO0QP/1Y8xE0SprFQUPW0ps14KictsaHQ2lhBac04SjD4IIknK0B9Y7R0Xt2Q
+	MVb3AkdL1EhpnbqbOERk8/mrH1GmAiiEZcytdhmIOPUK4nYpatfmPqzdYAz+XxWqJFRX8pfQSNH
+	f7WvEy7g8vGFCLtcCuJeC21rwByBwAIGX8CIpi5u+8i9BYTpNfeON9vmE/Aqu16tWBHqf5TcR7q
+	4pSfexGFzLb0JpgR9fiPg/vcb7O4WQSSYazyUAgZC1Iy/eT4olEGUxGM4UW71GL8rOnifSCGEBG
+	wkr7l8HWDArhnH1a5fuTUiRiTip34EmRtzh1pzeMuuDkCOFm/VY7UlYXohXlhfbbzdexY05U8b+
+	U7DWPI2+IvaqZ+lMOvug75Sk/GMdN2wHBIpEa8q08B1xp3iCtyabV6OkmnTxNmXEpABEoKtXxAZ
+	Vai+30q2raZbQzlNAgPhQvIE0vJIT3o2kBpFzm3GIcSzcVZL4Zv6eSDfWA==
+X-Received: by 2002:a05:600c:3e10:b0:4bb:6651:9eda with SMTP id 5b1f17b1804b1-4bb6651a042mr60844295e9.14.1794732576100;
+        Sun, 15 Nov 2026 00:49:36 -0800 (PST)
 Return-Path: <richard.purdie@linuxfoundation.org>
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:4b65:588d:a4ce:ce3f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c60f8d66esm13804452f8f.57.2026.11.15.00.49.33
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c60f8d66esm13804452f8f.57.2026.11.15.00.49.35
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Nov 2026 00:49:34 -0800 (PST)
+        Sun, 15 Nov 2026 00:49:35 -0800 (PST)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 28/41] oeqa/core/case: Tear down decorators if setUp() fails
-Date: Sun, 15 Nov 2026 08:48:31 +0000
-Message-ID: <20261115084845.701136-28-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 29/41] oeqa/core/loader: Bind a copy of each decorator per test case
+Date: Sun, 15 Nov 2026 08:48:32 +0000
+Message-ID: <20261115084845.701136-29-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261115084845.701136-1-richard.purdie@linuxfoundation.org>
 References: <20261115084845.701136-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 15 Nov 2026 08:49:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250259
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 15 Nov 2026 08:49:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250260
 Content-Type: text/plain; charset="utf-8"
 
-unittest doesn't call tearDown() when setUp() raises, so if a test's own
-setUp() failed after the decorators were set up, they were never torn
-down. For OETimeout this left the alarm running so it could fire during
-a later test. Tear the decorators down in that case too and add a test.
+A decorator instance belongs to the decorated function, so when a test
+method is inherited by more than one test class the same instance was
+bound to each test case in turn and ended up referring to whichever case
+was bound last. Its setUpDecorator() then ran against the wrong case.
+Bind a copy for each test case instead and add a test.
+
+Also fix the unregistered decorator error, which used obj.__name__ on a
+decorator instance and so raised AttributeError instead.
 
 AI-Generated: Uses Claude Opus 5.5
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/core/case.py                  | 4 +++-
- meta/lib/oeqa/core/tests/cases/timeout.py   | 9 +++++++++
- meta/lib/oeqa/core/tests/test_decorators.py | 9 +++++++++
- 3 files changed, 21 insertions(+), 1 deletion(-)
+ meta/lib/oeqa/core/loader.py                |  7 +++++--
+ meta/lib/oeqa/core/tests/cases/inherit.py   | 20 ++++++++++++++++++++
+ meta/lib/oeqa/core/tests/test_decorators.py | 14 ++++++++++++++
+ 3 files changed, 39 insertions(+), 2 deletions(-)
+ create mode 100644 meta/lib/oeqa/core/tests/cases/inherit.py
 
-diff --git a/meta/lib/oeqa/core/case.py b/meta/lib/oeqa/core/case.py
-index ad5524a7142..e71cab5028c 100644
---- a/meta/lib/oeqa/core/case.py
-+++ b/meta/lib/oeqa/core/case.py
-@@ -44,14 +44,16 @@ class OETestCase(unittest.TestCase):
-         clss.tearDownClassMethod()
+diff --git a/meta/lib/oeqa/core/loader.py b/meta/lib/oeqa/core/loader.py
+index 90b9366754d..28b4fd20166 100644
+--- a/meta/lib/oeqa/core/loader.py
++++ b/meta/lib/oeqa/core/loader.py
+@@ -4,6 +4,7 @@
+ # SPDX-License-Identifier: MIT
+ #
  
-     def _oeSetUp(self):
-+        # unittest doesn't call tearDown() if setUp() fails so the decorators
-+        # need tearing down here in that case too
-         try:
-             for d in self.decorators:
-                 d.setUpDecorator()
-+            self.setUpMethod()
-         except:
-             for d in self.decorators:
-                 d.tearDownDecorator()
-             raise
--        self.setUpMethod()
++import copy
+ import re
+ import sys
+ import unittest
+@@ -106,8 +107,10 @@ class OETestLoader(unittest.TestLoader):
+             if isinstance(obj, OETestDecorator):
+                 if not obj.__class__ in decoratorClasses:
+                     raise Exception("Decorator %s isn't registered" \
+-                            " in decoratorClasses." % obj.__name__)
+-                obj.bind(self.tc._registry, case)
++                            " in decoratorClasses." % obj.__class__.__name__)
++                # The decorator instance is shared by every class that has
++                # the method so bind a copy for this test case
++                copy.copy(obj).bind(self.tc._registry, case)
  
-     def _oeTearDown(self):
-         for d in self.decorators:
-diff --git a/meta/lib/oeqa/core/tests/cases/timeout.py b/meta/lib/oeqa/core/tests/cases/timeout.py
-index 69cf969a67b..2d7229c18fd 100644
---- a/meta/lib/oeqa/core/tests/cases/timeout.py
-+++ b/meta/lib/oeqa/core/tests/cases/timeout.py
-@@ -32,3 +32,12 @@ class TimeoutTest(OETestCase):
- 
-     def testTimeoutUnrelated(self):
-         sleep(6)
+         def _walk_closure(obj):
+             if hasattr(obj, '__closure__') and obj.__closure__:
+diff --git a/meta/lib/oeqa/core/tests/cases/inherit.py b/meta/lib/oeqa/core/tests/cases/inherit.py
+new file mode 100644
+index 00000000000..8600c8005b5
+--- /dev/null
++++ b/meta/lib/oeqa/core/tests/cases/inherit.py
+@@ -0,0 +1,20 @@
++#
++# Copyright OpenEmbedded Contributors
++#
++# SPDX-License-Identifier: MIT
++#
 +
-+class TimeoutSetUpFailTest(OETestCase):
++from oeqa.core.case import OETestCase
++from oeqa.core.decorator.depends import OETestDepends
 +
-+    def setUp(self):
-+        raise Exception("setUp failed")
++class InheritBaseTest(OETestCase):
 +
-+    @OETimeout(10)
-+    def testTimeoutSetUpFail(self):
++    def testInheritFirst(self):
 +        self.assertTrue(True, msg='How is this possible?')
++
++    @OETestDepends(['testInheritFirst'])
++    def testInheritSecond(self):
++        self.assertTrue(True, msg='How is this possible?')
++
++class InheritSubTest(InheritBaseTest):
++    pass
 diff --git a/meta/lib/oeqa/core/tests/test_decorators.py b/meta/lib/oeqa/core/tests/test_decorators.py
-index 2c668a9871d..d3305b1e534 100755
+index d3305b1e534..74ac4632372 100755
 --- a/meta/lib/oeqa/core/tests/test_decorators.py
 +++ b/meta/lib/oeqa/core/tests/test_decorators.py
-@@ -147,6 +147,15 @@ class TestTimeoutDecorator(TestBase):
-         msg = "OETestTimeout didn't restore SIGALRM"
-         self.assertIs(alarm_signal, signal.getsignal(signal.SIGALRM), msg=msg)
+@@ -126,6 +126,20 @@ class TestDependsDecorator(TestBase):
+         self.assertEqual(result.skipped, [])
+         self.assertEqual(len(result.successes), len(tests))
  
-+    def test_timeout_setup_fail(self):
-+        tests = ['timeout.TimeoutSetUpFailTest.testTimeoutSetUpFail']
-+        alarm_signal = signal.getsignal(signal.SIGALRM)
-+        tc = self._testLoader(modules=self.modules, tests=tests)
-+        self.assertFalse(tc.runTests().wasSuccessful())
-+        # signal.alarm() returns the time left on any previous alarm
-+        self.assertEqual(signal.alarm(0), 0, msg="OETestTimeout alarm left running after setUp failed")
-+        self.assertIs(alarm_signal, signal.getsignal(signal.SIGALRM), msg="OETestTimeout didn't restore SIGALRM")
++class TestInheritedDecorators(TestBase):
++    modules = ['inherit']
 +
-     def test_timeout_cancel(self):
-         tests = ['timeout.TimeoutTest.testTimeoutSkip', 'timeout.TimeoutTest.testTimeoutDepends', 'timeout.TimeoutTest.testTimeoutUnrelated']
-         msg = 'Unrelated test failed to complete'
++    def test_inherited_decorators(self):
++        # Each test case needs its own decorator instances, even when the
++        # test method is inherited by another test class
++        tc = self._testLoader(modules=self.modules)
++        cases = tc._registry['cases']
++        self.assertEqual(len(cases), 4)
++        for case in cases.values():
++            for d in case.decorators:
++                self.assertIs(d.case, case)
++        self.assertTrue(tc.runTests().wasSuccessful())
++
+ class TestTimeoutDecorator(TestBase):
+     modules = ['timeout']
+ 
