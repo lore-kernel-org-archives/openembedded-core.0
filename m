@@ -1,158 +1,187 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7278.1794701372815025762
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.75.1794703747565017468
  for <openembedded-core@lists.openembedded.org>;
- Sat, 14 Nov 2026 16:09:33 -0800
+ Sat, 14 Nov 2026 16:49:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=pOGshsKu;
- spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a1fbd52ab6so19148365e9.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 14 Nov 2026 16:09:32 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=gKPQaj1M;
+ spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4a207b02a2cso12145085e9.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 14 Nov 2026 16:49:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1794701371; x=1795306171; darn=lists.openembedded.org;
-        h=in-reply-to:references:subject:to:from:message-id:date:content-type
+        d=smile.fr; s=google2; t=1794703746; x=1795308546; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=OFAJFysZzuYXMpZtW2R8Dy1xVdMcybpkxM4+u24wThg=;
-        b=pOGshsKu2DaYHG/ScDeg7mISW9cp7WgSWvB8NMNAHRaaD6W5aOJtQVEtQ1UVbmVz65
-         c1rTWbdXOcn+h3S8GHcWSChU4FGeFldESu8lB6BW4G9C3A9wDOwRgd0MZxE4g8G94YwS
-         8nSinYp87XhVp2Q9WjF//yBP2rJjKw79WzvzS+PnimlMZHbwOXiuhg13cmuN3y1g6Fqq
-         kBYK0Kh5QsDQlsFIKDBoeJUb/rE3vCjvEGr28WSTjs252SfrPuzy7YOJc/iGn1S8hlG/
-         mC3U0xQbfQM3M3d9beP4GSOhA0Reo68hQHSJle2OrUIhsfkftg2HxZQwP+JCB7fRmC2B
-         8nCQ==
+        bh=4ruO7+V0AVRpDjuuOAjzygCJFPdEtsiPMRMdQjRbYIU=;
+        b=gKPQaj1MwhFE2+Ve2cBQFCSBbH07ntdxBazvaxrB7qjNWrLc4bTdLZl9MMR5ykTpdM
+         GZ9gVkObrlTLaupOg9jOOXJcCS3tHxAc1wpw0viq+/L3goeIDNvlr/R7xI0shfsRxsp0
+         MS7pMPdvnWvAgDzNagTRORS1wwHgAWIJs+37k+nvUH+hqamr/Pk5SoEJDj+c7LSb4FIZ
+         g7Qie3gip22ZI+bX0ITy+INuelmcSqajOat1bFGn7yP86UH01bnb5uTALovR9+uncYz7
+         FHDD5tb5GRYzkMr8S9ZMEkeKlCgflemQgf1tHqna6K8rHMERfuyJMudoTqKmPP3fJepG
+         RWsA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794701371; x=1795306171;
-        h=in-reply-to:references:subject:to:from:message-id:date:content-type
+        d=1e100.net; s=20260707; t=1794703746; x=1795308546;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=OFAJFysZzuYXMpZtW2R8Dy1xVdMcybpkxM4+u24wThg=;
-        b=1fFdidWhLt2LUyGNwb9+Iosfdwit74O6tR39v9lWZLMq1orx+C4yTClB4b5sE4BYrC
-         pn1gVQmO1Nj6dwSz565OPhhFw07W5BYe3wwSK4+HAdj+UZlM3lsDUEDEK+0jF2ZXPGLV
-         LzV9QGdIQ1YDBhoc5w34cVhVYiWBvQAL+Y/1mIm6QqjhHgE1W/0tH5mPWW2Bq3o+KVYr
-         ne9lSwZVgUVhhHKoaH8sgxEKY8HnZmVY2jyfwmCL2CLLCIgYl2xKutqPkA9ImB6Xq2Iq
-         v84JhG76BKD6Qi3OylnPI2tyZrjH/0Igs5COXwffQTuBgzrKAnBPDWxnNKqyI6o+zVUM
-         ZgOQ==
-X-Forwarded-Encrypted: i=1; AL+hErG+jlUMLPTbWktIwMjFB+fj8kSWsO4OGREj1SrPzSn4bj9wToEg0alEIhLb3y0WCp1M8CypFmbDk/sembkpJjhlOA==@lists.openembedded.org
-X-Gm-Message-State: APuU4Z/ccDoo048YF65wcPkxbzrxuMEDJGKA1QSjiFZkVvVioqm7NoYb
-	lM+F5P8p10+RAUWWb6pfB2I4+Bz9iSxuMHPLH1VJcmFsDove4qaVRC96+VOZ/WeyC94=
-X-Gm-Gg: AYBFou2Pn6RtAJJs9Bpj5ebfXF+qxp8fMa4h4Yl0UTjybooH+7fvP0m6587f2+0cayH
-	aj3GhmSKKAziHDU4r9uoufdjCRa+9QpJuxM8kD822bdCcZnzmzwoi0JuZ3tg7+0WFlvfPytGfDb
-	ubfDLzjlLKWsWrgk9jsMwTF8PC1rhotWKFqiXQkwMijDOUKOkZ2Ufe/rl0reaHUO8aegoiARuqB
-	LnNUlPCri2NkcWv7Dx3CUfEvf9TiJLtATkoYWWJLU47sb6/1b3WzqDC2OVSgxXHFHSqzn07Jc2a
-	paaE2yenahm2jBw+LylYokSUMYlgR1ZzfdMTWR6oJvQT7TBPx6sFLPb2RVwBKHQ5DK9QbpVU5nL
-	eJGutu2JcQ7xBUhqebGIqY0QIkalW4lxJjEqmxxK4fnIrQfl94Gh8FLf87qmj6nrSyKDJy1tlml
-	Oubx3Wa4IgsvO7niKvzlmO0E4+k7LxtFavyjH1fuhUiRC354kWDIeNGDCYA6E9YvKujy8GhC9mD
-	B+jnbquwW+qLfVc53sTO3CTtOKrGCdTfZRp92ADUnrIQj22SF7ou8AJDp6ynAaECkYgGENeNIjN
-	AkrXhKxfuGmxS2oB/MPYrE4n7pHPI/bn2AsPafHkTn4munUNQsOmQnm6OrJ1wd930w+8K0n4Lbi
-	uHrXl4oKFr1swLWcS
-X-Received: by 2002:a05:600c:3e17:b0:4bb:69b3:2b42 with SMTP id 5b1f17b1804b1-4bb69b32d31mr16886765e9.16.1794701370900;
-        Sat, 14 Nov 2026 16:09:30 -0800 (PST)
+        bh=4ruO7+V0AVRpDjuuOAjzygCJFPdEtsiPMRMdQjRbYIU=;
+        b=ba4yuXHbMoeFeQrfA8pHUBn4ZMRcwMPV9VGHdT9BgwAs3GiqfbgjGQsRzc8GB0sW5C
+         AlX5HCokBMdJyP8gUQIYzSTe7ipBuKbtbMiaIPc6mXO1D8v1T1H7SgqmfVq5wTryal7k
+         bXxGvRKCf3pSGzJTrVuXelcR0epnfn4y2g4J1cXEJ+wNIycPiKvkZY6hC/7ajjK+NiJ0
+         ZBtzS7UbgD0QVRjhfTgVX8ZRf+lZ6H1sKWU+hOlbegvs5Qa8cbk9Q539DWb9gdF8i+mS
+         v0jmLmV8i0iMb50k1pnLkyG+Tj3Zerqm+AkteihLDhgfduJWPmkiuOQfowOvzqBOj6Ud
+         tFHg==
+X-Forwarded-Encrypted: i=1; AL+hErEsfXDzZ4qB6Br67hEw2i4wktytiXCOgmxn64kLVSt59nDL8t92mgh353evNIiJR8W2dpxODG2dDdVB/upJ4ssXMQ==@lists.openembedded.org
+X-Gm-Message-State: APuU4Z+ubtLKJs/JhfPRqLgw+qYnmqwcYc8/kswmyjZb7C2QvHAo6uby
+	80rID9e4A+p2qJJ2KBSYztH7VjVZRP5A3PDx9o1R1PNUcJ8FOmqijQ9AkvLem63Zhd4=
+X-Gm-Gg: AYBFou0zP0FK3DdL67ZWgjGP3Lhpek4Sv2MfE0RiRLwzqehSvPeNL26DppOdJ+os5Iw
+	Qynuml+Ru1OloiaqsAZ4Q2b/SnWzDAXpuv4aL6tR/KqftYE3Ej8IY4mLTGwE7O3V4vob3BW7Zsl
+	D9eJRVpyJumhdD+ys6aZP9uTdGBAQlGgccT6SUYikoOSbutHLZ5B/oJXz6xX77tUx1SxNlnNStR
+	88vnm0AIb/YEuHPYPMsR1TkqFC2eiuUbh8IOMTdSiMLkMo84VIzDt1kb8s64wdfOWv0zGdBzyrN
+	EqzDfOqCb0n+9IRAAykJrjiUjFL9Vcm1FGqWmaaxlQm0KS2yIORs171HYXH2W6t9AJ/e3jpJlx1
+	Qwn5T9WJHVyhcJKOxqTVIMCLeqITyM7h2So0VOzFIG1f17Dja0HyUcA9l3Q31FbX9uub4Wwhp8X
+	dw+RO7fZx+HJCGMB9vIyfw1hrFSFBaZHWgGvonOjrCpXgnuFZAFsk2rgAMhh/lJIa2sqGgsDTJ/
+	AphEkYn17ZCJecVn6zfzzILnIAMm+YvRcdfRFJZ5H1Q7n3zJSQ+2axrZxmNFNOoTAHKr94CiG1w
+	EIqLb1sxgBQ/oWjIEeL8Rs9r+jra4uEwN4koC2tc+/3ZtIKZiJlqaGiQ3IwqNnZ/2EwELPb1P9m
+	ybQaWMVEafcsp3meAqNzXX0H8iUZuHB67WX2mAA==
+X-Received: by 2002:a05:600c:524d:b0:4bb:68b9:f615 with SMTP id 5b1f17b1804b1-4bb68b9f88bmr36040175e9.17.1794703745644;
+        Sat, 14 Nov 2026 16:49:05 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb52bab8bbsm191520515e9.13.2026.11.14.16.09.30
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb4e2adf53sm275793515e9.15.2026.11.14.16.49.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 14 Nov 2026 16:09:30 -0800 (PST)
+        Sat, 14 Nov 2026 16:49:05 -0800 (PST)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sun, 15 Nov 2026 01:09:29 +0100
-Message-Id: <DMVCJFB6GMSJ.278YTTU78ZCM0@smile.fr>
+Date: Sun, 15 Nov 2026 01:49:04 +0100
+Message-Id: <DMVDDQCWAXQF.20EAFWN8LK8T4@smile.fr>
+Subject: Re: [OE-core][wrynose][PATCH ] attr: fix CVE-2026-54371
 From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <dkelaiya@cisco.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][wrynose][PATCH 0/3] acl: Security fixes
+To: <hthakar@cisco.com>, <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
-References: <20261104055335.2080900-1-dkelaiya@cisco.com>
-In-Reply-To: <20261104055335.2080900-1-dkelaiya@cisco.com>
+References: <20261105053506.165590-1-hthakar@cisco.com>
+In-Reply-To: <20261105053506.165590-1-hthakar@cisco.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 15 Nov 2026 00:09:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250214
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 15 Nov 2026 00:49:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250215
 
-On Wed Nov 4, 2026 at 6:53 AM CET, Darsh Kelaiya -X (dkelaiya - E INFOCHIPS=
- PRIVATE LIMITED at Cisco) via openembedded-core wrote:
-> From: Darsh Kelaiya <dkelaiya@cisco.com>
+On Thu Nov 5, 2026 at 6:35 AM CET, Hetvi Thakar -X (hthakar - E INFOCHIPS P=
+RIVATE LIMITED at Cisco) via openembedded-core wrote:
+> From: Hetvi Thakar <hthakar@cisco.com>
 >
-> Backport the upstream fixes for CVE-2026-54369 and CVE-2026-54370 to
-> ACL 2.3.2.
+> getfattr traversal and setfattr restore operations can follow
+> attacker-controlled symlinks and access unintended files. This can
+> lead to privilege escalation when invoked by a privileged process.
 >
-> CVE-2026-54369 adds descriptor-relative ACL APIs so callers can control
-> symlink traversal. CVE-2026-54370 uses those APIs to harden getfacl,
-> setfacl, setfacl --restore and chacl against path replacement races and
-> unsafe symlink traversal.
+> Backport the upstream hardening commits [7] and [8], identified by
+> the Debian tracker [10], while retaining attr 2.5.2. These fixes use
+> interfaces absent from 2.5.2, requiring the following prerequisites
+> in their dependency order:
 >
-> Retain ACL 2.3.2 on the stable Wrynose branch and backport the security
-> fixes with the required _at APIs and helper dependencies. This follows
-> OE-Core's focus on security and bug fixes for stable branches [1],
-> avoiding a general recipe upgrade to ACL 2.4.0. Existing pathname API
-> behavior is preserved.
+> - [1] Add the visibility attribute header. The compatibility helpers
+>   introduced by [3] include this header and use its hidden annotation
+>   for internal declarations.
 >
-> The new public acl_*_at declarations conflict with private helpers
-> using the same names in GNU tar 1.35. Patch 1 backports the upstream
-> tar rename before patches 2 and 3 introduce and consume
-> the new ACL APIs.
+> - [2] Add xattrat syscall wrappers. These provide the getxattrat(),
+>   setxattrat(), listxattrat() and removexattrat() entry points used by
+>   [3] when the C library does not provide them.
 >
-> [1] https://docs.yoctoproject.org/6.0/ref-manual/release-process.html#sta=
-ble-release-process
+> - [3] Add xattrat compatibility helpers. The hardening fixes use these
+>   interfaces for directory-relative extended-attribute operations.
+>   They provide fallbacks for older kernels and unsupported
+>   O_PATH/AT_EMPTY_PATH combinations, using /proc/self/fd where needed.
 >
-> Darsh Kelaiya (3):
->   tar: avoid name conflicts with new libacl APIs
->   acl: fix CVE-2026-54369
->   acl: fix CVE-2026-54370
+> - [4] Add the directory-fd-based walk_tree implementation and callback
+>   interface required by [7]. This allows getfattr to access entries
+>   relative to directory descriptors instead of repeatedly resolving
+>   their complete pathnames.
 >
->  .../tar/tar/Avoid-acl_-prefix-for-functions.patch     | 103 ++
->  meta/recipes-extended/tar/tar_1.35.bb                 |   1 +
->  .../attr/acl/CVE-2026-54369-dependent_p1.patch        |  69 ++
->  .../attr/acl/CVE-2026-54369-dependent_p2.patch        | 200 ++++
->  .../attr/acl/CVE-2026-54369-dependent_p3.patch        | 712 ++++++++++++=
-+
->  meta/recipes-support/attr/acl/CVE-2026-54369_p1.patch | 719 ++++++++++++=
-+
->  meta/recipes-support/attr/acl/CVE-2026-54369_p2.patch | 957 ++++++++++++=
-++++++
->  meta/recipes-support/attr/acl/CVE-2026-54369_p3.patch | 109 ++
->  .../attr/acl/CVE-2026-54370-dependent_p1.patch        | 168 +++
->  .../attr/acl/CVE-2026-54370-dependent_p2.patch        | 761 ++++++++++++=
-++
->  .../attr/acl/CVE-2026-54370-dependent_p3.patch        | 439 ++++++++
->  .../attr/acl/CVE-2026-54370-dependent_p4.patch        | 140 +++
->  meta/recipes-support/attr/acl/CVE-2026-54370_p1.patch | 299 ++++++
->  meta/recipes-support/attr/acl/CVE-2026-54370_p2.patch | 403 ++++++++
->  meta/recipes-support/attr/acl/CVE-2026-54370_p3.patch | 603 +++++++++++
->  meta/recipes-support/attr/acl/CVE-2026-54370_p4.patch | 213 ++++
->  meta/recipes-support/attr/acl_2.3.2.bb                |  14 +
->  17 files changed, 5910 insertions(+)
->  create mode 100644 meta/recipes-extended/tar/tar/Avoid-acl_-prefix-for-f=
-unctions.patch
->  create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54369-dependen=
-t_p1.patch
->  create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54369-dependen=
-t_p2.patch
->  create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54369-dependen=
-t_p3.patch
->  create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54369_p1.patch
->  create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54369_p2.patch
->  create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54369_p3.patch
->  create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54370-dependen=
-t_p1.patch
->  create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54370-dependen=
-t_p2.patch
->  create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54370-dependen=
-t_p3.patch
->  create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54370-dependen=
-t_p4.patch
->  create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54370_p1.patch
->  create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54370_p2.patch
->  create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54370_p3.patch
->  create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54370_p4.patch
+> - [5] Defer restoration until command-line parsing is complete.
+>   This ensures -h and the -P option introduced by [8] take effect
+>   even when specified after --restore.
+>
+> - [6] Add openat2 detection and a syscall wrapper. Commit [8] uses
+>   this interface with RESOLVE_NO_SYMLINKS to resolve restore
+>   directory components without following symbolic links.
+>
+> The main fixes then convert getfattr to directory-relative xattr
+> operations [7] and harden setfattr --restore [8]. Restore retains
+> upstream compatibility behavior: -P protects directory traversal,
+> while -h prevents dereferencing the final component. Physical
+> directory resolution fails rather than silently falling back when
+> openat2 is unavailable.
+>
+> Replace the existing walker in place, avoiding the upstream
+> old-walker rename and duplicate implementation. Include the relevant
+> test changes from [9] to stabilize root-test output on SELinux hosts.
+> Read the ptest TESTS list from the generated Makefile so conditional
+> tests are installed according to the configured build.
+>
+> [1] https://cgit.git.savannah.nongnu.org/cgit/attr.git/commit/?id=3D21b5e=
+5b9d394612f44e384c8fa024aea5e8dac68
+> [2] https://cgit.git.savannah.nongnu.org/cgit/attr.git/commit/?id=3Dc62e9=
+b55edd512ba3f87eaaaf5b822bd2a76bfe9
+> [3] https://cgit.git.savannah.nongnu.org/cgit/attr.git/commit/?id=3Dc4622=
+83577f1a6479229c43184ad6af5921f439b
+> [4] https://cgit.git.savannah.nongnu.org/cgit/attr.git/commit/?id=3D9b37b=
+117c5d5703aa7481f4c34f73b24c010ad25
+> [5] https://cgit.git.savannah.nongnu.org/cgit/attr.git/commit/?id=3D4fce1=
+7388e014a06cca16914ab3b7e4a0d117856
+> [6] https://cgit.git.savannah.nongnu.org/cgit/attr.git/commit/?id=3D1cea2=
+fc5e8b5c8a5f29abf1141399e01a57a3154
+> [7] https://cgit.git.savannah.nongnu.org/cgit/attr.git/commit/?id=3D641ea=
+6fcc556c1f34b77efb9cd3f876dff0a0a07
+> [8] https://cgit.git.savannah.nongnu.org/cgit/attr.git/commit/?id=3D3fb06=
+b9ba314d37035d0877e6de313de754f1ac8
+> [9] https://cgit.git.savannah.nongnu.org/cgit/attr.git/commit/?id=3D30333=
+5494a326026bc37e8d83ca47fa1a4d8dde6
+> [10] https://security-tracker.debian.org/tracker/CVE-2026-54371
+>
+> Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
+> ---
+>  .../attr/CVE-2026-54371-dependent_p1.patch    |  48 ++
+>  .../attr/CVE-2026-54371-dependent_p2.patch    | 197 +++++
+>  .../attr/CVE-2026-54371-dependent_p3.patch    | 710 ++++++++++++++++++
+>  .../attr/CVE-2026-54371-dependent_p4.patch    | 638 ++++++++++++++++
+>  .../attr/CVE-2026-54371-dependent_p5.patch    |  63 ++
+>  .../attr/CVE-2026-54371-dependent_p6.patch    | 140 ++++
+>  .../attr/attr/CVE-2026-54371_p1.patch         | 390 ++++++++++
+>  .../attr/attr/CVE-2026-54371_p2.patch         | 476 ++++++++++++
+>  meta/recipes-support/attr/attr_2.5.2.bb       |  10 +-
+>  9 files changed, 2671 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-support/attr/attr/CVE-2026-54371-depende=
+nt_p1.patch
+>  create mode 100644 meta/recipes-support/attr/attr/CVE-2026-54371-depende=
+nt_p2.patch
+>  create mode 100644 meta/recipes-support/attr/attr/CVE-2026-54371-depende=
+nt_p3.patch
+>  create mode 100644 meta/recipes-support/attr/attr/CVE-2026-54371-depende=
+nt_p4.patch
+>  create mode 100644 meta/recipes-support/attr/attr/CVE-2026-54371-depende=
+nt_p5.patch
+>  create mode 100644 meta/recipes-support/attr/attr/CVE-2026-54371-depende=
+nt_p6.patch
+>  create mode 100644 meta/recipes-support/attr/attr/CVE-2026-54371_p1.patc=
+h
+>  create mode 100644 meta/recipes-support/attr/attr/CVE-2026-54371_p2.patc=
+h
 
 Hello,
 
-This is quite a big series ("5910 insertions(+)"). Looking at it, I think
-this might be just backporting most of the risky parts of the 2.4.0
+This is quite a big patch ("2671 insertions(+)"). Looking at it, I think
+this might be just backporting most of the risky parts of the 2.6.0
 upgrade, but then, we might just be better off simply upgrading to
-2.4.0. Do you have thoughts about that? Are there definite breakage on a
-potential 2.4.0 upgrade?
+2.6.0. Do you have thoughts about that? Are there definite breakage on a
+potential 2.6.0 upgrade?
 
-Obviously, a 2.4.0 upgrade would need serious thoughts/discussion but
+Obviously, a 2.6.0 upgrade would need serious thoughts/discussion but
 this might be the way forward.
+
+Note: This is a similar situation to the acl series (CVE-2026-54369 and
+CVE-2026-54370, acl 2.3.2 vs 2.4.0), see [1].
+
+[1] https://lore.kernel.org/all/DMVCJFB6GMSJ.278YTTU78ZCM0@smile.fr/
 
 Regards,
 --=20
