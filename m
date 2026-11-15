@@ -1,166 +1,178 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1684.1794713443200514979
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3012.1794721853244758070
  for <openembedded-core@lists.openembedded.org>;
- Sat, 14 Nov 2026 19:30:43 -0800
+ Sat, 14 Nov 2026 21:50:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=lFDo8P42;
- spf=pass (domain: gmail.com, ip: 209.85.210.169, mailfrom: ticotimo@gmail.com)
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-8b612fd74e1so997950b3a.0
-        for <openembedded-core@lists.openembedded.org>; Sat, 14 Nov 2026 19:30:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794713442; x=1795318242; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=hpiH+ka+C0qnZgLtsc8W1U1hP9CbLYWaVOM3yMs5PHI=;
-        b=lFDo8P42iaz1KSAkcgeTuO8Qj0Z0FjPktefCXNESNzpXjTszCOlWvWHbhGkNKlyOjj
-         I1PpGXmDtZYBGqifeedlSFdGesvBZ3cJ1soxkpOeleL/MMsxxBLUFlLl8T0X0Ri4KUsz
-         LHwTbGbJqC8/3MYiqtOShyzEeUm2FZc2k4LHRpWr3f+lNeCcdS7A15jwen767jpFXwO8
-         jny2qApEzlJdhzh+IDw3i8UzBrcT2vqNf7T0ZrvFntyIsICe5CPU0e/mc4yLjvYdJKk6
-         F3fkJ5XBHH7KF1zlnyhF5JAhGcG+hKxO0VXWnWLaohjEz+5deZWcgqGmchxrfj21aWSK
-         cChQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794713442; x=1795318242;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=hpiH+ka+C0qnZgLtsc8W1U1hP9CbLYWaVOM3yMs5PHI=;
-        b=rKzNZbi0f/Ppng1EVMW+mT3JUB73zQy4T/kiiOom8wjc+Md3QJCC1Iegge6KX1RhZp
-         AEJyplBh/zquIqkM+YNuRtNb2HhCsB4bIM1PyptbIFslzfYIRXhEz6jWYSFEDSdJU1X/
-         B0IcPNhTz8eJdHHD1bHXDKMVFLxcRbrnNyfkfMv/rpQfe6GUWN2KeDr+otxX1cLmxAu6
-         cxsRtA078QOV4lZoR44FGjriKHtdv7+e4amGY4fQveGt+lPZeM+n8cnpod8J0kbiWibR
-         H7Q+nssJ9GGITZXrm9Ra+soD6IFw4gXzSc3QHkKBWUZtSqc1tzwnShxZQxUh3460sE52
-         RDsA==
-X-Gm-Message-State: APuU4Z8NAAXPt73fxyJjHyhd41MH7i7igXSUAYklKBhBoDSAg59/rrNv
-	VVR7UZFiGc/ud99I37xUMOdbqHH8ZveBqylF2/taDRqxrPtO5vpH/W4pcZJ6DA==
-X-Gm-Gg: AYBFou18r2krRiXwmMkTjSbZMMnaFsKXv2gnxlKpcLB9E5w0yghezepRpOZ6PfgNv0T
-	6JO4wyJZmIpYiDjskJNG9BzZvhj0wcI2skEU3Jv5KAjlJsFRPNYkMXPDO/hY3lu/MFRTkud4kob
-	7DuVvJ9tcWEXbnCnfYPIkm4ePENVTXk1HXoheMZN1Moya09rX9j/LeQFquDzPaxoZ/i0HTG7cGK
-	/Zmu7mYOgiAjZ63K4ZBV1MKpqNwqzyKr3VpMLjfLlN5Rfw/kOcw7GFRv7fncORHJPB/VjLOsfd6
-	VqloIzmBnSMRFJIUlbf1pTFMWgc9WQsF3DM0ODx5Zraz9db88L8G0ZHBm41wksaTbSEPGFSmw+w
-	3s3M33lMoYUYiRshQGX6ruQXkbSQshjS8t5mVTa7dwbzT728eojYu2nVRJdFHaazzXOjctTWhOD
-	qcIWPdEDyX1pHxFiKHNarU5gOOdVJCNvChYySlfMMVyCoO7SlNG7ssVdjC17rT0GM73Of+AFmHt
-	sMIq9aqbddl4IvSZeGVkNWoAQEHe8zgbmcGxMMM8KjT4I6/128jzZSvIo49UmbjzBSTjwN8fgY6
-	1lNboTR0k1Gw8NHXPbUkcIr0cDqDp6d5utXci1lwaejxVkxwBKI5j75MFcT1GQ==
-X-Received: by 2002:a05:6a00:1821:b0:8a0:7140:7fbb with SMTP id d2e1a72fcca58-8beb7d1a49amr6396299b3a.51.1794713442370;
-        Sat, 14 Nov 2026 19:30:42 -0800 (PST)
-Return-Path: <ticotimo@gmail.com>
-Received: from localhost.localdomain ([69.9.132.159])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8bed1a6dbd9sm2414381b3a.27.2026.11.14.19.30.37
-        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Sat, 14 Nov 2026 19:30:39 -0800 (PST)
-From: Tim Orling <ticotimo@gmail.com>
-X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH] lib/oe/distro_check: also list the Debian binary packages
-Date: Sat, 14 Nov 2026 19:30:19 -0800
-Message-ID: <20261115033018.75976-2-tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.56.1
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=gMlllsdP;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=qdoZ6g1H;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101a1ddc22af8-27afa6e1-b9dd-4922-b2ef-e342e1607e90-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1794721852;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=tDp6XxNLLMbtLELyggs/KdUxMVe5cnl1ifY/9/RclFQ=;
+	b=gMlllsdPfLBb1jx8eDY0soFKKwJFRGVbHlkQQRQD+EGIEFJiO7yuBd023CZOqHcW
+	dkOLDXnikrhgIc0xKY3koiVAoBlkRuOrYILCpuZSsk1mITWrgbXqu3DY6gb5VNZbwqI
+	fUutwvLE8Mg7d5/Y57HQr8/DNLCuvX2EXhYSEo5E=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1794721852;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=tDp6XxNLLMbtLELyggs/KdUxMVe5cnl1ifY/9/RclFQ=;
+	b=qdoZ6g1HHn/z0Nv64p3cztfHF3B/wOHPPEQqSejmt+w8qytrjRshFxR0GS9fN2am
+	W1TSfXiiw1gg8ZKgidhpoY8zG0sC8SaLeGygb95ltkCX4CIeNHew5pIiXxL9aGxTAR2
+	STTU0qk9c3C65hTfbD8QoncCmVggwkr8GGDGOETk=
+Content-Type: multipart/mixed; boundary="===============3082311182549209601=="
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: auh@yoctoproject.org
+To: Ross Burton <ross.burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] pkgconf: upgrading to 3.0.11 SUCCEEDED
+Message-ID: <010101a1ddc22af8-27afa6e1-b9dd-4922-b2ef-e342e1607e90-000000@us-west-2.amazonses.com>
+Date: Sun, 15 Nov 2026 05:50:52 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.11.15-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 15 Nov 2026 03:30:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250221
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 15 Nov 2026 05:51:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250222
 
-Only the source package names were recorded from Debian style Sources
-files, but Debian names Python modules' source packages after the
-upstream project and their binary packages python3-<name>, as OE does,
-so a recipe such as python3-brotli never matched Debian's "brotli",
-which builds python3-brotli. Record the names in each Binary field too.
+--===============3082311182549209601==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Tested against Debian 13.7: 91775 names instead of 37593, 5316 of them
-python3-*.
+Hello,
 
-[YOCTO #16512]
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *pkgconf* to *3.0.11* has Succeeded.
 
-AI-Generated: Claude Opus 5.5
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+Next steps:
+    - apply the patch: git am 0001-pkgconf-upgrade-3.0.10-3.0.11.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From 6dbcc5bcf29a87339a4ac7d144dd2d3cbe6c30fd Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sun, 15 Nov 2026 05:22:44 +0000
+Subject: [PATCH] pkgconf: upgrade 3.0.10 -> 3.0.11
+
+Changes from 3.0.10 to 3.0.11:
+------------------------------
 ---
+ .../pkgconf/{pkgconf_3.0.10.bb => pkgconf_3.0.11.bb}            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/pkgconf/{pkgconf_3.0.10.bb => pkgconf_3.0.11.bb} (97%)
 
-This applies on top of "distro_check: fix the Ubuntu and openSUSE
-package lists, drop Clear":
-https://lore.kernel.org/all/20261115021914.67744-1-tim.orling@konsulko.com/
-
- meta/lib/oe/distro_check.py                   | 22 ++++++++++++++-----
- .../oeqa/selftest/cases/oelib/distro_check.py | 18 +++++++++++++++
- 2 files changed, 35 insertions(+), 5 deletions(-)
-
-diff --git a/meta/lib/oe/distro_check.py b/meta/lib/oe/distro_check.py
-index 03237804b2..c92468bb64 100644
---- a/meta/lib/oe/distro_check.py
-+++ b/meta/lib/oe/distro_check.py
-@@ -127,16 +127,28 @@ def find_latest_debian_release(url, d):
-         return "_NotFound_"
+diff --git a/meta/recipes-devtools/pkgconf/pkgconf_3.0.10.bb b/meta/recipes-devtools/pkgconf/pkgconf_3.0.11.bb
+similarity index 97%
+rename from meta/recipes-devtools/pkgconf/pkgconf_3.0.10.bb
+rename to meta/recipes-devtools/pkgconf/pkgconf_3.0.11.bb
+index e8746c1ceb..6e05dae2f3 100644
+--- a/meta/recipes-devtools/pkgconf/pkgconf_3.0.10.bb
++++ b/meta/recipes-devtools/pkgconf/pkgconf_3.0.11.bb
+@@ -20,7 +20,7 @@ SRC_URI = "\
+     file://pkg-config-native.in \
+     file://pkg-config-esdk.in \
+ "
+-SRC_URI[sha256sum] = "9371b2f6372da574d4c6dc96fe9b1463037bcf6afcb6671c1555afde7b17e2de"
++SRC_URI[sha256sum] = "d0cd841bc8e55b9da888106c00dc256d05b7d1d8e5a46f4be4eb4c5125bd2dc4"
+ UPSTREAM_CHECK_REGEX = "pkgconf-(?P<pver>\d+\.\d+\.(?!9\d+)\d+)\.tar"
  
- def get_debian_style_source_package_list(url, section, d):
--    "Return the list of package-names stored in the debian style Sources.gz or Sources.xz file"
-+    """
-+    Return the names of the source packages in a debian style Sources.gz or
-+    Sources.xz file, and of the binary packages they build (e.g. Debian's
-+    "brotli" builds "python3-brotli")
-+    """
-     import gzip
-     import lzma
- 
-     opener = lzma.open if url.endswith(".xz") else gzip.open
-     package_names = set()
-+    field = None
-     for line in opener(create_socket(url, d), mode="rt"):
--        if line.startswith("Package:"):
--            pkg = line.split(":", 1)[1].strip()
--            package_names.add(pkg + ":" + section)
-+        if line[:1] in (" ", "\t"):
-+            # Continuation of the previous field
-+            names = line if field == "Binary" else ""
-+        else:
-+            field, _, value = line.partition(":")
-+            names = value if field in ("Package", "Binary") else ""
-+        for name in names.split(","):
-+            name = name.strip()
-+            if name:
-+                package_names.add(name + ":" + section)
-     return package_names
- 
- def get_latest_released_debian_source_package_list(d):
-@@ -191,7 +203,7 @@ def create_distro_packages_list(distro_check_dir, d):
-         except Exception as e:
-             bb.warn("Cannot fetch packages for %s: %s" % (name, e))
-             continue
--        bb.note("Distro: %s, Latest Release: %s, # src packages: %d" % (name, release, len(package_list)))
-+        bb.note("Distro: %s, Latest Release: %s, # packages: %d" % (name, release, len(package_list)))
-         if len(package_list) == 0:
-             bb.error("Didn't fetch any packages for %s %s" % (name, release))
- 
-diff --git a/meta/lib/oeqa/selftest/cases/oelib/distro_check.py b/meta/lib/oeqa/selftest/cases/oelib/distro_check.py
-index d783384251..32abba8e39 100644
---- a/meta/lib/oeqa/selftest/cases/oelib/distro_check.py
-+++ b/meta/lib/oeqa/selftest/cases/oelib/distro_check.py
-@@ -52,6 +52,24 @@ Version: 99.10
- Supported: 0
- """
- 
-+SOURCES_WITH_BINARIES = b"""Package: brotli
-+Binary: python3-brotli, brotli, libbrotli-dev,
-+ libbrotli1
-+Version: 1.1.0-2
-+Description: an example
-+ Binary: not-a-package
-+
-+Package: six
-+Binary: python3-six
-+"""
-+
-+class TestDebianStyleBinaryPackages(TestCase):
-+    def test_binary_packages(self):
-+        with mock.patch.object(oe.distro_check, "create_socket", return_value=io.BytesIO(gzip.compress(SOURCES_WITH_BINARIES))):
-+            names = oe.distro_check.get_debian_style_source_package_list("http://example.com/Sources.gz", "main", None)
-+        self.assertEqual(names, {"brotli:main", "python3-brotli:main", "libbrotli-dev:main", "libbrotli1:main",
-+                                 "six:main", "python3-six:main"})
-+
- class TestFindLatestUbuntuRelease(TestCase):
-     def test_latest_supported(self):
-         with mock.patch.object(oe.distro_check, "create_socket", return_value=io.BytesIO(META_RELEASE)):
+ inherit autotools pkgconfig
 -- 
-2.56.1
+2.47.1
 
+
+--===============3082311182549209601==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="pkgconf-changelog.txt"
+
+Changes from 3.0.10 to 3.0.11:
+------------------------------
+
+--===============3082311182549209601==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/pkgconf: PV changed from "3.0.10" to "3.0.11"
+packages/x86-64-v3-poky-linux/pkgconf: SRC_URI changed from "https://distfiles.ariadne.space/pkgconf/pkgconf-3.0.10.tar.xz file://pkg-config-wrapper file://pkg-config-native.in file://pkg-config-esdk.in" to "https://distfiles.ariadne.space/pkgconf/pkgconf-3.0.11.tar.xz file://pkg-config-wrapper file://pkg-config-native.in file://pkg-config-esdk.in"
+packages/x86-64-v3-poky-linux/pkgconf: PKGV changed from 3.0.10 [default] to 3.0.11 [default]
+packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dbg: PKGSIZE changed from 793384 to 796464 (+0%)
+packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dbg: PV changed from "3.0.10" to "3.0.11"
+packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dbg: PKGV changed from 3.0.10 [default] to 3.0.11 [default]
+packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dev: PV changed from "3.0.10" to "3.0.11"
+packages/x86-64-v3-poky-linux/pkgconf/pkgconf-dev: PKGV changed from 3.0.10 [default] to 3.0.11 [default]
+packages/x86-64-v3-poky-linux/pkgconf/pkgconf-doc: PKGSIZE changed from 68169 to 68189 (+0%)
+packages/x86-64-v3-poky-linux/pkgconf/pkgconf-doc: PV changed from "3.0.10" to "3.0.11"
+packages/x86-64-v3-poky-linux/pkgconf/pkgconf-doc: PKGV changed from 3.0.10 [default] to 3.0.11 [default]
+packages/x86-64-v3-poky-linux/pkgconf/pkgconf-locale: PV changed from "3.0.10" to "3.0.11"
+packages/x86-64-v3-poky-linux/pkgconf/pkgconf-locale: PKGV changed from 3.0.10 [default] to 3.0.11 [default]
+packages/x86-64-v3-poky-linux/pkgconf/pkgconf-src: PKGSIZE changed from 575605 to 578314 (+0%)
+packages/x86-64-v3-poky-linux/pkgconf/pkgconf-src: PV changed from "3.0.10" to "3.0.11"
+packages/x86-64-v3-poky-linux/pkgconf/pkgconf-src: FILELIST: directory renamed /usr/src/debug/pkgconf/3.0.10/cli/bomtool -> /usr/src/debug/pkgconf/3.0.11/cli/bomtool, directory renamed /usr/src/debug/pkgconf/3.0.10/cli -> /usr/src/debug/pkgconf/3.0.11/cli, directory renamed /usr/src/debug/pkgconf/3.0.10/cli/spdxtool -> /usr/src/debug/pkgconf/3.0.11/cli/spdxtool, directory renamed /usr/src/debug/pkgconf/3.0.10/libpkgconf -> /usr/src/debug/pkgconf/3.0.11/libpkgconf, directory renamed /usr/src/debug/pkgconf/3.0.10/cli/pccritic -> /usr/src/debug/pkgconf/3.0.11/cli/pccritic
+packages/x86-64-v3-poky-linux/pkgconf/pkgconf-src: PKGV changed from 3.0.10 [default] to 3.0.11 [default]
+packages/x86-64-v3-poky-linux/pkgconf/pkgconf-staticdev: PV changed from "3.0.10" to "3.0.11"
+packages/x86-64-v3-poky-linux/pkgconf/pkgconf-staticdev: PKGV changed from 3.0.10 [default] to 3.0.11 [default]
+packages/x86-64-v3-poky-linux/pkgconf/pkgconf: PV changed from "3.0.10" to "3.0.11"
+packages/x86-64-v3-poky-linux/pkgconf/pkgconf: PKGV changed from 3.0.10 [default] to 3.0.11 [default]
+Changes to packages/x86_64-linux/elfutils-native (sysroot):
+  /usr/bin/eu-stackprof was added
+
+--===============3082311182549209601==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+Changes to packages/x86_64-linux/elfutils-native (sysroot):
+  /usr/bin/eu-stackprof was added
+
+--===============3082311182549209601==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-pkgconf-upgrade-3.0.10-3.0.11.patch"
+
+RnJvbSA2ZGJjYzViY2YyOWE4NzMzOWE0YWM3ZDE0NGRkMmQzY2JlNmMzMGZkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMTUgTm92IDIwMjYgMDU6MjI6NDQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+a2djb25mOiB1cGdyYWRlIDMuMC4xMCAtPiAzLjAuMTEKCkNoYW5nZXMgZnJvbSAzLjAuMTAgdG8g
+My4wLjExOgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0KLS0tCiAuLi4vcGtnY29uZi97
+cGtnY29uZl8zLjAuMTAuYmIgPT4gcGtnY29uZl8zLjAuMTEuYmJ9ICAgICAgICAgICAgfCAyICst
+CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcGtnY29uZi97cGtnY29uZl8zLjAuMTAuYmIgPT4gcGtnY29u
+Zl8zLjAuMTEuYmJ9ICg5NyUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3Br
+Z2NvbmYvcGtnY29uZl8zLjAuMTAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcGtnY29uZi9w
+a2djb25mXzMuMC4xMS5iYgpzaW1pbGFyaXR5IGluZGV4IDk3JQpyZW5hbWUgZnJvbSBtZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcGtnY29uZi9wa2djb25mXzMuMC4xMC5iYgpyZW5hbWUgdG8gbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3BrZ2NvbmYvcGtnY29uZl8zLjAuMTEuYmIKaW5kZXggZTg3NDZjMWNl
+Yi4uNmUwNWRhZTJmMyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BrZ2NvbmYv
+cGtnY29uZl8zLjAuMTAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3BrZ2NvbmYvcGtn
+Y29uZl8zLjAuMTEuYmIKQEAgLTIwLDcgKzIwLDcgQEAgU1JDX1VSSSA9ICJcCiAgICAgZmlsZTov
+L3BrZy1jb25maWctbmF0aXZlLmluIFwKICAgICBmaWxlOi8vcGtnLWNvbmZpZy1lc2RrLmluIFwK
+ICIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI5MzcxYjJmNjM3MmRhNTc0ZDRjNmRjOTZmZTliMTQ2
+MzAzN2JjZjZhZmNiNjY3MWMxNTU1YWZkZTdiMTdlMmRlIgorU1JDX1VSSVtzaGEyNTZzdW1dID0g
+ImQwY2Q4NDFiYzhlNTViOWRhODg4MTA2YzAwZGMyNTZkMDViN2QxZDhlNWE0NmY0YmU0ZWI0YzUx
+MjViZDJkYzQiCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICJwa2djb25mLSg/UDxwdmVyPlxkK1wu
+XGQrXC4oPyE5XGQrKVxkKylcLnRhciIKIAogaW5oZXJpdCBhdXRvdG9vbHMgcGtnY29uZmlnCi0t
+IAoyLjQ3LjEKCg==
+
+--===============3082311182549209601==--
