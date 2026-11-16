@@ -1,217 +1,109 @@
-Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3495.1794863419089213824
+Received: from mail-vs1-f42.google.com (mail-vs1-f42.google.com [209.85.217.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3736.1794864134901009053
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Nov 2026 13:10:19 -0800
+ Mon, 16 Nov 2026 13:22:15 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=ao2x9a//;
- spf=pass (domain: gmail.com, ip: 74.125.224.41, mailfrom: raj.khem@gmail.com)
-Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-67da7d18f2fso426403d50.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2026 13:10:18 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794863418; cv=none;
-        d=google.com; s=arc-20260327;
-        b=dPqrinkLInUa/El8QL6UD6iu3CPZfnWx+gAv15pnzvpyEzHifUtjgzSUMLeRvPYVF+
-         CBo/PZt67qG8tV/2tN7GsmXNN+QPbk5VWIp9X0VpLaCXyWcHBY6Kxn4gh11CKtD72FTk
-         rx3SJfGGKpt1QfVAH3Hwi+0jEKMqFk6pqnzDgje5cHXibpfRpYI9ZnoQI+U3ikeO/HzQ
-         9Tq/gfQaI8CljP1LFr8orB/xxDjA+XhSdLm99b6wvrGdr0JfCdxe52VRaAKrDBMHvfZn
-         knDVnvG9wUhq1k9yQ/K2+eaHVENaaV+GtOpmQoah8O7b42TyVvICD97u7XGUCSzbHdsi
-         JrAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=p1VbVDueB3cE8yjZslD11RQn+ru3meZ1SRwt0ngzVH0=;
-        fh=Ab5QchtAs08eZNSFiBl6MfJNprT6k/vVQ8w3IX57Q1U=;
-        b=GUNGSyM/CzyGNui5fAAUyqbOHyTrcRr2T0v9wpYRvkuZnNEq/NL1BaOBB6nW4eNLxP
-         7UHXKAjZys9YEA9a+bCmbQedqRM7//ll/QO5RfUOxAWT+R9yET2gxT8R+r7C2wMLT4Z4
-         MDOpg0GKuT0SSVwOOISwiR9RgC7oi3Uf5LuzMg0gY52O43e8avgzSMHNOLBfoQUExib5
-         JvlXkY/cJ0F97Fgfpz42myUmv+B/HFkr3vIgQYBzXL8eTzAE/RVaUwKbZ9PZxCEZBIYw
-         /ML/BrTTZdGFnv65fDO61PGQPL2edjqiQz6ViJjL6j5UQ8A3cq7pdg6hfgMAz/QnCQ70
-         CFUQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=MlQwtbcV;
+ spf=pass (domain: gmail.com, ip: 209.85.217.42, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-vs1-f42.google.com with SMTP id ada2fe7eead31-7d2d18f1bf5so3465743137.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2026 13:22:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794863418; x=1795468218; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=p1VbVDueB3cE8yjZslD11RQn+ru3meZ1SRwt0ngzVH0=;
-        b=ao2x9a//83tAoxsob5Y+4aK3eKQl/7J7taKcyJfrrbqYBuYG/r2W+Ehz2K9HXo0Rs5
-         lRzo1WQPtX0XKmM8RqDaeJibEQmGPtEwliS1/d9BkxYuvuJxLYu0re5BP2UgE6pZb6Np
-         Ud2Yo3c6seFwzHT30CVLSgPknH9B9KgGW31RDFIwbHj/e88OuitxjVaEW2x6MtQYtphg
-         Q/hBz16AxA/ZFQyH/XMR5s7S7orvHqw4otqJ5SMuAaVRzItOFtvWmt4HtJ0oI1l5u76/
-         VtC8hIR48aRVMWWyJhImu+o4lQBWLH6eT020nyWf/LrdqcIfPHy7REOCv7gF3OKzqLjs
-         YTmg==
+        d=gmail.com; s=20260707; t=1794864134; x=1795468934; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=8CG0VVlxeSgYCoKmASt8Tix2jJvESRJOCxptgyB1bHM=;
+        b=MlQwtbcVZsGdDcgSyUnwmJdNbOaiA41wplo1CuytJ6b148jf5PyJ7/g7Y+BsbZo2Or
+         XaUsucWlglnSqrsnBlHSr1hJGA8Lx8K1YkLDLlC9cW7AYObPmpBV0r976kqB5naYbLIU
+         F5wHkEoOQrDiNjQY2E0Fmot3/ickdawFHFsNTKFW8Pg2Z2SZtWSJQoFSGZ1oWWmU1dAc
+         0WulhkZaz65GjVaCuBZB4D/phxpPZ0njvOJiRiM+2f8w1hgm0d0XKTtgPVHmPSrg8Mff
+         5csVz2eOFHyNTRcR3rhXfI04xylAc7YY2Qp24agyFxtB8uBBYE9Kh3zgSlxwdwM0PkuA
+         vMkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794863418; x=1795468218;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=p1VbVDueB3cE8yjZslD11RQn+ru3meZ1SRwt0ngzVH0=;
-        b=ye13KZCrdsYQIjEy5xKojC4vCZ3aZmwu1j/Rno7tn/vAuD74WxYbxQmsYTQ9J7TaAY
-         MkLOgXAVoxWUcbq7U9Lf16DWtv81lM1BlVdYj884L2uSv8zfX2jwq0+ARv9P6WA8BJWL
-         di/xzDIO90XX8tHmchVjTcL/0eTmVa6SZJ85E+QK214aLJsC0U5AX5djdDhHZH1XXAp3
-         XkJDAGLNapkgU79BKfUPb9MCgOvZDXKTn8d11UGGRdf9exm9W1HeViXFKXRD0gBW2+D4
-         bLlTD9GyInNuuT6Cf+XOU5G8zFtjVvVo77afydKvtmSPRr0KmE7oAgmHVh+6YfjLuGXm
-         Wp0w==
-X-Gm-Message-State: APuU4Z/8qx/P0dwtPatpj1t4xtbDCLfjjL5ZL6EQcwrkWjhH0EQmQ2cb
-	e77pQXYUDl7kWWmiHygtItePpN+1k/6upiXU3oNN/TvZhqu5FC3q/fEnXWeGLAYEedZYctYngCP
-	UBh0oS/5fOkRMoqt/99Xkjt8KTTsHAxCi2AkU
-X-Gm-Gg: AZFdTZfUJV72QHE2yKAlnz/BOiwZZyFP8Js1ixSP5Ume6EY8ZjIQfXr5lCqonhH5Lbm
-	P8/3Ojw/oCIehgHAsmLCzttzVljxHJ0WnxQYsC1AL6xkq3vLnih32AqUMI2utEE5m6C4LJCFk/r
-	ftBDllVlkW1WQMvhf2sRuk9v7LvfZ0Zx3OHyYMvVY9Q14iMZzd14rhJZ0f4/7yn/nEXGfxjAKy+
-	nqHzAaVoxTLt8tPaml+biZmzCna5MvS434jfQYKpJVEadW0W4e3Tu/MQJA01a7uX0BHycUGzmo5
-	EhYm5flWRqFaE+lPQu3mI0m6/KJMt4F88ZfnY7fQ4z7PPTW+rSYvIb0wZ4PwLTg7FljWh1g8fSo
-	X4R8kx5gBDf1W/dkhbGAejapZn4Zd6lShoullsL6hbaMXZb7UuIsxsIb6DKrYMYscLDh9hCXZxk
-	6gyZroYi4gDUYDjljzAO3J6+cEm80T4iJvI7CNImg21FW7wp2k1pormQr4ee6btGdFevDvx4pI7
-	4OwqHSeF4Z2S8oLk22L/VH3kQ/PJRkICns9sNoC0L1mVK9SdrXBbKUGAXip0I/XGfWn/J6crw6S
-	3ViEZedhf7W3kX5kx8m91Veve9H2D1soUbHWVGScOyUlgqXpttIMWaMO8MxGhOgV0A==
-X-Received: by 2002:a05:690e:4388:b0:677:b7c3:12c3 with SMTP id
- 956f58d0204a3-67dc775b2bdmr239327d50.29.1794863417795; Mon, 16 Nov 2026
- 13:10:17 -0800 (PST)
-MIME-Version: 1.0
-References: <20261116210435.4161338-1-ross.burton@arm.com>
-In-Reply-To: <20261116210435.4161338-1-ross.burton@arm.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 16 Nov 2026 13:09:51 -0800
-X-Gm-Features: AclHuK_FMbMq2YVwTsPAzvk0l3qccMvo7a3sjbud1ApAHAeP4TZh5WO90yBU5FU
-Message-ID: <CAMKF1srDiYjWbAnER9Rp32X2wH-snHdehWvqgzjjXmFF8b2u+A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/5] python3: don't copy from UNPACKDIR to WORKDIR
-To: ross.burton@arm.com
+        d=1e100.net; s=20260707; t=1794864134; x=1795468934;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=8CG0VVlxeSgYCoKmASt8Tix2jJvESRJOCxptgyB1bHM=;
+        b=PaAYD41A5XXDKfqkYV58lqi/XRmE9615wF3lsPE3bRyR9QkI9UiexaX6r+M0KGBANC
+         bgjxlUp8PUet3UsBIYqRWM3rYMwpkF2N4SWVePdmUJaiWVUcgO1rGNT/gECEp+3JNfz2
+         5MPbumjpaeYOasdkN97nraZYF04ITQcAkfPH6XiIOk5zZQPXuOokQUPjwP8DupA7GLsO
+         7dVYmsHdPWVPErtPmsv28uf7rQZirPBVgstxhZCCid9INBhYJP6QDq5+unxwELacz4JK
+         TIGOpsWF4LcnuLEB87xeyLiRFy8mh3N8kiwc/sjUOeNgiu3gbdHgua6Zlo264zi9tMh6
+         rG+w==
+X-Gm-Message-State: APuU4Z+W6XUUKcO5rFyz45q/cMRaQTnC4OLNmJReU+loCYn8PXIjj+mh
+	qGpo9R5rtz+n2MHfAjM1qI6NuoqZbQznpoKDf+kZcwkRTzj7nAs6nunR
+X-Gm-Gg: AYBFou1p9GokfPUkx4wnT+p+Wv60N6m1mfTX6UnJLf2qNXtLrZZ6Grg0DasE2xcyuFI
+	VbgfntjFp98/ABcbPYPY4Gmp7E3QTgmn6ey0G2jWZTLgBIC4906KcANJ5Uv6amqiqdttJutoMNm
+	pWGw9mHatIT13zh1jfVuItMKNWBGBNFargTaPntqg8sWhtWfX+VkL0Joe5rdvn6rD+SMxpugzMh
+	PrgG8Qrt4c9/344FK0DyNGcXILqA9oQOEmRPBXstwP7BnIjHoASJTMNWigXuVsHKqCDRt8Glztq
+	TnFxpfkDerZosz6DGHY2uRwRhnBx/WYHNU2JT9kcbIkU1CZgy9ecVGy6WlhJSx31zF5k1IHuirg
+	/NkKVA70PmrMEpMK/17cb+ZPwgcnqIydOhpTD4UrOMySKBBP+Ya1IeGjhwSQ2u+RD9zL7u516PS
+	vzOmXyK8oyJraaNfKn0iGfOO8d0p4zGBT2RY69Q7RjHHNVLYJWmFSjFrMXZ0G6z1sO0I6HuhRpd
+	GzWfJGwsT00NGvcAVKn3KL9oTzaRHZy/fjjun2ZHet3f9bjBx6A1maKlYXRDhPxUsH55HigL3Tc
+	szreuDpYwJmAuTGypasOvQE+N1od5ExElie+bjDBTjLlNiEAIK7hTdQvpfvozo21jauo6Oxasol
+	2ngqcznzfJ+1B2CAHsPtmkDiK9ePb6AzW/rjFuwI397RSz9t89UTsAP2OMVKDmu2kqZ8rOE2mNV
+	YRJh5Wd8Om5Nqxo+IORU736xzCOik+274+v/hoSlpGfp0=
+X-Received: by 2002:a05:6102:a52:b0:7c3:2f13:d905 with SMTP id ada2fe7eead31-7d64d4683ecmr4851607137.3.1794864133443;
+        Mon, 16 Nov 2026 13:22:13 -0800 (PST)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from bruce-XPS-8940.localdomain (pool-174-112-34-35.cpe.net.cable.rogers.com. [174.112.34.35])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7d69e0c53a8sm896282137.11.2026.11.16.13.22.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Nov 2026 13:22:12 -0800 (PST)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000702a1a06606b34b5"
+Subject: [PATCH 0/5] linux-yocto: consolidated pull request
+Date: Mon, 16 Nov 2026 16:22:06 -0500
+Message-ID: <20261116212211.4068570-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2026 21:10:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250381
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2026 21:22:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250382
+Content-Type: text/plain; charset="utf-8"
 
---000000000000702a1a06606b34b5
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-On Mon, Nov 16, 2026 at 1:04=E2=80=AFPM Ross Burton via openembedded-core
-<ross.burton=3Darm.com@lists.openembedded.org> wrote:
+Hi all,
 
-> There's no need to copy files from UNPACKDIR to WORKDIR, we can just do
-> the work in UNPACKDIR.
->
+(relatively) routine -stable updates for the kernel's in master.
 
-IMO unpackdir is more of less what sources come from unpacking and patching
-modifications happen in workdir. is it not the case ?
+I'll send updates to the active stable releases shortly as well.
 
+The -dev kernel is now 7.4, I'm holding on libc-headers, but will
+bump them shortly as well.
 
->
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
->  meta/recipes-devtools/python/python3_3.14.10.bb | 5 +----
->  1 file changed, 1 insertion(+), 4 deletions(-)
->
-> diff --git a/meta/recipes-devtools/python/python3_3.14.10.bb
-> b/meta/recipes-devtools/python/python3_3.14.10.bb
-> index c50c4d4babc..765f93ddc66 100644
-> --- a/meta/recipes-devtools/python/python3_3.14.10.bb
-> +++ b/meta/recipes-devtools/python/python3_3.14.10.bb
-> @@ -498,11 +498,8 @@ do_create_manifest() {
->      # e.g. BerkeleyDB is an optional build dependency so it may or may n=
-ot
->      # be present, we must ensure it is.
->
-> -    cp ${UNPACKDIR}/create_manifest3.py ${WORKDIR}
-> -    cp ${UNPACKDIR}/python3-manifest.json ${WORKDIR}
-> -    cp ${UNPACKDIR}/get_module_deps3.py ${WORKDIR}
-> -    cd ${WORKDIR}
->      # This needs to be executed by python-native and NOT by HOST's pytho=
-n
-> +    cd ${UNPACKDIR}
->      nativepython3 create_manifest3.py ${PYTHON_MAJMIN}
->      cp python3-manifest.json.new ${THISDIR}/python3/python3-manifest.jso=
-n
->  }
-> --
-> 2.43.0
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#250376):
-> https://lists.openembedded.org/g/openembedded-core/message/250376
-> Mute This Topic: https://lists.openembedded.org/mt/122302833/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+Bruce
 
---000000000000702a1a06606b34b5
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+openembedded-core (3):
+  linux-yocto/6.18: update to v6.18.63
+  linux-yocto/7.2: update to v7.2.15
+  linux-yocto-dev: bump to v7.4
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Nov 16,=
- 2026 at 1:04=E2=80=AFPM Ross Burton via openembedded-core &lt;ross.burton=
-=3D<a href=3D"mailto:arm.com@lists.openembedded.org">arm.com@lists.openembe=
-dded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">There&#39;s no need to copy files from UNPACKDIR to WORKDIR, we can=
- just do<br>
-the work in UNPACKDIR.<br></blockquote><div><br></div><div>IMO unpackdir is=
- more of less what sources come from unpacking and patching modifications h=
-appen in workdir. is it not the case ?</div><div>=C2=A0</div><blockquote cl=
-ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
- rgb(204,204,204);padding-left:1ex">
-<br>
-Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targe=
-t=3D"_blank">ross.burton@arm.com</a>&gt;<br>
----<br>
-=C2=A0meta/recipes-devtools/python/<a href=3D"http://python3_3.14.10.bb" re=
-l=3D"noreferrer" target=3D"_blank">python3_3.14.10.bb</a> | 5 +----<br>
-=C2=A01 file changed, 1 insertion(+), 4 deletions(-)<br>
-<br>
-diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3_3.14.10=
-.bb" rel=3D"noreferrer" target=3D"_blank">python3_3.14.10.bb</a> b/meta/rec=
-ipes-devtools/python/<a href=3D"http://python3_3.14.10.bb" rel=3D"noreferre=
-r" target=3D"_blank">python3_3.14.10.bb</a><br>
-index c50c4d4babc..765f93ddc66 100644<br>
---- a/meta/recipes-devtools/python/<a href=3D"http://python3_3.14.10.bb" re=
-l=3D"noreferrer" target=3D"_blank">python3_3.14.10.bb</a><br>
-+++ b/meta/recipes-devtools/python/<a href=3D"http://python3_3.14.10.bb" re=
-l=3D"noreferrer" target=3D"_blank">python3_3.14.10.bb</a><br>
-@@ -498,11 +498,8 @@ do_create_manifest() {<br>
-=C2=A0 =C2=A0 =C2=A0# e.g. BerkeleyDB is an optional build dependency so it=
- may or may not<br>
-=C2=A0 =C2=A0 =C2=A0# be present, we must ensure it is.<br>
-<br>
--=C2=A0 =C2=A0 cp ${UNPACKDIR}/create_manifest3.py ${WORKDIR}<br>
--=C2=A0 =C2=A0 cp ${UNPACKDIR}/python3-manifest.json ${WORKDIR}<br>
--=C2=A0 =C2=A0 cp ${UNPACKDIR}/get_module_deps3.py ${WORKDIR}<br>
--=C2=A0 =C2=A0 cd ${WORKDIR}<br>
-=C2=A0 =C2=A0 =C2=A0# This needs to be executed by python-native and NOT by=
- HOST&#39;s python<br>
-+=C2=A0 =C2=A0 cd ${UNPACKDIR}<br>
-=C2=A0 =C2=A0 =C2=A0nativepython3 create_manifest3.py ${PYTHON_MAJMIN}<br>
-=C2=A0 =C2=A0 =C2=A0cp <a href=3D"http://python3-manifest.json.new" rel=3D"=
-noreferrer" target=3D"_blank">python3-manifest.json.new</a> ${THISDIR}/pyth=
-on3/python3-manifest.json<br>
-=C2=A0}<br>
--- <br>
-2.43.0<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#250376): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/250376" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/250376</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/122302833/199=
-7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/122302833/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
+meta-yocto (2):
+  yocto-bsps: update to v6.18.63
+  yocto-bsps: update to v7.2.15
 
---000000000000702a1a06606b34b5--
+Pull requests:
+  openembedded-core: git pull https://git.openembedded.org/openembedded-core zedd/kernel
+  meta-yocto: git pull https://git.yoctoproject.org/meta-yocto zedd/kernel
+
+ openembedded-core:
+ meta/recipes-kernel/linux/linux-yocto-dev.bb       |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb   |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-rt_7.2.bb    |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto-tiny_7.2.bb  |  6 +++---
+ meta/recipes-kernel/linux/linux-yocto_6.18.bb      | 24 +++++++++++-----------
+ meta/recipes-kernel/linux/linux-yocto_7.2.bb       | 24 +++++++++++-----------
+ 7 files changed, 38 insertions(+), 38 deletions(-)
+
+ meta-yocto:
+ meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.18.bbappend | 2 +-
+ meta-yocto-bsp/recipes-kernel/linux/linux-yocto_7.2.bbappend  | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+-- 
+2.43.0
