@@ -1,109 +1,168 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.32646.1794847845380652341
+Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.32051.1794847849236644472
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Nov 2026 08:50:45 -0800
+ Mon, 16 Nov 2026 08:50:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=lJP+FQEn;
- spf=pass (domain: gmail.com, ip: 209.85.210.175, mailfrom: ticotimo@gmail.com)
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-8b904d10882so1467038b3a.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2026 08:50:45 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=cwIAW+kv;
+ spf=pass (domain: gmail.com, ip: 209.85.210.173, mailfrom: ticotimo@gmail.com)
+Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-8b67f25e6e1so2017870b3a.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2026 08:50:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794847845; x=1795452645; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=yLQKCKypQH3NMZrtv4yuei43JIV/sBCp2pPZjburRtc=;
-        b=lJP+FQEnIopz58GWkTWtZoDzBgtqPIJ1zGWjXynAoWnUi+HdvxwUJaV9D+AwojJmm5
-         ExjMYm4wWIahV4FNx65+kjstdJ5Ws7u1Ho5LXbnMpFmWPOapK1lQvxfV46vKCz2C866E
-         hND/LAsuMiTLJj8CpGv8HXglgfqE5mfMNT+JtIR3yUkSAY/iVJ/kwbgJ+aMGfZA63a/B
-         JuDTTnPbRgjox76c0UaW/8cX1yXXbUa0MHLB/oQqPmBbD1cjmO3SVFRtooxkcMU07kPf
-         TdIxTg3hMi3tyB0Su4C0DDBJ9IE0dXb2ckUQN3NftFTXGjwVHDPZJ1Wsib0uAHTi596x
-         Fvcg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794847845; x=1795452645;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1794847848; x=1795452648; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=yLQKCKypQH3NMZrtv4yuei43JIV/sBCp2pPZjburRtc=;
-        b=fnE4+JA5EUoq45V9XmNoJHZophqQplxrH1xU/+ge7mi9iiZybTq8H51KQFP0RHp/uw
-         cJ9ESaEzcZLQHmoH7iuB56kiO/D3V5pArScbe1/tPoEPMPxyb8cGUM6c8x9LUHHQxufj
-         wwZvGuvG8gSC+rsCvAoQ7DWksmaNOKpwTdptu9ZOFZuWpqlEkZPFU2rA4rHPAVKvAvWK
-         krrkjMI0j84SFwLtosdely3mLQb1b8698xcOJ+eTwFYp8Qhsccpv05gNzyvPZ8JRHzmJ
-         7VnHS2BnxTjLg8WbZ2r8a37kT9079CmGY+9TGjBabsJo7NVElzUl5if61psI7sNDaVuJ
-         ZAhA==
-X-Gm-Message-State: APuU4Z9N5YbeCInZc+wFEezBqr04Oa9kgQpucbqz065hdBfuv+4501KF
-	SvjOcN3y1vpKDR/1B5xD6ti4NoBXtqmfOImTQ2T1U70Q08U+4EIa0c74Id593Q==
-X-Gm-Gg: AYBFou3loVp2CtIbETf2Fbp4fmkyGDs7yd0FUN955c7v03yVtriJSt6N8BbF/M1e7XA
-	zdsFGJw1S1f0KRR6gcGCf6R31H/0cLCzIanvFtCKUuTYrgB+QflWGZ4pASI+F4bj46V6YM2rBi2
-	HMgVIbLN6GKF2eQDtphoNBrdU/nFyNEC1cQ5G9a7NlC/KXaVIPSrVuG8UyL7rD8WcQN3EUwfu+G
-	2KDJFYg+VyrvS9458QkMD+h3OEVw9QruVZmxJQX0IASikYBfrsQVDvwWV896DAn0tzUnLkABRYR
-	uvkiD6ZxF0lWbzvt8bPNAKhzDn09t6KEIz8X4thOmOEhbH5C0Gn7/Kf//MkN3MaW1qbwSHZn5EW
-	/nzcmXxjcEJUpHaHfqztA1tl8k5qPjosudiGh7Tq/xImp73C04XiTKnCr5ugoe2xwxTlYjvxZ+z
-	SYbYg7NLQi5Yn5gi5dbziGlmWbj+AqnsUWEPJXaTfQ3fA369gZj4++8koDIpoAy6xkj3G6ZmBLW
-	93Ugzh3nQAL3Y53Xu3c2do7yfFfCiDCSLhPFbBPwfaYXCNUPeT2ZmRr4z7L2OgiA0SHyeVo6Enr
-	pcwLx8h7V+xVAbME6jvB5XgKoF14p4jjc6M44tWaXv7kUao+GoavHPf0zk85gA==
-X-Received: by 2002:a05:6a00:1a92:b0:898:22b4:c8c8 with SMTP id d2e1a72fcca58-8beb1fd9ddfmr9599485b3a.2.1794847844520;
-        Mon, 16 Nov 2026 08:50:44 -0800 (PST)
+        bh=IxQIJ/H9ZDA39BejsOkq5bLhL3ZRaynTDcM/9uwmkCQ=;
+        b=cwIAW+kvyrQ9hAyrwnSXv4Nj9L70v0rK0uWLBgxS1pA8EJjjzLbYjU8E0cwuMPZdkQ
+         ZzaHg2nsYmLFwDhvmCpBL0hw7p8LH4wYGQbieGP9GYj3acINWBC6s9SgxGEtl+AtzaMY
+         S4jHPZbJKpLK6cRZAvSpAyo3QKTGuEDrG3xtCkXjc0bl/5lhPEzXoe+IL6QLPUzGdpL1
+         2IXoCVnW2jugTrnLePafCgDxtV6bm23CjS8EmLyC3i2syoero85//Dh53RXbkqoJaLky
+         QSEUXpLNObAv17+J0+vFw00AxBGkpMCWl8hFwYFeefnywUHvSK6oRKjKzFi6wsKfD0No
+         2U3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794847848; x=1795452648;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=IxQIJ/H9ZDA39BejsOkq5bLhL3ZRaynTDcM/9uwmkCQ=;
+        b=smNVRyjHtJ6DAnJBGrhQnZ+RZ/+sjjf+jYZVwVDoMLQDQybE5YQw6VJiDP111ihKSz
+         aZIL8dyaxL4zID8sSskZq0MmRSCtf4V36ih4mbRB3Fa17pyfOR92pyt74Mu/S4kpvTIW
+         bBBsktC3iSr7XGAhH/1H2G8zSFuaILccZqQqRzbNbWo8htHBpGEUSEKfEudSfEAST9en
+         I41y1iHcuvE8o12s2hv1lduIhqD4Ae04UNCKgitVDtOqGXFYhluWQnfBQ+u9Czk2ZLjo
+         EBZwaKJmbVMrM77N+LpjruEGVJMRtEufYpbvlET/C4mzpkZJ9jE5z78lUdLuvQgoLv7k
+         yYPQ==
+X-Gm-Message-State: APuU4Z/Pc3XTJwEzZCss67/UE8JNwAbohm01ZXhfLx3q0kC9JBzx4v7m
+	29sYOj3U5MafR7TX3AKeazMFHO+Uel6N46J2oa0Bj0k7wDOtwq0D/+28iWcCBw==
+X-Gm-Gg: AYBFou2+dXOuegY5Cmnm7qSvQhlxwUIoeCp1GKu0voPjm1SmA/Qp67ZYH7+21EQHWHD
+	qZhZr7wjQXzq9NXvhQAzQsAOqjbtz7CUK34DjfRFuEp3V8o6GzB/qu6nMH+X5ZuwAeSejEGCoFr
+	lM9YiCmGPx+DAP3O5cHcUtJb/eCndXSCOISRkldFT5Obp0l4qEOS07jHi3IGKzY+bOKx4zvmDrx
+	lxF85VZ5PWg3tv8RBi+WOLE6n7s7/V7/Z6jg/r5qTENdhlxJt+DudYD5W1RnLVmL0J7DcNeNnYA
+	Peg48al6q02JvlqxxB96TwzweD4fW4hTMifDNzJxxUt+NTDViDsByw1a6cEgGEJR1F0aey5uF9E
+	bEpxsFHQJ4Nk2pMiVi+imZ5mFT//QAA1di1BzAo9o2R1Axr+XDaFdCH6t5zMYHj6ph1frgyfjI6
+	KHn2bbxui6zcn8F6MG3lXy+X4+zPzfwVkMyx7WJqNWkrDZaBnwA/goyDTXmuvFFovF8g6Fynyq4
+	bkE4Vf8rCEGQW+41G7wrKRG15U59Y9J9d6zhWOqI581rHjJjGOF9B8TkT69hNWJQKgnJTYRiMde
+	El+BcBjadYVqYnNG9OBo084yfml8fhU1iguCes8DGPjjgVNSE5a+pM8buWBNng==
+X-Received: by 2002:a05:6a00:2918:b0:8b5:94e0:91a2 with SMTP id d2e1a72fcca58-8beb5ab49bcmr9604149b3a.10.1794847848486;
+        Mon, 16 Nov 2026 08:50:48 -0800 (PST)
 Return-Path: <ticotimo@gmail.com>
 Received: from localhost.localdomain ([69.9.132.159])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8bed12a902esm3974561b3a.16.2026.11.16.08.50.43
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8bed12a902esm3974561b3a.16.2026.11.16.08.50.45
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 16 Nov 2026 08:50:43 -0800 (PST)
+        Mon, 16 Nov 2026 08:50:46 -0800 (PST)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH v2 0/3] distro_check: fix the Ubuntu and openSUSE package lists, drop Clear
-Date: Mon, 16 Nov 2026 08:50:29 -0800
-Message-ID: <20261116165032.1829-1-tim.orling@konsulko.com>
+Subject: [PATCH v2 1/3] lib/oe/distro_check: find the latest Ubuntu release from meta-release
+Date: Mon, 16 Nov 2026 08:50:30 -0800
+Message-ID: <20261116165032.1829-2-tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261116165032.1829-1-tim.orling@konsulko.com>
+References: <20261116165032.1829-1-tim.orling@konsulko.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2026 16:50:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250366
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250367
 Content-Type: text/plain; charset="utf-8"
 
-With the fixes for bug 16503, create_distro_packages_list() still got the
-wrong Ubuntu release and no openSUSE or Clear lists:
+find_latest_ubuntu_release() asked the archive for its dists/ listing
+newest first and took the first *-updates entry, but the archive ignores
+the sort and lists the oldest first, so Ubuntu was always xenial. Read
+the release list that do-release-upgrade uses instead, and take the last
+supported release.
 
-  NOTE: Distro: Ubuntu, Latest Release: xenial, # src packages: 3456
-  WARNING: Cannot fetch packages for openSUSE: HTTP Error 404: Not Found
-  WARNING: Cannot fetch packages for Clear: <urlopen error [Errno -3] Temporary failure in name resolution>
+Tested against changelogs.ubuntu.com and archive.ubuntu.com: resolute,
+with main and updates packages.
 
-1: Bug 16509: the Ubuntu archive ignores the "newest first" sort that
-   find_latest_ubuntu_release() relied on, so it always took xenial.
-   Use the release list that do-release-upgrade reads instead.
-2: Bug 16510: download.opensuse.org's listings now link to "./15.6/",
-   still include Leap 42.x, and keep the source RPMs under repo/oss/src/;
-   Leap 16 has no update repository.
-3: Bug 16511: Clear Linux has been discontinued.
+[YOCTO #16509]
 
-With these, all four lists are fetched:
+AI-Generated: Claude Opus 5.5
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+---
+ meta/lib/oe/distro_check.py                   | 26 ++++++++++---------
+ .../oeqa/selftest/cases/oelib/distro_check.py | 26 +++++++++++++++++++
+ 2 files changed, 40 insertions(+), 12 deletions(-)
 
-  NOTE: Distro: Debian, Latest Release: 13.7, # src packages: 37593
-  NOTE: Distro: Ubuntu, Latest Release: resolute, # src packages: 3053
-  NOTE: Distro: Fedora, Latest Release: 45, # src packages: 23237
-  NOTE: Distro: openSUSE, Latest Release: 16.1, # src packages: 10638
-
-The new cases are covered by oe-selftest's oelib.distro_check, run with
-plain unittest (not oe-selftest).
-
-This applies on top of "Fix distro_check when a distro list cannot be
-fetched" (bug 16503):
-https://lore.kernel.org/all/20261114200810.31078-1-tim.orling@konsulko.com/
-
-Changes in v2:
-- 2/3: use str.removeprefix() for the "./" links (Richard Purdie)
-
-Tim Orling (3):
-  lib/oe/distro_check: find the latest Ubuntu release from meta-release
-  lib/oe/distro_check: fix the openSUSE Leap package lists
-  lib/oe/distro_check: drop Clear Linux
-
- meta/lib/oe/distro_check.py                   | 59 ++++++++++++-------
- .../oeqa/selftest/cases/oelib/distro_check.py | 49 ++++++++++++++-
- 2 files changed, 84 insertions(+), 24 deletions(-)
-
+diff --git a/meta/lib/oe/distro_check.py b/meta/lib/oe/distro_check.py
+index 223bed2ec2..814b35b8d8 100644
+--- a/meta/lib/oe/distro_check.py
++++ b/meta/lib/oe/distro_check.py
+@@ -131,23 +131,25 @@ def get_latest_released_debian_source_package_list(d):
+     package_names |= get_debian_style_source_package_list(url, "updates", d)
+     return latest, package_names
+ 
+-def find_latest_ubuntu_release(url, d):
++def find_latest_ubuntu_release(d):
+     """
+-    Find the latest listed Ubuntu release on the given ubuntu/dists/ URL.
+-
+-    To avoid matching development releases look for distributions that have
+-    updates, so the resulting distro could be any supported release.
++    Find the latest supported Ubuntu release, from the list of releases
++    that do-release-upgrade reads. The releases are listed oldest first.
+     """
+-    url += "?C=M;O=D" # Descending Sort by Last Modified
+-    for link in get_links_from_url(url, d):
+-        if "-updates" in link:
+-            distro = link.replace("-updates", "")
+-            return distro
+-    return "_NotFound_"
++    latest = "_NotFound_"
++    dist = None
++    listing = create_socket("https://changelogs.ubuntu.com/meta-release", d).read().decode("utf-8")
++    for line in listing.splitlines():
++        key, _, value = line.partition(":")
++        if key == "Dist":
++            dist = value.strip()
++        elif key == "Supported" and value.strip() == "1" and dist:
++            latest = dist
++    return latest
+ 
+ def get_latest_released_ubuntu_source_package_list(d):
+     "Returns list of all the name os packages in the latest ubuntu distro"
+-    latest = find_latest_ubuntu_release("http://archive.ubuntu.com/ubuntu/dists/", d)
++    latest = find_latest_ubuntu_release(d)
+     url = "http://archive.ubuntu.com/ubuntu/dists/%s/main/source/Sources.gz" % latest
+     package_names = get_debian_style_source_package_list(url, "main", d)
+     url = "http://archive.ubuntu.com/ubuntu/dists/%s-updates/main/source/Sources.gz" % latest
+diff --git a/meta/lib/oeqa/selftest/cases/oelib/distro_check.py b/meta/lib/oeqa/selftest/cases/oelib/distro_check.py
+index f47d1dd4a4..7545fa0c42 100644
+--- a/meta/lib/oeqa/selftest/cases/oelib/distro_check.py
++++ b/meta/lib/oeqa/selftest/cases/oelib/distro_check.py
+@@ -31,6 +31,32 @@ class TestDebianStyleSourcePackageList(TestCase):
+     def test_xz(self):
+         self.check("http://example.com/Sources.xz", lzma.compress(SOURCES))
+ 
++META_RELEASE = b"""Dist: noble
++Name: Noble Numbat
++Version: 24.04.5 LTS
++Supported: 1
++
++Dist: questing
++Name: Questing Quokka
++Version: 25.10
++Supported: 0
++
++Dist: resolute
++Name: Resolute Raccoon
++Version: 26.04.1 LTS
++Supported: 1
++
++Dist: zzz
++Name: Not supported any more
++Version: 99.10
++Supported: 0
++"""
++
++class TestFindLatestUbuntuRelease(TestCase):
++    def test_latest_supported(self):
++        with mock.patch.object(oe.distro_check, "create_socket", return_value=io.BytesIO(META_RELEASE)):
++            self.assertEqual(oe.distro_check.find_latest_ubuntu_release(None), "resolute")
++
+ class TestCreateDistroPackagesList(TestCase):
+     def test_skip_failed_distro(self):
+         """
 -- 
 2.56.1
 
