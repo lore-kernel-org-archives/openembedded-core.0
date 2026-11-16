@@ -1,131 +1,97 @@
 Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.30988.1794845353638068662
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.30999.1794845360012783304
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Nov 2026 08:09:14 -0800
+ Mon, 16 Nov 2026 08:09:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=yFfCxPQ3;
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=IUyjNque;
  spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: antonin.godard@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 799071A169C
-	for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2026 16:09:11 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 69BED1A169C
+	for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2026 16:09:18 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 4ECE06023F
-	for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2026 16:09:11 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id AEA1111BC0317;
-	Mon, 16 Nov 2026 17:09:09 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 40BEC6023F
+	for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2026 16:09:18 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 2309E11BC1D59;
+	Mon, 16 Nov 2026 17:09:17 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1794845350; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=YDWbr3KDh+yHuSndoouNjN4qv4eSM0wHV/LwDVFIWvI=;
-	b=yFfCxPQ3arghyzg/hQEA+B1wQKG48mhPWyEKMBUHHLzCM94LNHuBPV+Wni53GsWJz5SV47
-	oSEwJmIVTwjs6+95D/drI9bYmt90CFhyjlkYcqT4SQEERtQPuPbYNl0A8tUBmaH4008gTj
-	72+yerfeMZKID/bXZb0f8gOR236cAi3rVrtuDOST/4nPNKkd8OEUzJ9vV2ijTihtZRbYeW
-	kj7a7zCfHz68IVNVyzF28ENVv5bd4s4EvV7Muw0kHGApGm5dosLZBR9cAWROmh0YkdHAIu
-	SfPDF8eanSsAj8dy9jZl2xjDFkhtikG8wWIj7dk3T6D7ksfH8Ws1JS20gT+1AQ==
+	t=1794845357; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=kL4XUrFpaWAuCFa90k7rXqJvO0Nl9ZUsmiJUgKsYuQg=;
+	b=IUyjNqueytHnN2W3ExAw1L8oca9c6Snfsii7AiOt6jwICHABwQC2XOpznqC4Vn9HevAOyp
+	BFt3x5A8fXyE2SGKbJZ/FYaT+VxpajuWzT7tZqUBpvSjWq6E3bEfNrWWhjafF5GWnYqF5Z
+	qT56+tMYkb6H0Y/3wXWdkmlFz4wYcAanpkqINWzqeBqKg3sp0FJsyILIRRZzMUpysChgmR
+	yyRdFRj5jiB+Jd+kbD9QyMZGzGZ4ZknTReBwHtu2mSwPp3tV+aS/rOFtVKQ284c2PCj1sh
+	9xAv8cRxZEW9At2g5JLRoUxBkRZGW1iHyL/dPUBy7/UNYcz9i2GrqHWTaPYbLw==
 From: Antonin Godard <antonin.godard@bootlin.com>
-Subject: [PATCH 00/13] Improve or add oe.* library docstrings
-Date: Mon, 16 Nov 2026 17:08:58 +0100
-Message-Id: <20261116-oe-lib-docstrings-v1-0-0c894f6a1064@bootlin.com>
+Date: Mon, 16 Nov 2026 17:09:09 +0100
+Subject: [PATCH 11/13] lib/oe/purl: improve docstrings
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMQQqDMBBA0avIrB0wxhTsVYoLk4x2SklKJoog3
- t1Ul2/x/w5CiUngWe2QaGXhGApUXYF7j2EmZF8MbdM+lGo0RsIvW/TRSU4cZkFtDI2973RvDZT
- ul2ji7Xq+htuy2A+5/B/BcZzo+tfmdQAAAA==
-X-Change-ID: 20261103-oe-lib-docstrings-355ea9d439b5
+Message-Id: <20261116-oe-lib-docstrings-v1-11-0c894f6a1064@bootlin.com>
+References: <20261116-oe-lib-docstrings-v1-0-0c894f6a1064@bootlin.com>
+In-Reply-To: <20261116-oe-lib-docstrings-v1-0-0c894f6a1064@bootlin.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Antonin Godard <antonin.godard@bootlin.com>, 
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3338;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1169;
  i=antonin.godard@bootlin.com; h=from:subject:message-id;
- bh=SAoUrp9ydRt17PIPFrGT9FXeh9jx/7kdzfm2Zc1leWk=;
- b=owEBbQKS/ZANAwAKAdGAQUApo6g2AcsmYgBq+yqdJybh3O+tPQCJr7CSrswhYTHCuNsVFpfat
- S2VvgV8mIWJAjMEAAEKAB0WIQSGSHJRiN1AG7mg0//RgEFAKaOoNgUCavsqnQAKCRDRgEFAKaOo
- NigJD/935MQP5NFc2YH2zf2sAsRvxhRqVKV2Ki21D3z23Hio1Ev0q8GApmQbzonIn2gdJyED2GN
- j7jnbknscNSRoIXdBnZ1iL0EFeNdfkLEghSqZEw/IHUgyl9GcgODWZc3muln6vOC49yGrB3LdX+
- 3vvE4cVgPJ5gUWH/F3C4xUGWEctuhvWqAAYfWR5IXBGtD2lc+KafOcsEMWq889GQZbC62PhjoMq
- dVYmM7ln35ygpB/KmevnKBbx4ovcALQC5+FfFPu3QvtcxGkBkq6iPB43y64kfo7qwfJe8HN/4eF
- iem9oM+R+eObA1KeFiV7LUrU+dtjaKAKwf2dHFOCHaQDz9PFxFMwx/t41ES1dPQlCexs1QyTNuE
- PKggTb3t/kQ9kw8rdakjP1U0gnvv5DhtJsMNmGtQ5JMN9Rrf5BS4QKk0CT+/WBEkLEk4xRQeiHJ
- fsAV4U4LdZ46OuKb022WhwFx5aaJnpi5kLsycUdUiid5HTMdAdBDh5MpuxUix3icdlXP4AWkYpI
- hVEciwk/YJoS0K9vylvblW57VuVJeXgOHjzUJIfl14NYHUZ4slZG2LqujeLESVP45zPR3X8imJf
- W3pGxjOXVscNisq2MAMY2BBrfPe1S9H5IhFmY8LM7QaNgeZwZ4OcnrokIgrXjCxjAnxT2UK49nt
- JzT72w67BefnoIw==
+ bh=g55l8H44eXAQHJ9PIcT+oB//nMHnSnuSmj7UrSh79AQ=;
+ b=owEBbQKS/ZANAwAKAdGAQUApo6g2AcsmYgBq+yqfPe8mDhoJCwRmG8Q/IzlUpz5+ZSy4dxM2s
+ 67/jfXs2LSJAjMEAAEKAB0WIQSGSHJRiN1AG7mg0//RgEFAKaOoNgUCavsqnwAKCRDRgEFAKaOo
+ NqwGD/4y0jjdfYl9y0N4VW0XeXethwlq3jNcoektr1hhbKJ0GZnYhMto7rMPyvjqGdH5gAmyekW
+ n5q2V0oXN3kmoVDMok6YorGzv/KfipNMnWP+FqMo0J76dvpJ1SCIE4P9ST2VHRsHkgZBr1tG16L
+ BzEbviid9vi6/Kv/oke+o46egLidT9nv0Nq+VOw/9j9zKsvmuBpO533V2UBvoVwD67ZNgnd0j2B
+ vMttYPQCfc72j+nYUn9PwvKyhm0T1tfuCqn6SgXGon8WEyfj6u6xEfB5cv/3eg6oFoNHxSyw2Qm
+ Hq+jzf4lh0eZV0wtTI50LqIEv/TgSft+mRnzcdHqNWXjSfo8V19+nVEDjQm8bZ1GuosN7bFMFf5
+ /5G9JTnLu/jvWwVUy05EU/HUbd+8BTBOS5UxNiEAEtneMbV9ZKpYrqzkQnDreWoAt5v/Gn55Dyh
+ Meop/d7gvdflU1AdgtgfHv82s/D6XasIliQJKWIrMQ+VuhSaGvIU/YF+/o1mpEghwHl8HksCFTL
+ x1X/A8K2pDjBjgcabO56t+n0wy6P67LkPtnbwXfIi1w4q5/l6SDjL+DWKQIDLMFEnUkCd2BL3hR
+ Vh0PWDUYAXRfLg226KYg7xQ6cHGf3ycQNkGcsMtP+OCtnlZCTtjfV3DRa9fBrrBGdpQeTMKrG6c
+ tlDoE5MbjlqNyfg==
 X-Developer-Key: i=antonin.godard@bootlin.com; a=openpgp;
  fpr=8648725188DD401BB9A0D3FFD180414029A3A836
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2026 16:09:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250350
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2026 16:09:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250361
 
-Improve the docstrings of useful oe library modules and format them for
-inclusion with the sphinx.ext.autodoc extension. This allows presenting
-the documentation like in [1].
-
-The series is divided in two parts:
-
-- Patch 01 to 05 are code fixups, they do not contains documentation
-  changes, but are relevant to provide a meaningful and consistent
-  documentation.
-
-  Some are breaking changes and scould be debated, but I believe for
-  most it does make sense to make the change, especially for
-  understanding how the function works in documentation.
-
-- Patch 06 to the last patch are only docstrings changes, one patch per
-  oe module to make reviewing easier.
-
-This work will be integrated to the yocto-docs documentation in separate
-series, sent after this one.
-
-Note: compared to [1], I deliberately stopped following the
-"Parameters:" and "Returns ..." pattern as it sometimes proved to be
-challenging to describe the function's behavior in a natural way.
-Instead, I took inspiration from how the Python library documents its
-own modules, using imperative tense and simple paragraphs (most of the
-time).
-
-Note 2: for now, only certain modules are covered, especially those that I
-think are useful for end-users. Some functions in those modules are not
-documented and were left as-is because I also felt it wasn't useful to
-document them.
-
-[1]: https://docs.yoctoproject.org/bitbake/bitbake-user-manual/bitbake-user-manual-library-functions.html
+Improve docstrings by detailing the parameters and return values of
+functions in this module.
 
 Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
 ---
-Antonin Godard (13):
-      lib/oe/path: rename "metadata" parameter to "d"
-      oe/path: simplify replace_absolute_symlinks() signature
-      lib/oe/utils: simplify str_filter*() signatures
-      lib/oe/utils: drop all_multilib_tune_list
-      lib/oe: move oe.types.{is_x86,qemu_use_kvm} to oe.qemu
-      lib/oe/data: improve docstring for typed_value
-      lib/oe/go: detail map_arch() parameter
-      lib/oe/kernel: convert comments to docstrings and improve
-      lib/oe/lsb: improve docstrings
-      lib/oe/path: improve docstrings
-      lib/oe/purl: improve docstrings
-      lib/oe/utils: improve docstrings
-      lib/oe/types: improve docstrings
+ meta/lib/oe/purl.py | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
- meta/classes-recipe/testimage.bbclass            |   2 +-
- meta/classes/relative_symlinks.bbclass           |   2 +-
- meta/lib/oe/data.py                              |  28 ++-
- meta/lib/oe/go.py                                |   7 +-
- meta/lib/oe/kernel.py                            |  22 +-
- meta/lib/oe/lsb.py                               |  18 +-
- meta/lib/oe/path.py                              | 154 ++++++++++----
- meta/lib/oe/purl.py                              |   9 +-
- meta/lib/oe/qemu.py                              |  24 +++
- meta/lib/oe/types.py                             | 166 +++++++++++----
- meta/lib/oe/utils.py                             | 254 +++++++++++++++++------
- meta/lib/oeqa/selftest/cases/efibootpartition.py |   2 +-
- meta/lib/oeqa/selftest/cases/runqemu.py          |   2 +-
- meta/lib/oeqa/selftest/cases/uki.py              |   2 +-
- meta/lib/oeqa/targetcontrol.py                   |   2 +-
- 15 files changed, 529 insertions(+), 165 deletions(-)
----
-base-commit: f32bced7b431f39a956c3e0d42e3c756ab784c49
-change-id: 20261103-oe-lib-docstrings-355ea9d439b5
+diff --git a/meta/lib/oe/purl.py b/meta/lib/oe/purl.py
+index 2f92a23596..ed158d7f81 100644
+--- a/meta/lib/oe/purl.py
++++ b/meta/lib/oe/purl.py
+@@ -11,16 +11,17 @@ PREFIX = "pkg:yocto"
+ 
+ def quote(s):
+     """
+-    Returns the percent encoded version of the string, suitable for including
+-    in a PURL field
++    Return the percent encoded version of the string ``s``, suitable for inclusion
++    in a PURL field.
+     """
+     return urllib.parse.quote(s, safe="")
+ 
+ 
+ def get_base_purl(d):
+     """
+-    Returns the base PURL for the current recipe (that is, the PURL without any
+-    additional qualifiers)
++    Return the base PURL for the current recipe (that is, the PURL without any
++    additional qualifiers), using ``d`` (the :term:`datastore`) to access the recipe's
++    variables.
+     """
+     layername = d.getVar("FILE_LAYERNAME")
+     bpn = d.getVar("BPN")
+
+-- 
+2.56.0
 
