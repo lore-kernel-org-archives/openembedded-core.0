@@ -1,365 +1,217 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3364.1794863081881975844
+Received: from mail-yx1-f41.google.com (mail-yx1-f41.google.com [74.125.224.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3495.1794863419089213824
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Nov 2026 13:04:42 -0800
+ Mon, 16 Nov 2026 13:10:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=hRygAthi;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 60D7D1682
-	for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2026 13:04:38 -0800 (PST)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 09E4B3F632
-	for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2026 13:04:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1794863081; bh=R3bBPl7nLKblGG+S3zyJw9+vgSS36pE62RBrtGitxfs=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=hRygAthiUxTkJxVYsuTVUxvPluWy45VafUMjeSGulzkepU2KYop3QBuYnhDipGAtC
-	 rpvkAuON5Ft9wvB3v8zqHmbaHcE/6wB+0VOD5GUNpCbSpfLlII9ljh4sAWE8JrXjvQ
-	 YQ4JtU/evakKs5KyHLSqzMvrBgZNrk8shSFc9Z3k=
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/5] python3: refresh manifest
-Date: Mon, 16 Nov 2026 21:04:34 +0000
-Message-ID: <20261116210435.4161338-4-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261116210435.4161338-1-ross.burton@arm.com>
-References: <20261116210435.4161338-1-ross.burton@arm.com>
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=ao2x9a//;
+ spf=pass (domain: gmail.com, ip: 74.125.224.41, mailfrom: raj.khem@gmail.com)
+Received: by mail-yx1-f41.google.com with SMTP id 956f58d0204a3-67da7d18f2fso426403d50.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2026 13:10:18 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794863418; cv=none;
+        d=google.com; s=arc-20260327;
+        b=dPqrinkLInUa/El8QL6UD6iu3CPZfnWx+gAv15pnzvpyEzHifUtjgzSUMLeRvPYVF+
+         CBo/PZt67qG8tV/2tN7GsmXNN+QPbk5VWIp9X0VpLaCXyWcHBY6Kxn4gh11CKtD72FTk
+         rx3SJfGGKpt1QfVAH3Hwi+0jEKMqFk6pqnzDgje5cHXibpfRpYI9ZnoQI+U3ikeO/HzQ
+         9Tq/gfQaI8CljP1LFr8orB/xxDjA+XhSdLm99b6wvrGdr0JfCdxe52VRaAKrDBMHvfZn
+         knDVnvG9wUhq1k9yQ/K2+eaHVENaaV+GtOpmQoah8O7b42TyVvICD97u7XGUCSzbHdsi
+         JrAw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=p1VbVDueB3cE8yjZslD11RQn+ru3meZ1SRwt0ngzVH0=;
+        fh=Ab5QchtAs08eZNSFiBl6MfJNprT6k/vVQ8w3IX57Q1U=;
+        b=GUNGSyM/CzyGNui5fAAUyqbOHyTrcRr2T0v9wpYRvkuZnNEq/NL1BaOBB6nW4eNLxP
+         7UHXKAjZys9YEA9a+bCmbQedqRM7//ll/QO5RfUOxAWT+R9yET2gxT8R+r7C2wMLT4Z4
+         MDOpg0GKuT0SSVwOOISwiR9RgC7oi3Uf5LuzMg0gY52O43e8avgzSMHNOLBfoQUExib5
+         JvlXkY/cJ0F97Fgfpz42myUmv+B/HFkr3vIgQYBzXL8eTzAE/RVaUwKbZ9PZxCEZBIYw
+         /ML/BrTTZdGFnv65fDO61PGQPL2edjqiQz6ViJjL6j5UQ8A3cq7pdg6hfgMAz/QnCQ70
+         CFUQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1794863418; x=1795468218; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=p1VbVDueB3cE8yjZslD11RQn+ru3meZ1SRwt0ngzVH0=;
+        b=ao2x9a//83tAoxsob5Y+4aK3eKQl/7J7taKcyJfrrbqYBuYG/r2W+Ehz2K9HXo0Rs5
+         lRzo1WQPtX0XKmM8RqDaeJibEQmGPtEwliS1/d9BkxYuvuJxLYu0re5BP2UgE6pZb6Np
+         Ud2Yo3c6seFwzHT30CVLSgPknH9B9KgGW31RDFIwbHj/e88OuitxjVaEW2x6MtQYtphg
+         Q/hBz16AxA/ZFQyH/XMR5s7S7orvHqw4otqJ5SMuAaVRzItOFtvWmt4HtJ0oI1l5u76/
+         VtC8hIR48aRVMWWyJhImu+o4lQBWLH6eT020nyWf/LrdqcIfPHy7REOCv7gF3OKzqLjs
+         YTmg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794863418; x=1795468218;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=p1VbVDueB3cE8yjZslD11RQn+ru3meZ1SRwt0ngzVH0=;
+        b=ye13KZCrdsYQIjEy5xKojC4vCZ3aZmwu1j/Rno7tn/vAuD74WxYbxQmsYTQ9J7TaAY
+         MkLOgXAVoxWUcbq7U9Lf16DWtv81lM1BlVdYj884L2uSv8zfX2jwq0+ARv9P6WA8BJWL
+         di/xzDIO90XX8tHmchVjTcL/0eTmVa6SZJ85E+QK214aLJsC0U5AX5djdDhHZH1XXAp3
+         XkJDAGLNapkgU79BKfUPb9MCgOvZDXKTn8d11UGGRdf9exm9W1HeViXFKXRD0gBW2+D4
+         bLlTD9GyInNuuT6Cf+XOU5G8zFtjVvVo77afydKvtmSPRr0KmE7oAgmHVh+6YfjLuGXm
+         Wp0w==
+X-Gm-Message-State: APuU4Z/8qx/P0dwtPatpj1t4xtbDCLfjjL5ZL6EQcwrkWjhH0EQmQ2cb
+	e77pQXYUDl7kWWmiHygtItePpN+1k/6upiXU3oNN/TvZhqu5FC3q/fEnXWeGLAYEedZYctYngCP
+	UBh0oS/5fOkRMoqt/99Xkjt8KTTsHAxCi2AkU
+X-Gm-Gg: AZFdTZfUJV72QHE2yKAlnz/BOiwZZyFP8Js1ixSP5Ume6EY8ZjIQfXr5lCqonhH5Lbm
+	P8/3Ojw/oCIehgHAsmLCzttzVljxHJ0WnxQYsC1AL6xkq3vLnih32AqUMI2utEE5m6C4LJCFk/r
+	ftBDllVlkW1WQMvhf2sRuk9v7LvfZ0Zx3OHyYMvVY9Q14iMZzd14rhJZ0f4/7yn/nEXGfxjAKy+
+	nqHzAaVoxTLt8tPaml+biZmzCna5MvS434jfQYKpJVEadW0W4e3Tu/MQJA01a7uX0BHycUGzmo5
+	EhYm5flWRqFaE+lPQu3mI0m6/KJMt4F88ZfnY7fQ4z7PPTW+rSYvIb0wZ4PwLTg7FljWh1g8fSo
+	X4R8kx5gBDf1W/dkhbGAejapZn4Zd6lShoullsL6hbaMXZb7UuIsxsIb6DKrYMYscLDh9hCXZxk
+	6gyZroYi4gDUYDjljzAO3J6+cEm80T4iJvI7CNImg21FW7wp2k1pormQr4ee6btGdFevDvx4pI7
+	4OwqHSeF4Z2S8oLk22L/VH3kQ/PJRkICns9sNoC0L1mVK9SdrXBbKUGAXip0I/XGfWn/J6crw6S
+	3ViEZedhf7W3kX5kx8m91Veve9H2D1soUbHWVGScOyUlgqXpttIMWaMO8MxGhOgV0A==
+X-Received: by 2002:a05:690e:4388:b0:677:b7c3:12c3 with SMTP id
+ 956f58d0204a3-67dc775b2bdmr239327d50.29.1794863417795; Mon, 16 Nov 2026
+ 13:10:17 -0800 (PST)
 MIME-Version: 1.0
-X-ARM-No-Footer: NoDisclaimer
-Content-Transfer-Encoding: quoted-printable
+References: <20261116210435.4161338-1-ross.burton@arm.com>
+In-Reply-To: <20261116210435.4161338-1-ross.burton@arm.com>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Mon, 16 Nov 2026 13:09:51 -0800
+X-Gm-Features: AclHuK_FMbMq2YVwTsPAzvk0l3qccMvo7a3sjbud1ApAHAeP4TZh5WO90yBU5FU
+Message-ID: <CAMKF1srDiYjWbAnER9Rp32X2wH-snHdehWvqgzjjXmFF8b2u+A@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/5] python3: don't copy from UNPACKDIR to WORKDIR
+To: ross.burton@arm.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000702a1a06606b34b5"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2026 21:04:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250379
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2026 21:10:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250381
 
-Add some dependency skips:
+--000000000000702a1a06606b34b5
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-- the core imports in zipimport (->compression), but as importing of
-  .zip files is relatively niche skip this dependency.
-- shutil imports all of compression to determine what methods are
-  available. Skip this dependency, packages which use
-  shutil.make_archive() can depend on -compression. Notable, ensurepip
-  needs to unpack a wheel.
+On Mon, Nov 16, 2026 at 1:04=E2=80=AFPM Ross Burton via openembedded-core
+<ross.burton=3Darm.com@lists.openembedded.org> wrote:
 
-Consolidate the compression files into -compression instead of being
-spread across multiple packages.
+> There's no need to copy files from UNPACKDIR to WORKDIR, we can just do
+> the work in UNPACKDIR.
+>
 
-Put _interpreters.so and _remote_debugging.so into the appropriate
-packages, remove some previously installed libraries that are now
-part of the interpreter, and refresh the dependencies.
+IMO unpackdir is more of less what sources come from unpacking and patching
+modifications happen in workdir. is it not the case ?
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- .../python/python3/python3-manifest.json      | 78 ++++++++++++++-----
- .../python/python3_3.14.10.bb                 |  1 +
- 2 files changed, 58 insertions(+), 21 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3/python3-manifest.json b=
-/meta/recipes-devtools/python/python3/python3-manifest.json
-index 50fdf5d0eae..0c91745e675 100644
---- a/meta/recipes-devtools/python/python3/python3-manifest.json
-+++ b/meta/recipes-devtools/python/python3/python3-manifest.json
-@@ -107,6 +107,7 @@
-         "summary": "Python Asynchronous I/O",
-         "rdepends": [
-             "core",
-+            "debugger",
-             "io",
-             "logging",
-             "netclient",
-@@ -165,20 +166,39 @@
-             "core"
-         ],
-         "files": [
-+            "${libdir}/python${PYTHON_MAJMIN}/bz2.py",
-+            "${libdir}/python${PYTHON_MAJMIN}/compression",
-             "${libdir}/python${PYTHON_MAJMIN}/gzip.py",
-+            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_bz2.*.so",
-+            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_lzma.*.so",
-+            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_zstd.*.so",
-+            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/zlib.*.so",
-+            "${libdir}/python${PYTHON_MAJMIN}/lzma.py",
-             "${libdir}/python${PYTHON_MAJMIN}/tarfile.py",
--            "${libdir}/python${PYTHON_MAJMIN}/zipfile/",
--            "${libdir}/python${PYTHON_MAJMIN}/compression/",
--            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_zstd.*.so"
-+            "${libdir}/python${PYTHON_MAJMIN}/zipfile"
-         ],
-         "cached": [
-+            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/bz2.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/gzip.*.pyc",
-+            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/lzma.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/tarfile.*.pyc"
-         ]
-     },
-     "core": {
-         "summary": "Python interpreter and core modules",
--        "rdepends": ["compression"],
-+        "rdepends": [],
-+        "skip_depends": {
-+            "core": [
-+                "zipimport"
-+            ],
-+            "shutil": [
-+                "compression",
-+                "bz2",
-+                "lzma",
-+                "zlib",
-+                "zstd"
-+            ]
-+        },
-         "files": [
-             "${bindir}/python${PYTHON_MAJMIN}",
-             "${bindir}/python${PYTHON_MAJMIN}.real",
-@@ -193,22 +213,20 @@
-             "${libdir}/python${PYTHON_MAJMIN}/_bootlocale.py",
-             "${libdir}/python${PYTHON_MAJMIN}/_collections_abc.py",
-             "${libdir}/python${PYTHON_MAJMIN}/_colorize.py",
--            "${libdir}/python${PYTHON_MAJMIN}/_compression.py",
-             "${libdir}/python${PYTHON_MAJMIN}/_markupbase.py",
-             "${libdir}/python${PYTHON_MAJMIN}/_opcode_metadata.py",
-             "${libdir}/python${PYTHON_MAJMIN}/_py_warnings.py",
-             "${libdir}/python${PYTHON_MAJMIN}/_pyrepl",
-             "${libdir}/python${PYTHON_MAJMIN}/_pyrepl/pager.py",
-             "${libdir}/python${PYTHON_MAJMIN}/_sitebuiltins.py",
--            "${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata*.py",
-             "${libdir}/python${PYTHON_MAJMIN}/_sysconfig_vars*.json",
-+            "${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata*.py",
-             "${libdir}/python${PYTHON_MAJMIN}/_weakrefset.py",
-             "${libdir}/python${PYTHON_MAJMIN}/abc.py",
-             "${libdir}/python${PYTHON_MAJMIN}/annotationlib.py",
-             "${libdir}/python${PYTHON_MAJMIN}/argparse.py",
-             "${libdir}/python${PYTHON_MAJMIN}/ast.py",
-             "${libdir}/python${PYTHON_MAJMIN}/bisect.py",
--            "${libdir}/python${PYTHON_MAJMIN}/bz2.py",
-             "${libdir}/python${PYTHON_MAJMIN}/code.py",
-             "${libdir}/python${PYTHON_MAJMIN}/codecs.py",
-             "${libdir}/python${PYTHON_MAJMIN}/codeop.py",
-@@ -250,10 +268,9 @@
-             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/__pycache__/ti=
-me.*.so",
-             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/__pycache__/xr=
-eadlines.*.so",
-             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_bisect.*.so",
--            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_bz2.*.so",
-             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_csv.*.so",
-             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_heapq.*.so",
--            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_lzma.*.so",
-+            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_interpreters.=
-*.so",
-             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_opcode.*.so",
-             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_posixsubproce=
-ss.*.so",
-             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_struct.*.so",
-@@ -269,10 +286,8 @@
-             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/time.*.so",
-             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/unicodedata.*.=
-so",
-             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/xreadlines.*.s=
-o",
--            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/zlib.*.so",
-             "${libdir}/python${PYTHON_MAJMIN}/linecache.py",
-             "${libdir}/python${PYTHON_MAJMIN}/locale.py",
--            "${libdir}/python${PYTHON_MAJMIN}/lzma.py",
-             "${libdir}/python${PYTHON_MAJMIN}/new.py",
-             "${libdir}/python${PYTHON_MAJMIN}/ntpath.py",
-             "${libdir}/python${PYTHON_MAJMIN}/opcode.py",
-@@ -283,6 +298,8 @@
-             "${libdir}/python${PYTHON_MAJMIN}/pathlib.py",
-             "${libdir}/python${PYTHON_MAJMIN}/pathlib/_abc.py",
-             "${libdir}/python${PYTHON_MAJMIN}/pathlib/_local.py",
-+            "${libdir}/python${PYTHON_MAJMIN}/pathlib/_os.py",
-+            "${libdir}/python${PYTHON_MAJMIN}/pathlib/types.py",
-             "${libdir}/python${PYTHON_MAJMIN}/pkgutil.py",
-             "${libdir}/python${PYTHON_MAJMIN}/platform.py",
-             "${libdir}/python${PYTHON_MAJMIN}/posixpath.py",
-@@ -341,7 +358,6 @@
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/argparse.*.pyc=
-",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/ast.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/bisect.*.pyc",
--            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/bz2.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/code.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/codecs.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/codeop.*.pyc",
-@@ -367,7 +383,6 @@
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/keyword.*.pyc"=
-,
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/linecache.*.py=
-c",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/locale.*.pyc",
--            "${libdir}/python${PYTHON_MAJMIN}/__pycache__/lzma.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/ntpath.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/opcode.*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/operator.*.pyc=
-",
-@@ -420,6 +435,8 @@
-             "${libdir}/python${PYTHON_MAJMIN}/pathlib/__pycache__",
-             "${libdir}/python${PYTHON_MAJMIN}/pathlib/__pycache__/_abc.*=
-.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/pathlib/__pycache__/_local=
-.*.pyc",
-+            "${libdir}/python${PYTHON_MAJMIN}/pathlib/__pycache__/_os.*.=
-pyc",
-+            "${libdir}/python${PYTHON_MAJMIN}/pathlib/__pycache__/types.=
-*.pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/re/__pycache__",
-             "${libdir}/python${PYTHON_MAJMIN}/re/__pycache__/_casefix.*.=
-pyc",
-             "${libdir}/python${PYTHON_MAJMIN}/re/__pycache__/_compiler.*=
-.pyc",
-@@ -451,6 +468,7 @@
-     "ctypes": {
-         "summary": "Python C types support",
-         "rdepends": [
-+            "compression",
-             "core",
-             "io",
-             "math"
-@@ -482,8 +500,7 @@
-         "files": [
-             "${libdir}/python${PYTHON_MAJMIN}/_strptime.py",
-             "${libdir}/python${PYTHON_MAJMIN}/calendar.py",
--            "${libdir}/python${PYTHON_MAJMIN}/datetime.py",
--            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_datetime.*.so=
-"
-+            "${libdir}/python${PYTHON_MAJMIN}/datetime.py"
-         ],
-         "cached": [
-             "${libdir}/python${PYTHON_MAJMIN}/__pycache__/_strptime.*.py=
-c",
-@@ -505,13 +522,22 @@
-     "debugger": {
-         "summary": "Python debugger",
-         "rdepends": [
-+            "asyncio",
-+            "compression",
-             "core",
-+            "io",
-+            "json",
-+            "logging",
-+            "math",
-+            "netclient",
-+            "numbers",
-             "pprint",
-             "shell",
-             "stringold"
-         ],
-         "files": [
-             "${libdir}/python${PYTHON_MAJMIN}/bdb.py",
-+            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_remote_debugg=
-ing.*.so",
-             "${libdir}/python${PYTHON_MAJMIN}/pdb.py"
-         ],
-         "cached": [
-@@ -554,9 +580,17 @@
-     "doctest": {
-         "summary": "Python framework for running examples in docstrings"=
-,
-         "rdepends": [
-+            "asyncio",
-+            "compression",
-             "core",
-             "debugger",
-             "difflib",
-+            "io",
-+            "json",
-+            "logging",
-+            "math",
-+            "netclient",
-+            "numbers",
-             "pprint",
-             "shell",
-             "stringold",
-@@ -603,9 +637,7 @@
-         "rdepends": [
-             "core"
-         ],
--        "files": [
--            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/fcntl.*.so"
--        ],
-+        "files": [],
-         "cached": []
-     },
-     "gdbm": {
-@@ -654,6 +686,7 @@
-     "io": {
-         "summary": "Python low-level I/O",
-         "rdepends": [
-+            "compression",
-             "core",
-             "math",
-             "netclient"
-@@ -818,10 +851,12 @@
-     "multiprocessing": {
-         "summary": "Python multiprocessing support",
-         "rdepends": [
-+            "compression",
-             "core",
-             "crypt",
-             "ctypes",
-             "io",
-+            "json",
-             "math",
-             "mmap",
-             "netclient",
-@@ -853,6 +888,7 @@
-             "${libdir}/python${PYTHON_MAJMIN}/hmac.py",
-             "${libdir}/python${PYTHON_MAJMIN}/http",
-             "${libdir}/python${PYTHON_MAJMIN}/http/__pycache__",
-+            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_hmac.*.so",
-             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_uuid.*.so",
-             "${libdir}/python${PYTHON_MAJMIN}/mimetypes.py",
-             "${libdir}/python${PYTHON_MAJMIN}/poplib.py",
-@@ -895,7 +931,6 @@
-             "${libdir}/python${PYTHON_MAJMIN}/contextvars.py",
-             "${libdir}/python${PYTHON_MAJMIN}/decimal.py",
-             "${libdir}/python${PYTHON_MAJMIN}/fractions.py",
--            "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_contextvars.*=
-.so",
-             "${libdir}/python${PYTHON_MAJMIN}/lib-dynload/_decimal.*.so"=
-,
-             "${libdir}/python${PYTHON_MAJMIN}/numbers.py"
-         ],
-@@ -1004,8 +1039,7 @@
-     "shell": {
-         "summary": "Python shell-like functionality",
-         "rdepends": [
--            "core",
--            "stringold"
-+            "core"
-         ],
-         "files": [
-             "${libdir}/python${PYTHON_MAJMIN}/cmd.py",
-@@ -1150,8 +1184,10 @@
-     "venv": {
-         "summary": "Provides support for creating lightweight virtual en=
-vironments with their own site directories, optionally isolated from syst=
-em site directories.",
-         "rdepends": [
-+            "compression",
-             "core",
-             "logging",
-+            "shell",
-             "stringold"
-         ],
-         "files": [
-diff --git a/meta/recipes-devtools/python/python3_3.14.10.bb b/meta/recip=
-es-devtools/python/python3_3.14.10.bb
-index bebee315f94..99c09226717 100644
---- a/meta/recipes-devtools/python/python3_3.14.10.bb
-+++ b/meta/recipes-devtools/python/python3_3.14.10.bb
-@@ -578,6 +578,7 @@ RDEPENDS:${PN}-tkinter +=3D "${@bb.utils.contains('PA=
-CKAGECONFIG', 'tk', '${MLPREF
- RDEPENDS:${PN}-idle +=3D "${@bb.utils.contains('PACKAGECONFIG', 'tk', '$=
-{PN}-tkinter ${MLPREFIX}tcl', '', d)}"
- DEV_PKG_DEPENDENCY =3D ""
- RDEPENDS:${PN}-pydoc +=3D "${PN}-io"
-+RDEPENDS:${PN}-ensurepip +=3D "${PN}-compression"
-=20
- RDEPENDS:${PN}-tests:append:class-target =3D " ${MLPREFIX}bash"
- RDEPENDS:${PN}-tests:append:class-nativesdk =3D " ${MLPREFIX}bash"
---=20
-2.43.0
+>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  meta/recipes-devtools/python/python3_3.14.10.bb | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/python/python3_3.14.10.bb
+> b/meta/recipes-devtools/python/python3_3.14.10.bb
+> index c50c4d4babc..765f93ddc66 100644
+> --- a/meta/recipes-devtools/python/python3_3.14.10.bb
+> +++ b/meta/recipes-devtools/python/python3_3.14.10.bb
+> @@ -498,11 +498,8 @@ do_create_manifest() {
+>      # e.g. BerkeleyDB is an optional build dependency so it may or may n=
+ot
+>      # be present, we must ensure it is.
+>
+> -    cp ${UNPACKDIR}/create_manifest3.py ${WORKDIR}
+> -    cp ${UNPACKDIR}/python3-manifest.json ${WORKDIR}
+> -    cp ${UNPACKDIR}/get_module_deps3.py ${WORKDIR}
+> -    cd ${WORKDIR}
+>      # This needs to be executed by python-native and NOT by HOST's pytho=
+n
+> +    cd ${UNPACKDIR}
+>      nativepython3 create_manifest3.py ${PYTHON_MAJMIN}
+>      cp python3-manifest.json.new ${THISDIR}/python3/python3-manifest.jso=
+n
+>  }
+> --
+> 2.43.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#250376):
+> https://lists.openembedded.org/g/openembedded-core/message/250376
+> Mute This Topic: https://lists.openembedded.org/mt/122302833/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
 
+--000000000000702a1a06606b34b5
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Nov 16,=
+ 2026 at 1:04=E2=80=AFPM Ross Burton via openembedded-core &lt;ross.burton=
+=3D<a href=3D"mailto:arm.com@lists.openembedded.org">arm.com@lists.openembe=
+dded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">There&#39;s no need to copy files from UNPACKDIR to WORKDIR, we can=
+ just do<br>
+the work in UNPACKDIR.<br></blockquote><div><br></div><div>IMO unpackdir is=
+ more of less what sources come from unpacking and patching modifications h=
+appen in workdir. is it not the case ?</div><div>=C2=A0</div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid=
+ rgb(204,204,204);padding-left:1ex">
+<br>
+Signed-off-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" targe=
+t=3D"_blank">ross.burton@arm.com</a>&gt;<br>
+---<br>
+=C2=A0meta/recipes-devtools/python/<a href=3D"http://python3_3.14.10.bb" re=
+l=3D"noreferrer" target=3D"_blank">python3_3.14.10.bb</a> | 5 +----<br>
+=C2=A01 file changed, 1 insertion(+), 4 deletions(-)<br>
+<br>
+diff --git a/meta/recipes-devtools/python/<a href=3D"http://python3_3.14.10=
+.bb" rel=3D"noreferrer" target=3D"_blank">python3_3.14.10.bb</a> b/meta/rec=
+ipes-devtools/python/<a href=3D"http://python3_3.14.10.bb" rel=3D"noreferre=
+r" target=3D"_blank">python3_3.14.10.bb</a><br>
+index c50c4d4babc..765f93ddc66 100644<br>
+--- a/meta/recipes-devtools/python/<a href=3D"http://python3_3.14.10.bb" re=
+l=3D"noreferrer" target=3D"_blank">python3_3.14.10.bb</a><br>
++++ b/meta/recipes-devtools/python/<a href=3D"http://python3_3.14.10.bb" re=
+l=3D"noreferrer" target=3D"_blank">python3_3.14.10.bb</a><br>
+@@ -498,11 +498,8 @@ do_create_manifest() {<br>
+=C2=A0 =C2=A0 =C2=A0# e.g. BerkeleyDB is an optional build dependency so it=
+ may or may not<br>
+=C2=A0 =C2=A0 =C2=A0# be present, we must ensure it is.<br>
+<br>
+-=C2=A0 =C2=A0 cp ${UNPACKDIR}/create_manifest3.py ${WORKDIR}<br>
+-=C2=A0 =C2=A0 cp ${UNPACKDIR}/python3-manifest.json ${WORKDIR}<br>
+-=C2=A0 =C2=A0 cp ${UNPACKDIR}/get_module_deps3.py ${WORKDIR}<br>
+-=C2=A0 =C2=A0 cd ${WORKDIR}<br>
+=C2=A0 =C2=A0 =C2=A0# This needs to be executed by python-native and NOT by=
+ HOST&#39;s python<br>
++=C2=A0 =C2=A0 cd ${UNPACKDIR}<br>
+=C2=A0 =C2=A0 =C2=A0nativepython3 create_manifest3.py ${PYTHON_MAJMIN}<br>
+=C2=A0 =C2=A0 =C2=A0cp <a href=3D"http://python3-manifest.json.new" rel=3D"=
+noreferrer" target=3D"_blank">python3-manifest.json.new</a> ${THISDIR}/pyth=
+on3/python3-manifest.json<br>
+=C2=A0}<br>
+-- <br>
+2.43.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#250376): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/250376" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/250376</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/122302833/199=
+7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/122302833/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000702a1a06606b34b5--
