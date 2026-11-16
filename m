@@ -1,169 +1,128 @@
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.32648.1794847852411220952
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.32053.1794847854936531170
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Nov 2026 08:50:52 -0800
+ Mon, 16 Nov 2026 08:50:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=pYRCWunk;
- spf=pass (domain: gmail.com, ip: 209.85.210.177, mailfrom: ticotimo@gmail.com)
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-8b2f59de176so4068865b3a.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2026 08:50:52 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=TswRFCmJ;
+ spf=pass (domain: gmail.com, ip: 209.85.210.172, mailfrom: ticotimo@gmail.com)
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-8a058315c79so2030286b3a.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2026 08:50:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794847852; x=1795452652; darn=lists.openembedded.org;
+        d=gmail.com; s=20260707; t=1794847854; x=1795452654; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=orzU68MGDCCuaKvQk8PKaKqaPrJAEhezmVmnBZA4nwE=;
-        b=pYRCWunkH20Jg9/Z+BpQAzHki9vAbx7wDebbeG113RvffomKyesF2t7gWy1WmXqHkr
-         LpRE9fhh7naADMlmwu0ORPM8Zj8N9FcoRlpgW0aUFgwSYuZxG4ykdQHueT3uYdDYLryM
-         hMBsQGtZoI4vSSk4AiBUYzRhulkFd+C5XqCcpL9zXitwSRR3XjMaUTutFmQT9QW0h0Pl
-         S9hcVH2XKuyXTi+htKLIX5SPWkKHJFTGUirhU0kw6mybAi/wCUOD8iQ1kko3XFGsG2NS
-         ijdC7zhXMhXr+fq2DmsdsDAx/20NYmYDr2MsNdXoC6/fSCvHPyN9FWi4fQ1nWzEV3vBP
-         hVXg==
+        bh=xAaoIdOPq16BftmcX4ia8osuUbzZkHU0Se+tz/kqG74=;
+        b=TswRFCmJBWpSb779mgOFuhvJKZKh7Qd3NCrX3j7ModVV+YxnNPZLHwwcxj89hHk9r9
+         R44hWmeX0UVlugT3/TeX1Tg2MoqDSRy96juTjsprKULccjJaMdGl5EHBWWDsKU4kKWQ1
+         fPHao6rnOSJNLTkKXH56ZdzKAoxjZlXgOM4HI/vOydRryn3/p+KjRwKULF9wlSOUddm3
+         g+1VpQHDW2c6BZ4LRCPlqM9kebFJJivaExqZyYTF6OXxzK7j46XQQoR7CvRK10aH4Q3V
+         ZBJoJuLmccCpFsGrtwJzmw4OQJYTt9rD0a/qJ0fkglHOWzVsUvLyx6rpa2ZPgQeNZE9H
+         wrqA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794847852; x=1795452652;
+        d=1e100.net; s=20260707; t=1794847854; x=1795452654;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=orzU68MGDCCuaKvQk8PKaKqaPrJAEhezmVmnBZA4nwE=;
-        b=hp/rGCfAeRiesqyEeQrn3wVJT9rpc5XJdP63yCN5zkC+85Mv7SEMMEHdeJarCPPfpv
-         GSNN2mmE7DXiXHXK2p8EGa17T06vTetzYu0eMdYhwES5Kg79S2P3JmerhO9dmBFNd+T4
-         AgvctH6J4v7i0Bt3FqdzXkYLFHKoQiLTVv6qsZsOiOYUuFzCJs2pY5l7rSTCfmwSMQ3G
-         a/lMPTr7jhL2qA/xDbqCfCIwjc9jq7osSQazWEHo8IIixJExNXUZHHthtF+orS4Yst7n
-         /hjY+V/MgeGD6Dyzg0Ucg5A/wquOdNuLjB6T34NntrLz8IBBFyerrFMzN0SI26nx+A64
-         xKpg==
-X-Gm-Message-State: APuU4Z+nu/oeMt1ahYW//UC2+d6tKSV0OkUJjcfTK42Z7BJQpcicFPyo
-	EJ7Sk3XXDgQBpyARjEUp+FQA/JfIt+EvYBOea5o9lsgkv3TRxCmZiLYvKga9iQ==
-X-Gm-Gg: AYBFou2fB5XsYEfUIJitpPyxxgQIdDm9e7HkexavGFaQsuRfeaSMtUYxMGJJcoOWnnu
-	8UN1joAF9b5HaG3sl6Px/50P66jUGIMIgnQw/pA4oQRFPMAWCrVzOCior3cXhAYmbr6jBggVP7q
-	MudTr6VFt7SFZV19JtjjkoNWPRU8OgpOb1bPQw8Y++f0c7OXi21lzdLdBoMWU6w7MPB0v3efg9J
-	LplXSmDmj7EBP1XHPLFyDbkDwveXhpFHYq2SBfqESErs07Cqe6UVQ18Qh5qjNpAaFb85mFE7ddv
-	qqfeWs8sl3uXHD2BtgxffnZ/VqJlXV70RUaqJuYkpT2xaH4AqOOLMQ80hcmMBzdxyfpEKfJCt93
-	Y5BCWbU6xcLv5GrJ1Q14wzAYBisicA2ius29B+JV852e8eQom+Otrnry/d6Cmurhv+JM0fGEbAZ
-	PZsdGNjTc7BLouRZYnbSoUFOEl9jllzhXkpyYVmXppeDPxUbHIwK4+9Rm6I9hMiqBwjEgbcQpFf
-	nEpBpCRZ+2cY0XhhQRdY2fmBzmgCol3VyJWsDPdA2By59p6q39Bs6ogzNw5qfRJufFT7Xfoec+Q
-	ZgBh4a6kmrYC5kPCt/ejQne6sVq0XBARLlPUIoKg2t4jP3IzOTTj128DPPWNNg==
-X-Received: by 2002:a05:6a00:1a92:b0:8b1:e8dc:c894 with SMTP id d2e1a72fcca58-8beb20cec55mr10256526b3a.5.1794847851726;
-        Mon, 16 Nov 2026 08:50:51 -0800 (PST)
+        bh=xAaoIdOPq16BftmcX4ia8osuUbzZkHU0Se+tz/kqG74=;
+        b=t38IdOVuPsoRumAzVd329vYJVz+TS4reuG8Icee/LJ+1d3XAVkOQk/bzgYzhbAGcul
+         d32X5W/5FMQ44Z8fpNvGpjk2ip3G8kqgfh9xfaQgK4mOC4akvR8wSxVxtK559SKLiWC4
+         /oT/F6aT5gLni1ZZ82mv5GQKOWe7PDJBiJ6h2irVub7RWmoVenafGusKsCER4V73i+q4
+         n/uawPfipHIl2SPWVqXWTHkvEYoyApiBS9tCZPFx4Mw52OWG2LhY2n/tbaVb4NAFtAm4
+         Ukf8iiYk+cyrG4KbGrN/hHxu+1jd9S1bfYNl1SKk7AFSFmkAokoPGyI4WSF+1YiAkZq1
+         Y9iw==
+X-Gm-Message-State: APuU4Z9oAjR6Y0nWqRdK88yJLgH6F72t96MmePm1Ak+IKe7wO1AIAvf3
+	D1ixcaf9OYzxq1+AYgH7NhtghIPJnpmCow8Su2TeAFR7QLoYNzHATZ1VZ1BCRg==
+X-Gm-Gg: AYBFou1DosahiUq6El8BJonO8VWApoYfhqijVBYEN0KZx9Gw0pj1wOW96oXt1n6gI/S
+	TUBf7wl/GwEZwyAg+HSao6sRlEZoMY3AHOl/7UjfjXb/ShOR/lhEXv7wmSuo6NMS0RXELxq6ItS
+	Wtfhj6P7Ab6953u+Btv43wyLIoOC/R7/VSrn8MxHF2X75w7DOdvTljnkHo5bjjtp/eKQgSE3xkr
+	V7I7rr61wk3ecHxDDN2gUi9jIrKWPkAKhX/0Vy3IWb7FuDfK7isn/DZtxe5b76MTVTh0FzYrnxS
+	Tg4n1Rcx3iJ/ud5TPRLm05WjYjQhW0iyTGIrviW+/7M18D9xsEBPBcSTnaR+Z0dHX1D+hLkS3uT
+	yBNjNi8qCqM4F5ZNGueDcTVvTG1bDSeruCW7BNyD4R1n8HWuibGOS1FILKtzl5ZebunRxY9q73s
+	HiSrh1pQK1a7BSZ3MkVLfPMZzX9XKnaH2BhWWtL5Sr8/UiZWIjDK1hwuHUJSt8ok1H3H+0rf9Rx
+	hFY2QIG9Fl3gx/b+taCFZS8xU8j/EFpu9GQVlb9UM0e6hpmYuYG13ogC1AWQ7206s0dwffXKg1C
+	f+S0jNph+6u79Q0x2O0VloOZ/CWN3sBR6mbVn7vAWQcNqrBPHR1fzE/v8/qutg==
+X-Received: by 2002:a05:6a00:340f:b0:8b6:400d:7cc3 with SMTP id d2e1a72fcca58-8beb6198e25mr8971299b3a.27.1794847854138;
+        Mon, 16 Nov 2026 08:50:54 -0800 (PST)
 Return-Path: <ticotimo@gmail.com>
 Received: from localhost.localdomain ([69.9.132.159])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8bed12a902esm3974561b3a.16.2026.11.16.08.50.49
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8bed12a902esm3974561b3a.16.2026.11.16.08.50.52
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Mon, 16 Nov 2026 08:50:50 -0800 (PST)
+        Mon, 16 Nov 2026 08:50:53 -0800 (PST)
 From: Tim Orling <ticotimo@gmail.com>
 X-Google-Original-From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH v2 2/3] lib/oe/distro_check: fix the openSUSE Leap package lists
-Date: Mon, 16 Nov 2026 08:50:31 -0800
-Message-ID: <20261116165032.1829-3-tim.orling@konsulko.com>
+Subject: [PATCH v2 3/3] lib/oe/distro_check: drop Clear Linux
+Date: Mon, 16 Nov 2026 08:50:32 -0800
+Message-ID: <20261116165032.1829-4-tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <20261116165032.1829-1-tim.orling@konsulko.com>
 References: <20261116165032.1829-1-tim.orling@konsulko.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2026 16:50:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250368
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2026 16:51:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250369
 Content-Type: text/plain; charset="utf-8"
 
-download.opensuse.org's listings now link to "./15.6/", which
-find_latest_numeric_release() couldn't parse, so the Leap URLs had an
-empty release and failed with HTTP 404. Accept "./" links, ignore Leap
-42.x (which came before 15.0), read the source RPMs from repo/oss/src/,
-where they now are, and allow for there being no update repository, as
-for Leap 16.
+Clear Linux OS was discontinued in 2025 and download.clearlinux.org no
+longer resolves, so its package list could only ever fail.
 
-Tested against download.opensuse.org: Leap 16.1 is fetched again.
-
-[YOCTO #16510]
+[YOCTO #16511]
 
 AI-Generated: Claude Opus 5.5
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
-Changes in v2: use str.removeprefix() for the "./" links
-
- meta/lib/oe/distro_check.py                   | 27 ++++++++++++++++---
- .../oeqa/selftest/cases/oelib/distro_check.py | 19 +++++++++++++
- 2 files changed, 42 insertions(+), 4 deletions(-)
+ meta/lib/oe/distro_check.py                        | 6 ------
+ meta/lib/oeqa/selftest/cases/oelib/distro_check.py | 4 ++--
+ 2 files changed, 2 insertions(+), 8 deletions(-)
 
 diff --git a/meta/lib/oe/distro_check.py b/meta/lib/oe/distro_check.py
-index 814b35b8d8..b5c05a6765 100644
+index b5c05a6765..d8e487318c 100644
 --- a/meta/lib/oe/distro_check.py
 +++ b/meta/lib/oe/distro_check.py
-@@ -22,7 +22,8 @@ def get_links_from_url(url, d):
-     soup = BeautifulSoup(create_socket(url,d), "html.parser", parse_only=SoupStrainer("a"))
-     hyperlinks = []
-     for line in soup.find_all('a', href=True):
--        hyperlinks.append(line['href'].strip('/'))
-+        # Some listings (e.g. MirrorCache) link to "./name/"
-+        hyperlinks.append(line['href'].removeprefix('./').strip('/'))
-     return hyperlinks
- 
- def find_latest_numeric_release(url, d):
-@@ -84,12 +85,30 @@ def get_latest_released_fedora_source_package_list(d):
-     package_names |= get_source_package_list_from_url_by_letter("http://archive.fedoraproject.org/pub/fedora/linux/updates/%s/SRPMS/" % latest, "updates", d)
+@@ -111,11 +111,6 @@ def get_latest_released_opensuse_source_package_list(d):
+             raise
      return latest, package_names
  
-+def find_latest_opensuse_leap_release(url, d):
-+    "Find the latest Leap release on the given url, ignoring Leap 42.x, which came before 15.0"
-+    releases = []
-+    for link in get_links_from_url(url, d):
-+        try:
-+            version = tuple(int(n) for n in link.split("."))
-+        except ValueError:
-+            continue
-+        if version[0] != 42:
-+            releases.append((version, link))
-+    return max(releases)[1] if releases else "_NotFound_"
-+
- def get_latest_released_opensuse_source_package_list(d):
-     "Returns list of all the name os packages in the latest opensuse distro"
--    latest = find_latest_numeric_release("http://download.opensuse.org/source/distribution/leap", d)
-+    from urllib.error import HTTPError
-+    latest = find_latest_opensuse_leap_release("http://download.opensuse.org/source/distribution/leap/", d)
+-def get_latest_released_clear_source_package_list(d):
+-    latest = find_latest_numeric_release("https://download.clearlinux.org/releases/", d)
+-    package_names = get_source_package_list_from_url("https://download.clearlinux.org/releases/%s/clear/source/SRPMS/" % latest, "main", d)
+-    return latest, package_names
+-
+ def find_latest_debian_release(url, d):
+     "Find the latest listed debian release on the given url"
  
--    package_names = get_source_package_list_from_url("http://download.opensuse.org/source/distribution/leap/%s/repo/oss/suse/src/" % latest, "main", d)
--    package_names |= get_source_package_list_from_url("http://download.opensuse.org/update/leap/%s/oss/src/" % latest, "updates", d)
-+    package_names = get_source_package_list_from_url("http://download.opensuse.org/source/distribution/leap/%s/repo/oss/src/" % latest, "main", d)
-+    # Leap 16 has no separate update repository
-+    try:
-+        package_names |= get_source_package_list_from_url("http://download.opensuse.org/update/leap/%s/oss/src/" % latest, "updates", d)
-+    except HTTPError as e:
-+        if e.code != 404:
-+            raise
-     return latest, package_names
+@@ -185,7 +180,6 @@ def create_distro_packages_list(distro_check_dir, d):
+                             ("Ubuntu", get_latest_released_ubuntu_source_package_list),
+                             ("Fedora", get_latest_released_fedora_source_package_list),
+                             ("openSUSE", get_latest_released_opensuse_source_package_list),
+-                            ("Clear", get_latest_released_clear_source_package_list),
+                            )
  
- def get_latest_released_clear_source_package_list(d):
+     for name, fetcher_func in per_distro_functions:
 diff --git a/meta/lib/oeqa/selftest/cases/oelib/distro_check.py b/meta/lib/oeqa/selftest/cases/oelib/distro_check.py
-index 7545fa0c42..7add8d70f9 100644
+index 7add8d70f9..d783384251 100644
 --- a/meta/lib/oeqa/selftest/cases/oelib/distro_check.py
 +++ b/meta/lib/oeqa/selftest/cases/oelib/distro_check.py
-@@ -57,6 +57,25 @@ class TestFindLatestUbuntuRelease(TestCase):
-         with mock.patch.object(oe.distro_check, "create_socket", return_value=io.BytesIO(META_RELEASE)):
-             self.assertEqual(oe.distro_check.find_latest_ubuntu_release(None), "resolute")
+@@ -89,7 +89,7 @@ class TestCreateDistroPackagesList(TestCase):
+             return "1.0", {"foo:main"}
  
-+class TestOpenSUSE(TestCase):
-+    LISTING = b"""<a href="../">..</a> <a href="./15.0-Current/">15.0-Current/</a>
-+<a href="./15.6/">15.6/</a> <a href="./16.0/">16.0/</a> <a href="./42.3/">42.3/</a>"""
-+
-+    def test_links_relative_to_current_directory(self):
-+        try:
-+            from bs4 import BeautifulSoup, SoupStrainer
-+        except ImportError:
-+            self.skipTest("bs4 is not available")
-+        with mock.patch.object(oe.distro_check, "create_socket", return_value=io.BytesIO(self.LISTING)):
-+            links = oe.distro_check.get_links_from_url("http://example.com/leap/", None)
-+        self.assertEqual(links, ["..", "15.0-Current", "15.6", "16.0", "42.3"])
-+
-+    def test_latest_leap_release(self):
-+        # Leap 42.x came before 15.0
-+        links = ["..", "15.0-Current", "15.6", "16.0", "16.1", "42.2", "42.3", "42.3-Current"]
-+        with mock.patch.object(oe.distro_check, "get_links_from_url", return_value=links):
-+            self.assertEqual(oe.distro_check.find_latest_opensuse_leap_release("http://example.com/leap/", None), "16.1")
-+
- class TestCreateDistroPackagesList(TestCase):
-     def test_skip_failed_distro(self):
-         """
+         fetchers = {"get_latest_released_%s_source_package_list" % name: ok
+-                    for name in ("ubuntu", "fedora", "opensuse", "clear")}
++                    for name in ("ubuntu", "fedora", "opensuse")}
+         fetchers["get_latest_released_debian_source_package_list"] = fail
+ 
+         with tempfile.TemporaryDirectory() as tmpdir, \
+@@ -99,6 +99,6 @@ class TestCreateDistroPackagesList(TestCase):
+             oe.distro_check.create_distro_packages_list(tmpdir, None)
+             lists = sorted(os.listdir(os.path.join(tmpdir, "package_lists")))
+ 
+-        self.assertEqual(lists, ["Clear-1.0", "Fedora-1.0", "Ubuntu-1.0", "openSUSE-1.0"])
++        self.assertEqual(lists, ["Fedora-1.0", "Ubuntu-1.0", "openSUSE-1.0"])
+         warn.assert_called_once()
+         self.assertIn("Debian", warn.call_args[0][0])
 -- 
 2.56.1
 
