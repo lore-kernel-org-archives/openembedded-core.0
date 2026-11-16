@@ -1,88 +1,87 @@
 Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.31636.1794845357078760590
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.30989.1794845353761927360
  for <openembedded-core@lists.openembedded.org>;
- Mon, 16 Nov 2026 08:09:17 -0800
+ Mon, 16 Nov 2026 08:09:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=WxvWAPEX;
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=wlYyQ45i;
  spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: antonin.godard@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 7EAB11A169C
-	for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2026 16:09:15 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id EFC2C1A169D
+	for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2026 16:09:11 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 4C8E86023F
-	for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2026 16:09:15 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9102D11BC0D5C;
-	Mon, 16 Nov 2026 17:09:14 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id C76C76023F
+	for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2026 16:09:11 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1D82511BC0D5C;
+	Mon, 16 Nov 2026 17:09:11 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1794845354; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1794845351; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=5eZCc3AdH/ZoNFBOU9VFpsnJRGE9u1X+WEiihLqjyaY=;
-	b=WxvWAPEXrkUQXkVbdNXPK4GPCdofKOkBSK/TcdDe0grnUXxRWfHaQT4IhMU2r41MYlDd+v
-	vnbdg9UpPZ82vqQ5VNkS9a0hws1y9ZO2+4+hNcpA9Yv5B6peS0pWGYUsjueRhrOjiYhkeV
-	YtbBSXO3+PoxhHBWx6f5vkUbqVPVQeWBkZtCKkEiSc3qIbAs9ElufsrkC3vXylbyHzEcNA
-	K5UEUXb8JZP6VX8Mjt4G4tAw0PKL/tDuNOPnZ8wGWE0/WcQLHttq6V8OwTw46vaREFf9N0
-	mPzr0LyidUkubAEPBBoAV/Mh6SGcFvuSehALVZf49vM6R3g9WheNPXYC2YumFQ==
+	bh=63UKRsUAMNhEFRaDD3C2kk8yJztFO8phRJk/6OBRS1M=;
+	b=wlYyQ45iMAraXVsZwtk9CAdaQDIGqlZ+C7CXykBDZtewQzkhnuvFmjDWvEgTnhRAaLSdC9
+	mS5iDCL8KposTLJKyf8jTVDmGIQ9vS4H4TCFnRPoCjFOr4QeH97ZW3ColaqSRgby2a/hYj
+	D0xwzR1drRCzzL3wCYMtXEPpjJ6w+rVjMOXI57gIk8RB0now4Z11laGy6izU40ADuY0Zfc
+	p1vP+W7cwLLWWPuvFyouRCpJyM4D+0UjYlqpSxSyqgXaPodqYwmWGvO8sHvomfUtML6R0O
+	CSXkLD8usemmXLfhnks1OkmIJ0rOjRfpRzD86A6HzlYERUsVKBWjmuG7F04Wxg==
 From: Antonin Godard <antonin.godard@bootlin.com>
-Date: Mon, 16 Nov 2026 17:09:05 +0100
-Subject: [PATCH 07/13] lib/oe/go: detail map_arch() parameter
+Date: Mon, 16 Nov 2026 17:08:59 +0100
+Subject: [PATCH 01/13] lib/oe/path: rename "metadata" parameter to "d"
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20261116-oe-lib-docstrings-v1-7-0c894f6a1064@bootlin.com>
+Message-Id: <20261116-oe-lib-docstrings-v1-1-0c894f6a1064@bootlin.com>
 References: <20261116-oe-lib-docstrings-v1-0-0c894f6a1064@bootlin.com>
 In-Reply-To: <20261116-oe-lib-docstrings-v1-0-0c894f6a1064@bootlin.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Antonin Godard <antonin.godard@bootlin.com>, 
  Thomas Petazzoni <thomas.petazzoni@bootlin.com>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=openpgp-sha256; l=976;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=889;
  i=antonin.godard@bootlin.com; h=from:subject:message-id;
- bh=XcEyZAOjR3hj+4RgSZm9l9g6PfrNuh4CPWLUdIOiTgE=;
- b=owEBbQKS/ZANAwAKAdGAQUApo6g2AcsmYgBq+yqfDymKV3oE7Ht13dAL0xfvhuwSUDjIrZ0CP
- 87QdTUrdjGJAjMEAAEKAB0WIQSGSHJRiN1AG7mg0//RgEFAKaOoNgUCavsqnwAKCRDRgEFAKaOo
- NosfD/9llY0FJsDu1PvPND2Fn0Ms6rwK2Fs6HSzZq3w+408OTT/s6RB6DqL5xepLbE5VHPjkZbx
- QS2iK3srbRlJos3bTqVVjUiz2CjoySgRz/Xj0owhmG29DRd6JmoCzMe79r/DUtlDVJ97LqyGAk8
- yeX/ePjQrhMY3u+kliuDeJjJcQn86Awrp2CizvW8GXY6CP/U37PHxISsRo6wD9rpqYlsIMag8rr
- i5pvKWAV0lfCFDQcInafy/0s384NsHKT3u0k9mE2iY/BPbHIX0d6PSDhTvtWJeSp7OSKm9K1kru
- f9hG9ZOQsZnhZElqnnAG+6rRlSmCyyh8epEeQqm2s4RQpRTC3FViZn2eL+VAGM7eE0vBw+OQGUo
- gXbBLl5bfsVoKoSSIxkRW0T22VMFq6+KNGH9dK09Wmu/hF+dPRJ+n5dgxcAVajE1XhtRZvLSCWY
- ihVvPm/TCJYwT3xaIOwOMqbQeHS1lFXB9P8wmq8Zt0eX+71cJR5Sk/1hvA4nqTY4lac9cGvXxoN
- vT2OnQBD2fjaJikOoOsOoj5FHhekRENohfiOBbWEwLb2tHc3fOlXUv9TGH64R4o6IVVOxvVlT00
- GxreIOEdBqDcf287kvJR58meCW0++QtAhQMZgEEHmGZcfRDhXjPNrDxlHj2mbHpXGpabJWlUpXh
- dpBDBv7s6b+30yA==
+ bh=xuxTw7BM6wp9e2uzkdVZc6od/sfjSLubfUUjRQ1WS80=;
+ b=owEBbQKS/ZANAwAKAdGAQUApo6g2AcsmYgBq+yqdUSWdTM2h+1EsSX9fg3PgaikriuvpICXiE
+ EN9/qChHu+JAjMEAAEKAB0WIQSGSHJRiN1AG7mg0//RgEFAKaOoNgUCavsqnQAKCRDRgEFAKaOo
+ NkKiD/4pgr/54jKTY1T1bxM4HGb9f+o2VjUZoR9xOnvH1QJVot/IRlge7GeDmnnId45y+drUlD9
+ Lu7beaCsI6GlLh/WwSEr1QUqJfQHi8RZR3QVXF8QzQaEd8WtsGeSxDaUAQ7FAeTA4M3pBj/A3WJ
+ phiRdkt1uZx9eEmcKcK0Pf0kFFNfL3nX6aQGuVf9myHta8UZA2cdWZvA6jv4ZWOs7uzkThfpYMJ
+ c0oZl+IFsCtVKXmwAx/1Ye7HTtYhK9XFRQNpNiQkoQBsOci+cjifCSn+RA+gw2GLufk4wiowE44
+ UyjpsktAgWOVzYhtII3EWnnjLSwh9J+Nw7SpVB4mzn3ZZHQ2E1qPC2hE2AeQ1jMvHWmQB772xiZ
+ ZaKYxsEzc1UZGm/bl0v4NJnJJItlXWsCvocaPcd7A4xT+dLr2Brxewjp48vyz7WmOzDDsNI3RCu
+ 7hB5yPkkyPmfHhZM7hANPU2pIBL4QxkeovkTDaqpyjIr4jrhMXMJlQJ899/gOHqSBmU0giXXOM+
+ tCWLT4571+8McAreIf/gdoTNQ4wJ1t499qHjYikS3BECHPFEyDl6FdZLhuuoIP94JtEoBGE6NPF
+ AR7Je5n4BJHs+stgKGGIZxDLgGKLwZCozoUORrLiNEzZMiXPCLT2cv7oriOwQeFp7q1Q3Z7Sq7Y
+ h2Q5o4dBLC3scbg==
 X-Developer-Key: i=antonin.godard@bootlin.com; a=openpgp;
  fpr=8648725188DD401BB9A0D3FFD180414029A3A836
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 16 Nov 2026 16:09:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250357
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250351
 
-Detail the architecture parameter for map_arch(), which should match
-TUNE_ARCH.
+Using metadata for this argument is confusing, as almost any other
+function in the oe library uses "d" to denote the datastore. Rename it
+to "d".
 
 Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
 ---
- meta/lib/oe/go.py | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ meta/lib/oe/path.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oe/go.py b/meta/lib/oe/go.py
-index cbcf80f0b1..2a2cb7e75a 100644
---- a/meta/lib/oe/go.py
-+++ b/meta/lib/oe/go.py
-@@ -8,8 +8,11 @@ import re
+diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
+index 88d256f00b..8fe5bbc7fb 100644
+--- a/meta/lib/oe/path.py
++++ b/meta/lib/oe/path.py
+@@ -81,9 +81,9 @@ def replace_absolute_symlinks(basedir, d):
+             os.symlink(base, path)
  
- def map_arch(a):
-     """
--    Map our architecture names to Go's GOARCH names.
--    See https://github.com/golang/go/blob/master/src/internal/syslist/syslist.go for the complete list.
-+    Take ``a``, the architecture name used in OpenEmbedded (see the
-+    :term:`TUNE_ARCH` variable), and return a string for the mapped architecture
-+    name from Go's ``GOARCH`` names (see
-+    https://github.com/golang/go/blob/master/src/internal/syslist/syslist.go
-+    for the complete list).
-     """
-     if re.match('i.86', a):
-         return '386'
+ @bb.parse.vardepsexclude("TOPDIR")
+-def format_display(path, metadata):
++def format_display(path, d):
+     """ Prepare a path for display to the user. """
+-    rel = relative(metadata.getVar("TOPDIR"), path)
++    rel = relative(d.getVar("TOPDIR"), path)
+     if len(rel) > len(path):
+         return path
+     else:
 
 -- 
 2.56.0
