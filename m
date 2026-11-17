@@ -1,116 +1,162 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2086.1794939635282367084
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2093.1794939640552323724
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2026 10:20:35 -0800
+ Tue, 17 Nov 2026 10:20:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=ZBlDKkmB;
- spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-4a2f4ca0dcfso35512f8f.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 10:20:34 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=i/BxDBo3;
+ spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a210470b49so1375685e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 10:20:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1794939633; x=1795544433; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1794939639; x=1795544439; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=t029OmNeQLRN0LV5J1U3ysVuMfzHmS3is2WlNq+SdnA=;
-        b=ZBlDKkmBKeVELC4sdfu9yVn2UWVzvW1vlclnL99WFoLQRrDE0FLjmHvpQ3tDYZhXfs
-         nssdVX9PmFks8EWvYs0AoM1+38HRuw1wUu5zt9il2ZpGRDEz5d6VMixuJByOuCpw75d9
-         +y+a5WG9rZo+XpZVLQo7IbJd+Y6/qF+nZ5kGCTXktpJ9V0E8KIm+2V0Tw/zMHsUT1n0Q
-         wWqYu095CgEcsCFnS6WRKBT83FhbevlO6u38PCe4NGzh1FEZnVS0xoWbU0Cy5l1looUa
-         0xgoJG7qFBRTvnTdeq/bnmoqQTLM5Lm3JRzw5Uhe1m/ONQEqBbm3CvtBpMEXjnvCaFo1
-         UYqg==
+        bh=4Axv5gXxRn+GhnzIJ8Sa7DgnZ6sFO0aUZT18Y0NKRjo=;
+        b=i/BxDBo3Nuf5CTu+G5u8Icv8XWLOnO5cqz2KhgSkymqrBVdqqJRMPAWZF9e4RzLZ/R
+         r1nqwTL4PG71+aKVSyt5ZP74t1HxwbW6RSTzQFYrEXgpcL33sjKBqX71Co9FPOXEhF6W
+         50MMU1D0IunjjtDx/O97xGOhbnhVm5TWHvlpJQIV8v3R0g0S7Dzz1A/ZsCkYvsT2eFJZ
+         88mqSdsrhdqeh2QTwcGOMlG4/azOgEJPvPezXaGNprfrRVCveI3Bd3rmzkK0Oex5fAYe
+         XGRJ7sGsGn5xqVM6q/frBikJ07l1eCFllhGLQdZDDob6DvscAtZlLwKjBQbo5UujL8jX
+         BaUA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794939633; x=1795544433;
+        d=1e100.net; s=20260707; t=1794939639; x=1795544439;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=t029OmNeQLRN0LV5J1U3ysVuMfzHmS3is2WlNq+SdnA=;
-        b=BWQuJmkgumb5I0JwGimZw309eZixWH8Lu87eTK9R4b9TrqvEODqD0e6WViza+Mnuyf
-         L+o3C+eSUmr3bERRyhG0kca7mNfyK8s8tgWOAjZGRCjMSJFhxm5UcHR3pszu64A/A13U
-         rv04/WQG//0sfVPDIXFiPht3OKGxgyV3pX1RJksJtqGXLZCWvLxFaKwcoWMsjtk0jwHB
-         uO9euBJYL+yiXPYEwpheg0yeu6LB76NJBhoFZxShBVeoJVCCt/19g9t1GPbYO1DKbtFm
-         2RZNOSBU+8ZKtZKsAAhLKwZxhZv0gqg0EmsS+8lCxPskOoJtHqv4yDvi4DkYi0ImZ2mo
-         dXbQ==
-X-Gm-Message-State: APuU4Z9lZ/xjMWTfq+bx0flkUtqiTe1uBznbrZl60GiDTNTGzke7EzVq
-	P6RB5N8iMVKFDLJgo9ylruOpnBmvCInWVfymUGiauZ3iGum6UTxbKIlyOWRxFRGXUH2nRIJ4owM
-	Q11rw43I=
-X-Gm-Gg: AZFdTZfSpXNtKEGr4SxrFlRKTv9qmg3XC74PR8uiMJ1nJL5NFB2BAGwl99AVFruHtQq
-	JMlUNt1yKycjbEghacT7H9XybBGOfc6JYVWMDIMW+0T9iOKPaJLzVsJ1lCg2yaJb92i+LoNsqPN
-	w4vRPmWJN1NRSubWwR8mFDCyISJhI4cWAv2mK1RClMAfyYGYKGAl35B4arvCshy92p21UczN5ZZ
-	Q13RjPKaKluZ7CJyxSryfK5XeWMRJ5g7Jl/caks7/8rMLRbteUsiokK7lFqU35gXDh/ZJZLvYXs
-	zkC8a1lVl52BVmAQxlMuYFcmr2BhXFHXRS32/dJk9vV8KzPBxoY2XYmPqyIiVCpQ07/r1u7Zlbp
-	f5xtNhJyCtTnLB1XNGlEhQVOUbMSKoGuSLoB3XaMuM2D8t1mtl8u5tK1RD/Tmo2Hxd5SLv0F0VT
-	7ej6s5VhcKdTXCUw9OA2ZuwpLSmvWsZNRmn+q/VhkY5Ki8Li0ShowdkQmWSLzWftuIwDaU7f2iN
-	dytrk9AZYZtDa57W4jENg2llSRt04saZouq300GDXgeU3tJAkJ8irNFTB2UwfWInNaIKAi20YyF
-	wC8XI3hNvpIF2qvTSVwVmVNnfr/5/eKu2o+NaM+Ba6QOvS5D+q6luE1o02BOaruSrcrF8AxG0uw
-	6jMq7UxmXRkB1CqDF9oXq0QChtOrNc1OqvgVnDvvzWs2NMKKgLw==
-X-Received: by 2002:a5d:584b:0:b0:48d:e101:5707 with SMTP id ffacd0b85a97d-4a63c657c97mr620212f8f.13.1794939633339;
-        Tue, 17 Nov 2026 10:20:33 -0800 (PST)
+        bh=4Axv5gXxRn+GhnzIJ8Sa7DgnZ6sFO0aUZT18Y0NKRjo=;
+        b=r1nPG1AEh8qlknK3uJg84TtXyNjlHm9IBQpXgJFQ/dbqBB17ld5/kZGbmzlgVP+IbO
+         sDlTGhlWV1Wz0t8uam3HoZP29AWTE4+wHWfOn+WlC0zasrOEvuSzJl3tdJ06zt2UpSok
+         9JwqCGb3UDoaII1o7F2L54C3BlWH68WVO6gLXIAox8nLXQkz1OwWpyqe87s2JsX5NGo6
+         qCccsO+qmTd8dIVBUeIB5n8YdDK1kUg6c3l7kJ6LigbyriBP0rMdY5p+GqgtgzJTtHhX
+         XQ0yYr4NiRFPRDUOIoP2cpKm1LtrZeM9n+twAFh+Mn+dyySGdl+q5ZZ27oCBXvUlK9SR
+         xXjQ==
+X-Gm-Message-State: APuU4Z+B/+l3d8/QpL19IY+SJF56BpJ92Ns0+1SWoXegkGhnPj3PFHpa
+	pQC/ZhlxDZ00LXCy0N9EGh1rAIz2K6d5IdQfmGulkPSO97xraZWYJfGRQlw5xBkbzYpZpszZuGu
+	hsqGWoxs=
+X-Gm-Gg: AYBFou3n+F4KeDpPCTW944v1hw9zGtWySZe9uZmeB+AAtIbZx8b2Xxn0p1rilTPJ3Wv
+	Z6YXmI5ypKRYHPhU+e5pXWatZOJjgrqPVroLK4zBodKusHWGgDAnvum6azngtSCrofdIzOAdvfo
+	ykDJMbm5VUdHUH3ZdWF6AFUPX612gbwBfn+Ih9c/A8dErcTiwyf7AISmfkwOuUmoc21T8Cv41kB
+	zmpGOAbR3HhZJe1ct0ClYIGb4rl3cH3HEKroY+U8Vr/zK0qb4WIEZKoBXgjB9rZa15E9QiOv4J/
+	x/LTpe2H3tUfydYNoRrP3FGJDGqamDMwTir5n+RcpWtjF3k3yHmIskFYRBxkWZAnLYFiw3tWc34
+	ti950qrzyRglEZFGsm+wInaZnXsjwRtsuaAy2D0OfxZ/ptz8zMq36N0aDVuuRGgOyEhTysbjEXY
+	P/d39jg92w+PGX894m1KUZwadkDQiHqHNgcZxF/lSNHcsCft0ZqTSMMAUMv7vIOU7sfMRNIzbI1
+	HNbvt/XDkehl9RlLNyUwyiyCWvwy+fY3zNM2ku98C00TglibXBqs9gG/6aHn6fL6HQSjg3wBWKI
+	3zt0MDqXeiTARq2zh7Cc1DOMy+bflMjUFqbicsDv27FCTwRH7vc2Q6lEu7ME7xXtEgWcpPsO+ln
+	041fItc3IEAfm5sbAfSjaZKiAyUJT
+X-Received: by 2002:a05:600c:5395:b0:4ab:e27d:e241 with SMTP id 5b1f17b1804b1-4bb55a95d09mr301752865e9.15.1794939638723;
+        Tue, 17 Nov 2026 10:20:38 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a654997681sm114337f8f.15.2026.11.17.10.20.32
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a654997681sm114337f8f.15.2026.11.17.10.20.38
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 10:20:32 -0800 (PST)
+        Tue, 17 Nov 2026 10:20:38 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 01/17] pseudo: Upgrade 1.9.11 -> 1.9.12+git
-Date: Tue, 17 Nov 2026 19:20:01 +0100
-Message-ID: <0abfc2d49408b51896ab9eeed0bbd2da3f0e6e7a.1794939400.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 09/17] curl: fix CVE-2026-92389
+Date: Tue, 17 Nov 2026 19:20:09 +0100
+Message-ID: <d9d7a4890fe547684238b3ea99ac29286df4c999.1794939400.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1794939400.git.yoann.congal@smile.fr>
 References: <cover.1794939400.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 18:20:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250468
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 18:20:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250476
 Content-Type: text/plain; charset="utf-8"
 
-From: Yoann Congal <yoann.congal@smile.fr>
+From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 
-Switch from master to the pseudo-1.9 stable branch.
+Backport patch to fix CVE-2026-92389.
 
-Changelog:
-* pseudo_client: Fix xattr/rename handling with empty paths
-* ports/linux/guts: Add open_tree wrapper
-* test: Add open_tree test
-* ports/linux/pseudo_wrappers.c: Add syscall support for open_tree() wrapper
-* test: Add open_tree syscall test
-* test: Add open_tree_attr syscall test
-* ports/linux/guts: Add open_tree_attr wrapper
-* ports/linux/pseudo_wrappers: forward pre-init syscall/prctl to the real function
-* pseudo_util: bound pseudo_get_value()'s recovery re-init
-* Makefile.in: Bump to 1.9.12
-* ports/linux: Add missing header
-* ports/linux: Fix header ordering for Ubuntu 22.04
-* ports/linux/guts: Fix uninitialized pseudo_path in open_tree wrappers
+References:
+  https://nvd.nist.gov/vuln/detail/CVE-2026-92389
 
+Upstream fix:
+  https://github.com/curl/curl/commit/63dd390fab905a239a97e270
+
+Tested with ptest:
+Before: PASSED: 1006, FAILED: 0, SKIPPED: 0, ABORTED: 0
+After: PASSED: 1006, FAILED: 0, SKIPPED: 0, ABORTED: 0
+
+Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-devtools/pseudo/pseudo_git.bb | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ .../curl/curl/CVE-2026-92389.patch            | 53 +++++++++++++++++++
+ meta/recipes-support/curl/curl_8.19.0.bb      |  1 +
+ 2 files changed, 54 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-92389.patch
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index d8466b018e1..02e86799f7b 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -1,6 +1,6 @@
- require pseudo.inc
- 
--SRC_URI = "git://git.yoctoproject.org/pseudo;branch=master;protocol=https;tag=pseudo-${PV} \
-+SRC_URI = "git://git.yoctoproject.org/pseudo;branch=pseudo-1.9;protocol=https \
-            file://fallback-passwd \
-            file://fallback-group \
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-92389.patch b/meta/recipes-support/curl/curl/CVE-2026-92389.patch
+new file mode 100644
+index 00000000000..012b746e0cb
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-92389.patch
+@@ -0,0 +1,53 @@
++From f39da43ecdf06680a851ab00f3cace9ce8b90afb Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Wed, 16 Sep 2026 23:46:44 +0200
++Subject: [PATCH] tftp: verify direction in a few places
++
++Closes #22974
++
++CVE: CVE-2026-92389
++Upstream-Status: Backport [https://github.com/curl/curl/commit/63dd390fab905a239a97e270]
++
++Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
++---
++ lib/tftp.c | 9 +++++++++
++ 1 file changed, 9 insertions(+)
++
++diff --git a/lib/tftp.c b/lib/tftp.c
++index cc0769bbb3..fca77b71cc 100644
++--- a/lib/tftp.c
+++++ b/lib/tftp.c
++@@ -361,6 +361,9 @@ static CURLcode tftp_tx(struct tftp_conn *state, tftp_event_t event)
++   char *bufptr;
++   bool eos;
++ 
+++  if(!data->state.upload)
+++    return CURLE_TFTP_ILLEGAL;
+++
++   switch(event) {
++ 
++   case TFTP_EVENT_ACK:
++@@ -768,10 +771,14 @@ static CURLcode tftp_send_first(struct tftp_conn *state,
++     break;
++ 
++   case TFTP_EVENT_ACK: /* Connected for transmit */
+++    if(!data->state.upload)
+++      return CURLE_TFTP_ILLEGAL;
++     result = tftp_connect_for_tx(state, event);
++     break;
++ 
++   case TFTP_EVENT_DATA: /* Connected for receive */
+++    if(data->state.upload)
+++      return CURLE_TFTP_ILLEGAL;
++     result = tftp_connect_for_rx(state, event);
++     break;
++ 
++@@ -1074,6 +1081,8 @@ static CURLcode tftp_receive_packet(struct Curl_easy *data,
++ 
++     switch(state->event) {
++     case TFTP_EVENT_DATA:
+++      if(data->state.upload)
+++        return CURLE_TFTP_ILLEGAL;
++       /* Do not pass to the client empty or retransmitted packets */
++       if(state->rbytes > 4 &&
++          (NEXT_BLOCKNUM(state->block) == getrpacketblock(&state->rpacket))) {
+diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
+index 744c5ed0ab1..8f1caebb973 100644
+--- a/meta/recipes-support/curl/curl_8.19.0.bb
++++ b/meta/recipes-support/curl/curl_8.19.0.bb
+@@ -43,6 +43,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
+            file://CVE-2026-87864.patch \
+            file://CVE-2026-92388-1.patch \
+            file://CVE-2026-92388-2.patch \
++           file://CVE-2026-92389.patch \
             "
-@@ -12,8 +12,8 @@ SRC_URI:append:class-nativesdk = " \
-     file://older-glibc-symbols.patch"
- SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
  
--SRCREV = "ba8887e5f1e922f866681ec7dec1a00b602a9328"
--PV = "1.9.11"
-+SRCREV = "e627b0dcb639f387db935fae1f9b93b30cded5e1"
-+PV = "1.9.12+git"
- 
- # largefile and 64bit time_t support adds these macros via compiler flags globally
- # remove them for pseudo since pseudo intercepts some of the functions which will be
+ SRC_URI:append:class-nativesdk = " \
