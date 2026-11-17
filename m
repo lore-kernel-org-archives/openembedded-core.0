@@ -1,51 +1,52 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2097.1794939644264425076
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2091.1794939644948836100
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2026 10:20:44 -0800
+ Tue, 17 Nov 2026 10:20:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=oenbm9cX;
- spf=pass (domain: smile.fr, ip: 209.85.221.47, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-490f38e9688so3496f8f.0
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=SFwbjLzM;
+ spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-4a2f4ca0dcfso35592f8f.1
         for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 10:20:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1794939642; x=1795544442; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=jT7JiUgnys1LpVghCFuaZq/QCy60QY6sAFk8F4wDZOA=;
-        b=oenbm9cXMsYJgu5K8YsEmTSzmVT3ylVi9LlGxnEtzKD5MMp7/Lg6KiCRbmVSwJvmUv
-         wEeksUFZkDRQsg31pMXkismzij8u16UedhSCdVlLqGj6klV7v+M5A6AEbUOqbMWQda2J
-         zKKYWbQ2q3YqkLI4nuLt7fEhWRV9270RKQuWuNkokn0VMcEzV+RoVKp/Q4LlTm2DpLJ+
-         CXFCu52vVUJJUC5+bnuGZX0myJCYk+d9/rVZ6ZNMQoGI+kAxsGgCrjUyQh4OfPCU2RoW
-         CAvHtRg02PJBm/GCIHJhuEPVRhYrbX3tfj4KDLNL+YwnyapjZEMJs9JUzNy8/TfO7eVz
-         Etpg==
+        d=smile.fr; s=google2; t=1794939643; x=1795544443; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=vQIjwBqlecGa6uVsqqr7TsxIuwNMwFYwlIj9P1euRgM=;
+        b=SFwbjLzMjxBm+4j3jv0bGtdwduEg4VuSC7bH2oKIRG+nsXZOFuQMAIdAt7ap55QyMs
+         wFjVLK4RinyqlJ10MYwC1TAY6aGN29o7gS+y+6B+8DyUlQ2pB5ddhdWVn6+cYfJHUB28
+         EgOvVdfX/OoJjPme6WS1+wJND7gRR+YcYxeJBWVtzfs9kHTGOXZrBWwujT+e6m/Bt5Dt
+         wBPbKD722/d0l5UYDZwYMuz68m3oR1vqKmV644v3m6weTZO4ghky+6fxF7w7DUShxr8o
+         J6CEg8nHrgu8knRDzi0L4cbnEbq9ncITC1S74iUnisyOlTVPEVThfd+dBQeciHp2757r
+         ou7w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794939642; x=1795544442;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=jT7JiUgnys1LpVghCFuaZq/QCy60QY6sAFk8F4wDZOA=;
-        b=yPkp/kY5SDRa2Jdmf5hCqlwuUy4gBh1BX4hvxFu2iQc8ybkBBFi175O4ihbQEMUMhX
-         VI8chQA2KnzSTeDOhr7vq+AYKLfWSO9DUERgRY99mqDMKhaDydvHyGb+biCPU2E0EIJw
-         Dnyj08MIR84mpxKLB/GOdvvFD2Ytx/PwilHmaxSkBp6O6LO3Wmb9pDjrfb6MoCgaezEr
-         0z3CiNGB4dKmntLvG93VloMJgVKPFeMC0YL//zUwoQT/GSKLYh1+dTVwWPscKHInfFRb
-         hSI1Mt4QJ9gZQy+dvpEkbRZi5i0Sky/qD/+6Bd0Ng4XtKV39Vqi2Xj4zxR2pvgLMB6Q+
-         4BoQ==
-X-Gm-Message-State: APuU4Z+TAVDVDLXusmM10jUhxiQmv24vTTFYS4fgM8SIrZb1hDuvVJZL
-	l2MBNhxQ8pdqU9DFhrsxrl1DsalJhluKq87bXa5ZN7deAgikirRVn4NcJpRWZ523ewYP6EDYiy/
-	GAITSaPk=
-X-Gm-Gg: AZFdTZcpBmakCUDbzk2J5MBiu3L8IJvi0HND6/Xms2wVGFEoJghMl2YWqgF/PD3LYpw
-	eW76OksOQGIq02AX+gFCAX7ReW0mFqRQwMXBvlutEnyxO5YggMP/qHQg57nVy4s97YppiYL+0u+
-	bk2cCXxV4YoJT/ICRCN2kXfJDWI8W8ciMNiT9tc9bDxg6REyPsLtMtqdDVzdHu6dDXniVzwKu5P
-	ecGW3gc43AIvo0b42+8x284mJTSR2OWjb8kYdMBumq2M3Xt+jbctGSUnN3p7sqO41dSt5xGPpgc
-	xHpFPY0yuzRIhdhv/1SH21RcMlqF3PNDhRrA5GeUaYxlso3raqqy+M8XI/RU87WbKQtGmdrpuBf
-	eucd0Md96DcRAvdqdMSG5fAJp+ft11AxW8f4bN8qrhohTo4qpnOmX4JGv3msWD3yEkxFV2g+Sre
-	aJHbxcjnEZOv/DR86SQFgoCdIDgO8i4801hQSmkhTWZiVqqk8BkKRZI+hqUCzMZeKG+tVyyQfDx
-	/TI6wFYZSuP31R3Q+kPJG5c4GsFg50qu8b4WvTXva7dbEUF8T30j8JM01sPC9/5pN1SqKmlW4yg
-	gS7B2ayYPOetPBtoXZ7MqjzDAi4BuZ2kc9akOI9bIIxLxKRbdNNO196IkHdsvUIBEuL1haQQ0NY
-	kmiLiT+hkwLm4S2wC5lST9XJUWk4X
-X-Received: by 2002:a5d:6f03:0:b0:491:632f:2c8f with SMTP id ffacd0b85a97d-4a36c30c6d1mr8096538f8f.2.1794939642483;
-        Tue, 17 Nov 2026 10:20:42 -0800 (PST)
+        d=1e100.net; s=20260707; t=1794939643; x=1795544443;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=vQIjwBqlecGa6uVsqqr7TsxIuwNMwFYwlIj9P1euRgM=;
+        b=xDrzTLkwSrW+c063g2pSS0L10n2yncaVP/a4wiQZAMp4lJKUOVzvBeiTPEV6BljDqO
+         oJbZfxim+Gb3l2DwQPQ0ZbmKvsMHC2d+ubixqstt72osPou0lbKibMP8UNOIXz7Kmt4f
+         b3d8Km5ILRvVAVaZ/s86OnF3cIKXlNcVc9yu4P5Ir6rYhH+zwz05JCcPThg8Kt8Cc5IB
+         teCbF7oSrXaLNNw8nYOpkduvlLwAlhWCB7sVw5cIEpcVmzk2uwr2Zo4wu3CZtDU9ilpE
+         mcAnLkDJW3cx6y/18jNDnwZk/RhszXtvKm/k9uZzyGvtyzMtG55S50bUYnyZJOAIqpAa
+         M99A==
+X-Gm-Message-State: APuU4Z8G7J5y2mjZaQLMBLdOa0nKBP7RubIyRw/3fxVrfsBXFkTQ+FyP
+	jO0NRgY9XXdK4n3WTDsDO4lDOnRBjkrJEy5Ps1yGsQbM3+95eGFlWw1ZP8d1OtpkUycgBTlb+eb
+	D7vm+lMU=
+X-Gm-Gg: AZFdTZfO+FB1LO7CY6MVUsjqfrjZZZhwKAXDWGlMB8JIu+rb9mCpiPE7KX9SImeYi+u
+	faHg/uCvXDQ0RZql+pOrztGJnWdT5c9Oiv0DIyH+m+G9GLbapybmPsRDtNYgmbNQ8azZPTGkkdS
+	DB34OoluEMSIk914/hcV2tyUlosaa1UYGBJEcFL29D3Gw1sHD/bOG/qNoZzSs+LVetZr2IwkYAV
+	Q3ZNtXM6cDpF/I1d0uFSm5Tp8AtsXGWwA0kzMdXEhMIsDDNMjzv7mx/LQF3lD6FV5c6vy1a0boK
+	URPt/8bJzKDRsvAIFJbt/fuRzsXx6sXfm51ClApoS98mqXa+w6+T7h3ARBS4f118+NRFhywlDAC
+	Vajc9kXYNBF2KHOjE53mBxol1s046JY9RjDZf5Af5MMtkRHkU4prrZhxNryOS/2d6kDWYtno4yU
+	fLXEHmbWLFiR7XTseugJu3F5jyYdX40UwBrwXoqVFVnqfQFHht6j/CnDCrSyFZ/e4IXw+7MAO1G
+	Y1fgg51EFO7X5oZASdVZBO39Ml+USMZKLk2WhwQ2NplhOo/QJmQzQh+ICw0+eDrtuI5IFfMLmdc
+	Y0Cw05Knws3UK0HqB63gym6bS6pQKYwioF4BiS9+ecA5EKqEWAyHr/63wpZVkx+QnSRIpd3r5TS
+	4spluLe5wjCO59ZhTBENRrvvGLy+p
+X-Received: by 2002:a05:6000:46c5:b0:48e:6357:c76d with SMTP id ffacd0b85a97d-4a63d2cf09cmr367227f8f.21.1794939643081;
+        Tue, 17 Nov 2026 10:20:43 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a654997681sm114337f8f.15.2026.11.17.10.20.42
@@ -54,9 +55,9 @@ Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wan
         Tue, 17 Nov 2026 10:20:42 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 14/17] bluez5: Abort continuing response on fragmented CT replies
-Date: Tue, 17 Nov 2026 19:20:14 +0100
-Message-ID: <372694226d700cc616965e7c1c14f7c1e78e7847.1794939400.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 15/17] spdx30_tasks: Fix duplicated revision in Git PURLs
+Date: Tue, 17 Nov 2026 19:20:15 +0100
+Message-ID: <c89778d7b63f5badc1d6d9b52c78c3b0f8e3a41b.1794939400.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1794939400.git.yoann.congal@smile.fr>
 References: <cover.1794939400.git.yoann.congal@smile.fr>
@@ -64,104 +65,52 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 18:20:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250481
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250482
 Content-Type: text/plain; charset="utf-8"
 
-From: Shuai Zhang <shuai.zhang@oss.qualcomm.com>
+From: KAZUYOSHI AKIYAMA (秋山 和慶) <kazuyoshi_akiyama@jp.honda>
 
-Send AbortContinuingResponse when a Get Element Attributes reply
-arrives fragmented, as the CT side does not reassemble fragments.
+_generate_git_purl() generates invalid PURLs of the form
+`pkg:github/<owner>/<repo>@<rev>@<rev>`.
+purl-spec only allows a single `@<rev>`.
 
-Backport upstream bluez commit 249e2bedf ("avrcp: Abort continuing
-response on fragmented CT replies") to bluez 5.86.
+oe.spdx_common.fetch_data_to_uri() already appends "@<rev>" to the
+download location, and urlparse() leaves that suffix in parsed.path.
+Therefore, the parsed repository name(`{repo}`) includes `@<rev>`.
+So, need to strip the revision suffix before splitting out
+the owner(`{owner}`) and the repository name(`{repo}`).
 
-Fixes PTS test AVRCP/CT/RCR/BV-03-C.
+While here, replace str.replace(".git", "") with str.removesuffix() so
+repository names that contain ".git" elsewhere are preserved.
 
-Signed-off-by: Shuai Zhang <shuai.zhang@oss.qualcomm.com>
+Signed-off-by: Kazuyoshi Akiyama <kazuyoshi_akiyama@jp.honda>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit e31479ddbaf58d5c2eda2b0051e1a821d46e6f7c)
+Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
- ...inuing-response-on-fragmented-CT-rep.patch | 62 +++++++++++++++++++
- 2 files changed, 63 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-avrcp-Abort-continuing-response-on-fragmented-CT-rep.patch
+ meta/lib/oe/spdx30_tasks.py | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index 0783a5c28dc..7583b34fa6c 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -83,6 +83,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-            file://0001-obexd-pbap-Fix-u128_to_string-skipping-data-4.patch \
-            file://CVE-2026-19774_p1.patch \
-            file://CVE-2026-19774_p2.patch \
-+           file://0001-avrcp-Abort-continuing-response-on-fragmented-CT-rep.patch \
-            "
- S = "${UNPACKDIR}/bluez-${PV}"
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+index 862e57c3d12..62fc41f51a0 100644
+--- a/meta/lib/oe/spdx30_tasks.py
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -425,11 +425,14 @@ def _generate_git_purl(d, download_location, srcrev):
  
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-avrcp-Abort-continuing-response-on-fragmented-CT-rep.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-avrcp-Abort-continuing-response-on-fragmented-CT-rep.patch
-new file mode 100644
-index 00000000000..68f824deefd
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-avrcp-Abort-continuing-response-on-fragmented-CT-rep.patch
-@@ -0,0 +1,62 @@
-+From 41a00c93baa48cbd63b182b853e93a946962cada Mon Sep 17 00:00:00 2001
-+From: Simon Mikuda <simon.mikuda@streamunlimited.com>
-+Date: Tue, 9 Jun 2026 23:26:56 +0200
-+Subject: [PATCH] avrcp: Abort continuing response on fragmented CT replies
-+
-+Send AbortContinuingResponse when a Get Element Attributes reply
-+arrives fragmented, as the CT side does not reassemble fragments.
-+
-+Fixes PTS test AVRCP/CT/RCR/BV-03-C
-+
-+Upstream-Status: Backport [https://github.com/bluez/bluez/commit/249e2bedfacf51fc6c89f43a0adb9a12d761c2b7]
-+Signed-off-by: Shuai Zhang <shuai.zhang@oss.qualcomm.com>
-+---
-+ profiles/audio/avrcp.c | 25 +++++++++++++++++++++++++
-+ 1 file changed, 25 insertions(+)
-+
-+diff --git a/profiles/audio/avrcp.c b/profiles/audio/avrcp.c
-+index 326dfda..557ed97 100644
-+--- a/profiles/audio/avrcp.c
-++++ b/profiles/audio/avrcp.c
-+@@ -2466,6 +2466,24 @@ static void avrcp_parse_attribute_list(struct avrcp_player *player,
-+ 	}
-+ }
-+ 
-++static void avrcp_abort_continuing(struct avrcp *session, uint8_t pdu_id)
-++{
-++	uint8_t buf[AVRCP_HEADER_LENGTH + 1];
-++	struct avrcp_header *pdu = (void *) buf;
-++
-++	memset(buf, 0, sizeof(buf));
-++
-++	set_company_id(pdu->company_id, IEEEID_BTSIG);
-++	pdu->pdu_id = AVRCP_ABORT_CONTINUING;
-++	pdu->packet_type = AVRCP_PACKET_TYPE_SINGLE;
-++	pdu->params_len = cpu_to_be16(1);
-++	pdu->params[0] = pdu_id;
-++
-++	avctp_send_vendordep_req(session->conn, AVC_CTYPE_CONTROL,
-++					AVC_SUBUNIT_PANEL, buf, sizeof(buf),
-++					NULL, session);
-++}
-++
-+ static gboolean avrcp_get_element_attributes_rsp(struct avctp *conn,
-+ 						uint8_t code, uint8_t subunit,
-+ 						uint8_t transaction,
-+@@ -2483,6 +2501,13 @@ static gboolean avrcp_get_element_attributes_rsp(struct avctp *conn,
-+ 	if (code == AVC_CTYPE_REJECTED)
-+ 		return FALSE;
-+ 
-++	/* Abort fragmented responses as reassembly is not supported */
-++	if (pdu->packet_type == AVRCP_PACKET_TYPE_START ||
-++			pdu->packet_type == AVRCP_PACKET_TYPE_CONTINUING) {
-++		avrcp_abort_continuing(session, AVRCP_GET_ELEMENT_ATTRIBUTES);
-++		return FALSE;
-++	}
-++
-+ 	count = pdu->params[0];
-+ 
-+ 	if (be16_to_cpu(pdu->params_len) - 1 < count * 8) {
-+-- 
-+2.34.1
-+
+     for domain, purl_type in git_purl_handlers.items():
+         if hostname == domain:
+-            path = parsed.path.strip('/')
++            # oe.spdx_common.fetch_data_to_uri() appends "@<rev>" to the
++            # download location, which must not become part of the
++            # repository name
++            path = parsed.path.strip('/').partition('@')[0]
+             path_parts = path.split('/')
+             if len(path_parts) >= 2:
+                 owner = path_parts[0]
+-                repo = path_parts[1].replace('.git', '')
++                repo = path_parts[1].removesuffix('.git')
+                 return f"{purl_type}/{owner}/{repo}@{srcrev}"
+             break
+ 
