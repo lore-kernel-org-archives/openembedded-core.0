@@ -1,116 +1,164 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2087.1794939641979607046
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2088.1794939642762287659
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2026 10:20:42 -0800
+ Tue, 17 Nov 2026 10:20:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=NB6GwD28;
- spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a2153c8525so1316955e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 10:20:41 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=Cqai2tgy;
+ spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-491971ac844so60461f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 10:20:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1794939640; x=1795544440; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1794939641; x=1795544441; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=Nn1POX9cODFBsi8LJZ5H0Fcx+g7gS/zRsD1UY9XygMg=;
-        b=NB6GwD28jkwTjBCW/9gmJVSeypE+99Ax6n+VP64Qj6MUOHd2X55HfZEyn8i3EqpNQR
-         V5KVrcFLu1pkA1HaydUM9ejGRLRndqwsfJymeDMgLD/GXtj5x778cRyw/MRXJdylhUvn
-         L0/marwTFaSYP+b0wFgUhwQThthNlMVrvpCb7PzAIW1KtZet6Sl3SWLIhq9YfJ0iwYwH
-         aoarGbshzpWVtCNKMlJE6FABVEPZGdxslumbD5xKim1JrzVQQ+7tYJB+ZZBda3TbJb4n
-         zeXFPqbk+DYq1xgGFqAmiM2+MBvQkvXMkgToyCb26hGKLIUaZRdyqyi+WD/pFw3yLEkR
-         iIpA==
+        bh=i4Avd3qZb61e1+PVUdwRfhgczriYbqnLiJ00cXa6DLA=;
+        b=Cqai2tgyZ6qa57MZvNQhlUBLV0kfOfpbEgKCbvXP/6ieDywBV+V+M0K6zLXM9736m+
+         KDaoHEmHyhDd3jzm/5cAslhPSOGNsqLWrJBfKSnK8GRApolKDPF/igJku/oxnBNi5gAu
+         S2gHKARCp5YAccVkBcTxK0B3J0ESoFsh7IC7fQ8Tzqp8Hgt0ze+Up5bGfqkSgYIrlhtq
+         qEf5aUJOSWoKRlb4RvRItkN63oKiK1bZW2r3RGMUkaEGcFZgPuDVApXIt8oYLFFCL8Zi
+         OJBCS96NHWF8BkdYmsVDzohzPiNpdBoUIXo7X/hj5hyHutQc2fIYhXltol6hnaGTDhuQ
+         2Mbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794939640; x=1795544440;
+        d=1e100.net; s=20260707; t=1794939641; x=1795544441;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=Nn1POX9cODFBsi8LJZ5H0Fcx+g7gS/zRsD1UY9XygMg=;
-        b=DuIoXVw42tAMB7+y7Vz7QgfKEhV5inuKo4hWHXQ5tYwMeTPbr+R0vaIm4b0nFnK0LH
-         JapGjD1XaHW76Z/prYd/+e1/WgvC4dWluvHzQhYxcr8C5Q7QdutGaqVNVrh/me+Q4n7G
-         92umIbhZOYomxpsl9U0jx3S3t/FPkAK7zk9Q1mlVKmZxLwPjv3wjXBAgbC1P+bOxbU+m
-         +pwx0GOSw8eef9gaTddUSF6CuvEEOLJEBz5EhQeGs3BNTR5MAl/mziLLle9OZc4YEDr7
-         68Vx50KUgkJZoIXxht+QyBkFJEH2tlf9N4DEOFi3t6Et3k4RSgngs6IbeFeeoNTg34S+
-         grag==
-X-Gm-Message-State: APuU4Z8XyPUeQgJgDW/K66Pav5i2npkxi1zcGt0tG1PIe7wEjrZWTbwS
-	7/GUnd29RFKe/m00wzPYJ88zWoDEpPe+2uSl2XUY27ceixVAXDEKelKhx1TZ/yCVtbeleW3MyYb
-	yQYo2drs=
-X-Gm-Gg: AYBFou3yCpSgnoJWy209I9uy/DEBIgeBkKFxkbMmKxyMH1Dma5/B8ZOMEDAwqEGjCH8
-	DMyEuI1pyI50wdb/vib5L7fSq93gvrJMixIYvSnJ0OKu1Knt82OQCuyMFmxhbGoQYCYNBS7mSTE
-	2ZA5ZkSl81W4QmMuqcuOp3bA7STH6IkP7Hnhj1V+pPzFsNbJDgxQJwZ3hEb1hdlzLW9uvcxlmBS
-	CkP2CcptBL67Ltl/FN9uK99/cK2owR7XmBjNDiRowaXeyPiBiYHrc+bO/64Sh7rBt8EHSkNYaXr
-	ozzX7hTIrVY2ugkS+n9hAcKvQPSxo6EE1WNxKD26cTfnavNH84a0KZjwQjeXv3toByhx9TYO2kO
-	GIu8J20c9dykQZTfPDhk2L4m7ARgcpz2XHOp8ei2xb+FZotQihtBUrc45pTQJpchoab2Oy04HsJ
-	p2UCkiP23Dr47XpialHeMLmA+3PpMTrCEVT7BseA+TbH2iwLEpeIEDc/FDVwGyLzTvpFuyPocl4
-	jHB8e/aBiR6W3AGxlCiwp7Y1Xl23SCgP+ia8xw71qUcmqcRkh2aHmrrHhuJex8jnvz1iKtZIZtP
-	PyJANuWEJooI5kZEXnQQ/DyWUPr3O7phujvum106rNjSuNNBuInaY+vQLpp/2GFWg53lhtUkXG+
-	gEo+UAQcFXJ6Dshgyez3q/OfwMr7p
-X-Received: by 2002:a05:600c:34d5:b0:4b7:6942:39bd with SMTP id 5b1f17b1804b1-4bb55ab1610mr297476495e9.26.1794939640040;
+        bh=i4Avd3qZb61e1+PVUdwRfhgczriYbqnLiJ00cXa6DLA=;
+        b=lc/jpPsbF1W1K6kA2eZESabEHY3FWYSIiUKK4WacQi/aGMKV34QgmQFTzGVd4t8n/B
+         iUGP++84pKqLAwatM6F/6YqaHGrPXkZa6WV9u+F1C8JAdPakLneLoUDy9cUDAFo9kmAQ
+         apvLEMSyuf26/sFUIHY6DWeiZG5XTiJl/HTYMWF7akZKJb/a3Nr0a1Q7hXSUpNz0lwhC
+         J62hWLYEqk09e5Ie59Ta9DbGl6vbO9zMcycVcnx476RZCLiZwnepvISx8OisUR3UzN0z
+         iWcvIsoMBUOl/a3Bt/36pXa41WBWTCxnv9h8sDx4cCRA5VZF/7ZVDTgu8c6BsZKryH4w
+         zOAA==
+X-Gm-Message-State: APuU4Z9hy1oh0NLNsSzNp6buU0u/ciuBiu0uilJEMaUizLNBWK8xuHAm
+	VzLLE5zlKskR2jaFgREo2vxYCaFRLlum2c4RCXTyNuYYqlL3aoH+QfqBnm60FAeozAqqxyuBhvB
+	TyqFuzjQ=
+X-Gm-Gg: AZFdTZcj9Fzp0/2rM5+rFHTLNCYQYp0q2JH4k35oU+WbyHBsvKPDzujSX0rsXbeS04n
+	AhaIxB+LF8foDoE8ymtaNVgHfYVtOfFHgQNeRxseV42xu/e/OsRacILkLVGlWJDcOvtW9p4XLMz
+	ngebGOL4FfYUdjYnA/PnMgJepjbZyCYuXwFybOMmdhNGHIYh4pb9vQ92UoPhoqIPiGMlT861ahU
+	tFhkYs527e2vFOffU+3mmHZaEj6fZCxPUppjyYaXCTHUNTJg+0fR6qnG4RKiXZzrC/EZKj1oen2
+	uI+LOszLgQw6rZjQh96Q2C7MXiNxHZbj3LIOHQh+K2yU6nF0a+VYu2BPczEDBaTyXuUNxJrpHVC
+	teBOgq1XKWq8Y+8sgiwJElAt0MkRny3wGKyrPxBt5eQf0xTtE8rTdNi0pVHFI7cywWy+dsiXfvf
+	dTQ6pCGqzibM5KOSW2YxGTHoaS2tCT9jQNl5SRibjehKjDSSZNOt/Gtp0VeUiFHLLwc87lg6rek
+	bFXnuGBwt6lXTo4TNkINoPWF1zKaa1z6IuNt14yjaifjqV7vWbtgm0aeb54HJfzwoPqpzAglR0d
+	EVpFAp0Y8PUaefA6xP8QsMcVgjc78GGOZ32lmOGGnspQ9i/Cjo7VsBbozqPyeYxdfE6pyFtLaYO
+	u6sSSYKqAZbQThs6mdnYpFAXBNNgiXaxUtYjGpQZ+Y8r+T455RQ==
+X-Received: by 2002:a05:6000:2312:b0:485:8cc8:1f5f with SMTP id ffacd0b85a97d-4a63c6590f3mr590661f8f.42.1794939640923;
         Tue, 17 Nov 2026 10:20:40 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a654997681sm114337f8f.15.2026.11.17.10.20.39
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a654997681sm114337f8f.15.2026.11.17.10.20.40
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 10:20:39 -0800 (PST)
+        Tue, 17 Nov 2026 10:20:40 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 11/17] curl: set CVE_STATUS for CVE-2026-19931
-Date: Tue, 17 Nov 2026 19:20:11 +0100
-Message-ID: <2927f9ec538c1f516d17f88d4fc673c87b05a561.1794939400.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 12/17] curl: fix CVE-2026-18924
+Date: Tue, 17 Nov 2026 19:20:12 +0100
+Message-ID: <fb6e9840754777102607034667e3d8a003c02e47.1794939400.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1794939400.git.yoann.congal@smile.fr>
 References: <cover.1794939400.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 18:20:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250478
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 18:20:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250479
 Content-Type: text/plain; charset="utf-8"
 
 From: Darsh Kelaiya <dkelaiya@cisco.com>
 
-Analysis:
-- The advisory [1] names [2] as its fixed-in commit. It moves
-  connection maintenance to admin handles, preserving the identity
-  used by authentication reuse checks.
-- Earlier, [4] added Negotiate/NTLM connection reuse checks,
-  including an SSPI ambient-user check using recent_conn_id.
-  Later, [5] removed that SSPI check; the other checks remain.
-- Curl 8.19.0 predates [4]. Applying [2] alone would not reproduce
-  the later upstream behavior; a source fix needs backport analysis.
-- The advisory describes Negotiate reuse with empty credentials and
-  lists curl 8.19.0 within the affected range [1].
-- On Linux, this requires krb5 and negotiate-auth. Wrynose enables
-  negotiate-auth but leaves krb5 disabled by default [3].
-- Follow the merged GSS-API configuration check in [3]. Set
-  not-applicable-config if either option is absent; otherwise keep
-  unpatched while the source backport is deferred.
-- Record the CVE as not-applicable-config unless both required
-  PACKAGECONFIG options are enabled; otherwise retain unpatched status.
-  The CVE_STATUS decision is conditional, not hardcoded.
+This patch applies the upstream fix as referenced in [2],
+using the commit shown in [1].
 
-Reference:
-[1] https://curl.se/docs/CVE-2026-19931.html
-[2] https://github.com/curl/curl/commit/7103a93b05bc69ea98ed9d05d02fa9eeba533f2f
-[3] https://github.com/openembedded/openembedded-core/commit/93c410c455b92a2b1fe3b77347e57d02f344056b
-[4] https://github.com/curl/curl/commit/1a17959fc7a80864c9c9b37097856bdb4a465cf8
-[5] https://github.com/curl/curl/commit/1c58877705b172da892cb9c18c5edb572f2d1d73
+Make accepted HTTP/2 push handles inherit their parent's share object.
+Use the curl 8.19.0 share setter to retain its locking, reference
+counting and shared-cache handling during cleanup.
+
+[1] https://github.com/curl/curl/commit/90325ff0444cbdff368bda5d26d6405a0bb6ee43
+[2] https://curl.se/docs/CVE-2026-18924.html
 
 Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-support/curl/curl_8.19.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+ .../curl/curl/CVE-2026-18924.patch            | 57 +++++++++++++++++++
+ meta/recipes-support/curl/curl_8.19.0.bb      |  1 +
+ 2 files changed, 58 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-18924.patch
 
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-18924.patch b/meta/recipes-support/curl/curl/CVE-2026-18924.patch
+new file mode 100644
+index 00000000000..5d744138fa6
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-18924.patch
+@@ -0,0 +1,57 @@
++From 90325ff0444cbdff368bda5d26d6405a0bb6ee43 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Wed, 5 Aug 2026 10:02:53 +0200
++Subject: [PATCH] http2: make server push transfers inherit share from
++ parent
++
++Reported-by: Stephan Zeisberg
++Closes #22488
++
++CVE: CVE-2026-18924
++Upstream-Status: Backport [https://github.com/curl/curl/commit/90325ff0444cbdff368bda5d26d6405a0bb6ee43]
++
++Backport Changes:
++- Use curl_easy_setopt(second, CURLOPT_SHARE, (CURLSH *)data->share)
++  instead of Curl_share_easy_link(), which is absent from curl 8.19.0.
++  The cast satisfies curl's CURLOPT_SHARE type check. The setter
++  locks the share, updates its dirty counter and links shared caches.
++- Retain curl_easy_duphandle() instead of the later curl_easy_init()
++  change in [1], preserving curl 8.19.0's documented push-option
++  inheritance. In 8.19.0, duplication leaves second->share NULL.
++  The share setter increments share->dirty before the push callback.
++  When the pushed transfer joins the multi handle, conncache.c
++  selects data->share->cpool when connection sharing is enabled.
++  Curl_close() drops the use count on rejection or cleanup;
++  curl_share_cleanup() refuses to free a share still in use. The
++  share lifetime fix does not require the later handle-creation
++  change.
++
++[1] https://github.com/curl/curl/commit/fad90b666df98c93ee165341b0c8101c7b10ad7b
++
++(cherry picked from commit 90325ff0444cbdff368bda5d26d6405a0bb6ee43)
++Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
++---
++ lib/http2.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/lib/http2.c b/lib/http2.c
++index e1c5798..ffeb0f4 100644
++--- a/lib/http2.c
+++++ b/lib/http2.c
++@@ -46,6 +46,7 @@
++ #include "bufref.h"
++ #include "curlx/dynbuf.h"
++ #include "headers.h"
+++#include "curl_share.h"
++ 
++ #if (NGHTTP2_VERSION_NUM < 0x010c00)
++ #error too old nghttp2 version, upgrade!
++@@ -709,6 +710,8 @@ static struct Curl_easy *h2_duphandle(struct Curl_cfilter *cf,
++     struct h2_stream_ctx *second_stream;
++     http2_data_setup(cf, second, &second_stream);
++     second->state.priority.weight = data->state.priority.weight;
+++    if(data->share)
+++      (void)curl_easy_setopt(second, CURLOPT_SHARE, (CURLSH *)data->share);
++   }
++   return second;
++ }
 diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
-index 80352a592a5..7807780c965 100644
+index 7807780c965..734f9c37b69 100644
 --- a/meta/recipes-support/curl/curl_8.19.0.bb
 +++ b/meta/recipes-support/curl/curl_8.19.0.bb
-@@ -62,6 +62,7 @@ CVE_STATUS[CVE-2026-9547] = "not-applicable-config: vulnerable libssh backend is
- CVE_STATUS[CVE-2026-12064] = "${@bb.utils.contains('PACKAGECONFIG', 'libssh2', 'unpatched', 'not-applicable-config: SCP/SFTP support is not enabled in PACKAGECONFIG', d)}"
- CVE_STATUS[CVE-2026-8458] = "${@bb.utils.contains('PACKAGECONFIG', 'krb5 negotiate-auth', 'unpatched', 'not-applicable-config: applicable only with GSS-API-backed Negotiate authentication', d)}"
- CVE_STATUS[CVE-2026-82209] = "not-applicable-config: public suffix list support is disabled by the recipe with --without-libpsl"
-+CVE_STATUS[CVE-2026-19931] = "${@bb.utils.contains('PACKAGECONFIG', 'krb5 negotiate-auth', 'unpatched', 'not-applicable-config: GSS-API Negotiate is disabled', d)}"
- 
- inherit autotools pkgconfig binconfig multilib_header ptest
- 
+@@ -38,6 +38,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
+            file://CVE-2026-80229.patch \
+            file://CVE-2026-9546-01.patch \
+            file://CVE-2026-9546-02.patch \
++           file://CVE-2026-18924.patch \
+            file://CVE-2026-82208.patch \
+            file://CVE-2026-80230.patch \
+            file://CVE-2026-87864.patch \
