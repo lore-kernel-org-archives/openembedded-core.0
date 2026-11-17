@@ -1,129 +1,153 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.18173.1794922701699091910
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.18220.1794922828817174253
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2026 05:38:22 -0800
+ Tue, 17 Nov 2026 05:40:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=fnG8J74n;
- spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: bastien.jauny@smile.fr)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-490c3ae81d3so2681162f8f.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 05:38:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1794922700; x=1795527500; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=0/F0JIj/XgOmYqPbSUQbrOmN85VXk6rqd5+iToj8rSs=;
-        b=fnG8J74nTIQ6HXTdn/GyZWt+IWUeU1F+djRuIJmPwt4n1q1t94N9Wz/tgkF3GoLlE/
-         cogVG6n+6FqNHaXZRA6ts/gqkvC2e7IEBiIkaUJDunDC7vE/MA3RF5HeiCDWsRBmNEgm
-         Ngd6lY4e8N0+gk6CtnQhPR3vK3oAz23Yry5qQucNiwjHQX32lHG0lVMnGeqog6FIUhP5
-         GBBNp50HmKZbDpwR28nn9OTwzrY59t/gM6XaBNPDwknpBLrDmhb9oD9SXcXSV4Syx7kG
-         ShB2RlLCJ/yYj9skEGf4lL3L3OTqnCen8xC2sijWfNY+YLyOCxb4buW2wzHPch/R6Za6
-         fsfQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794922700; x=1795527500;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0/F0JIj/XgOmYqPbSUQbrOmN85VXk6rqd5+iToj8rSs=;
-        b=vVuv9+o44oSAtAcSNyF5SVR1D8EtPU7/uV4XkwkjPmsVGbnVd56tj+eOzIW56ln/dL
-         3INiEK7b78OO2PHQoANIMovTqRl8On8OS5WGS5+ziRUHPnqfa93ExQK5JOtbi4vIZNGa
-         V6uvxWOSfkxRalySFx/FXr+Yj0lAe3kbg9OfpMojEvYERK88FnJmHeFjv8+LrySqpDlm
-         efWyrEDY1bgrz5J7SnnxVK/RgvH9CwNlSmjP3Q0IzWIYgBqJg3rzmff0dzJqhSh4Fqad
-         iaJxWjymU/TcM2VymNzMvl+mDz9u5xroBgwg63OHBilFL8r4l99WPv4ALDszkmoOckL4
-         vwVA==
-X-Forwarded-Encrypted: i=1; AL+hErFmDhZmnavzaCa3EHSXq2NQyhWanGEHXzg2EKIS5YTzRjfWqrHT7ajke4IyCdo+XSnhNXLTrbt91zuEF2Tu0/CDJg==@lists.openembedded.org
-X-Gm-Message-State: APuU4Z/7Jk26r4tK+0XfVeVl7Ib7VekuydV+5vgMymB4nBC9eHDPaTaV
-	M2rZwNH+fmu7L++CMWWqJXHkruWNjtN4EuiucHuV5/g9mFTVd3jgH2WfuCH4zVt2mRw=
-X-Gm-Gg: AZFdTZdJGMWtV8TqAfcvK30WID4toiLRGCQ1tXlT7LGeQZ8/XVzohxDQVKgWMoBKA0+
-	yq16aldqEV1v3c5eEzCPxO0vw44wTsih1QVwfG4PyKVpb3vos2hapq8mdTfwW9Oygv/6pd4EosM
-	t9hKNJIYOGJgO3ngb3e4LNU1jVZbIGD6qRgKTP03yk+EweA92HztIOhKY4YH3UV2MsMIaDzAU8Q
-	NyldeWBD6xzG9lHChx4RubL07OC08yXLF6VjMbSpDcmnwKkAE7qyeIxkG7lZon/dSp1iDwMF+SC
-	/STxXXkYy+rLy7o4lKxOYpmmqs/syqc87rbA+CETbeaNjh6FGFTOqi7wmTM21Xd5KVv+bFJ3pue
-	ZHJvW6rScknQQqzU6cO7OpiZKTPzFKjrnpXt1NqAC2TJNMcHFXuQs89wHLO1O/hee0AxPykBkz5
-	AwaNRLEXiVxHdjjy1mwH+Yqje/mBFSDviG4SRhLm5vL/FidlZjoIPc5z2WTaIPw+0AzvaSt7zWd
-	5RkZkJT2SQS4pK15icRCXPiF+m1AZm+JmHknkFo1871787crCape0VFfK9YMogd86EuK84v7qel
-	t32SgRFJszy0ehxq0CJ/qfYQiNnCkcks0iEYxg6Ctdz6S/asl5nSM3n8RvudKlJXHkJ8z1DYrqK
-	j/GSTiaklY2SyY1Y=
-X-Received: by 2002:a05:6000:2611:b0:4a4:9c15:82d0 with SMTP id ffacd0b85a97d-4a49c1583cdmr2959943f8f.4.1794922699726;
-        Tue, 17 Nov 2026 05:38:19 -0800 (PST)
-Return-Path: <bastien.jauny@smile.fr>
-Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c5f77fc47sm28344995f8f.22.2026.11.17.05.38.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Nov 2026 05:38:19 -0800 (PST)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=GcAHinCZ;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id AA93BC79A97;
+	Tue, 17 Nov 2026 13:40:30 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 47C2F5FC81;
+	Tue, 17 Nov 2026 13:40:26 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9268611BC0008;
+	Tue, 17 Nov 2026 14:40:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1794922825; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=aapiWQ9E76eHHZuUoPbbergGEfY7N364+lEhEfGwB48=;
+	b=GcAHinCZIcmqszC5mTD7HnhAICQjWw0hZA4dHpEFUHFVNhcMumLW8m3n9atb81USKQmIHC
+	v4aiH+UPATuxTq0z16KAXEHpdP9K3vxM8uqw/HE8y4HSM4OlEVUdYGZlq67R5GU9Fn74DE
+	du512W10uwbm7+aiWlvgVM/0y82M8jlQxTnG9IQx0G54NwKfmNqfOR5EBRLJQzLlp8imZF
+	Hu93MI3Pdr5xzT3PdFBYg0C7F0kQQxDb+OwedYCovvQ9MuxAfxsmidtPm5UCN33xHErTth
+	EhasnEePT2NfX7e7KR4fVnf/lzAzVFInl/biZZdggpt89ugZ4ZKXSN5SECW1BA==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 17 Nov 2026 14:38:18 +0100
-Message-Id: <DMXIZS6KZMCE.1YQ4WZ8SY4GCN@smile.fr>
-Cc: <thomas.petazzoni@bootlin.com>
-Subject: Re: [OE-core] [scarthgap][PATCH] expat: fix CVE-2026-117610
-From: "Bastien Jauny" <bastien.jauny@smile.fr>
-To: <joaomarcos.costa@bootlin.com>, "Yoann Congal" <yoann.congal@smile.fr>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.22.0-38-g09b49b623995
-References: <20261104142512.1562219-1-joaomarcos.costa@bootlin.com>
- <DMMIRR2WICTU.2CVIAJ7I966Q9@smile.fr>
- <d7345f9c-3bb6-4b33-b800-c0b116287d3b@bootlin.com>
-In-Reply-To: <d7345f9c-3bb6-4b33-b800-c0b116287d3b@bootlin.com>
+Date: Tue, 17 Nov 2026 14:40:23 +0100
+Message-Id: <DMXJ1DVWTK13.TBQ9AVC1R0J5@bootlin.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <ragaprasanth@gmail.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v2] libjitterentropy: upgrade 3.6.3 -> 3.7.0
+Cc: <jaipaul.cheernam@est.tech>, <ross.burton@arm.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20261002071557.74249-2-jaipaul.cheernam@est.tech>
+ <20261117024644.2849146-1-ragaprasanth@gmail.com>
+In-Reply-To: <20261117024644.2849146-1-ragaprasanth@gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 13:38:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250452
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 13:40:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250453
 
-On Wed Nov 4, 2026 at 4:12 PM CET, Joao Marcos Costa via openembedded-core =
-wrote:
-> Hello, Yoan
+On Tue Nov 17, 2026 at 3:46 AM CET, prasanth via openembedded-core wrote:
+> 3.7.0 locks the collector memory with mlock(), changes the startup to
+> meet NTG.1, replaces the SHA3-256 output with XDRBG-256 and adds
+> jent_status(). LICENSE only changes the copyright year.
 >
-> On 11/4/26 4:08 PM, Yoann Congal wrote:
->> On Wed Nov 4, 2026 at 3:25 PM CET, Joao Marcos Costa via openembedded-co=
-re wrote:
->>> This vulnerability, marked as High [1], was fixed upstream [2] since
->>> 2.10.0.
->>>
->>> Backport the fix to expat v2.8.3.
->>>
->>> This backport is actually partial. PR#1444 adds a second commit providi=
-ng a
->>> new test case, but the code uses helper functions not yet
->>> defined/available. A few other commits would also need to be backported=
- so
->>> that the test compiles at v2.8.3.
->>>
->>> [1] https://nvd.nist.gov/vuln/detail/cve-2026-117610
->>> [2] https://github.com/libexpat/libexpat/pull/1444
->>>
->>> Signed-off-by: Jo=C3=A3o Marcos Costa (Schneider Electric) <joaomarcos.=
-costa@bootlin.com>
->>> ---
->>>   .../expat/expat/CVE-2026-117610.patch         | 30 ++++++++++++++++++=
-+
->>>   meta/recipes-core/expat/expat_2.8.3.bb        |  1 +
->>>   2 files changed, 31 insertions(+)
->>>   create mode 100644 meta/recipes-core/expat/expat/CVE-2026-117610.patc=
-h
->>=20
->> Hello,
->>=20
->> You just sent "[scarthgap][PATCH] expat: fix CVE-2026-118370" which
->> conflict with this one. Even if I have tooling in place to handle this
->> kind of conflict, I'd rather you send conflicting patches as a series.
->>=20
->> No need of a v2 just for that but something for future series.
->>=20
->> Thanks!
+> Two fixes are needed:
 >
-> I considered the series, but for some reason I thought these orthogonal=
-=20
-> fixes would be easier to review if sent separately. My bad!
+> - 3.7.0 uses C11 threads on Linux and makes struct jent_notime_ctx
+>   private, so rng-tools fails to build. Backport the Linux part of the
+>   upstream fix.
+> - The Makefile now uses -std=3Dc11, which hides clock_gettime() on arm,
+>   mips and riscv. Build with -D_DEFAULT_SOURCE.
+>
+> This picks up Jaipaul Cheernam's earlier upgrade patch [1].
+>
+> [1] https://patchwork.yoctoproject.org/project/oe-core/patch/202610020715=
+57.74249-2-jaipaul.cheernam@est.tech/
+>
+> AI-Generated: Uses Claude
+> Signed-off-by: Prasanth R <prasanth.r@lineo.co.jp>
+> ---
 
-Hi,
-This commit has been submitted to wrynose but is also needed upstream.
+Hi Prasanth,
 
-Could you submit it for blacksail please?
+Thanks for the update.
+
+The backported patch is quite different from what we have upstream. I
+can understand this is probably because master evolved and I believe the
+result is fine, but choices could have been described a bit more in the
+commit message.
+
+> --- /dev/null
+> +++ b/meta/recipes-support/libjitterentropy/libjitterentropy/0001-Use-pth=
+reads-on-Linux-and-make-struct-jent_notime_ct.patch
+> @@ -0,0 +1,75 @@
+> +From 1bc2ca956d4c64b765c2f19751614949ebe3734d Mon Sep 17 00:00:00 2001
+> +From: Prasanth R <ragaprasanth@gmail.com>
+> +Date: Tue, 17 Nov 2026 10:12:23 +0900
+> +Subject: [PATCH] Use pthreads on Linux and make struct jent_notime_ctx p=
+ublic
+> +
+> +3.7.0 switched Linux to C11 <threads.h> and moved struct jent_notime_ctx
+> +out of jitterentropy.h. This breaks callers that install their own
+> +thread handler with jent_entropy_switch_notime_impl(), such as
+> +rng-tools: the start callback no longer takes a pthread start routine,
+> +and the context is an incomplete type.
+> +
+> +Use pthreads on Linux again and define the pthread context in the
+> +public header, as upstream did in commit a038d0c ("threads: always use
+> +pthreads on Linux, add a native Win32 backend"). Only the Linux part
+> +of that commit is taken.
+> +
+> +Upstream-Status: Backport [https://github.com/smuellerDD/jitterentropy-l=
+ibrary/commit/a038d0c372f83aba10f3850c5b122dc5ff8cdc8c]
+> +Signed-off-by: Prasanth R <prasanth.r@lineo.co.jp>
+> +
+> +---
+> + jitterentropy.h           | 15 ++++++++++++++-
+> + src/jitterentropy-timer.c |  8 +-------
+> + 2 files changed, 15 insertions(+), 8 deletions(-)
+> +
+> +diff --git a/jitterentropy.h b/jitterentropy.h
+> +index f935c09..3ab1ba3 100644
+> +--- a/jitterentropy.h
+> ++++ b/jitterentropy.h
+> +@@ -154,10 +154,23 @@ extern "C" {
+> + #endif
+> + #endif
+> +=20
+> +-#if defined(__MINGW32__) || defined(__APPLE__) || defined(__OpenBSD__) =
+|| defined(__FreeBSD__) || defined(__NetBSD__)
+> ++#if defined(__MINGW32__) || defined(__APPLE__) || defined(__OpenBSD__) =
+|| defined(__FreeBSD__) || defined(__NetBSD__) || defined(__linux__)
+> + #define JENT_PTHREAD
+> + #endif
+> +=20
+> ++#ifdef JENT_PTHREAD
+> ++#include <pthread.h>
+> ++/*
+> ++ * Context handed to the jent_notime_thread handlers. It is part of the=
+ API:
+> ++ * a caller that installs its own handler with
+> ++ * jent_entropy_switch_notime_impl() has to create and join the thread.
+> ++ */
+
+Where does this comment come from? I can't see that in the original
+commit, nor anywhere in master commit?
+
+> ++struct jent_notime_ctx {
+> ++	pthread_attr_t notime_pthread_attr;	/* pthreads library */
+> ++	pthread_t notime_thread_id;		/* pthreads thread ID */
+> ++};
+> ++#endif
+> ++
+> + /* Forward declaration of opaque value */
+> + struct rand_data;
+> +=20
+> +diff --git a/src/jitterentropy-timer.c b/src/jitterentropy-timer.c
+> +index 77f732e..2c974f5 100644
+
+Again, I believe the overall result is fine: we are just moving a
+structure here.
 
 Thanks,
+Mathieu
+
 --=20
-Bastien Jauny
-Smile
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
