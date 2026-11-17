@@ -1,195 +1,243 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2094.1794939641026691528
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2089.1794939643970610265
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2026 10:20:41 -0800
+ Tue, 17 Nov 2026 10:20:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=Epp4iF2u;
- spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4b467581b98so2289215e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 10:20:40 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=UHRLasNx;
+ spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-4a3e706b5dfso36678f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 10:20:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1794939639; x=1795544439; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1794939642; x=1795544442; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=aZUV7MtmKPrIcD6qMg5AcMWz5+TrxSeUf5O2Z1XjwHo=;
-        b=Epp4iF2uZBmLnxIea3K+wKZ0Dfpkym2Yct0avGk8dj1Sq+Of+6U6FxYty3qIN8jcJC
-         9MrbdpC8Pb8USs9CvwCjHXes8HfNjgVCftbsGvtN7RYYr3I9Y/DKoLYpe6DqAItHGjph
-         VwbAaBTxXkAa/Qtq6WGO4OW9Up9VBcXgkBFt3mAF5FyZhRew19ksq0UsqNrL3KH2hkTD
-         Xe0JS7zkalEuhnHkFYudHGUv+Ja4nAzkfIUqDXIE+xXccNO4ASmCvAPUb3/K6GtG324x
-         uDb2zHa7aPjKsJngjlxMJplam9nmjYFm0xpYzMdch3vjRBXvzIw6VsYOeCiwoE7q8cNQ
-         ONQQ==
+        bh=B1slHIS3yB40DyNYfoF9h+/ZutNqeoKPfI3ofve3928=;
+        b=UHRLasNxRAriGEsCh43MYGyBELSSNyRQOb4TZeBuVXe0b4QC5Jz3XDx+eoWokx9zky
+         w7WB2Usoe9hjBHaxL0fp3K1/LBhRXuMEZWYrKizuOsIRGCBuI1shspyMH/gURfELzDlB
+         83//K/5ZCNMuC0xxO35tId7A4JMR71YzZxG1AtZ4x0xCKxbN5mvNI4jvk4S+O8/2selP
+         DHg/tAy0ig4fTijhnOQD3RRVDiW/49KOMonA20ZFwULFOK5Neap4Qs/ESk3WPhM3SSdE
+         NziS6xO75tC/9axh+a9qRe0OrOl6iGLB46DC8xeVI7MLvrodIqQHFjwaYunW76aGJe0p
+         djlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794939639; x=1795544439;
+        d=1e100.net; s=20260707; t=1794939642; x=1795544442;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=aZUV7MtmKPrIcD6qMg5AcMWz5+TrxSeUf5O2Z1XjwHo=;
-        b=caTL6sjGAZyKwm0QcoXC9gUChj5Ps/XlG2YYAkSwJ4UDKd7el1Ku+zs+r09ppZK4LV
-         seHwpr8ubCVtYjnV1D7jJViRY9sMoeZj7exfSv84YuRiqpdlqkm4jvA7u4BynQ0nBSPm
-         obZZhQzQ0uIZUapRiO+RjCZgwz/VBDSHgiX3Rc6WUK4Ut3MZrRZqddxGKGKcDq9wKpmS
-         FG1QfSUQlbySIjEuyK2YSWe14tUEqTbmf2xNVQ+IOLTVho1fZ2w8riycrr9+dkPuUApp
-         quZj7HT4eRyJ16o5SJPfha6DGN+vV7JyksNC8echmzD0opAVmwCujDxaL/zRI8qyvXN0
-         QxsA==
-X-Gm-Message-State: APuU4Z+lArSm+uCPkJJt8U3Xw5kXzijBeBmQdXnuZ6MerRKtiOBtbb86
-	fI7tgtGZH7MEwWWsNGVAQ0iym2Mq8fB4/x1XaCOBi6Gu+RaooTIZ4Pf+ljsERUDOpokXfMFrSm/
-	ypT3pO7U=
-X-Gm-Gg: AYBFou2lzixDSXllqytNyumHEorqIpfxKYNFU3hWwIGGIxIlaSxE9UzqZyh55Er1jfv
-	bDY88Szc34N5WMCmDxlGidHWUpVehWkT4hTDgUXxRV28JipfTuj1xZOKHISX7vMDscqnGxZ0tAz
-	v/AKF3gKPeuReFn02N0jwEhp0YwjdUQPeI2rtrPfTWb+VgLTv8sdL6UJ/4dwyaNRJSHW873P2bS
-	KYlgmnwP0ocXL47A5bKjKG/VpysSy7QW+q0K9rt5QbFjAO1bcCG42N4s45e0vKh8lhAF+vyV+Z1
-	snBNeBPlW2KQoxJz2KkWJaQ8LXJZd0C+Tdxmq/fEIfLS0zCyNMHpWLUHQf14+2l5wfCJrF3o/6e
-	N6rbaQx75TXzB5KDKSX6EH+B0waD5PGyuGU6cK2a9ojCMaY2mwrSDJIxIDwOlDOQFBoZUQihZbT
-	ZIAc6cNkjQpyjx3bgYmjVS3AqDdgdD2fhf1HX74DmsLxhuPQtJtZVp5AwJ/mx+Qe99YmJC4ktPn
-	CMfpoZAt9E27otvaWUv1bLJyedS68i/5SEecquNZG52/WQR/I2UvgwMsNtJoWGcOj4b4YE/qCF9
-	JZIEGNgVz3y10i8S41aUrext9PWoX9p5gIer4EUB0HwSOqd9gtKLe8VKaane48dTXnYGKkiRzSe
-	g+fRxP7RGqFCKQCOnoq54qExbRHD3
-X-Received: by 2002:a05:600c:1912:b0:4bb:6375:aa41 with SMTP id 5b1f17b1804b1-4bb6375ab25mr237132155e9.27.1794939639247;
-        Tue, 17 Nov 2026 10:20:39 -0800 (PST)
+        bh=B1slHIS3yB40DyNYfoF9h+/ZutNqeoKPfI3ofve3928=;
+        b=VFSliLBGPuxS2IAGxzz+fG+qBqUnVB+Fk80DJW9IrbX5kf+pojBAKMoxCVopOWoqgu
+         VAJ1WUcVesGK8e32F/9HuqYXOWaCiiyrBwMNKrzENr04VLXseCKaiETkFB+fePMyhEJL
+         Xl2t6yYWvyyYFBv1iRuaV/rob9qrU7usStkP3mjh3gTF20W2ts4Qze+9mN9haKvFOa6/
+         TVKfGMv9miDN2LOtJch8Mey6bjsKIVRrksFu4UfqA3SicG1867VkSqDMCaf2+/0X4gq6
+         zJoee7FYvLu6sSFfUjnwfEbQyNV7jp8a0koZ1/fQQeB0zvdoBAxQR4lFtpgs6a6EnKsj
+         x74w==
+X-Gm-Message-State: APuU4Z8RdiZU3b2bpxilQGfC4EijSl2tVTxu0iQUKp3Q+kGPw8a8dYWJ
+	0ll0y08Mu212yRiUnHzwB/ZbOiPBmu74RFqISHHLpBy5+cV5Vux+NBzUm4OekqyY1Ch/8RWAksf
+	U8cx4b38=
+X-Gm-Gg: AZFdTZfH6By2as1EeU2V+s4X/jVcN6WPvYqcMrQ0c05g4C8p/i8vhn+In4zcyrEtiXo
+	zFKn6SWBs05Z1ZSMT9reGQy/dOtX01JwQOUFeEcmQq7gpJla08O220ZY+3h5tPjTbJWBKCQ2sle
+	Nl73ZxUyI1cWhbI6W3BEhQ3k2Iy+Wb7ApR7CN/h7Wuq6RDN31d7dlPj++hrVG+M+in6cc2EeQz9
+	mca0YagspZAXiqQMVaa+v+EtMKX8Klty3g+uUwol9q8h/HHyrC8UHY8R/PAUX5G6lIqFjLDsqrl
+	q2YL3P7DHw8GmW1sccMhcfOmYcAeedgxQpfZONelGJ9AmVMHYQtHJKSsp1iOk2R4DnaUx1kAykt
+	lO5VktaWHdH8J1iQQNLwi6K3ackbIny7IrJ8ltDHtrXaHSZomX+rIfFC/1kK4yqMkO10y1iBtzi
+	yHE0oHhu3BTSvSdtl5Ht9krK9ZSnfjW5vxQZeWhOy49WIPJRa0a01IjiyDgkdmXPnCO9eOmchRZ
+	+eMj+JbmHyBkM6L64tN/eI7yAP3dsKKAyuI9JHwDn4SYDJf+5qzxcHdpJEdscsZCuEB2TkW9+CI
+	nX8hldveBqA7o8tDh+w7p0oxwma4T0p0iYbX/Cl1wBKEV2rPdCkRkgprJXVT8+1E1BAkyXUSop8
+	2l4rF9IGPPFMZMwAOZmdUeg425gr/Xz5QOa8ny3z57vhD01hcbg==
+X-Received: by 2002:a05:6000:98c:b0:497:9e2a:b27 with SMTP id ffacd0b85a97d-4a63d1d9bedmr516319f8f.38.1794939642049;
+        Tue, 17 Nov 2026 10:20:42 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a654997681sm114337f8f.15.2026.11.17.10.20.38
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a654997681sm114337f8f.15.2026.11.17.10.20.41
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 10:20:38 -0800 (PST)
+        Tue, 17 Nov 2026 10:20:41 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 10/17] curl: fix CVE-2026-86409
-Date: Tue, 17 Nov 2026 19:20:10 +0100
-Message-ID: <3d7ab114e8a0fb0a3fe8a7502c6e2da032bd132f.1794939400.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 13/17] bluez5: fix CVE-2026-19774
+Date: Tue, 17 Nov 2026 19:20:13 +0100
+Message-ID: <b03882286418bb2e8c913cab67acbd55e63d2de4.1794939400.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1794939400.git.yoann.congal@smile.fr>
 References: <cover.1794939400.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 18:20:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250477
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 18:20:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250480
 Content-Type: text/plain; charset="utf-8"
 
-From: Darsh Kelaiya <dkelaiya@cisco.com>
+From: Ashishkumar Parmar <asparmar@cisco.com>
 
-This patch applies the upstream fix as referenced in [2],
-using the commit shown in [1].
+This patch applies the upstream BlueZ codec capability storage fix [1]
+and its required cache-loading correction [3] to version 5.86. The
+public security advisory is referenced in [2]. Both upstream code
+changes are preserved without adaptation.
 
-Clear CURLAUTH_AWS_SIGV4 when CURLOPT_AWS_SIGV4 is reset to NULL.
-Retain the upstream handle-reuse regression in test1978, using the
-existing test_setopt() helper.
+Bound serialization and cache parsing while retaining normal endpoint
+restoration and checking the decoded capability buffer length.
 
-[1] https://github.com/curl/curl/commit/c3c70440e8d9938c0bb732595751e8aebc614f24
-[2] https://curl.se/docs/CVE-2026-86409.html
+[1] https://github.com/bluez/bluez/commit/912f5efb0dd9bb08e408d33371a57182c5678aef
+[2] https://www.zerodayinitiative.com/advisories/ZDI-26-589/
+[3] https://github.com/bluez/bluez/commit/b7d71e5067856b0daf2f1f73b3fc95483236610e
 
-Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../curl/curl/CVE-2026-86409.patch            | 88 +++++++++++++++++++
- meta/recipes-support/curl/curl_8.19.0.bb      |  1 +
- 2 files changed, 89 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-86409.patch
+ meta/recipes-connectivity/bluez5/bluez5.inc   |  2 +
+ .../bluez5/bluez5/CVE-2026-19774_p1.patch     | 63 +++++++++++++++++++
+ .../bluez5/bluez5/CVE-2026-19774_p2.patch     | 62 ++++++++++++++++++
+ 3 files changed, 127 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2026-19774_p1.patch
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2026-19774_p2.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-86409.patch b/meta/recipes-support/curl/curl/CVE-2026-86409.patch
-new file mode 100644
-index 00000000000..bdfee79dc6a
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-86409.patch
-@@ -0,0 +1,88 @@
-+From 534252a345be58d6d1a79eee697244f27524b7d2 Mon Sep 17 00:00:00 2001
-+From: Viktor Szakats <commit@vsz.me>
-+Date: Wed, 26 Aug 2026 09:41:03 +0200
-+Subject: [PATCH] setopt: make NULL `CURLOPT_AWS_SIGV4` disable aws-sigv4 auth
-+
-+Disable `CURLAUTH_AWS_SIGV4` when `CURLOPT_AWS_SIGV4` is set to NULL.
-+Syncing behavior with `CURLAUTH_HTTPSIG`.
-+
-+Reported-by: Stanislav Fort
-+
-+Closes #22681
-+
-+CVE: CVE-2026-86409
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/c3c70440e8d9938c0bb732595751e8aebc614f24]
-+
-+Backport Changes:
-+- Use test_setopt() in lib1978.c instead of easy_setopt(), matching
-+  the curl 8.19.0 test harness.
-+
-+(cherry picked from commit c3c70440e8d9938c0bb732595751e8aebc614f24)
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ lib/setopt.c            |  2 ++
-+ tests/data/test1978     | 19 +++++++++++++++++++
-+ tests/libtest/lib1978.c |  5 +++++
-+ 3 files changed, 26 insertions(+)
-+
-+diff --git a/lib/setopt.c b/lib/setopt.c
-+index 3603912..ae77ae8 100644
-+--- a/lib/setopt.c
-++++ b/lib/setopt.c
-+@@ -1992,6 +1992,8 @@ static CURLcode setopt_cptr(struct Curl_easy *data, CURLoption option,
-+      */
-+     if(s->str[STRING_AWS_SIGV4])
-+       s->httpauth = CURLAUTH_AWS_SIGV4;
-++    else
-++      s->httpauth &= ~(uint32_t)CURLAUTH_AWS_SIGV4;
-+     break;
-+ #endif
-+   case CURLOPT_REFERER:
-+diff --git a/tests/data/test1978 b/tests/data/test1978
-+index 3ad4c67..8b6e6af 100644
-+--- a/tests/data/test1978
-++++ b/tests/data/test1978
-+@@ -69,6 +69,25 @@ header-no-value:
-+ header-some-no-value:
-+ header-some-no-value: value
-+ 
-++PUT /%TESTNUMBER/testapi/test HTTP/1.1
-++Host: 127.0.0.1:9000
-++x-amz-meta-test: test2
-++some-other-header: value
-++x-amz-meta-test: test1
-++duplicate-header: duplicate
-++x-amz-meta-test: test3
-++X-amz-meta-test2: test2
-++x-amz-meta-blah: blah
-++x-Amz-meta-test2: test1
-++x-amz-Meta-test2: test3
-++curr-header-no-colon: value
-++next-header-no-colon: value
-++duplicate-header: duplicate
-++header-no-value:
-++header-no-value:
-++header-some-no-value:
-++header-some-no-value: value
-++
-+ </protocol>
-+ </verify>
-+ </testcase>
-+diff --git a/tests/libtest/lib1978.c b/tests/libtest/lib1978.c
-+index 4f3ef11..d3f5c7d 100644
-+--- a/tests/libtest/lib1978.c
-++++ b/tests/libtest/lib1978.c
-+@@ -91,6 +91,11 @@ static CURLcode test_lib1978(const char *URL)
-+   test_setopt(curl, CURLOPT_CONNECT_TO, connect_to);
-+ 
-+   result = curl_easy_perform(curl);
-++  if(result)
-++    goto test_cleanup;
-++
-++  test_setopt(curl, CURLOPT_AWS_SIGV4, NULL);
-++  result = curl_easy_perform(curl);
-+ 
-+ test_cleanup:
-+ 
-+-- 
-+2.35.6
-diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
-index 8f1caebb973..80352a592a5 100644
---- a/meta/recipes-support/curl/curl_8.19.0.bb
-+++ b/meta/recipes-support/curl/curl_8.19.0.bb
-@@ -44,6 +44,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
-            file://CVE-2026-92388-1.patch \
-            file://CVE-2026-92388-2.patch \
-            file://CVE-2026-92389.patch \
-+           file://CVE-2026-86409.patch \
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 75d76cf96de..0783a5c28dc 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -81,6 +81,8 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+            file://0001-avdtp-Return-correct-error-when-SEP-is-inuse.patch \
+            file://0001-gobex-Fix-ABORT-response-being-discarded.patch \
+            file://0001-obexd-pbap-Fix-u128_to_string-skipping-data-4.patch \
++           file://CVE-2026-19774_p1.patch \
++           file://CVE-2026-19774_p2.patch \
             "
+ S = "${UNPACKDIR}/bluez-${PV}"
  
- SRC_URI:append:class-nativesdk = " \
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/CVE-2026-19774_p1.patch b/meta/recipes-connectivity/bluez5/bluez5/CVE-2026-19774_p1.patch
+new file mode 100644
+index 00000000000..5a7d42b522f
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/CVE-2026-19774_p1.patch
+@@ -0,0 +1,63 @@
++From d4b922a688f5cd50f31afd663835ff05f294a85b Mon Sep 17 00:00:00 2001
++From: Luiz Augusto von Dentz <luiz.von.dentz@intel.com>
++Date: Mon, 15 Jun 2026 09:44:11 -0400
++Subject: [PATCH] a2dp: Fix handling of codec capability storage
++
++Codec capability is one byte long (max 255) the storage format is
++02hhx which means each byte ends up as 2 characters so the buffer
++needs to be doubled in order to handle capabilities of that size.
++
++CVE: CVE-2026-19774
++Upstream-Status: Backport [https://github.com/bluez/bluez/commit/912f5efb0dd9bb08e408d33371a57182c5678aef]
++
++Reported-by:  p0her (_@p0her_) in TeamH4C working with TrendAI Zero Day Initiative
++Reported-by: Michael Bommarito <michael.bommarito@gmail.com>
++Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
++---
++ profiles/audio/a2dp.c | 10 +++++-----
++ 1 file changed, 5 insertions(+), 5 deletions(-)
++
++diff --git a/profiles/audio/a2dp.c b/profiles/audio/a2dp.c
++index 7a37003a2..aec54728e 100644
++--- a/profiles/audio/a2dp.c
+++++ b/profiles/audio/a2dp.c
++@@ -971,7 +971,7 @@ static void store_remote_sep(void *data, void *user_data)
++ {
++ 	struct a2dp_remote_sep *sep = data;
++ 	GKeyFile *key_file = user_data;
++-	char seid[4], value[256];
+++	char seid[4], value[9 + 512];
++ 	struct avdtp_service_capability *service = avdtp_get_codec(sep->sep);
++ 	struct avdtp_media_codec_capability *codec;
++ 	unsigned int i;
++@@ -2373,7 +2373,7 @@ static void load_remote_sep(struct a2dp_channel *chan, GKeyFile *key_file,
++ 		uint8_t codec;
++ 		uint8_t delay_reporting;
++ 		GSList *l = NULL;
++-		char caps[256];
+++		char caps[513];
++ 		uint8_t data[128];
++ 		int i, size;
++ 
++@@ -2386,10 +2386,10 @@ static void load_remote_sep(struct a2dp_channel *chan, GKeyFile *key_file,
++ 			continue;
++ 
++ 		/* Try loading with delay_reporting first */
++-		if (sscanf(value, "%02hhx:%02hhx:%02hhx:%s", &type, &codec,
+++		if (sscanf(value, "%02hhx:%02hhx:%02hhx:%512s", &type, &codec,
++ 					&delay_reporting, caps) != 4) {
++ 			/* Try old format */
++-			if (sscanf(value, "%02hhx:%02hhx:%s", &type, &codec,
+++			if (sscanf(value, "%02hhx:%02hhx:%512s", &type, &codec,
++ 								caps) != 3) {
++ 				warn("Unable to load Endpoint: seid %u", rseid);
++ 				g_free(value);
++@@ -2398,7 +2398,7 @@ static void load_remote_sep(struct a2dp_channel *chan, GKeyFile *key_file,
++ 			delay_reporting = false;
++ 		}
++ 
++-		for (i = 0, size = strlen(caps); i < size; i += 2) {
+++		for (i = 0, size = strlen(caps); i < size && i >= 2; i += 2) {
++ 			uint8_t *tmp = data + i / 2;
++ 
++ 			if (sscanf(caps + i, "%02hhx", tmp) != 1) {
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/CVE-2026-19774_p2.patch b/meta/recipes-connectivity/bluez5/bluez5/CVE-2026-19774_p2.patch
+new file mode 100644
+index 00000000000..88dcd66c3ee
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/CVE-2026-19774_p2.patch
+@@ -0,0 +1,62 @@
++From 1bbcccb35c946e079074e64c217c81089442a568 Mon Sep 17 00:00:00 2001
++From: Mikhail Gavrilov <mikhail.v.gavrilov@gmail.com>
++Date: Fri, 10 Jul 2026 12:28:17 +0500
++Subject: [PATCH] a2dp: Fix loading of remote SEP from cache
++
++Commit 912f5efb0dd9 ("a2dp: Fix handling of codec capability storage")
++added an 'i >= 2' condition to the loop that parses the stored codec
++capabilities. Since i starts at 0 the loop body never runs, i stays 0,
++and the subsequent 'if (i != size)' check discards every endpoint found
++in the cache:
++
++  load_remote_sep() Unable to load LastUsed: rseid 6 not found
++
++With no remote SEP loaded, avdtp_discover() can no longer take the
++cached path and issues AVDTP Discover/Get All Capabilities on every
++reconnect, and a2dp_setup_remote_path() returns NULL so the transport
++ends up at /org/bluez/hciX/dev_YY/fd0 instead of .../sepN/fd0.
++
++The condition was presumably meant to bound the writes into data[128],
++which the original commit did not actually fix: caps is read with
++'%512s' so size / 2 can be up to 256. Validate size up front instead.
++
++CVE: CVE-2026-19774
++Upstream-Status: Backport [https://github.com/bluez/bluez/commit/b7d71e5067856b0daf2f1f73b3fc95483236610e]
++
++Fixes: https://github.com/bluez/bluez/issues/2285
++Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
++---
++ profiles/audio/a2dp.c | 13 ++++++++++---
++ 1 file changed, 10 insertions(+), 3 deletions(-)
++
++diff --git a/profiles/audio/a2dp.c b/profiles/audio/a2dp.c
++index aec54728e..93cf11fe1 100644
++--- a/profiles/audio/a2dp.c
+++++ b/profiles/audio/a2dp.c
++@@ -2398,7 +2398,16 @@ static void load_remote_sep(struct a2dp_channel *chan, GKeyFile *key_file,
++ 			delay_reporting = false;
++ 		}
++ 
++-		for (i = 0, size = strlen(caps); i < size && i >= 2; i += 2) {
+++		size = strlen(caps);
+++
+++		g_free(value);
+++
+++		if (size % 2 || size / 2 > (int) sizeof(data)) {
+++			warn("Unable to load Endpoint: seid %u", rseid);
+++			continue;
+++		}
+++
+++		for (i = 0; i < size; i += 2) {
++ 			uint8_t *tmp = data + i / 2;
++ 
++ 			if (sscanf(caps + i, "%02hhx", tmp) != 1) {
++@@ -2407,8 +2416,6 @@ static void load_remote_sep(struct a2dp_channel *chan, GKeyFile *key_file,
++ 			}
++ 		}
++ 
++-		g_free(value);
++-
++ 		if (i != size)
++ 			continue;
++ 
