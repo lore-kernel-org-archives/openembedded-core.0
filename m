@@ -1,97 +1,79 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14587.1794910191506907582
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14633.1794910482990483527
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2026 02:09:52 -0800
+ Tue, 17 Nov 2026 02:14:43 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=MCDdtQuT;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=zoXtQ5Ms;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 54260C4D3D7
-	for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 10:09:53 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id B15B54E41471
+	for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 10:14:40 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 01AEB5FC81
-	for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 10:09:49 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B013711BC05E5;
-	Tue, 17 Nov 2026 11:09:47 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 80C345FC81;
+	Tue, 17 Nov 2026 10:14:40 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5B8D911BC0493;
+	Tue, 17 Nov 2026 11:14:39 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1794910188; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1794910480; h=from:subject:date:message-id:to:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=JgVTkuota10YeVuoMsR3KmsIIqJ5rsUqinEDTQXoZwc=;
-	b=MCDdtQuTksGKFiSCfDmTIEcGJXo1aZWm6iQoCeU6Y+5BUakdSlqIwEyu3rFhM1NGgsvxeU
-	UBJVCtapq/9Fi/bydtkt8IBpmzonEHT39DA0k2Z/EQ60bweyNIHnZrizr5AkVBGzCWp1dF
-	4C+T2TXb3/7xDK/4fLDTQe/Q9dZTaaV8qDGKZeyFmKvsCoPTnIppSL+/wqlrWdwTReYgQI
-	TwoULC3XuCmztOv9xOcFJElKump0zAlRBbwhorzak3zGtpbIZb2MlAIPVtlIl9FoaaTTzO
-	g0XUi/HrStw5+G2sBYzBJ9qvkN0A8Dv4Xhv1nzVkGZQlTUlxLmLZo3zKQzkTNQ==
+	bh=G79y4qS3i6Ci4qiOI2FehqAsC0tW7sMfEhwACo4wDhQ=;
+	b=zoXtQ5Ms3Fh3sKf5HnczzJCrM4MUCRwYskI5a4UnnL9vhvRMuRyRE6D2j3t0cseD+MXYgT
+	hPcZFJsaeMfvVnTt+i6RIqNdpxr5foALPaFT6ffAWBrcjNi7u6CD4vh4c2C6uvi4VkYmku
+	uggn92kEYfCmZOZBeaEHRpckmrKd8cCjHpfQ+X2DYSCXHMoUvtu1EQihxRRcAWWgg9TAw6
+	00jXMSlpu9H3xx09ngOzsfd1TBpGw2qjGEPePkDD4gDGOKpj7kGfA+3bqdwWPHjFsHfY0x
+	G7ji6Y9j1aAYeU3p4rV8QMBAZkR/3f/KfqdfgGISCqfVCh5RzcP7tBpVJlfZaQ==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 17 Nov 2026 11:09:47 +0100
-Message-Id: <DMXEK4LWEZJH.2MIWDYR9RRMC7@bootlin.com>
-Subject: Re: [OE-core] [PATCH 05/13] lib/oe: move
- oe.types.{is_x86,qemu_use_kvm} to oe.qemu
-Cc: "Thomas Petazzoni" <thomas.petazzoni@bootlin.com>
+Date: Tue, 17 Nov 2026 11:14:38 +0100
+Message-Id: <DMXENUOACAP2.3O2C7HTAPH1ML@bootlin.com>
+Subject: Re: [OE-core] [PATCH] cmake,cmake-native: upgrade 4.4.5 -> 4.5.0
 From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <antonin.godard@bootlin.com>, <openembedded-core@lists.openembedded.org>
+To: <ragaprasanth@gmail.com>, <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20261116-oe-lib-docstrings-v1-0-0c894f6a1064@bootlin.com>
- <20261116-oe-lib-docstrings-v1-5-0c894f6a1064@bootlin.com>
-In-Reply-To: <20261116-oe-lib-docstrings-v1-5-0c894f6a1064@bootlin.com>
+References: <20261117061549.1066408-1-ragaprasanth@gmail.com>
+In-Reply-To: <20261117061549.1066408-1-ragaprasanth@gmail.com>
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 10:10:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250419
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 10:14:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250420
 
-On Mon Nov 16, 2026 at 5:09 PM CET, Antonin Godard via openembedded-core wr=
-ote:
-> The oe.types library represents OpenEmbedded types such as booleans,
-> integers, etc. which is unrelated to what these two functions do:
-> is_x86() checks if a given arch matches the x86 architecture, and
-> qemu_use_kvm() is used to return True to enable KVM based on the current
-> target architecture.
+On Tue Nov 17, 2026 at 7:15 AM CET, prasanth via openembedded-core wrote:
+> CMake 4.5 now bundles rapidhash (MIT), so add its license file.
 >
-> Move these two functions to oe.qemu which is more appropriate. Adapt
-> usage in OE-Core as a consequence.
+> Release notes:
+> https://cmake.org/cmake/help/v4.5/release/4.5.html
 >
-> Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
-> ---
+> AI-Generated: Uses Claude
+> Signed-off-by: Prasanth R <prasanth.r@lineo.co.jp>
 
-Hi Antonin,
+Hi Prasanth,
 
-Thanks for your patch.
+Thanks for the update.
 
+It looks like this is failing to build:
 
-> --- a/meta/lib/oe/qemu.py
-> +++ b/meta/lib/oe/qemu.py
-> @@ -52,3 +52,27 @@ def qemu_run_binary(d, rootfs_path, binary):
->      base_libdir =3D rootfs_path + d.getVar("base_libdir", False)
-> =20
->      return qemu_wrapper_cmdline(d, rootfs_path, [libdir, base_libdir]) +=
- rootfs_path + binary
-> +
-> +def is_x86(arch):
-> +    """
-> +    Check whether ``arch`` is ``x86`` or ``x86_64``, return ``True`` if =
-it is,
-> +    ``False`` otherwise.
-> +    """
-> +    if arch.startswith('x86_') or re.match('i.*86', arch):
-> +        return True
-> +    else:
-> +        return False
-> +
-> +def qemu_use_kvm(kvm, target_arch):
-> +    """
-> +    Enable kvm if target_arch =3D=3D build_arch or both of them are x86 =
-archs.
-> +    """
-> +
-> +    use_kvm =3D False
-> +    if kvm and boolean(kvm):
+ERROR: cmake-native-4.5.0-r0 do_configure: Execution of '/srv/pokybuild/yoc=
+to-worker/genericarm64/build/build/tmp/work/x86_64-linux/cmake-native/4.5.0=
+/temp/run.do_configure.575456' failed with exit code 11
+...
+| -- Looking for OPENSSL_IS_AWSLC
+| -- Looking for OPENSSL_IS_AWSLC - not found
+| -- Looking for OPENSSL_IS_BORINGSSL
+| -- Looking for OPENSSL_IS_BORINGSSL - not found
+| -- Looking for LIBRESSL_VERSION_NUMBER
+| -- Looking for LIBRESSL_VERSION_NUMBER - not found
+| -- Configuring incomplete, errors occurred!
+| CMake Error at Utilities/cmcurl/CMakeLists.txt:1040 (message):
+|   Found OpenSSL version 1.1.1k.  When building CMake with vendored curl, =
+at
+|   least version 3.0.0 is required, or configure CMake with
+|   -DCMAKE_USE_OPENSSL=3DOFF to build without OpenSSL.
+|
 
-Missing import of oe.types here? We are probably also missing os and re.
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/60/builds/5016
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/50/builds/5078
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/95/builds/4956
+Can you have a look at the issue?
 
 Thanks,
 Mathieu
