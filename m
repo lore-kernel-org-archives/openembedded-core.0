@@ -1,165 +1,112 @@
-Received: from mail-yx1-f49.google.com (mail-yx1-f49.google.com [74.125.224.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.702.1794936052994049456
+Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.950.1794936716632835779
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2026 09:20:53 -0800
+ Tue, 17 Nov 2026 09:31:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=yzXLaG2t;
- spf=pass (domain: gmail.com, ip: 74.125.224.49, mailfrom: raj.khem@gmail.com)
-Received: by mail-yx1-f49.google.com with SMTP id 956f58d0204a3-67bee1f693bso4279213d50.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 09:20:52 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794936052; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=TWtS0qvE;
+ spf=pass (domain: gmail.com, ip: 209.85.128.173, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-8b30cbfa628so40150497b3.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 09:31:56 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794936715; cv=none;
         d=google.com; s=arc-20260327;
-        b=AIwrwpX9hJUcwh4ToJb3ZYub44Q8VF6Z96pbzYQYl3t6ioAjIRdAjmwBm6NcnSL7+b
-         7eIqyVSm6ZCi2L4MxibA+nlWQLPlRXgdH6S6S4r+ZHgck8OmTjGcEbsps7E1Jh9jZxQF
-         xAeRZdkUiyTIw1WAwxahs0KBd5jq0h36cEvdU1CclyEuSoBisDpMWbPgg6kmgI43xkX7
-         WYlcvp6B09qDatXTxywLSrGSSSqH1YthfYwtH9HaiJ42kYikCXIDHUe0wEVz6edTGZEv
-         ntGNQ64QJVovle2PZ2DDrhqL4vrF9L3HPodjy6pbFhoZRNzjFPVmzka321JL5O6qI9Wf
-         YfBA==
+        b=DTj7L145VoMcNHrQNGVsd+H4LS0lXJr9+lfXPoW/OwRR1nQGQWf/RHeFnxtISsceOH
+         ZdheTXU/hAvcbexrLpXOwYczx10aR8pEMo70MEFlY4n1FjViMiija6wjNBbAjCcU+SrK
+         +YvW39CdMHLp/uiBA7mZKdLSd3SnnnvPkaZook0uQDzoEuF+088/EC4LaNaH8q31rcku
+         AT/1pQM9CiJmVV2RzIKORItX+mJ+H0DzZ278JWpazBK7VW9nJt1TR93T2LKk1ra0pbT8
+         O9fD7x8oQmQRuFqvDR+CJsW6hLFadeJSRqQVewyn4R2GphebozJIoRLTXVSc2BKbAmK1
+         BYQA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=3TwduS5B0+feaeElxfksi8n43Ardc3Le0gWumx2TyHM=;
-        fh=3jpKGew6zlpWCwWVOSA3RmOSWYw205GYmcif9DMUcIg=;
-        b=kyPJn2WnZ/yUYGkI8q7rEtipkbSgmROFHDUxJY2RLfGoovUVgVZWyR3A/6R7X5Fe48
-         WMH97I3gQGUFwsOR8RDEE0VgBgq+++XCcWUcXc1WOmE+By+VYYEy4clGD1TMvmFLqLm/
-         ExvbzVsPIzzW2n+rCK/7NX93ngIYydJy3QhTedOcSQ7i5GwxOGox5szzg4wO1oPDYKBC
-         mM+j1ahH85jFS0+G9hT4gjC+o4FVkX3a3uwzZL8LJmE6SMNw8t3UedkoH7sG9lPURmZy
-         WMP0blryOcBTARuySgPL9dYglVo3N1AobkcQQc5+EHGdXyO5qgJqS9i30hP8ARTh9HRL
-         t7BQ==;
+        bh=eyrIhh4i1Y7qMDd2ji//BBYmm7PHmYMNLcA0qvD8tXc=;
+        fh=wJLD6zetCfjYthwLiAEels19uL6o2/FT2mHHrVoI57Y=;
+        b=kVX1DEjPd0Jz43MbrW5Qc+Hbk7/5ytA3BW0JVXrP9ODP4zRIOdmLDLlaN1jvUHhkI7
+         p11IVsEgtAES7fxsQD2Za8jyu/n4FRU4L57y7wm1akGmaZdOJXW9Y8MetTpyaHm6WLMr
+         F5zDjgUJpFZavu5Ewgxxzz1taJYshuda4kMjcV//gbUoctGThnx2YDpUkfBmzOOBxOp/
+         LRWPupiNbsIAby+DvA32/Rfo8cJ2nRktvCBkbQ6/i61ZKESlpP3fxdrlYexZv+MWnU85
+         7k6d3d8MTJhHf0R2SLMFeCprTfec7Bm003qU83rLlR3FbwsN1dDFKvqJ9GTfodhGa3Kr
+         /I7w==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794936052; x=1795540852; darn=lists.openembedded.org;
+        d=gmail.com; s=20260707; t=1794936715; x=1795541515; darn=lists.openembedded.org;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=3TwduS5B0+feaeElxfksi8n43Ardc3Le0gWumx2TyHM=;
-        b=yzXLaG2tjyEwFBDP5swA5fzuy0ywW5AEL3OLVwfZYWj92AHFJ55fQbcYx3JugJ0hBW
-         72gf9pj0axILYokZGQ8gnnS4693rDaKfBv4yQtzRk7RPtCG/RbIxZmC7Icmtoqk+hnjl
-         w7cv2d/0lYSZEKfYolnYH2oJ2MJb9jwBX1uQmQp41GAW/h9ZCAoVrR0eQFVlM5iK+NK4
-         pIFhuMsiwbZiiWjuW/5vA7Buiy+QliCVEMQXfF3srx4+XN3UtoXxoBfXaJIzrw4w9xcN
-         3ByytFtumgQvFcKitMDxPlAcUBB9fxNxOYaAjtK+BPNP5Vvx7BEp/UUTwWA6dGGXxf/p
-         Pi0A==
+        bh=eyrIhh4i1Y7qMDd2ji//BBYmm7PHmYMNLcA0qvD8tXc=;
+        b=TWtS0qvE8DN8L0Q1uDEkq9l4PD5xYmI1VNV+h0tB82PHE4RRHJqD81kHKg8j0eBScB
+         tEET4+VYgNI/IQ36bScGvNlg46dkUwUUtp0NVhds5emh/r41UGtteYuYhYJHAoIVwTKK
+         wWcvNmoHhZ/yIsr+FhQTmMonVUBYzM0XRDtwazG0Ktjrh3z6QqGKEUuYGkug8Ljwu6lu
+         EcdFNBMF3OvLlH/c7Vr0cJ2oftNH63W1hhSJzwFyvvydLTOWeWrx/GAouHUv0ozpYg6F
+         lEnizWBGr9vGOndEXkvoTqGgfNeZExfogHl5F6Irmhsej7yP4lHQBCTPsLXOTpOfX10d
+         gXFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794936052; x=1795540852;
+        d=1e100.net; s=20260707; t=1794936715; x=1795541515;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=3TwduS5B0+feaeElxfksi8n43Ardc3Le0gWumx2TyHM=;
-        b=z6iHKVaum+9ypj8VTNhbZO6/gjqx7J6KX6ddSRYHdhjJVF368LxMaUFxYYpxts85yk
-         rjDLiKgxbd82ao7+KdrwlW50yHYocsncUvr+dsNSs50SqTpvkXx6knUzvcoqCUXsptKp
-         jUwkegGKdD3vMCctS3fgKGiMt+SMcuXf5LDQ2m93iTyA+WFrL+V+VCdzV5+6RZy/INNb
-         V2Apy48W47a6zYW37qjJZ0ctwNjYj9E10TLFk6rJjx0YxobDX01AxVcBGBUfK/BsJSKy
-         ktOPbVo56RPEpzvuSYkdSW2Qm7VlK/V83mLZmwsHptAB8F0fuu5MeIpUyhcVAQMdS8ix
-         DPgw==
-X-Forwarded-Encrypted: i=1; AL+hErGGgDBH2tSEBfHZ61Svh0XXGPy0US+7AuPm/THLGjijNLcMQdQW0awBUiRvz9Yt2NagNd9m3gquWYKXj5Bdpligsw==@lists.openembedded.org
-X-Gm-Message-State: APuU4Z/Hf9Yv6uKNyOmV5Ud5FyvR9TGzGjpmhLxNdnoBu9P/9tJjKpzn
-	BF/y+xNlyWit34I0vJrYQGDptTOva6GSe5Eg10kfmOk1WIv/+c92fL1YY0iGJjSnVi1ObJeQlnc
-	aEybNSLTqmjE2VdA78HIV2aZJa8MYpuM=
-X-Gm-Gg: AZFdTZdKSntyXmfk4/DTjcjVyN8qZKtUZCAj8TRp8bYZGkNl4GGTniLzji77JlftnLo
-	Gx1VOqkoQkPZ8vO7ORN3HUHpoTjzOhFgfaCvAuewh/2EG8LCmL1QHLiwvtP/Xn1BSgWcakgKD0a
-	//AGTwZuq95YW1mK4E7Fk1IVAurIToiy/V2fORPQF7nymQNGK0XT3hAV68VmxChkH7G+KN8taLO
-	XzBVb+8exjlHPpl78SUaEys3K182QjoqAcc1uvQknlvKU6a0+T5wf+A9Adb37tZ5YjABhJkjgbq
-	abak5PBvypuSFyhTP14XjcnLnZsp/9vIRWQO5z8XbHRQOUJ3ftxhoENWDAPyYxpKaCcu6reIbRr
-	doSbo16nwPawPYTpJcpabzX/0Udn/InChyfU0oX5U2HA3NcYjK/kv8rJ1ohpIN8xu51D0YWOvgN
-	GHVGIEy+/UZqYlGKlXJ+BrY0GNXz0plhlIqoujDA3gHGNOoGwBdyzNPYcxJVhAhsNzwj/c0pOzm
-	6R2AEalSHiBdDo4dKnhu8w+XNLJ3zyrpyu2zGOaGqzeFxmIH+fiadmiMM7BuJFZmwzPQW276Rc3
-	WCWvk5PSDRfGigucJM/Bv2YJk9QFt46xtppwvRqIpPU2Gt7PzX3xiZILWGIiCzFxPxGNkDJuU1W
-	xV3X58zpY2Bch2+gRNlSEGA==
-X-Received: by 2002:a05:690e:1442:b0:67d:b023:9643 with SMTP id
- 956f58d0204a3-67dd3f6a9c0mr135675d50.42.1794936051839; Tue, 17 Nov 2026
- 09:20:51 -0800 (PST)
+        bh=eyrIhh4i1Y7qMDd2ji//BBYmm7PHmYMNLcA0qvD8tXc=;
+        b=v9ANHFk7GyUxLxEOH9VUyFF7xacdXZZmEAD+Qm8d7dJ+GMl2m1sLvOE1nsEMBm0dso
+         1KwkQ2jBaRVgXr+DZ9yN4rOAWLjx7xDfz0UKc7LMlpvfJkY13aJ28bqhIeW/p4H9K1ok
+         CQCLsR6imMQ76EC4oIgfJxJaI0wTVDTGCXAbrRLLvYn00vW6eW9Ua1MeVKvASFAAuX1O
+         4EgRz5C2M9f3U5dyMx7NZbqlvT11MGMNTrlqzC8T5KaqRbQz+hSocZdbMEstD7Q9xNI7
+         sN3v+79p7qS8keYa0KRjgCDT9PqbOjiDrg8zoHH4KjIl99T/R7vjn21Z/WMhBOPoU8k3
+         8Grw==
+X-Gm-Message-State: APuU4Z+gH+BiLUmmeG6yg9zpKF+fjbMM83ZKWUV3r/rKkUtMN95QNOGJ
+	t1c0wpkna1A1mGP07JZmSTKhGtYi0pkDmGLXfNXQQQhceOFoLC8J4Eoa5x4zBCN2K8ceF+2EjJ2
+	V/sAx+6laIPux2Fj6H8RPkRc91oaEoIg=
+X-Gm-Gg: AZFdTZe/jY1czmnsLJI44UuH1qiIEV7/Pvpcskcr7Mel9P/dtsLty9pklxBHEM/uqNU
+	15KEkkzFWjdVp9fQZaFMoe1IDksSBHJfnE7wTkiOkmvFBwpfv2Gw06wCHVqAUeSbiOeOdh9D2wi
+	SbUXNP4vAbz//MpTQ958/SVcqpaMo+EwaksRmkHIIJPxqOFmAEH0vqeL8dsHDhVBs9sgHJurC/t
+	ap0uzOCxD1kNF49la9xUvEs1tkdCMBZS/M4/LhjhzeVBkYRLlV9tVPLb9BlX6BrKn1r0lNyHmWG
+	67FUP2YOFF2fhaJmJX7R3bHePFBfe3PnwmIjbGlHtCwdxEvc7MMjp2jvtAKtOLQi0rASRulcf8d
+	HMIQFpaAN5djTZ9XTmXiKohYUrAgDuHWQkrcmDEqfH/jUSekDtIoWHQJ5Qhug5u+Rgh5iETJb
+X-Received: by 2002:a05:690e:150b:b0:67b:ec5a:2075 with SMTP id
+ 956f58d0204a3-67dd401a0f4mr125763d50.78.1794936715485; Tue, 17 Nov 2026
+ 09:31:55 -0800 (PST)
 MIME-Version: 1.0
-References: <CAMKF1soWija+eU3x0oK34cdankotbZbz+Z056eDKeyq2TzqG6g@mail.gmail.com>
- <20261116184219.361983-1-khem.raj@oss.qualcomm.com> <DMXD8QI18JYE.139J07RM2331Y@pbarker.dev>
-In-Reply-To: <DMXD8QI18JYE.139J07RM2331Y@pbarker.dev>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Tue, 17 Nov 2026 09:20:25 -0800
-X-Gm-Features: AclHuK_zuR3zCHVC9YyUqmGD0ody2PPmp3MtiEAtL8NDw4cuwpguuDgUwrOwkow
-Message-ID: <CAMKF1soGizfJfZisRNfg+rnzfV+DcemrEqWfTVAa31dSH_4JSQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 1/3] consolekit: Upgrade to ConsoleKit2 2.0.0
-To: Paul Barker <paul@pbarker.dev>
-Cc: Ross.Burton@arm.com, openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000c3b4ef06607c1da4"
+References: <20261117120155.3986876-1-sean@geanix.com> <20261117120155.3986876-4-sean@geanix.com>
+In-Reply-To: <20261117120155.3986876-4-sean@geanix.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 17 Nov 2026 18:31:44 +0100
+X-Gm-Features: Aa3M54rLdpwAnOhlE6IXOFgPx2Ve0ECiGAtb1gAtriT2xSWCVv91_EntZOcNnPM
+Message-ID: <CANNYZj8S=HnSE8UN8hpVF4OfNQaaXu3W8MCaJCGjujfAJbOsvA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 3/3] oeqa/selftest/incompatible_lic: build
+ the SDK in NoGPL3 core-image-minimal test
+To: sean@geanix.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000005223b006607c456d"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 17:21:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250464
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 17:32:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250465
 
---000000000000c3b4ef06607c1da4
+--0000000000005223b006607c456d
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 17, 2026 at 1:07=E2=80=AFAM Paul Barker <paul@pbarker.dev> wrot=
-e:
+On Tue, 17 Nov 2026 at 13:02, Sean Nyekjaer via openembedded-core <sean=
+geanix.com@lists.openembedded.org> wrote:
 
-> On Mon Nov 16, 2026 at 6:42 PM GMT, Khem Raj wrote:
-> > ping. Is there any concern about this change?
->
-> I think we just need to confirm whether all recipes which have a
-> dependency on consolekit are compatible with its v2.0.0 release. IIRC
-> there were a number of backwards-incompatible changes.
->
-
-In OE-Core, pulseaudio is the only consumer
-Pulseadio also only uses object paths from GetSessionsForUnixUser and the
-Seat signals.
-It then calls GetUnixUser on those paths. All of these still return paths
-in 2.0
-so it should work without changes. It skips ConsoleKit when logind is
-running.
-
-are you or anyone else aware of something else that is impacted ?
+> +ERROR_QA:remove:pn-core-image-minimal = "license-exception"
 
 
-> We may have to carry separate `consolekit` and `consolekit2` recipes if
-> there are recipes which aren't ready for consolekit v2.0.0.
->
-> This is still in the queue as no-one has yet had the time to go and look
-> in to that. Sorry Khem!
->
-> Best regards,
->
-> --
-> Paul Barker
->
->
+Why is this added? I thought the point of the patchset is actually fix the
+error, so the test should ensure it does not occur?
 
---000000000000c3b4ef06607c1da4
+Alex
+
+--0000000000005223b006607c456d
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Tue, Nov 17,=
- 2026 at 1:07=E2=80=AFAM Paul Barker &lt;<a href=3D"mailto:paul@pbarker.dev=
-">paul@pbarker.dev</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
-" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
-padding-left:1ex">On Mon Nov 16, 2026 at 6:42 PM GMT, Khem Raj wrote:<br>
-&gt; ping. Is there any concern about this change?<br>
-<br>
-I think we just need to confirm whether all recipes which have a<br>
-dependency on consolekit are compatible with its v2.0.0 release. IIRC<br>
-there were a number of backwards-incompatible changes.<br></blockquote><div=
-><br></div><div>In OE-Core, pulseaudio is the only consumer</div><div>Pulse=
-adio also only uses object paths from GetSessionsForUnixUser and the Seat s=
-ignals.</div><div>It then calls GetUnixUser on those paths. All of these st=
-ill return paths in 2.0</div><div>so it should work without changes. It ski=
-ps ConsoleKit when logind is running.</div><div><br></div><div>are you or a=
-nyone else aware of something else that is impacted ?</div><div><br></div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft:1px solid rgb(204,204,204);padding-left:1ex">
-<br>
-We may have to carry separate `consolekit` and `consolekit2` recipes if<br>
-there are recipes which aren&#39;t ready for consolekit v2.0.0.<br>
-<br>
-This is still in the queue as no-one has yet had the time to go and look<br=
->
-in to that. Sorry Khem!<br>
-<br>
-Best regards,<br>
-<br>
--- <br>
-Paul Barker<br>
-<br>
-</blockquote></div></div>
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 17 Nov 2026 at 13:02, Sean Nyekja=
+er via openembedded-core &lt;sean=3D<a href=3D"mailto:geanix.com@lists.open=
+embedded.org">geanix.com@lists.openembedded.org</a>&gt; wrote:</div><div cl=
+ass=3D"gmail_quote gmail_quote_container"><blockquote class=3D"gmail_quote"=
+ style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
+adding-left:1ex">+ERROR_QA:remove:pn-core-image-minimal =3D &quot;license-e=
+xception&quot;</blockquote><div><br></div><div>Why is this added? I thought=
+ the point of the patchset is actually fix the error, so the test should en=
+sure it does not occur?</div><div><br></div><div>Alex=C2=A0</div></div></di=
+v>
 
---000000000000c3b4ef06607c1da4--
+--0000000000005223b006607c456d--
