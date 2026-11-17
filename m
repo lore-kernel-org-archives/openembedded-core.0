@@ -1,111 +1,93 @@
-Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13776.1794906475906496137
+Received: from mail-yw1-f172.google.com (mail-yw1-f172.google.com [209.85.128.172])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13978.1794907728749433869
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2026 01:07:56 -0800
+ Tue, 17 Nov 2026 01:28:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=JADv7G6p;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=pux/ubPP;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.157, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id F136C14000E2
-	for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 04:07:54 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Tue, 17 Nov 2026 04:07:54 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1794906474;
-	 x=1794992874; bh=Xxustp+cVNPs0Rlcw/CZJLbj2yZwCbv/Gf+QU9bFO+A=; b=
-	JADv7G6p87+9gDE8yt6G+pScaae79c17i8yhdW9kQKMIhadZie2F6e5dLLecgW2v
-	vhhbtkntSE5/F+TfqV6T9cTf+WCIp/+jDLUwtAcJHf6iwPwJqoK3h4jvkhv9kSn1
-	GINyOPBV2xZrXekg9kZrdPJgA3rOWKtjF1V11IH8FoRocweFrClJ6MgGUZXqVa66
-	jjo0+3pINcjTbXLuyDkKT+8JKjae3Q9wReBBe2E+Y4wB0wwa2CO15gh98UtL4xBq
-	li84NL4z4FKYMHtQ4Rc1Xk5vlC33zLdF9jijnXSUREju3hNNTs3OUNAb6WpwbaGR
-	Q5Z5EH+DJfKWKr2/LKaDog==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1794906474; x=
-	1794992874; bh=Xxustp+cVNPs0Rlcw/CZJLbj2yZwCbv/Gf+QU9bFO+A=; b=p
-	ux/ubPPn94Otz/Zm7slnofjnyYwh26bqvgYlp3B9/ktCgqTO7vGkOvKoLRaUrL6j
-	yBMwCmwXf0NmgmQ+lImaXpNLz7jEILs2vd8rEjLjRT5qrPY/T13JZbt4T2WJ/5ds
-	GX3uHZcN01wmQlrk+GJBGBYPzHQndlDYO4DtVvQkOkj9lXrEuD4L5PvISg2WcjeU
-	9UEsUoOLSYyvYDAo5ISA5b/CVI/XXbg8Ne24KdSOLyFJPSfBWVo0U+WuAKGMm7z0
-	xG6rQWjqvsou0okZOrGb3H1yDjB/aY9fjBJPzAzYd4JijTJTJLxbIzpJoCUC9Yme
-	v35Fitzq0QOxbtCvLodfQ==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=pbarker.dev a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1794906474; d=pbarker.dev;
-	mf=PHBhdWxAcGJhcmtlci5kZXY+;
-	rt=PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+;
-	s=fm2:rsa-sha256:ImX8d9A9ugfwHlA55Y0FmOQpQ6lrinrXPbyTXZG4kv0dQC8
-	wTgq0lpS6QaN/XyO2TyzTayf2hRS87Cw627x7gLxqkpZhvPNuTK723QTcAZMDEvA
-	MgkwayCxZ9NOhp3Gsi3lUcDaJoJszvWYmsv9ka2oUOYgjPKhHnwHnFzEp6yEa3oU
-	uhRkPCHEiwcKzH25I+sRm+86TBLXTYOSYXhr+m/gwFxCpU2Houkz1ykVJ5txYph1
-	50t8yDu4lCj7rVy/mvJXJeAkrlgqWFNPzrbwDqMxHT0cHKekmtZJqu6TrLIdn2RZ
-	nO71til8r6RZorYMF47GbG0HpNqDDxbNbcnnA/A==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:7EFPMkW3KcrwvW6XXTPzXHrE0XMJ28c60UH4Nr/RFXw=:Xxustp+cVNPs0Rlcw/CZJLbj2yZwCbv/Gf+QU9bFO+A=;
-X-ME-Sender: <xms:ahn8aodhNAp316rKvMyBeBk0jq-BWYyu7XCEPggzUYW1EFLaq5YshA>
-    <xme:ahn8ahrIMhRy5qbt3iqB4SWVvSVJ3lwRqNiqozAKF2mAKEXgVh2eP1hfG5j5sUeE-
-    VwU7IdqFiFNiBTTxoT1rUpiqHchH3MfWNH0PtHCk7Jv0-DtIqBEwnNT>
-X-ME-Received: <xmr:ahn8am6X3HFgT2zZhMB8js9GOVxL4OgAzt_uuVKLgxw-tsNv65wedx2K0qZ_ClA16Vv9_hCAxcP_4xMStGFgM7hLmcZT>
-X-ME-Proxy-Cause: dmFkZTGYbA3iAHFKndxzJtV5AtdoXqkEHjr6CwgnDH26fwlLFAzM1UoJWqg1IJ8xZQFs+D
-    sYzcI+CFGzIf73EFR9X9wDgM70xZ6SCFqY3ItQwdNOPTPTCjuk5p3FhcssrTzWYNr9kNVa
-    zzpuVIIHkh7R6Nhtr2Ngr/Pgj6xVSsl2UvUpZ3+94N0gN8G2OcYE/ke4BPieN2eQtT2ixe
-    g+VnAltkwABTDhPOpKXbUpfoZ1WLPSqtc8G+Goo3hSESfZF/UeY8z3+D/TA+aBKHi9TTnn
-    0ejGwwb12fwr7Kz/vZ4cimFu0RFfZstO6tOQQ/zl0mnEQjFfC8aUYxSMQ9gw86PVFbJ9D/
-    z501ThMyBZqEMvmnrlyTGXOzuQ/4F/WksP6LItyYo+iezz8gFwdImlmC/aRGDzB6mGDMoG
-    NLgTJfzvJe99NdXFZSgYqMJM8dcJQ96cwzRjXedjtqK4+eKtj+NfOTKHiLwRxQ8KC3farL
-    QCpWfLIIszQXyc3AW0Aw1jGYw1XFXauSf/j5UTyyANwMe+N62BD/pVN2WDjcou05AAuqBv
-    L8C1H344QU7CUB2Dgu8qQEiktjTX1YAOUwd+1EhDDeFZBM0IaymKgSEy4JTHBYq8nFofqO
-    XnupS3u79t9ez1muMZ+JLj14DNcbHpsGEPa0jDXGy7K2XEn7Jzl9WZvGpztg
-X-ME-Proxy: <xmx:ahn8anrRK5F7Po4bELvBWTTkFbB4xzPcTRrORbYwOq0BM4TnuobqsQ>
-    <xmx:ahn8aohItYBQW1RL_BnFCKexXvEjxXqYjpzLrbt7-59YinoCE6NvJw>
-    <xmx:ahn8ahKTS4Q1FUYvQ2wqWBjc0BhWUlonPYCJs_FD_ClwVAdMkgDWgw>
-    <xmx:ahn8aoDUutgpiOCuVUQWmRWfAImgyHGCET0yMl-Ni5CMf2plI_Tt6Q>
-    <xmx:ahn8apmvu55I7z1g2Wd0ooIUCN0cTW8lNQm0nELgOoOGV4lH1ctr2n5u>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 17 Nov 2026 04:07:54 -0500 (EST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 17 Nov 2026 09:07:53 +0000
-Message-Id: <DMXD8QI18JYE.139J07RM2331Y@pbarker.dev>
-Cc: <Ross.Burton@arm.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 1/3] consolekit: Upgrade to ConsoleKit2 2.0.0
-From: "Paul Barker" <paul@pbarker.dev>
-To: "Khem Raj" <raj.khem@gmail.com>
-X-Mailer: aerc 0.22.0
-References: <CAMKF1soWija+eU3x0oK34cdankotbZbz+Z056eDKeyq2TzqG6g@mail.gmail.com> <20261116184219.361983-1-khem.raj@oss.qualcomm.com>
-In-Reply-To: <20261116184219.361983-1-khem.raj@oss.qualcomm.com>
+ dkim=pass header.i=@theyoctojester-info.20260707.gappssmtp.com header.s=20260707 header.b=Kjs4ASGZ;
+ spf=neutral (domain: theyoctojester.info, ip: 209.85.128.172, mailfrom: jester@theyoctojester.info)
+Received: by mail-yw1-f172.google.com with SMTP id 00721157ae682-8b4cd576f2aso18373737b3.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 01:28:48 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794907727; cv=none;
+        d=google.com; s=arc-20260327;
+        b=fGu/kSflvwffzAx3Eu9LSzOfGa5/AYQ1sdnvZwKPanooSggrhkTpRpWtH5EFBOlEzo
+         KB1hihEeJBUtr3g8QcGKKVapQau1P7qZXkN+ueXRxqAP+tzJeOxil3QGjGqoAljPsy+y
+         LvzIVdPmje7Ww6e3Y9hIG8iC8vVLMahMdxHCJiGGPFxZzUgtX1oK9vA4yoKy00jNjpyP
+         aem4Fretc4d5WYsHmRuGMuXWRfJbSchmOykuqVJ22VyQ4iznim63fJvIQEC/s7/BK2Iq
+         x+qn2zxiuyGSXY/na+eFxzVk0RarC3I9ogiRse6EiQrN5Wfs1qtEHMuwcnLaj0V6xcXx
+         rAMg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=7zGHJge/+/jVxb6TNIn8p4XO+EYoA7MCp//QCyrMLbw=;
+        fh=eNgii/rhf8FxiHk6a0xWpYThESCFwUfKDUqgZ5C37kQ=;
+        b=CUAaJKcEmfVY3vpDd0Sj6zHfowWovg75AUPz9CsCzMn59EznciCsdJgTfgF2U8KBSn
+         L/zv/lBT7qiOas6hfL/dxdn/+ZO9RA1ATSNv76zLIGzg9T3Y/9tsXzxldVX9Gt9HZZzx
+         +0GCu6dcEe2tsIiBXHpBiAHTP+5jL/9MJqnlH8McAUpZaax0FHU/BMehhKMUOQesO+oz
+         tme7TuvdcM7c8C0FfuQVX04piyHu2Z2vpTNmjqkSMQM29tS3AWZHvoTCi4z6JLfZvEyf
+         910jfZ65BXk8va0flBBsBQKgrIpgjcP9VfrAX/FFB3vDstWrXgUruGsBBYdOSRYNea10
+         H04Q==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=theyoctojester-info.20260707.gappssmtp.com; s=20260707; t=1794907727; x=1795512527; darn=lists.openembedded.org;
+        h=content-type:to:subject:message-id:date:from:mime-version:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=7zGHJge/+/jVxb6TNIn8p4XO+EYoA7MCp//QCyrMLbw=;
+        b=Kjs4ASGZSyBGD71+otkCX9UUMUaeVjN/iD29PdM+gsyp/YIrpddtlstWcCZwmd/l1/
+         pXayUvd+Ds+TTMLdXZAphDznQw0gWidN/PgRcvjTp55FTzRmHlOPc95hKnDXIOBydvlb
+         lb/k2M4vy6SbHQHZcXpZ0zaToK3CG5MqGgkxaWs8MROec84dt8iFJdJQJX1ez8N37GfB
+         I8qWRhvyrNhwz1qFRRDpFay8dGgOtsTQIbYwsUFct4V4LVbbW7M1NYdFOZfUfGTrntlb
+         7kPTLaRoqRxM/gxuPIuQjwQh1uiGFW/iHZSvHFE6FttoU5VG/mPV6eSSPh+8CEk1odtF
+         HPEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794907727; x=1795512527;
+        h=content-type:to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=7zGHJge/+/jVxb6TNIn8p4XO+EYoA7MCp//QCyrMLbw=;
+        b=MFBmjlgV0LdhWctlndoCym/3kvsqCMHVgrKxLk1bixVE2SDAlpIvjKn4Dek9VMzbEL
+         5cYkpZrOkEq34pAstb95O8X4ZCJYpC6OXRZ+BSvqcEQqghGTZeDYje/jC+rcbBXId2d9
+         PvkcAOHMJSISZj3QLtxrUIRWoUQ35e/k6mKoJPtyVPBb2+WjKoxrQSiRNoKtWpWGHUg1
+         UE4mrgS7kLIBBSJHwD9B4U6Cw5H46kurh4mxy+KXzAvvsC91QICblW7PfPCBn/6fcsEB
+         Uq/o8KuSty0CMYpWKdoQQf7mfKLIDBxKfbJ1ju4BYRbq4vN+wbH9ItCgJGAX/RI4xj2I
+         yPNg==
+X-Forwarded-Encrypted: i=1; AL+hErGBkK1NZWdz0Hmo8jd1NntkZAAmHBgPgDlPKDmVX9ViI8tLdZkX1HkaeDvZ9ySRpp1DEtIjtiIxl8cJyV2jgE71mA==@lists.openembedded.org
+X-Gm-Message-State: APuU4Z95H8IEsLv8btWNprnEJZg5N39z6XdnvFSTC/VSpRT4FDGTDyoD
+	QbKueuZvXdtltyKRaJZkZxf9Isb/rz/LwlD0//Kb0YVz0pnXkKRXsrxTGJBRq4eBa1rP+Egb2wY
+	+E0zxzRuxcaepelVtjDpDTtZHVO+mh668BOFfPQcYKg==
+X-Gm-Gg: AZFdTZdQC+zm7F2VeDq+XgA81oAPj1TLlmDVchyQ769EKrpj6gm1cWcdzxsbqOK5PLM
+	zLnp0pkqsO0XmT99nCFHGrzUsymDzJWCM8YwcbWkYfIkKRDOxX8iRaAURa9Wbrjh8AHG6EBbsjt
+	llOrGWt5VZLU5JHZtb17YtZMPznTU3FGNFA0d2r7VZYhcMk9oxk7bMDZ/wRMfpr0JmnC8JIM2Ts
+	+FIu9Wm2KlWuembjJIy/6esX63cE9EcsMEv5vz9X/7XYBrE0eqwrnMG/654EQXcnEpUuWIkbvvn
+	jJKzMWPcOP1VYlp6dKi3OsOcVlB7SWtSV8dxbvEwv+9zgxgO+y09n8K6wk/EFiT8tBtxXUsPJ7M
+	XEVkaBe38BEgq5cIrROYJIaNn8VT4uMuPoQDmJr/zQmB08pRQ14Ov+0WNclBD5HvDHR79SfUPeL
+	xVqG+1m7iRdHx9BQTJE7yAOjfbfAnqghurAS4Ukuz3vQ==
+X-Received: by 2002:a05:690c:f03:b0:8b0:bc6c:9229 with SMTP id
+ 00721157ae682-8b4aa2e33c0mr84636287b3.27.1794907727496; Tue, 17 Nov 2026
+ 01:28:47 -0800 (PST)
+MIME-Version: 1.0
+From: Josef Holzmayr <jester@theyoctojester.info>
+Date: Tue, 17 Nov 2026 10:28:21 +0100
+X-Gm-Features: AclHuK_RWciqAMZ5aWmBm-5DFBFJHFzzw7jqQk-UCGMm5KHZEAGdLt5dnKHPr6c
+Message-ID: <CAEt6NwrXK7Zcz=Ljc7VS4U0Qu+yfTb33SDpjUn-GA62CDgP0pA@mail.gmail.com>
+Subject: YPS 2026.12 - schedule and registration
+To: Josef Holzmayr <jester@theyoctojester.info>
+Content-Type: text/plain; charset="UTF-8"
+Bcc: openembedded-core@lists.openembedded.org
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 09:08:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250414
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 09:28:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250415
 
-On Mon Nov 16, 2026 at 6:42 PM GMT, Khem Raj wrote:
-> ping. Is there any concern about this change?
+Hear me, hear me!
 
-I think we just need to confirm whether all recipes which have a
-dependency on consolekit are compatible with its v2.0.0 release. IIRC
-there were a number of backwards-incompatible changes.
+The schedule for YPS 2026.12 is almost finished, and we've got the
+good, the bad, the ugly... I mean, the good, the better and the best
+things lined up for you. Check it out at
+https://pretalx.com/yocto-project-summit-2026-12/schedule/
 
-We may have to carry separate `consolekit` and `consolekit2` recipes if
-there are recipes which aren't ready for consolekit v2.0.0.
+And then, hurry up, head over to
+https://register.linuxfoundation.org/yocto-project-virtual-summit-2026-12
+to grab your seat! No change since years, still only 40$ for a
+whopping 3-day program.
 
-This is still in the queue as no-one has yet had the time to go and look
-in to that. Sorry Khem!
-
-Best regards,
-
---=20
-Paul Barker
-
+See you there!
+Josef
