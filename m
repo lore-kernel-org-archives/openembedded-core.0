@@ -1,88 +1,118 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2099.1794933755070633914
+Received: from mail-yx1-f42.google.com (mail-yx1-f42.google.com [74.125.224.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.517.1794935649532606358
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2026 08:42:35 -0800
+ Tue, 17 Nov 2026 09:14:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=NNCIOiqL;
- spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4a207b02a2cso493775e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 08:42:34 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=XXzI4D2x;
+ spf=pass (domain: gmail.com, ip: 74.125.224.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-yx1-f42.google.com with SMTP id 956f58d0204a3-67da69e7c31so3651193d50.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 09:14:09 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794935648; cv=none;
+        d=google.com; s=arc-20260327;
+        b=SCxDlc+cUIk5iiA1aWIFCla0T6pG1BjNcd/DseO5tav6EWD9ClbPlZMZX20xXYVu0u
+         x2uWi7aAr0157AxdgAGQbVO8o1gpyoDiCtHBX9N0+hANhYlS3RhfVPafQBvsA6ZIF1TU
+         V1VlEBMV09KVBncyWFuPo7wQl54sbjr4tWqYuWCzq415jJbxb2tPQlOdI+33bb1EX4ZX
+         yewxuow3hMEgfbdjoVlyuWCxYsDM8efIYCFLnSmAkgptyMHdSVEFSPyU7FXZ2Z2AM/jJ
+         J+duJO6MeHzfykxAESZMr63HW+wxHFF5BUvZAo0mRK0bg/EBKe+jiAz/fwa9rx+zL5rN
+         j0yg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=/fHoNptln//MWvlq9RFuO1L1oc+JET83zAh6l+MfQpw=;
+        fh=/sTkXmBDUxdUscKDWpZvQGvURinJNfilrg5jiWT2PyQ=;
+        b=XM3MvuhCcX8ge+DxQDUdYfpjj4lzXgFKugMC1hExYRhy02QtUV9sfSw2S/GaCb/u+6
+         yM5CgUDzcIHozCK1gbWfKfXxSJgg3jPCoTl7S5rOMGBEBVGDhzCxL+iF06zYzTvXTSic
+         wxKHEJo4YsJqHsJtowgu6ft8otuHvRFCQGu3cNQdYOZ5ROL3UKVTh2YdlTW+fpEF6H97
+         VwxyrjfdjmLvwu2QWhVXwSfQGpOe7W7SvOXfZMVPOtta5A3AwPTiV8gVFoR+Q2OmNvSW
+         6TZTYbPBh+3OUq0XHApUuM69RB6w/fPfGvxRYHgG2lso7FXStUY1aj5SEdWjGN2FXU4q
+         O3Ag==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1794933753; x=1795538553; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=JGGBxXE63XGAYbS2DKIFu0mIK1GWgHU7L4bY1h8plZ0=;
-        b=NNCIOiqLZY2uXgXiu0mmH1rIDSAjJXE8Gs+dwO6BWhwux3MIuId3Ey6Y0XqHvGRPhU
-         myvbeVyDg9u85MZUnBMd0cf2bsNQqTMtmeyRGneERjlpaw+zcZAXWHXnUvXqggW+826g
-         HT2j5S09yV2w6LM5YD7BVz3IbfXuIO+dhUzAH+R4PHtJ85NjkcFsb+NlkEuWm2MpS47c
-         dhFd3zE/mmfQg/dVf9YptSm5bRCDUR1SBRKuq+jHVdd2fhzGw+sYgY3y6mn5sGaE07R+
-         TCuoWciP7BFnuho+6Jz54A+jFxxmPtv66DUvHQFFtREsY9GulBEEd4fbvDqEbX4ZaJI1
-         OPCg==
+        d=gmail.com; s=20260707; t=1794935648; x=1795540448; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/fHoNptln//MWvlq9RFuO1L1oc+JET83zAh6l+MfQpw=;
+        b=XXzI4D2xsTGR71a07lAdSPouCzoiVXJxB8NBvnYFx7JYfnB5D0wrMYLR3D3dD6zLVi
+         TcR2pk/fhuhykLZvthVEl0qk91IvqNOjkDERXHqO7JUI8wt4IwOZzJnXKoigs7rf5TVV
+         ZjuRQFCk7q+ClXfbwu2Ic3aRAlp2xqdqyD7GUvRiIfKCOVqUncCqSQz3EyTnIntXBj0a
+         sbZEpVJ6yncVJUxg0r3ByjQYrqRoaiQMqmw6LQMp7tUgBTJn2WCoM5e1fnRbEEBCO/yH
+         4HJDLyqqFtFLv6Wzq9knFLputDNCO9KzF+RfKg0jg3JHg78Nfz/gTwnEVTE6fBurZea5
+         2SmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794933753; x=1795538553;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=JGGBxXE63XGAYbS2DKIFu0mIK1GWgHU7L4bY1h8plZ0=;
-        b=DXX0x88K1PXjlrUCxSYoHVOuq4KE8GZ842l7PGoYRcX6sQ0KaXWdWAvJKiCxEowTTS
-         pJVeyniTB6dWQKPOaaev1UlHFhD3rEReQOgUOs/6nTgyXug9um+ATO0YxKHu/lwrwwPX
-         T8e8yEidCCND+MsVGmgpCE9lPUuCaNQq5+9H1ND/sDcAs0oXaN/yRroDrzPbNNYY7toF
-         RRncCwiRljtScA7jOThBCgDJBDYFTsWo7am0b5G//0gfGnwtNAX2BGSgOdOJTkn0txgx
-         OQ+u1PtsgC3PcXDjiNoRh0yK0XTB9o/rvXw7ugmUcpgX/BtwXkw1nc38O+2tmIMxONT6
-         MKHA==
-X-Gm-Message-State: APuU4Z8sBjsaMom1k2Er+EcjUFzKzzGZiZZYU+uLHBlbKJWY4ouO+pXu
-	vKo9/e/M/mUzI0dXEFcsW/WDV/4dI/XB4SAVTXYDa3ZHPNFj+cifSPAkGULbULj/o1zXppqmVY4
-	qnPXHL3M=
-X-Gm-Gg: AYBFou3WhZeuR+U+JGYaRX5chAjLvGJCkAfkEM9WnLiWFZjJK5XXDv6m8fU7i52SJtZ
-	5y2yv63xHuCJO1QYb/4AbLsBomw/BNihhCvIuKLT3HBAmUSgRidHtGTMfbXGiAgB7OlfzTkrLmA
-	iUUQLePeh0jEOJQYoD/S7W40LC54/92mYoNSUqQ4sr7xIANFEc9rDNc/mg52YuYIf95ID51MYmh
-	vpYa+ZIO90NhvgGnybYPP/HkksofJX4lvslFql0W95tNxqfApzvvHVPkP80GmJwNkoUDiCyiqL9
-	vW38F8zoDtn6shvzKqnLg4uQg/+GzuHefwCmiekDB16RahvxCtf4OOgc5OaCjn9XH3DZ8HeRFPy
-	JI5oHgftr/ZRM6Ctp4bWNr077eX7PSeEfyFhScgPBsc+WPQU+PwaVIEswDjCsrk934E3M9gaf9R
-	RsIsNwV+L9KYh/wTmJdGzVj+PdnQ8a88JHihAPLyIRzcEdlblYsStR3wWcpwnxMMwwHmAGAfK8u
-	DhuAmOSFxuLR5U8I+T3Vx0K2FtmcPbQKcJC2c46TZe1daEMjw1LAA58inx3JKkBUCGgvpbBxyPc
-	OSYScD4grNc+DePW7QLuG1D5AMDh3XdNt4UWsLXKbQ5DTB3xjv+36cDyHCGbM6PMrhvNE36XIZf
-	lkQRAnzmTDsppBaBdgzMKcWTOTSchTs8UhBuFX9M5ThscHLehuW4=
-X-Received: by 2002:a05:600c:1d0e:b0:4a1:825a:56fd with SMTP id 5b1f17b1804b1-4bb55aa28e9mr315325225e9.32.1794933753128;
-        Tue, 17 Nov 2026 08:42:33 -0800 (PST)
-Return-Path: <yoann.congal@smile.fr>
-Received: from FRSMI25-LASER.home (2a01cb001331aa00feac723419d59c8a.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:feac:7234:19d5:9c8a])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-49c5f77fc47sm29241987f8f.22.2026.11.17.08.42.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 08:42:32 -0800 (PST)
-From: Yoann Congal <yoann.congal@smile.fr>
-To: OE-core ML <openembedded-core@lists.openembedded.org>
-Cc: Yoann Congal <yoann.congal@smile.fr>
-Subject: [PATCH] pseudo: inherit upstream-stable-release-point
-Date: Tue, 17 Nov 2026 17:41:51 +0100
-Message-ID: <20261117164151.1362220-1-yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.55.0
+        d=1e100.net; s=20260707; t=1794935648; x=1795540448;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=/fHoNptln//MWvlq9RFuO1L1oc+JET83zAh6l+MfQpw=;
+        b=k3k/VvJw8NNKllXt+kETLXc7FDu0tkprH9ooiqwIXvFcnEBnLJCVEHQhpOiiPvqY7F
+         6yUNTPCyrYWkAdcvHWI/QTB3F7bAjB8zH6iEsMJqQ2mxG7s34becYPqlTvTpq/PsVX8z
+         fNvQvpOuA0tyRgay2KSVU2NLggQWrJIKtoi19tuGb4byG5tkaTSw8m/Ewc0b2OVKPqOl
+         bOz8+WcsWecMlra2VDtyd5LR7gSoJPgd1JVTQHra6CfBkiiYN3oVo4GsD1mMtjV2KQYv
+         xrQtNAIiJED//WUL7csRgmtCvbxBYz8N01i6iQmwkJ7eKoPiUEs3nGBaAcdaOSyifLhE
+         pF/w==
+X-Gm-Message-State: APuU4Z9tKgoNk7F6UQXzvYi+PQn5ob5DGHg4GQGuWO4JkDOSOx/csSyQ
+	VKZVyD/7eVHxL9ZG8eO4IerI4J8cIChBoIi0WINV/Nn6p/T1MSmkBbickP7Av0HctHAJ/auF5Fx
+	SG8e17EI0bpWGWEgg2JIUCnsrOMgjjYw=
+X-Gm-Gg: AZFdTZfT9Rq47/KtzGwOSTJEPMV01AbkKs+NjtZxAwqEIThjX4CjlmrI0Zd9L+f47+f
+	J6y5WN52YnNdmfRS/rITp/EApsx2IgwIGtbyPVK8qtCQl83+TZdPvM3fg6JdjXYnV6B++tyn5HJ
+	ozK/7EhlI55axuJmcf/pgBYe34ZeXhv3JAiwFvX1XSwEyTHM+J5eMrYR/6QXL119IWoQrkMYe6H
+	pyvDRC35ZWoq2ruX3hwOdI8shoBucidQdjs9SmHMRHIxET5P1K2zhQ1k8ar5yfKDmBDUHY2Rcsb
+	2aZ8euyL2S3lhCj3+laawU44GGGplPNeljAhbsiAQkChgAGzy/FCZ8J9vbi9ZnXCG07S2nTTbBn
+	wzZS+BQU6AOua8HB8xNHTBIO+2ZObMkWQ3UrogUR8ZMl4i2P/Ji9C4414kLOq2csIuH8N7LlKpG
+	Ar1n8fWgcMR4kaaezH
+X-Received: by 2002:a05:690e:1387:b0:67d:adb1:f165 with SMTP id
+ 956f58d0204a3-67dd454174amr31114d50.47.1794935648548; Tue, 17 Nov 2026
+ 09:14:08 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261117164151.1362220-1-yoann.congal@smile.fr>
+In-Reply-To: <20261117164151.1362220-1-yoann.congal@smile.fr>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 17 Nov 2026 18:13:57 +0100
+X-Gm-Features: AclHuK-a3bzFpafY_lGEH-ZF6PEc5k7RRxeZIGXGKZCJSzrS37R1ewyfd9otf4I
+Message-ID: <CANNYZj9Uj5v-Tb1TrA+TrxrdEyjO+qj25byZ0fWtUpiLHKH-DA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] pseudo: inherit upstream-stable-release-point
+To: yoann.congal@smile.fr
+Cc: OE-core ML <openembedded-core@lists.openembedded.org>, mark.hatle@amd.com
+Content-Type: multipart/alternative; boundary="000000000000b9fd6306607c05ef"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 16:42:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250462
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 17:14:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250463
 
-From: Yoann Congal <yoann.congal@smile.fr>
+--000000000000b9fd6306607c05ef
+Content-Type: text/plain; charset="UTF-8"
 
-Pseudo now has a stable branch pseudo-1.9 with pseudo-1.9.x tags on it.
+On Tue, 17 Nov 2026 at 17:42, Yoann Congal via openembedded-core
+<yoann.congal=smile.fr@lists.openembedded.org> wrote:
 
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
----
- meta/recipes-devtools/pseudo/pseudo.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> Pseudo now has a stable branch pseudo-1.9 with pseudo-1.9.x tags on it.
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devtools/pseudo/pseudo.inc
-index ba946ef9c97..dabf7a63007 100644
---- a/meta/recipes-devtools/pseudo/pseudo.inc
-+++ b/meta/recipes-devtools/pseudo/pseudo.inc
-@@ -19,7 +19,7 @@ PROVIDES += "virtual/fakeroot"
- MAKEOPTS = ""
- MAKEOPTS:class-native = "'RPATH=-Wl,--rpath=XORIGIN/../../../sqlite3-native/usr/lib/'"
- 
--inherit siteinfo pkgconfig
-+inherit siteinfo pkgconfig upstream-stable-release-point
- 
- do_configure () {
- 	:
+
+Is this branch collecting only bugfixes (or fixes needed for continuing
+operation of yocto release branches)? Is this going to be a policy for any
+future point releases, or is it a one-off just for 1.9.x? There should be
+confirmation of these questions, in addition to the existence of the branch.
+
+Alex
+
+--000000000000b9fd6306607c05ef
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 17 Nov 2026 at 17:42, Yoann Conga=
+l via openembedded-core &lt;yoann.congal=3D<a href=3D"mailto:smile.fr@lists=
+.openembedded.org">smile.fr@lists.openembedded.org</a>&gt; wrote:</div><div=
+ class=3D"gmail_quote gmail_quote_container"><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex"><br>
+Pseudo now has a stable branch pseudo-1.9 with pseudo-1.9.x tags on it.</bl=
+ockquote><div><br></div><div>Is this branch collecting only bugfixes (or fi=
+xes needed for continuing operation of yocto release branches)? Is this goi=
+ng to be a policy for any future point releases, or is it a one-off just fo=
+r 1.9.x? There should be confirmation of these questions, in addition to th=
+e existence of the branch.</div><div><br></div><div>Alex=C2=A0</div></div><=
+/div>
+
+--000000000000b9fd6306607c05ef--
