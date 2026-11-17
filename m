@@ -1,177 +1,111 @@
-Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13640.1794905504750019198
+Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13776.1794906475906496137
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2026 00:51:44 -0800
+ Tue, 17 Nov 2026 01:07:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kernel.org header.s=k20260515 header.b=Wx3/0QY+;
- spf=pass (domain: kernel.org, ip: 172.234.252.31, mailfrom: devnull+mikko.rapeli.linaro.org@kernel.org)
-Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id B06DA422C1;
-	Tue, 17 Nov 2026 08:51:43 +0000 (UTC)
-Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
-ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1794905503;
-	b=SZ/uArSmTTuQ8REEI6dnu8mnrn7mmmvMiBm+dI42iEj3LOHQR40cT0kS8cmKYnqyIxhx
-	 5SYkiCGCWKnammPM/IY2BOEwW8P8VoFl39U9A9nNmFtPOhFepCYaP2wx3u34vGPpQ15RD
-	 0EDXBUUHde1VE6NjKpG7muZysnTVkjrtCS/Dn/Uz/hvlwlpvBu6lzFF+rj/tx/IapEStu
-	 L+6z6n/qbqe8kTURHk7qGWI6WyFtThdQ058wgQb7eLuDdIw2PBIL7hO3/MzNSqpuljdnh
-	 xgRwPTwDIzDFBqiMNby7vT2h33/DqmTxPCQuw92/KOdPNFI9xMeeKPTcYrHqx5cKSqg==
-ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1794905503;
-	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
-	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
-	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
-	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=GZ6Jvq1anEmBAAO7Hajoj7VJDr7NrJApt0Z4w+e9PWk=;
-	b=09RWstn8ryZDdaQFp9nUgZ+caDecEmSePCW7vjGFpBSXGu8c/pz99/B8M42wKUtjzhx3
-	 mA76LBRG5gnKV8NojSW4CvArABveQpsre3NuInIh6Ma4fG1WsQQUt1KSFyZhgDtx+ebVh
-	 x7YRbiRccVlOLN8+TpZ+xqn8m1C9q28VkOxmpUOdykKzDoUDuNSobsiLfMdNpdYfu4lb7
-	 kKykeRRYb4mgEtp5kE26S4MoP4aQS3jtBsEQuQzmBztMYvO7BMBuslnTBPNdiVxe4UvI9
-	 cFMet3AVsIcar/hwRuAC2vsOF/MZZo1p3oH+62kIOqq0bQfOe0sPkxYYaJNTMQU2QgA==
-ARC-Authentication-Results: i=1; smtp.kernel.org; 
-	arc=none smtp.remote-ip=100.80.115.77
-Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
-	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id ECA381F000C4;
-	Tue, 17 Nov 2026 08:51:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1794905503;
-	bh=GZ6Jvq1anEmBAAO7Hajoj7VJDr7NrJApt0Z4w+e9PWk=;
-	h=From:Date:Subject:To:Cc:Reply-To;
-	b=Wx3/0QY+AGKHTfc/w/me08Mcb29TyeYL+KRAtcSXHUsDAVKt3+zyEqWhSjfPXv81H
-	 M7j95IR8UWDoJg9aCFy1+wmz0zUrFuZdScjJ1cR+TH58AkqKxNicnSawkhJzoXfxok
-	 8ANqIzcpI6p7E1sVRufCOClkGltGH3drKKK/+Vyo6QjWUtGO7NAAkhPRp46eOn0aVR
-	 tAkPSTe5hvYWmbSWrgZ4LqhbbebaBHjkrLt/F/CM266zrNfll1+k/ocvV9eQKSlXKH
-	 MVZy3v+6mq/+HGUpFRo1LhG48IWeV6YrrUeP4FfX2cJE3BMr06IXquLT3fJkb1b/d+
-	 ZMHavfJBN1OGw==
-Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 812AC4A758;
-	Tue, 17 Nov 2026 08:51:42 +0000 (UTC)
-From: Mikko Rapeli via B4 Relay <devnull+mikko.rapeli.linaro.org@kernel.org>
-Date: Tue, 17 Nov 2026 10:51:37 +0200
-Subject: [PATCH] lttng-modules: fix build with kernel 7.4-rc2 and newer
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Message-Id: <20261117-lttng-modules_fix_new-v1-1-6140fe249a6b@linaro.org>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMUQrCMBCE4auUfTbQjdKCVxEpTTLWlZpKNrWF0
- rsb9fFjmH8jRRIonauNEt6iMsUCPlTk730cYCQUk61tw8ytGXOOg3lOYR6h3U3WLmIxfHKuZ49
- wtA2V7yuhTL/u5fq3zu4Bn78x2vcPiLg3znkAAAA=
-X-Change-ID: 20261117-lttng-modules_fix_new-14bba1ced326
-To: openembedded-core@lists.openembedded.org
-Cc: Mikko Rapeli <mikko.rapeli@linaro.org>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1794905502; l=3879;
- i=mikko.rapeli@linaro.org; s=20261117; h=from:subject:message-id;
- bh=AZk0kaXbyoytOhkO0HUOQUStW3Cr7dk1az8kHCeWFC0=;
- b=dM+WmlCpBJMkT5Ywi7AHvYQYipHK8kZ498TWV114aJOZYRXo2OnepxIDx1mNmtoagWH+2U8JQ
- TGmyGAyzl/GCKG8xrDFcIwFD8NU62aRQx3bRkdOg90ftSIeEJSCv5jB
-X-Developer-Key: i=mikko.rapeli@linaro.org; a=ed25519;
- pk=O/vKh6bzDKoUD69mWlhfQ7Q15tHYZkbu91i+XwMsm/o=
-X-Endpoint-Received: by B4 Relay for mikko.rapeli@linaro.org/20261117 with
- auth_id=1547
-X-Original-From: Mikko Rapeli <mikko.rapeli@linaro.org>
-Reply-To: mikko.rapeli@linaro.org
-Content-Transfer-Encoding: 7bit
+ dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=JADv7G6p;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=pux/ubPP;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.157, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id F136C14000E2
+	for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 04:07:54 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Tue, 17 Nov 2026 04:07:54 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1794906474;
+	 x=1794992874; bh=Xxustp+cVNPs0Rlcw/CZJLbj2yZwCbv/Gf+QU9bFO+A=; b=
+	JADv7G6p87+9gDE8yt6G+pScaae79c17i8yhdW9kQKMIhadZie2F6e5dLLecgW2v
+	vhhbtkntSE5/F+TfqV6T9cTf+WCIp/+jDLUwtAcJHf6iwPwJqoK3h4jvkhv9kSn1
+	GINyOPBV2xZrXekg9kZrdPJgA3rOWKtjF1V11IH8FoRocweFrClJ6MgGUZXqVa66
+	jjo0+3pINcjTbXLuyDkKT+8JKjae3Q9wReBBe2E+Y4wB0wwa2CO15gh98UtL4xBq
+	li84NL4z4FKYMHtQ4Rc1Xk5vlC33zLdF9jijnXSUREju3hNNTs3OUNAb6WpwbaGR
+	Q5Z5EH+DJfKWKr2/LKaDog==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1794906474; x=
+	1794992874; bh=Xxustp+cVNPs0Rlcw/CZJLbj2yZwCbv/Gf+QU9bFO+A=; b=p
+	ux/ubPPn94Otz/Zm7slnofjnyYwh26bqvgYlp3B9/ktCgqTO7vGkOvKoLRaUrL6j
+	yBMwCmwXf0NmgmQ+lImaXpNLz7jEILs2vd8rEjLjRT5qrPY/T13JZbt4T2WJ/5ds
+	GX3uHZcN01wmQlrk+GJBGBYPzHQndlDYO4DtVvQkOkj9lXrEuD4L5PvISg2WcjeU
+	9UEsUoOLSYyvYDAo5ISA5b/CVI/XXbg8Ne24KdSOLyFJPSfBWVo0U+WuAKGMm7z0
+	xG6rQWjqvsou0okZOrGb3H1yDjB/aY9fjBJPzAzYd4JijTJTJLxbIzpJoCUC9Yme
+	v35Fitzq0QOxbtCvLodfQ==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=pbarker.dev a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1794906474; d=pbarker.dev;
+	mf=PHBhdWxAcGJhcmtlci5kZXY+;
+	rt=PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+;
+	s=fm2:rsa-sha256:ImX8d9A9ugfwHlA55Y0FmOQpQ6lrinrXPbyTXZG4kv0dQC8
+	wTgq0lpS6QaN/XyO2TyzTayf2hRS87Cw627x7gLxqkpZhvPNuTK723QTcAZMDEvA
+	MgkwayCxZ9NOhp3Gsi3lUcDaJoJszvWYmsv9ka2oUOYgjPKhHnwHnFzEp6yEa3oU
+	uhRkPCHEiwcKzH25I+sRm+86TBLXTYOSYXhr+m/gwFxCpU2Houkz1ykVJ5txYph1
+	50t8yDu4lCj7rVy/mvJXJeAkrlgqWFNPzrbwDqMxHT0cHKekmtZJqu6TrLIdn2RZ
+	nO71til8r6RZorYMF47GbG0HpNqDDxbNbcnnA/A==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:7EFPMkW3KcrwvW6XXTPzXHrE0XMJ28c60UH4Nr/RFXw=:Xxustp+cVNPs0Rlcw/CZJLbj2yZwCbv/Gf+QU9bFO+A=;
+X-ME-Sender: <xms:ahn8aodhNAp316rKvMyBeBk0jq-BWYyu7XCEPggzUYW1EFLaq5YshA>
+    <xme:ahn8ahrIMhRy5qbt3iqB4SWVvSVJ3lwRqNiqozAKF2mAKEXgVh2eP1hfG5j5sUeE-
+    VwU7IdqFiFNiBTTxoT1rUpiqHchH3MfWNH0PtHCk7Jv0-DtIqBEwnNT>
+X-ME-Received: <xmr:ahn8am6X3HFgT2zZhMB8js9GOVxL4OgAzt_uuVKLgxw-tsNv65wedx2K0qZ_ClA16Vv9_hCAxcP_4xMStGFgM7hLmcZT>
+X-ME-Proxy-Cause: dmFkZTGYbA3iAHFKndxzJtV5AtdoXqkEHjr6CwgnDH26fwlLFAzM1UoJWqg1IJ8xZQFs+D
+    sYzcI+CFGzIf73EFR9X9wDgM70xZ6SCFqY3ItQwdNOPTPTCjuk5p3FhcssrTzWYNr9kNVa
+    zzpuVIIHkh7R6Nhtr2Ngr/Pgj6xVSsl2UvUpZ3+94N0gN8G2OcYE/ke4BPieN2eQtT2ixe
+    g+VnAltkwABTDhPOpKXbUpfoZ1WLPSqtc8G+Goo3hSESfZF/UeY8z3+D/TA+aBKHi9TTnn
+    0ejGwwb12fwr7Kz/vZ4cimFu0RFfZstO6tOQQ/zl0mnEQjFfC8aUYxSMQ9gw86PVFbJ9D/
+    z501ThMyBZqEMvmnrlyTGXOzuQ/4F/WksP6LItyYo+iezz8gFwdImlmC/aRGDzB6mGDMoG
+    NLgTJfzvJe99NdXFZSgYqMJM8dcJQ96cwzRjXedjtqK4+eKtj+NfOTKHiLwRxQ8KC3farL
+    QCpWfLIIszQXyc3AW0Aw1jGYw1XFXauSf/j5UTyyANwMe+N62BD/pVN2WDjcou05AAuqBv
+    L8C1H344QU7CUB2Dgu8qQEiktjTX1YAOUwd+1EhDDeFZBM0IaymKgSEy4JTHBYq8nFofqO
+    XnupS3u79t9ez1muMZ+JLj14DNcbHpsGEPa0jDXGy7K2XEn7Jzl9WZvGpztg
+X-ME-Proxy: <xmx:ahn8anrRK5F7Po4bELvBWTTkFbB4xzPcTRrORbYwOq0BM4TnuobqsQ>
+    <xmx:ahn8aohItYBQW1RL_BnFCKexXvEjxXqYjpzLrbt7-59YinoCE6NvJw>
+    <xmx:ahn8ahKTS4Q1FUYvQ2wqWBjc0BhWUlonPYCJs_FD_ClwVAdMkgDWgw>
+    <xmx:ahn8aoDUutgpiOCuVUQWmRWfAImgyHGCET0yMl-Ni5CMf2plI_Tt6Q>
+    <xmx:ahn8apmvu55I7z1g2Wd0ooIUCN0cTW8lNQm0nELgOoOGV4lH1ctr2n5u>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
+ 17 Nov 2026 04:07:54 -0500 (EST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 17 Nov 2026 09:07:53 +0000
+Message-Id: <DMXD8QI18JYE.139J07RM2331Y@pbarker.dev>
+Cc: <Ross.Burton@arm.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 1/3] consolekit: Upgrade to ConsoleKit2 2.0.0
+From: "Paul Barker" <paul@pbarker.dev>
+To: "Khem Raj" <raj.khem@gmail.com>
+X-Mailer: aerc 0.22.0
+References: <CAMKF1soWija+eU3x0oK34cdankotbZbz+Z056eDKeyq2TzqG6g@mail.gmail.com> <20261116184219.361983-1-khem.raj@oss.qualcomm.com>
+In-Reply-To: <20261116184219.361983-1-khem.raj@oss.qualcomm.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 08:51:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250413
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 09:08:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250414
 
-From: Mikko Rapeli <mikko.rapeli@linaro.org>
+On Mon Nov 16, 2026 at 6:42 PM GMT, Khem Raj wrote:
+> ping. Is there any concern about this change?
 
-With upstream patch.
+I think we just need to confirm whether all recipes which have a
+dependency on consolekit are compatible with its v2.0.0 release. IIRC
+there were a number of backwards-incompatible changes.
 
-Signed-off-by: Mikko Rapeli <mikko.rapeli@linaro.org>
----
-Tested with genericarm64, linux-yocto-dev and kernel tree at
-Linus master branch 7.4-rc3.
----
- ...x-splice-remove-pipe-buffer-stealing-v7.4.patch | 56 ++++++++++++++++++++++
- meta/recipes-kernel/lttng/lttng-modules_2.16.0.bb  |  1 +
- 2 files changed, 57 insertions(+)
+We may have to carry separate `consolekit` and `consolekit2` recipes if
+there are recipes which aren't ready for consolekit v2.0.0.
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-fix-splice-remove-pipe-buffer-stealing-v7.4.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-splice-remove-pipe-buffer-stealing-v7.4.patch
-new file mode 100644
-index 0000000000..14cf110904
---- /dev/null
-+++ b/meta/recipes-kernel/lttng/lttng-modules/0001-fix-splice-remove-pipe-buffer-stealing-v7.4.patch
-@@ -0,0 +1,56 @@
-+From a03326efb3ae2f3ebc6c8016535f34aa58b1623c Mon Sep 17 00:00:00 2001
-+From: Michael Jeanson <mjeanson@efficios.com>
-+Date: Mon, 16 Nov 2026 08:54:42 -0500
-+Subject: [PATCH] fix: splice: remove pipe buffer stealing (v7.4)
-+
-+See upstream commit:
-+
-+  commit 0f76da93e5c7d41ccf1376e715278c1d474ed181
-+  Author: Kiryl Shutsemau (Meta) <kas@kernel.org>
-+  Date:   Tue Nov 10 14:52:38 2026 +0000
-+
-+    splice: remove pipe buffer stealing
-+
-+    Nothing calls pipe_buf_try_steal() any more.  Remove ->try_steal() from
-+    struct pipe_buf_operations, its implementations and the exported
-+    generic_pipe_buf_try_steal().
-+
-+    PIPE_BUF_FLAG_LRU and PIPE_BUF_FLAG_GIFT were set only for stealing, and
-+    go too.  page_cache_pipe_buf_release() did nothing but drop the page and
-+    the LRU flag, so page cache and user page buffers use
-+    generic_pipe_buf_release().
-+
-+    vmsplice() still accepts SPLICE_F_GIFT, and splice() SPLICE_F_MOVE.
-+    Both were hints, and nothing acts on them now.
-+
-+Upstream-Status: Backport [24b630e62dfe3465ac9a2bb19c89fdd10f5bd1c7]
-+
-+Change-Id: Ie1d0bddc3aa7d1af186e195c712746c0d3b358c0
-+Reported-by: Mikko Rapeli <mikko.rapeli@linaro.org>
-+Signed-off-by: Michael Jeanson <mjeanson@efficios.com>
-+Signed-off-by: Mathieu Desnoyers <mathieu.desnoyers@efficios.com>
-+---
-+ src/lib/ringbuffer/ring_buffer_splice.c | 7 ++++++-
-+ 1 file changed, 6 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/lib/ringbuffer/ring_buffer_splice.c b/src/lib/ringbuffer/ring_buffer_splice.c
-+index f34bc355..7e470cfc 100644
-+--- a/src/lib/ringbuffer/ring_buffer_splice.c
-++++ b/src/lib/ringbuffer/ring_buffer_splice.c
-+@@ -47,7 +47,12 @@ static void lib_ring_buffer_pipe_buf_release(struct pipe_inode_info *pipe,
-+ 	__free_page(pbuf->page);
-+ }
-+ 
-+-#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,8,0))
-++#if (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(7,4,0))
-++static const struct pipe_buf_operations ring_buffer_pipe_buf_ops = {
-++	.release = lib_ring_buffer_pipe_buf_release,
-++	.get = generic_pipe_buf_get
-++};
-++#elif (LTTNG_LINUX_VERSION_CODE >= LTTNG_KERNEL_VERSION(5,8,0))
-+ static const struct pipe_buf_operations ring_buffer_pipe_buf_ops = {
-+ 	.release = lib_ring_buffer_pipe_buf_release,
-+ 	.try_steal = generic_pipe_buf_try_steal,
-+-- 
-+2.55.0
-+
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.16.0.bb b/meta/recipes-kernel/lttng/lttng-modules_2.16.0.bb
-index bc1d50a8b3..1d4dba73f7 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.16.0.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.16.0.bb
-@@ -16,6 +16,7 @@ inherit upstream-stable-release-point
- include lttng-platforms.inc
- 
- SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
-+           file://0001-fix-splice-remove-pipe-buffer-stealing-v7.4.patch \
-            "
- 
- # Use :append here so that the patch is applied also when using devupstream
-
----
-base-commit: 34991d0ce3cc5f38dd29e824af7579512d2b917e
-change-id: 20261117-lttng-modules_fix_new-14bba1ced326
+This is still in the queue as no-one has yet had the time to go and look
+in to that. Sorry Khem!
 
 Best regards,
---  
-Mikko Rapeli <mikko.rapeli@linaro.org>
 
+--=20
+Paul Barker
 
