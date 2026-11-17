@@ -1,134 +1,135 @@
-Subject: Re: [wrynose][PATCH 1/3] expat: fix CVE-2026-113351
+Subject: Re: [wrynose][PATCH 3/3] python3: fix CVE-2026-87910
 To: openembedded-core@lists.openembedded.org
 From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
 X-Originating-Location: Mumbai, Maharashtra, IN (151.186.177.83)
 X-Originating-Platform: Windows Edge 157
 User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Date: Tue, 17 Nov 2026 04:44:00 -0800
-References: <20261105091719.1622520-1-dkelaiya@cisco.com> <DMUZ5O4N7A3R.1ICN3JE02JJZ5@smile.fr>
-In-Reply-To: <DMUZ5O4N7A3R.1ICN3JE02JJZ5@smile.fr>
-Message-ID: <897588.1794919440693698068@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="L6U8AbSP9KIPT5gNraIB"
+Date: Tue, 17 Nov 2026 04:51:36 -0800
+References: <20261016053944.3835603-1-dkelaiya@cisco.com> <20261016053944.3835603-4-dkelaiya@cisco.com> <DMUU3P3KWKLT.308M5CKOHWEOP@smile.fr>
+In-Reply-To: <DMUU3P3KWKLT.308M5CKOHWEOP@smile.fr>
+Message-ID: <882014.1794919896160101502@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="jgnZI3ZnuglGcORsvYLL"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 12:44:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250445
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 12:51:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250446
 
---L6U8AbSP9KIPT5gNraIB
+--jgnZI3ZnuglGcORsvYLL
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
 Hi Yoann,
 
-Thanks for reviewing this. I'll send backport patches for both Blacksail an=
-d Scarthgap as soon as possible.
+Since python3 has been upgraded to 3.14.10 on Wrynose,
+this series is no longer required.
 
-Regards,
+Thanks,
 Darsh
-
-On Sat, Nov 14, 2026 at 07:10 PM, Yoann Congal wrote:
+On Sat, Nov 14, 2026 at 03:12 PM, Yoann Congal wrote:
 
 >=20
-> On Thu Nov 5, 2026 at 10:17 AM CET, Darsh Kelaiya -X (dkelaiya - E
-> INFOCHIPS PRIVATE LIMITED at Cisco) via openembedded-core wrote:
+> On Fri Oct 16, 2026 at 7:39 AM CEST, Darsh Kelaiya -X (dkelaiya - E
+> INFOCHIPS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
 >=20
 >> From: Darsh Kelaiya <dkelaiya@cisco.com>
 >>=20
->> Backport the allocation-tracking reset fix [1] from upstream PR [2],
->> which is referenced by the NVD record [3].
+>> This patch applies the upstream fix shown in [1]. The Windows test
+>> correction is applied from [2]. The advisory identifying the fix is
+>> referenced in [3].
 >>=20
->> Snapshot retained allocations during XML_ParserReset() and exclude
->> those bytes from the next document's allocation-amplification checks.
->> Include the required counter extraction, accounting-settings
->> correction and both upstream regression tests from the same PR.
+>> [1] https://github.com/python/cpython/commit/fb2f0bbc3b35264f09cc2cb2934=
+b7987527a6bc2
 >>=20
->> Retain Expat 2.8.3's XmlBigCount counters and adapt the accounting
->> regression to its existing protection-setting APIs. Omit the PR's
->> comment-only encoding-check change because the later check that it
->> explains is absent from this source.
+>> [2] https://github.com/python/cpython/commit/d9565e54b1fc6d63c5be9afd581=
+14499128fa57b
 >>=20
->> [1] https://github.com/libexpat/libexpat/commit/a6cf8a6944b6c6d81e74c4cd=
-95faa29132e67aa3
->>=20
->> [2] https://github.com/libexpat/libexpat/pull/1431
->> [3] https://nvd.nist.gov/vuln/detail/CVE-2026-113351
+>> [3] https://nvd.nist.gov/vuln/detail/cve-2026-87910
 >>=20
 >> Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 >> ---
->> .../expat/expat/CVE-2026-113351_p1.patch | 39 ++++++++
->> .../expat/expat/CVE-2026-113351_p2.patch | 65 +++++++++++++
->> .../expat/expat/CVE-2026-113351_p3.patch | 80 ++++++++++++++++
->> .../expat/expat/CVE-2026-113351_p4.patch | 95 +++++++++++++++++++
->> .../expat/expat/CVE-2026-113351_p5.patch | 70 ++++++++++++++
->> meta/recipes-core/expat/expat_2.8.3.bb | 7 +-
->> 6 files changed, 355 insertions(+), 1 deletion(-)
->> create mode 100644 meta/recipes-core/expat/expat/CVE-2026-113351_p1.patc=
-h
->> create mode 100644 meta/recipes-core/expat/expat/CVE-2026-113351_p2.patc=
-h
->> create mode 100644 meta/recipes-core/expat/expat/CVE-2026-113351_p3.patc=
-h
->> create mode 100644 meta/recipes-core/expat/expat/CVE-2026-113351_p4.patc=
-h
->> create mode 100644 meta/recipes-core/expat/expat/CVE-2026-113351_p5.patc=
-h
+>> .../python/python3/CVE-2026-87910_p1.patch | 98 +++++++++++++++++++
 >=20
 > Hello,
 >=20
-> I think master fixed the CVEs of this series by the 2.10.0 upgrade. But
-> blacksail (at 2.8.5) is not fixed.
-> Can you send a blacksail series to fix those?*
+> CVE-2026-87910_p1.patch now fails to apply on top of the recent python3
+> upgrade:
+> | ERROR: python3-3.14.10-r0 do_patch: Applying patch
+> 'wrynose/_review/worktrees/openembedded-core/meta/recipes-devtools/python=
+/python3/CVE-2026-87910_p1.patch'
+> on target directory
+> 'bitbake-builds/wrynose/tmp/work/x86-64-v3-oe-linux/python3/3.14.10/sourc=
+es/Python-3.14.10'
+>=20
+> | CmdError('quilt --quiltrc
+> bitbake-builds/wrynose/tmp/work/x86-64-v3-oe-linux/python3/3.14.10/recipe=
+-sysroot-native/etc/quiltrc
+> push', 0, 'stdout: Applying patch CVE-2026-87910_p1.patch
+> | patching file Lib/tarfile.py
+> | Hunk #1 FAILED at 2818.
+> | 1 out of 1 hunk FAILED -- rejects in file Lib/tarfile.py
+> | patching file Lib/test/test_tarfile.py
+> | Hunk #1 FAILED at 4395.
+> | Hunk #2 succeeded at 4710 with fuzz 2 (offset 134 lines).
+> | 1 out of 2 hunks FAILED -- rejects in file Lib/test/test_tarfile.py
+> | patching file
+> Misc/NEWS.d/next/Security/2026-09-10-13-38-11.gh-issue-157265.-vYuMp.rst
+> | Patch CVE-2026-87910_p1.patch does not apply (enforce with -f)
+>=20
+> Can you rebase&resend?
 >=20
 > Thanks!
 > --
 > Yoann Congal
 > Smile ECS
 
---L6U8AbSP9KIPT5gNraIB
+--jgnZI3ZnuglGcORsvYLL
 Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div>Hi Yoann,<br /><br />Thanks for reviewing this. I'll send backport pat=
-ches for both Blacksail and Scarthgap as soon as possible.<br /><br />Regar=
-ds,<br />Darsh<br /><br />On Sat, Nov 14, 2026 at 07:10 PM, Yoann Congal wr=
-ote:</div>
 <div>
-<blockquote>On Thu Nov 5, 2026 at 10:17 AM CET, Darsh Kelaiya -X (dkelaiya =
-- E INFOCHIPS PRIVATE LIMITED at Cisco) via openembedded-core wrote:<br />
-<blockquote>From: Darsh Kelaiya &lt;dkelaiya@cisco.com&gt;<br /><br />Backp=
-ort the allocation-tracking reset fix [1] from upstream PR [2],<br />which =
-is referenced by the NVD record [3].<br /><br />Snapshot retained allocatio=
-ns during XML_ParserReset() and exclude<br />those bytes from the next docu=
-ment's allocation-amplification checks.<br />Include the required counter e=
-xtraction, accounting-settings<br />correction and both upstream regression=
- tests from the same PR.<br /><br />Retain Expat 2.8.3's XmlBigCount counte=
-rs and adapt the accounting<br />regression to its existing protection-sett=
-ing APIs. Omit the PR's<br />comment-only encoding-check change because the=
- later check that it<br />explains is absent from this source.<br /><br />[=
-1] <a href=3D"https://github.com/libexpat/libexpat/commit/a6cf8a6944b6c6d81=
-e74c4cd95faa29132e67aa3" target=3D"_blank" rel=3D"noopener">https://github.=
-com/libexpat/libexpat/commit/a6cf8a6944b6c6d81e74c4cd95faa29132e67aa3</a><b=
-r />[2] <a href=3D"https://github.com/libexpat/libexpat/pull/1431" target=
-=3D"_blank" rel=3D"noopener">https://github.com/libexpat/libexpat/pull/1431=
-</a><br />[3] <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2026-113351" =
-target=3D"_blank" rel=3D"noopener">https://nvd.nist.gov/vuln/detail/CVE-202=
-6-113351</a><br /><br />Signed-off-by: Darsh Kelaiya &lt;dkelaiya@cisco.com=
-&gt;<br />---<br />.../expat/expat/CVE-2026-113351_p1.patch | 39 ++++++++<b=
-r />.../expat/expat/CVE-2026-113351_p2.patch | 65 +++++++++++++<br />.../ex=
-pat/expat/CVE-2026-113351_p3.patch | 80 ++++++++++++++++<br />.../expat/exp=
-at/CVE-2026-113351_p4.patch | 95 +++++++++++++++++++<br />.../expat/expat/C=
-VE-2026-113351_p5.patch | 70 ++++++++++++++<br />meta/recipes-core/expat/ex=
-pat_2.8.3.bb | 7 +-<br />6 files changed, 355 insertions(+), 1 deletion(-)<=
-br />create mode 100644 meta/recipes-core/expat/expat/CVE-2026-113351_p1.pa=
-tch<br />create mode 100644 meta/recipes-core/expat/expat/CVE-2026-113351_p=
-2.patch<br />create mode 100644 meta/recipes-core/expat/expat/CVE-2026-1133=
-51_p3.patch<br />create mode 100644 meta/recipes-core/expat/expat/CVE-2026-=
-113351_p4.patch<br />create mode 100644 meta/recipes-core/expat/expat/CVE-2=
-026-113351_p5.patch</blockquote>
-Hello,<br /><br />I think master fixed the CVEs of this series by the 2.10.=
-0 upgrade. But blacksail (at 2.8.5) is not fixed.<br />Can you send a black=
-sail series to fix those?*<br /><br />Thanks!<br />-- <br />Yoann Congal<br=
- />Smile ECS</blockquote>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: #000000;"><span sty=
+le=3D"color: #333333; font-family: system-ui, 'Segoe UI', Roboto, 'Helvetic=
+a Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Em=
+oji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'; font-size: 1=
+6px;">Hi Yoann,<br /><br />Since python3 has been upgraded to 3.14.10 on Wr=
+ynose,<br />this series is no longer required.<br /><br />Thanks,<br />Dars=
+h<br />On Sat, Nov 14, 2026 at 03:12 PM, Yoann Congal wrote:</span></div>
+</div>
+<div>
+<blockquote>On Fri Oct 16, 2026 at 7:39 AM CEST, Darsh Kelaiya -X (dkelaiya=
+ - E INFOCHIPS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:<=
+br />
+<blockquote>From: Darsh Kelaiya &lt;dkelaiya@cisco.com&gt;<br /><br />This =
+patch applies the upstream fix shown in [1]. The Windows test<br />correcti=
+on is applied from [2]. The advisory identifying the fix is<br />referenced=
+ in [3].<br /><br />[1] <a href=3D"https://github.com/python/cpython/commit=
+/fb2f0bbc3b35264f09cc2cb2934b7987527a6bc2" target=3D"_blank" rel=3D"noopene=
+r">https://github.com/python/cpython/commit/fb2f0bbc3b35264f09cc2cb2934b798=
+7527a6bc2</a><br />[2] <a href=3D"https://github.com/python/cpython/commit/=
+d9565e54b1fc6d63c5be9afd58114499128fa57b" target=3D"_blank" rel=3D"noopener=
+">https://github.com/python/cpython/commit/d9565e54b1fc6d63c5be9afd58114499=
+128fa57b</a><br />[3] <a href=3D"https://nvd.nist.gov/vuln/detail/cve-2026-=
+87910" target=3D"_blank" rel=3D"noopener">https://nvd.nist.gov/vuln/detail/=
+cve-2026-87910</a><br /><br />Signed-off-by: Darsh Kelaiya &lt;dkelaiya@cis=
+co.com&gt;<br />---<br />.../python/python3/CVE-2026-87910_p1.patch | 98 ++=
++++++++++++++++++</blockquote>
+Hello,<br /><br />CVE-2026-87910_p1.patch now fails to apply on top of the =
+recent python3<br />upgrade:<br />| ERROR: python3-3.14.10-r0 do_patch: App=
+lying patch 'wrynose/_review/worktrees/openembedded-core/meta/recipes-devto=
+ols/python/python3/CVE-2026-87910_p1.patch' on target directory 'bitbake-bu=
+ilds/wrynose/tmp/work/x86-64-v3-oe-linux/python3/3.14.10/sources/Python-3.1=
+4.10'<br />| CmdError('quilt --quiltrc bitbake-builds/wrynose/tmp/work/x86-=
+64-v3-oe-linux/python3/3.14.10/recipe-sysroot-native/etc/quiltrc push', 0, =
+'stdout: Applying patch CVE-2026-87910_p1.patch<br />| patching file Lib/ta=
+rfile.py<br />| Hunk #1 FAILED at 2818.<br />| 1 out of 1 hunk FAILED -- re=
+jects in file Lib/tarfile.py<br />| patching file Lib/test/test_tarfile.py<=
+br />| Hunk #1 FAILED at 4395.<br />| Hunk #2 succeeded at 4710 with fuzz 2=
+ (offset 134 lines).<br />| 1 out of 2 hunks FAILED -- rejects in file Lib/=
+test/test_tarfile.py<br />| patching file Misc/NEWS.d/next/Security/2026-09=
+-10-13-38-11.gh-issue-157265.-vYuMp.rst<br />| Patch CVE-2026-87910_p1.patc=
+h does not apply (enforce with -f)<br /><br />Can you rebase&amp;resend?<br=
+ /><br />Thanks!<br />-- <br />Yoann Congal<br />Smile ECS</blockquote>
 </div>
 
---L6U8AbSP9KIPT5gNraIB--
+--jgnZI3ZnuglGcORsvYLL--
