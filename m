@@ -1,96 +1,92 @@
-Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1013.1794956388936297063
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1363.1794957389773302502
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2026 14:59:49 -0800
+ Tue, 17 Nov 2026 15:16:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=o9PtPYt0;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-20261117225947c48821a6840002071a-qvvpym@rts-flowmailer.siemens.com)
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20261117225947c48821a6840002071a
-        for <openembedded-core@lists.openembedded.org>;
-        Tue, 17 Nov 2026 23:59:47 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=3Gp3oFcN13K8wcEGKp2aHiReRtXdTpTx1SZsXSTYkM4=;
- b=o9PtPYt024wbkyixOvTXBaKRoWkY83RuHkYAk9A5WORmImfXi2J40wWVM421r1tehoTph1
- LZuknUv66VklewO8d3om6cwBl48tNLZOo9p7pUANnu+l9n79WXgdmiifk4nZsC2OJryYaBrV
- DYmDCdJgFRuTUuDw7ktK+dDc7WIR7Yh1mfELp2lW/KNQtz7Qr7ue8R38bgP7USiJ8VVfKuD3
- KyCShkFkPGyT2qEheYupZ28lr3eBy4VMiaZIjwL0+/ufu1XNG5GZnECNVCB1Ktmi9udtdmgA
- 01yD+lZlI2FyN93TXBc983pBwLqE7XGQw6M5x9zAuCdedCDQa20Gzawg==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [wrynose][PATCH] zlib: patch CVE-2026-85091
-Date: Tue, 17 Nov 2026 23:59:41 +0100
-Message-ID: <20261117225941.3886183-1-peter.marko@siemens.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=rwLe3IH5;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=R9VgtIzz;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101a1ebcc2bef-132dbfd0-4eb2-41ab-b887-5a918f3826b2-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1794957388; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=BOc+19QCets+g822ZzDK6b9ArRtx6Qlst636P1zfok4=;
+	b=rwLe3IH5GbFj1JGzKhVxIafw00SSHaDOa0nJ+0JGjX2oKq2DvlcSnYG6cuxRYhBy
+	pd4UJ91zjej1VDo9IlZ3AX6eYpOAIcFPPYuLVR4y8lxHoOPtaYUhVEjDVUf+ll9MXY9
+	YWQzL2zrpYddAnyCf0DlbsqtfeRY9jo4Kh3QdA9I=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1794957388;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=BOc+19QCets+g822ZzDK6b9ArRtx6Qlst636P1zfok4=;
+	b=R9VgtIzzlYV/CLCRuKXleR6QKr+l3HGcprtQoPF2VAbJWUBhp3vYYtv9N2XoxQHa
+	6KtTQ7a06XSzMiOnX/h6vv6g+JNBVplkdH7cmT/X4M1c9sB+S1GQ+B7DwDIF5+IlwL+
+	wPZK9YXv9fuggoAz+fSBv1vUOi4dCa0Dy8xR2Vvk=
+From: patchtest@automation.yoctoproject.org
+To: Peter Marko <peter.marko@siemens.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [wrynose][PATCH] zlib: patch CVE-2026-85091
+In-Reply-To: <20261117225941.3886183-1-peter.marko@siemens.com>
+References: <20261117225941.3886183-1-peter.marko@siemens.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101a1ebcc2bef-132dbfd0-4eb2-41ab-b887-5a918f3826b2-000000@us-west-2.amazonses.com>
+Date: Tue, 17 Nov 2026 23:16:28 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.11.17-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 22:59:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250499
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 23:16:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250501
 
-From: Peter Marko <peter.marko@siemens.com>
+--NextPart
+Content-Type: text/plain
 
-Pick path per [1].
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-[1] https://security-tracker.debian.org/tracker/CVE-2026-85091
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../zlib/zlib/CVE-2026-85091.patch            | 31 +++++++++++++++++++
- meta/recipes-core/zlib/zlib_1.3.2.bb          |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-core/zlib/zlib/CVE-2026-85091.patch
+Testing patch /home/patchtest/share/mboxes/wrynose-zlib-patch-CVE-2026-85091.patch
 
-diff --git a/meta/recipes-core/zlib/zlib/CVE-2026-85091.patch b/meta/recipes-core/zlib/zlib/CVE-2026-85091.patch
-new file mode 100644
-index 0000000000..62e361539c
---- /dev/null
-+++ b/meta/recipes-core/zlib/zlib/CVE-2026-85091.patch
-@@ -0,0 +1,31 @@
-+From df84af25dc1942490e1d1c899a07619152a46148 Mon Sep 17 00:00:00 2001
-+From: Mark Adler <git@madler.net>
-+Date: Wed, 16 Sep 2026 16:26:14 -0700
-+Subject: [PATCH] Fix buffer overflow bug in non-blocking gzwrite.
-+
-+This addresses CVE-2026-85091.
-+
-+CVE: CVE-2026-XXXXX
-+Upstream-Status: Backport [https://github.com/madler/zlib/commit/df84af25dc1942490e1d1c899a07619152a46148]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ gzwrite.c | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/gzwrite.c b/gzwrite.c
-+index b217b85..5123292 100644
-+--- a/gzwrite.c
-++++ b/gzwrite.c
-+@@ -242,8 +242,11 @@ local z_size_t gz_write(gz_statep state, voidpc buf, z_size_t len) {
-+             n -= state->strm.avail_in;
-+             state->x.pos += n;
-+             len -= n;
-+-            if (ret == -1)
-++            if (ret == -1) {
-++                state->strm.avail_in = 0;
-++                state->strm.next_in = state->in;
-+                 return state->again ? put - len : 0;
-++            }
-+         } while (len);
-+     }
-+ 
-diff --git a/meta/recipes-core/zlib/zlib_1.3.2.bb b/meta/recipes-core/zlib/zlib_1.3.2.bb
-index 8a23d98cd3..c6619f81cc 100644
---- a/meta/recipes-core/zlib/zlib_1.3.2.bb
-+++ b/meta/recipes-core/zlib/zlib_1.3.2.bb
-@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://zlib.h;beginline=6;endline=23;md5=5377232268e952e9ef6
- # The source tarball needs to be .gz as only the .gz ends up in fossils/
- SRC_URI = "https://zlib.net/${BP}.tar.gz \
-            file://run-ptest \
-+           file://CVE-2026-85091.patch \
-            "
- UPSTREAM_CHECK_URI = "http://zlib.net/"
- 
+FAIL: test CVE tag format: Missing or incorrectly formatted CVE tag in patch file. Correct or include the CVE tag in the patch with format: "CVE: CVE-YYYY-XXXX" (test_patch.TestPatch.test_cve_tag_format)
+
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
