@@ -1,112 +1,118 @@
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.950.1794936716632835779
+Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1003.1794936849420402938
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2026 09:31:56 -0800
+ Tue, 17 Nov 2026 09:34:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=TWtS0qvE;
- spf=pass (domain: gmail.com, ip: 209.85.128.173, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-8b30cbfa628so40150497b3.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 09:31:56 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1794936715; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=nWFKgvYo;
+ spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-9210f2622ccso5023396d6.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 09:34:09 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1794936848; cv=none;
         d=google.com; s=arc-20260327;
-        b=DTj7L145VoMcNHrQNGVsd+H4LS0lXJr9+lfXPoW/OwRR1nQGQWf/RHeFnxtISsceOH
-         ZdheTXU/hAvcbexrLpXOwYczx10aR8pEMo70MEFlY4n1FjViMiija6wjNBbAjCcU+SrK
-         +YvW39CdMHLp/uiBA7mZKdLSd3SnnnvPkaZook0uQDzoEuF+088/EC4LaNaH8q31rcku
-         AT/1pQM9CiJmVV2RzIKORItX+mJ+H0DzZ278JWpazBK7VW9nJt1TR93T2LKk1ra0pbT8
-         O9fD7x8oQmQRuFqvDR+CJsW6hLFadeJSRqQVewyn4R2GphebozJIoRLTXVSc2BKbAmK1
-         BYQA==
+        b=pMyKFHicpuQFMYpHy8yT9ksrJmzHRCboBZbHJ6u1RpTbOT5J/gTP2AKloLcS+bO8QA
+         d/9HzdaT/4rT0q2huDAfxQ0GEkq54ZJ/1q8z5sJQLvZrwzGuszK/KU3t4seB1DUr5RDl
+         IfYmfWGy4+fqsTmmHBHNEHr/m1qIMLlcDCioIw6uBgq/gPFxFKR9SMUwjLi9926DrEt/
+         7Wn2CHNf9n2DxSki0lfVB3vLBdeuaABre8f9lucFDgVzZt/4cnN6tHf54QMkN+x0OBkc
+         DmaD1DIftkEmGQgZLTPzTr/ZTGv36qAi+cW4EpSTBTC8cc1W83natjbJ+lmRqY8C/hZD
+         sG6g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=eyrIhh4i1Y7qMDd2ji//BBYmm7PHmYMNLcA0qvD8tXc=;
-        fh=wJLD6zetCfjYthwLiAEels19uL6o2/FT2mHHrVoI57Y=;
-        b=kVX1DEjPd0Jz43MbrW5Qc+Hbk7/5ytA3BW0JVXrP9ODP4zRIOdmLDLlaN1jvUHhkI7
-         p11IVsEgtAES7fxsQD2Za8jyu/n4FRU4L57y7wm1akGmaZdOJXW9Y8MetTpyaHm6WLMr
-         F5zDjgUJpFZavu5Ewgxxzz1taJYshuda4kMjcV//gbUoctGThnx2YDpUkfBmzOOBxOp/
-         LRWPupiNbsIAby+DvA32/Rfo8cJ2nRktvCBkbQ6/i61ZKESlpP3fxdrlYexZv+MWnU85
-         7k6d3d8MTJhHf0R2SLMFeCprTfec7Bm003qU83rLlR3FbwsN1dDFKvqJ9GTfodhGa3Kr
-         /I7w==;
+        bh=Q+clvlfZ5juxi9uldCSeYee+c29UWpGNbCktjbl8q4w=;
+        fh=OjdXgK6/NxP2kmcviChngGny+DgQGUkwg5WMRV0UejA=;
+        b=XSyqfeJcfpDk05bRwxCsupc/dIwmc2LVMfgmS6Rmr3tf3OG+lfXcGfYSvTLLiXL8Xr
+         IKyqvMegC02yUb4hUgIYpUe/GjbUqTFA6F9uJJeBpDshwc9EtMtG3wY5sJG82FtfNoyH
+         N00xIUbYRJOS5PUukJUJMgIBi27ftPyUs2z5a6M8nCE9mA0Z86RGUuxWJTG0DKTgL7zP
+         NyDxIE4quQb0BTAXm1gWJ/DIFcqOELZE2Fkm/zknjkf0PMMrmd77tgCytWxtQAPENSzD
+         0qGRcLQGA1Bh4XKxxX+tiXILZYL3znA5+vZQwPd/VS7fBo4eWefGZs10DHL2ZBL2TU+R
+         2hjQ==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794936715; x=1795541515; darn=lists.openembedded.org;
+        d=gmail.com; s=20260707; t=1794936848; x=1795541648; darn=lists.openembedded.org;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=eyrIhh4i1Y7qMDd2ji//BBYmm7PHmYMNLcA0qvD8tXc=;
-        b=TWtS0qvE8DN8L0Q1uDEkq9l4PD5xYmI1VNV+h0tB82PHE4RRHJqD81kHKg8j0eBScB
-         tEET4+VYgNI/IQ36bScGvNlg46dkUwUUtp0NVhds5emh/r41UGtteYuYhYJHAoIVwTKK
-         wWcvNmoHhZ/yIsr+FhQTmMonVUBYzM0XRDtwazG0Ktjrh3z6QqGKEUuYGkug8Ljwu6lu
-         EcdFNBMF3OvLlH/c7Vr0cJ2oftNH63W1hhSJzwFyvvydLTOWeWrx/GAouHUv0ozpYg6F
-         lEnizWBGr9vGOndEXkvoTqGgfNeZExfogHl5F6Irmhsej7yP4lHQBCTPsLXOTpOfX10d
-         gXFg==
+        bh=Q+clvlfZ5juxi9uldCSeYee+c29UWpGNbCktjbl8q4w=;
+        b=nWFKgvYoVyk9/e/IOflnH+ODO62oOrBvy44yO3MeQhccrfXh5qoasADpXthtLOJ+K5
+         cnkigGoCPkqs5yXOlmiG7iNhZviswV3fgqkogFwYXuMxdj3U8O69tBK9YOdMrPIl4s3c
+         +gOImhqL1bGTxnfJlWbJxdkvMBoQUrRPS8UBKQgau7U5yvaiw5OEBDECWZHdvu6VlHM5
+         5ev4kRsHTsJBZUxVQiT6Nlm6qlZ+Ej34HfxiaiZAMG/q//GOYZ/3OaX5iumMlBRnItNM
+         +vRWhIz7Zymp9TFfrS4CTkzXxQbIU0pgE7NNK4K/9VUwmlBVnEMxHOYXg6FsVCI5WcLG
+         Zg0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794936715; x=1795541515;
+        d=1e100.net; s=20260707; t=1794936848; x=1795541648;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=eyrIhh4i1Y7qMDd2ji//BBYmm7PHmYMNLcA0qvD8tXc=;
-        b=v9ANHFk7GyUxLxEOH9VUyFF7xacdXZZmEAD+Qm8d7dJ+GMl2m1sLvOE1nsEMBm0dso
-         1KwkQ2jBaRVgXr+DZ9yN4rOAWLjx7xDfz0UKc7LMlpvfJkY13aJ28bqhIeW/p4H9K1ok
-         CQCLsR6imMQ76EC4oIgfJxJaI0wTVDTGCXAbrRLLvYn00vW6eW9Ua1MeVKvASFAAuX1O
-         4EgRz5C2M9f3U5dyMx7NZbqlvT11MGMNTrlqzC8T5KaqRbQz+hSocZdbMEstD7Q9xNI7
-         sN3v+79p7qS8keYa0KRjgCDT9PqbOjiDrg8zoHH4KjIl99T/R7vjn21Z/WMhBOPoU8k3
-         8Grw==
-X-Gm-Message-State: APuU4Z+gH+BiLUmmeG6yg9zpKF+fjbMM83ZKWUV3r/rKkUtMN95QNOGJ
-	t1c0wpkna1A1mGP07JZmSTKhGtYi0pkDmGLXfNXQQQhceOFoLC8J4Eoa5x4zBCN2K8ceF+2EjJ2
-	V/sAx+6laIPux2Fj6H8RPkRc91oaEoIg=
-X-Gm-Gg: AZFdTZe/jY1czmnsLJI44UuH1qiIEV7/Pvpcskcr7Mel9P/dtsLty9pklxBHEM/uqNU
-	15KEkkzFWjdVp9fQZaFMoe1IDksSBHJfnE7wTkiOkmvFBwpfv2Gw06wCHVqAUeSbiOeOdh9D2wi
-	SbUXNP4vAbz//MpTQ958/SVcqpaMo+EwaksRmkHIIJPxqOFmAEH0vqeL8dsHDhVBs9sgHJurC/t
-	ap0uzOCxD1kNF49la9xUvEs1tkdCMBZS/M4/LhjhzeVBkYRLlV9tVPLb9BlX6BrKn1r0lNyHmWG
-	67FUP2YOFF2fhaJmJX7R3bHePFBfe3PnwmIjbGlHtCwdxEvc7MMjp2jvtAKtOLQi0rASRulcf8d
-	HMIQFpaAN5djTZ9XTmXiKohYUrAgDuHWQkrcmDEqfH/jUSekDtIoWHQJ5Qhug5u+Rgh5iETJb
-X-Received: by 2002:a05:690e:150b:b0:67b:ec5a:2075 with SMTP id
- 956f58d0204a3-67dd401a0f4mr125763d50.78.1794936715485; Tue, 17 Nov 2026
- 09:31:55 -0800 (PST)
+        bh=Q+clvlfZ5juxi9uldCSeYee+c29UWpGNbCktjbl8q4w=;
+        b=y/gJMdGAFm9k2MZNXal5YrVB4yKAjDOp8UvC309CaXZEPHztWrFDzKKNPcXPrBOA9E
+         y7ERB5dkzEZIeaghUFkgzcc3btkreQyeTRIF1dKilTwStE2rj+eM5PybKgcNW1V+3KX7
+         lewmTuAaRB8ya5jMlfmECCqw5v4Yynzn9Hth+Q6Q4j2mA2Eb0/CgL2j8yo3wuAQiRFfw
+         5v+D7lYrgwZ0j+vC4QRjlcubFD1OQTB9JM6/zG0uhJ/x68b1Hv6pd5nnM8/lnwMugh+8
+         yUYrw3gUeBsF+O95EYoVarIot3ELfvkwFmQESfXSlYt8SNIgoh0J6hgHYA/a3ZcD9O4+
+         EcOg==
+X-Forwarded-Encrypted: i=1; AL+hErG/Fig/8SctQAoOXBLsryCLdc2vZUee1P0M9prAuVz4io3iMwcHuEpy0ixOfol93OJV1KPYbSVyx2VSE2dFR0KoqQ==@lists.openembedded.org
+X-Gm-Message-State: APuU4Z/gt8kcnQ98mGK1dW+Ub8lM+Hv9GGDfDarHSOf9mjyTuj4+1CSR
+	wfeqCOk91B+5jRbGoKogE7qtzoNp7hueyMxHMVc4Dz6F8G7boZ7hUhF/nL6+epVSE/IX4HdyLF7
+	ylpb7a3xcDBKB5I1rQ+O4Y+VMvPdCFms=
+X-Gm-Gg: AZFdTZcrEEIJAHhyGEk/QaRJrq4IusvlCFgFcfE8ZQ5XKt2fv/7eBonTBSjXFMiW9Ci
+	w3PyPlfSp9atnqPm684F9ZecZvLguYeWcM823GHdgAVJ0a9Je1EjGB6u7IN20yrwfLDn7GN4Ozy
+	N7QM1lcN5OFFhTg5yJMANWnT8aglfrRpdWl9Qv+UxWaZDtZRR+IrxjxK0gCrLTb8oLWZCxMsyAc
+	hsmnym+XeuflBD162X6aLW17Y3RS80nYeNN5i3auQExLoULsMqdNou4w+kOa9rAkTGA6+HTk9iw
+	mf2aR+W82h3W1w9vLE+88/4HRA9jeOT+XGI0Wb3IxLe0KERI2hU4SjLBD9/mjH4uFBZAFCb68zt
+	z1Spd6nKp4hUnMIHXQjoM1RolVRupIjHAxCuGPBOz27ZpNrPJLwEk05nAYlTSM5fZxSUXLdM=
+X-Received: by 2002:a05:6214:3211:b0:91e:ac55:fe72 with SMTP id
+ 6a1803df08f44-91f24201eaamr248559626d6.36.1794936848133; Tue, 17 Nov 2026
+ 09:34:08 -0800 (PST)
 MIME-Version: 1.0
-References: <20261117120155.3986876-1-sean@geanix.com> <20261117120155.3986876-4-sean@geanix.com>
-In-Reply-To: <20261117120155.3986876-4-sean@geanix.com>
+References: <20261117120155.3986876-1-sean@geanix.com> <20261117120155.3986876-3-sean@geanix.com>
+ <DB5PR02MB102130D7248FCFE07318026E7EF7B2@DB5PR02MB10213.eurprd02.prod.outlook.com>
+ <8E72F94E-03F6-432E-B1AB-C4B7B42FD4A3@geanix.com>
+In-Reply-To: <8E72F94E-03F6-432E-B1AB-C4B7B42FD4A3@geanix.com>
 From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Tue, 17 Nov 2026 18:31:44 +0100
-X-Gm-Features: Aa3M54rLdpwAnOhlE6IXOFgPx2Ve0ECiGAtb1gAtriT2xSWCVv91_EntZOcNnPM
-Message-ID: <CANNYZj8S=HnSE8UN8hpVF4OfNQaaXu3W8MCaJCGjujfAJbOsvA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2 3/3] oeqa/selftest/incompatible_lic: build
- the SDK in NoGPL3 core-image-minimal test
+Date: Tue, 17 Nov 2026 18:33:56 +0100
+X-Gm-Features: Aa3M54oZ-ipBSsxhwxCe-8WBj6UNksMZF1r2064Sz_JA5zMofynk-qv1XAbSnwE
+Message-ID: <CANNYZj9BMxBRqO+VVcxQFumB-w4UNyLA0qAe+QGP49vC+6_XXQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 2/3] license_image: don't apply
+ INCOMPATIBLE_LICENSE to SDK host tools
 To: sean@geanix.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000005223b006607c456d"
+Cc: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000003a330a06607c4d73"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 17:32:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250465
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 17:34:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250466
 
---0000000000005223b006607c456d
+--0000000000003a330a06607c4d73
 Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 17 Nov 2026 at 13:02, Sean Nyekjaer via openembedded-core <sean=
+On Tue, 17 Nov 2026 at 14:27, Sean Nyekjaer via openembedded-core <sean=
 geanix.com@lists.openembedded.org> wrote:
 
-> +ERROR_QA:remove:pn-core-image-minimal = "license-exception"
+> The open question is the default:
+> - INCOMPATIBLE_LICENSE_SDK ?= "${INCOMPATIBLE_LICENSE}" keeps the
+>   current master behaviour, and the rest of us have to opt out.
+>
 
-
-Why is this added? I thought the point of the patchset is actually fix the
-error, so the test should ensure it does not occur?
+I think this should be the best option, yes.
 
 Alex
 
---0000000000005223b006607c456d
+--0000000000003a330a06607c4d73
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 17 Nov 2026 at 13:02, Sean Nyekja=
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 17 Nov 2026 at 14:27, Sean Nyekja=
 er via openembedded-core &lt;sean=3D<a href=3D"mailto:geanix.com@lists.open=
 embedded.org">geanix.com@lists.openembedded.org</a>&gt; wrote:</div><div cl=
 ass=3D"gmail_quote gmail_quote_container"><blockquote class=3D"gmail_quote"=
  style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);p=
-adding-left:1ex">+ERROR_QA:remove:pn-core-image-minimal =3D &quot;license-e=
-xception&quot;</blockquote><div><br></div><div>Why is this added? I thought=
- the point of the patchset is actually fix the error, so the test should en=
-sure it does not occur?</div><div><br></div><div>Alex=C2=A0</div></div></di=
-v>
+adding-left:1ex">The open question is the default:<br>
+- INCOMPATIBLE_LICENSE_SDK ?=3D &quot;${INCOMPATIBLE_LICENSE}&quot; keeps t=
+he<br>
+=C2=A0 current master behaviour, and the rest of us have to opt out.<br></b=
+lockquote><div><br></div><div>I think this should be the best option, yes.<=
+/div><div><br></div><div>Alex=C2=A0</div></div></div>
 
---0000000000005223b006607c456d--
+--0000000000003a330a06607c4d73--
