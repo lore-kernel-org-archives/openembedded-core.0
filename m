@@ -1,206 +1,188 @@
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.5])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17518.1794920703119255486
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17783.1794921574351563831
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2026 05:05:03 -0800
+ Tue, 17 Nov 2026 05:19:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=selector1 header.b=dHODb+ou;
- spf=pass (domain: axis.com, ip: 52.101.65.5, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cA9eAhsq/TaH9673ahZiJhM4qoPswwYoyO+Lu5nA6NoYfkAhXohlJszMiq5K4ZBjud74w0EGrl4ZtvFgmVn1r2rDx+fXltU8QrNZGaoWJSADEO8X7a0E7pKnomPd7GUiX+sUywxxFSJgI7ElDrV2iBrCno2J64rxAh7h3Mc62POhsBxxuAxp+v3/WW9yq0W8aykZOc3/qm/S8jQ9PyC9bPo3dI3OM/r6oX/7/eRnob+EUPHWoEWoHOqCn+HcCr+MPL3O1+KkxV09eXEpyZ5ka092qVrXkPFmu344rCZ2QK7dcEFNvu0lEFkhIjyzSrlp5Dx06DPVQ45b+XJ77I8IGw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=riENP3AgZDTZgSmhmEJJLTdqDcOGjop76/j657BSmEo=;
- b=zAGOCM7NoLbj8itCilObJkIkD1f7JQAk1/i+umgAx1h9Z0cMlEnK9GutrD6kZ1M5YGC5q2KCj6ktKRCeR192F6IpPYNRrPnstGeSzTIlZ1lPfysqD2kRPbtFKlmCeX1zd2gQr7LkxYnE/gC51bWcpryx6+OrRXoZZeVxBYtgxMzWdODLQa/If4wKoQ+Hdx9oy8Ur+n7R7sHvEGVQ5c9Kp8pzwqU5FmPqHQim2eyHGAIN2Zlw+fT51Cusjvo0ZtFhVhiGMpXbcCYk1E3tRwl3tTjVYq1SxnOFcNeNd2gipC4DpWF8RGw+uWAchqmrIhl6GaTcoM2PEBeJe2VB1Quq5w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
- dkim=pass header.d=axis.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=riENP3AgZDTZgSmhmEJJLTdqDcOGjop76/j657BSmEo=;
- b=dHODb+ou4v8dfJy01CewYaLixhPQbwP58nl7UG5fhlIDdDhLSBoHK5/OJtSVc+AkS94jB4lZoiB48WfAZ/DqJQSLSeuBuhASLTBE2ZnC7Tplo4LW0HVfA0nWRKX7uxHf3vENyupl44slEteaSb8un4oE4NcSRaK06p+DbgCWd44=
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
- by CPJPR02MB857839.eurprd02.prod.outlook.com (2603:10a6:380:20e::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Tue, 17 Nov
- 2026 13:04:59 +0000
-Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::e5b6:b9a8:2a5d:e0cd]) by DB5PR02MB10213.eurprd02.prod.outlook.com
- ([fe80::e5b6:b9a8:2a5d:e0cd%6]) with mapi id 15.21.0615.013; Tue, 17 Nov 2026
- 13:04:59 +0000
-From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: "sean@geanix.com" <sean@geanix.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [PATCH v2 2/3] license_image: don't apply
- INCOMPATIBLE_LICENSE to SDK host tools
-Thread-Topic: [OE-core] [PATCH v2 2/3] license_image: don't apply
- INCOMPATIBLE_LICENSE to SDK host tools
-Thread-Index: AQHddouHhdkuRRFBa0GX+xlVUOhd37cyOBIA
-Date: Tue, 17 Nov 2026 13:04:59 +0000
-Message-ID: <DB5PR02MB102130D7248FCFE07318026E7EF7B2@DB5PR02MB10213.eurprd02.prod.outlook.com>
-References: <20261117120155.3986876-1-sean@geanix.com>
- <20261117120155.3986876-3-sean@geanix.com>
-In-Reply-To: <20261117120155.3986876-3-sean@geanix.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=axis.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|CPJPR02MB857839:EE_
-x-ms-office365-filtering-correlation-id: 05ccf19b-53b0-40f3-d7eb-08df44ab62b3
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|23010399003|366016|376014|1800799024|22082099003|18002099003|6133799003|15056099003|261009223027099003|56012099006|4143699003|261102123227099003|261028144727099003|261026140227099003|261022075727099003|261021121427099003|261022105027099003|261026121527099003|261021123027099003|261022115727099003|11063799006|38070700021|10067099003;
-x-microsoft-antispam-message-info: hVbE3juKJNj44HiSR4M9BBVeEPt5VvVciixP3wtq7m3qgYuJq8AUT+GekSt1/LEdtYHZZjMwm7DZRbX2NT0CgxiW3PlhGet/cnalhQunB4xDPCPqUbmKK8wZEOo+ZlFIf1/rcMu0bpjbpU/HFT1ZAmZZJ3qYbQFnD6p5Mlcnab/rCI8IsLzA1UJdEA0cZYSv/U5Vjlm22PAASJMlD35+ceVevpZa91+Znzd9jP/mErmxOW9apNBRr8sCEyNU80pLA6IWfa3CPvnWy5BbLd2Rten0b2hB4VGzMwVTwEici5J+8Q5rdfKK+KDkgL5m2ge6bqNtVjZq6N8fQli68Emz9S7kn5vAwPJ5gJSSnxMLaGJA2bZga8yeugVZGYx9w+i+/U7xRPfcdCMnNhC7lL0s6bORZ+/bzUab8mNBK3KwswA3AYfYNEdApJ5nBNCJ5K+qMfodvh5w8nK2YXiSw9VoJ4EdBhJL+GGYAwc2SVyFdBpSpj0SNzbuojuY08y+mOQs4zT80MDue24vLeC1oA1iGV28xHf8Fr0C8LCi/LoWNsykbJm1rdiSFcay7PJlyA28DdXv9tOSdjVTCnww4yCS1lX7ACw7udrMKY0PalbXOqNHU28LfWEKHuycqoWSlLLIqBeCP0ktK8nrRetZ988I3D33N0QD8q1v+XZdQMJpUv/hArppA21Uqk+03kXGqHvyRhKJnR+LpM87qXol+8BkTQ3uRPrgpgAQ8fnv2xA1GnY=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(1800799024)(22082099003)(18002099003)(6133799003)(15056099003)(261009223027099003)(56012099006)(4143699003)(261102123227099003)(261028144727099003)(261026140227099003)(261022075727099003)(261021121427099003)(261022105027099003)(261026121527099003)(261021123027099003)(261022115727099003)(11063799006)(38070700021)(10067099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?ujmJc0imifhAmBBgPtXc73DshuILfcSvb+403JYgSWFz3u4iCnZ8rxFSCeMl?=
- =?us-ascii?Q?36Hv0UEd3IS38W+ABP7lT8pJCsNo+77b4URrFTKB0q7eqUAFlt9Xg+2Q3jl0?=
- =?us-ascii?Q?c88kqGttT0pkuc4Ah1BDRJlVTmaLPA5FgMIGB5h5e7WN2DMVsoEZg400n4+I?=
- =?us-ascii?Q?/YNVdAsgAFryQF7smhjk7xoiUluvpzBYbSzp1D7WYiAZGfukM9u2QEUmZ40B?=
- =?us-ascii?Q?5sL+vnJeySYE7eMKW64DSPGGApIJ4wGz4FyP04v5VQA0tT00egT55NwpvgID?=
- =?us-ascii?Q?BomTd/P+hDXjyzeWwsfkMcYwPPg3D8Qnjvd733DhGMhHw3sX7UvzpyGDcoGA?=
- =?us-ascii?Q?SLLbbm21mBZiZGJiTs/ytgMw4V8+4wbpTR+N6birCm7ZpbX3R9XuqD5EbdZS?=
- =?us-ascii?Q?Xvf0GA7Ocz7b1jm1GbW/4xh5yLv1nsu82aJkLl24/k9XjcXye/2UpTaNDs45?=
- =?us-ascii?Q?QQ/WwI5jGwJ4zsFe6EkBtfMO5+NB7Siqba0gSPNn/utAgSLjEV8Xcu08AiM/?=
- =?us-ascii?Q?NUIoLSNq3GlqgHOcmNwx1+2pZvIR5L4uaa+WsVe1bEMSgXh//WCBKlg7kz5M?=
- =?us-ascii?Q?iKHn7L2/Mvl/BfazNnL1YQ1grys6x5r6j+6Ygzr6TxvoQNvUbeohjNE2BgQj?=
- =?us-ascii?Q?YjoYbicvGe73EInbkU9wlPbk3uPWOohICRn6SjwiC79DofVz0IhE7HW9kjHq?=
- =?us-ascii?Q?B2UWi/XlDD2Icmn/u7KnZzhk1jJGt+PoOumFrE3IH8ndWwLMvT0805Jraf2C?=
- =?us-ascii?Q?vG/dzyyyeS7PNv2p2K4RIXWcOu+KZjEhKnYTX2UYdLlIM7Fbxkr6N49ixjVw?=
- =?us-ascii?Q?nUn2hOde2qoduFs/eBugomNSer4jKpcGEqcBJeg3JXyFsTXeNBYWLKzbnJJ6?=
- =?us-ascii?Q?NNeTyMAip1g3JKkhDxjydRlvs12rwLoWPSZ7ZQiBbL8KT+dq6IJcZPjfVe75?=
- =?us-ascii?Q?f90NhO65OYuX0mH21xmoLfGoq29lKkeg3SYbNv9dRSjdJQ+UsE4JTbome4Jn?=
- =?us-ascii?Q?1AjGFkFcVOJA9JVpjQDsn3y2p0ThN51KzxcSvrE3SSG2po+C2C9DxlvxbeQ/?=
- =?us-ascii?Q?boxyeE2E0USrMG64aFJATngK3cSbcgGT69uHAIWVqjGT5dJK+tXKpdjgJ+pl?=
- =?us-ascii?Q?ov1EcLhfk30Ho+1VUqg/bKSAPoIPl37DDjWDBo8StHH52ojoPMiT5+bptqKN?=
- =?us-ascii?Q?k3qumJxzQzlIhtegCWsfIlu/OJGYWnh0N63oY5fhCDP8Uwf8HXxVihGYnM8T?=
- =?us-ascii?Q?xBKV4GQBUszupP2evbviGix1pESJO7NNkwvZ3XztlF6su78nel19axj9Ey/n?=
- =?us-ascii?Q?/btxhpRC2uV6gL7FNsKUsRix15L9BfEyjt8ozYL2zqZd/9yPaso7iMJPIwN2?=
- =?us-ascii?Q?Ng+zqmZunVGgHafYt5oj7nB286EgwDbhXvzICMABXHLPtLX1ApG0coByYwSc?=
- =?us-ascii?Q?xPpCrihZMU6rOXhDxo8fb1hCwR9CsokWO8iepYxZWaNIDIBytHylO4N2Ig1t?=
- =?us-ascii?Q?jctaLiXkEt2Yd9YkTPam+I7BGg3ozD8rGWCGUuxk6BG0+9A3U7VnaWSTGtKp?=
- =?us-ascii?Q?5+ER80yhji4fj09uWlPr35lWfnDKCyIwxh80z9ZRsNNTlybwm1jh944wLiKT?=
- =?us-ascii?Q?rYgy0a+bBpnxX+EYz5L9Wcs4Gf6YN7E4Xd353jWveKwB2glL9aGGOqhczxdi?=
- =?us-ascii?Q?33NlzpyRCuTjEIGJRl+uO6/sxhA=3D?=
-Content-Type: text/plain; charset="us-ascii"
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=c8Ov2lDB;
+ spf=pass (domain: smile.fr, ip: 209.85.218.54, mailfrom: bastien.jauny@smile.fr)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-c50e26763a4so315510266b.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 05:19:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google2; t=1794921572; x=1795526372; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=faFuhpb2rx9u262uiz1doU3NYgtvBKqVlkvBCiBKF8k=;
+        b=c8Ov2lDBZE5cS8KqgWhfG4uTxJUQaJDcIqDPIjke2UUNn6HbP7iLVpxcubIQQslg56
+         a9ILjUBGo8N00+3T0oHe9c3v9/AJNp0KxRVdinBq02lDm8oZaH2Qgm2Y3n3SbnA1MbYD
+         4nK8DSKBG9LThjx02VKhdbYKVuZBAvufFF4T9cFSQkBq/q4XAzVXX2FURe46HfLubpe8
+         IeT4P79b3HRtuLy5qPsSynGGN+H18Kx1u2H8ze//i05NPMhS/IXTGVxsqkytYLa5hD7R
+         sUn6EK89QxKfBz/NTB2ieHLSW4mHNQ4z1ocT4aeH4jeXvnbDI9YBb2KAbnMxgVSoxPSK
+         yiSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794921572; x=1795526372;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=faFuhpb2rx9u262uiz1doU3NYgtvBKqVlkvBCiBKF8k=;
+        b=qBy+Di623MM0GFpj4OUBwr+PKsUEo4+KyigfHLp14oiy8i5twIwCkL1483eYJlY/q6
+         l0WBQjtDnfvUPylFCNfwCHuoiuvFRJtMOQtyj6RPSJj+CtcNG+ICHXBcNTI6geJ7H3gk
+         SUXzC9GTRfKEgrng9wxkluiSc1A9cbKR6l41CMCwySk0sVtBCVBdqupSpu3COXImyin8
+         gfloDt0Ozt37CNKa7NZoaHUH2fG4roqQ3avZDf74Lhw01ho2x4+Qye+GJjNG48lYfG+m
+         RKd7Uw7QLEebqpiOlJ9mezjgxMtzVH5cBhNpKXYInxGiHU+IDuWUMxi+i2HUgoPpolmv
+         39sw==
+X-Forwarded-Encrypted: i=1; AL+hErFHNnHEGKB2YQSkxmT+56p5YlanRRR46MEKigbvEC/UekcJh+zrwAmgCzuMmaLnI4C+Qo8cHbbmaehX6lBd3xdslg==@lists.openembedded.org
+X-Gm-Message-State: APuU4Z93rQo7GjrrFgn9A1poaKXgkKEpSk8wPacEK3ivbG8w81w2mUh9
+	AaLKEL5aXp8OZD1GwDHG1BiY6oTLAIKP+zMwKrLdVXInymrruasJZB4IU0blX3/Ji6s=
+X-Gm-Gg: AYBFou2qyrdyyz/71IFY6JSzXv5Dkep9OITU1KYosJaGOjmPzGaT2SfmdWBB7CBLzLB
+	uXXN7Le6/HVPc5MYhkzTjv5CLRpz0/HyuhF/vHEv2UqdkEkOoBzXw+o3M45XeGZbjeMwG9LEUkG
+	2PY7Oq9fLlpTSiQqVtTH8VrVWC69IfQtKE7MXJ6mgnGxRxbUoBxSh6DaZEZJZUhvca8LMw10ULy
+	IAY1DoxtGRoeChGlJQxUd0tUxAM9rJzDLXK9aJnoYMW0+NJvHKims9LcZJp7LivMWNfWlK3hCZw
+	gxLnHKptkt+TfhgGRi2zbvIt15FZqWHVAFm6eApvj7oQSkuhemhU1WeoqUzmOIetULzBt5kyrtJ
+	oWH3LATtT16RWw/5KrqMwssI7YZTpGerMeaCzGi9aLQKbRHk7yOZ5f5GZJ5UX9ZFbcYfR2F3kPp
+	ck6/zrcZUSo8xNZmWGj+SHDyADKdxZyAQEWgz/VMim+nBvWyXWyegE1AYnsnxSW4fSAMjxll53c
+	w+OoBUApiG32Nv9rDptqO/IIsUzcvJF9SmTnPYm51qmLbTiqBe0CInLpA/fyrs4cs4Usfw6tnOH
+	3Hai8RTf8C7EoO0mQdzxUkzr4LHcVoVz4Ya9QQV5pGUsnS0oLX6imcn3YuSIDjayAyMUyccGOHu
+	ng+wIMu+Lx4zvSA==
+X-Received: by 2002:a17:907:d308:b0:c40:f9ea:7387 with SMTP id a640c23a62f3a-c5096110ee7mr1135961966b.6.1794921572413;
+        Tue, 17 Nov 2026 05:19:32 -0800 (PST)
+Return-Path: <bastien.jauny@smile.fr>
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c5095b23b3asm539982166b.27.2026.11.17.05.19.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 17 Nov 2026 05:19:32 -0800 (PST)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-MIME-Version: 1.0
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 05ccf19b-53b0-40f3-d7eb-08df44ab62b3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Nov 2026 13:04:59.5743
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: as9bX3yKraU/c0YE9V468qOrFSeYifA50Z2goe8ixzpbbZm9IgzfXTq2XpVzg0PI
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CPJPR02MB857839
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 17 Nov 2026 14:19:30 +0100
+Message-Id: <DMXILE8DULUH.1WHQ7HZRQTCTV@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCH] ffmpeg: fix CVE-2026-75143
+From: "Bastien Jauny" <bastien.jauny@smile.fr>
+To: <Abinivesh.GA@windriver.com>, "Yoann Congal" <yoann.congal@smile.fr>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.22.0-38-g09b49b623995
+References: <BY1PR11MB8031E1AADA730E95EDEB30FF96772@BY1PR11MB8031.namprd11.prod.outlook.com>
+In-Reply-To: <BY1PR11MB8031E1AADA730E95EDEB30FF96772@BY1PR11MB8031.namprd11.prod.outlook.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 13:05:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250448
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 13:19:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250449
 
-> -----Original Message-----
-> From: Sean Nyekjaer via openembedded-core <sean=3Dgeanix.com@lists.openem=
-bedded.org>
-> Sent: den 17 november 2026 13:02
-> To: openembedded-core@lists.openembedded.org
-> Cc: Sean Nyekjaer <sean@geanix.com>
-> Subject: [OE-core] [PATCH v2 2/3] license_image: don't apply INCOMPATIBLE=
-_LICENSE to SDK host tools
->=20
-> Since the SDK host and target sysroots are passed through
-> write_license_files(), do_populate_sdk checks every nativesdk and
-> cross-canadian package against the image's INCOMPATIBLE_LICENSE and
-> fails, e.g. with INCOMPATIBLE_LICENSE =3D "GPL-3.0*":
->=20
->   Some packages cannot be installed into the image because they have
->   incompatible licenses:
->         nativesdk-autoconf (GPL-3.0-or-later)
->=20
-> At parse time skip_incompatible_package_licenses() exempts these
-> recipes, so they are built and packaged, and only the SDK manifest
-> step rejects them. Use incompatible_license_check_needed() in
-> write_license_files() too, so host tools in the SDK are treated the
-> same way. Target packages in the image and in the SDK target sysroot
-> are still checked.
->=20
-> Fixes: f757ae4dadab ("license_image: extend to SDK coverage")
-> AI-Generated: Claude Opus 5.5 (Claude Code)
-> Signed-off-by: Sean Nyekjaer <sean@geanix.com>
-> ---
->  meta/classes-recipe/license_image.bbclass | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
->=20
-> diff --git a/meta/classes-recipe/license_image.bbclass b/meta/classes-rec=
-ipe/license_image.bbclass
-> index 7d00b1ae53..728db8ae3a 100644
-> --- a/meta/classes-recipe/license_image.bbclass
-> +++ b/meta/classes-recipe/license_image.bbclass
-> @@ -128,16 +128,23 @@ def write_license_files(d, license_manifest, pkg_di=
-c, rootfs):
->=20
->              pkg_allow_licenses =3D oe.license.filter_pkg_license_list(pk=
-g, allow_licenses)
->=20
-> +            # Host tools in the SDK (nativesdk, cross-canadian) are not
-> +            # subject to INCOMPATIBLE_LICENSE, same as at parse time.
-> +            if oe.license.incompatible_license_check_needed(d, pkg_dic[p=
-kg]["PN"]):
-> +                pkg_bad_licenses =3D bad_licenses
-> +            else:
-> +                pkg_bad_licenses =3D []
-> +
->              if node:
-> -                if incompatible_licenses :=3D oe.license.license_allowed=
-(node, bad_licenses, pkg_allow_licenses):
-> +                if incompatible_licenses :=3D oe.license.license_allowed=
-(node, pkg_bad_licenses, pkg_allow_licenses):
->                      incompatible_packages.append("%s (%s)" % (pkg, ' '.j=
-oin(n.to_string() for n in incompatible_licenses)))
-> -                elif incompatible_licenses :=3D oe.license.license_allow=
-ed(node, bad_licenses, []):
-> +                elif incompatible_licenses :=3D oe.license.license_allow=
-ed(node, pkg_bad_licenses, []):
->                      oe.qa.handle_error('license-exception', "Including %=
-s with incompatible license(s) %s into the image, because it has been allow=
-ed by exception list." %
->                                         (pkg, ' '.join(n.to_string() for =
-n in incompatible_licenses)), d)
->=20
->              (pkg_dic[pkg]["LICENSE"], pkg_dic[pkg]["LICENSES"]) =3D \
->                  oe.license.manifest_licenses(d, pkg_dic[pkg]["LICENSE"],
-> -                                             bad_licenses, pkg_allow_lic=
-enses)
-> +                                             pkg_bad_licenses, pkg_allow=
-_licenses)
->=20
->              if not "IMAGE_MANIFEST" in pkg_dic[pkg]:
->                  # Rootfs manifest
+On Thu Nov 5, 2026 at 6:52 AM CET, Abinivesh via openembedded-core G A wrot=
+e:
+> Hi Yoann,
+>
+> Thanks for the review.
+>
+
+Hi, I'm helping Yoann on scarthgap reviews.
+
+> Commit message =E2=80=94 agreed, I'll drop the upstream-code description =
+and reword as
+> integration/provenance (revised version below, if you'd like a v2). The .=
+patch file keeps
+> the upstream author's message plus Upstream-Status: Backport [1c10bcc2e17=
+2] / CVE: trailers,
+> matching our recent ffmpeg CVE patches.
+>
+> Provenance/correctness: NVD/Red Hat/SentinelOne all identify librist_read=
+() in
+> libavformat/librist.c as the vulnerable function (ignores the caller size=
+, copies full
+> payload_len, reachable via async:rist://). Upstream 1c10bcc2e172 changes =
+exactly that line;
+> it applies cleanly to 6.1.4.
+>
+> Other maintained branches =E2=80=94 the vulnerable librist_read() is iden=
+tical from 6.1.4 through
+> 8.0.x, and I confirmed none of the oe-core branches carry the fix yet: sc=
+arthgap 6.1.4,
+> styhead 7.0.2, walnascar 7.1.2, whinlatter 8.0, wrynose 8.0.3 =E2=80=94 a=
+ll affected by the same
+> one-liner (master is already on 9.0.2, post-fix). So merging scarthgap do=
+esn't leave a newer
+> branch exposed on our side =E2=80=94 the newer streams are tracked separa=
+tely and will get the same
+> backport; happy to send those too if you'd prefer one series.
+>
+
+I can confirm this: both wrynose and scarthgap versions of ffmpeg are
+affected by the CVE (8.03 and 6.1.4 respectively) but blacksail is OK
+(9.0.2).
+
+> Testing =E2=80=94 note the oe-core ffmpeg recipe has no librist PACKAGECO=
+NFIG, so a default build
+> compiles ffmpeg without the RIST protocol and the vulnerable path isn't i=
+n the shipped
+> binary (same situation Red Hat describes). Verification is therefore buil=
+d + boot + runtime
+> sanity rather than a RIST repro =E2=80=94 which is how the equivalent LTS=
+ backport was validated on
+> our side (clean build, target boots with no calltrace/coredump, runtime s=
+anity pass).
+>
+> Regards,
+> Abinivesh
+> ________________________________
+> From: Yoann Congal <yoann.congal@smile.fr>
+> Sent: Wednesday, November 4, 2026 8:48 PM
+> To: G A, Abinivesh <Abinivesh.GA@windriver.com>; openembedded-core@lists.=
+openembedded.org <openembedded-core@lists.openembedded.org>
+> Subject: Re: [scarthgap][PATCH] ffmpeg: fix CVE-2026-75143
+>
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender an=
+d know the content is safe.
+>
+> Hello,
+>
+> On Wed Nov 4, 2026 at 10:53 AM CET, Abinivesh G A wrote:
+>> FFmpeg before commit 1c10bcc contains a heap buffer overflow in the RIST
+>> protocol reader (libavformat/librist.c). librist_read() ignored its size
+>> argument and copied the full payload length into the caller-provided
+>> buffer, overflowing it when the payload exceeds the destination size.
+>>
+>> Backport the upstream fix that clamps the copy to the caller buffer size=
+.
+>
+> We usually omit info about upstream code in our commit message.
+> We are more interested in integration information: patch provenance,
+> proof that this is indeed the right patch to fix this CVE.
+> Look at recent CVE patches to see what we expect.
+>
+>> Upstream fix:
+>> https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/1c10bcc2e17255dacb717a25ab3=
+db142ce390602
+>>
+>> CVE: CVE-2026-75143
+>>
+>> Signed-off-by: Abinivesh G A <Abinivesh.GA@windriver.com>
+>> ---
+>>  .../ffmpeg/ffmpeg/CVE-2026-75143.patch        | 32 +++++++++++++++++++
+>>  .../recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb |  1 +
+>>  2 files changed, 33 insertions(+)
+>>  create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-75143=
+.patch
+>
+> Also, please check if this patch is needed for other maintained stable
+> branches. I can't merge it on scarthgap if it is needed for wrynose (for
+> exemple).
+>
+> Regards,
 > --
-> 2.56.0
+> Yoann Congal
+> Smile ECS
 
-IANAL, but for the record, I believe you risk violating the (L)GPL-3 licens=
-e=20
-if you distribute an SDK after applying the above, and then do not comply=20
-with the license requirements of the (L)GPL-3 license. And the whole point =
-of
-using INCOMPATIBLE_LICENSE =3D "*GPL-3.0*" in your configuration is to avoi=
-d this
-risk.
+The usual process is to integrate the fixes from
+top to bottom, meaning I can't accept this before it's available in
+wrynose.
 
-Since the GPL license is all about what you distribute, it does not matter =
-if it
-is target or native tools, you are *distributing* them all as part of the S=
-DK.
+Please submit the backport for wrynose first.
 
-Thus I believe it is wrong to apply this, but if it is applied, it should b=
-e=20
-opt-in, and come with a massive warning.
+Regards,
+Bastien JAUNY
 
-//Peter
+Regards,
+--=20
+Bastien JAUNY <bastien.jauny@smile.fr>
 
