@@ -1,41 +1,41 @@
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1363.1794957389773302502
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1361.1794957388889152009
  for <openembedded-core@lists.openembedded.org>;
  Tue, 17 Nov 2026 15:16:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=rwLe3IH5;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=R9VgtIzz;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101a1ebcc2bef-132dbfd0-4eb2-41ab-b887-5a918f3826b2-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ZqQRZVEP;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=2GE10x7a;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a1ebcc2866-776d305b-98ec-4bec-9b2c-5799a02191d5-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1794957388; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=BOc+19QCets+g822ZzDK6b9ArRtx6Qlst636P1zfok4=;
-	b=rwLe3IH5GbFj1JGzKhVxIafw00SSHaDOa0nJ+0JGjX2oKq2DvlcSnYG6cuxRYhBy
-	pd4UJ91zjej1VDo9IlZ3AX6eYpOAIcFPPYuLVR4y8lxHoOPtaYUhVEjDVUf+ll9MXY9
-	YWQzL2zrpYddAnyCf0DlbsqtfeRY9jo4Kh3QdA9I=
+	bh=DdYYfXxdlFM7s3nnHRfx/rxfm2Th5wmdGoCsMqW3fTw=;
+	b=ZqQRZVEPfpdyDFzy7It36D2ZXVapgfzy4uMJu6xDjSA7v2yLy6KIXCliEIFRrMhQ
+	cQudhjfZ1w6RqrfeL0DNHK4intondPEj7HeDelvzlZCG/RGVVEFSprt01b8VwhqB4AN
+	nLD29xgRfls9/AbI3HrDFXUzSDfENy8CcLvoHxhE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1794957388;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=BOc+19QCets+g822ZzDK6b9ArRtx6Qlst636P1zfok4=;
-	b=R9VgtIzzlYV/CLCRuKXleR6QKr+l3HGcprtQoPF2VAbJWUBhp3vYYtv9N2XoxQHa
-	6KtTQ7a06XSzMiOnX/h6vv6g+JNBVplkdH7cmT/X4M1c9sB+S1GQ+B7DwDIF5+IlwL+
-	wPZK9YXv9fuggoAz+fSBv1vUOi4dCa0Dy8xR2Vvk=
+	bh=DdYYfXxdlFM7s3nnHRfx/rxfm2Th5wmdGoCsMqW3fTw=;
+	b=2GE10x7a0GX7Ao9H7ehfDvH/zsp4bw08+RIF7xFJojlroH8977gRr7isXT6hoVbu
+	mnmnC+HXZwa1XPuU14pYzurRanbbbiJ2PpDVZi2xDqab5BgAVLTgRDPNuewknNoL749
+	g/Qd/WEcgMfMiC9EmoY6n0+qYKJj+xPSNYzbKm5U=
 From: patchtest@automation.yoctoproject.org
 To: Peter Marko <peter.marko@siemens.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [wrynose][PATCH] zlib: patch CVE-2026-85091
-In-Reply-To: <20261117225941.3886183-1-peter.marko@siemens.com>
-References: <20261117225941.3886183-1-peter.marko@siemens.com>
+Subject: Patchtest results for [blacksail][PATCH] zlib: patch CVE-2026-85091
+In-Reply-To: <20261117225930.3886161-1-peter.marko@siemens.com>
+References: <20261117225930.3886161-1-peter.marko@siemens.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a1ebcc2bef-132dbfd0-4eb2-41ab-b887-5a918f3826b2-000000@us-west-2.amazonses.com>
-Date: Tue, 17 Nov 2026 23:16:28 +0000
+Message-ID: <010101a1ebcc2866-776d305b-98ec-4bec-9b2c-5799a02191d5-000000@us-west-2.amazonses.com>
+Date: Tue, 17 Nov 2026 23:16:27 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.17-54.240.27.192
+X-SES-Outgoing: 2026.11.17-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 23:16:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250501
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250500
 
 --NextPart
 Content-Type: text/plain
@@ -45,7 +45,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/wrynose-zlib-patch-CVE-2026-85091.patch
+Testing patch /home/patchtest/share/mboxes/blacksail-zlib-patch-CVE-2026-85091.patch
 
 FAIL: test CVE tag format: Missing or incorrectly formatted CVE tag in patch file. Correct or include the CVE tag in the patch with format: "CVE: CVE-YYYY-XXXX" (test_patch.TestPatch.test_cve_tag_format)
 
