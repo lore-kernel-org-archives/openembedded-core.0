@@ -1,177 +1,292 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2081.1794939634738270494
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2085.1794939640046327861
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2026 10:20:35 -0800
+ Tue, 17 Nov 2026 10:20:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=O5ADRqV6;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4bb68c197c7so2524755e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 10:20:34 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=jMfFfdQu;
+ spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4a42b34e930so48206f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 10:20:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1794939633; x=1795544433; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=oIHEWmU0qTavZoywl2aPq9GYZ1kw0UUaVZf9EHpJhws=;
-        b=O5ADRqV6OsRP7bYyoCpcbgYKKLlIoKrB5QyWgyrRAKCZ6FXCK79HBDFgxz9fdiVJOb
-         K4E7tZM8eVbuxYiEOJv0gwJyt7PVSyU2bTdisWgDn2mPQ4bnaOil/e1S8rv0YU8vTBQJ
-         iaNPkuMF9+lHolSAmSlfyhHdOzUG9nM4CeZFVl5Ud58qM5gA5j/U+wwffZHxb59abmJK
-         IQO/5exRWPiAlE7aIZa6xfTRMjXJZgIMXhrAsXdBtahXa9iONCHk3cS4NxL8ildpEe1P
-         sCj+mrLEB1MdAceOOsmvD9/m9z4XkiLeY2ez0z8cE9f6LnMvhmKVRfyWHCE6X2Id1KNx
-         PTIg==
+        d=smile.fr; s=google2; t=1794939638; x=1795544438; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Yy0NnWM81gxL8s6Ctkn6Lw9bX25ELREN1GWyZgmj+5M=;
+        b=jMfFfdQu0KDumGPnlhmFuYQbKOPOe5aPLJLrsGmRO9y2OorTY1531RMVgyBqDXdLb6
+         IzjvA+QyX2WglD1BycwfBoVVWg3IfXgS/G4mGfBQ+y/dtM8dOVSj1au90xu7mq7oc0L3
+         6N8feY4m9SLXd1Wa1RX9FEDJeH4GKgrVBMwhffXw5gACbUNEOspd0AZAFdwyCzMe+Z9+
+         //HDMU0rZvHsmT9+6c9LNxW/eQRpquNhfuDAzntrl9+v5EODTiEGwVFzGvcOFSTn86H2
+         x5G/E4KQEYNDcyQ7NhLJJK8JjR8Ev82u4+WZj6w2bnYDP++xT1FxaPGNQ2/Sit/AJwG0
+         +EEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794939633; x=1795544433;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=oIHEWmU0qTavZoywl2aPq9GYZ1kw0UUaVZf9EHpJhws=;
-        b=MQI2iCm1gYyv2rGq/kgOZWXGtB3PT6gl2EsNQdX+KEu8Kj822oXMBxIgcSmZsRjUuU
-         JDv7W/fRobgJSYZa3G3YeYQcPlR0DXBHyw58A8IGkmK1yZbK/29WAKY9uWFXcKYjMXFV
-         PIvv9aHRo+m2geS1zn9u9+Qe0A17Y9U8rEwIZETIQYONB4OSPw7MEJ2XnkCd2T75OwXF
-         vFajJ+jYZ+eGOUdCtzlQmDjdEoWmwJqHBeWAOtcOCOu0VXxczOD/4dxkmeo/AK+hmh38
-         5GswcpVse4Dg1SumsPLJSG0V1oF0iDlYWpXoDJs/h2O64EZS0+T3R+Eel0i3cezjx/FQ
-         mpnA==
-X-Gm-Message-State: APuU4Z92dIDzNUjoMWL3uMCXkGQRebTpPbK9MmU0VbVFUw3paaizaeZ7
-	C5UxOgfqI8lHd5yj7lQAeO9v9AZWdMI6K2VfMO9B5pMyOmb9f2r8g0cWsrfQZB+khsiCYa68av1
-	aSIHXago=
-X-Gm-Gg: AYBFou04jEZwRD9S+0qbpnt12zXRIE8gv6jnWz3hrXfzkFp56FxefWJeFP2g1Esgu3C
-	T1zMSt6mvN3jihWAKaX5dEETorRshP5fTaN6pcl9OC9OqAqJWFTZcn2jQyqL7AFX43Rvse+zvyI
-	q0YuaUXZJ0tMRek5WilPFodNjelfVX0jVNAjRO6XeZZqcJQpTNoucFEthskBA4wc5oqH3Ym5ZN6
-	MGDFrVXwj5P+slZ8PzGdxwqgZAMDFkEVHmLurawl0oS4YTus3wTPTE5MtsHC36xZHgNlkdxd0wV
-	7DI3HLDujV9WdIXFOtmut34+g5/nSSDX+9JN1bQuGc48g8Ud8YPO/7e0xaE1OoOrxv6hPAXR3KE
-	t4SCGTuY7QxGE67vxxSaLO/fpYkECQEcwH9VOp4hJgCkxX7cqh4LAeztsgftTdPm+KP2JBoqPu4
-	R49bPdtyonvjKogmSwHMIjexRwzE9YqQktO4ydERqNLruqc0m14tr0Eng2ZoBsoiiUp9quAMnyk
-	94TGkHmAFV6mO3nDwnSRfAVzXMKcel0IT9lFL8iFy5uDkmBfDlBr1LLIwLXE4P3wCiQHmVi3Iwg
-	Axne7X33SXjcF3NB7xkskc5/QELqZ03E8BFTuT7N028uJpQImtOOEoz4NXttjWL+Cr1xiF118W+
-	6B1p5uYjH4T5uS4TkKbBzFmE7R+RDSg==
-X-Received: by 2002:a05:600c:8b81:b0:4bb:5f45:c97f with SMTP id 5b1f17b1804b1-4bb5f4f93f3mr243378525e9.27.1794939632630;
-        Tue, 17 Nov 2026 10:20:32 -0800 (PST)
+        d=1e100.net; s=20260707; t=1794939638; x=1795544438;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=Yy0NnWM81gxL8s6Ctkn6Lw9bX25ELREN1GWyZgmj+5M=;
+        b=D6CdixvfCjV/xEoVefVdoVfpSOMRYAN6ZpQSGJtKCUxhSRfIGw6z8VJdKFCVWwH8i3
+         5kP4cXu1pKTkVXgB/k505QRxw+tdlBwuVTnondgl7qX6zJptVt9eJGHiD1B89FNbwSHg
+         D8rWNKZX4Rdw/We+kfo7adn2KqFYIExenYf2ntlxFsrsYHjuWWz6mbdz20quPs8Xmjcs
+         7bw1ohRMe/p8PaabBxxfmH6wDlifR5Ff21xK3bsC8y1iC9Fc3KaTaCSeUH09bTsCuJn2
+         sk8gH7edfcd2qnQIqZXL1x1+VbrDmJNeuehGrhZoDv4SI3axqnCyTafZwMjCI5oHCdCX
+         tCXA==
+X-Gm-Message-State: APuU4Z/d05zE8jb0X98NrF/wLW7FmnISnizIZOzz7ka03bOwf65pEfq/
+	ubnyoP9lDJS+LdRrfFf9eO0yluA9gxotzuBDBTlGec8yTuTG2Wy8rNZ5TehLyNEU2xRiLq3HeLS
+	elhHsba0=
+X-Gm-Gg: AZFdTZcRHPLXHJ4dGmivWQy7kozySOeb5hhH3RDPw4nofUjMpkkkJoXwP7CX+kfJSHG
+	6lM0TGbpfNAWHlm7uioJSVEhtgtu7Y5HbaZiM6NjSDgPSGj+O/AtfRup8QG/9UfOs5JW1pXFWYF
+	1j2Sl3PRAsv/zAY60y8kVis+Mxm11XBTFOFcnPldYKgCPueoEbdJmQVD7PZAmd7YK4sTh1AqZEk
+	CsWKQN3Wa768+G6TnuFjLDO1ag5FB/lTUZY03NmUsDQc5gpZuhiVOcvIn9CB36DuS1sl8L5l2Q7
+	cOAhkTwrNzwg+uYIPuHoAPHpEty4g8WuFeC5CuOcqYDz7Ef+fAzmcxRXPZ7mpLnX7s8ubJ+hSW9
+	GmJcK5aiqkqgqYACroetKw83n7gCDjYIZ0Y9e7/qd8FCbFCu59mIeGO1bD8aTf4ON67QXjpViKj
+	jT3tUptWSKvwXQ7cF7amW5kRhfOc3Qk9gIQoiD2vgV+w5U9CpdPOeWuYghO/WrwMgVfjtJOZbL0
+	qu/MiutlxbCecwLdQQCP6ViU/ok233OESLP6ace9wzkjxinSx4ummFJPHdmC13UXrELrtB+Kcev
+	JzVV97bPjIEfhFqavWrljbE7fGYrSIQ94HXcP3FSnTVp2OeqUjQB37lGYXAOEvCzglkrQUtKOA/
+	WDDzUI8urDntfrW/23owfz1qIa9KW
+X-Received: by 2002:a05:6000:4286:b0:498:be72:6371 with SMTP id ffacd0b85a97d-4a63a0eabebmr606380f8f.21.1794939638139;
+        Tue, 17 Nov 2026 10:20:38 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a654997681sm114337f8f.15.2026.11.17.10.20.31
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a654997681sm114337f8f.15.2026.11.17.10.20.37
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 10:20:31 -0800 (PST)
+        Tue, 17 Nov 2026 10:20:37 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 00/17] Patch review
-Date: Tue, 17 Nov 2026 19:20:00 +0100
-Message-ID: <cover.1794939400.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 08/17] curl: fix CVE-2026-92388
+Date: Tue, 17 Nov 2026 19:20:08 +0100
+Message-ID: <9badc140b108b12beb13fd672402d477a59f3717.1794939400.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <cover.1794939400.git.yoann.congal@smile.fr>
+References: <cover.1794939400.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 18:20:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250467
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250475
 Content-Type: text/plain; charset="utf-8"
 
-Please review this set of changes for wrynose and have comments back by
-end of day Thursday, November 19.
+From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 
-Highlighted patches: this series upgrades rsync 3.4.1 -> 3.5.1: This is
-an exception to the stable rules to handle the otherwise very difficult
-to patch CVEs.
+Backport patch to fix CVE-2026-92388.
 
-Passed a-full on autobuilder:
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/5137
+References:
+  https://nvd.nist.gov/vuln/detail/CVE-2026-92388
 
-The following changes since commit 33a6bd6cc8a9a976902081642414bd67adc74879:
+Upstream fix:
+  https://github.com/curl/curl/commit/ba8f8a7f27a5c5e19e4ef212
+  https://github.com/curl/curl/commit/b85acacec9b38442741bb019bc9
 
-  populate_sdk_ext: Fix locale error handling in SDK (2026-11-11 00:22:27 +0100)
+Tested with ptest:
+Before: PASSED: 1006, FAILED: 0, SKIPPED: 0, ABORTED: 0
+After: PASSED: 1006, FAILED: 0, SKIPPED: 0, ABORTED: 0
 
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/wrynose-review
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/wrynose-review
-
-for you to fetch changes up to dcc87a051b64f2643b94bdb1a703aa50e8dccb26:
-
-  perl: upgrade 5.42.0 -> 5.42.3 (2026-11-17 11:03:28 +0100)
-
-----------------------------------------------------------------
-
-Adarsh Jagadish Kamini (3):
-  curl: fix CVE-2026-87864
-  curl: fix CVE-2026-92388
-  curl: fix CVE-2026-92389
-
-Ashishkumar Parmar (1):
-  bluez5: fix CVE-2026-19774
-
-Darsh Kelaiya (4):
-  curl: fix CVE-2026-82208
-  curl: fix CVE-2026-86409
-  curl: set CVE_STATUS for CVE-2026-19931
-  curl: fix CVE-2026-18924
-
-Jaipaul Cheernam (4):
-  rsync: upgrade 3.4.4 -> 3.5.0
-  rsync: upgrade 3.5.0 -> 3.5.1
-  perl-cross: add patches for perl-5.42.3
-  perl: upgrade 5.42.0 -> 5.42.3
-
-KAZUYOSHI AKIYAMA (秋山 和慶) (1):
-  spdx30_tasks: Fix duplicated revision in Git PURLs
-
-Richard Purdie (2):
-  rsync: upgrade 3.4.1 -> 3.4.2
-  rsync: upgrade 3.4.2 -> 3.4.4
-
-Shuai Zhang (1):
-  bluez5: Abort continuing response on fragmented CT replies
-
-Yoann Congal (1):
-  pseudo: Upgrade 1.9.11 -> 1.9.12+git
-
- meta/lib/oe/spdx30_tasks.py                   |   7 +-
- meta/recipes-connectivity/bluez5/bluez5.inc   |   3 +
- ...inuing-response-on-fragmented-CT-rep.patch |  62 ++++++++
- .../bluez5/bluez5/CVE-2026-19774_p1.patch     |  63 ++++++++
- .../bluez5/bluez5/CVE-2026-19774_p2.patch     |  62 ++++++++
- ...rl-cross-add-patches-for-perl-5.42.3.patch | 114 ++++++++++++++
- .../perl-cross/perlcross_1.6.4.bb             |   1 +
- .../perl/files/CVE-2026-13221.patch           |  75 ---------
- .../perl/files/CVE-2026-42496.patch           |  99 ------------
- .../perl/files/CVE-2026-57432-01.patch        |  52 -------
- .../perl/files/CVE-2026-57432-02.patch        |  34 -----
- .../perl/files/CVE-2026-57433.patch           |  32 ----
- .../perl/files/CVE-2026-8376-01.patch         |  62 --------
- .../perl/files/CVE-2026-8376-02.patch         |  49 ------
- .../perl/{perl_5.42.0.bb => perl_5.42.3.bb}   |   9 +-
- meta/recipes-devtools/pseudo/pseudo_git.bb    |   6 +-
- ...-prototypes-to-function-declarations.patch |  78 ++--------
- .../rsync/files/CVE-2025-10158.patch          |  36 -----
- .../rsync/files/determism.patch               |   6 +-
- .../rsync/files/makefile-no-rebuild.patch     |   6 +-
- .../rsync/{rsync_3.4.1.bb => rsync_3.5.1.bb}  |   4 +-
- .../curl/curl/CVE-2026-18924.patch            |  57 +++++++
- .../curl/curl/CVE-2026-82208.patch            |  54 +++++++
- .../curl/curl/CVE-2026-86409.patch            |  88 +++++++++++
- .../curl/curl/CVE-2026-87864.patch            |  52 +++++++
+Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
  .../curl/curl/CVE-2026-92388-1.patch          | 142 ++++++++++++++++++
  .../curl/curl/CVE-2026-92388-2.patch          |  31 ++++
- .../curl/curl/CVE-2026-92389.patch            |  53 +++++++
- meta/recipes-support/curl/curl_8.19.0.bb      |   8 +
- 29 files changed, 822 insertions(+), 523 deletions(-)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-avrcp-Abort-continuing-response-on-fragmented-CT-rep.patch
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2026-19774_p1.patch
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/CVE-2026-19774_p2.patch
- create mode 100644 meta/recipes-devtools/perl-cross/files/0001-perl-cross-add-patches-for-perl-5.42.3.patch
- delete mode 100644 meta/recipes-devtools/perl/files/CVE-2026-13221.patch
- delete mode 100644 meta/recipes-devtools/perl/files/CVE-2026-42496.patch
- delete mode 100644 meta/recipes-devtools/perl/files/CVE-2026-57432-01.patch
- delete mode 100644 meta/recipes-devtools/perl/files/CVE-2026-57432-02.patch
- delete mode 100644 meta/recipes-devtools/perl/files/CVE-2026-57433.patch
- delete mode 100644 meta/recipes-devtools/perl/files/CVE-2026-8376-01.patch
- delete mode 100644 meta/recipes-devtools/perl/files/CVE-2026-8376-02.patch
- rename meta/recipes-devtools/perl/{perl_5.42.0.bb => perl_5.42.3.bb} (98%)
- delete mode 100644 meta/recipes-devtools/rsync/files/CVE-2025-10158.patch
- rename meta/recipes-devtools/rsync/{rsync_3.4.1.bb => rsync_3.5.1.bb} (95%)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-18924.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-82208.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-86409.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-87864.patch
+ meta/recipes-support/curl/curl_8.19.0.bb      |   2 +
+ 3 files changed, 175 insertions(+)
  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-92388-1.patch
  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-92388-2.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-92389.patch
 
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-92388-1.patch b/meta/recipes-support/curl/curl/CVE-2026-92388-1.patch
+new file mode 100644
+index 00000000000..607b8c9b936
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-92388-1.patch
+@@ -0,0 +1,142 @@
++From 056e37ce04bd4d599dd014d305963d2194e30026 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Wed, 16 Sep 2026 15:17:37 +0200
++Subject: [PATCH] ftplistparser: no more overwriting set.write_func
++
++The entries in the 'set' struct should remain as set by the application.
++
++Closes #22969
++
++Conflicts Resolved:
++
++lib/ftp-int.h (1 conflict):
++- File does not exist in this branch; struct ftp_wc with its backup
++  member lives in lib/ftp.h instead. Applied the same removal of the
++  backup member to lib/ftp.h.
++
++Assisted-by: kiro:claude-sonnet-5
++
++CVE: CVE-2026-92388
++Upstream-Status: Backport [https://github.com/curl/curl/commit/ba8f8a7f27a5c5e19e4ef212b90b35a93559163e]
++
++Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
++---
++ lib/cw-out.c        | 10 ++++++++--
++ lib/ftp.c           | 13 -------------
++ lib/ftp.h           |  5 -----
++ lib/ftplistparser.c | 10 ++++++++++
++ lib/ftplistparser.h |  5 +++++
++ 5 files changed, 23 insertions(+), 20 deletions(-)
++
++diff --git a/lib/cw-out.c b/lib/cw-out.c
++index 554c32e84e..2500ea8ab3 100644
++--- a/lib/cw-out.c
+++++ b/lib/cw-out.c
++@@ -148,8 +148,14 @@ static void cw_get_writefunc(struct Curl_easy *data, cw_out_type otype,
++   switch(otype) {
++   case CW_OUT_BODY:
++   case CW_OUT_BODY_0LEN:
++-    *pwcb = data->set.fwrite_func;
++-    *pwcb_data = data->set.out;
+++    if(Curl_ftp_listmode(data)) {
+++      *pwcb = Curl_ftp_parselist;
+++      *pwcb_data = data;
+++    }
+++    else {
+++      *pwcb = data->set.fwrite_func;
+++      *pwcb_data = data->set.out;
+++    }
++     *pmax_write = CURL_MAX_WRITE_SIZE;
++     /* if we ever want buffering of BODY output, we can set `min_write`
++      * the preferred size. The default should always be to pass data
++diff --git a/lib/ftp.c b/lib/ftp.c
++index 6047759e78..6b13fb6629 100644
++--- a/lib/ftp.c
+++++ b/lib/ftp.c
++@@ -3988,15 +3988,6 @@ static CURLcode init_wc_data(struct Curl_easy *data,
++     goto fail;
++   }
++ 
++-  /* backup old write_function */
++-  ftpwc->backup.write_function = data->set.fwrite_func;
++-  /* parsing write function */
++-  data->set.fwrite_func = Curl_ftp_parselist;
++-  /* backup old file descriptor */
++-  ftpwc->backup.file_descriptor = data->set.out;
++-  /* let the writefunc callback know the transfer */
++-  data->set.out = data;
++-
++   infof(data, "Wildcard - Parsing started");
++   return CURLE_OK;
++ 
++@@ -4032,10 +4023,6 @@ static CURLcode wc_statemach(struct Curl_easy *data,
++       /* In this state is LIST response successfully parsed, so lets restore
++          previous WRITEFUNCTION callback and WRITEDATA pointer */
++       struct ftp_wc *ftpwc = wildcard->ftpwc;
++-      data->set.fwrite_func = ftpwc->backup.write_function;
++-      data->set.out = ftpwc->backup.file_descriptor;
++-      ftpwc->backup.write_function = ZERO_NULL;
++-      ftpwc->backup.file_descriptor = NULL;
++       wildcard->state = CURLWC_DOWNLOADING;
++ 
++       if(Curl_ftp_parselist_geterror(ftpwc->parser)) {
++diff --git a/lib/ftp.h b/lib/ftp.h
++index 20b360033e..b1d3706db2 100644
++--- a/lib/ftp.h
+++++ b/lib/ftp.h
++@@ -85,11 +85,6 @@ struct ftp_parselist_data; /* defined later in ftplistparser.c */
++ 
++ struct ftp_wc {
++   struct ftp_parselist_data *parser;
++-
++-  struct {
++-    curl_write_callback write_function;
++-    FILE *file_descriptor;
++-  } backup;
++ };
++ 
++ typedef enum {
++diff --git a/lib/ftplistparser.c b/lib/ftplistparser.c
++index f82895d57a..9c7ad6e9a0 100644
++--- a/lib/ftplistparser.c
+++++ b/lib/ftplistparser.c
++@@ -1010,6 +1010,16 @@ static CURLcode parse_winnt(struct Curl_easy *data,
++   return CURLE_OK;
++ }
++ 
+++/* returns TRUE if in wildcard listing mode */
+++bool Curl_ftp_listmode(struct Curl_easy *data)
+++{
+++  if(data->state.wildcardmatch) {
+++    struct WildcardData * const wildcard = data->wildcard;
+++    return wildcard && (wildcard->state <= CURLWC_MATCHING);
+++  }
+++  return FALSE;
+++}
+++
++ size_t Curl_ftp_parselist(char *buffer, size_t size, size_t nmemb,
++                           void *connptr)
++ {
++diff --git a/lib/ftplistparser.h b/lib/ftplistparser.h
++index 5d7aa492ba..942e102894 100644
++--- a/lib/ftplistparser.h
+++++ b/lib/ftplistparser.h
++@@ -27,6 +27,9 @@
++ 
++ #ifndef CURL_DISABLE_FTP
++ 
+++/* returns TRUE if in wildcard listing mode */
+++bool Curl_ftp_listmode(struct Curl_easy *data);
+++
++ /* WRITEFUNCTION callback for parsing LIST responses */
++ size_t Curl_ftp_parselist(char *buffer, size_t size, size_t nmemb,
++                           void *connptr);
++@@ -71,6 +74,8 @@ void Curl_wildcard_dtor(struct WildcardData **wcp);
++ struct Curl_easy;
++ 
++ #else /* CURL_DISABLE_FTP */
+++#define Curl_ftp_listmode(x) FALSE
+++#define Curl_ftp_parselist ZERO_NULL
++ #define Curl_wildcard_dtor(x)
++ #endif /* !CURL_DISABLE_FTP */
++ 
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-92388-2.patch b/meta/recipes-support/curl/curl/CVE-2026-92388-2.patch
+new file mode 100644
+index 00000000000..80381035ff1
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-92388-2.patch
+@@ -0,0 +1,31 @@
++From 5f8207e667910351d7d5883910eac80f5b215b12 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Thu, 17 Sep 2026 14:32:52 +0200
++Subject: [PATCH] ftplistparser: only use the list parser in CURLWC_MATCHING
++ state
++
++Follow-up to ba8f8a7f27a5c5e1
++
++Closes #22985
++
++CVE: CVE-2026-92388
++Upstream-Status: Backport [https://github.com/curl/curl/commit/b85acacec9b38442741bb019bc992e77b5f665d4]
++
++Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
++---
++ lib/ftplistparser.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/lib/ftplistparser.c b/lib/ftplistparser.c
++index 9c7ad6e9a0..91b24251c9 100644
++--- a/lib/ftplistparser.c
+++++ b/lib/ftplistparser.c
++@@ -1015,7 +1015,7 @@ bool Curl_ftp_listmode(struct Curl_easy *data)
++ {
++   if(data->state.wildcardmatch) {
++     struct WildcardData * const wildcard = data->wildcard;
++-    return wildcard && (wildcard->state <= CURLWC_MATCHING);
+++    return wildcard && (wildcard->state == CURLWC_MATCHING);
++   }
++   return FALSE;
++ }
+diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
+index b6e05f66e42..744c5ed0ab1 100644
+--- a/meta/recipes-support/curl/curl_8.19.0.bb
++++ b/meta/recipes-support/curl/curl_8.19.0.bb
+@@ -41,6 +41,8 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
+            file://CVE-2026-82208.patch \
+            file://CVE-2026-80230.patch \
+            file://CVE-2026-87864.patch \
++           file://CVE-2026-92388-1.patch \
++           file://CVE-2026-92388-2.patch \
+            "
+ 
+ SRC_URI:append:class-nativesdk = " \
