@@ -1,161 +1,246 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2091.1794939638964462226
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2089.1794939637124347701
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2026 10:20:39 -0800
+ Tue, 17 Nov 2026 10:20:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=b8YFbtdV;
- spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-48e09aa5264so27504f8f.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 10:20:38 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=QOTp++lL;
+ spf=pass (domain: smile.fr, ip: 209.85.221.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-4a5506f09f5so56434f8f.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 10:20:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1794939637; x=1795544437; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1794939635; x=1795544435; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=zGcn3MD3jb7aoD7trwZIn8XpeKeOb5rzH8PEH5DCxoM=;
-        b=b8YFbtdVHXrIUfToPypLoH8O4pXHZLZa46BmQ1skbUjsCBmBgzOceo03P7Htct8owC
-         yFg1OaIYp2vpPSeruQ5kzMi2MYZ/ZkPzv1UVQdkob/AUfSw5f9uur5puK/Byka0J0aX+
-         T2z3GVguOdvB8IJlnsHvImaQUyz79LmuJki9FRXHpMrXHXWZd7W464bppwdImKRDVUha
-         Bd5xUVs0OU8RNSujNkLjciVXro3wFeAp4u0ahtOZFeFP9yB/hMHXUiEZhHkmvqMwJ4B+
-         4OI5YUZ+uT5kFeIUlj9P+72FTORWwDneNcpvqIJR6dODlkGmmDiqt67GVarL+Gf0r87R
-         qO4g==
+        bh=8mVLtEmEnFQ0XIsi9ECFtmqXmpe+dYG/8ln7WOGnDmY=;
+        b=QOTp++lLpf48nH/MY2TAinGC0/Zi9K/B2Pf4SF/SWLoV1Egq7HpyQVdnNNFmXluknF
+         RtVCMuVLmZOWhzoUyFKuzuDEcV7F25k0W5ufVVsurQkOfVOWOw8VUNIDgzSDBdJgse26
+         AxEYBogynirER7iIlzCp7a9nI6zyPyP3A7qSDutwdZU+eOkTLJ8JN8je9gl+Nz4D8tzs
+         sPc/NaQar7Ob05j/hFJYf17nKffDg9mw62uEypbGAt7XvXBED3lxVNj9SDGyvYj3KDhW
+         E9VU7D6E6DYOe8oWuYa6ngMWRKDTKEIXrTeRiKFRC02zF1H6XNIN1p+w8XG7i2SUSem4
+         bgyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794939637; x=1795544437;
+        d=1e100.net; s=20260707; t=1794939635; x=1795544435;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=zGcn3MD3jb7aoD7trwZIn8XpeKeOb5rzH8PEH5DCxoM=;
-        b=EmV+KbJX/6sc54iu8I0dB/nN9FITkeCSkjY4XHGcpOafja6Z2hNvZfT3TnaZv1s8lt
-         2MqztZ35j6b6ileIAEQYPpqLunHFDCQBSDioBUXznDgi89Led3KDmosLk7zwrV7QDmNx
-         54KwDEMsMAWMtiPQRpP81CefiawAub1/aZRYaxA8YBroOg5jniwkE+Mf1oLjeKzcI5bi
-         Srn3WMvGmBAjIjQc4zUt3V0wiUJv8FH9JU/rLy6sA5mhTsapJfMa8E+bID/VGL2yyUeq
-         NUnaX8MH1PLpS1tEUisy4PW0h7m6w/G1sS/DkW5DjnlBajW0uxloSBIdWSi+NyjqvRVs
-         zVcA==
-X-Gm-Message-State: APuU4Z+pDGsDy8s4ILWvaMSTkIWctzLWjk8FG1D5uBTKx93l2EcMcFIg
-	svSrj5NLBwmnGEi+5rTNfHzn7e7erwYUPBfSomrd7MzZalUFNQa/u1KCEtPLrE3UflMJZu2MWcT
-	wGUOwOPc=
-X-Gm-Gg: AZFdTZdibRTl8LlDo4zAN3dvaNuN46MAJToHuvduWtF8bEvLPo2TxCrUV4AiqloCnh5
-	cfaxR2AtU4+SHlv3MYBRXf+fNm25CUPfPgELx1X35hfHYPme1U+D1SI1uNY+Ks6tfUpv1DUcHqb
-	5hUYd5eOe9H6PvrUvfOmIsGm62LBPzhEakSIzgdZA9ERdkOsicvIgOq3Q8dVOyJtV3bFxuz11FO
-	iPMjRkj2qTbDS9m/Eb7BBepB1fDj/gUHitX442kD8TurlhTuxH4ItzFppCAA9KqHSyAbb0dTGsw
-	6h6/JOriECP9hRtDxnBmuzkMUfnpDXebxBhUaGcF0KQ29szisK0argIqRnN6FnJHebtjCtBAvWZ
-	YShcoVxirfkAqZ6rcbAcwdOi3fyl5oclc7Rx4/nzbS1iyN8RJGFqgW4ZTArxOQjfbKDx8RpEFcZ
-	B8wDjRFYwW9Q5dhtY2W1BgpCGh7YcunFY1aH/VtctatZh6MXQgsCpkr8NmdZEFlWDK3foIJXrHj
-	zIGFAD5MGxh95471lpqO+iIB7I3+JzA9re/dKU1Z5veZjjlnVr0vMunlyeo2jWDSISxp9O5aTUd
-	DqN4NOd9d2q6mUKoH1auGnokAmeQ2T2nmaWNRZU3BcAmjvRX4vDKOfrVpHstdkMHZGLV672AwEx
-	fNRo41Od/plVODrQE3VnwvpRLHfOb
-X-Received: by 2002:a05:6000:240d:b0:4a6:4687:233e with SMTP id ffacd0b85a97d-4a6468725f3mr425322f8f.7.1794939637061;
-        Tue, 17 Nov 2026 10:20:37 -0800 (PST)
+        bh=8mVLtEmEnFQ0XIsi9ECFtmqXmpe+dYG/8ln7WOGnDmY=;
+        b=fwzJ9JImb8RQgpVHfJql5go+VoM1D6NEkwWtG5n4iCt5mKj+Hzsv77PUSVa4OSZgHF
+         jZxz7JPbVH9wme8gzCvBjwMzBLjjQr0Umd6Awd/xpjNSRT5Xy5TL+VHzcGMknp5Xz+dY
+         +IPWQgcHmzRpwnZudIW7ND24Bi8f6R/L3IUWokhYMYNSr0RZlWZ6Ic+iIovi5fmxCOzj
+         GSB6rMSwXAuX/CfaSYcWyn7LN8kZXaKCMv131/HUrO/Wa009jW5W6YLc5tSILiPvRMxX
+         4svyoE1502VFNJ+DMaAQQuAcMaU0RCa8uaJMMk/CSLCVIEhlgn3RtUpgzkpgkMzRvvfH
+         pQhA==
+X-Gm-Message-State: APuU4Z+GNudf2yzYopm015ext9ngeUtZfjkYP36jFGSmFNP3+Hko81Vm
+	4+zc0zMq/t54TykTFbTNPBQAdtxIg/cekhRrerH5hUshtJ3hhOV8YMP83dmoveyEMnNUFSU3JVW
+	Akwn6KgI=
+X-Gm-Gg: AZFdTZcKIKD4dJwOHgv22ybT5EHSHB11znsxwbd+U5dXA2SLgwD2ut01TcEkGZDQ4Wc
+	QpOuf8g53c2Tvzerl6qCvkfwvt+HryU7Qm9mkKijF+A5IWq8g7iHZkUI2U/1iystWyxhAmhV+GN
+	6zR+oMaqU4DtWzolsfuGiCoiOqV8I74Dky15bYt/mxkZUExB6KiM6LARLrLrK4Bl1qIs8ohDL/v
+	cHLBEymO4x1ZBV8OZVdWAmF6mRyDU38uUDNycn3mYP/pH76+tJQ4hat2lLTTyH3YipbZT4Y6qSC
+	pbKceER4qAv+HcFHIbLSo53YA3xmeg/bH04i1FQXaZpikHy4lpiyruFe6zhPa5wsMIa0xVSWfuG
+	trgJM/4a2hHpjLqumU7NAywMT1glRdXfwatzztHuQMiwK4lXumiQ7PLmXdmrUNelzhAWjikLuDL
+	sSzM8Ue16NhNA75Vw20pG83UUVOrGkr3CsPmqDAVa6BL68E8+Sevv4ii3wG/5WLIh9qR9GGXZ3Z
+	qVOIWLNzJjeIHp6p1v+Xxwsb28irwqs2dbpGH7ZO9LMNpP6eH5vAeUERw490npPRNVr2/xThYq5
+	JxZiD+DVkXCzIXWU5Lj9HOJeUqEq+M1AGxYpZJSBqcyOdOYEdhO+geanA8CqtOR9JJ9iVpwy3SV
+	I5583ODYBh3PtdrBxQ+T92D61dAJN
+X-Received: by 2002:a05:6000:2686:b0:490:6e0f:a024 with SMTP id ffacd0b85a97d-4a637f64026mr640218f8f.13.1794939635255;
+        Tue, 17 Nov 2026 10:20:35 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a654997681sm114337f8f.15.2026.11.17.10.20.36
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a654997681sm114337f8f.15.2026.11.17.10.20.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 10:20:36 -0800 (PST)
+        Tue, 17 Nov 2026 10:20:34 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 07/17] curl: fix CVE-2026-87864
-Date: Tue, 17 Nov 2026 19:20:07 +0100
-Message-ID: <0c75c23237210e083fd5a6995616a4e5769d2b27.1794939400.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 04/17] rsync: upgrade 3.4.4 -> 3.5.0
+Date: Tue, 17 Nov 2026 19:20:04 +0100
+Message-ID: <0cd228d028dcf9185ffdeb0b3a2a062917bc7e79.1794939400.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1794939400.git.yoann.congal@smile.fr>
 References: <cover.1794939400.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 18:20:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250474
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 18:20:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250471
 Content-Type: text/plain; charset="utf-8"
 
-From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 
-Backport patch to fix CVE-2026-87864.
+NEWS: https://download.samba.org/pub/rsync/NEWS#3.5.0
 
-References:
-  https://nvd.nist.gov/vuln/detail/CVE-2026-87864
+CVE:
 
-Upstream fix:
-  https://github.com/curl/curl/commit/3b547de301342b347fb3c6ea6ae797
+CVE-2026-53802
+CVE-2026-53803
+CVE-2026-53785
+CVE-2026-53784
+CVE-2026-53793
+CVE-2026-53795
+CVE-2026-53796
+CVE-2026-53797
+CVE-2026-53799
+CVE-2026-53800
+CVE-2026-53801
+CVE-2026-53783
+CVE-2026-53786
+CVE-2026-53798
+CVE-2026-53788
+CVE-2026-53789
+CVE-2026-53791
+CVE-2026-53790
+CVE-2026-53792
+CVE-2026-53794
+CVE-2026-70461
+CVE-2026-70458
+CVE-2026-70456
+CVE-2026-70457
+CVE-2026-70459
+CVE-2026-70464
+CVE-2026-70455
+CVE-2026-70453
+CVE-2026-70452
+CVE-2026-70463
+CVE-2026-70460
+CVE-2026-70462
+CVE-2026-70454
 
-Tested with ptest:
-Before: PASSED: 1006, FAILED: 0, SKIPPED: 0, ABORTED: 0
-After: PASSED: 1006, FAILED: 0, SKIPPED: 0, ABORTED: 0
-
-Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 5a5de1c212718d3918dfbe9b6ab770dd76316d6f)
+Suggested-by: Darsh Kelaiya <dkelaiya@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+[YC: Compare log: https://github.com/RsyncProject/rsync/compare/v3.4.4...v3.5.0
+The Yocto Project TSC granted an exemption to the stable release
+policy for this rsync version upgrade, see:
+https://lists.openembedded.org/g/openembedded-core/message/248203]
 ---
- .../curl/curl/CVE-2026-87864.patch            | 52 +++++++++++++++++++
- meta/recipes-support/curl/curl_8.19.0.bb      |  1 +
- 2 files changed, 53 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-87864.patch
+ ...g-prototypes-to-function-declarations.patch | 18 +++++++++---------
+ .../rsync/files/determism.patch                |  4 ++--
+ .../rsync/files/makefile-no-rebuild.patch      |  6 +++---
+ .../rsync/{rsync_3.4.4.bb => rsync_3.5.0.bb}   |  2 +-
+ 4 files changed, 15 insertions(+), 15 deletions(-)
+ rename meta/recipes-devtools/rsync/{rsync_3.4.4.bb => rsync_3.5.0.bb} (97%)
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-87864.patch b/meta/recipes-support/curl/curl/CVE-2026-87864.patch
-new file mode 100644
-index 00000000000..01efc71c4ae
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-87864.patch
-@@ -0,0 +1,52 @@
-+From ca1b787c594b2f1b2fc7227b75d2166551aca32d Mon Sep 17 00:00:00 2001
-+From: Stefan Eissing <stefan@eissing.org>
-+Date: Thu, 27 Aug 2026 09:47:53 +0200
-+Subject: [PATCH] imap: APPEND CRLF fix
-+
-+Deny an APPEND operation with CRLF conversion requested as we are unable
-+to predict the final upload size and APPEND requires us to announce it
-+before starting the upload.
-+
-+The check for unknown sizes had already been there, but the crlf
-+conversion that renders a known size unknown was not accounted for.
-+
-+Closes #22702
-+
-+CVE: CVE-2026-87864
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/3b547de301342b347fb3c6ea6ae797]
-+
-+Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-+---
-+ lib/imap.c | 11 ++++++++---
-+ 1 file changed, 8 insertions(+), 3 deletions(-)
-+
-+diff --git a/lib/imap.c b/lib/imap.c
-+index 0546595f89..f37568fb20 100644
-+--- a/lib/imap.c
-++++ b/lib/imap.c
-+@@ -884,7 +884,6 @@ static CURLcode imap_perform_append(struct Curl_easy *data,
-+       result = Curl_creader_set_mime(data, postp);
-+     if(result)
-+       return result;
-+-    data->state.infilesize = Curl_creader_client_length(data);
-+   }
-+   else
-+ #endif
-+@@ -894,9 +893,15 @@ static CURLcode imap_perform_append(struct Curl_easy *data,
-+       return result;
-+   }
-+ 
-+-  /* Check we know the size of the upload */
-++  /* Check we know the size of the upload. This takes all readers
-++   * into account. Especially crlf conversions which make the size
-++   * unpredictable, e.g. -1. */
-++  data->state.infilesize = Curl_creader_total_length(data);
-+   if(data->state.infilesize < 0) {
-+-    failf(data, "Cannot APPEND with unknown input file size");
-++    if(data->set.crlf)
-++      failf(data, "Cannot APPEND with CRLF conversion making size unknown");
-++    else
-++      failf(data, "Cannot APPEND with unknown input file size");
-+     return CURLE_UPLOAD_FAILED;
-+   }
-+ 
-diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
-index 4c0ce6beb35..b6e05f66e42 100644
---- a/meta/recipes-support/curl/curl_8.19.0.bb
-+++ b/meta/recipes-support/curl/curl_8.19.0.bb
-@@ -40,6 +40,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
-            file://CVE-2026-9546-02.patch \
-            file://CVE-2026-82208.patch \
-            file://CVE-2026-80230.patch \
-+           file://CVE-2026-87864.patch \
-            "
+diff --git a/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-function-declarations.patch b/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-function-declarations.patch
+index ede0238b2ef..5aed93e458d 100644
+--- a/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-function-declarations.patch
++++ b/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-function-declarations.patch
+@@ -1,4 +1,4 @@
+-From c05cc113f925bda645c8e51b83e9dc30b0543bad Mon Sep 17 00:00:00 2001
++From 64e62c659649593239ed39ed40a3ae689bf2d593 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Mon, 29 Aug 2022 19:53:28 -0700
+ Subject: [PATCH] Add missing prototypes to function declarations
+@@ -24,10 +24,10 @@ Signed-off-by: Archana Polampalli <archana.polampalli@windriver.com>
+  4 files changed, 4 insertions(+), 4 deletions(-)
  
- SRC_URI:append:class-nativesdk = " \
+ diff --git a/checksum.c b/checksum.c
+-index 24e46bf..6ae3178 100644
++index 4c91c2b..b3635a0 100644
+ --- a/checksum.c
+ +++ b/checksum.c
+-@@ -778,7 +778,7 @@ static void verify_digest(struct name_num_item *nni, BOOL check_auth_list)
++@@ -796,7 +796,7 @@ static void verify_digest(struct name_num_item *nni, BOOL check_auth_list)
+  }
+  #endif
+  
+@@ -37,10 +37,10 @@ index 24e46bf..6ae3178 100644
+  #if defined SUPPORT_XXH3 || defined USE_OPENSSL
+  	struct name_num_item *nni;
+ diff --git a/exclude.c b/exclude.c
+-index 24de64f..a787488 100644
++index 7476f6a..b939a0c 100644
+ --- a/exclude.c
+ +++ b/exclude.c
+-@@ -363,7 +363,7 @@ void implied_include_partial_string(const char *s_start, const char *s_end)
++@@ -460,7 +460,7 @@ void implied_include_partial_string(const char *s_start, const char *s_end)
+  	memcpy(partial_string_buf, s_start, partial_string_len);
+  }
+  
+@@ -50,10 +50,10 @@ index 24de64f..a787488 100644
+  	if (partial_string_buf) {
+  		if (partial_string_len)
+ diff --git a/log.c b/log.c
+-index b948f16..afca81d 100644
++index 889b57b..19e5e98 100644
+ --- a/log.c
+ +++ b/log.c
+-@@ -131,7 +131,7 @@ static void logit(int priority, const char *buf)
++@@ -140,7 +140,7 @@ static void logit(int priority, const char *buf)
+  	}
+  }
+  
+@@ -63,10 +63,10 @@ index b948f16..afca81d 100644
+  	int options = LOG_PID;
+  
+ diff --git a/main.c b/main.c
+-index 229a889..aa158ad 100644
++index 6050d0e..45722c4 100644
+ --- a/main.c
+ +++ b/main.c
+-@@ -246,7 +246,7 @@ void read_del_stats(int f)
++@@ -250,7 +250,7 @@ void read_del_stats(int f)
+  	stats.deleted_files += stats.deleted_specials = read_varint_bounded(f, 0, MAX_WIRE_DEL_STAT, "deleted_specials");
+  }
+  
+diff --git a/meta/recipes-devtools/rsync/files/determism.patch b/meta/recipes-devtools/rsync/files/determism.patch
+index a8fee5ba0af..2eea267bb2d 100644
+--- a/meta/recipes-devtools/rsync/files/determism.patch
++++ b/meta/recipes-devtools/rsync/files/determism.patch
+@@ -1,4 +1,4 @@
+-From 32852028e95cdf78d09f1bd867f3b46b4728f9e3 Mon Sep 17 00:00:00 2001
++From c4c9b52a864c3b9ff67771b9d881a78276448100 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Sun, 21 Feb 2021 09:45:48 +0000
+ Subject: [PATCH] rsync: Fix a file sorting determinism issue
+@@ -25,7 +25,7 @@ https://github.com/WayneD/rsync/commit/d3085f7add38a5cf833a0b31cb0637ff46c80f8d
+  1 file changed, 5 insertions(+)
+ 
+ diff --git a/Makefile.in b/Makefile.in
+-index 0ba2d5c..b9c5438 100644
++index 91807d6..c18b4be 100644
+ --- a/Makefile.in
+ +++ b/Makefile.in
+ @@ -27,6 +27,11 @@ MKDIR_P=@MKDIR_P@
+diff --git a/meta/recipes-devtools/rsync/files/makefile-no-rebuild.patch b/meta/recipes-devtools/rsync/files/makefile-no-rebuild.patch
+index 914b50a7b7e..4ff070ea3c6 100644
+--- a/meta/recipes-devtools/rsync/files/makefile-no-rebuild.patch
++++ b/meta/recipes-devtools/rsync/files/makefile-no-rebuild.patch
+@@ -1,4 +1,4 @@
+-From 50ef5ccd9149cee27bae29e767ff1c2e76bdc879 Mon Sep 17 00:00:00 2001
++From bab7abb3c7c1c1db8ef6c3084c1ffb5152f5bf1e Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Tue, 12 Apr 2016 15:51:54 +0100
+ Subject: [PATCH] rsync: remove upstream's rebuild logic
+@@ -13,10 +13,10 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
+  1 file changed, 54 deletions(-)
+ 
+ diff --git a/Makefile.in b/Makefile.in
+-index 79060b3..0ba2d5c 100644
++index 801e864..91807d6 100644
+ --- a/Makefile.in
+ +++ b/Makefile.in
+-@@ -200,60 +200,6 @@ conf: configure.sh config.h.in
++@@ -265,60 +265,6 @@ conf: configure.sh config.h.in
+  .PHONY: gen
+  gen: conf proto.h man git-version.h
+  
+diff --git a/meta/recipes-devtools/rsync/rsync_3.4.4.bb b/meta/recipes-devtools/rsync/rsync_3.5.0.bb
+similarity index 97%
+rename from meta/recipes-devtools/rsync/rsync_3.4.4.bb
+rename to meta/recipes-devtools/rsync/rsync_3.5.0.bb
+index fa9a61778f6..d9a4884d96e 100644
+--- a/meta/recipes-devtools/rsync/rsync_3.4.4.bb
++++ b/meta/recipes-devtools/rsync/rsync_3.5.0.bb
+@@ -16,7 +16,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
+            file://determism.patch \
+            file://0001-Add-missing-prototypes-to-function-declarations.patch \
+            "
+-SRC_URI[sha256sum] = "bd88cf82fa653da32314fb229136407c5c90f80d1758d8f4b091767877d8fa96"
++SRC_URI[sha256sum] = "c7ffd1ef653e99540f661e47cb00b7f9cad1ee6b972399b16f93d672656e0d33"
+ 
+ # Out-of-tree builds don't install the documentation currently
+ # https://github.com/RsyncProject/rsync/issues/846
