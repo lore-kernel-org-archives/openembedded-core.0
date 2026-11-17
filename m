@@ -1,113 +1,92 @@
-Received: from mail-vk1-f172.google.com (mail-vk1-f172.google.com [209.85.221.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1217.1794944086500644110
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2740.1794948386861267369
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2026 11:34:46 -0800
+ Tue, 17 Nov 2026 12:46:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre.com header.s=google header.b=RzVRJhQV;
- spf=pass (domain: baylibre.com, ip: 209.85.221.172, mailfrom: tgamblin@baylibre.com)
-Received: by mail-vk1-f172.google.com with SMTP id 71dfb90a1353d-5eae12762c9so62034e0c.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 11:34:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1794944085; x=1795548885; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=uh9BI5wBslvPajt5An1RXw3lAhvrQX4yp0m+6MVsizo=;
-        b=RzVRJhQV8qgnvsYHZOuSThR44KoBu5EckEmN9XcxJU8DbF5TQA19Y9BDgVGQHRo2hF
-         yM2+Z1W8NB7MCUgoM2h4DG8jbbD+auUjJFUXoeEKXGddrcg4XzcuPEVjXfgyCZYVaH+p
-         z0i6Yk6he1x1AmpN9Mp4B+FNusEiUNj74slwfXgA1u70jth9MvjWaxsaWfbfw+8JDdak
-         zM8kQiA5oLu440KB5a6chmLNgjHaiVSbitDZAPXD7LYRZKil+mR7X5rPdrqETUqscQCh
-         P6AeYD9Q6vPKZNtSXbJzkfFcliKTCgIxb3bbEVh6Mqev90Ono4/N90OMuZtFP/I4T/sg
-         K/pg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794944085; x=1795548885;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=uh9BI5wBslvPajt5An1RXw3lAhvrQX4yp0m+6MVsizo=;
-        b=0/2VwknCeo2uYWYC14Z9bmFXfmPlMMw2Vtwu+Z0lEtuNyHyoYV1YvqtYRSWyOpHuej
-         yt6r0KLIQ7p/RsOKUjRUeipz1KGmR9+zaZBFMAULsDHNmd50rQhdalolMPYOvL9q9p+l
-         dEiS57ps4cGnxWfjoz0KfeE/hnY/hVlvplMpUeG4dOTQdURZCoRtgArcXJNVUX78foTj
-         OJli5VgRye3VaYCByYsXCSuLJxBru2tZ9LCwTOVT+le7lsGwZ4WGuheDj2ZEwT51MPvI
-         2kqJV/SRqjfyb2TD3N0JyaeY/wWnQGWkDF2psz6T2GsX3BRy4tgLAQsfiGSIJf2igoQy
-         q/Aw==
-X-Gm-Message-State: APuU4Z+3fY2py1sBxZQ65cbkjhFpujYKk2W7idA0QTBJTnSC/jcHzu/O
-	eiNXq+os9A5X3C6qf9g87ejhAA9CLRaMLG2JC5xcSFP6YrLKRGjEURPQINGzA23xR2EbGow+scr
-	eErbF
-X-Gm-Gg: AYBFou14pD30tsW9IJXCsNt+Xq12FamOYjF6EkipYQtK5xw2Er91JaFoA93Hs1cBRvq
-	nD4M/dVr60RJ8DEbT7BYsPynAwmowdjlkZHGy3JDXLuKNhFmRHIkOh0kSVdNz5D+L3CuB8/pPPR
-	48HZ0WdiY3KKRYHeXiZIkaibMVxs52nCQotVfZyY6Z1rO62HDJlaJDtgZj2XiqQ3042CYq69mFW
-	tHtSZqmg7GflhigD/BjUdDBvqZE9vONA+wWimIG2vGM0Wx/hrkdFNbzFEF5xxiRiS2OUk84opnn
-	L3GdfDSod9gABptSSiHwZ5gmWd6ko1/ZF9tuf4thuTFawVWGmz6Ji+SecgjYJevSB8wPjh1bfxc
-	KeUva4IOP+4+db/nZYSG+ghJe6GiQYMVcQbZ+gnpdib7vsN0GHvFO6+QCc/P5Agm+Sm820eAufX
-	8FEJixs9aGtDPOYMnWGcJxmlgb4bStGhvTbuO0BFNXqDsNJ04QJdpdVJmyOo9d1FpsqyWLD8EHj
-	ynpfNrCBxvtCJ00mbVFQb3t+sYUEsApVVPo5bcvrH82S9thW/wXfWqMDJenpOM9Wsvz2OAOzfU4
-	VWKL6TrmUzJpq8y1HSzm/S+6yHcFgSAQLUZjb+QseTVTCZrVHTOhnr1G7HCHKSePQ6WDZS8eSTp
-	JGNlu
-X-Received: by 2002:a05:6122:490d:b0:5ec:41df:f110 with SMTP id 71dfb90a1353d-5ee64cc7e8emr266478e0c.23.1794944085202;
-        Tue, 17 Nov 2026 11:34:45 -0800 (PST)
-Return-Path: <tgamblin@baylibre.com>
-Received: from megalith.cgocable.net ([2001:1970:3847:e000:e8bd:ca0f:c232:9f10])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ee64eaf281sm257643e0c.12.2026.11.17.11.34.43
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 11:34:44 -0800 (PST)
-From: "Trevor Gamblin" <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 2/2] arch-riscv.inc: fix TUNE_CCARGS:tune-<name> being ignored
-Date: Tue, 17 Nov 2026 14:34:39 -0500
-Message-ID: <20261117193439.3120583-2-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.56.0
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=fnvjLwhW;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=1Ur5ETRc;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101a1eb42cc7e-813416a1-fb9e-4670-a136-d977fb054a10-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1794948386; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=PiDrIGW+jl0Q5RRcxJ/uGNbT3cU+OQYY6nDC+foZ0TI=;
+	b=fnvjLwhWDjafL4WK1dq+HHLVW9Id6g3ZgBBGKvg2tmaJ184NA7ZofyFixvzcCU5S
+	P0y4XONxS9B6w2QkgvGuFPEfg+Q2EOGiidEgf2pJ0ebStgt8Qi5j1y8i25VqYy18QZ5
+	GUPFOHfCipY5dMcZCcGNmu+o31xvdvj3c94rk2hc=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1794948386;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=PiDrIGW+jl0Q5RRcxJ/uGNbT3cU+OQYY6nDC+foZ0TI=;
+	b=1Ur5ETRcPKBaeK3PrYUTnPdYbJ2iUaNd7NfdNK5CkzmWgo4r9DiM811SyVwO+Odr
+	R4jtXu7zY/HppZSzb4c9KwYnfUcMtoCwz+G4KcQRCWIUSfGjjVNRMmMblEOx1TeJEzt
+	0h6YpnFpQ2cGBz0C16UVhrB0EnsPKEY0IUEdo+18=
+From: patchtest@automation.yoctoproject.org
+To: Trevor Gamblin <tgamblin@baylibre.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [OE-core][PATCH 1/2] lib/oe/tune.py: fix typo in abbreviation example
 In-Reply-To: <20261117193439.3120583-1-tgamblin@baylibre.com>
 References: <20261117193439.3120583-1-tgamblin@baylibre.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101a1eb42cc7e-813416a1-fb9e-4670-a136-d977fb054a10-000000@us-west-2.amazonses.com>
+Date: Tue, 17 Nov 2026 20:46:25 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.11.17-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 20:33:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250489
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 20:46:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250490
 
-When a tune set TUNE_CCARGS:tune-<name>, TUNE_CCARGS evaluated to the
-literal string 'TUNE_CCARGS:tune-<name>' rather than to the expected
-value. Use d.getVar() for it, falling back to the '-march' and '-mabi'
-options generated from TUNE_FEATURES as before. Update the README to
-match.
+--NextPart
+Content-Type: text/plain
 
-TUNE_CCARGS doesn't change for tunes that don't set
-TUNE_CCARGS:tune-<name>.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- meta/conf/machine/include/riscv/README         | 2 +-
- meta/conf/machine/include/riscv/arch-riscv.inc | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+Testing patch /home/patchtest/share/mboxes/1-2-lib-oe-tune.py-fix-typo-in-abbreviation-example.patch
 
-diff --git a/meta/conf/machine/include/riscv/README b/meta/conf/machine/include/riscv/README
-index beef68f523..4f043eb355 100644
---- a/meta/conf/machine/include/riscv/README
-+++ b/meta/conf/machine/include/riscv/README
-@@ -91,7 +91,7 @@ TUNE_RISCV_PKGARCH - This is the generated PKGARCH value.
- 
- The standard variables are defined as:
- 
--TUNE_CCARGS = "${@ '-march=${TUNE_RISCV_MARCH} -mabi=${TUNE_RISCV_ABI}' if not d.getVar('TUNE_CCARGS:tune-${DEFAULTTUNE}') else 'TUNE_CCARGS:tune-${DEFAULTTUNE}'}"
-+TUNE_CCARGS = "${@d.getVar('TUNE_CCARGS:tune-${DEFAULTTUNE}') or '-march=${TUNE_RISCV_MARCH} -mabi=${TUNE_RISCV_ABI}'}"
- 
- The above will allow the user to specify an implementation specific
- TUNE_CCARGS for a given processor tune if the default implementtion is
-diff --git a/meta/conf/machine/include/riscv/arch-riscv.inc b/meta/conf/machine/include/riscv/arch-riscv.inc
-index 6f9b74974d..625b60a7b8 100644
---- a/meta/conf/machine/include/riscv/arch-riscv.inc
-+++ b/meta/conf/machine/include/riscv/arch-riscv.inc
-@@ -113,7 +113,7 @@ TUNE_RISCV_PKGARCH .= "${@bb.utils.contains_any("TUNE_FEATURES", "b zbs", "_zbs"
- # Construct TUNE_CCARGS
- # This should result in a CCARG similar to:
- #   -march=rv32imac -mabi=ilp32
--TUNE_CCARGS = "${@ '-march=${TUNE_RISCV_MARCH} -mabi=${TUNE_RISCV_ABI}' if not d.getVar('TUNE_CCARGS:tune-${DEFAULTTUNE}') else 'TUNE_CCARGS:tune-${DEFAULTTUNE}'}"
-+TUNE_CCARGS = "${@d.getVar('TUNE_CCARGS:tune-${DEFAULTTUNE}') or '-march=${TUNE_RISCV_MARCH} -mabi=${TUNE_RISCV_ABI}'}"
- 
- # Construct TUNE_ARCH
- # This should result in an arch string similar to:
--- 
-2.56.0
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
+PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test pylint (test_python_pylint.PyLint.test_pylint)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping test (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
