@@ -1,62 +1,62 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2083.1794939637714596056
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2084.1794939638331999038
  for <openembedded-core@lists.openembedded.org>;
  Tue, 17 Nov 2026 10:20:38 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=HzzUCX7Z;
- spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4a5177d78c7so1517615e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 10:20:37 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=Sy3J/9H+;
+ spf=pass (domain: smile.fr, ip: 209.85.221.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-4a32576da88so39244f8f.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 10:20:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile.fr; s=google2; t=1794939636; x=1795544436; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=USvK6HDSmQQ/xXlMbg4bbpSCBi7FjCpGoB/dPgjTaxQ=;
-        b=HzzUCX7ZFY3QpGWet2B2VwG0nO3cTWZYSEqL7bsE9HAocr/2Wk0ZQtz67U0XNfKof0
-         44pOhQRcOKzFCRiYfXx5uQ7mVaPdKdtvJM79D1M/5GQGdAyIFV7ol/LQkan/NZ3oOW3b
-         KXRu2+MQrqdzvXyuYPPOPEO8cTCiBukFmwp5Y7eIxhywqwzNwKyV6+AdZv/nYqbaH3PP
-         lw8Tg4eh2b6D9P1EHfeDizZeWK+LWVcszPNrA63L20p96ZxjuL1wG49E2zjAQW9qgae9
-         oOXwQI4Q3hryDy/G6zwcMyeaTVHFWE2+BBWA8XiKVgzOi2bXc8P7MGq6OBOYk05zySbG
-         lnsg==
+        bh=FZNWNJQtCVUaE4ynXCg8ic2tlq37qQOq85ru5ReKxJ8=;
+        b=Sy3J/9H+djp7SWQy/RHRqJapoqcqoeP465+P5QXSKIepl9T8j+YD7nkKzHioCMaNR0
+         im2+iv80b0d+E2LFjNfKXG0UIZ1irGG43RHUYgkVdtTDSBg6kDv8U8rSh6zREi6NpNO1
+         lCj0g/igM1GouEoYbULsPqFnetceIUmuNIlvn+SxYRwnNcXrr0ORJF31Ro4np9EY6M/i
+         lizvNERRaVDoXihivTh3Sftdr9XKeuzINOmuJJVFY0pd/dZWkkKmU5XUIqRnowysizA+
+         QeF5eC8ZvKkY0TlznpKQgifRVSFHNwUM49+iFbz0M4u0LrH139IPLf0AEK9H6qeXk+zT
+         KBrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1794939636; x=1795544436;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=USvK6HDSmQQ/xXlMbg4bbpSCBi7FjCpGoB/dPgjTaxQ=;
-        b=V8S6dun1dBjazKfLrsyfAYU2oWR+b0xvTyS3Ln5pDGlo/+0VDscDaan7MoatlDpeWe
-         U4+AY34YrkdLCzDwTKwjx7u3J7xxAJN1idlOkXpUO8q9MdOPq/DlGaNoeO9xGxePcC2/
-         U7I9YJyRPYEylLGP9VTYZSB9Ed8OFR/JZPxFWRURFqDn6nym/12bG5zFBTMD3I7Y+Qhk
-         lGih9W/0ctY8jdjkdL75TnJPNqddCfLUwveeM5KQmMwSMLJLVvoomIgMYw/ikjpsNQyb
-         aZBnAZFexmVG3LUiyfyTfQzdK+mk2OcO4zSYAE1JvuK6bTWRROHrQWpw1Lp2g6sBV5Nc
-         s5TQ==
-X-Gm-Message-State: APuU4Z+YhDf6n6mv8VFUSOHi8GVXPUePJSChH1hcaARrgBi5eOZz6hOw
-	K2Ps6q5kgB7/BdFN/lB9NaupfJbzaRfck8VpX6/mh4stXRnsRwlsR1jcAQ+KJMmXqWQ82/afBMs
-	IZXMbjTo=
-X-Gm-Gg: AYBFou1S1rcIpzY/5CSDF0NfmCAgbVHFCa65L+BeqFCpWUh6POvTwt4yM6WeC1AlN35
-	eWj5mBRA9aAFBafv9v0BXb3+dsZuCkhUFn3mfUlA7sJBYYBhBpiTxvhSNP+zyaYEQmlfo1V2zlR
-	SB+6xe9CFyZbCKSI+WuzCJnLj3LNloJ/GNa/2Zt66DfMgGFJfJtWW/9D7koisYSTkD2+1AONK4c
-	p2BeMheLuEoZAvo4eNzsHAT0/v4PpvC47NasAA8LvLEurUEOjqjnHVlAOJa7Csfjoam6ZjIW2+/
-	XZFwH1FYnFWGjdwVOZLp1/5jtVl8NNdkaTS0LlVAK1zhbMjcsIy6QiXozmLUHfC1P1PYRS9b5m4
-	YBYv8G2uflDemVtI2DBtwF4izT1IeujRu8IO8S56RMJYCbW7DmoaXKR6p59cEDr2qu8/Qo4duL8
-	DzwU0fzrjjuDMxIG+8qR+BUrB5Dwj7HFnc8czOpmWeMP8eBwy2v5ltjNkhoAiL//2oDDOMwCD9Y
-	vww0kJb7s8jZkV8fVAoK97FOpK4ld8qjeXf4hgis7YXr+I63GLjVBimTCmAqyrJaq0snEi+eIik
-	TUtjhWPRmOJ5RiaKSxFekaablyKner0YJwXGMbN5HWNdsx+EWhzutGiXa67y5ugK/Sb3qG+48WJ
-	/TLk25FpSuACZNOGcNUR+f6qggYI9
-X-Received: by 2002:a05:600c:1912:b0:4a1:c5eb:b445 with SMTP id 5b1f17b1804b1-4bb55ad45admr311881785e9.35.1794939635946;
-        Tue, 17 Nov 2026 10:20:35 -0800 (PST)
+        bh=FZNWNJQtCVUaE4ynXCg8ic2tlq37qQOq85ru5ReKxJ8=;
+        b=UEfHha3hIeNIJ9MsS+jOwjYDBKHkzQK4XvfaF0BeJdh/AndrGki8AWp7BarL+DS7xs
+         pKyv8V/+gLpGddlOtrrDBltfRy1ukL7s9v1PiFbY3QbRt7MOJhd2VNx+1JXor9r3HPFD
+         +VrQxWYhIgX70mHZEN9SHxr+sO6eCoaLECgJxr+P6NyVTWYryCd2j8vD1TOOLzIEAQ9p
+         RoJZGLCYNQVBou38P9MxJKpyghnV7hMo150287wSg7GexCQ9GYzsqLdHtRA3tBwjvaGv
+         L2pE3HAkti56vmERSyH4fnZoz27cB0HRI59Ff8BEArl6UMQPZwVjG7tzzpE2kcPNXNRd
+         i58w==
+X-Gm-Message-State: APuU4Z/Bx7PSZbmFbUEPdTZx8E8RZjGNFiZCln/tL1LLtkwc9PRpFGIZ
+	PJNC/oYjCsk5RwK2HGAp3kjPmWBKMCJZmWQ7F8/fxjIBWAZ0uwseqmy7Tx753jU5syFaBrQfAXB
+	C7Mbo3YE=
+X-Gm-Gg: AZFdTZfzbs3yoXYZa8p0UsXTF5FsnVAcn1YH8rPNEwSMA+rbzUSGtMtk3Ak8tobPDkK
+	4FNSc3WGVT7v9qoAelLWxk02eznL1hkLr8w0HG/V2WBvjA5eoXuKz+Bh7aB853ZLB6i4d9mFEi6
+	tHDWw6WTe/53cBJqCCZK4nZkFj7AfJSGsZIOTHY/cYyyRogbifxpmtxXc6YLW6s75T15pGmC4ri
+	B7S4k9L1guF9lLzzjtgkqhGFCiVB1Km6f4FBP8fYHLulJPCWirua8eTZlQgLi15nHthdEF4XTBr
+	kcVjM8JWsun8pZfdJNYa/URjVK6s5tPJAbnC7hUFqJfiaV1JVyhveVsi92Ubpm8/6zp1NtIX4E7
+	4Kvhl0myrPu4mfHq1mSvtG0Bm7CqKqmTpuaBF+uQxh1jYrd3qgUaeGRcJzv0/AYg7QdHTtz0s1d
+	2y9RshG3hVoVM6yjJJjh8tBxAe++4TjD8gz/7oqn8OSstXrDMbVZOCA5eh/UUC9+01zJv+32cRy
+	Gvld8bi5mAoOvXjAEke3mR0QQP5SIwkLtwbbms2saZqG+3bgKmLNaS/lutEU9m2oJpp3+ebGMlw
+	m6pds33wixTu4B1DJrBGXOz9iyMopOLX4jDOj8hPjuJ9m25My0qzWJT8b9R41mBwUy5V/ZCMHO8
+	I90zZHb4XLz5Wfk8aPqaLwEE45QjG
+X-Received: by 2002:a05:6000:4812:b0:492:5ef7:5d98 with SMTP id ffacd0b85a97d-4a63b6fc5d9mr591809f8f.38.1794939636507;
+        Tue, 17 Nov 2026 10:20:36 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a654997681sm114337f8f.15.2026.11.17.10.20.35
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a654997681sm114337f8f.15.2026.11.17.10.20.36
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 10:20:35 -0800 (PST)
+        Tue, 17 Nov 2026 10:20:36 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 05/17] rsync: upgrade 3.5.0 -> 3.5.1
-Date: Tue, 17 Nov 2026 19:20:05 +0100
-Message-ID: <99bf44ba0293c59b609db5bfb5fb3329536e644e.1794939400.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 06/17] curl: fix CVE-2026-82208
+Date: Tue, 17 Nov 2026 19:20:06 +0100
+Message-ID: <cfba6f9521b1533054cbcba4f7f84e5a79979f30.1794939400.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1794939400.git.yoann.congal@smile.fr>
 References: <cover.1794939400.git.yoann.congal@smile.fr>
@@ -64,122 +64,94 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 18:20:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250472
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250473
 Content-Type: text/plain; charset="utf-8"
 
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+From: Darsh Kelaiya <dkelaiya@cisco.com>
 
-NEWS: https://download.samba.org/pub/rsync/NEWS#3.5.1
+This patch applies the upstream fix as referenced in [2],
+using the commit shown in [1].
 
-Compare log: https://github.com/RsyncProject/rsync/compare/v3.5.0...v3.5.1
+[1] https://github.com/curl/curl/commit/ed0338befd1d865a8ea1fbaa90013a096dedd07a
+[2] https://curl.se/docs/CVE-2026-82208.html
 
-- Refresh existing patches
-- ldn support added [1] and add packageconfig to support
-
-[1] https://github.com/RsyncProject/rsync/commit/f0177d82a8fcbbebaac2bdf556f983160ae03988
-
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6367a867b6a6079bf83eeffcc8bca5f5ec22b7ab)
-Suggested-by: Darsh Kelaiya <dkelaiya@cisco.com>
+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-[YC: The Yocto Project TSC granted an exemption to the stable release
-policy for this rsync version upgrade, see:
-https://lists.openembedded.org/g/openembedded-core/message/248203]
 ---
- ...01-Add-missing-prototypes-to-function-declarations.patch | 4 ++--
- meta/recipes-devtools/rsync/files/determism.patch           | 6 +++---
- meta/recipes-devtools/rsync/files/makefile-no-rebuild.patch | 6 +++---
- .../rsync/{rsync_3.5.0.bb => rsync_3.5.1.bb}                | 3 ++-
- 4 files changed, 10 insertions(+), 9 deletions(-)
- rename meta/recipes-devtools/rsync/{rsync_3.5.0.bb => rsync_3.5.1.bb} (95%)
+ .../curl/curl/CVE-2026-82208.patch            | 54 +++++++++++++++++++
+ meta/recipes-support/curl/curl_8.19.0.bb      |  1 +
+ 2 files changed, 55 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-82208.patch
 
-diff --git a/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-function-declarations.patch b/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-function-declarations.patch
-index 5aed93e458d..1f1fc3f3b3e 100644
---- a/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-function-declarations.patch
-+++ b/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-function-declarations.patch
-@@ -1,4 +1,4 @@
--From 64e62c659649593239ed39ed40a3ae689bf2d593 Mon Sep 17 00:00:00 2001
-+From 56a785a7d964f797a786b2d5b75d9cee51b530b1 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Mon, 29 Aug 2022 19:53:28 -0700
- Subject: [PATCH] Add missing prototypes to function declarations
-@@ -63,7 +63,7 @@ index 889b57b..19e5e98 100644
-  	int options = LOG_PID;
-  
- diff --git a/main.c b/main.c
--index 6050d0e..45722c4 100644
-+index ed6e554..b5f9448 100644
- --- a/main.c
- +++ b/main.c
- @@ -250,7 +250,7 @@ void read_del_stats(int f)
-diff --git a/meta/recipes-devtools/rsync/files/determism.patch b/meta/recipes-devtools/rsync/files/determism.patch
-index 2eea267bb2d..890275f6d7c 100644
---- a/meta/recipes-devtools/rsync/files/determism.patch
-+++ b/meta/recipes-devtools/rsync/files/determism.patch
-@@ -1,4 +1,4 @@
--From c4c9b52a864c3b9ff67771b9d881a78276448100 Mon Sep 17 00:00:00 2001
-+From e784131e4ccbaf8ad7107d1f7a7f13da8c675827 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Sun, 21 Feb 2021 09:45:48 +0000
- Subject: [PATCH] rsync: Fix a file sorting determinism issue
-@@ -25,10 +25,10 @@ https://github.com/WayneD/rsync/commit/d3085f7add38a5cf833a0b31cb0637ff46c80f8d
-  1 file changed, 5 insertions(+)
- 
- diff --git a/Makefile.in b/Makefile.in
--index 91807d6..c18b4be 100644
-+index de24949..bb9bb27 100644
- --- a/Makefile.in
- +++ b/Makefile.in
--@@ -27,6 +27,11 @@ MKDIR_P=@MKDIR_P@
-+@@ -28,6 +28,11 @@ MKDIR_P=@MKDIR_P@
-  VPATH=$(srcdir)
-  SHELL=/bin/sh
-  
-diff --git a/meta/recipes-devtools/rsync/files/makefile-no-rebuild.patch b/meta/recipes-devtools/rsync/files/makefile-no-rebuild.patch
-index 4ff070ea3c6..59255d15e72 100644
---- a/meta/recipes-devtools/rsync/files/makefile-no-rebuild.patch
-+++ b/meta/recipes-devtools/rsync/files/makefile-no-rebuild.patch
-@@ -1,4 +1,4 @@
--From bab7abb3c7c1c1db8ef6c3084c1ffb5152f5bf1e Mon Sep 17 00:00:00 2001
-+From 0e1f2aec0dbfc150013860b42b41645cebe236b7 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Tue, 12 Apr 2016 15:51:54 +0100
- Subject: [PATCH] rsync: remove upstream's rebuild logic
-@@ -13,10 +13,10 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
-  1 file changed, 54 deletions(-)
- 
- diff --git a/Makefile.in b/Makefile.in
--index 801e864..91807d6 100644
-+index 716171d..de24949 100644
- --- a/Makefile.in
- +++ b/Makefile.in
--@@ -265,60 +265,6 @@ conf: configure.sh config.h.in
-+@@ -267,60 +267,6 @@ conf: configure.sh config.h.in
-  .PHONY: gen
-  gen: conf proto.h man git-version.h
-  
-diff --git a/meta/recipes-devtools/rsync/rsync_3.5.0.bb b/meta/recipes-devtools/rsync/rsync_3.5.1.bb
-similarity index 95%
-rename from meta/recipes-devtools/rsync/rsync_3.5.0.bb
-rename to meta/recipes-devtools/rsync/rsync_3.5.1.bb
-index d9a4884d96e..6b121ab1a87 100644
---- a/meta/recipes-devtools/rsync/rsync_3.5.0.bb
-+++ b/meta/recipes-devtools/rsync/rsync_3.5.1.bb
-@@ -16,7 +16,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/src/${BP}.tar.gz \
-            file://determism.patch \
-            file://0001-Add-missing-prototypes-to-function-declarations.patch \
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-82208.patch b/meta/recipes-support/curl/curl/CVE-2026-82208.patch
+new file mode 100644
+index 00000000000..1ff3794c176
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-82208.patch
+@@ -0,0 +1,54 @@
++From ed0338befd1d865a8ea1fbaa90013a096dedd07a Mon Sep 17 00:00:00 2001
++From: Stefan Eissing <stefan@eissing.org>
++Date: Wed, 26 Aug 2026 13:46:13 +0200
++Subject: [PATCH] wolfssl: do not run Curl_wssl_setup_x509_store() twice
++
++The flag preventing a rerun was not set when a cached_store
++was used.
++
++CURL_UNCONST an ech string for my old wolfssl version
++
++Closes #22689
++
++CVE: CVE-2026-82208
++Upstream-Status: Backport [https://github.com/curl/curl/commit/ed0338befd1d865a8ea1fbaa90013a096dedd07a]
++
++Backport Changes:
++- Omitted CURL_UNCONST(b64val) in wolfSSL_SetEchConfigsBase64(). In
++  curl 8.19.0, b64val is already char * from
++  data->set.str[STRING_ECH_CONFIG]; upstream uses const char * from
++  CURL_EASY_STR. The old pointer already matches the wolfSSL argument
++  type, so the ECH call and error handling need no change.
++
++(cherry picked from commit ed0338befd1d865a8ea1fbaa90013a096dedd07a)
++Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
++---
++ lib/vtls/wolfssl.c | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/lib/vtls/wolfssl.c b/lib/vtls/wolfssl.c
++index 74bd247..fdf33a8 100644
++--- a/lib/vtls/wolfssl.c
+++++ b/lib/vtls/wolfssl.c
++@@ -597,9 +597,6 @@ static CURLcode wssl_populate_x509_store(struct Curl_cfilter *cf,
++   bool imported_native_ca = FALSE;
++   bool imported_ca_info_blob = FALSE;
++ 
++-  /* We do not want to do this again, no matter the outcome */
++-  wssl->x509_store_setup = TRUE;
++-
++ #ifndef NO_FILESYSTEM
++   /* load native CA certificates */
++   if(ssl_config->native_ca_store) {
++@@ -802,6 +799,9 @@ CURLcode Curl_wssl_setup_x509_store(struct Curl_cfilter *cf,
++   WOLFSSL_X509_STORE *cached_store;
++   bool cache_criteria_met;
++ 
+++  /* We do not want to do this again, no matter the outcome */
+++  wssl->x509_store_setup = TRUE;
+++
++   /* Consider the X509 store cacheable if it comes exclusively from a CAfile,
++      or no source is provided and we are falling back to wolfSSL's built-in
++      default. */
++-- 
++2.35.6
+diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
+index c2697d6dd8c..4c0ce6beb35 100644
+--- a/meta/recipes-support/curl/curl_8.19.0.bb
++++ b/meta/recipes-support/curl/curl_8.19.0.bb
+@@ -38,6 +38,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
+            file://CVE-2026-80229.patch \
+            file://CVE-2026-9546-01.patch \
+            file://CVE-2026-9546-02.patch \
++           file://CVE-2026-82208.patch \
+            file://CVE-2026-80230.patch \
             "
--SRC_URI[sha256sum] = "c7ffd1ef653e99540f661e47cb00b7f9cad1ee6b972399b16f93d672656e0d33"
-+SRC_URI[sha256sum] = "c55f9c9dc10fb8bec397b399a0fdded53cc9a2d8e30891bb0d63724d25c37bef"
  
- # Out-of-tree builds don't install the documentation currently
- # https://github.com/RsyncProject/rsync/issues/846
-@@ -28,6 +28,7 @@ PACKAGECONFIG ??= "acl attr \
- 
- PACKAGECONFIG[acl] = "--enable-acl-support,--disable-acl-support,acl,"
- PACKAGECONFIG[attr] = "--enable-xattr-support,--disable-xattr-support,attr,"
-+PACKAGECONFIG[idn] = "--enable-idn,--disable-idn,libidn2"
- PACKAGECONFIG[ipv6] = "--enable-ipv6,--disable-ipv6,"
- PACKAGECONFIG[lz4] = "--enable-lz4,--disable-lz4,lz4"
- PACKAGECONFIG[openssl] = "--enable-openssl,--disable-openssl,openssl"
