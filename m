@@ -1,63 +1,62 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2091.1794939644948836100
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2098.1794939645817191374
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2026 10:20:45 -0800
+ Tue, 17 Nov 2026 10:20:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=SFwbjLzM;
- spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-4a2f4ca0dcfso35592f8f.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 10:20:44 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=plbgaB9E;
+ spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4b467581b98so2290295e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 10:20:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1794939643; x=1795544443; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=vQIjwBqlecGa6uVsqqr7TsxIuwNMwFYwlIj9P1euRgM=;
-        b=SFwbjLzMjxBm+4j3jv0bGtdwduEg4VuSC7bH2oKIRG+nsXZOFuQMAIdAt7ap55QyMs
-         wFjVLK4RinyqlJ10MYwC1TAY6aGN29o7gS+y+6B+8DyUlQ2pB5ddhdWVn6+cYfJHUB28
-         EgOvVdfX/OoJjPme6WS1+wJND7gRR+YcYxeJBWVtzfs9kHTGOXZrBWwujT+e6m/Bt5Dt
-         wBPbKD722/d0l5UYDZwYMuz68m3oR1vqKmV644v3m6weTZO4ghky+6fxF7w7DUShxr8o
-         J6CEg8nHrgu8knRDzi0L4cbnEbq9ncITC1S74iUnisyOlTVPEVThfd+dBQeciHp2757r
-         ou7w==
+        d=smile.fr; s=google2; t=1794939644; x=1795544444; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=JUCYswP7kvzpfCKb41HzTHhlgAE7pWt/7YcTn/rVuiA=;
+        b=plbgaB9ERmxgfwN7v9Go51sUaTSHM5kBnaCzbB1ugZ9h1zVNkcucQW2UEOZVpPz7Jb
+         3+k5Z6AuTsFnxV9eNZ4Y1qXy10YWlSeDUK8+3gYVy/6TXZWNTF1Ppu/IMiQXHtX66rvX
+         AeTj83yy5HcdJPd9H4ZQScI1M375DCbDVVgaACEfDl1ZK3DECvMMSdd6WY5Jj7kvyTND
+         xPbIYqM+mPMQrAsD5cGiJPBrCLYzKYe12TrBv3bIPNhuwAAYv+vJ41sjMqpiNDG3wqqA
+         SeF6R0nD2oVV3r3qYiTVbNbgbw3VUSScSdm5OuBerDP3o6Cr+zm4nDU4XJqL5qnWqCTB
+         M4uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794939643; x=1795544443;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=vQIjwBqlecGa6uVsqqr7TsxIuwNMwFYwlIj9P1euRgM=;
-        b=xDrzTLkwSrW+c063g2pSS0L10n2yncaVP/a4wiQZAMp4lJKUOVzvBeiTPEV6BljDqO
-         oJbZfxim+Gb3l2DwQPQ0ZbmKvsMHC2d+ubixqstt72osPou0lbKibMP8UNOIXz7Kmt4f
-         b3d8Km5ILRvVAVaZ/s86OnF3cIKXlNcVc9yu4P5Ir6rYhH+zwz05JCcPThg8Kt8Cc5IB
-         teCbF7oSrXaLNNw8nYOpkduvlLwAlhWCB7sVw5cIEpcVmzk2uwr2Zo4wu3CZtDU9ilpE
-         mcAnLkDJW3cx6y/18jNDnwZk/RhszXtvKm/k9uZzyGvtyzMtG55S50bUYnyZJOAIqpAa
-         M99A==
-X-Gm-Message-State: APuU4Z8G7J5y2mjZaQLMBLdOa0nKBP7RubIyRw/3fxVrfsBXFkTQ+FyP
-	jO0NRgY9XXdK4n3WTDsDO4lDOnRBjkrJEy5Ps1yGsQbM3+95eGFlWw1ZP8d1OtpkUycgBTlb+eb
-	D7vm+lMU=
-X-Gm-Gg: AZFdTZfO+FB1LO7CY6MVUsjqfrjZZZhwKAXDWGlMB8JIu+rb9mCpiPE7KX9SImeYi+u
-	faHg/uCvXDQ0RZql+pOrztGJnWdT5c9Oiv0DIyH+m+G9GLbapybmPsRDtNYgmbNQ8azZPTGkkdS
-	DB34OoluEMSIk914/hcV2tyUlosaa1UYGBJEcFL29D3Gw1sHD/bOG/qNoZzSs+LVetZr2IwkYAV
-	Q3ZNtXM6cDpF/I1d0uFSm5Tp8AtsXGWwA0kzMdXEhMIsDDNMjzv7mx/LQF3lD6FV5c6vy1a0boK
-	URPt/8bJzKDRsvAIFJbt/fuRzsXx6sXfm51ClApoS98mqXa+w6+T7h3ARBS4f118+NRFhywlDAC
-	Vajc9kXYNBF2KHOjE53mBxol1s046JY9RjDZf5Af5MMtkRHkU4prrZhxNryOS/2d6kDWYtno4yU
-	fLXEHmbWLFiR7XTseugJu3F5jyYdX40UwBrwXoqVFVnqfQFHht6j/CnDCrSyFZ/e4IXw+7MAO1G
-	Y1fgg51EFO7X5oZASdVZBO39Ml+USMZKLk2WhwQ2NplhOo/QJmQzQh+ICw0+eDrtuI5IFfMLmdc
-	Y0Cw05Knws3UK0HqB63gym6bS6pQKYwioF4BiS9+ecA5EKqEWAyHr/63wpZVkx+QnSRIpd3r5TS
-	4spluLe5wjCO59ZhTBENRrvvGLy+p
-X-Received: by 2002:a05:6000:46c5:b0:48e:6357:c76d with SMTP id ffacd0b85a97d-4a63d2cf09cmr367227f8f.21.1794939643081;
+        d=1e100.net; s=20260707; t=1794939644; x=1795544444;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=JUCYswP7kvzpfCKb41HzTHhlgAE7pWt/7YcTn/rVuiA=;
+        b=FElFnpeYnUHOkca4Kqgb7ZHCwAMqTtRa6YxKVy7E9B1WSl0bPSXCtQLuw3hyyonPjA
+         M9K+o1en8zID49AFOYKTc4CMbgi2+PhHA6VLRQ6Txn5b5NB/fgINDRpLVd0wZeF7B9ZB
+         V0SfMjM8O1QcPVGbxIMYqIgqi6juLc3sVTJ4gxiLI95lU6wpM0tmj2FBTzyRn+mzRYMz
+         R5BBwQwYKxgwo/+3inC0K8ixO9EEdYXRxmbe0M4BEYVM74CrWHUjWnxCtmB4pJcEUH91
+         QyzUcOv+NLkHlc/ylbg7ktJBMAUbu3UXa8VRckiQtG/fwnKLNDGQymTzrrm3uFGkkweM
+         NeYg==
+X-Gm-Message-State: APuU4Z/+jxT/NC1uRE0Bq/iKNKSf6U/aQnX/HEJmXosd/y1hY9erovWH
+	0UEwUfyUXUwgxOABqt9AL+x/hMzwD3WTDkghue8zlj0D5KmJAdisRgKBznCIEL19MeA842S967v
+	6g2weSto=
+X-Gm-Gg: AZFdTZeJiqIXv2ouLQ4eHcMU0Ta4y/5/xLfAvniw/pQ0OX4o+pRnKSKylFJaMHQL0hu
+	nsvN+HA4T08RgG9mg59uhADXx/dIeO75vepPzLizBxDq3n6k0hAz3+9Ma2wAIiwcsphLvu9dkw5
+	lP5auoFlrtnkHKJZNFeTjF1HJpsNAzW8tCzyw6t0dS9FMW2rdpcpuiABlvhd0kTcsQEJiSYl6DX
+	F46k6/EyrYRDAqoehvQM9iABnq0570FkAQArVTcYyCZBcDW1cY2fRWrwsxDipcsFxtyR5rFCWVN
+	xZ36tmhGAs5xpxBVFRnTLaJtYvjGxjZAB5p4r2oUsetVtK5izLwuXQd+oAyxGp3MPhu9w8iGD09
+	0yRl6VxqseNvvr3HcEhiOJeYC1okH1SnQDK7ffnsmAPgtA7rfzdwXPcx96aUI+j7D/z93dRcF8o
+	PNT44/lubplS9Yb9q6481CEgi9CADx8iM21Lduz5Rj1oUC5P29ViUvnIRUNwB0Hi8RGUDyE5lPD
+	7TaqKNYcp9esiUmpiRpCsO27BuDq+dhj2YPeuJ5TuFtT51obcCbAQDn3ORigFPXVirJDZSTIe0a
+	fAfEGXlCVY4JFCBxEEPJECD1a0r4FsjRflyFzh0+FC8FgA/hcTm0+eB4zU2/u4JlAn5g5XMR+/3
+	HfDffYfkW3t3y9E0c9vRwNh2kzHU4iF7ljDE1RLCPvvWOomNT7A==
+X-Received: by 2002:a05:6000:250a:b0:492:564f:a1af with SMTP id ffacd0b85a97d-4a63a2d6fd9mr645971f8f.26.1794939643952;
         Tue, 17 Nov 2026 10:20:43 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a654997681sm114337f8f.15.2026.11.17.10.20.42
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a654997681sm114337f8f.15.2026.11.17.10.20.43
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 17 Nov 2026 10:20:42 -0800 (PST)
+        Tue, 17 Nov 2026 10:20:43 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 15/17] spdx30_tasks: Fix duplicated revision in Git PURLs
-Date: Tue, 17 Nov 2026 19:20:15 +0100
-Message-ID: <c89778d7b63f5badc1d6d9b52c78c3b0f8e3a41b.1794939400.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 16/17] perl-cross: add patches for perl-5.42.3
+Date: Tue, 17 Nov 2026 19:20:16 +0100
+Message-ID: <d7ec2e780a5efe9b70e0a5641be2f7caeb2ac555.1794939400.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1794939400.git.yoann.congal@smile.fr>
 References: <cover.1794939400.git.yoann.congal@smile.fr>
@@ -65,52 +64,152 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 17 Nov 2026 18:20:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250482
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250483
 Content-Type: text/plain; charset="utf-8"
 
-From: KAZUYOSHI AKIYAMA (秋山 和慶) <kazuyoshi_akiyama@jp.honda>
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 
-_generate_git_purl() generates invalid PURLs of the form
-`pkg:github/<owner>/<repo>@<rev>@<rev>`.
-purl-spec only allows a single `@<rev>`.
+perl-cross 1.6.4 has no patchset for the 5.42.3 point release and aborts
+configure on unknown versions. Reuse the 5.42.0 patchset, as its
+cnf/diffs/README advises ("Copy the closest available version").
 
-oe.spdx_common.fetch_data_to_uri() already appends "@<rev>" to the
-download location, and urlparse() leaves that suffix in parsed.path.
-Therefore, the parsed repository name(`{repo}`) includes `@<rev>`.
-So, need to strip the revision suffix before splitting out
-the owner(`{owner}`) and the repository name(`{repo}`).
-
-While here, replace str.replace(".git", "") with str.removesuffix() so
-repository names that contain ".git" elsewhere are preserved.
-
-Signed-off-by: Kazuyoshi Akiyama <kazuyoshi_akiyama@jp.honda>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e31479ddbaf58d5c2eda2b0051e1a821d46e6f7c)
-Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/lib/oe/spdx30_tasks.py | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ ...rl-cross-add-patches-for-perl-5.42.3.patch | 114 ++++++++++++++++++
+ .../perl-cross/perlcross_1.6.4.bb             |   1 +
+ 2 files changed, 115 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl-cross/files/0001-perl-cross-add-patches-for-perl-5.42.3.patch
 
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index 862e57c3d12..62fc41f51a0 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -425,11 +425,14 @@ def _generate_git_purl(d, download_location, srcrev):
- 
-     for domain, purl_type in git_purl_handlers.items():
-         if hostname == domain:
--            path = parsed.path.strip('/')
-+            # oe.spdx_common.fetch_data_to_uri() appends "@<rev>" to the
-+            # download location, which must not become part of the
-+            # repository name
-+            path = parsed.path.strip('/').partition('@')[0]
-             path_parts = path.split('/')
-             if len(path_parts) >= 2:
-                 owner = path_parts[0]
--                repo = path_parts[1].replace('.git', '')
-+                repo = path_parts[1].removesuffix('.git')
-                 return f"{purl_type}/{owner}/{repo}@{srcrev}"
-             break
+diff --git a/meta/recipes-devtools/perl-cross/files/0001-perl-cross-add-patches-for-perl-5.42.3.patch b/meta/recipes-devtools/perl-cross/files/0001-perl-cross-add-patches-for-perl-5.42.3.patch
+new file mode 100644
+index 00000000000..5b823d593c9
+--- /dev/null
++++ b/meta/recipes-devtools/perl-cross/files/0001-perl-cross-add-patches-for-perl-5.42.3.patch
+@@ -0,0 +1,114 @@
++From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
++From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
++Date: Thu, 5 Nov 2026 14:00:00 +0000
++Subject: [PATCH] perl-cross: add patches for perl-5.42.3
++
++Reuse the perl 5.42.0 patchset for the 5.42.3 point release. Following the
++cnf/diffs convention, every entry is a symlink to an existing patchset so
++no original code is added.
++
++Upstream-Status: Inappropriate [oe-specific; perl-cross goes 5.42.0 -> 5.44.0]
++Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
++---
++ cnf/diffs/perl5-5.42.3/constant.patch       | 1 +
++ cnf/diffs/perl5-5.42.3/dynaloader.patch     | 1 +
++ cnf/diffs/perl5-5.42.3/findext.patch        | 1 +
++ cnf/diffs/perl5-5.42.3/installscripts.patch | 1 +
++ cnf/diffs/perl5-5.42.3/liblist.patch        | 1 +
++ cnf/diffs/perl5-5.42.3/makemaker.patch      | 1 +
++ cnf/diffs/perl5-5.42.3/posix-makefile.patch | 1 +
++ cnf/diffs/perl5-5.42.3/test-checkcase.patch | 1 +
++ cnf/diffs/perl5-5.42.3/test-makemaker.patch | 1 +
++ cnf/diffs/perl5-5.42.3/xconfig.patch        | 1 +
++ 10 files changed, 10 insertions(+)
++ create mode 120000 cnf/diffs/perl5-5.42.3/constant.patch
++ create mode 120000 cnf/diffs/perl5-5.42.3/dynaloader.patch
++ create mode 120000 cnf/diffs/perl5-5.42.3/findext.patch
++ create mode 120000 cnf/diffs/perl5-5.42.3/installscripts.patch
++ create mode 120000 cnf/diffs/perl5-5.42.3/liblist.patch
++ create mode 120000 cnf/diffs/perl5-5.42.3/makemaker.patch
++ create mode 120000 cnf/diffs/perl5-5.42.3/posix-makefile.patch
++ create mode 120000 cnf/diffs/perl5-5.42.3/test-checkcase.patch
++ create mode 120000 cnf/diffs/perl5-5.42.3/test-makemaker.patch
++ create mode 120000 cnf/diffs/perl5-5.42.3/xconfig.patch
++
++diff --git a/cnf/diffs/perl5-5.42.3/constant.patch b/cnf/diffs/perl5-5.42.3/constant.patch
++new file mode 120000
++index 0000000..065e198
++--- /dev/null
+++++ b/cnf/diffs/perl5-5.42.3/constant.patch
++@@ -0,0 +1 @@
+++../perl5-5.22.3/constant.patch
++\ No newline at end of file
++diff --git a/cnf/diffs/perl5-5.42.3/dynaloader.patch b/cnf/diffs/perl5-5.42.3/dynaloader.patch
++new file mode 120000
++index 0000000..ffb73eb
++--- /dev/null
+++++ b/cnf/diffs/perl5-5.42.3/dynaloader.patch
++@@ -0,0 +1 @@
+++../perl5-5.22.3/dynaloader.patch
++\ No newline at end of file
++diff --git a/cnf/diffs/perl5-5.42.3/findext.patch b/cnf/diffs/perl5-5.42.3/findext.patch
++new file mode 120000
++index 0000000..9efbe5b
++--- /dev/null
+++++ b/cnf/diffs/perl5-5.42.3/findext.patch
++@@ -0,0 +1 @@
+++../perl5-5.22.3/findext.patch
++\ No newline at end of file
++diff --git a/cnf/diffs/perl5-5.42.3/installscripts.patch b/cnf/diffs/perl5-5.42.3/installscripts.patch
++new file mode 120000
++index 0000000..1c05e0f
++--- /dev/null
+++++ b/cnf/diffs/perl5-5.42.3/installscripts.patch
++@@ -0,0 +1 @@
+++../perl5-5.36.0/installscripts.patch
++\ No newline at end of file
++diff --git a/cnf/diffs/perl5-5.42.3/liblist.patch b/cnf/diffs/perl5-5.42.3/liblist.patch
++new file mode 120000
++index 0000000..5037380
++--- /dev/null
+++++ b/cnf/diffs/perl5-5.42.3/liblist.patch
++@@ -0,0 +1 @@
+++../perl5-5.42.0/liblist.patch
++\ No newline at end of file
++diff --git a/cnf/diffs/perl5-5.42.3/makemaker.patch b/cnf/diffs/perl5-5.42.3/makemaker.patch
++new file mode 120000
++index 0000000..d7bd609
++--- /dev/null
+++++ b/cnf/diffs/perl5-5.42.3/makemaker.patch
++@@ -0,0 +1 @@
+++../perl5-5.38.0/makemaker.patch
++\ No newline at end of file
++diff --git a/cnf/diffs/perl5-5.42.3/posix-makefile.patch b/cnf/diffs/perl5-5.42.3/posix-makefile.patch
++new file mode 120000
++index 0000000..29463b7
++--- /dev/null
+++++ b/cnf/diffs/perl5-5.42.3/posix-makefile.patch
++@@ -0,0 +1 @@
+++../perl5-5.22.3/posix-makefile.patch
++\ No newline at end of file
++diff --git a/cnf/diffs/perl5-5.42.3/test-checkcase.patch b/cnf/diffs/perl5-5.42.3/test-checkcase.patch
++new file mode 120000
++index 0000000..36c5186
++--- /dev/null
+++++ b/cnf/diffs/perl5-5.42.3/test-checkcase.patch
++@@ -0,0 +1 @@
+++../perl5-5.22.3/test-checkcase.patch
++\ No newline at end of file
++diff --git a/cnf/diffs/perl5-5.42.3/test-makemaker.patch b/cnf/diffs/perl5-5.42.3/test-makemaker.patch
++new file mode 120000
++index 0000000..4e970ff
++--- /dev/null
+++++ b/cnf/diffs/perl5-5.42.3/test-makemaker.patch
++@@ -0,0 +1 @@
+++../perl5-5.34.0/test-makemaker.patch
++\ No newline at end of file
++diff --git a/cnf/diffs/perl5-5.42.3/xconfig.patch b/cnf/diffs/perl5-5.42.3/xconfig.patch
++new file mode 120000
++index 0000000..87ac501
++--- /dev/null
+++++ b/cnf/diffs/perl5-5.42.3/xconfig.patch
++@@ -0,0 +1 @@
+++../perl5-5.42.0/xconfig.patch
++\ No newline at end of file
+diff --git a/meta/recipes-devtools/perl-cross/perlcross_1.6.4.bb b/meta/recipes-devtools/perl-cross/perlcross_1.6.4.bb
+index 3c544c97464..584c08defae 100644
+--- a/meta/recipes-devtools/perl-cross/perlcross_1.6.4.bb
++++ b/meta/recipes-devtools/perl-cross/perlcross_1.6.4.bb
+@@ -15,6 +15,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/perl-cross-${PV}.tar.gz;name=perl-c
+            file://0001-perl-cross-add-LDFLAGS-when-linking-libperl.patch \
+            file://determinism.patch \
+            file://0001-Makefile-check-the-file-if-patched-or-not.patch \
++           file://0001-perl-cross-add-patches-for-perl-5.42.3.patch \
+            "
+ GITHUB_BASE_URI = "https://github.com/arsv/perl-cross/releases/"
  
