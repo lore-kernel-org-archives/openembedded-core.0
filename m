@@ -1,194 +1,143 @@
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5.1795017824429885252
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.25])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.119.1795018092285151700
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Nov 2026 08:03:45 -0800
+ Wed, 18 Nov 2026 08:08:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@est.tech header.s=selector1 header.b=Y7l8CQuK;
- spf=pass (domain: est.tech, ip: 52.101.65.45, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=nluYYywF;
+ spf=pass (domain: est.tech, ip: 52.101.65.25, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=f/9rRtXJS+PVCmKEF6MaXWMN+rjQlA2VZIWWI6XTFQbS9U3BHdId6dGUaf2zBI9OXGXmE1935KtlJ6gDPZgLwjufDaGyfJGCrefjF7k5JgRRSO3RCyaMQIJcUZlWI7W5Q2Uil/RNLVfVL7CrrtPB9IIEgiuZ37Hn6ZJfl3vJzdMBeXrGJrv8g4ueYW4lWo4+q3XvL3xZkTDluRyfWrzozFX2zzlcSKxDKUPorLuxyhmwzEPvbtcXh3B3oO1zi33pB2TOFDC/TL17wz3ftEQgn0EjFk744kMB288Ltfy2syiI+CnxpzuFauYpYjw4bwksI6W7Y8YzOqDIsEwdRBDG/g==
+ b=szmoI7LQKL+Nbu6MM0L0I2Id6eJq7Y0AATFxbJiAH+PvXjiBHh6T3z7uprWszzI1TRiS8rOh3mRVZZV0V5Iwgkjt3k7V89I2l6EDlmN2nYabsdapjFI48obIKlzxeEYGWjenX9B8miiS0MapOeVW+UBPfQ1Z/k3fKdss/F5GYbyyct+YD4JawnbAOhkNvujRDevZrvrnH3cBFZE4yL6cVtNWf1HjonIPbse3dnnqiPB3plY6hZGoFlIerpl6Holps2KqeIqNue4CV9PApec9AEe9pA4gZogz8o2+vGDUSavgaIKhx5Lzn0FUjBQB73xXQ1S1L1vzJi1eKjj/kpAxhw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FZhWIYlD/5xLaq9WI423lDbVFd3IBr6ltecrVn24ZpU=;
- b=yJq4OWRm5csYmIqIlC3TBHwsmkfUe+kf7ISwxWgSX1eGbH3Nd7wZduLDCsTopifwuarQESVccvKCmiPBQYwM93xWNYYqKAGY4ae7GjAh+/zMOQkiK3buBq31eOJCaC05Bi9mCMTiFE52y6ATUBBC8NITNHmQRYdmexyziWSi9cXN49KlYft2wRl2y4/AGb3aDrl0wY4zXwh8J7jyBmbmCtdLqfx5qIsNnabSKHq8sl1bU44QRkpz34J4/s6xQ/JOQCdSupRwD42j4zJb0Z3E8VvIMJzenMrFDBXxxTJJbrobLofnV0o+mNAq5afmjzDed8eM3iAEvJvM0rWW7Hfknw==
+ bh=/s8iSMceKcaKwSvMX1Db6Yv9WC7G/Bj0ebUpfHrOLyQ=;
+ b=Yqt466mg8D4vDG3aJu2jK/DhusgMrpJLTFgo4hvIPE9tpX4k6cNx/70Zp4hefK6FK6DMPQaF/0ADHdQhRYt4a9qAJgnyW/SFcZz+I8i1iEG/7AuiBiFM/ZVL9auQI+emjl49DIikVhp1TWUvUqvjb6b0hUfveA0qOpLJs7Bjy+FpQ0aCm+cOuhYxPKsewYzIzITldnQPvJ3nN2QFNqQxXgQk5ZVF9BH2DAsaDgDo+eRgptLCHAJ6kZcgzRth1qFqOf0TS9rGjYwz5vOosdvAYmgKjd8AM6cj6U1d6CB36rlA1KyfOYHLTjqrzEUCb/60ylFsHy30HeCnxk76EHb1GA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FZhWIYlD/5xLaq9WI423lDbVFd3IBr6ltecrVn24ZpU=;
- b=Y7l8CQuKy8zrPO3Zig/WObGLmKzUEV097cIgkeOPZLSvifmwB3SIzWUiKS40EspW4hWlAOyKJfK56ktDsTmidCmRxU4WZXAalKecNf5cGUyxY4N+RXpXHMH23i72hAI5YLAryS6qA+VlDty9XzNcddzNuNzRL64KEV+79y3ZDkCYcIr0F0U+c/xRT3clVzgpXIuYtXoQKY4UAOReZnX/fR8ElDVdxHl61TJz+G/hKetZJlDpA95eZd/5ixqGYxXrGr44Der/TSnIqqXh0AhH6LOIuLSfiFLElajgqgJ2dq4SmLEv5ljhZmmqBRCYU755O8auxTXNE6UiHyojy713iQ==
+ bh=/s8iSMceKcaKwSvMX1Db6Yv9WC7G/Bj0ebUpfHrOLyQ=;
+ b=nluYYywFk8GfqIYh7fpfNZG0zWf7HTXWXCD58FKrIsqeMWwOj0gEaQGESmWx/IUWfEaAi+hWwbP+Ejew6OgRoP6HQP75cxoSp3IHb6AF7eygOFl8sLDOPx9fjKobRdcC1yDiEgF5hp+drlTMlVwjmvmHXh6m8nAhAtOu1/oylNjVp6/6qjrfyumeTtVp8nnHQG/OADB+nMMSeuJTeH9ckHIJF7UWZ6iX8micC2ftj6efbt+xv7expKawuNBOAsB/aEMENgBfASUuESaqutzi3aUszaaNU32AEVTYOibGPkU1ws3Ssq9WZHR+39hzc7pZe/zvNSgFlCBPqirvrIz0Eg==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
- by PA1P189MB3389.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4fc::6) with
+ by DU0P189MB2372.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:47c::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Wed, 18 Nov
- 2026 16:03:40 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.13; Wed, 18 Nov
+ 2026 16:08:03 +0000
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0615.013; Wed, 18 Nov 2026
- 16:03:40 +0000
-Content-Type: multipart/alternative;
- boundary="------------4R0MJC550FreB0yBeTzgp6IC"
-Message-ID: <6ecad917-f112-4a2f-8edf-ea48afe902b4@est.tech>
-Date: Wed, 18 Nov 2026 17:03:38 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH 0/3] gstreamer1.0-plugins-rs recipe fixes and
- upgrade
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
- openembedded-core@lists.openembedded.org
-References: <20261118063416.18496-1-jaipaul.cheernam@est.tech>
- <DMYGEG68G3D5.1V4ZHX7E9QGS7@bootlin.com>
-Content-Language: en-US
+ 16:08:03 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-In-Reply-To: <DMYGEG68G3D5.1V4ZHX7E9QGS7@bootlin.com>
-X-ClientProxiedBy: LO4P123CA0501.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1ab::20) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] gstreamer1.0-plugins-rs: drop S override and fix LIC_FILES_CHKSUM paths
+Date: Wed, 18 Nov 2026 17:08:02 +0100
+Message-ID: <20261118160802.24904-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <20261118063416.18496-3-jaipaul.cheernam@est.tech>
+References: <20261118063416.18496-3-jaipaul.cheernam@est.tech>
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: LO4P265CA0141.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c4::11) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:20b:6c0::19)
 Return-Path: jaipaul.cheernam@est.tech
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|PA1P189MB3389:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4faf2839-bc03-43f6-e3fc-08df458d82e6
+X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|DU0P189MB2372:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3b774919-0032-422f-0fc6-08df458e2003
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|23010399003|376014|1800799024|6133799003|22082099003|18002099003|261009223027099003|3023799007|8096899003|13003099007|56012099006|11063799006|10067099003|261026140227099003|4143699003|261102123227099003|261026121527099003|261022075727099003|261022115727099003|261028144727099003|261022105027099003|261021121427099003;
-X-Microsoft-Antispam-Message-Info: hGbPDwF7URbE3JxzUsZhSjtKEljDt7kULYRDkT8IrPseYqyW54BqL+O3qRLmaudioIT7lFXU5puZyYxelYrEeriWYwPuiKWrAxeXmnsmaTT2ulx4etBlnMkqB7AaYA8rBnXAKimiMhzm6nYEj3g5TOaJe/IKY/Vu8hEcpaiu4fgjhzgBpg3rJidmf6mTcLyw0zlPaYSBNUzJDK9Jz4PhBthmdJvAYaaRxxWUYix2q3Y94wK/HHriXIndYEfpDmWDEXI2vgyrksptDdDrPMSVBTjMLL+gEYWSPw5CTvK0mIuZs5yAteqrMgmg0nQeWXWvhBfoZU12Lw7dXw9tsJKvB21eWN00FRMznVRLKMQXu4YK4+vQllNt3e+GadHm4cMKcp+eQNx2R/hleBxAn3Bigw+aCgzCGkflLKoWR9ASz+FmE2igQ8c2Hf2m4cS2WzDFj+eV9xJ4CugVVN7ffzfDMkZib2nMY0o315n6dka+o5cIYo1t2q4dumt3zypbV3AjTYa0WUHJCpVxuZgDLvWk+Ean4XiadxJPPX53dDakqsUSESNbpllUagkHxR4PFDI1PPm5/aWNpTqxDQf31rZrs9Ua1UONCD++XFbH4GrNIh6Jn2XDRMkfW4kLnnSTm67W
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(1800799024)(6133799003)(22082099003)(18002099003)(261009223027099003)(3023799007)(8096899003)(13003099007)(56012099006)(11063799006)(10067099003)(261026140227099003)(4143699003)(261102123227099003)(261026121527099003)(261022075727099003)(261022115727099003)(261028144727099003)(261022105027099003)(261021121427099003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|261009223027099003|261102123227099003|10067099003|261026140227099003|56012099006|11063799006|261021123027099003|261021121427099003|261009223327099003|261009220027099003|261009221727099003|261009221227099003|261026121527099003|261028144727099003|261022105027099003|6133799003|18002099003|22082099003;
+X-Microsoft-Antispam-Message-Info: GIGpV6L3Y1ecA69F28f4E7PK8vMMQZY/utMIrDO+9e9zRP5FJ+DaNIMM7ThPJlDEMOt414YxhAgpzXXImR2eaEPsSl9yli373ZhfUi6ls9JLN4NoX8zpz37Qd9J7dX8sHDO7SS7VnX5ftMl4DD2K92GpR6M4yzuzDuncRmAYTli4D0iW7bAJF468mVfMc5OTHYFjoKAo/jky8N5LpD6UE9rfFNxMSQueT+ntuL6soZjkAq1mTnh51Kb09DyxCngaScEwJ3GmCBUHaHh83bZifFY8hHPYWElpbUzk2nHjA5HXOQJPKwgAsiGWqxmbX1rtan67zI5WOakdq1vQhPUN5TavrUwQ/gULpiC3z0roPLTCotOzsKqPJ4d7fU601B3jip/hBIeQ02C6UW14VWsnZyx2g8s6mQLPwUEu0eT82ximZ4Nh7zKE0CcNQztrzf4B/K5XqoYk5U5bDmtEvaifyf7rD92MiQi+AlkZNw0D4jqoDjkDYALTPYzDhVL4swkBo6yh6nWrpE9I/Pn/8ahbiZXjxbO3cKqtNJ6cCIZmSxB8IzMKEg20Ur2COoItnq/+RaNS/PI+BSnPsZY/mRyLd6RHAFSwr5GYu0gx2mcld3EaKRdaaV/ZpcZrd3Ib/mxMxYnPlrqn1WMFzoStJYUZ5hAbOIS6dBuJb7FWBz1Uasc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(261009223027099003)(261102123227099003)(10067099003)(261026140227099003)(56012099006)(11063799006)(261021123027099003)(261021121427099003)(261009223327099003)(261009220027099003)(261009221727099003)(261009221227099003)(261026121527099003)(261028144727099003)(261022105027099003)(6133799003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NUJENzJmTUE5ako0cUVEbVVWZ3J6cE1GNlQ4aFNTT3hIZkFwSkJnTm43akZM?=
- =?utf-8?B?d0ZmVTNzVjQySXJWeHFXMnFSc3BQMXYxY2V3aDIwUHFhMFQyYjBZa0toZ2JC?=
- =?utf-8?B?OFdtMWw0SXhNbFpnZkxxSE1JSE1mcEJ4Yi9jNFpNTkw4NHkxZ2t0cDBuR095?=
- =?utf-8?B?Y1lYZG5mRHdoT0xCQ0QyTHcxeEZtZXVnRUVoU1NIanVXZHI1TWQ3WE1jQm9x?=
- =?utf-8?B?Zm1MQ0lqZERoNUkyZHJrNi9nNlEySE9HSXJ1NW1yYlVyS2ZBNDJLSG5sN24y?=
- =?utf-8?B?Mmh5cUs4dUpmcm5sRkJweW8wRzhUTEpabU5PZDNwSDR1V0xwRFhVK1VkU203?=
- =?utf-8?B?K003bkNXaStVbURvM0J5STBRY0k3M2hVTi9FVzZZWGVaTnlUcEN6MUdpN0lM?=
- =?utf-8?B?ZkNId0o2TzV0U25XcTROVGQreFczVkIyMFB3eEpITnRwOENzKzlYWjlFdWY2?=
- =?utf-8?B?UUVLRVF2OEladC81dDZtUDhNVjdidDhWTUFQMHhVOHU4RVpCRkJEa1BvNzVE?=
- =?utf-8?B?TDd5TGQvVURoSzNuUnk1OUw1MW1yK09DQU5GWG1JME9sV3hEeDJjY3JrdGYv?=
- =?utf-8?B?cnlhbllnRGZiTlJYYXVGTVBDOFhaNWUzU2xmMm8rZmk2dXE0TFhjSTJsTHlw?=
- =?utf-8?B?UW9sOCsrYjRhaXdub0tmb3JjNjI5a3NXYmcvYVVydlpmdjFIWjI3Z1V6a3Zr?=
- =?utf-8?B?T2JQMTY4L0p0MmJjakdKTDN2bERxOU81azErVGpyTDVXM1M3V29iMVNyd2Z2?=
- =?utf-8?B?bkFGcnRLRGQwa2Jzbk02NW5SYlB6amFRZmdUR0pCL1RMeE1nRGE4Mm4vN3l6?=
- =?utf-8?B?MStNNlREUngwZG1GUzN5S0I1NGNXZ1ZpREh3QzB3cXlMWitPRnVubmt0YzRi?=
- =?utf-8?B?OHRNQ2xyK1A5MHdkNE9lNk1oRlRiTWwzeEJ1NlBudGxDWDJ0a3hjWSszREps?=
- =?utf-8?B?cE1TeE0xdjA2cmFubHRIdkplWDM3SXh5OC80UGhSYjZNN05wNWNFeThYZ3ZV?=
- =?utf-8?B?Y0pQdWFsS1NQcDFzaUlxYjZTM3dDTTdCaFovMFBoSmJiQzJPbkJFUXJpVFpu?=
- =?utf-8?B?bmlUMDlTcVJ5N0xLRlV1UUdwc3Q2LzN6bWg5SmFtb3cvbDBDZTVBbDQrcEFX?=
- =?utf-8?B?cHUzelBvekdXTkF1M0tTaDk5Zzc1bmZZOElCaVdlWTB6eDlJWUJJZ0M2T0xF?=
- =?utf-8?B?d2NUdnlCK2hSdkhLdjBGT05BR3IreHJtaC94T3paODk3TllqSEJxbnZvRmtX?=
- =?utf-8?B?dXRHc3IxeTcrbGtSQ3FuaDlQNHZ0K3JuRSsvYmVXLzE0a1F2WjBER3NBQytD?=
- =?utf-8?B?THBUa0ZSVXcveTlhNWNlbUtUSTk0dFNEQW1MOXZKV29WWmwxeTZFNmc2Qkw1?=
- =?utf-8?B?VTNMbk1vdXZ2MmsxbTlqelJobUF5Z0M1MGNwMmcxeDcyLzNVaUxWUkJQc0Iw?=
- =?utf-8?B?NmhZekdpOXRyM21FQ3NibytmRFZWUVhkVXVyaFBlc3pDeHJ5elZZU29uaG4y?=
- =?utf-8?B?SHNKYzJSZDQrMnZKaVVRVnE0Q0QrYnVzcURFZVhWcHBqSHpiU1BXRWREbUR2?=
- =?utf-8?B?blB1Wnh4Mk5LMEN6RThseVNkM21hRkRRUFFDYmRoeHZ3cVNVdmhBTG01c3RS?=
- =?utf-8?B?OHFoWm1nWWQ3T2pUOUVSeEtCMVBIRkdOcVV1eEhlODRnRjRRYTc3Z0dGTUhu?=
- =?utf-8?B?QWtORTlTam9TS05ITXdjZWQ5WENJbXp4ZXFvdjdMZ0I4M2MzVGtuSVFlWFla?=
- =?utf-8?B?cG5aNWxWK2NIdWFYSkxCVlIyOHVYVk8yaWxRV2k3VkZMZ1hIeUpLelFwWUFZ?=
- =?utf-8?B?RFNRV3VZbmw0T1NmaXM4dFFtS2plQzJQdWE4VkVWbTB4T0hOVDZLc1p1YkFW?=
- =?utf-8?B?SStIbDh0a0xaMUY0YlhOQUFRam5ETGZ6aFRUaHQ5WkgvZFlWR1ZKUlh0QUNa?=
- =?utf-8?B?T3l4Wlk3REplaHNVTG5Ga3Z1VUwweVNhUTExMFZrTXhBNUZkcC9Iajh5RzRL?=
- =?utf-8?B?MjlydWxQNUhKZFhlSWZzUTBCMHppSWtudWphMGFDNUJtSzlKYkRoUnNDUmhz?=
- =?utf-8?B?TU1PWmpSd1lDb0VNY0lqTnkxdXBGTFRrYlJZcFJ4T0J5QWlPTWduWTRuZ05J?=
- =?utf-8?B?UldwalNTY2g3NjB0ZTVDNUZUM0EvRWc1S3A5TlZsUnhVTHRwK3VVZGhsZUph?=
- =?utf-8?B?eDBBdWdEVlVUOGlTVFpXYlNzMDJ6cEhiYXVkZ25MYzNnWDJXUVhLMGVpWlk3?=
- =?utf-8?B?enpHZnFUblJqblZmREdMY1BNSVRITkhXTjYxL2xwVkI5RThoTWVVVHBTZ0FS?=
- =?utf-8?B?UWpEWk5JcFVGV2JiM3BmT2poQUVnczRSeTdwWUxUejVnaVlNNUFzdz09?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?aVCyrli5T7B9D0sIE/y1ar2KF2YF8NQ41WbuEpXNhs/ajGp8j1X8DVXB2sXv?=
+ =?us-ascii?Q?947sE4NJmMOBKqRykcybxklo1flMwBWw2X6QAk24b/iaoixcvCvQLk9tKPZM?=
+ =?us-ascii?Q?iQt0YYQv4IP4DAMFZZUdlPmUmqeFLLRk+AHhTgQQD2XA7zLb2NLz5SLS7Rkm?=
+ =?us-ascii?Q?a4b4TKrZIbGNpa5RdVPHUZAfAaAjZH9rB59zNSAUU8ZD+KMZdmtAv+C8e/89?=
+ =?us-ascii?Q?+u96c5A8bMdT+o5ySA3KxG+mwMnLRVOzj0G4asVdqYQ2YtbLIyqHsYMjpRve?=
+ =?us-ascii?Q?e+oaUKwifKubgFTBrikBipoZ92QlRSYZEjyrgPwkmpZ6ZBCycBcZIxVdESFV?=
+ =?us-ascii?Q?BqmfRxnE2MXzjT9JsRCgCWMdmm5vdbPQRYIwakK0oASqGQkUqIKblULxZWrb?=
+ =?us-ascii?Q?DuM49YOB/djcs8s4AEhmu7DuDQPlbLQe+A/vfCUWCu1BUcYr2ixqHZ2KLxr1?=
+ =?us-ascii?Q?arSkooPF1LWMwYNJrY1egEsfSrLbxR0wo6ugra2AYyVGTCKrDZgIZVa5okxS?=
+ =?us-ascii?Q?yKFQDnnM+y5WDbrpfqqNm5oh8GIdSZh63QzS655XZcU6L35nzyrbicMqdOcz?=
+ =?us-ascii?Q?bjrtY+BZO+QDL5WxNNN8mEEEjO8eJe5wcHcXQU5/ChWsEIKmeNNjJAHHwiHk?=
+ =?us-ascii?Q?X9MLVo74ErKGkDFhe3lv8em/kUYjP4i47FXAySyaSzIv30x+aomVEXSD8b2M?=
+ =?us-ascii?Q?F1H8eavqhyxaRLnsqFESHBhcEZvqRMic79SVgT+zKUQv1Py+NM0lqGSt6jMg?=
+ =?us-ascii?Q?vs8BlphIVdVhdv8CQu+L1DdkY01zhxiKVVYHihdjwika3GTv6MNsa2Xuh7Ab?=
+ =?us-ascii?Q?tKIItMqdw9uc0y2gMPkxNNkL/2u7o/NXKPZAq2h0PdkJldCo9A5Jh9+p/FHR?=
+ =?us-ascii?Q?ksD8ENDErWaMewzGmg8pywjPhS7y6mjgX2xq2Pm+s7ELUXoqU0+CPuAZ8L+5?=
+ =?us-ascii?Q?mw7ftQqp2a/eIEPeg29yBWCYyTC2fdlRDarb08fUOu6ZEN/DGiJzfZ9ALP1j?=
+ =?us-ascii?Q?uS7QYxTwt+p6PAd+LIFYcBoa2lOcHvvFLPKfmERe61K5T2z/YmCv89q+836l?=
+ =?us-ascii?Q?hgfzJjqyzshAq80Uk6GN6ADWo37yDtWmE2gSVwSAHQ3C/J/ZcA54Ye8xM6p0?=
+ =?us-ascii?Q?lFaELwP9Q56jDvslWJbFBVRsyW0QMj+Qijn15VU79hXZ7euWIidz83yQY/7I?=
+ =?us-ascii?Q?NMX+EDT1RVh/yM2dJ3zFqk8YMZqnlgAZO8G39Z0ZsdM3/bG3iyvfvjhDQJ1A?=
+ =?us-ascii?Q?wW9uIGiyzxXhQiyf/B9xd5b0mqjnIdDY+fdaCjihSXVTAuaFIm/tXqH30QSW?=
+ =?us-ascii?Q?fUuvbkw4lXIr0cvSDMy3XRJLJ8nifnsiaT+BoDlh8xpGCnZ1V9LbJYEQFlfX?=
+ =?us-ascii?Q?sa+q1HVL241cReZh/qFS2gGpkFvLLLBtqK3n0BOCHsS0//gqXH5+DqMLvB2i?=
+ =?us-ascii?Q?to3Fjw+g6nYqZ/gn0R3fv1q9W2Givx0UGWxOR89VxY/CrSIuOb8w24JKpiDz?=
+ =?us-ascii?Q?XWvkd4/pUOtf3LbLQtsoPLe7GGBn7WK3xcz0gPx4gjLgUjYpFTI3yKX+U0Vb?=
+ =?us-ascii?Q?P/2aguXwpKTnDHwqHPancA3LJ3/Iqq3V26A8tuitHbyEr9/0Sk/chIrRKriO?=
+ =?us-ascii?Q?tc/lguKyWav6jkOswGihApfhD4dKUpRC6V3exm1/iXd9WfWk5eJ+xnbW9Y2B?=
+ =?us-ascii?Q?pzbBIV5aIHG1y9NMKc1imbffWooQGjBT/CC4yTZ/Pw38aZs7RQEwCGaRfBPL?=
+ =?us-ascii?Q?7u+vO9HmDg=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4faf2839-bc03-43f6-e3fc-08df458d82e6
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3b774919-0032-422f-0fc6-08df458e2003
 X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2026 16:03:39.9775
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2026 16:08:03.6014
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 7HNYhMEw5FgZWtgvVoTygET+TIllJn0zP6Wx/X9o9TUeSNz2W8RDvFZS1WBKu1hMv9koHmDCGwJ2ZXPQzrpegxxp2HOm6sF59pZZMGa9G5g=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1P189MB3389
+X-MS-Exchange-CrossTenant-UserPrincipalName: HIWXedkkVB1t2pp38LQ0RrVFw2wg7eNLLx4g1ZwFQQDZgYdQkWfo9fD4tarLJRMkvJy6DdCVk7sFvmFR/1emE6+3DZHAhiz7axaMoGDHbBY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0P189MB2372
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 16:03:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250568
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 16:08:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250569
+Content-Type: text/plain; charset="utf-8"
 
---------------4R0MJC550FreB0yBeTzgp6IC
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+S was set to ${UNPACKDIR}, but the sources are unpacked into
+${UNPACKDIR}/${BP}. This was likely missed in previous cleanups.
 
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+---
+Changes since v1:
+- Drop CARGO_MANIFEST_PATH assignment as it will set from class
 
-On 2026-11-18 16:49, Mathieu Dubois-Briand wrote:
-> ERROR: gstreamer1.0-plugins-rs-0.15.4-r0 do_configure: Execution of '/srv/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-plugins-rs/0.15.4/temp/run.do_configure.354772' failed with exit code 2
-> ...
-> | sed: can't read /srv/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-plugins-rs/0.15.4/sources/gstreamer1.0-plugins-rs-0.15.4//gstreamer1.0-plugins-rs-0.15.4/Cargo.toml: No such file or directory
-> | WARNING: exit code 2 from a shell command.
-> NOTE: recipe gstreamer1.0-plugins-rs-0.15.4-r0: task do_configure: Failed
-> ERROR: Task (/srv/pokybuild/yocto-worker/qemux86-world/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-rs_0.15.4.bb:do_configure) failed with exit code '1'
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/5065
->
-> Can you have a look at the issue?
+ .../gstreamer/gstreamer1.0-plugins-rs_0.15.3.bb            | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-Hi Mathieu,
-
-
-I think I know the reason, its due to second patch in this series where 
-drop S override is implemented.
-
-I will send v2 for this.
-
-
-Intresting that my local build didn't detect it as I did built 
-core-image-satso
-
-
-Regards,
-
-Jaipaul
-
---------------4R0MJC550FreB0yBeTzgp6IC
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <p><br>
-    </p>
-    <div class="moz-cite-prefix">On 2026-11-18 16:49, Mathieu
-      Dubois-Briand wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:DMYGEG68G3D5.1V4ZHX7E9QGS7@bootlin.com">
-      <pre class="moz-quote-pre" wrap="">ERROR: gstreamer1.0-plugins-rs-0.15.4-r0 do_configure: Execution of '/srv/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-plugins-rs/0.15.4/temp/run.do_configure.354772' failed with exit code 2
-...
-| sed: can't read /srv/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-plugins-rs/0.15.4/sources/gstreamer1.0-plugins-rs-0.15.4//gstreamer1.0-plugins-rs-0.15.4/Cargo.toml: No such file or directory
-| WARNING: exit code 2 from a shell command.
-NOTE: recipe gstreamer1.0-plugins-rs-0.15.4-r0: task do_configure: Failed
-ERROR: Task (/srv/pokybuild/yocto-worker/qemux86-world/build/layers/openembedded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-rs_0.15.4.bb:do_configure) failed with exit code '1'
-
-<a class="moz-txt-link-freetext" href="https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/5065" moz-do-not-send="true">https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/5065</a>
-
-Can you have a look at the issue?</pre>
-    </blockquote>
-    <p>Hi Mathieu,&nbsp;</p>
-    <p><br>
-    </p>
-    <p>I think I know the reason, its due to second patch in this series
-      where&nbsp;<span style="caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: Aptos; font-size: 14.666667px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration: none; display: inline !important; float: none;">drop
-        S override is implemented.&nbsp;</span></p>
-    <p><span style="caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: Aptos; font-size: 14.666667px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration: none; display: inline !important; float: none;">I
-        will send v2 for this.&nbsp;</span></p>
-    <p><span style="caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: Aptos; font-size: 14.666667px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration: none; display: inline !important; float: none;"><br>
-      </span></p>
-    <p><span style="caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: Aptos; font-size: 14.666667px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration: none; display: inline !important; float: none;">Intresting
-        that my local build didn't detect it as I did built
-        core-image-satso</span></p>
-    <p><span style="caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: Aptos; font-size: 14.666667px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration: none; display: inline !important; float: none;"><br>
-      </span></p>
-    <p><span style="caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: Aptos; font-size: 14.666667px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration: none; display: inline !important; float: none;">Regards,</span></p>
-    <p><span style="caret-color: rgb(0, 0, 0); color: rgb(0, 0, 0); font-family: Aptos; font-size: 14.666667px; font-style: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration: none; display: inline !important; float: none;">Jaipaul</span></p>
-  </body>
-</html>
-
---------------4R0MJC550FreB0yBeTzgp6IC--
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-rs_0.15=
+.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-rs_0.15.3.bb
+index 294e3373437..236b8e8699a 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-rs_0.15.3.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-rs_0.15.3.bb
+@@ -10,8 +10,8 @@ SRCREV =3D "6302bea23b53e6461c104f9543df887a63b2d6ec"
+ UPSTREAM_CHECK_GITTAGREGEX =3D "^(?P<pver>\d+(\.\d+)+)(\^\{\})?$"
+=20
+ LIC_FILES_CHKSUM =3D  " \
+-    file://${BPN}-${PV}/LICENSE-MPL-2.0;md5=3D815ca599c9df247a0c7f619bab12=
+3dad \
+-    file://${BPN}-${PV}/LICENSE-APACHE;md5=3D1836efb2eb779966696f473ee8540=
+542 \
++    file://LICENSE-MPL-2.0;md5=3D815ca599c9df247a0c7f619bab123dad \
++    file://LICENSE-APACHE;md5=3D1836efb2eb779966696f473ee8540542 \
+ "
+=20
+ inherit cargo_c cargo-update-recipe-crates
+@@ -45,11 +45,8 @@ DEPENDS =3D " \
+     gtk4 \
+ "
+=20
+-S =3D "${UNPACKDIR}"
+-
+ # Remove the `flavors` and `ffv1` plugins that are not actively maintained=
+ in the
+ # gst-plugins-rs upstream
+-CARGO_MANIFEST_PATH =3D "${S}/${CARGO_SRC_DIR}/${BPN}-${PV}/Cargo.toml"
+ do_configure:prepend() {
+     sed -i '/"mux\/flavors"/d' ${CARGO_MANIFEST_PATH}
+     sed -i '/"video\/ffv1"/d' ${CARGO_MANIFEST_PATH}
