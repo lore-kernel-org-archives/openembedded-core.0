@@ -1,86 +1,130 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1703.1795037839276734811
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1607.1795037839943238345
  for <openembedded-core@lists.openembedded.org>;
  Wed, 18 Nov 2026 13:37:20 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=sz7icOiQ;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=tRXjFF6H;
  spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A50C61477
-	for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 13:37:15 -0800 (PST)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 456941596
+	for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 13:37:16 -0800 (PST)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 4A88F3F632
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id DD6F33F632
 	for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 13:37:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795037838; bh=50B8/WnOyUq5vap8Ry/S09g53+e87ilG8tBkY9MVZhg=;
-	h=From:To:Subject:Date:From;
-	b=sz7icOiQJY9ZUF2o3Ws090PZ1AM4GkE5CxvqmIrymizWTdxioBL5fQpYKgSeKs6Rp
-	 OsMWlCPAWQ5jAAdWOXoCbo2zeotEBtJs+ewFKUVCW89pD940hCVtTj4I5N0fNL0oGi
-	 TupXkkfhUwAziZLb3K/lI9ayaErWa5Ds3saOoSSc=
+	t=1795037839; bh=UmXRNi1QtY8Mm4fcB5lUBROEY6H3FCOJXWIl7UhFg/Y=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=tRXjFF6HuAGrLI4V7fTs+SAUzMo1ByrRpeM5AwTfAS81w/VYRx1xvwFQShasPmE6M
+	 hOaWRNcZq92fxQopvpNiERSJwbRrV9xOZLtcmh+xgmwirG+d+EiFqD5TnswMaRo7cD
+	 ceWqf4rjOMPiSe9Yt8IkMKn11Whvc5sZmkDDj1cY=
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] python3: improve generation of _sysconfigdata.py
-Date: Wed, 18 Nov 2026 21:37:12 +0000
-Message-ID: <20261118213714.2531261-1-ross.burton@arm.com>
+Subject: [PATCH 2/2] python3: remove obsolete reformatting of _sysconfigdata*.py
+Date: Wed, 18 Nov 2026 21:37:13 +0000
+Message-ID: <20261118213714.2531261-2-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20261118213714.2531261-1-ross.burton@arm.com>
+References: <20261118213714.2531261-1-ross.burton@arm.com>
 MIME-Version: 1.0
 X-ARM-No-Footer: NoDisclaimer
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 21:37:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250597
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250598
 Content-Type: text/plain; charset="utf-8"
 
-Improve the regexes used to match so they are not assuming specific
-whitespace, and use a glob instead of find to look for the input file.
+The python3 recipe currently reformats the _sysconfigdata*.py files after
+they are modified to remove build paths, as the files may be wrapped
+differently based on the length of strings[1].
+
+However, this wrapping was due to the use of pprint.pprint(), which
+since Python 3.13 is no longer used to generate the sysconfigdata[2].
+
+As such, remove the reformatting as it is no longer needed.
+
+[1] oe-core ec8a2b310d5 ("python3: Reformat sysconfig")
+[2] python 5ecedbd2669 ("gh-106789: avoid importing pprint from sysconfig=
+ (#106790)")
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/recipes-devtools/python/python3_3.14.10.bb | 16 ++++++++--------
- 1 file changed, 8 insertions(+), 8 deletions(-)
+ .../python/python3/reformat_sysconfig.py      | 21 -------------------
+ .../python/python3_3.14.10.bb                 |  8 +------
+ 2 files changed, 1 insertion(+), 28 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3/reformat_sysconf=
+ig.py
 
+diff --git a/meta/recipes-devtools/python/python3/reformat_sysconfig.py b=
+/meta/recipes-devtools/python/python3/reformat_sysconfig.py
+deleted file mode 100644
+index 5e2b12879d9..00000000000
+--- a/meta/recipes-devtools/python/python3/reformat_sysconfig.py
++++ /dev/null
+@@ -1,21 +0,0 @@
+-#! /usr/bin/env python3
+-#
+-# SPDX-License-Identifier: MIT
+-#
+-# Copyright 2019 by Garmin Ltd. or its subsidiaries
+-#
+-# A script to reformat python sysconfig
+-
+-import sys
+-import pprint
+-l =3D {}
+-g =3D {}
+-with open(sys.argv[1], 'r') as f:
+-    exec(f.read(), g, l)
+-
+-with open(sys.argv[1], 'w') as f:
+-    for k in sorted(l.keys()):
+-        f.write('%s =3D ' % k)
+-        pprint.pprint(l[k], stream=3Df, width=3D1)
+-        f.write('\n')
+-
 diff --git a/meta/recipes-devtools/python/python3_3.14.10.bb b/meta/recip=
 es-devtools/python/python3_3.14.10.bb
-index b3e8123d4d6..5fe510d8f75 100644
+index 5fe510d8f75..7f0b6e6f5a8 100644
 --- a/meta/recipes-devtools/python/python3_3.14.10.bb
 +++ b/meta/recipes-devtools/python/python3_3.14.10.bb
-@@ -220,14 +220,14 @@ do_install:append() {
+@@ -12,7 +12,6 @@ SRC_URI =3D "http://www.python.org/ftp/python/${PV}/Pyt=
+hon-${PV}.tar.xz \
+            file://get_module_deps3.py \
+            file://python3-manifest.json \
+            file://check_build_completeness.py \
+-           file://reformat_sysconfig.py \
+            file://0001-Makefile.pre-use-qemu-wrapper-when-gathering-prof=
+ile.patch \
+            file://0001-test_locale.py-correct-the-test-output-format.pat=
+ch \
+            file://makerace.patch \
+@@ -214,9 +213,6 @@ do_install:append:class-native() {
+ }
+=20
+ do_install:append() {
+-        for c in ${D}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata*.p=
+y; do
+-            python3 ${UNPACKDIR}/reformat_sysconfig.py $c
+-        done
          rm -f ${D}${libdir}/python${PYTHON_MAJMIN}/__pycache__/_sysconfi=
 gdata*.cpython*
 =20
          mkdir -p ${D}${libdir}/python-sysconfigdata
--        sysconfigfile=3D`find ${D} -name _sysconfig*.py`
--        sed -i  \
--                -e "s,^ 'LIBDIR'.*, 'LIBDIR': '${STAGING_LIBDIR}'\,,g" \
--                -e "s,^ 'INCLUDEDIR'.*, 'INCLUDEDIR': '${STAGING_INCDIR}=
-'\,,g" \
--                -e "s,^ 'CONFINCLUDEDIR'.*, 'CONFINCLUDEDIR': '${STAGING=
-_INCDIR}'\,,g" \
--                -e "s,^ 'INCLUDEPY'.*, 'INCLUDEPY': '${STAGING_INCDIR}/p=
-ython${PYTHON_MAJMIN}'\,,g" \
--                -e "s,^ 'CONFINCLUDEPY'.*, 'CONFINCLUDEPY': '${STAGING_I=
-NCDIR}/python${PYTHON_MAJMIN}'\,,g" \
--                -e "s,^ 'BUILD_GNU_TYPE'.*, 'BUILD_GNU_TYPE': '${HOST_SY=
-S}'\,,g" \
-+        sysconfigfile=3D"${D}${libdir}/python${PYTHON_MAJMIN}/_sysconfig=
-*.py"
-+        sed -i \
-+                -e "s,'LIBDIR':.*,'LIBDIR': '${STAGING_LIBDIR}'\,,g" \
-+                -e "s,'INCLUDEDIR':.*,'INCLUDEDIR': '${STAGING_INCDIR}'\=
-,,g" \
-+                -e "s,'CONFINCLUDEDIR':.*,'CONFINCLUDEDIR': '${STAGING_I=
-NCDIR}'\,,g" \
-+                -e "s,'INCLUDEPY':.*,'INCLUDEPY': '${STAGING_INCDIR}/pyt=
-hon${PYTHON_MAJMIN}'\,,g" \
-+                -e "s,'CONFINCLUDEPY':.*,'CONFINCLUDEPY': '${STAGING_INC=
-DIR}/python${PYTHON_MAJMIN}'\,,g" \
-+                -e "s,'BUILD_GNU_TYPE':.*,'BUILD_GNU_TYPE': '${HOST_SYS}=
-'\,,g" \
-                 -e "s,--build=3D${BUILD_ARCH},--build=3D${HOST_ARCH},g" =
-\
-                 -e "s,build_alias=3D${BUILD_ARCH},build_alias=3D${HOST_A=
-RCH},g" \
-                 -e "s,${B},/build/path/unavailable/,g" \
+@@ -394,10 +390,8 @@ py_package_preprocess () {
+                 ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfig_vars=
+*.json \
+                 ${PKGD}/${bindir}/python${PYTHON_MAJMIN}-config
+=20
+-        # Reformat and recompile _sysconfigdata after modifying it so th=
+at it remains
+-        # reproducible
++        # Recompile _sysconfigdata after modifying it
+         for c in ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata=
+*.py; do
+-            python3 ${UNPACKDIR}/reformat_sysconfig.py $c
+             python3 -mcompileall $c -s ${PKGD} -p /
+         done
+=20
 --=20
 2.43.0
 
