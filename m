@@ -1,54 +1,54 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4153.1795045477079480627
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3930.1795045479524341824
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Nov 2026 15:44:37 -0800
+ Wed, 18 Nov 2026 15:44:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=uuKZpdeB;
- spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: stondo@gmail.com)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4ac95761c85so12810025e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 15:44:36 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=A9qV24FD;
+ spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: stondo@gmail.com)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4a34ffd3e39so900052f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 15:44:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795045475; x=1795650275; darn=lists.openembedded.org;
+        d=gmail.com; s=20260707; t=1795045478; x=1795650278; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=4h39kvK8SGfHkypJnM+Og15Dbn7IP3iwkJ7gsJCdJqE=;
-        b=uuKZpdeBfXf2DcevDMaf2KN28k3/ydrY9UZoPhhOmAdqnKk1YKVNNTMXwj3OVUcOHr
-         yOspr2jsJb7BOeJNKb9aHdq13qldaFkCwpABJ6udhaX7ndUD70tRVgsrt5TM+S2cas60
-         zRIw6Dym4j/aRf03jc2k1mqCnBZRwKgIjWxF6yocJFF5HrARnyPXMoM8g7Pqv2gD64Ti
-         Ef7tf6ToIehJ8suiHnUmc26C4wfDeyS1PxP/kLzljf3KuXbrVfdXfutT0ICnMIJzsKbl
-         7KyARcPqdEi94D7dEf+ZBXxAaFZ0WQX1R42LHe+IS5PEwaU8Q0eYwPouq1i2j6sX6dmR
-         CDBQ==
+        bh=0ddKFm4edcu46UL0qqikK24536Nx+0m4JDW2BPdxXAg=;
+        b=A9qV24FD+yP2veXjlQBcAft5tAmZiTIukQb4I0XRCRreIhsXyD52vOsLr9t6PPr96w
+         QtpdRN4tQTpVwiEvDtf6oYf9Q16/Npe16g/ushzFjOU/5HcehJv5k2GQxKnd1sBU8diw
+         v6PWDhI38my0mqt8rH8ObF2jsLK7mYNenhAQAnvIBvckw/CX60dyaobKr6c1vyLV5xH6
+         mUBAiYZ/X06byHoSM6KKvLTFtePOJQc8IIM3rQfE1YOMoLdIhLk6zYZAw7oLSnWIR70y
+         Cp4NO6+vrJFvfZgBBF87Iz6+h7j4GzOfVcmKYQ5gwPRnKA9IIrXYH9ZPIqk/JlJqDX52
+         qjJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795045475; x=1795650275;
+        d=1e100.net; s=20260707; t=1795045478; x=1795650278;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4h39kvK8SGfHkypJnM+Og15Dbn7IP3iwkJ7gsJCdJqE=;
-        b=1lW+s1T99YQP3yTHrwjvAeuyWXEPtiblL2Iplu8sbGH6StJij2B36C+LWvkDjIyV3B
-         QwCMVJOMAB/SLiQEegpXmhRYXbn3/81INpg36mue5y7XleSH84OzMK+vzIBIhPYpSs4p
-         OBJTte5P8eAOfn9bFf2klSJL9SbjQSgE1BmT3Z5vsKk9XwoAqfCtI7xd4i5kzAjW4IkR
-         MagoXN+GMx1Spn44RwpJtqN7Dyofe6Ox0uGaG9/MISFJXsKllHbUFb8ybzgodHhd5AZD
-         Q87Vg/7Kml651K8I3KHf9MLoelP9BeVM4FPAMKLjJRTczN0Eos0tPmNNT3Y57HjUO+mN
-         UTJQ==
-X-Gm-Message-State: APuU4Z9o+3o6wjz6y59E/tOV1FR2vrQyz9N0JfiCoWT0ZlkoduBk49mX
-	cxbQSdV0K7XDaDX/m8/W7uHcxXB5cJLgV6dKentg5PO3dR/VLtuSeZvZjPnElQ==
-X-Gm-Gg: AYBFou0qcRVN82uNTmqqDnH10igW+OUrOUIGOLAfB/TjiL5IZYV1RIrSRuhT4UcTqBf
-	gjPrtKaogq7CLJR9xP6UyXBoAdd0nn7ue6AkWJiD7mS6akUWdMSznCdhwGlP5SxlEOfWMKCae7X
-	oLYXvOR6HvAmP8Ow3qjF3kAr/JQayObvBdX3csAZY0Xv6p+NBI1DmqLDGA+8q+ZV55irQxvOHoA
-	AaVGtaxJdrJfpmgZmUqG62eRGTKuZLjsfZ0JrYL/jqGr/qzmMz4DkE8Yg6IE/7XKMSJr5NBkq8F
-	PK0kHFw+Dg7Hw8SbHWfmFriNPHgiirTXxJLtvxxQo98fMSIUc/LvXWONFndg2+9zJyO1oixYQ1G
-	9ZKWzRsdt8wYAwlSF6YwgSN2FFgM+A9Wg0dm4vn2APnDXFGvdxmLUzyt2W8QVErsqRvKyMKnVmf
-	WlVM9ok3c6I+OGjq8j380OX1gEnbieMsaHUsxau0tzeNzDhqrifNW+ouAg5fZZpljhAHjZaClx8
-	WNDTCXb3fWZXiLiCze2I0KS0H0OZ4AeSuWIIpX8EMX12GispBeaJ67nJcaH2jqIdr9/WSaa6dcM
-	0gmn5M5WTv8=
-X-Received: by 2002:a05:600c:c174:b0:4a8:f2ad:a9e5 with SMTP id 5b1f17b1804b1-4bb7d5d4108mr77253235e9.3.1795045475276;
-        Wed, 18 Nov 2026 15:44:35 -0800 (PST)
+        bh=0ddKFm4edcu46UL0qqikK24536Nx+0m4JDW2BPdxXAg=;
+        b=RCH98iI1epSAQxdg/05KkCAP0PMY/QaDDn8FdtxhHSxVAdGCocPatLxMFSa8tXEmcl
+         K89OdHhkO5keHLNyH0/FMMgXxJbAOttJA9hd2LRZCI919RTsSTNSRmijYVD7RQd4ygsm
+         IRi+z7kjrlldnC0vHulyYN5qV3U/jJFLbmf9koqkW7KBemSoBudIoEUml9gH+kq63xvU
+         iaI7ixYBKO/RmCt9ql61yrxNyZH8wZnORr8yiLCFJChVpHXrxLFRQxVCJKHoh1go+l/a
+         xistLlrcc7ld6h6CjuU2apSoifnqrDgF0LuscgO4LCx+PIMyeSNFwSPUDcb57T8KJicd
+         ZpJg==
+X-Gm-Message-State: APuU4Z/sDtDKmYyvXb4Y3lYC5QIqNwJbuY+snEo/YJSBBDClD0/V6p0C
+	rWAg/DsZ4jL1Y/0kWqH5jwD0BJaJ4vzg2+h1l8+SPhOiG7dM4wRxrUhsGJsE8g==
+X-Gm-Gg: AZFdTZcfGC4VhA2F5C9mF1xdOc97Hxqi8d4xmPhlCJbk+MhOmVlo7hg1Ysv7+unVqm5
+	ISnx7FYXtwa70ohVbLXg96OgcW0cL4MzWjmUagLZM3CnNJFxQ6baK/1DZEeS4rMCwIR5T9s+yoD
+	kKppfO3M8tucR32oIosLRPifaDatFs9y90eWxh+zIrNpl7WeoxUsPH1oOsvPqFuWzRxNNR6xHzB
+	1gwg+IR5yjWFLOZVcvvHnXLC1Ihg0/a7feiPKK+ya+uHXDXuRUunzg/m/yAkfy/qOWVKNepvBDp
+	YmsBD8drF8gFDC7TkE03iU7gPRB7H5Uf5DoWTCDGYXQublNpAlJSdAFyJMZkj+tsN3OUtEgWYYD
+	weDxBjur9OqdTrvJe6q+Vow0c5gH7UOi/32vya5ZIpnEr0qWv291CKJScL+9Uc2orHTbvc0dtrD
+	avYwVzpIGAZgq0bmnUvWQFxwx/p0so/Nc1QbY4UW7MC/rGYsmB8gv0xH7FHh3oGYyqIvvd0F1y7
+	hAMhpRc8pjTVtEScf7rYW2xCUt/wP68ANe0B9dfO1fhw03fRYDTOfKS4C4nf6xEOXUblTH2NDNr
+	Y2MiRxHkugk=
+X-Received: by 2002:a05:6000:2512:b0:48d:f383:2356 with SMTP id ffacd0b85a97d-4a63c374724mr9828606f8f.53.1795045477714;
+        Wed, 18 Nov 2026 15:44:37 -0800 (PST)
 Return-Path: <stondo@gmail.com>
 Received: from fedora ([165.225.94.251])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a654a8c3c6sm6730718f8f.19.2026.11.18.15.44.32
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a654a8c3c6sm6730718f8f.19.2026.11.18.15.44.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 15:44:33 -0800 (PST)
+        Wed, 18 Nov 2026 15:44:36 -0800 (PST)
 From: Stefano Tondo <stondo@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>,
@@ -56,107 +56,174 @@ Cc: Joshua Watt <JPEWhacker@gmail.com>,
 	Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>,
 	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
 	stefano.tondo.ext@siemens.com
-Subject: [PATCH v2 3/4] spdx30: Add the PURLs of the source downloads to the output packages
-Date: Thu, 19 Nov 2026 00:44:24 +0100
-Message-ID: <20261118234425.3681880-4-stondo@gmail.com>
+Subject: [PATCH v2 4/4] oeqa/selftest: spdx: Test crate identity, scope and output PURLs
+Date: Thu, 19 Nov 2026 00:44:25 +0100
+Message-ID: <20261118234425.3681880-5-stondo@gmail.com>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <20261118234425.3681880-1-stondo@gmail.com>
 References: <20261118234425.3681880-1-stondo@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 23:44:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250603
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 23:44:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250604
 Content-Type: text/plain; charset="utf-8"
 
 From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 
-Statically linked code, for example a Rust crate, is part of the
-binary, but the SPDX of the output package only names the recipe.
-A vulnerability scanner that checks the packages of an image does
-not find the dependency.
+python3-bcrypt fetches 42 crates. The new tests check three things:
 
-Add the PURLs of the source downloads to the external identifiers of
-each output package. Leave out the crates that the cargo dependency
-graph proves are not built into the target. The software_packageUrl
-of the package stays the first PURL in SPDX_PACKAGE_URLS.
+- Each crate download has its name, version and PURL.
+- Each crate download has a lifecycle scope, or an annotation that it
+  is not built.
+- The output package gets the PURLs of the runtime crates only.
+
+The tests name only crates that do not change on recipe upgrades.
+blowfish is the cipher of bcrypt. Only the pyo3 proc-macros use syn,
+at build time. The other checks do not use crate names.
 
 Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
 ---
- meta/lib/oe/spdx30_tasks.py | 30 ++++++++++++++++++++++++++----
- 1 file changed, 26 insertions(+), 4 deletions(-)
+ meta/lib/oeqa/selftest/cases/spdx.py | 122 +++++++++++++++++++++++++++
+ 1 file changed, 122 insertions(+)
 
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index 7aae73ed0d..49494a5007 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -535,16 +535,24 @@ def get_cargo_scopes(d):
+diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftest/cases/spdx.py
+index ce9a8af4f6..d75c6146c7 100644
+--- a/meta/lib/oeqa/selftest/cases/spdx.py
++++ b/meta/lib/oeqa/selftest/cases/spdx.py
+@@ -9,6 +9,7 @@ import hashlib
+ from datetime import datetime, timezone
+ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars
++import oe.purl
+ import oe.spdx30
  
  
- def add_dependency_scopes(d, objset, build, source_files):
--    """Give crate downloads a lifecycle scope, see get_cargo_scopes()."""
-+    """Give crate downloads a lifecycle scope, see get_cargo_scopes().
+@@ -543,3 +544,124 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
+ 
+         # Document should be fully linked
+         self.check_objset_missing_ids(objset)
 +
-+    Returns the crate downloads that are not built into the target: crates
-+    that are not used on it, build scripts, proc-macros and the crates
-+    they use, and test-only crates.
-+    """
-     scopes = get_cargo_scopes(d)
-     if scopes is None:
--        return
-+        return set()
- 
-     by_scope = {}
-+    not_in_target = set()
-     for dl in source_files:
-         if not (getattr(dl, "software_packageUrl", None) or "").startswith("pkg:cargo/"):
-             continue
-         scope = scopes.get((dl.name, dl.software_packageVersion))
-+        if scope != "runtime":
-+            not_in_target.add(dl)
-         if scope:
-             by_scope.setdefault(scope, []).append(dl)
-         else:
-@@ -563,6 +571,8 @@ def add_dependency_scopes(d, objset, build, source_files):
-             sorted(oe.sbom30.get_element_link_id(dl) for dl in dls),
-         )
- 
-+    return not_in_target
++    def test_crate_package_identity(self):
++        """Test that crate downloads carry name, version and a cargo PURL."""
++        objset = self.check_recipe_spdx(
++            "python3-bcrypt",
++            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/builds/build-python3-bcrypt.spdx.json",
++        )
 +
- 
- def add_download_files(d, objset):
-     inputs = set()
-@@ -1066,8 +1076,20 @@ def create_spdx(d):
- 
-     source_files = add_download_files(d, build_objset)
-     build_inputs |= source_files
++        prefix = "https://static.crates.io/crates/"
++        crates = 0
++        for pkg in objset.foreach_type(oe.spdx30.software_Package):
++            location = pkg.software_downloadLocation or ""
++            if not location.startswith(prefix):
++                continue
++            name, version, _ = location[len(prefix):].split("/")
++            self.assertEqual(pkg.name, name)
++            self.assertEqual(pkg.software_packageVersion, version)
++            self.assertEqual(
++                pkg.software_packageUrl,
++                f"pkg:cargo/{oe.purl.quote(name)}@{oe.purl.quote(version)}",
++            )
++            crates += 1
 +
-+    # The output packages inherit the PURLs of the downloads they are built
-+    # from, as the code of statically linked dependencies is in them. Only
-+    # the downloads known not to be built into the target are left out.
-+    not_in_target = set()
-     if bb.data.inherits_class("cargo", d):
--        add_dependency_scopes(d, build_objset, build, source_files)
-+        not_in_target = add_dependency_scopes(d, build_objset, build, source_files)
-+    dependency_purls = sorted(
-+        {
-+            dl.software_packageUrl
-+            for dl in source_files
-+            if getattr(dl, "software_packageUrl", None) and dl not in not_in_target
++        self.assertGreater(crates, 0, "no crate downloads found")
++
++    def test_crate_dependency_scope(self):
++        """Test that crate downloads get a lifecycle scope for the target.
++
++        Every crate download is either the target of one scoped dependsOn
++        relationship or annotated as not built. python3-bcrypt fetches crates
++        for other platforms (WebAssembly, UEFI), which are never built for a
++        Linux target. blowfish is the cipher of bcrypt, and syn only runs at
++        build time in proc-macros, so these names do not change on upgrades.
++        """
++        objset = self.check_recipe_spdx(
++            "python3-bcrypt",
++            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/builds/build-python3-bcrypt.spdx.json",
++        )
++
++        crates = {
++            pkg._id: pkg.name
++            for pkg in objset.foreach_type(oe.spdx30.software_Package)
++            if (pkg.software_packageUrl or "").startswith("pkg:cargo/")
++            and (pkg.software_downloadLocation or "").startswith("https://static.crates.io/")
 +        }
-+    )
- 
-     recipe_spdx_license = add_license_expression(
-         d, build_objset, d.getVar("LICENSE"), license_data, [recipe_objset]
-@@ -1180,7 +1202,7 @@ def create_spdx(d):
-                 d.getVar("SPDX_PACKAGE_URLS:%s" % package)
-                 or d.getVar("SPDX_PACKAGE_URLS")
-                 or ""
--            ).split()
-+            ).split() + dependency_purls
- 
-             set_purls(spdx_package, purls)
- 
++
++        scope_of = {}
++        for rel in objset.foreach_type(oe.spdx30.LifecycleScopedRelationship):
++            if rel.relationshipType != oe.spdx30.RelationshipType.dependsOn:
++                continue
++            for to in rel.to:
++                to_id = to if isinstance(to, str) else to._id
++                if to_id in crates:
++                    self.assertNotIn(crates[to_id], scope_of)
++                    scope_of[crates[to_id]] = rel.scope
++
++        not_built = set()
++        for annotation in objset.foreach_type(oe.spdx30.Annotation):
++            subject = annotation.subject
++            subject_id = subject if isinstance(subject, str) else subject._id
++            if subject_id in crates and "not built" in annotation.statement:
++                not_built.add(crates[subject_id])
++
++        self.assertEqual(set(scope_of) | not_built, set(crates.values()))
++        self.assertFalse(set(scope_of) & not_built)
++        self.assertTrue(not_built, "no crate for another platform found")
++        self.assertEqual(scope_of["syn"], oe.spdx30.LifecycleScopeType.build)
++        self.assertEqual(scope_of["blowfish"], oe.spdx30.LifecycleScopeType.runtime)
++
++    def test_crate_purls_in_output_package(self):
++        """Test that the output package inherits the PURLs of its crates.
++
++        The package gets the PURLs of the crates with the runtime scope in
++        the build SPDX, and no other crate PURLs. syn only runs at build
++        time in proc-macros, so it is not in the binary.
++        """
++        objset = self.check_recipe_spdx(
++            "python3-bcrypt",
++            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/packages/package-python3-bcrypt.spdx.json",
++        )
++
++        package = next(
++            pkg
++            for pkg in objset.foreach_type(oe.spdx30.software_Package)
++            if pkg.name == "python3-bcrypt"
++        )
++        purls = {
++            e.identifier
++            for e in package.externalIdentifier
++            if e.externalIdentifierType == oe.spdx30.ExternalIdentifierType.packageUrl
++        }
++        crates = {p[len("pkg:cargo/"):].split("@")[0] for p in purls if p.startswith("pkg:cargo/")}
++
++        # The package's own PURL stays first
++        own_purls = get_bb_var("SPDX_PACKAGE_URLS", "python3-bcrypt").split()
++        self.assertEqual(package.software_packageUrl, own_purls[0])
++        self.assertTrue(set(own_purls) <= purls)
++        self.assertIn("blowfish", crates)
++        self.assertNotIn("syn", crates)
++
++        spdx_vars = get_bb_vars(["DEPLOY_DIR_SPDX", "SSTATE_PKGARCH"], "python3-bcrypt")
++        build_objset = self.check_spdx_file(
++            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/builds/build-python3-bcrypt.spdx.json".format(**spdx_vars)
++        )
++        downloads = {
++            pkg._id: pkg.software_packageUrl
++            for pkg in build_objset.foreach_type(oe.spdx30.software_Package)
++            if (pkg.software_packageUrl or "").startswith("pkg:cargo/")
++        }
++        runtime = set()
++        for rel in build_objset.foreach_type(oe.spdx30.LifecycleScopedRelationship):
++            if rel.scope != oe.spdx30.LifecycleScopeType.runtime:
++                continue
++            for to in rel.to:
++                to_id = to if isinstance(to, str) else to._id
++                if to_id in downloads:
++                    runtime.add(downloads[to_id])
++
++        self.assertTrue(runtime, "no crate with the runtime scope found")
++        cargo_purls = {p for p in purls if p.startswith("pkg:cargo/")}
++        self.assertEqual(cargo_purls - set(own_purls), runtime)
 -- 
 2.56.1
 
