@@ -1,92 +1,116 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15000.1795015336954922880
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15221.1795015758798962823
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Nov 2026 07:22:18 -0800
+ Wed, 18 Nov 2026 07:29:19 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=heL+sK+S;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 80715C4CBDE;
-	Wed, 18 Nov 2026 15:22:19 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 931135FE9B;
-	Wed, 18 Nov 2026 15:22:14 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E533811BC247C;
-	Wed, 18 Nov 2026 16:22:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1795015334; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=GIXDp6Liqdfo8h6uEqSTQ2t3FJfzG5DAe7I+x7tQjEE=;
-	b=heL+sK+S9Tzu7VpmXBrI4u03E8m7Hrw5TKIUJnW8jCazKnuiTIAKKn/L6zKt8Raesh40eI
-	GZLS81jhBSk8Ur1IA1z9pEV7H6LiIC7chs8icmPm7bm7Z9sggH+GON8zzESWL3zS+LhV2/
-	OVW8vi9pG7ZxJes1R0cP5W1d9oJ4sH7kvCLj37fmbJc7W6OWlI7/260s6rzl1seDMNXwsc
-	sG4UTilgZik9pKTuKMdLJhYpUxJAdyfkXoIehmUrCJlcrWxTjMWIeXF/a4InM+sRfzg8/p
-	NO9A1PcNrSSkFmrNtaTwgNAzX1P/cFNyc9NcZVbrM+UgA3YYJR3n5vAha5/6Jw==
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=V/ksLjzW;
+ spf=pass (domain: smile.fr, ip: 209.85.218.47, mailfrom: bastien.jauny@smile.fr)
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c5118deebcfso105037366b.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 07:29:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google2; t=1795015757; x=1795620557; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=1eUy0EIwe8QQZwHJ0ntkv6ruIJLa+zAoE/6cAN/xT78=;
+        b=V/ksLjzW5WcSOl4zjxbUslTCGph4/2BGcGQr3iyfmVgtJpjLdGyx5cA6sUNONpFwMC
+         dSNwlt23ouFNCpjTlDRqg3XvrgcIMWSubAWkZR6dIWRGDKLA1IlNC61kOKQUbRpyDxGO
+         s16yUic73xfN55ZD3/bcvm65BhsmN1gRbPHafjpyIHBBCgYtkdDfBJlJmQ5hErf3gY4/
+         HbBXtZDkQmA9NuRDDSNh6O/zI0lh+/V1BShTe414h8DMqg46qSi8Q2PCr8uGGxgB2Vb2
+         dguzA5QGqdl7QMYRW5B3BFuAu1B4FVaajBxKM0yBJYLAzf2mTrG886H/VTojkGXOeZbe
+         XM2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795015757; x=1795620557;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=1eUy0EIwe8QQZwHJ0ntkv6ruIJLa+zAoE/6cAN/xT78=;
+        b=BMZSYFkhM7K6JevG5JIcT4MlUtQ/Q8llOy7G7oVwJCdgmawCAdnEIOlcWn58TI0/HF
+         WgWsT3ctOvMyz/b+bm3xhllxbxd2GGIAQ4/8wd6psKGoX7wqYN4HAj0dDWDB48zefYCe
+         qkq8sXfkVirDWIyvVjBYPHSRtN6SPBXo9U/G8VQYuJHSJdyfuwkllGrzAOERh7uHRuOJ
+         cZTxJdGKubb+pTcZMBd3yNaQbF431ZE3EtRV2k2AKGFwefG3O2/ffzSgbAxRfQYkZSOy
+         o/GJwruq8StEDGlxmXU7mG0insRIGDyN2wmQuJziW0wj4wTYReWVh0Eo9gtVdFePOFyW
+         kHTA==
+X-Forwarded-Encrypted: i=1; AL+hErHMI0S04mSC9dYkeWSUG1ZG+WcEdFvTOwFvgMqMFe0FOCSslyVCy9xuKMuers0dTfEsUF9c+DD7pdjOHxm3cbNdDg==@lists.openembedded.org
+X-Gm-Message-State: APuU4Z/AEY8032sF8ARh1zOJF6QRqrLWIiUdEwhvYmcn8K8hpOT7J1DO
+	G9BU6kZjdDSu6Ow+ytC1bU4RADAJ3CuA96vfa/rwyztoSHFRU9Dymykb2GDOObhKNC8=
+X-Gm-Gg: AYBFou1vQqFVzR6yUBFo5fjDPt5t+U3AyrYYn6zmrNJtJj/FruC/W7IR0u4PwWo+seQ
+	u1ML54z1eXFXvRvuDr5+jf1PuXV+yKPbNTDgEb4R5x9kMQzEgqWvaMYnSonbQDHVb2cX284oZ1e
+	I6lpAr4rPsl/KwuZLsnnAVZvaDJzJlZwltinorINztWpr+gPeCEISNMivWGu8RFldJzakNpWmdq
+	PqsvJTlkHdvkzD/L3q6xMAWtZmaAdC8EaHcBiu4Ss6hY2sjhELJXkbg5cBd9UALzcGit11y1vPi
+	nSHyBo+TiA9NFoXAmkmnvhs+dpnVfn/z05Ly+YszqT1pTA2/TAg7MKEZg4SyfYzdYIHnkl5jEhI
+	e4b8CK1bo6PosY9/NftuHeeOG8gi5BS+OsrMxTJRG7dxIwEoSRrNm1M5tXA8OAdfQ7/UluPNTW3
+	lIaJncCHXaAoHMk7RkvVjlemoEW/r7DgXy1AC23mv2CkT0rAncVFU6LkCuw6cxCfOCWRM/eJ+c9
+	9puBtREc9Woe4lXVXeY2I+c64pI7hepge18IGNU1qDizKWjsXQPYvMsQKpjkAwxGDKVQBNXvyl2
+	g43EH+F9A42GDDWpK9MC9ZBywhd2BrWpiXldAh80xfaWFVkiAAatWVguW9XGhRjjJb0KuOyYlui
+	arx/aBpTiw9RlRA==
+X-Received: by 2002:a17:907:da16:b0:c3f:dce3:20c5 with SMTP id a640c23a62f3a-c510e31b1a3mr278725866b.44.1795015756832;
+        Wed, 18 Nov 2026 07:29:16 -0800 (PST)
+Return-Path: <bastien.jauny@smile.fr>
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c512346fc3fsm9992766b.59.2026.11.18.07.29.15
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Nov 2026 07:29:16 -0800 (PST)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 18 Nov 2026 16:22:10 +0100
-Message-Id: <DMYFTUY2A6RH.1WI2PDCNCPOJY@bootlin.com>
-Subject: Re: [OE-core] [PATCH 3/4] spdx30: Add the PURLs of the source
- downloads to the output packages
-Cc: "Joshua Watt" <JPEWhacker@gmail.com>, "Alexander Kanavin"
- <alex.kanavin@gmail.com>, "Stefan Herbrechtsmeier"
- <stefan.herbrechtsmeier@weidmueller.com>, "Stefano Tondo"
- <stefano.tondo.ext@siemens.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <stondo@gmail.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20261118092927.204959-1-stondo@gmail.com>
- <20261118092927.204959-4-stondo@gmail.com>
-In-Reply-To: <20261118092927.204959-4-stondo@gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+Date: Wed, 18 Nov 2026 16:29:15 +0100
+Message-Id: <DMYFZA08GN5O.1NH2ZMPJFRX2B@smile.fr>
+Cc: <thomas.petazzoni@bootlin.com>, <yoann.congal@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCH 3/7] curl: fix CVE-2026-87865
+From: "Bastien Jauny" <bastien.jauny@smile.fr>
+To: <bastien.jauny@smile.fr>, <joaomarcos.costa@bootlin.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.22.0-38-g09b49b623995
+References: <20261106144134.1370928-1-joaomarcos.costa@bootlin.com>
+ <20261106144134.1370928-4-joaomarcos.costa@bootlin.com>
+ <18E92C06A5741D4F.1359844@lists.openembedded.org>
+In-Reply-To: <18E92C06A5741D4F.1359844@lists.openembedded.org>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 15:22:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250565
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 15:29:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250566
 
-On Wed Nov 18, 2026 at 10:29 AM CET, Stefano Tondo via openembedded-core wr=
-ote:
-> From: Stefano Tondo <stefano.tondo.ext@siemens.com>
+On Wed Nov 18, 2026 at 4:05 PM CET, Bastien Jauny via openembedded-core wro=
+te:
+> On Fri Nov 6, 2026 at 3:41 PM CET, Joao Marcos Costa via openembedded-cor=
+e wrote:
+>> This vulnerability, marked as High [1], was fixed upstream [2] since
+>> v8.23.0.
+>>
+>> Backport the fix to curl v8.7.1.
+>>
+>> [1] https://nvd.nist.gov/vuln/detail/cve-2026-87865
+>> [2] https://curl.se/docs/CVE-2026-87865.html
+>>
+>> Signed-off-by: Jo=C3=A3o Marcos Costa (Schneider Electric) <joaomarcos.c=
+osta@bootlin.com>
+>> ---
+>>  .../curl/curl/CVE-2026-87865.patch            | 212 ++++++++++++++++++
+>>  meta/recipes-support/curl/curl_8.7.1.bb       |   1 +
+>>  2 files changed, 213 insertions(+)
+>>  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-87865.patch
+>>
 >
-> Statically linked code, for example a Rust crate, is part of the
-> binary, but the SPDX of the output package only names the recipe.
-> A vulnerability scanner that checks the packages of an image does
-> not find the dependency.
+> Hi,
 >
-> Add the PURLs of the source downloads to the external identifiers of
-> each output package. Leave out the crates that the cargo dependency
-> graph proves are not built into the target. The software_packageUrl
-> of the package stays the first PURL in SPDX_PACKAGE_URLS.
+> According to the versions affected, this should be seen upstream. I see
+> it has been submitted for wrynose but nothing more.
 >
-> Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
-> ---
+> Could you please submit this one for blacksail also?
+>
+> Thanks,
 
-Hi Stefano,
+Sorry for the double mail, I should have reviewed the whole series
+beforehand.
+Patches 3/7, 4/7, 6/7 and 7/7 should be submitted to blacksail
+before going forward.
 
-Thanks for your patches.
+I will drop 5/7 because the CVE is already taken care of in a
+previously submitted patch.
 
-It looks like this is using memory in a way it got killed several times
-on the autobuilder. Locally, I managed to have a do_create_spdx task
-using more than 10GB of memory, with a value continuously increasing of
-about 100MB/s.
-
-This can be reproduced with master branch + your patches, then:
-bitbake python3-uv-build-native -c do_create_spdx
-
-Some failed builds for reference:
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/110/builds/1605
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/6/builds/5058
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/6/builds/5060
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/25/builds/5039
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/5061
-
-Can you have a look at the issue?
-
-Thanks,
-Mathieu
-
+Regards,
 --=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Bastien Jauny
+Smile
 
