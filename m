@@ -1,183 +1,167 @@
 Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.1])
  by mx.groups.io with SMTP id smtpd.msgproc02-g2.14963.1795015219320867461
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Nov 2026 07:20:20 -0800
+ Wed, 18 Nov 2026 07:20:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=x3jvg8/O;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=DqFqWcl1;
  spf=pass (domain: est.tech, ip: 40.107.159.1, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=M9wWHnaPX108cIOVIwZO5SWBZJYeHNYyX4N8dJu9DWeUhqyy8PzrSPkKvPtc1XaIIc5lAzxaBE1GLtoz1uhMplW4tjZVXwWSlKLiTSVNl0kYkJQo1n/WpWGng9xAZugpYFcjCOyHpenVSlPM5W35kPl/19E6M+Q6yaRTDSEfM+he3gwei1lf9mBZi/hZAhhwRD1ShWFkYr9uBEJsRoIVT3vBGQR74cM1apJDU2KKtxk6MXc69jHkjdsGhENLKhOp6hVGw306P0XUzz1Ui7kMBP+u4P/8NPdjQFTq/gGSru6wb/uSZ11K/yAZKhsCRLUAqL8gTkuK94Pi1dEeMTItZg==
+ b=hhC+QesXnS46LBAOF8iuBdpo05ca01UxItaod/5HaXrAKk/4y3O4ma6xO47rbb4eZBoUSpudW1dd4YL8c5idi7gOYZJWrBk8yAOKzpWnU0VeI9LKNUbAwkVvGTwjI/LLtYb4N7tC8tmnwdiim/rdNZ8wWZKNGe5KzgMCiRU2o97lflIozTFIHu/kY4Sf/d6G/dxglkqVExcRc2H4xGfbTStuveji+MqnMruyfjN4P2Eqa+3fEbp5UcaTkV/JUKCOVPzUjOXP9aFurBqP5xqR+/7HhSfSvW559T6+C6t/yRx6oSAtvNdBE+A06aT8qjcDEObBWMj3IrYgDPOcglJDnA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mcYbJ7Mc7RGU5ylwYKN24Rn6l9PzBTN9/vRmLdh6EqI=;
- b=aRjFcyGFRKfqykcBU9SbdOJPgHcYGXTr1AAh5p1e1qHEewCnje5maSkYsWKEVCfcOQ3W5Ev5kwymF3oS2JrMJjKQVs36l+UtG2+nChour6dxWqBVor7ugFSSoymoENg9/+3DkEGdtzKZ5EURZd/0Pb6noP9Ft6AVAqHK40OprLW2wocS5Wbb9WuZByVH3Dh6TFjwEgF2Ujl+2sEUvnxJLJdVT5WB7SkGkef+0F1gDJq4L3eMYtDVP9B4p4hFiSz4bAfpq9JVwZOGiiqPgqozi09sjse+LT6IAuhNVRwlk7iF2tr1kBWkDfUbDOH4AvLmO8piHIXtAEYdXqApN+CsJQ==
+ bh=euGraZPUlidT9v56Oo7YhMD3FCOOuQDwZ5Qj3CxwN5s=;
+ b=S18bA4osxSHwvXT2/KpIYxvCtxL3uiXjzDxKaO6nk+YTVxK8xHFx2sAKQUDP6eosyp1cpbHDlVrE82N5QC9k+ds0Yzl1tO37cHjN0N5rJSIBIhlXZMjM+FyfF9jD5Gp9xq4zjdFB9crpB6DU1cm1ws14ob4L1CIS99j/6YoF1Xai2B/6hRGJ4osNThK2x9gJpAYC5eTzy9Xvs2NtKj/jtiMtYNYMeh/uH45NZrxzHjmW3DlpD2DW3oG95PzVO47RFVsaQDjdNcfifCpQawGhYplYTDyn1UDDSnOcCu21FQEDXhbzNmKWlh9wrOx4qanufjUvs8/T0PZ2AYJXM1YFKw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mcYbJ7Mc7RGU5ylwYKN24Rn6l9PzBTN9/vRmLdh6EqI=;
- b=x3jvg8/OXcSWHAB94Kfzb6pLoAyN6ixhdTMev7qaBA9tpyX19WuBriNoJuSL98tGxZskSPX6P2wp7CBONWqx8JT/gJRFgKR+Iy/585n40mYC78qibmE/bVfjBNYNs2RUa9K5OQplaAGDqL/Iul44wtsQEXK8NbP6vcofds6scjeUMxZQ3UdpMcEL97A7zWGl2HR0VieTH4pUcTh/JCkoLROPJWaeHEzIsYiIT/HsQUdGqznq0j9I1S6ikGBTo9s05E0pui87kAXDP0c3Qvy9EQ8MuFLEu77tgSGkmOQBmHCABBvf4FkTq0iaVyDn5NFAUn8f3EzEgzgs4R0Sem6ltg==
+ bh=euGraZPUlidT9v56Oo7YhMD3FCOOuQDwZ5Qj3CxwN5s=;
+ b=DqFqWcl1rGgiS0psT+/Wkurm5nNu8C4TPa202GFer0gccKqVtODGx8xRoESN2pfqgwp6Ghg3YjYWghZByAQL97GVM2q167AQyAA4ckmSZyRpnRU0pGQMkXsRxU/Gz5U98pgGUEC2TIc3E4UdVoVEFXwcKxwNozTpH/SNMfNbZ7BYr/vsv+og3zDSWZrhWxe4XHnLzxL3KER/WnrmZR6suFdlCBWJUuWIkMd1+Fnk/Ip/l7z3S/pK2nIELFRJRNNapuYBtkUjd7ajYsU8DaL2lLGCcgGhI91x/jYFu06eBDx8Vbe9xv6Ui3PywXlmbK4P8WJM/NuaAMCG66K6skNM/w==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
  by VI6PPF8FC981689.EURP189.PROD.OUTLOOK.COM (2603:10a6:808:1::19f) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Wed, 18 Nov
- 2026 15:20:15 +0000
+ 2026 15:20:16 +0000
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0615.013; Wed, 18 Nov 2026
- 15:20:15 +0000
+ 15:20:16 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/3] binutils: Patch CVE-2026-91781
-Date: Wed, 18 Nov 2026 16:20:09 +0100
-Message-ID: <20261118152011.24213-2-jaipaul.cheernam@est.tech>
+Subject: [PATCH 2/3] binutils: Patch for CVE-2026-90828
+Date: Wed, 18 Nov 2026 16:20:10 +0100
+Message-ID: <20261118152011.24213-3-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20261118152011.24213-1-jaipaul.cheernam@est.tech>
 References: <20261118152011.24213-1-jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: LO4P123CA0579.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:276::20) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: LO4P123CA0404.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:189::13) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:20b:6c0::19)
 Return-Path: jaipaul.cheernam@est.tech
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|VI6PPF8FC981689:EE_
-X-MS-Office365-Filtering-Correlation-Id: cfa5c5e3-87be-4adb-cc7a-08df45877247
+X-MS-Office365-Filtering-Correlation-Id: 0c3b8668-44c1-4e14-c706-08df45877341
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|6133799003|261009223027099003|18002099003|22082099003|13003099007|261022075727099003|261021123027099003|261021121427099003|261028144727099003|261022105027099003|261102123227099003|56012099006|261026140227099003|10067099003|11063799006;
-X-Microsoft-Antispam-Message-Info: nbB49dKS8r+fotAnJ9qzsVjsQFPL804T56Uv0mrbDQrG9Qod+iVlRfDXfOlf3G69UpkAtuvU5iMI/IZtiE+2a5VvCh6zqvuiSt6lU9VfJ+GN8eEpRCrRoVnZXDglK+BrdK+LGZZb1M37usodfMXhUdwaHQqwjaxttH9dMkGSkrrplEftLfRv2z46V6cIk1XqQx1kasFncdgb2abwEfSFp+YYChD/NzfOCKcLEX4tBaH7KbxWSYXmSM56atIfOn8UqVVMIY0hLTUOxEsuftMPdq1eoDT9VS4CmJ7emauRb42xLM6eN1LYzYjNoOgA0dCoaCLDRxRREI/U1fEwGeUFrYZk5v6SlwmUXSXIEkSHEBrpb2l4Cz8lEXUUV9UereVsQE05cIJkxXxMPD7IGHzukUYx4ijQOKM2opWOggaTQkezJZqQ4JzOfZ0523PimAA4m1NpeEullbpQAMjrFwlq6cU5V6cjXX/+tFuetgwbU4+QReJOKCYDDoR9Ob+doAz6jqQmaOYsUxgmbHau39oE4i/jPF7gtzPivU5/WwCe+ItcH6IIfhkca6yI7VBAuZtmbR1srue+Q8gI2+Ym1IVFyGSZEaSC3mAtD1FZmOEvrdejiUBRwdqO6knupqQNCbd7
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(6133799003)(261009223027099003)(18002099003)(22082099003)(13003099007)(261022075727099003)(261021123027099003)(261021121427099003)(261028144727099003)(261022105027099003)(261102123227099003)(56012099006)(261026140227099003)(10067099003)(11063799006);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|6133799003|261009223027099003|18002099003|22082099003|3023799007|13003099007|261026121527099003|261022075727099003|261021123027099003|261021121427099003|261028144727099003|261022105027099003|261102123227099003|56012099006|261026140227099003|10067099003|11063799006;
+X-Microsoft-Antispam-Message-Info: DOjYe2BgXyAHDyGncWfqAZJ5LNyRIsmn84IcfHCKg28QKzcfPTM3fdWQaDY9SIOiW9e2cDwjfJ3NlHcUhCf/GiXZ82nqTTOem1OEmfcINVzMilTmnqLAFuqPwWxxCQVHnzq1C1oii8f+vmLr/l8RgLhSl1jnYDpUnYp+tqBSBriC8vGSAiKKlAuAgVJhJn4aB7z0fOvOxCUjB8BfdDZzGtlMWfT/8+UR1FEf43GIRrKCOu+kjXwbURHOUjMg4OyEBPdpS9elwdOZnrU0Fg7AIiCumVj6BTE8bjD0loecRoUmBoADRgdoIsFVmBztLS/N3XnnCP62DhngYyeVPzBN6GUH1t2wbNXAIkdCqC/DDwQJEcGxxL3jN+XG02CKfWlvilzxfhxP6mkC3udiRWJv5gTqOeFQQ77YvzRA9azWgxVlW7Il68iYdFZD5LBsQ5EMT0KhwizcS2r/bJjAmOMf3Ayi8KEnodBtdZCqBzpDVRUXPTnYO/6jWUVcoexbfcsGnh5DsofvDIOWU67lF8a88rPLLp64P7Wr0fw95zj33JDumjWfg4+ja45MkPafPRBa9y2vMZFNZSr+oYKoQ4SvRUNe0BlIJLvO7hbOk+9dWpfq3bFMMHj+WaM/ktsNTQdz
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(6133799003)(261009223027099003)(18002099003)(22082099003)(3023799007)(13003099007)(261026121527099003)(261022075727099003)(261021123027099003)(261021121427099003)(261028144727099003)(261022105027099003)(261102123227099003)(56012099006)(261026140227099003)(10067099003)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?NNytBYnQMCjZT+ljR8dTYb2/f8K6jSaX9lN9uGswWnt79oWJHjEyMkvRw9HM?=
- =?us-ascii?Q?ttBH58zECFr6EibQNxo9kJSbFBf2iG9tliJm8EU1uZv7Y/iF0WUKVXkxRsgO?=
- =?us-ascii?Q?i4zJB8qTuyDqoOJfCttF9+pxyXXDgcyQ5a86zOVImZvn/U4ROgJyJaMr4I2L?=
- =?us-ascii?Q?6P1b0nlj/X+cO6JvDtuH9ki88U3oEI4Ni8P9et9UT+Gq5qwvBwsvFewzZrQ5?=
- =?us-ascii?Q?af/yvvH9q9soZbj9vSvgqEAum8HgYhHoC1MkVQOcBV0laexOJmbNA8fveS7D?=
- =?us-ascii?Q?7ES4g1WWnqXF+chN6GpNsRZCSEX/mhKOF6v3tYpyxHSkbOdVlNnuNTsbZZBO?=
- =?us-ascii?Q?kax5OIv0CLXtgywe9dgFwcOr9i0b6yxWoer652RLcMAJTKjZAaLMAH0UXmLv?=
- =?us-ascii?Q?R3nsDjhxUrZ4SiVbZ1s25fxQvK5Pe6pFEi6Q3rcSHIYWBbkpZ+9UDq+ZtmsU?=
- =?us-ascii?Q?X04f2YxopAdZCnUrfX0m1muMQZW9lKvQcL5gJyGk4t29s403gd8UFQoHcLjo?=
- =?us-ascii?Q?n9bok83znX0id59i0bd68mTXxv8+mrI0lhjIQTJQVO809j4Bpx4rUO71khII?=
- =?us-ascii?Q?VqxytH2X4mnMC53fouEmhPJIOA7fc7hFwUFv5vu17uHBuFqk7qHzguhyRbkE?=
- =?us-ascii?Q?q699i2xE8LtNwboKo+ml65cWlFK0EMq1/YV+oZ75QpvL/aMgF1wCqWkA2Kde?=
- =?us-ascii?Q?O9SpHurFiv6YzOoEHWEVzLr2dKIRveyJva2DsPeErCh/gqH25ia7f6IZHtOR?=
- =?us-ascii?Q?i0Fxf3xgHSbDTtlh7sqduDKlrj2kGpmRHeWYFt+xWdlWexJicaTfpSMkG9m9?=
- =?us-ascii?Q?fKHU4yEc9Sh4bG89H1hXtLIwUIlVvKR6l6vqFELhZ6QYmtKK674AAwFW6bEF?=
- =?us-ascii?Q?Y91XOlIAs4ngUh/jAKsvrrql64ATgx2ZQ/v2NzrTLbbqHctNXrdGmE42Qr0d?=
- =?us-ascii?Q?3PEBRIGAzfyt7a90iXHZHOjEx3NDlS4y0F9kePaAEXGc+UgAe57mJyI2k3eE?=
- =?us-ascii?Q?uRM+60i7ZF0E6+zIseQUEzjqoCFRUlzOopLoEOMPtaDsPbgNm0hrrRcX8i5f?=
- =?us-ascii?Q?5L+Szj6Cnu+uW3xazCEYsCx/PCQdUVOtg7DMBObRVU586ODFrYrAU5RGFa16?=
- =?us-ascii?Q?xaAhRP5SmuQMO5JrootZ5TDsUIFyc4VG1gwQKSQi0VOCGO2vjnO9ESHGa2Dc?=
- =?us-ascii?Q?4iFyvL4fJDRFpKEWvQk0ugQis+WxBnWqLJoJxU69sDgfjKNJ6x31TMdle3hj?=
- =?us-ascii?Q?Ubqxaw4x6her98SsZK0wSfaPf/RL6eMB0zUVBnvp4HZq4RgX4KiiW/7mljM5?=
- =?us-ascii?Q?3TRmN7a60WQxtJ0mw09FbWm4jZUwTjwP/QKD43PtZZqG7bZfgrrIKOibPquG?=
- =?us-ascii?Q?SAn3Lroe9VTxB1xUdRadeAwC1SncI5RDU8ie3SacQ5qAtAAIrsZjDZIsmW2N?=
- =?us-ascii?Q?1hl95JWWV3NmsRukRCW6fLld8lWgRSf505s2MPpS8zzORI58P0jDbQb38AeM?=
- =?us-ascii?Q?hKVPfl5/kfRZiLKfsEaKl+50vCgo3YwQgDxNxqQGP24H2zx8LdLdGPLWbibn?=
- =?us-ascii?Q?U+rV2QZettT7H7YULcnhXAO7V2sksPtfm+Ur/J4jwNLq5A9xkWhlMdiCjKrt?=
- =?us-ascii?Q?sooyn2zwlm9m3iit4FnIjbV8bl1r8lKhqQ+3Xxyh8lq6/T6ueUzPRky2Mz69?=
- =?us-ascii?Q?Te+zYY61OfBpdNoYjZQ47skZJxMfg/h7yMb4B9u5xRCw4uADbYgi+WhRPyvh?=
- =?us-ascii?Q?rTnXVMnEyw=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?2Jec9G20Z98MDZuaSmq8cJiGcsyMFjhxmsyscyAIGZNDw2TCndeR9qicDhNp?=
+ =?us-ascii?Q?2uA8TascVQRTuZr73ZxETu2w48QnyDrEhD5c3o/oGSc78+0JfsgSDUIoek1i?=
+ =?us-ascii?Q?hdA1XRht44AOkMS+8Yrm5Axtjmjwuq53GHGIE6BZKaiqT27QlXWjiQ+Q1odr?=
+ =?us-ascii?Q?BZgabSRS1ma/30aNOlpPJKFnctbP40l/Lq2cX2QICeNmj1c+RbiEEY40qfZa?=
+ =?us-ascii?Q?JMw/0v3N/wxXVoHcnp2gGdFPDMvBjvUck6I3+JosnoRjATep96ld8HIqBuRd?=
+ =?us-ascii?Q?SGourVJLl560x43PDkjneVOQuqeVfgCQ4gBfwsC1lwqzuzetyXciF7uMloRx?=
+ =?us-ascii?Q?XNj8BOQsPyiPKpRbH1DaweU/Z54CPLJrR5eKw2SNf4cL3laKlYHlaM15eThc?=
+ =?us-ascii?Q?qEFUCfzrBNKtCIpktWgSkE+ChIxc6JPYuxAgNXLlfPcGWtAo2+/0yxHD75Fl?=
+ =?us-ascii?Q?ybmRg9fIRatG5zC02Io8zBzfWH8yilCx/vATnm8UDkIuDbUPr8fyJBqz0mC0?=
+ =?us-ascii?Q?l/Pzefhs9cMrf79IvwEJ/hI+YK95Eda9aFb3deUJno8r9N/uerM35Tf//9O+?=
+ =?us-ascii?Q?iFpBEAPdALfMfZdj7vQEv3XW9fIM2NcNbnPhYwAls0UQIvPVcQnfiAJgiMSe?=
+ =?us-ascii?Q?VTJADZvOP7+NbbsTYsPKL15hpLYSGr6b8sAQ8t9YYnT5j82CQHUlXny1+SmJ?=
+ =?us-ascii?Q?bhGY+1JZbwfxYJSdkc/PAbtkHMkjpUGFJw7tFL/rQ541HbGE+iFb4hWQKi8Q?=
+ =?us-ascii?Q?vlfchEQIfHw5E1a1rPJB3Fc3zjJJ4p9RRH/kdyxSkpz9s3UCTaVLSp1Zodf0?=
+ =?us-ascii?Q?WcJa8C0s566axhy9tdnfgI38+zSMUrxSiB5Q90qT5TOKn3pqN0oZPU7aljzD?=
+ =?us-ascii?Q?GwbqIlC/wvOh9QYIDqJxUkZbxukCLZGWmaOpOnuyWvnxfdN3QBMbls9rq4PT?=
+ =?us-ascii?Q?PTcTQ6B9q3jKN4QEFIfSY9NFV/XShXtSQE05g5ybuPc+68EgyFbR57slE7i7?=
+ =?us-ascii?Q?dGQXUmaP0I8o5g40R5phHpkNMxaQJ+FG1ScOvICE9lTrd94/68SHECr+lgeA?=
+ =?us-ascii?Q?qB1zDPNiwMu+76FOiIwkXNbwOfyLPWWV1PSC/44o1XF+jDWNorXIwxxgNN2r?=
+ =?us-ascii?Q?IVu8XJfQFF34MmqZhiq9OvOnGHfVopdrbTfMj8ls7ewzZlzA7pH9lqmXgS68?=
+ =?us-ascii?Q?G8/1Ko/B9yf7OJweljWzek/GF3Dc+Z3cz3D+hJwiir+veQpQXOIJwGv53WWf?=
+ =?us-ascii?Q?wjnn0Jf1xmlWrwDQhnvcQM/nUF0tKwhi8kAStDSfCmmtd7h4ylVDKoQayCVC?=
+ =?us-ascii?Q?LATaXMN+u75iEXVezc7Y7ulQ0cownu69Td1h6BklyLtEJ4IPdRyqHCImF4Nn?=
+ =?us-ascii?Q?i9kaEl9YCS3BoBs+IhYcJFN9WeEmCO46RBb2x7CKm9kbOq3/z5+xc2AIq8q8?=
+ =?us-ascii?Q?3oYMPWgEfUbp7hLMoLTtPlSR3sDgn3Io7UV+iH6pxhr3/KsQJbG9vWDZwQQk?=
+ =?us-ascii?Q?CSN1vX6pvnu46NVhvDbStD3KM2Tobx5LzOwXrsefzpSm7s9vkiBO07z8hrC7?=
+ =?us-ascii?Q?tviDk+j+mtwO+C8uMjRY75K9x2jRaMHmtUgNF41NCxWqYN9MuZgWEsEKSyBf?=
+ =?us-ascii?Q?ZJMUbcv8oFV1qJ4P6AOPu1sFyjX5BwNpH6i053L0LtP0rXwA8wefqiD3INiK?=
+ =?us-ascii?Q?06qGQKrggtcX3aAYAKdaGcQ8YUMkvZKCLvpLSz4BuXJu/txBz4O1XUQoxXlZ?=
+ =?us-ascii?Q?Sgqil2oYOQ=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: cfa5c5e3-87be-4adb-cc7a-08df45877247
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0c3b8668-44c1-4e14-c706-08df45877341
 X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2026 15:20:15.1335
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2026 15:20:16.7673
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 0zZXdyQK50NMTWPhxLhN9Jc7Q40TYwQku89sjEPdKwdqCm5PW+GmbED1v6jdK6z0UqUkRD9wAVNqNdqF1BQHRZ32aOkPluCsHfNlTbS8XYs=
+X-MS-Exchange-CrossTenant-UserPrincipalName: nbKG7ogIETEpwf7ZFi2JrmXlXVNTOzl23C5jIBdvC1k9dkw2F1TQzAqoiP7QzUldLaxwUMd8neTwqtSDEjptlYzjatFNRZhYzHUB0c4+jAk=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI6PPF8FC981689
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 15:20:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250558
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250559
 Content-Type: text/plain; charset="utf-8"
 
-NVD[1] lists only 2.47, but PoC ([3], attachment 16881) reproduces the SEGV=
- on 2.42 and 2.46 too.
-So, backported fix from [2] to 2.47
-
-binutils-testsuite summary:
-
-binutils: 336 tests passed, 0 expected failures, 5 untested, 7 unsupported.
-gas: 2,098 tests passed, 0 expected failures, 0 untested, 4 unsupported.
-ld: 2,710 tests passed, 59 expected failures, 4 untested, 339 unsupported.
+backport [3] fix mentioned in [2] for CVE [1]
 
 References:
-[1] https://nvd.nist.gov/vuln/detail/cve-2026-91781
-[2] https://sourceware.org/git/gitweb.cgi?p=3Dbinutils-gdb.git;h=3D7322e9bc=
-30cb282575a701c307851fd3d66fee68
-[3] https://sourceware.org/bugzilla/show_bug.cgi?id=3D34449
+[1] https://nvd.nist.gov/vuln/detail/cve-2026-90828
+[2] https://sourceware.org/bugzilla/show_bug.cgi?id=3D34450
+[3] https://sourceware.org/git/gitweb.cgi?p=3Dbinutils-gdb.git;h=3D123e4a5e=
+ab2db300b44288dcc1a29c903f9622f9
 
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
  .../binutils/binutils-2.47.inc                |  1 +
- .../binutils/binutils/CVE-2026-91781.patch    | 36 +++++++++++++++++++
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2026-91781.=
+ .../binutils/binutils/CVE-2026-90828.patch    | 29 +++++++++++++++++++
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2026-90828.=
 patch
 
 diff --git a/meta/recipes-devtools/binutils/binutils-2.47.inc b/meta/recipe=
 s-devtools/binutils/binutils-2.47.inc
-index b66d9110fd2..5b57380a48a 100644
+index 5b57380a48a..2807ab84e8b 100644
 --- a/meta/recipes-devtools/binutils/binutils-2.47.inc
 +++ b/meta/recipes-devtools/binutils/binutils-2.47.inc
-@@ -38,4 +38,5 @@ SRC_URI =3D "\
-      file://0012-Only-generate-an-RPATH-entry-if-LD_RUN_PATH-is-not-e.patc=
-h \
+@@ -39,4 +39,5 @@ SRC_URI =3D "\
       file://0013-Define-alignof-using-_Alignof-when-using-C11-or-newe.patc=
 h \
       file://0014-Remove-duplicate-pe-dll.o-entry-deom-targ_extra_ofil.patc=
 h \
-+     file://CVE-2026-91781.patch \
+      file://CVE-2026-91781.patch \
++     file://CVE-2026-90828.patch \
  "
-diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2026-91781.patch b=
-/meta/recipes-devtools/binutils/binutils/CVE-2026-91781.patch
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2026-90828.patch b=
+/meta/recipes-devtools/binutils/binutils/CVE-2026-90828.patch
 new file mode 100644
-index 00000000000..ff14147097c
+index 00000000000..a84e1fb8472
 --- /dev/null
-+++ b/meta/recipes-devtools/binutils/binutils/CVE-2026-91781.patch
-@@ -0,0 +1,36 @@
-+From 03e5dab2f6f1b3ccc151722f189642614fa09f13 Mon Sep 17 00:00:00 2001
-+From: "H.J. Lu" <hjl.tools@gmail.com>
-+Date: Thu, 30 Jul 2026 15:47:05 +0800
-+Subject: [PATCH] x86-64: Return SHN_COMMON on non-ELF input
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2026-90828.patch
+@@ -0,0 +1,29 @@
++From a8d25ed8b1ac9d8e47fcce90cb901bacf863074c Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Tue, 22 Sep 2026 21:27:03 +0930
++Subject: [PATCH] PR 34450 SEGV in elf_orphan_compatible
 +
-+elf_x86_64_common_definition segfaults on PE/x86-64 input.  Return
-+SHN_COMMON on non-ELF input.  Linker now gets assertion fail at
-+bfd/coffgen.c:575, instead of getting segfault.
++Don't trust that SHF_LINK_ORDER set means linked_to is non-NULL.
 +
-+	PR ld/34449
-+	* elf64-x86-64.c (elf_x86_64_common_definition): Return
-+	SHN_COMMON on non-ELF input.
++	* ldelf.c (elf_orphan_compatible): Sanity check linked_to before
++	dereferencing.
 +
-+Signed-off-by: H.J. Lu <hjl.tools@gmail.com>
-+
-+CVE: CVE-2026-91781
++CVE: CVE-2026-90828
 +Upstream-Status: Backport [https://sourceware.org/git/gitweb.cgi?p=3Dbinut=
-ils-gdb.git;h=3D7322e9bc30cb282575a701c307851fd3d66fee68]
+ils-gdb.git;h=3D123e4a5eab2db300b44288dcc1a29c903f9622f9]
 +Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 +---
-+ bfd/elf64-x86-64.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
++ ld/ldelf.c | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+diff --git a/bfd/elf64-x86-64.c b/bfd/elf64-x86-64.c
-+index abf97b2dde5..0d1ef1d38bc 100644
-+--- a/bfd/elf64-x86-64.c
-++++ b/bfd/elf64-x86-64.c
-+@@ -5518,7 +5518,8 @@ elf_x86_64_common_definition (Elf_Internal_Sym *sym)
-+ static unsigned int
-+ elf_x86_64_common_section_index (asection *sec)
-+ {
-+-  if ((elf_section_flags (sec) & SHF_X86_64_LARGE) =3D=3D 0)
-++  if (bfd_get_flavour (sec->owner) !=3D bfd_target_elf_flavour
-++      || (elf_section_flags (sec) & SHF_X86_64_LARGE) =3D=3D 0)
-+     return SHN_COMMON;
-+   else
-+     return SHN_X86_64_LCOMMON;
++diff --git a/ld/ldelf.c b/ld/ldelf.c
++index 3d36e033b0c..50eb8d18799 100644
++--- a/ld/ldelf.c
+++++ b/ld/ldelf.c
++@@ -2087,6 +2087,7 @@ elf_orphan_compatible (asection *in, asection *out)
++ 	  || ((elf_section_flags (in) & SHF_LINK_ORDER) !=3D 0
++ 	      && (elf_section_flags (out) & SHF_LINK_ORDER) !=3D 0
++ 	      && elf_linked_to_section (in) !=3D NULL
+++	      && elf_linked_to_section (out) !=3D NULL
++ 	      && (elf_linked_to_section (in)->output_section
++ 		  !=3D elf_linked_to_section (out)->output_section))
++ 	  || ((elf_section_flags (out) ^ elf_section_flags (in))
