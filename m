@@ -1,117 +1,122 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9016.1794994171422226095
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9017.1794994172322220321
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Nov 2026 01:29:31 -0800
+ Wed, 18 Nov 2026 01:29:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=T6xZFnke;
- spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: stondo@gmail.com)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4bb6adaf0f1so6646535e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 01:29:31 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=H2brYiby;
+ spf=pass (domain: gmail.com, ip: 209.85.128.44, mailfrom: stondo@gmail.com)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4a9a8d6cea8so6471265e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 01:29:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1794994169; x=1795598969; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=J90RROUdUzzNC8vEPTYmyTGpFdYcVc9o3RkY+v19oao=;
-        b=T6xZFnkeKQ53yHqEA/P/2s8avP0dd0M4C8DEgt6eungZHBR05vj5s/kIh+RAQA09Rl
-         JzvAP9pf9wug+h0eQYZMfXDA+FiM2aoKnl2EzNi7rhrwoKgusTOj+2mdXvbBCTuOVq9t
-         3r5LkRJCga+46QYcNRP3Dtbg2VqXd7yvCQVQQF2Ju1Bpn73dS7pgodPZeDRgSTw5/DXO
-         KGOK7aBw2fL0FPFO9RfVlmedUJMRoc3CaDLu3rJg4PydGWM88SwxqylyQJwZ+PYVQrNu
-         4J4Yup2DCg5Rf5zR5sHUj9TECqAdq7hHw8E0oRaTgzbcxhxYLH4znv3vKHBy9GbOfdP8
-         xe9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1794994169; x=1795598969;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1794994170; x=1795598970; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=J90RROUdUzzNC8vEPTYmyTGpFdYcVc9o3RkY+v19oao=;
-        b=HTXZ3yaRO+oI/slqiGNe0yTNmnrwCpTKgQkzynS5jPpmCMVsHZMyBuW55MMli45ly1
-         +X4c4Wbqmj+NQzmxdcee1eL3p56wKj36qfA6z27vnOXR6dNUKfuHQQ9lDKz8T2U3w03F
-         CMYJohybJuzSmDRNT/XNcsofA+AG+Q7tQWjg4b24kAYrpU3wPIBrochUHFZ7Bg+E2SqW
-         1b/dbd6BVYIxNw/hD8proCP4crc/ZeVRpdVPHZn4zwllHO6u2XYpAWigaFmMX7kwACkP
-         WkglnYDKTWM0ULdO49+F4OXJO79bPQTlzFIS/c4QFw9h5+4SK0K4vO4vH0z4SmVW6OzD
-         ixuw==
-X-Gm-Message-State: APuU4Z+Z5TJ5MqP65gYK55WYUWvXBXufYtD24l+4kcYx9L8PJ3oODsJP
-	79ET5I/LJjSeeYdpZLbhVM38ul5Yb26CS/XA0iKXVPFWujB+1ral9Tid88YWPQ==
-X-Gm-Gg: AYBFou0utbnSPJmhiOA3zGmDr+dLoQ4RFACWKofNi30ocvCT8juE57xan8O6hbpUfxi
-	jhTq/RJvDTka4apvfEbhMnH0cxIsG7ziZ9PhjhLmhr7C3HC8j/yvvx3csAYGDj64KdxLh6Ep4MH
-	w3N3V90bpZX3IQ8fbCDKhTBE4tX0s5yqtX0rVmOal/6qXkZ/0niXrp7B9s58mF2D4sHgLGIlCRf
-	llw9O/CDNvsOmNfFY83/0JcHAzPceiybXx54a/gCPwLfumTmkL+NO/zqGXkp4xWa7E3wZ31cv4l
-	8tvVPEktbr6SwK+VwmoCSyHwFQgGKWqfecHmKYmHbrwNJ5iYDfHChDjrWo3oNR4XPOF2G+MHPy6
-	aMYLpW99BS48U17oxwU4VMzVPOWhciydIzUy+tJCM2DrOnDNejZrz4gNjCC+Yn3LnWJM62qfiQf
-	p1gC2F/i2uX8m3jdUW/7VZ0t5ovlfVupAXMUNrnC+k4DOQLJvAU9QdmsHCWO1eWoYfiwBy5nUXN
-	XCSjU/F4ohOTqPmE/8htXFCP7GJFbFCT2Hv4UIQGJnqYeNpk2eHxbQVuspbbb9xOpSeXqXc/lEx
-	FkHRVEximCg=
-X-Received: by 2002:a05:600c:3b94:b0:4a1:efba:511 with SMTP id 5b1f17b1804b1-4bb7da440e4mr38346765e9.35.1794994169445;
-        Wed, 18 Nov 2026 01:29:29 -0800 (PST)
+        bh=xO0OOZkadpAthd17lMA31hFxO3/QewgAd0/TDcrDg1w=;
+        b=H2brYibysgaWw32mvARCZNPr1Buu47UQ0zW8IPNXr97MaCeSd/zyPtfT9fX4d6G/lu
+         kv1IC7cw7DtCXHkZQ7p8j07zeaNm3EbA8zig2jcIh79ktR5+Y23UXoR0l47OqwrL1FL8
+         agg/ocIPw1hfKeEYBxUeyh93/IEA5f3BefwDTub1L0uOmyiaI48MPpNjxf7JWlY76ulH
+         TZ0LAxD86w4x0C7G08fUYza/Eg0uuLkEdsXWi8d32+nk2w2MMpkRi/DwM553Czswwwn2
+         Zh16Bgwixpeh1L4jSjuRlXSenOOkxIcwz7VKqIYozn7AHOPwSIgAzxsRf6rd5Gj4zjkK
+         NApw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794994170; x=1795598970;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=xO0OOZkadpAthd17lMA31hFxO3/QewgAd0/TDcrDg1w=;
+        b=Vfi/lGUQuM6esABvk5Qdz3dQW8tTV9cJuW9kFVUbiFi/dC1h6WV8nKG04CfP4VT2x7
+         mQ133OC4bZWjO5JSpvJw2jxq1wFM3m9djKGOLjUNZ2/3OFETs9HUk7h4Ni7dv4dcZCKk
+         1mO2BVP/0y6w1bL6Y/KFkqfbsHa2wbpMM0hc9WogPQYCehSe75Nuwyx4vfEkovnoONoC
+         IB7TeKhmaZsRiqqbA3NsHPBdI1n1oi8nvkHW+2I2iQcXZFtnwx8IabxHQFZCHiOdbqTj
+         PHjqk4Q6stLn4WT+R5BdWREIQLKsC7M1jsq3YETAFMzpBvGHt7QO85RhRgqhyHtydN9B
+         HRrw==
+X-Gm-Message-State: APuU4Z+j8+pni6gGUYRGu9FB91kZ2da6hzeU58qYIIYB2qBi2CCfNtLp
+	/Rp3xsvt+PHzg3ks7uQOx/1VnjZVF/n4u6S3DkbHlZI3mF2XdY7Hc1xeQNGuvQ==
+X-Gm-Gg: AYBFou1edqkwkWcYCyOPMp/SviLGGKmCKkJvsHeXzcQEeCqX7t4UmJlosfWKZcVc+s8
+	pYq4V5ScehRkUPPKj7ZJ77VUZjlCQZ354PxIK2s9gEwf2Dweedt1p4TzoGNVi0SZEEFlWA860P8
+	deuWTd/ragmitmdCQDvyMBTJsaDTUiy62FrWYWJKsUTjteU2hVu1N+a9fx2xZEbVF22BURsjvQK
+	/pq5e5HHdnXlCVVKkLXy/SDoYtCN5azREEbaMUOJwmXIpl25btdlfsAQb8/blad2QG98hNhWJj+
+	yfW78OHigxm0MfqHwi0Jke4h74Qmyy68vZy5nSH2LF+sMxSxOPON2YOCcMz8XpbdzpOKle/0SNY
+	Cr1RQ8FswoOPRZv8GBdKrkOZl+PcS9WZrD0cTsmqk1s0EETyUoFkT7dAzN81E/NAsg1dyxomBHr
+	QSwFyUZ2Keuez+w01ROI4EUFm77qjokFz3KQYkT6m10u+O1rfsohTDkZKK+5DqZyEikrNIsUi5l
+	IGubibUlZZK3Csj9nduheNR3bOF/hc8yrhl1thhMrrrITUOBCJ8OYPN2KCH/EncnUNc+GvOJIrv
+	mIxeAmTZjam3Rof1bOdynkdJ6/nXcmGX
+X-Received: by 2002:a05:600c:c167:b0:4b5:d95c:2380 with SMTP id 5b1f17b1804b1-4bb7da238cemr34896085e9.11.1794994170544;
+        Wed, 18 Nov 2026 01:29:30 -0800 (PST)
 Return-Path: <stondo@gmail.com>
 Received: from fedora ([165.225.94.251])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb7d28ec3asm55486755e9.0.2026.11.18.01.29.28
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb7d28ec3asm55486755e9.0.2026.11.18.01.29.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 01:29:28 -0800 (PST)
+        Wed, 18 Nov 2026 01:29:29 -0800 (PST)
 From: Stefano Tondo <stondo@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>,
 	Alexander Kanavin <alex.kanavin@gmail.com>,
 	Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>,
-	Stefano Tondo <stondo@gmail.com>
-Subject: [PATCH 0/4] spdx30: identity and purls of dependency downloads
-Date: Wed, 18 Nov 2026 10:29:23 +0100
-Message-ID: <20261118092927.204959-1-stondo@gmail.com>
+	Stefano Tondo <stondo@gmail.com>,
+	Stefano Tondo <stefano.tondo.ext@siemens.com>
+Subject: [PATCH 1/4] spdx30: Take name, version and PURL of downloads from the fetcher
+Date: Wed, 18 Nov 2026 10:29:24 +0100
+Message-ID: <20261118092927.204959-2-stondo@gmail.com>
 X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261118092927.204959-1-stondo@gmail.com>
+References: <20261118092927.204959-1-stondo@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 09:29:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250526
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 09:29:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250527
 Content-Type: text/plain; charset="utf-8"
 
-Hi,
+From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 
-This series implements the parts of the RFC "spdx30: name, version
-and purl for dependency downloads" [1] that we agreed on. It needs
-the bitbake series "fetch: package identity of crate, gomod and npm
-URLs" [2].
+The fetchers of package registries (crate, gomod, npm) know the name
+and the version of each package they download. Today the SPDX of such
+a download only has the file name, so an SBOM scanner cannot match
+the dependency.
 
-1. The SPDX of a crate, gomod or npm download gets the name, the
-   version and the purl from the fetcher.
-2. For Cargo recipes, a new do_cargo_metadata task writes the crate
-   dependency graph for the target. The build links to each crate
-   download with a runtime, build or test scope. A crate that is not
-   used on the target gets an annotation.
-3. Each output package gets the purls of its source downloads as
-   external identifiers, as Joshua proposed: a statically linked
-   dependency is part of the binary. A purl is left out only when the
-   cargo graph proves that the crate is not in the target. The
-   software_packageUrl of the package does not change.
-4. Selftests with python3-bcrypt.
+Ask the fetcher with package_identity() and set the name, the version
+and the PURL of the download. This needs package_identity() in
+bitbake.
 
-For python3-bcrypt, the output package gets the purls of 25 of its
-42 crates. The other 17 crates are not built into the target.
+Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
+---
+ meta/lib/oe/spdx30_tasks.py | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Two points for review:
-
-- All output packages of a recipe get the purls, also -dbg and -src.
-  I have no proof per package, so I followed the rule "keep the purl
-  unless there is proof".
-- Go recipes have no filter yet. go version -m can give the proof per
-  binary, and I can add it in a follow-up.
-
-I ran oe-selftest -r spdx.SPDX30Check on master: all 20 tests pass.
-
-[1] https://lore.kernel.org/openembedded-core/20261105122145.543282-1-stondo@gmail.com/
-[2] https://lore.kernel.org/bitbake-devel/20261118092831.201831-1-stondo@gmail.com/
-
-Stefano Tondo (4):
-  spdx30: Take name, version and PURL of downloads from the fetcher
-  spdx30: Record the lifecycle scope of crate dependencies
-  spdx30: Add the PURLs of the source downloads to the output packages
-  oeqa/selftest: spdx: Test crate identity, scope and output PURLs
-
- meta/classes-recipe/cargo.bbclass    |  17 ++++
- meta/lib/oe/spdx30_tasks.py          | 119 +++++++++++++++++++++++++-
- meta/lib/oeqa/selftest/cases/spdx.py | 122 +++++++++++++++++++++++++++
- 3 files changed, 257 insertions(+), 1 deletion(-)
-
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+index 6eaa74ce3d..58fe45ec7e 100644
+--- a/meta/lib/oe/spdx30_tasks.py
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -463,6 +463,19 @@ def enrich_source_package(d, dl, fd, file_name, primary_purpose):
+             )
+ 
+ 
++def set_package_identity(d, dl, fd):
++    """Set name, version and PURL of a download that names a package.
++
++    Fetchers of package registries (crate, gomod, npm) know which package
++    a URL downloads, see FetchMethod.package_identity() in bitbake.
++    """
++    identity = fd.method.package_identity(fd, d)
++    if identity:
++        dl.name = identity["name"]
++        dl.software_packageVersion = identity["version"]
++        dl.software_packageUrl = identity["purl"]
++
++
+ def add_download_files(d, objset):
+     inputs = set()
+     release_date = get_release_date(d)
+@@ -528,6 +541,7 @@ def add_download_files(d, objset):
+             )
+ 
+             enrich_source_package(d, dl, fd, file_name, primary_purpose)
++            set_package_identity(d, dl, fd)
+ 
+             if release_date is not None:
+                 dl.releaseTime = release_date
 -- 
 2.56.1
 
