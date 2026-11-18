@@ -1,35 +1,35 @@
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7552.1794985575051386513
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7531.1794985581110751517
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2026 23:06:16 -0800
+ Tue, 17 Nov 2026 23:06:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=W+fafGFn;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-20261118070611b0cbaa92bd0002071d-ti4tjt@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20261118070611b0cbaa92bd0002071d
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=JnQLxTP1;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-202611180706182f371d6c11000207da-uxycmn@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 202611180706182f371d6c11000207da
         for <openembedded-core@lists.openembedded.org>;
-        Wed, 18 Nov 2026 08:06:12 +0100
+        Wed, 18 Nov 2026 08:06:18 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=oUzx8+mwCEeDaWY5ku/dC2S7iU3iJIOlSLGmU0ipqrY=;
- b=W+fafGFn1CQ5/qKQy6HcL2vflaZyAL5mYG0ToLneAgu08sjuw28hd/dpVfvUSGQZ1XDCQH
- 9WW5yyYVfAOC0LRtFgqqPvBIt7Oh8FjM4FTN8Gind07cadYAWqSQWJUdUNxtjIeKTDa3puGn
- /g6sEi3HtC0M157uwKc8ep6zqIq/l232N8VplofVWKqM6p1zhi/RiTjMLYEMp3j97Nr+sR/m
- 0X1aSp6DX2OsQeAeM+JrezFagQpK+Yl9VcCt0k3xP7WVNRTR6jDlfoVGRDmcur9nqzjDqNuz
- r5LBVrdja3Nuxle5nMcY9iMWHez1MOX8C1N0YzdUozNQbTr07QDn/Idw==;
+ bh=S7mQBT+eQYBadJg4o22rHNwITDhltktkOwhn8CSVRO4=;
+ b=JnQLxTP1kNTHwjm6yX8QqNIov4sQ3iYwXEHB8YnZ0EUYzG7pL0hHBeAxTrZi2RzUEYRkEJ
+ FfeZXe/hvKbBabDRUBCWfVhHNvwPQm+3MbxQpP3+mqHWJqmN9bIa0Hv3+rfOAADmAHkFegoG
+ sOZd3qpG/d6MtFyfLsdD7/hlULn1sz9NRlpqeIZBkx37thumtG//66qlWGNQ01Lk/j1itKaf
+ rZQOb6UQl5RD1Y8n2O82jRUBLsVakWgDJ1cceCo0xiT9zijo95boHTJdwTWg36OK5qnLWD4c
+ 5QVoyqZT0emVX62fIcr2uN3AI5iEoyRrwMF11NI5ew9hx+2q8JbharNA==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [blacksail][PATCH v2] zlib: patch CVE-2026-85091
-Date: Wed, 18 Nov 2026 08:06:03 +0100
-Message-ID: <20261118070603.3281-1-peter.marko@siemens.com>
+Subject: [wrynose][PATCH v2] zlib: patch CVE-2026-85091
+Date: Wed, 18 Nov 2026 08:06:11 +0100
+Message-ID: <20261118070611.3315-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 07:06:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250520
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 07:06:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250521
 Content-Type: text/plain; charset="utf-8"
 
 From: Peter Marko <peter.marko@siemens.com>
@@ -47,7 +47,7 @@ Signed-off-by: Peter Marko <peter.marko@siemens.com>
 
 diff --git a/meta/recipes-core/zlib/zlib/CVE-2026-85091.patch b/meta/recipes-core/zlib/zlib/CVE-2026-85091.patch
 new file mode 100644
-index 00000000000..b39aa057331
+index 0000000000..b39aa05733
 --- /dev/null
 +++ b/meta/recipes-core/zlib/zlib/CVE-2026-85091.patch
 @@ -0,0 +1,31 @@
@@ -83,7 +83,7 @@ index 00000000000..b39aa057331
 +     }
 + 
 diff --git a/meta/recipes-core/zlib/zlib_1.3.2.bb b/meta/recipes-core/zlib/zlib_1.3.2.bb
-index 8a23d98cd3e..c6619f81ccb 100644
+index 8a23d98cd3..c6619f81cc 100644
 --- a/meta/recipes-core/zlib/zlib_1.3.2.bb
 +++ b/meta/recipes-core/zlib/zlib_1.3.2.bb
 @@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://zlib.h;beginline=6;endline=23;md5=5377232268e952e9ef6
