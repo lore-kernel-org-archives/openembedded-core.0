@@ -1,64 +1,64 @@
-Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.601.1795034982247255720
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.612.1795034983958883527
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Nov 2026 12:49:42 -0800
+ Wed, 18 Nov 2026 12:49:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre.com header.s=google header.b=cQA9BD1p;
- spf=pass (domain: baylibre.com, ip: 209.85.160.172, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-53644b28706so20672701cf.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 12:49:42 -0800 (PST)
+ dkim=pass header.i=@baylibre.com header.s=google header.b=JM4ijkHB;
+ spf=pass (domain: baylibre.com, ip: 209.85.160.173, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-55d360ca878so11410251cf.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 12:49:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1795034981; x=1795639781; darn=lists.openembedded.org;
+        d=baylibre.com; s=google; t=1795034983; x=1795639783; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=llNptmDc4hWntECWnVTSJZK16dFIG1YtE8mlD/TV02Q=;
-        b=cQA9BD1pCLsGd6bN+3/DNVkvOcNzrqwkYQFNe4QjDenGSkuQUAdddw63qVNjmnjPIO
-         t8Pei1rO8Au6I4pFdSE0O1V+UKRJkvDlq0XEbxzRgXGhqFsBc6cWcAThI0J4yCKS0Qbg
-         AhwL12R4qNPVUSUCnrt9io/3ZJv0EnB0pp5A/VNlPsbjmNPro/JjEe3ef0vecM/TKHnM
-         gY1bBJfS27dJ/JIw6FxLsLjR3/KABB1Tlv8sqehcAlKhK9BKxKc5L/W8cVgcBkRRRe12
-         2iJ0K7zZOU6SURqGeMgpxB2KosLn0z5A1CitOYyVkIlzZlBxF4HOJ92tVhAjPJp0exEE
-         tdXg==
+        bh=L7JkTliFzS5WvPJhDVP5EAgraUaPezqqRb0XRZ+in6E=;
+        b=JM4ijkHBiByBHbUD78bFUAS4Htmq/k/qRpoZSTfb9S3guMEZj4mcYsa9yKXqa0dFCx
+         Ccez8j+u9FlTCcY32acQKCHPjEXhJbYacCYBoD1KNFvCfTGJJH/oRJ+/cdKWdql12gLE
+         SIUtw22oDdmloLLeIhOudCmSfkLvAq2McE6JtEKkTXIkHWl0SYI6IEFVuOYex5GIbbXC
+         ZyhuMceaYoIKtH//D7Yimw/BnzPmZeV8Ado1UBvjh9LlIy5ZoQWbGKuoLFA5KFPZlFtt
+         7Ku04shlKONPSO5vdLlGQLTbMqG1UhgDw4GYL4xAF1u6DjT8+TPBNJcCYa5DXInvPPXH
+         ajCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795034981; x=1795639781;
+        d=1e100.net; s=20260707; t=1795034983; x=1795639783;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=llNptmDc4hWntECWnVTSJZK16dFIG1YtE8mlD/TV02Q=;
-        b=cSVhGEzemlRFd/vsB+vGoAXdJc1+hHh/T1SFiQGjRNIwGv/dIbMtdZPGRAQkj8y8I7
-         nXyNUoLz6YjcdrgxSg0zFpMsjdSGWdT/L7JEYLdnT3HmRTLKdcg+7RSbyL/Cd2ynVsjT
-         j5C7VrDunkQevnj2GCBQenzCT5MSLIV4zYWAYCgj8ps6KbjAtrZMtTHofb20JaCPv2xn
-         d4WFGEWSX8z8IesPVJ02qnEfXGmHuorxv89PbKpMX0koLizqMt01DQbBJkx76TJly1n1
-         USztPb6OJQywq1gfKZWMPK3jufLZWpKQjfTibV+ZxMayZrp+Me5exkS2wdAcfCGrK6wa
-         wYcg==
-X-Gm-Message-State: APuU4Z9Lm9F1oqNbRZxXxIko6x/2llbZIAvYURLW0jTVazZmB1eIA5v+
-	KuzK/FhSxKKvROMmvNCzXGG9IEvxUBZtMqg15AYwy/JDsesVv7o7fzpfrxxYyD0k6gB8Ju6vhjC
-	odxyn
-X-Gm-Gg: AYBFou3f2IivwnqhK3Hd7ZJGNeurj7wz2jcwpgi4J+D5n7op/mHZD049UjT0YxltoB4
-	wddlEiSG8SWiLkWTLrqou8i0OLDbkIt0jnutKpuVnEDGD1h83/hWijPPk4Iz1Kxwo0lGdPWIQDX
-	CjFT02bC/PDi0xbax2jkVyMKar7j2zY1XOs4gLDUaWQ30j1G4Njq/Anu9+LTNaADYbq84lPNFvc
-	EdYVWLW295lZxfd+OwS94/j2Z7RYoyl6fYzZUX+AVKgd61WAnIvr90EhLybjDXE8u04cKAy3mdD
-	/V0U+6NgET/24SIYvMEdYVmPGzfSmlVzgfSNgzXzECJOPsMYFPnzrlHz/9xhSpcwh7g/ydLg9SA
-	Y9RVAG5+iLzsiWtfi4bUdbUSHQwF6B4dbe1OjMuqNDwUmr/u6wdOB2IG1Mo2zz3u7lS4YWw0mIi
-	+8VZQYzOw74TCtHdIQuvwOOHvtDMUgyvlI5Cq81CwCyYVsKQtlXPKdkPk125UbVOmpBt8/eYaAD
-	xuT0MaQjQYJLN28PzOHqgfyiBWmTOIbYuQO+qVo/xRViKnJiOh9rhaY1SOgX1MW0spd0uIquXIl
-	WXv7IqtJNWy6Tqbc8aF1LF11D7rQ6xAyZrh54iNRFqJsZqmqGI8zL0y1avDwKyk7wMHY8fWbFDs
-	XUWOWYw==
-X-Received: by 2002:a05:622a:418a:b0:536:72b4:b84a with SMTP id d75a77b69052e-55d5a5d835bmr63457561cf.42.1795034981179;
-        Wed, 18 Nov 2026 12:49:41 -0800 (PST)
+        bh=L7JkTliFzS5WvPJhDVP5EAgraUaPezqqRb0XRZ+in6E=;
+        b=Rb1/nzqXswo0PyHeJ2daWFHD/r9OfqFnP2mSO4HbdtiUnnPsls39vVAytGJZeiN2QM
+         xcsuUnuFwb+8nh+AcMsXPzypixKX8SsQ02YHW0GryIS+D6c4Zv1nEepT3DG5aWMwSveQ
+         QmibQ2rLTmBgxWJDLcht3fiOfxQbaTCsv+s2sIwdcEThWHDpku7i/4r8h0tJT78B0NKs
+         0N7HzcVQ3u7K4nRL3xSxHV+jyhJE7JJOhRawAqKYbQLIgJjU1UEO1Xbj9rew+YnpL6YD
+         3bhU608yDdcDiftKcZqdhldYeiY4RaeLhHgIHER/5e86WrfnKHkspC7PBTVnQb09cVq7
+         52eA==
+X-Gm-Message-State: APuU4Z84lBB9YXKnDbaDslMF0MVETW+HfiP4169SimwitIBJLNPRDDi/
+	fKV5988Jx6wEJBiFpzdaGXE1Nq+KI2aypza4TTpKI3su69I/wQBa9HqekbPC0hRarpnw+54lgQj
+	fLUxw
+X-Gm-Gg: AYBFou2EKC8x/NIC0jfBACR5j0187gLwk9uZAfUjas2WSbjk0YyucJ7Uw5PAdhn9q+k
+	1+4BrpqAI2G0OfToPlxgLvywP4TTkCiQS88sTvHK84usAXYwNVeVcydpwUEP+LTlcTSK6KcoxBY
+	svL/k73ZzGF1WAWE4UECtJDC1+goVas8/OVcJZ6BGnEvYTozPDvgBnrHWaqU16AY+KJhfmzLplv
+	oS8eXDLo3Nz/peXE/CfHSHR5iyyUL3KvwGVOGiAX1QyZrZgklB5qVDL2drVkGceToNG9nYwS/Gn
+	opBLmfwt/VSamQd5ne6gnNXOAGsnMztms8sONjBKLyi/3yjr3hQp9ibInlVZNJykUXV8kh4+Tx5
+	VZQCqNzvZwKoNzQg9CmnbG3N7WkFZIzZuCcQ2YNIGYsrIz4eoiUQiQoZhdo1tyrgSafJsXZCYqt
+	f+r1zeBtEr1AT26Qip7lCDzxnDIrO6k2W9293DoO8nkdcyv0+hXXzfi0YolyQVi7ISMij9wMd8c
+	y/qO2tYKNE7W2Km55OrpGmn14GiSm5/C0Z2N/vpHyuGOMaQ57EUcvCpHBV1k0CerwZXTa3cAVRu
+	T/0NHbM3noD7ksuYhEPZbL9YmgZKwakye1gZhhIca1+L2uM2Gklr3WzoR4ofMTQCM0rA/U1euQy
+	iD+Vj
+X-Received: by 2002:a05:622a:647:b0:55c:cdb4:9e73 with SMTP id d75a77b69052e-55d5a6333cbmr62065561cf.48.1795034982769;
+        Wed, 18 Nov 2026 12:49:42 -0800 (PST)
 Return-Path: <tgamblin@baylibre.com>
 Received: from megalith.cgocable.net ([2001:1970:3847:e000:e8bd:ca0f:c232:9f10])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d66bca072sm8637541cf.17.2026.11.18.12.49.39
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d66bca072sm8637541cf.17.2026.11.18.12.49.41
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 12:49:40 -0800 (PST)
+        Wed, 18 Nov 2026 12:49:41 -0800 (PST)
 From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
 Cc: raj.khem@gmail.com,
 	mark.hatle@kernel.crashing.org,
 	paul@pbarker.dev
-Subject: [OE-core][PATCH 11/12] rust-target-config.bbclass: pass on all RISC-V extensions to LLVM
-Date: Wed, 18 Nov 2026 15:48:52 -0500
-Message-ID: <20261118204853.2155173-12-tgamblin@baylibre.com>
+Subject: [OE-core][PATCH 12/12] lib/oeqa/selftest/cases/riscvtunes.py: test Rust target features
+Date: Wed, 18 Nov 2026 15:48:53 -0500
+Message-ID: <20261118204853.2155173-13-tgamblin@baylibre.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261118204853.2155173-1-tgamblin@baylibre.com>
 References: <20261118204853.2155173-1-tgamblin@baylibre.com>
@@ -66,67 +66,62 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 20:49:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250594
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250595
 Content-Type: text/plain; charset="utf-8"
 
-llvm_features_from_tune() doesn't pass on all RISC-V extensions listed
-in TUNE_FEATURES, but rather has a fixed subset listed, and ignores
-others. This means that with new profiles and custom tunes, Rust code
-still gets compiled for riscv64gc plus a handful of extras.
+Add test_riscv_rust_target_features(), which generates the Rust target
+spec for hello-rs with the 'riscv64gc' and 'rva23u64' tunes, then checks
+that its 'features' pass each extension in TUNE_FEATURES to LLVM in
+order. Also check that riscv64gc's feature set remains unchanged.
 
-LLVM's RISC-V extension names match those we use for TUNE_FEATURES, so
-we can instead pass on each extension in the same order.
+AI-Generated: Uses Claude Opus 5.5
 
 Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- .../classes-recipe/rust-target-config.bbclass | 34 +++++--------------
- 1 file changed, 8 insertions(+), 26 deletions(-)
+ meta/lib/oeqa/selftest/cases/riscvtunes.py | 26 ++++++++++++++++++++++
+ 1 file changed, 26 insertions(+)
 
-diff --git a/meta/classes-recipe/rust-target-config.bbclass b/meta/classes-recipe/rust-target-config.bbclass
-index 2faecd55f9..89fbd19374 100644
---- a/meta/classes-recipe/rust-target-config.bbclass
-+++ b/meta/classes-recipe/rust-target-config.bbclass
-@@ -83,32 +83,14 @@ def llvm_features_from_tune(d):
-     if 'cortexa57' in feat:
-         f.append("+v8a")
-     if 'rv' in feat:
--        if 'm' in feat:
--            f.append("+m")
--        if 'a' in feat:
--            f.append("+a")
--        if 'f' in feat:
--            f.append("+f")
--        if 'd' in feat:
--            f.append("+d")
--        if 'c' in feat:
--            f.append("+c")
--        if 'v' in feat:
--            f.append("+v")
--        if 'zicbom' in feat:
--            f.append("+zicbom")
--        if 'zicsr' in feat:
--            f.append("+zicsr")
--        if 'zifencei' in feat:
--            f.append("+zifencei")
--        if 'zba' in feat:
--            f.append("+zba")
--        if 'zbb' in feat:
--            f.append("+zbb")
--        if 'zbc' in feat:
--            f.append("+zbc")
--        if 'zbs' in feat:
--            f.append("+zbs")
-+        # LLVM uses the same names as TUNE_FEATURES for RISC-V extensions, so
-+        # pass on every single-letter (except the base i) and z, s or x
-+        # extension, in TUNE_FEATURES order to keep the result stable. Other
-+        # tune flags (e.g. "rv", "64" or core names) aren't extensions.
-+        for e in dict.fromkeys(d.getVar('TUNE_FEATURES').split()):
-+            if (len(e) == 1 and e.isalpha() and e != 'i') or \
-+                    (len(e) > 1 and e[0] in 'zsx' and e.isalnum()):
-+                f.append("+" + e)
-     return f
- llvm_features_from_tune[vardepvalue] = "${@llvm_features_from_tune(d)}"
+diff --git a/meta/lib/oeqa/selftest/cases/riscvtunes.py b/meta/lib/oeqa/selftest/cases/riscvtunes.py
+index daee22a51e..b2ff2cc739 100644
+--- a/meta/lib/oeqa/selftest/cases/riscvtunes.py
++++ b/meta/lib/oeqa/selftest/cases/riscvtunes.py
+@@ -4,6 +4,9 @@
+ # SPDX-License-Identifier: MIT
+ #
  
++import json
++import os
++
+ from oe.tune import riscv_isa_to_tune
+ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars
+@@ -146,3 +149,26 @@ class RiscvTunesTests(OESelftestTestCase):
+                 # small, and compiled with TUNE_CCARGS. It has no do_build, and
+                 # populate_sysroot also writes an sstate object.
+                 bitbake('libgcc-initial -c populate_sysroot')
++
++    def test_riscv_rust_target_features(self):
++        """
++        Check that the Rust target spec passes every extension in the tune's
++        TUNE_FEATURES on to LLVM, in TUNE_FEATURES order.
++        """
++        for tune in ['riscv64gc', 'rva23u64']:
++            with self.subTest(tune=tune):
++                self.write_config(self._machine_config() + 'DEFAULTTUNE = "%s"\n' % tune)
++                # hello-rs is a small cargo recipe in meta-selftest, and
++                # do_rust_gen_targets runs right after do_patch, so neither
++                # the toolchain nor Rust has to be built
++                bitbake('hello-rs -c rust_gen_targets')
++                v = get_bb_vars(['WORKDIR', 'RUST_TARGET_SYS', 'TUNE_FEATURES'], 'hello-rs')
++                with open(os.path.join(v['WORKDIR'], 'rust-targets', v['RUST_TARGET_SYS'] + '.json')) as f:
++                    features = json.load(f)['features'].split(',')
++
++                # Everything but the base ISA and its width
++                expected = ['+' + e for e in v['TUNE_FEATURES'].split() if e not in ('rv', '64', 'i')]
++                self.assertEqual(features, expected)
++                if tune == 'riscv64gc':
++                    # The features of the existing tunes must not change
++                    self.assertEqual(features, ['+m', '+a', '+f', '+d', '+c', '+zicsr', '+zifencei'])
 -- 
 2.56.0
 
