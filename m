@@ -1,280 +1,348 @@
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10276.1795000215577495047
+Received: from alln-iport-8.cisco.com (alln-iport-8.cisco.com [173.37.142.95])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10326.1795000561790485015
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Nov 2026 03:10:15 -0800
+ Wed, 18 Nov 2026 03:16:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=OJ7bAeoN;
- spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-9210f2622ccso8721646d6.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 03:10:15 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795000214; cv=none;
-        d=google.com; s=arc-20260327;
-        b=kMz57j8P1E0gHQn5z36jEXiLjCEh1ZkUJoNIhHANSOa6OjCIf1LB7dEd9C83Kw3Wby
-         ylWXyznyNFLgUmrxJb7F7UNmP0RL+z9KxnEL7KvUc1uuNsjiqm1eOwPRx96fl020/9/a
-         NnmyrJ4Lvcm698kiolPL6iC0BcZJ5YSst/C1HwO0DDizHE8Nd76wSzz8EFU2fj+YGJCf
-         +CF3NmcqrdpZU40inHt7Hj7mzQcZrNY/NlkOaLMFzKOxKIWGzEFjswaf941SZZMBBo7f
-         JIMXGmcV2ragCi/U7FQQ8I3gsEhqnbJ1gcPyM+fUt+JwuKQaEBAvUmsZfFE9L1NvsyJU
-         CSLw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=0cSejceytLKWbAea+tiN57pHDwwVUYpXZemwzoF0vCo=;
-        fh=GUUmjUNkH/WLFTiL0vCuwckdVXyzWNVqjMAG1DgDQoQ=;
-        b=pZYh+i4xMCTVH/UyB5GzqdNipxAW15y07A7mVaUivxBVOQ+wVZze8Z/rSYuS2Lq9r8
-         OpjfjA8qI3+XjY+P0RhjYu3lnUckOnI5sPFGKGmxwsZx07pVUexnocrVahnid5Urra06
-         PNSyellg6R0F+KvCWgLmrV6iFsDIHkfmCxjtHBVXJhG4sKsMuGSV18go/n2jDU6PB31N
-         v3WiNMDgasVUoOCZDy+xiVNumgeEnW+Cs8xqPt6hOIwX4hZQzcA5xeDdbTW7oooh7XG3
-         a3Xl3svquBjheWpX6TlpjdCLBtCK9uUnMNd6hqVb6sXhKcjQXRGf4oB88yPfsjQ/L0e1
-         DtaA==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=PbfcKgLf;
+ spf=pass (domain: cisco.com, ip: 173.37.142.95, mailfrom: yurade@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795000214; x=1795605014; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0cSejceytLKWbAea+tiN57pHDwwVUYpXZemwzoF0vCo=;
-        b=OJ7bAeoNmcY18KWerus4YVpbD35ZmPmofkyXElxg/eIyBtSOhMYGITz/VhKfMrxz85
-         8HpmPHFyMen3rWBWgtZR+kFb6gntzbGPNKl3Jukbq9H7HMtX3SDiNX8IT1Dn+aZ28+qA
-         YWtB+6JlsZBynCfoCfaZLroJneiXplq2TDunQm+uh0foJsqlUgrxE34GB129ekdpIDFE
-         tNRjgU2bgyqvtCXlIfdxhgGiqQZpGd3+E2ocohTEtuPVNU04IkUfep3A0Sofvg5+zn3E
-         wQivX7lrYHDJ3WW0nkxCk4F6ey15buIaJXajaoKAgD++oe5d3mWX+IYZfIvj1yjTIoTv
-         boNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795000214; x=1795605014;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=0cSejceytLKWbAea+tiN57pHDwwVUYpXZemwzoF0vCo=;
-        b=M85PmNyCmgviufFGfOOiUHF7ugo3iYhDZjcDo3Hi+zsrbQQqx/BYlPEtcCaSlchh6l
-         RDrlCRjwSVXosAode6Txks+TdcAPV7Thp6r31tqljCrh5w4GGI8sRsESP0Aq9f+jtE3k
-         FiGAL0/p67vh2xWiDpyvMAvWUsAi4VgzKT64v7wfm3UzapshpTRFxqTnVHZewC3szhAe
-         kGlHqf903ej/jhXyWM+VVwdcM2lBMwWckmA6+kF/J39zFXsKV2dDiqTYiNgKXtGymMIA
-         LcnYRNBdWCwVSlp47geopp7d5jkQErmUsRv5r6TjRMGMFiZCMsna860IS47aBsjK/Lk0
-         6DdA==
-X-Forwarded-Encrypted: i=1; AL+hErHjYo3KbFEOqE5ZNvHl1Dl8nUn/38kofneyUMB6v5eigxdU2L+9m3ktNGzDTblUwqAOjCUxc1VI4mt2/JncCSjeWA==@lists.openembedded.org
-X-Gm-Message-State: APuU4Z9Ec1ZUc2tf30LvZs2eQQ0Cch8/nBeiF0YZ95/KIh6e6p9AZqdF
-	x43cdMiXrg+q7mPMCsBpMy05nJbt4C/Tm1nZlegIh5v6z8VPgapEGCORCoxhhJTT+eX4JyFYfJo
-	dUl/4j80M7kVD0LC5ahzN+0ObryNoJiM=
-X-Gm-Gg: AZFdTZdni6O8HAq5ACej4zKYKIwpLLKIFEPiq5E+aYKE/HZ/RKYBnJxJ6JKiA4Ey+3/
-	ff+cpPAqeIkaeXhS+QG1pH1kP58O4vcJHYtdhHO8BakI0n+MZO5PrtArxYMiiGtF2NSUb4XOQUc
-	3GC3gXdDEfhVBbufDYa8foG33IkH39K4K13zCa3b3qwsujCKFMN8L2z1/TaozB7uhRv41If2MFA
-	DOgQMxwmn9HXfoFiyYEXvuNxlYi45MNlNVyuH6xlNLYl6jyeUkERTyTdLy1xkrd3TkXfSJsTEpB
-	+ly3zk8W8qfwSRU5Mz4t/MFStpI5sSZYqqM300xF5MhLWV67+RRFoU2ShV4T2NZw+Q/rTs1uyqk
-	lAOIyCR6CadtYEapumZ3Jbd9P5oo7gyvyRwDRd9Wj/IHAZLdiPIrN7zSJ
-X-Received: by 2002:a05:6214:258a:b0:91e:8f70:8680 with SMTP id
- 6a1803df08f44-92114ca88f7mr32620096d6.3.1795000214344; Wed, 18 Nov 2026
- 03:10:14 -0800 (PST)
+  d=cisco.com; i=@cisco.com; l=10083; q=dns/txt;
+  s=iport01; t=1795000561; x=1796210161;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=JgHVPCn6zbc7sJ3nEWLOeftDGzHAmXcxg9tePxM8lRI=;
+  b=PbfcKgLfWpuxOMm/S9ztTMRlExjiFVxeI0OlBYhW5EoZ5dEzf2GvDgmS
+   IPSclJWy6CynQ2zbt5Kcbs3U4VQpFgAy290B4BRvtgkox3gBOL+eVD2Ww
+   Rakx4KVKwBn7xWvXvOXN6LJgn+Uo/N/xUlXnOKffQJUuJSWYXtnjVTJ2z
+   Y6bRCxJq1grrO6igX6pHPSvcoArBgbfbLlJ35TRjzpgtqzsm0U0NNY0Mg
+   xS8tHvJJ9YxI15EaRaOoYnu2A2cnSwm9B+AjKVDzZJSexTJHPwELQpzGs
+   +CvJz+5qZxyu6lKd4HI++uPqy0tQgDnov99kOX0rR5L3dc8h8X7HqRqnh
+   A==;
+X-CSE-ConnectionGUID: Vc8+R0CJQuCp/y1id/SmtA==
+X-CSE-MsgGUID: aOKICAy0S2Wpem2A9R5DFg==
+X-IPAS-Result: =?us-ascii?q?A0BHAgAeiP1q/4sQJK1aHgEBCxIMggULgld1YENJhFePU?=
+ =?us-ascii?q?4Ihi2iSQxSBag8BAQEPRA0EAQGTJwImNAkOAQIEAwIDAQEBAQEBAQEBAQEBC?=
+ =?us-ascii?q?gEBBQEBAQIBBwWBDhOGTw2QEgEpDwEYAVkDAQIDAiYCIgsjIYMCAYI6AzcDE?=
+ =?us-ascii?q?bsHeoEygQGDKQE/AkNQ2EwNCGqBaAELFAGBCi6FQoMAIAGFA10YAUSEOScbg?=
+ =?us-ascii?q?UlEgRWDaoEFgRpCAQMYgQkbAQGDfIJqBIMugVQeMYxIAoFPh3VIgQIcA1ksA?=
+ =?us-ascii?q?VUTDQoLBwWBaAM1EioVbjIdgSM7Fy9YGwYFgRyBHoESgQNdgSsoXiGBCIF2A?=
+ =?us-ascii?q?oJRggACAUlBDgdFUwklQxJHJCIIEgkBExosCoEaNTwJJj8VDGcLGgVhCAIND?=
+ =?us-ascii?q?HQ5EDAeJC8FGiY+GwqBDCcfHggYDUgRLDcVGQQ9AW4HkzODEQcUAmUTASsXG?=
+ =?us-ascii?q?CktQD4cDSKTDAcCAQeQFoIhgTWea3GEK4wkjz6FfBozqnILmH2OCoQKkkeEa?=
+ =?us-ascii?q?oFoPIFHCwczGggbFYMiCUoZD44uCwuFX4MUxUwmMgIBAQcyAQEHAgcCDAMLg?=
+ =?us-ascii?q?WiRfgEB?=
+IronPort-Data: A9a23:9AKD6ao3sfWVS8uFKjP7avN4wrJeBmJMZBIvgKrLsJaIsI4StFCzt
+ garIBmBMqyKYjH8c95wPYzlpEMG7JHQmt41SVBp/3tjQ34U9ePIVI+TRqvS04x+DSFioGZPt
+ Zh2hgzodZhsJpPkjk7zdOWn9T8sj/zgqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziLBVOSvV0
+ T/Ji5OZYgDNNwJcaDpOtfva8Uw35pwehRtB1rAATaET1LPhvyF94KI3fcmZM3b+S49IKe+2L
+ 86r5K255G7Q4yA2AdqjlLvhGmVSKlIFFVHT4pb+c/HKbilq/kTe4I5iXBYvQRs/ZwGyojxE4
+ I4lWapc5useFvakdOw1C3G0GszlVEFM0OevzXOX6aR/w6BaGpfh660GMa04AWEX0th8USJ0r
+ dc6ES0mdleS3uO6h4m+VsA506zPLOGzVG8eknhkyTecCbMtRorOBv2Qo9RZxzw3wMtJGJ4yZ
+ eJANmEpN0qGOkMJYwxGYH49tL/Aan3XYiBCoV6YjaE2+GPUigd21dABNfKEIobRFJ4PzhbwS
+ mTu9kPaIzozJYSkkwWd/3f2r771wA/VV9dHfFG/3rsw6LGJ/UQUEBAQWF6xrPW1h0L7UNVFJ
+ mQQ+zEytu417EGtQ9z3UhG0rXLCuQQTM+e8CMUz7AWLj66R6AGDCy1cFHhKaccts4k9QjlCO
+ kK1ou4FzAdH6NW9IU9xPJ/Nxd9uEUD59VM/WBI=
+IronPort-HdrOrdr: A9a23:v/umOqMoc/IP/sBcTvejsMiBIKoaSvp037BN7TEVdfU1SL37qy
+ nAppomPHPP5Qr5O0tQ+uxoRpPgfZq0z/cciuMs1NyZMzUO1lHFEGgb1+vf6gylPTHi/ehA0q
+ olWa1/BNrsSWVet6/BkW2F+xJK+qjgzEhu7t2uqEtQcQ==
+X-Talos-CUID: 9a23:7R9u9WPYRqCB2e5DZiI3t3RMMeIcb1bFi2aJIkP/MmN1YejA
+X-Talos-MUID: 9a23:02eFbwgQ8g1brsSUi4iz0MMpPeBLwo+HGRg2y6oetszeHH1KZhuzg2Hi
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.27,219,1787011200"; 
+   d="scan'208";a="902393288"
+Received: from alln-l-core-02.cisco.com ([173.36.16.139])
+  by alln-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 18 Nov 2026 11:16:00 +0000
+Received: from sjc-ads-7871.cisco.com (sjc-ads-7871.cisco.com [10.30.222.158])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by alln-l-core-02.cisco.com (Postfix) with ESMTPS id 9E1911800015C
+	for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 11:16:00 +0000 (GMT)
+Received: by sjc-ads-7871.cisco.com (Postfix, from userid 1889728)
+	id 34DA0CC1611; Wed, 18 Nov 2026 03:16:00 -0800 (PST)
+From: Yogita Urade <yurade@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][wrynose][v2 PATCH] bison: Fix CVE-2026-56390
+Date: Wed, 18 Nov 2026 03:15:59 -0800
+Message-Id: <20261118111559.395823-1-yurade@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
-References: <20261117164151.1362220-1-yoann.congal@smile.fr>
- <CANNYZj9Uj5v-Tb1TrA+TrxrdEyjO+qj25byZ0fWtUpiLHKH-DA@mail.gmail.com> <0fabfef3-dbe6-4fe4-8f7e-d5f8ad47f27f@kernel.crashing.org>
-In-Reply-To: <0fabfef3-dbe6-4fe4-8f7e-d5f8ad47f27f@kernel.crashing.org>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 18 Nov 2026 12:10:03 +0100
-X-Gm-Features: Aa3M54qCVjnl8liTB9ViZMWTOZUCiWefM_vwwllafHFOQyBlIfn5PLlndPJj_rU
-Message-ID: <CANNYZj-QWR+BDPzG5b1sn2oKBjk0CzYEB8_KgyC32-QfPdkUhQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] pseudo: inherit upstream-stable-release-point
-To: Mark Hatle <mark.hatle@kernel.crashing.org>
-Cc: yoann.congal@smile.fr, yocto-patches@lists.yoctoproject.org, 
-	OE-core ML <openembedded-core@lists.openembedded.org>, mark.hatle@amd.com
-Content-Type: multipart/alternative; boundary="00000000000025d7f306608b0e80"
+Content-Transfer-Encoding: 8bit
+X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-7871.cisco.com [10.30.222.158];TLSv1.3;TLS_AES_256_GCM_SHA384;256
+X-Outbound-SMTP-Client: 10.30.222.158, sjc-ads-7871.cisco.com
+X-Outbound-Node: alln-l-core-02.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 11:10:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250540
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 11:16:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250541
+Content-Type: text/plain; charset="utf-8"
 
---00000000000025d7f306608b0e80
-Content-Type: text/plain; charset="UTF-8"
+This patch applies the upstream fix as referenced in [2],
+using the commit shown in [1].
 
-The question is whether point releases of pseudo add only bugfixes? It's
-not about 1.9 specifically, but any future release, e.g. 2.0.x as well.
+[1] https://cgit.git.savannah.gnu.org/cgit/bison.git/commit/?id=8d101c19d4d9aaedf83a448c925513742d4efcf0
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-56390
 
-The policy for what is acceptable is documented here:
-https://docs.yoctoproject.org/ref-manual/release-process.html#criteria-for-qualifying-upstreams
+Signed-off-by: Yogita Urade <yurade@cisco.com>
+---
+Changes in v2:
+- Resolved "ERROR: oe_runmake failed" in v2.
+  Move the complete parse-gram.y before parse-gram.c, so the
+  generated C file is updated last and is not older than the
+  grammar source, avoiding parser regeneration during the build.
+---
+ .../bison/bison/CVE-2026-56390.patch          | 233 ++++++++++++++++++
+ meta/recipes-devtools/bison/bison_3.8.2.bb    |   1 +
+ 2 files changed, 234 insertions(+)
+ create mode 100644 meta/recipes-devtools/bison/bison/CVE-2026-56390.patch
 
-Alex
-
-On Wed, 18 Nov 2026 at 11:55, Mark Hatle <mark.hatle@kernel.crashing.org>
-wrote:
-
-> While pseudo is heavily driven by Yocto Project (and OpenEmbedded)
-> requirements,
-> I'm not treating this as a YP/OE specific project.
->
-> When I say pseudo-1.9 has a stable API, I mean that.  The intention is
-> that
-> development happens in master.  Stable branches can have backports, as
-> required/requested by contributors, but these backports need to "feel"
-> stable,
-> have a stable API (don't change command line arguments, don't change
-> system
-> requirements, etc.)
->
-> Is there an official list of what is and isn't allowed no.  What pseudo
-> does is
-> so specialized, I don't think I could come up with a documented set will
-> and
-> won't.  I also don't expect any applications to write such a list as in
-> the end
-> it is up to the contributors and maintainers to weigh each patch to
-> determine if
-> it feels appropriate to go on a stable branch.  But in practice I expect
-> if
-> someone using pseudo-1.9 experiences breakage due to security fixes in an
-> existing platform release we'll backport the fixes there.  But I do not
-> intend
-> to carry forward pseudo-1.9 forever and into newer host releases.
->
-> So in short:
->
-> 1. New Development goes to master (or equivalent)
-> 2. Backports from master to a numbered branch can be requested
-> 3. Priority for backports will be given to resolve breaking issues in
-> known
-> working hosts, generally centered around Yocto Project/OpenEmbedded as
-> that is
-> our primary test vehicle.
-> 4. We do not intend API changes to be backported to older version.  (It's
-> not a
-> stronger statement, because with the security backports happening in
-> distributions, it might be required at some point.)
->
-> --Mark
->
-> On 11/17/26 11:13 AM, Alexander Kanavin via openembedded-core wrote:
-> > On Tue, 17 Nov 2026 at 17:42, Yoann Congal via openembedded-core
-> > <yoann.congal=smile.fr@lists.openembedded.org
-> > <mailto:smile.fr@lists.openembedded.org>> wrote:
-> >
-> >
-> >     Pseudo now has a stable branch pseudo-1.9 with pseudo-1.9.x tags on
-> it.
-> >
-> >
-> > Is this branch collecting only bugfixes (or fixes needed for continuing
-> > operation of yocto release branches)? Is this going to be a policy for
-> any
-> > future point releases, or is it a one-off just for 1.9.x? There should
-> be
-> > confirmation of these questions, in addition to the existence of the
-> branch.
-> >
-> > Alex
-> >
-> >
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> > Links: You receive all messages sent to this group.
-> > View/Reply Online (#250463):
-> https://lists.openembedded.org/g/openembedded-core/message/250463
-> > Mute This Topic: https://lists.openembedded.org/mt/122316790/3616948
-> > Group Owner: openembedded-core+owner@lists.openembedded.org
-> > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> mark.hatle@kernel.crashing.org]
-> > -=-=-=-=-=-=-=-=-=-=-=-
-> >
->
-
---00000000000025d7f306608b0e80
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div>The question is whether point releases of pseudo add =
-only bugfixes? It&#39;s not about 1.9 specifically, but any future release,=
- e.g. 2.0.x as well.</div><div><br></div><div>The policy for what is accept=
-able is documented here:</div><div><a href=3D"https://docs.yoctoproject.org=
-/ref-manual/release-process.html#criteria-for-qualifying-upstreams">https:/=
-/docs.yoctoproject.org/ref-manual/release-process.html#criteria-for-qualify=
-ing-upstreams</a></div><div><br></div><div>Alex</div></div><br><div class=
-=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr=
-">On Wed, 18 Nov 2026 at 11:55, Mark Hatle &lt;<a href=3D"mailto:mark.hatle=
-@kernel.crashing.org">mark.hatle@kernel.crashing.org</a>&gt; wrote:<br></di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex">While pseudo is heavily=
- driven by Yocto Project (and OpenEmbedded) requirements, <br>
-I&#39;m not treating this as a YP/OE specific project.<br>
-<br>
-When I say pseudo-1.9 has a stable API, I mean that.=C2=A0 The intention is=
- that <br>
-development happens in master.=C2=A0 Stable branches can have backports, as=
- <br>
-required/requested by contributors, but these backports need to &quot;feel&=
-quot; stable, <br>
-have a stable API (don&#39;t change command line arguments, don&#39;t chang=
-e system <br>
-requirements, etc.)<br>
-<br>
-Is there an official list of what is and isn&#39;t allowed no.=C2=A0 What p=
-seudo does is <br>
-so specialized, I don&#39;t think I could come up with a documented set wil=
-l and <br>
-won&#39;t.=C2=A0 I also don&#39;t expect any applications to write such a l=
-ist as in the end <br>
-it is up to the contributors and maintainers to weigh each patch to determi=
-ne if <br>
-it feels appropriate to go on a stable branch.=C2=A0 But in practice I expe=
-ct if <br>
-someone using pseudo-1.9 experiences breakage due to security fixes in an <=
-br>
-existing platform release we&#39;ll backport the fixes there.=C2=A0 But I d=
-o not intend <br>
-to carry forward pseudo-1.9 forever and into newer host releases.<br>
-<br>
-So in short:<br>
-<br>
-1. New Development goes to master (or equivalent)<br>
-2. Backports from master to a numbered branch can be requested<br>
-3. Priority for backports will be given to resolve breaking issues in known=
- <br>
-working hosts, generally centered around Yocto Project/OpenEmbedded as that=
- is <br>
-our primary test vehicle.<br>
-4. We do not intend API changes to be backported to older version.=C2=A0 (I=
-t&#39;s not a <br>
-stronger statement, because with the security backports happening in <br>
-distributions, it might be required at some point.)<br>
-<br>
---Mark<br>
-<br>
-On 11/17/26 11:13 AM, Alexander Kanavin via openembedded-core wrote:<br>
-&gt; On Tue, 17 Nov 2026 at 17:42, Yoann Congal via openembedded-core <br>
-&gt; &lt;yoann.congal=3D<a href=3D"mailto:smile.fr@lists.openembedded.org" =
-target=3D"_blank">smile.fr@lists.openembedded.org</a> <br>
-&gt; &lt;mailto:<a href=3D"mailto:smile.fr@lists.openembedded.org" target=
-=3D"_blank">smile.fr@lists.openembedded.org</a>&gt;&gt; wrote:<br>
-&gt; <br>
-&gt; <br>
-&gt;=C2=A0 =C2=A0 =C2=A0Pseudo now has a stable branch pseudo-1.9 with pseu=
-do-1.9.x tags on it.<br>
-&gt; <br>
-&gt; <br>
-&gt; Is this branch collecting only bugfixes (or fixes needed for continuin=
-g <br>
-&gt; operation of yocto release branches)? Is this going to be a policy for=
- any <br>
-&gt; future point releases, or is it a one-off just for 1.9.x? There should=
- be <br>
-&gt; confirmation of these questions, in addition to the existence of the b=
-ranch.<br>
-&gt; <br>
-&gt; Alex<br>
-&gt; <br>
-&gt; <br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; Links: You receive all messages sent to this group.<br>
-&gt; View/Reply Online (#250463): <a href=3D"https://lists.openembedded.org=
-/g/openembedded-core/message/250463" rel=3D"noreferrer" target=3D"_blank">h=
-ttps://lists.openembedded.org/g/openembedded-core/message/250463</a><br>
-&gt; Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/12231679=
-0/3616948" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.=
-org/mt/122316790/3616948</a><br>
-&gt; Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openemb=
-edded.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org=
-</a><br>
-&gt; Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-=
-core/unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded=
-.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:mark.hatle@kernel.cra=
-shing.org" target=3D"_blank">mark.hatle@kernel.crashing.org</a>]<br>
-&gt; -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-&gt; <br>
-</blockquote></div>
-
---00000000000025d7f306608b0e80--
+diff --git a/meta/recipes-devtools/bison/bison/CVE-2026-56390.patch b/meta/recipes-devtools/bison/bison/CVE-2026-56390.patch
+new file mode 100644
+index 0000000000..f32aa8a98c
+--- /dev/null
++++ b/meta/recipes-devtools/bison/bison/CVE-2026-56390.patch
+@@ -0,0 +1,233 @@
++From 8d101c19d4d9aaedf83a448c925513742d4efcf0 Mon Sep 17 00:00:00 2001
++From: Paul Eggert <eggert@cs.ucla.edu>
++Date: Thu, 23 Apr 2026 12:41:25 -0700
++Subject: [PATCH] bison: tighten up output file names
++
++Problem reported by Michał Majchrowicz.
++* src/parse-gram.y: Do not allow '/' in %header and %output directives.
++
++CVE: CVE-2026-56390
++Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/bison.git/commit/?id=8d101c19d4d9aaedf83a448c925513742d4efcf0]
++
++Backport Changes:
++- Adapted generated src/parse-gram.c to the Bison 3.8.2 source tree.
++- omitted upstream generator-version/copyright metadata and
++  src/parse-gram.h-only metadata changes while retaining the
++  security-relevant parser changes.
++
++(cherry picked from commit 8d101c19d4d9aaedf83a448c925513742d4efcf0)
++Signed-off-by: Yogita Urade <yurade@cisco.com>
++---
++ THANKS           |  1 +
++ doc/bison.texi   |  2 ++
++ src/parse-gram.c | 56 ++++++++++++++++++++++++++++++++----------------
++ src/parse-gram.y | 31 ++++++++++++++++++++++-----
++ 4 files changed, 67 insertions(+), 23 deletions(-)
++
++diff --git a/THANKS b/THANKS
++index be743a23..0e481561 100644
++--- a/THANKS
+++++ b/THANKS
++@@ -128,6 +128,7 @@ Michael Catanzaro         mcatanzaro@gnome.org
++ Michael Felt              mamfelt@gmail.com
++ Michael Hayes             m.hayes@elec.canterbury.ac.nz
++ Michael Raskin            7c6f434c@mail.ru
+++Michał Majchrowicz        mmajchrowicz@afine.com
++ Michel d'Hooge            michel.dhooge@gmail.com
++ Michiel De Wilde          mdewilde.agilent@gmail.com
++ Mickael Labau             labau_m@epita.fr
++diff --git a/doc/bison.texi b/doc/bison.texi
++index a559649c..44a4e159 100644
++--- a/doc/bison.texi
+++++ b/doc/bison.texi
++@@ -5973,6 +5973,7 @@ Introduced in Bison 3.8.
++ 
++ @deffn {Directive} %header @var{header-file}
++ Same as above, but save in the file @file{@var{header-file}}.
+++The @var{header-file} name should not contain slashes.
++ @end deffn
++ 
++ @deffn {Directive} %language "@var{language}"
++@@ -6026,6 +6027,7 @@ file, treating it as an independent source file in its own right.
++ 
++ @deffn {Directive} %output "@var{file}"
++ Generate the parser implementation in @file{@var{file}}.
+++The @var{file} name should not contain slashes.
++ @end deffn
++ 
++ @deffn {Directive} %pure-parser
++diff --git a/src/parse-gram.y b/src/parse-gram.y
++index 15180cb5..114c5c44 100644
++--- a/src/parse-gram.y
+++++ b/src/parse-gram.y
++@@ -95,8 +95,11 @@
++      string from the scanner (should be CODE). */
++   static char const *translate_code_braceless (char *code, location loc);
++ 
+++  /* Is FILE a valid output file name?  */
+++  static bool valid_output_file_name (char const *file);
+++
++   /* Handle a %header directive.  */
++-  static void handle_header (char const *value);
+++  static void handle_header (location const *loc, char const *value);
++ 
++   /* Handle a %error-verbose directive.  */
++   static void handle_error_verbose (location const *loc, char const *directive);
++@@ -337,7 +340,7 @@ prologue_declaration:
++       muscle_percent_define_insert ($2, @$, $3.kind, $3.chars,
++                                     MUSCLE_PERCENT_DEFINE_GRAMMAR_FILE);
++     }
++-| "%header" string.opt             { handle_header ($2); }
+++| "%header" string.opt             { handle_header (&@2, $2); }
++ | "%error-verbose"                 { handle_error_verbose (&@$, $1); }
++ | "%expect" INT_LITERAL            { expected_sr_conflicts = $2; }
++ | "%expect-rr" INT_LITERAL         { expected_rr_conflicts = $2; }
++@@ -356,7 +359,15 @@ prologue_declaration:
++ | "%name-prefix" STRING         { handle_name_prefix (&@$, $1, $2); }
++ | "%no-lines"                   { no_lines_flag = true; }
++ | "%nondeterministic-parser"    { nondeterministic_parser = true; }
++-| "%output" STRING              { spec_outfile = unquote ($2); gram_scanner_last_string_free (); }
+++| "%output" STRING
+++    {
+++      char *file = unquote ($2);
+++      if (valid_output_file_name (file))
+++        spec_outfile = file;
+++      else
+++        complain (&@2, complaint, _("invalid %%output file name ignored"));
+++      gram_scanner_last_string_free ();
+++    }
++ | "%param" { current_param = $1; } params { current_param = param_none; }
++ | "%pure-parser"                { handle_pure_parser (&@$, $1); }
++ | "%require" STRING             { handle_require (&@2, $2); }
++@@ -952,14 +963,24 @@ add_param (param_type type, char *decl, location loc)
++ }
++ 
++ 
+++static bool
+++valid_output_file_name (char const *file)
+++{
+++  return !strchr (file, '/');
+++}
+++
+++
++ static void
++-handle_header (char const *value)
+++handle_header (location const *loc, char const *value)
++ {
++   header_flag = true;
++   if (value)
++     {
++       char *file = unquote (value);
++-      spec_header_file = xstrdup (file);
+++      if (valid_output_file_name (file))
+++        spec_header_file = xstrdup (file);
+++      else
+++        complain (loc, complaint, _("invalid %%header file name ignored"));
++       gram_scanner_last_string_free ();
++       unquote_free (file);
++     }
++diff --git a/src/parse-gram.c b/src/parse-gram.c
++index 3c1d8229..7f6deb33 100644
++--- a/src/parse-gram.c
+++++ b/src/parse-gram.c
++@@ -276,8 +276,11 @@ typedef enum yysymbol_kind_t yysymbol_kind_t;
++      string from the scanner (should be CODE). */
++   static char const *translate_code_braceless (char *code, location loc);
++ 
+++  /* Is FILE a valid output file name?  */
+++  static bool valid_output_file_name (char const *file);
+++
++   /* Handle a %header directive.  */
++-  static void handle_header (char const *value);
+++  static void handle_header (location const *loc, char const *value);
++ 
++   /* Handle a %error-verbose directive.  */
++   static void handle_error_verbose (location const *loc, char const *directive);
++@@ -663,19 +666,19 @@ union yyalloc
++ /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
++ static const yytype_int16 yyrline[] =
++ {
++-       0,   310,   310,   319,   320,   324,   325,   331,   335,   340,
++-     341,   342,   343,   344,   345,   350,   355,   356,   357,   358,
++-     359,   360,   360,   361,   362,   363,   364,   365,   366,   367,
++-     368,   372,   373,   382,   383,   387,   398,   402,   406,   414,
++-     424,   425,   435,   436,   442,   455,   455,   460,   460,   465,
++-     465,   470,   480,   481,   482,   483,   488,   489,   493,   494,
++-     499,   500,   504,   505,   509,   510,   511,   524,   533,   537,
++-     541,   549,   550,   554,   567,   568,   573,   574,   575,   593,
++-     597,   601,   609,   611,   616,   623,   633,   637,   641,   649,
++-     655,   668,   669,   675,   676,   677,   684,   684,   692,   693,
++-     694,   699,   702,   704,   706,   708,   710,   712,   714,   716,
++-     718,   723,   724,   733,   757,   758,   759,   760,   772,   774,
++-     798,   803,   804,   809,   817,   818
+++       0,   314,   314,   323,   324,   328,   329,   335,   339,   344,
+++     345,   346,   347,   348,   349,   354,   359,   360,   361,   362,
+++     363,   372,   372,   373,   374,   375,   376,   377,   378,   379,
+++     380,   384,   385,   394,   395,   399,   410,   414,   418,   426,
+++     436,   437,   447,   448,   454,   467,   467,   472,   472,   477,
+++     477,   482,   492,   493,   494,   495,   500,   501,   505,   506,
+++     511,   512,   516,   517,   521,   522,   523,   536,   545,   549,
+++     553,   561,   562,   566,   579,   580,   585,   586,   587,   605,
+++     609,   613,   621,   623,   628,   635,   645,   649,   653,   661,
+++     667,   680,   681,   687,   688,   689,   696,   696,   704,   705,
+++     706,   711,   714,   716,   718,   720,   722,   724,   726,   728,
+++     730,   735,   736,   745,   769,   770,   771,   772,   784,   786,
+++     810,   815,   816,   821,   829,   830
++ };
++ #endif
++ 
++@@ -2217,7 +2220,7 @@ yyreduce:
++ 
++   case 9: /* prologue_declaration: "%header" string.opt  */
++ #line 340 "src/parse-gram.y"
++-                                   { handle_header ((yyvsp[0].yykind_75)); }
+++                                   { handle_header (&(yylsp[0]), (yyvsp[0].yykind_75)); }
++ #line 2222 "src/parse-gram.c"
++     break;
++ 
++@@ -2289,7 +2292,14 @@ yyreduce:
++ 
++   case 20: /* prologue_declaration: "%output" "string"  */
++ #line 359 "src/parse-gram.y"
++-                                { spec_outfile = unquote ((yyvsp[0].STRING)); gram_scanner_last_string_free (); }
+++    {
+++      char *file = unquote ((yyvsp[0].STRING));
+++      if (valid_output_file_name (file))
+++        spec_outfile = file;
+++      else
+++        complain (&(yylsp[0]), complaint, _("invalid %%output file name ignored"));
+++      gram_scanner_last_string_free ();
+++    }
++ #line 2294 "src/parse-gram.c"
++     break;
++ 
++@@ -3290,14 +3300,24 @@ add_param (param_type type, char *decl, location loc)
++ }
++ 
++ 
+++static bool
+++valid_output_file_name (char const *file)
+++{
+++  return !strchr (file, '/');
+++}
+++
+++
++ static void
++-handle_header (char const *value)
+++handle_header (location const *loc, char const *value)
++ {
++   header_flag = true;
++   if (value)
++     {
++       char *file = unquote (value);
++-      spec_header_file = xstrdup (file);
+++      if (valid_output_file_name (file))
+++        spec_header_file = xstrdup (file);
+++      else
+++        complain (loc, complaint, _("invalid %%header file name ignored"));
++       gram_scanner_last_string_free ();
++       unquote_free (file);
++     }
++
++-- 
++2.44.4
+diff --git a/meta/recipes-devtools/bison/bison_3.8.2.bb b/meta/recipes-devtools/bison/bison_3.8.2.bb
+index 03d3cffe2a..339a9d1336 100644
+--- a/meta/recipes-devtools/bison/bison_3.8.2.bb
++++ b/meta/recipes-devtools/bison/bison_3.8.2.bb
+@@ -13,6 +13,7 @@ SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
+            file://autoconf-2.73.patch \
+            file://add-with-bisonlocaledir.patch \
+            file://CVE-2026-56389.patch \
++           file://CVE-2026-56390.patch \
+            "
+ SRC_URI[sha256sum] = "9bba0214ccf7f1079c5d59210045227bcf619519840ebfa80cd3849cff5a5bf2"
+ 
