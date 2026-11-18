@@ -1,130 +1,105 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1607.1795037839943238345
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4144.1795045462668872925
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Nov 2026 13:37:20 -0800
+ Wed, 18 Nov 2026 15:44:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=tRXjFF6H;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 456941596
-	for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 13:37:16 -0800 (PST)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id DD6F33F632
-	for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 13:37:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1795037839; bh=UmXRNi1QtY8Mm4fcB5lUBROEY6H3FCOJXWIl7UhFg/Y=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=tRXjFF6HuAGrLI4V7fTs+SAUzMo1ByrRpeM5AwTfAS81w/VYRx1xvwFQShasPmE6M
-	 hOaWRNcZq92fxQopvpNiERSJwbRrV9xOZLtcmh+xgmwirG+d+EiFqD5TnswMaRo7cD
-	 ceWqf4rjOMPiSe9Yt8IkMKn11Whvc5sZmkDDj1cY=
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] python3: remove obsolete reformatting of _sysconfigdata*.py
-Date: Wed, 18 Nov 2026 21:37:13 +0000
-Message-ID: <20261118213714.2531261-2-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261118213714.2531261-1-ross.burton@arm.com>
-References: <20261118213714.2531261-1-ross.burton@arm.com>
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=Qus8BUCV;
+ spf=pass (domain: gmail.com, ip: 209.85.221.46, mailfrom: stondo@gmail.com)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-4a2f4ca0dcfso821740f8f.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 15:44:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795045461; x=1795650261; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=oUTfqROzqb/rxcjg4zwdfpEy9z4jdL+qziQRr6dp6Go=;
+        b=Qus8BUCVuen91FguEaoUSgTbqDAkxHsmXEEOWKR66RY0LiPrvCMCb5R5Zy7xesCvOt
+         ceaj3bAN9NyVX2xLrqUm3tiTiqkN7fjzPOVUtd/tt674SAz9TDRvvkS1TyY3HWXSr/T2
+         tbpPgib8hz9cskKiXR1pPL5yJo4V3A2y1+QWt30Su4hlwNocCwYNGoeN1sKtxoKUHxjz
+         UXJXb1cMBw9N/8Ek6fKhIA2XeWYbAOjNJQUI6RYh07JGWJ5MghzLFW7AFgPYVNGUI0jA
+         m9YcLhIPOxChiqVTpgNmr8HEm8LazFJmgXBHTq5gPRfCXSt6d5KIYbTK90xckWbGR8O8
+         77Jw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795045461; x=1795650261;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=oUTfqROzqb/rxcjg4zwdfpEy9z4jdL+qziQRr6dp6Go=;
+        b=EQ6bbZGevo3Vz3Z28tl4+jmVKiIBsRXkA3s5EQwp9qdmU1IIitV451oyVQuZAvgX3X
+         uNpi4mYDRysOyAtmuHQL/3cA6jYh9Vhnwuesu5hjsN0aCZbaNaDxsW9v+VqPoqOUEgbh
+         N49UBE5clgIiwwMl0TYAmOrPCCl7xVHLqnn6K8OcjFSWFr46sWXceLA2Gk/2DCpoPaVV
+         1htluilLeDRcEaHxcauAlwDENOL45Ym/mZi5I769E5/gei6hWJWvL5kaAQiNuIaLqICT
+         WzI1bXFnA1UuYaWzY9+bpLd4t8R/BmaeZsGOAIN+HQoj4FqD+jCylcW6D/0JcHirYW6C
+         tcqw==
+X-Gm-Message-State: APuU4Z8QPMMPyoAqwisWdq2covey+xSPuuY4l9IC6dirDXq0qqSs/4XN
+	nNIr9IapkN5xVvhN2SuT521Rbr3IFuNO2h6BSwnbtgbPW3/Uk9yv2wuP
+X-Gm-Gg: AZFdTZepnb3vIvW9CPBgEyQiKBywCrqdIjH55Njiu45/8hBWaKIAh6gzCxlHpR86Sx/
+	pWHBgXeOB1D06A70rYOPOjEeGg2TLnU6hOJJEzqziBWJyBSKoKVOZ3VVy3gbFBSasKAM/3jC0yI
+	dGOJaqr1NqCXJOQUFmPelcaZFIeQT71sptZL9jW/bEhr8QaeHP4+qFeO2cKF7rrFUXRRVVYNLvP
+	ELnvPZepSXuarx52TJ8u5dQhhvLMwaYexRgP7sU1UsIvtsGoaolngxKIBJqMIqEx7wFkWTxeQ/s
+	9/1jQl9h5RBWiYREfCOE6Cg5m5MC8PqOvrSPeYOLTY1Mkr5pLTJCOJyFDjnS1sP4i+SxdAx3dKY
+	ihfCIO4OCDkuKwVwX47yO6Cnr1jzbbeAXuMr6XI3UQpfI+ljeEt7sEEIxMyQzQgIlhs8gpXq7OJ
+	nX5teob0CJr3m2JripZz+4LdS6Ir+Z/wavCNOkdEz6Bsa6wyYU6JWWvKUzYdmbM2OjQkYku9k7W
+	X+3rrPldCnWFbPmjprCu5mkgsQhUAKxE34QYKArSTmeikyOlfc5U8zNYoKFGzNcAGZ6KCQRhNLU
+	YZx2dqS+na4=
+X-Received: by 2002:a05:6000:1606:b0:48e:6f84:2e8e with SMTP id ffacd0b85a97d-4a63e6f1a49mr5377833f8f.39.1795045460650;
+        Wed, 18 Nov 2026 15:44:20 -0800 (PST)
+Return-Path: <stondo@gmail.com>
+Received: from fedora ([165.225.94.251])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a650d2e26csm7219021f8f.4.2026.11.18.15.44.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 18 Nov 2026 15:44:18 -0800 (PST)
+From: Stefano Tondo <stondo@gmail.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Cc: openembedded-core@lists.openembedded.org,
+	stefano.tondo.ext@siemens.com
+Subject: Re: [PATCH 3/4] spdx30: Add the PURLs of the source downloads to the output packages
+Date: Thu, 19 Nov 2026 00:44:17 +0100
+Message-ID: <20261118234417.3681522-1-stondo@gmail.com>
+X-Mailer: git-send-email 2.56.1
+In-Reply-To: <DMYFTUY2A6RH.1WI2PDCNCPOJY@bootlin.com>
+References: <DMYFTUY2A6RH.1WI2PDCNCPOJY@bootlin.com>
 MIME-Version: 1.0
-X-ARM-No-Footer: NoDisclaimer
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 21:37:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250598
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 23:44:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250599
 Content-Type: text/plain; charset="utf-8"
 
-The python3 recipe currently reformats the _sysconfigdata*.py files after
-they are modified to remove build paths, as the files may be wrapped
-differently based on the length of strings[1].
+On Wed Nov 18, 2026 at 4:22 PM CET, Mathieu Dubois-Briand wrote:
+> It looks like this is using memory in a way it got killed several times
+> on the autobuilder. Locally, I managed to have a do_create_spdx task
+> using more than 10GB of memory, with a value continuously increasing of
+> about 100MB/s.
+>
+> This can be reproduced with master branch + your patches, then:
+> bitbake python3-uv-build-native -c do_create_spdx
+[...]
+> Can you have a look at the issue?
 
-However, this wrapping was due to the use of pprint.pprint(), which
-since Python 3.13 is no longer used to generate the sysconfigdata[2].
+Hi Mathieu,
 
-As such, remove the reformatting as it is no longer needed.
+Thanks for the report and the reproducer, and sorry for the broken
+builds.
 
-[1] oe-core ec8a2b310d5 ("python3: Reformat sysconfig")
-[2] python 5ecedbd2669 ("gh-106789: avoid importing pprint from sysconfig=
- (#106790)")
+The bug is in patch 2/4, in get_cargo_scopes(). The walk over the
+cargo dependency graph did not remember which workspace members it had
+already expanded. In uv, the member uv-preview is a dev dependency of
+itself. So the walk never ended, and its stack grew until the OOM
+killer stopped the task. I could reproduce it: the task reached a 4 GB
+limit in about 90 seconds.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- .../python/python3/reformat_sysconfig.py      | 21 -------------------
- .../python/python3_3.14.10.bb                 |  8 +------
- 2 files changed, 1 insertion(+), 28 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3/reformat_sysconf=
-ig.py
+python3-uv-build is the only cargo recipe in OE-Core with such a
+cycle. The selftests use python3-bcrypt, which has none, so they did
+not show it.
 
-diff --git a/meta/recipes-devtools/python/python3/reformat_sysconfig.py b=
-/meta/recipes-devtools/python/python3/reformat_sysconfig.py
-deleted file mode 100644
-index 5e2b12879d9..00000000000
---- a/meta/recipes-devtools/python/python3/reformat_sysconfig.py
-+++ /dev/null
-@@ -1,21 +0,0 @@
--#! /usr/bin/env python3
--#
--# SPDX-License-Identifier: MIT
--#
--# Copyright 2019 by Garmin Ltd. or its subsidiaries
--#
--# A script to reformat python sysconfig
--
--import sys
--import pprint
--l =3D {}
--g =3D {}
--with open(sys.argv[1], 'r') as f:
--    exec(f.read(), g, l)
--
--with open(sys.argv[1], 'w') as f:
--    for k in sorted(l.keys()):
--        f.write('%s =3D ' % k)
--        pprint.pprint(l[k], stream=3Df, width=3D1)
--        f.write('\n')
--
-diff --git a/meta/recipes-devtools/python/python3_3.14.10.bb b/meta/recip=
-es-devtools/python/python3_3.14.10.bb
-index 5fe510d8f75..7f0b6e6f5a8 100644
---- a/meta/recipes-devtools/python/python3_3.14.10.bb
-+++ b/meta/recipes-devtools/python/python3_3.14.10.bb
-@@ -12,7 +12,6 @@ SRC_URI =3D "http://www.python.org/ftp/python/${PV}/Pyt=
-hon-${PV}.tar.xz \
-            file://get_module_deps3.py \
-            file://python3-manifest.json \
-            file://check_build_completeness.py \
--           file://reformat_sysconfig.py \
-            file://0001-Makefile.pre-use-qemu-wrapper-when-gathering-prof=
-ile.patch \
-            file://0001-test_locale.py-correct-the-test-output-format.pat=
-ch \
-            file://makerace.patch \
-@@ -214,9 +213,6 @@ do_install:append:class-native() {
- }
-=20
- do_install:append() {
--        for c in ${D}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata*.p=
-y; do
--            python3 ${UNPACKDIR}/reformat_sysconfig.py $c
--        done
-         rm -f ${D}${libdir}/python${PYTHON_MAJMIN}/__pycache__/_sysconfi=
-gdata*.cpython*
-=20
-         mkdir -p ${D}${libdir}/python-sysconfigdata
-@@ -394,10 +390,8 @@ py_package_preprocess () {
-                 ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfig_vars=
-*.json \
-                 ${PKGD}/${bindir}/python${PYTHON_MAJMIN}-config
-=20
--        # Reformat and recompile _sysconfigdata after modifying it so th=
-at it remains
--        # reproducible
-+        # Recompile _sysconfigdata after modifying it
-         for c in ${PKGD}/${libdir}/python${PYTHON_MAJMIN}/_sysconfigdata=
-*.py; do
--            python3 ${UNPACKDIR}/reformat_sysconfig.py $c
-             python3 -mcompileall $c -s ${PKGD} -p /
-         done
-=20
---=20
-2.43.0
+v2 expands each member only once and adds unit tests for member
+cycles. With v2, do_create_spdx of python3-uv-build and
+python3-uv-build-native takes less than 2 seconds and about 100 MB,
+with uv-build 0.13.7 on master and 0.13.8 on master-next. For the
+other cargo recipes in OE-Core, the result does not change.
 
+I will send v2 now.
+
+Regards,
+Stefano
