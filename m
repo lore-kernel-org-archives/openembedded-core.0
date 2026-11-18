@@ -1,168 +1,260 @@
 Received: from gate.crashing.org (gate.crashing.org [63.228.1.57])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13650.1795011830081801668
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13838.1795012416972770076
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Nov 2026 06:23:50 -0800
+ Wed, 18 Nov 2026 06:33:37 -0800
 Authentication-Results: mx.groups.io;
  dkim=none (message not signed); spf=pass (domain: kernel.crashing.org, ip: 63.228.1.57, mailfrom: mark.hatle@kernel.crashing.org)
 Received: from kernel.crashing.org (70-99-78-136.nuveramail.net [70.99.78.136] (may be forged))
-	by gate.crashing.org (8.18.1/8.18.1/Debian-2) with ESMTP id 6AIENj7g3872764;
-	Wed, 18 Nov 2026 08:23:45 -0600
+	by gate.crashing.org (8.18.1/8.18.1/Debian-2) with ESMTP id 6AIEXYYM3874241;
+	Wed, 18 Nov 2026 08:33:34 -0600
 Received: from [192.168.2.97] ([192.168.2.97])
-	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 6AIENiJg006682;
-	Wed, 18 Nov 2026 08:23:44 -0600
-Message-ID: <8480f7e3-e306-4b7f-936c-44d55a87ba98@kernel.crashing.org>
-Date: Wed, 18 Nov 2026 08:23:43 -0600
+	by kernel.crashing.org (8.14.7/8.14.7) with ESMTP id 6AIEXSrd006884;
+	Wed, 18 Nov 2026 08:33:29 -0600
+Message-ID: <16a881c7-20f6-4bec-9177-08336d8663f5@kernel.crashing.org>
+Date: Wed, 18 Nov 2026 08:33:28 -0600
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] pseudo: inherit upstream-stable-release-point
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-Cc: yoann.congal@smile.fr, yocto-patches@lists.yoctoproject.org,
-        OE-core ML <openembedded-core@lists.openembedded.org>,
-        mark.hatle@amd.com
-References: <20261117164151.1362220-1-yoann.congal@smile.fr>
- <CANNYZj9Uj5v-Tb1TrA+TrxrdEyjO+qj25byZ0fWtUpiLHKH-DA@mail.gmail.com>
- <0fabfef3-dbe6-4fe4-8f7e-d5f8ad47f27f@kernel.crashing.org>
- <CANNYZj-QWR+BDPzG5b1sn2oKBjk0CzYEB8_KgyC32-QfPdkUhQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2] pseudo: Tell makewrappers the target
+ architecture
+To: SunilKumar.Dora@windriver.com, openembedded-core@lists.openembedded.org
+Cc: richard.purdie@linuxfoundation.org, liezhi.yang@windriver.com,
+        sundeep.kokkonda@windriver.com, Randy.MacLeod@windriver.com
+References: <20261118120426.1918842-1-sunilkumar.dora@windriver.com>
 Content-Language: en-US
 From: Mark Hatle <mark.hatle@kernel.crashing.org>
-In-Reply-To: <CANNYZj-QWR+BDPzG5b1sn2oKBjk0CzYEB8_KgyC32-QfPdkUhQ@mail.gmail.com>
+In-Reply-To: <20261118120426.1918842-1-sunilkumar.dora@windriver.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by gate.crashing.org id 6AIENj7g3872764
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 14:23:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250549
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 14:33:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250550
 
-
-
-On 11/18/26 5:10 AM, Alexander Kanavin wrote:
-> The question is whether point releases of pseudo add only bugfixes? It'=
-s not=20
-> about 1.9 specifically, but any future release, e.g. 2.0.x as well.
->=20
-> The policy for what is acceptable is documented here:
-> https://docs.yoctoproject.org/ref-manual/release-process.html#criteria-=
-for-qualifying-upstreams <https://docs.yoctoproject.org/ref-manual/releas=
-e-process.html#criteria-for-qualifying-upstreams>
-
-That is the YP criteria, not pseudo's.  Pseudo criteria is do we need the=
- patch=20
-in any particular version to deal with the hosts that we support in that=20
-version.  Support is very loosely defined for sure.
-
-This is why I want to be clear they are separate projects, highly related=
- of=20
-course, but separate.
-
-There WILL be a 2,0 branch, once it's created.
-
-As I said, work on master, backport to release branches to deal with issu=
-es on=20
-particular host types.
-
-For example, pseudo-1.9 theoretically still supports MacOS/Darwin (it rea=
-lly=20
-doesn't but anyway), Master? We removed this code as it's known to not wo=
-rk, and=20
-there are no indications it's being used.  I'm not backporting that to 1.=
-9, as=20
-it would be an API change.
+I did do a basic test of this when pseudo 1.99.1 was released.  "It worked for 
+me", but I didn't do a full test on a cross-compiled arm64 host (x86->arm64).
 
 --Mark
 
-> Alex
->=20
-> On Wed, 18 Nov 2026 at 11:55, Mark Hatle <mark.hatle@kernel.crashing.or=
-g=20
-> <mailto:mark.hatle@kernel.crashing.org>> wrote:
->=20
->     While pseudo is heavily driven by Yocto Project (and OpenEmbedded)
->     requirements,
->     I'm not treating this as a YP/OE specific project.
->=20
->     When I say pseudo-1.9 has a stable API, I mean that.=C2=A0 The inte=
-ntion is that
->     development happens in master.=C2=A0 Stable branches can have backp=
-orts, as
->     required/requested by contributors, but these backports need to "fe=
-el" stable,
->     have a stable API (don't change command line arguments, don't chang=
-e system
->     requirements, etc.)
->=20
->     Is there an official list of what is and isn't allowed no.=C2=A0 Wh=
-at pseudo does is
->     so specialized, I don't think I could come up with a documented set=
- will and
->     won't.=C2=A0 I also don't expect any applications to write such a l=
-ist as in the end
->     it is up to the contributors and maintainers to weigh each patch to
->     determine if
->     it feels appropriate to go on a stable branch.=C2=A0 But in practic=
-e I expect if
->     someone using pseudo-1.9 experiences breakage due to security fixes=
- in an
->     existing platform release we'll backport the fixes there.=C2=A0 But=
- I do not intend
->     to carry forward pseudo-1.9 forever and into newer host releases.
->=20
->     So in short:
->=20
->     1. New Development goes to master (or equivalent)
->     2. Backports from master to a numbered branch can be requested
->     3. Priority for backports will be given to resolve breaking issues =
-in known
->     working hosts, generally centered around Yocto Project/OpenEmbedded=
- as that is
->     our primary test vehicle.
->     4. We do not intend API changes to be backported to older version.=C2=
-=A0 (It's not a
->     stronger statement, because with the security backports happening i=
-n
->     distributions, it might be required at some point.)
->=20
->     --Mark
->=20
->     On 11/17/26 11:13 AM, Alexander Kanavin via openembedded-core wrote=
-:
->      > On Tue, 17 Nov 2026 at 17:42, Yoann Congal via openembedded-core
->      > <yoann.congal=3Dsmile.fr@lists.openembedded.org
->     <mailto:smile.fr@lists.openembedded.org>
->      > <mailto:smile.fr@lists.openembedded.org
->     <mailto:smile.fr@lists.openembedded.org>>> wrote:
->      >
->      >
->      >=C2=A0 =C2=A0 =C2=A0Pseudo now has a stable branch pseudo-1.9 wit=
-h pseudo-1.9.x tags on it.
->      >
->      >
->      > Is this branch collecting only bugfixes (or fixes needed for con=
-tinuing
->      > operation of yocto release branches)? Is this going to be a poli=
-cy for any
->      > future point releases, or is it a one-off just for 1.9.x? There =
-should be
->      > confirmation of these questions, in addition to the existence of=
- the branch.
->      >
->      > Alex
->      >
->      >
->      > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->      > Links: You receive all messages sent to this group.
->      > View/Reply Online (#250463):
->     https://lists.openembedded.org/g/openembedded-core/message/250463
->     <https://lists.openembedded.org/g/openembedded-core/message/250463>
->      > Mute This Topic: https://lists.openembedded.org/mt/122316790/361=
-6948
->     <https://lists.openembedded.org/mt/122316790/3616948>
->      > Group Owner: openembedded-core+owner@lists.openembedded.org
->     <mailto:openembedded-core%2Bowner@lists.openembedded.org>
->      > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/=
-unsub
->     <https://lists.openembedded.org/g/openembedded-core/unsub>
->     [mark.hatle@kernel.crashing.org <mailto:mark.hatle@kernel.crashing.=
-org>]
->      > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->      >
->=20
+On 11/18/26 6:04 AM, Dora, Sunil Kumar via openembedded-core wrote:
+> From: Sunil Dora <sunilkumar.dora@windriver.com>
+> 
+> makewrappers picks the architecture specific entries in wrapfuncs.in
+> (e.g. the GLIBC_2.17 symbol versions for the xattr wrappers on aarch64)
+> from the machine running the build rather than the machine pseudo is
+> built for, so the pseudo packages differ between x86_64 and aarch64
+> autobuilder workers.
+> 
+> Backport the upstream fix, which adds a configure --target option, and
+> pass TARGET_SYS to it. pseudo-native is unchanged since TARGET_SYS is
+> the build machine there.
+> 
+> The fix is in pseudo-1.99.1, so the patch can be dropped once SRCREV
+> moves to that tag or later. The --target=${TARGET_SYS} in pseudo.inc
+> has to stay.
+> 
+> [YOCTO #16376]
+> 
+> Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
+> ---
+> v2: backport the upstream fix (pseudo 979add3116, in pseudo-1.99.1),
+>      reworked as a configure --target option as Mark suggested.
+> 
+>   ...ow-the-wrapper-architecture-to-be-se.patch | 149 ++++++++++++++++++
+>   meta/recipes-devtools/pseudo/pseudo.inc       |   4 +-
+>   meta/recipes-devtools/pseudo/pseudo_git.bb    |   1 +
+>   3 files changed, 152 insertions(+), 2 deletions(-)
+>   create mode 100644 meta/recipes-devtools/pseudo/files/0001-makewrappers-Allow-the-wrapper-architecture-to-be-se.patch
+> 
+> diff --git a/meta/recipes-devtools/pseudo/files/0001-makewrappers-Allow-the-wrapper-architecture-to-be-se.patch b/meta/recipes-devtools/pseudo/files/0001-makewrappers-Allow-the-wrapper-architecture-to-be-se.patch
+> new file mode 100644
+> index 0000000000..6bdea7ad6d
+> --- /dev/null
+> +++ b/meta/recipes-devtools/pseudo/files/0001-makewrappers-Allow-the-wrapper-architecture-to-be-se.patch
+> @@ -0,0 +1,149 @@
+> +From 979add31166eadc1954b32ff7cb6038fbd171e06 Mon Sep 17 00:00:00 2001
+> +From: Sunil Dora <sunilkumar.dora@windriver.com>
+> +Date: Fri, 30 Oct 2026 11:56:45 -0700
+> +Subject: [PATCH] makewrappers: Allow the wrapper architecture to be set for
+> + cross builds
+> +
+> +Architecture specific modifiers in wrapfuncs.in, such as
+> +version-aarch64="GLIBC_2.17" on the xattr wrappers, are selected with
+> +platform.machine(), so they follow the machine running the script
+> +rather than the one pseudo is built for. An aarch64 pseudo cross built
+> +on x86_64 ends up with GLIBC_2.3 and the reverse with GLIBC_2.17, which
+> +shows up as pseudo not being reproducible between x86_64 and aarch64
+> +builders.
+> +
+> +Add a --target option to configure and pass it on to makewrappers,
+> +which uses the cpu part of the triplet for these modifiers. Without
+> +--target the build machine is used as before.
+> +
+> +[YOCTO #16376]
+> +
+> +Upstream-Status: Backport [https://git.yoctoproject.org/pseudo/commit/?id=979add31166eadc1954b32ff7cb6038fbd171e06]
+> +
+> +Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
+> +Message-Id: <20261030185645.765144-1-sunilkumar.dora@windriver.com>
+> +Signed-off-by: Mark Hatle <mark.hatle@amd.com>
+> +---
+> + Makefile.in  |  3 ++-
+> + configure    |  6 ++++++
+> + makewrappers | 17 +++++++++++++++--
+> + 3 files changed, 23 insertions(+), 3 deletions(-)
+> +
+> +diff --git a/Makefile.in b/Makefile.in
+> +index 6640a73..9c6da77 100644
+> +--- a/Makefile.in
+> ++++ b/Makefile.in
+> +@@ -34,6 +34,7 @@ BITS=@BITS@
+> + ARCH_FLAGS=@ARCH_FLAGS@
+> + MARK64=@MARK64@
+> + RPATH=@RPATH@
+> ++TARGET=@TARGET@
+> + VERSION=1.99.0
+> +
+> + LIB=@LIB@
+> +@@ -146,7 +147,7 @@ tables: enums/*.in maketables templatefile.py $(TABLES)
+> + 	./maketables enums/*.in
+> +
+> + wrappers: makewrappers templatefile.py $(TEMPLATES) ports/*/wrapfuncs.in
+> +-	CC="$(CC) $(CFLAGS) $(CFLAGS_PSEUDO)" ./makewrappers "xattr=$(XATTR)"
+> ++	CC="$(CC) $(CFLAGS) $(CFLAGS_PSEUDO)" ./makewrappers --target="$(TARGET)" "xattr=$(XATTR)"
+> +
+> + .SECONDARY: tables wrappers
+> +
+> +diff --git a/configure b/configure
+> +index 68c9962..b43809e 100755
+> +--- a/configure
+> ++++ b/configure
+> +@@ -10,6 +10,7 @@
+> + opt_prefix=
+> + opt_libdir=
+> + opt_suffix=
+> ++opt_target=
+> + opt_arch=x86
+> + opt_bits=
+> + opt_sqlite=/usr
+> +@@ -32,6 +33,7 @@ usage()
+> +     echo >&2 "  configure --prefix=..."
+> +     echo >&2 "           [--libdir=...]"
+> +     echo >&2 "           [--suffix=...]"
+> ++    echo >&2 "           [--target=...]"
+> +     echo >&2 "           [--enable-memory-db]"
+> +     echo >&2 "           [--enable-epoll]"
+> +     echo >&2 "           [--enable-xattr]"
+> +@@ -153,6 +155,9 @@ do
+> +     --suffix=*)
+> +         opt_suffix=${arg#--suffix=}
+> +         ;;
+> ++    --target=*)
+> ++        opt_target=${arg#--target=}
+> ++        ;;
+> +     --arch=*)
+> +         echo >&2 "WARNING: The --arch option is now deprecated. Use --cflags."
+> +         opt_arch=${arg#--arch=}
+> +@@ -341,6 +346,7 @@ sed -e '
+> +   s,@LIBDIR@,'"$opt_libdir"',g
+> +   s,@LIB@,'"$opt_lib"',g
+> +   s,@SUFFIX@,'"$opt_suffix"',g
+> ++  s,@TARGET@,'"$opt_target"',g
+> +   s,@SQLITE@,'"$opt_sqlite"',g
+> +   s,@ARCH_FLAGS@,'"$arch_flags"',g
+> +   s,@DEFAULT_SQLITE@,'"$default_sqlite"',g
+> +diff --git a/makewrappers b/makewrappers
+> +index 81d2444..1ac46bf 100755
+> +--- a/makewrappers
+> ++++ b/makewrappers
+> +@@ -15,6 +15,13 @@ import platform
+> + import subprocess
+> + from templatefile import TemplateFile
+> +
+> ++# Set from --target=, empty means the machine running this script
+> ++target_arch = ""
+> ++
+> ++def wrapper_arch():
+> ++    """Architecture the wrappers are built for: the --target cpu or the build machine."""
+> ++    return target_arch or platform.machine()
+> ++
+> + class ArgumentList:
+> +     """A (possibly empty) list of arguments"""
+> +
+> +@@ -316,11 +323,11 @@ class Function:
+> +             # Strip all leading/trailing whitespace
+> +             modifiers = {k.strip():v.strip() for k, v in modifiers.items()}
+> +
+> +-            arch = "-" + platform.machine()
+> ++            arch = "-" + wrapper_arch()
+> +             # Sorted so that versions-foo appear after versions, so overrides are easy
+> +             for key in sorted(modifiers):
+> +                 value = modifiers[key].replace('<equals>', '==')
+> +-                # If the key is version-arm64 and we're on arm64 then rename this to version
+> ++                # If the key is version-arm64 and we're building for arm64 then rename this to version
+> +                 if key.endswith(arch):
+> +                     key = key.replace(arch, "")
+> +                 setattr(self, key, value)
+> +@@ -664,10 +671,15 @@ def process_wrapfuncs(port):
+> +
+> + def main(argv):
+> +     """Read in function definitions, write out files based on templates."""
+> ++    global target_arch
+> +     funcs = []
+> +     sources = []
+> +
+> +     for arg in argv:
+> ++        if arg.startswith('--target='):
+> ++            # A GNU triplet such as aarch64-poky-linux, only the cpu part is used
+> ++            target_arch = arg[len('--target='):].split('-')[0]
+> ++            continue
+> +         if '=' not in arg:
+> +             print("Invalid argument '%s', must be of the form name=value" % arg)
+> +             exit(1)
+> +@@ -697,6 +709,7 @@ def main(argv):
+> +     port = Port('common', sources)
+> +
+> +     # the per-function stuff
+> ++    print("Architecture for wrapper modifiers: %s" % wrapper_arch())
+> +     print("Writing functions...")
+> +     all_funcs = port.functions()
+> +     for name in sorted(all_funcs.keys()):
+> +--
+> +2.49.0
+> +
+> diff --git a/meta/recipes-devtools/pseudo/pseudo.inc b/meta/recipes-devtools/pseudo/pseudo.inc
+> index ba946ef9c9..4d37bf7942 100644
+> --- a/meta/recipes-devtools/pseudo/pseudo.inc
+> +++ b/meta/recipes-devtools/pseudo/pseudo.inc
+> @@ -33,9 +33,9 @@ PSEUDO_EXTRA_OPTS ?= "--enable-force-async --without-passwd-fallback --enable-ep
+>   # Compile for the local machine arch...
+>   do_compile () {
+>   	if [ "${SITEINFO_BITS}" = "64" ]; then
+> -	  ${S}/configure ${PSEUDO_EXTRA_OPTS} --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib${SITEINFO_BITS} --with-sqlite-lib=${baselib} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --without-rpath
+> +	  ${S}/configure ${PSEUDO_EXTRA_OPTS} --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib${SITEINFO_BITS} --with-sqlite-lib=${baselib} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --without-rpath --target=${TARGET_SYS}
+>   	else
+> -	  ${S}/configure ${PSEUDO_EXTRA_OPTS} --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib --with-sqlite-lib=${baselib} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --without-rpath
+> +	  ${S}/configure ${PSEUDO_EXTRA_OPTS} --prefix=${prefix} --libdir=${prefix}/lib/pseudo/lib --with-sqlite-lib=${baselib} --with-sqlite=${STAGING_DIR_TARGET}${exec_prefix} --cflags="${CFLAGS}" --bits=${SITEINFO_BITS} --without-rpath --target=${TARGET_SYS}
+>   	fi
+>   	oe_runmake ${MAKEOPTS}
+>   }
+> diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
+> index c0332dc9e2..f8903dbb63 100644
+> --- a/meta/recipes-devtools/pseudo/pseudo_git.bb
+> +++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
+> @@ -3,6 +3,7 @@ require pseudo.inc
+>   SRC_URI = "git://git.yoctoproject.org/pseudo;branch=master;protocol=https \
+>              file://fallback-passwd \
+>              file://fallback-group \
+> +           file://0001-makewrappers-Allow-the-wrapper-architecture-to-be-se.patch \
+>              "
+>   SRC_URI:append:class-native = " \
+>       http://downloads.yoctoproject.org/mirror/sources/pseudo-prebuilt-2.33.tar.xz;subdir=${BB_GIT_DEFAULT_DESTSUFFIX}/prebuilt;name=prebuilt \
+> 
+> 
+> 
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#250543): https://lists.openembedded.org/g/openembedded-core/message/250543
+> Mute This Topic: https://lists.openembedded.org/mt/122330296/3616948
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [mark.hatle@kernel.crashing.org]
+> -=-=-=-=-=-=-=-=-=-=-=-
+> 
