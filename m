@@ -1,41 +1,41 @@
 Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6700.1794980483009773293
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6634.1794980486099135512
  for <openembedded-core@lists.openembedded.org>;
- Tue, 17 Nov 2026 21:41:23 -0800
+ Tue, 17 Nov 2026 21:41:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Qx4afFO7;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Mp4qsReb;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101a1ed2c8b2c-ee19b2d1-6f63-4f36-b6cc-9d1cadaa7a20-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=GqpBv/8+;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=kJ0RinI+;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101a1ed2c9736-c22a70c7-a261-4ec6-adfc-c38f9c16dd1d-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1794980482;
+	t=1794980485;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=vCROt2MURkUsLyLQqKOoezgIKkzKUEDkqZKXNyNfGGc=;
-	b=Qx4afFO79bQaZKrI8yItgRIfUct/dFlN8rRWq8ujGXuzrdkW+v4UQPWylqFmBwcm
-	I0YDyCSZLcFLF5fFchDSIgSn5pC6BivFJxex+xFICzK+dC7Sb5BYbfEpfHCzXJ5XvDe
-	LXt1ejQfTbeTciR/q/AkoqaXKhHaDVXPmnBoRp5Q=
+	bh=RxhHeHKRn11rnrDeb7BSjodq0e5qMyjwu2SyXCBvoYg=;
+	b=GqpBv/8+eAwlGdnNkqzHZj3yXzoN5m8CvRE/uXtHLIKcq/G0TNITnVJNteCB6opv
+	NQtHlIX8ydAHyrTXsJYNh8xFMY5I/bmfi56+PgtTGNjPZwYmi3c4f0aFv5RKsnNQslu
+	RTo92w0bHCreJUVp86TvFfakiMDJQojf7Nit/0N8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1794980482;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1794980485;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=vCROt2MURkUsLyLQqKOoezgIKkzKUEDkqZKXNyNfGGc=;
-	b=Mp4qsRebp9rpthLXtniQrlKOQC5A0beeaLTPMT2n9lRCUPMSjrMYshCdNFGhs4uK
-	CrUtV935KiL0vxtHNZBHdt4buOmxHTCgVJ+la/gGwRsFvWP0IAhoRosbxDOYi0wZM7F
-	+xC0bE6feqgreJELpNK2UxLa6SjNX/yqLvWeP5KI=
-Content-Type: multipart/mixed; boundary="===============4465596364127429717=="
+	bh=RxhHeHKRn11rnrDeb7BSjodq0e5qMyjwu2SyXCBvoYg=;
+	b=kJ0RinI+6Oypg5QQZdURzet3LHD5mfJu00JXXsJ8WRNbg2/XUdMDELjM0mlKxOIY
+	BDT0MMs1SLUti8JPf1wWUnorPjSzmKodl0cPEtxntGlnCUWn+os07SOiRzAnqUcnnPo
+	NozBPlmqKo7UP/k3itj0ifVgdgV3wxDnYc979FIw=
+Content-Type: multipart/mixed; boundary="===============5294490405137022328=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] llvm-project-source-23.1.5: upgrading to 23.1.6 FAILED
-Message-ID: <010101a1ed2c8b2c-ee19b2d1-6f63-4f36-b6cc-9d1cadaa7a20-000000@us-west-2.amazonses.com>
-Date: Wed, 18 Nov 2026 05:41:21 +0000
+Subject: [AUH] libfaketime: upgrading to 0.9.14 FAILED
+Message-ID: <010101a1ed2c9736-c22a70c7-a261-4ec6-adfc-c38f9c16dd1d-000000@us-west-2.amazonses.com>
+Date: Wed, 18 Nov 2026 05:41:24 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2026.11.18-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 05:41:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250507
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 05:41:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250511
 
---===============4465596364127429717==
+--===============5294490405137022328==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -43,69 +43,54 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *llvm-project-source-23.1.5* to *23.1.6* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *libfaketime* to *0.9.14* has Failed (devtool error).
 
 Detailed error information:
 
-The following devtool command failed:  finish -f llvm-project-source-23.1.5 /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang
+Running 'devtool upgrade' for recipe libfaketime failed.
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
-Loaded 2010 entries from dependency cache.
+Loaded 0 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 962 .bb files complete (960 cached, 2 parsed). 2011 targets, 43 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
+Parsing of 961 .bb files complete (0 cached, 961 parsed). 2010 targets, 43 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
 
-ERROR: Unable to parse /srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py
-Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py", line 149, in resolve_file
-    raise IOError(errno.ENOENT, "file %s not found" % fn)
-FileNotFoundError: [Errno 2] file /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang/conf/layer.conf not found
-Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/cookerdata.py", line 170, in wrapped
-    return func(fn, *args)
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/cookerdata.py", line 187, in parse_config_file
-    return bb.parse.handle(fn, data, include, baseconfig=True)
-           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py", line 123, in handle
-    return h['handle'](fn, data, include, baseconfig)
-           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 121, in handle
-    abs_fn = resolve_file(fn, data)
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py", line 149, in resolve_file
-    raise IOError(errno.ENOENT, "file %s not found" % fn)
-FileNotFoundError: [Errno 2] file /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang/conf/layer.conf not found
+Build Configuration:
+BB_VERSION           = "2.20.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.1.99+snapshot-9029d212e2b26324b29b3318a3f8495a1d5fb495"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:9029d212e2b26324b29b3318a3f8495a1d5fb495"
+meta-yocto-bsp       
+meta-poky            = "master:8becfabefdf5df564aafe2d07d10e4b05fbaedb1"
+workspace            = "<unknown>:<unknown>"
 
-During handling of the above exception, another exception occurred:
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Rebasing devtool onto c88b79b4e9cc1c94294037b4677b69185861c2a1
+WARNING: Command 'git rebase c88b79b4e9cc1c94294037b4677b69185861c2a1' failed:
+Auto-merging src/libfaketime.c
+CONFLICT (content): Merge conflict in src/libfaketime.c
 
-Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/devtool", line 352, in <module>
-    ret = main()
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/devtool", line 338, in main
-    ret = args.func(args, config, basepath, workspace)
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/lib/devtool/standard.py", line 2220, in finish
-    updated, appendfile, removed = _update_recipe(args.recipename, workspace, rd, args.mode, appendlayerdir, wildcard_version=True, no_remove=False, no_report_remove=removing_original, initial_rev=args.initial_rev, dry_run_outdir=dry_run_outdir, no_overrides=args.no_overrides, force_patch_refresh=args.force_patch_refresh)
-                                   ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/lib/devtool/standard.py", line 1906, in _update_recipe
-    updated, appendf, removed = _update_recipe_patch(recipename, workspace, srctree, crd, appendlayerdir, wildcard_version, no_remove, no_report_remove, initial_rev, dry_run_outdir, force_patch_refresh)
-                                ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/lib/devtool/standard.py", line 1728, in _update_recipe_patch
-    appendfile, destpath = oe.recipeutils.bbappend_recipe(
-                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
-                    rd, appendlayerdir, files,
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
-    ...<2 lines>...
-                    redirect_output=dry_run_outdir,
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-                    params=params)
-                    ^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/lib/oe/recipeutils.py", line 721, in bbappend_recipe
-    appendpath, pathok = get_bbappend_path(rd, destlayerdir, wildcardver)
-                         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/lib/oe/recipeutils.py", line 630, in get_bbappend_path
-    confdata = bb.cookerdata.parse_config_file(destlayerconf, confdata)
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/cookerdata.py", line 182, in wrapped
-    raise bb.BBHandledException()
-bb.BBHandledException
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Using source tree as build directory since that would be the default for this recipe
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/libfaketime
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/libfaketime/libfaketime_0.9.14.bb
+INFO: Changelog extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/libfaketime.txt
+INFO: Changelog metadata written to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/libfaketime.json
+
 
 
 Please review the attached files for further information and build/update failures.
@@ -113,16 +98,35 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============4465596364127429717==
+--===============5294490405137022328==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="llvm-project-source-23.1.5-changelog.txt"
+Content-Disposition: attachment; filename="libfaketime-changelog.txt"
 
-- On Windows targets using Microsoft C++ ABI, fixed returning a class with
-  a deleted template constructor which should be returned in a register.
-  This affects the ABI of `std::strong_ordering` in some versions of the
-  Microsoft STL. (#GH237188)
+List of changes for v0.9.14 (November 2026)
+============================================
 
---===============4465596364127429717==--
+Since 0.9.13:
+    - Added the wrapper's --freeze mode, which resolves user-friendly date
+      syntax once and then uses the resulting absolute timestamp.
+    - Fixed glibc >= 2.33 stat-entry-point coverage so stat64, lstat64,
+      fstat64, and fstatat64 expose one consistent virtual timestamp model.
+      This prevents mixed real and faked metadata from invalidating timestamp
+      based caches such as Python bytecode caches.
+    - Improved glibc time64 helper selection and linker compatibility,
+      including a dedicated helper version map and lld build coverage.
+    - Hardened initialization, descriptor ownership, and flock-based locking
+      for current and legacy glibc loaders, including safer behaviour after
+      descriptor closure and loader re-entry.
+    - Made FAKETIME_XRESET rate transitions safe for concurrent readers and
+      documented the wall-clock transition contract.
+    - Added bounded Tokio diagnostics and documented the required
+      FAKETIME_DONT_FAKE_MONOTONIC workaround for runtimes that issue direct
+      absolute-monotonic futex system calls.
+    - Expanded CI and Docker coverage, including reproducible architecture,
+      sanitizer, clean-build, linker, and Linux distribution checks.
+    - Documented Debian ARM package preload-path diagnosis and clarified
+      compatibility boundaries for language runtimes and filesystem metadata.
+
+--===============5294490405137022328==--
