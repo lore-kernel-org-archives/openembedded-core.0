@@ -1,89 +1,112 @@
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8502.1794991140352100842
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8729.1794992685715133855
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Nov 2026 00:39:01 -0800
+ Wed, 18 Nov 2026 01:04:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=td95gs+z;
- spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: joaomarcos.costa@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 8EDF0C4CBD9
-	for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 08:39:02 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id CBF7B5FE9B;
-	Wed, 18 Nov 2026 08:38:57 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 77EBD11BC06A7;
-	Wed, 18 Nov 2026 09:38:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1794991137; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=pmoSwmLTszZ3Bx+pIkCz2ds943fx1x6zffK+qhq/XtQ=;
-	b=td95gs+z+2kXhGaKWPrOBifPBaqGNOI/ueSLpc1T+XC+md12ASHKEiDUwlj+H/VppSBXUz
-	DKllCOPge9Y+Vvj3o+3am59YZz5wrxhrFLcGTWNiLVfo0Hjbg1wyesoWETHmBGdvxvbdaZ
-	xHiwsvU4nsO1M51pJmZjNTKbNO1RndefE4jb3G9sW1yvI/f7SrZMPdFFv1pNLLExpV0MX+
-	Lvo8k3Mma18KvtATF3T7jEDyQq50srpVV/9slKYlcjwheu27JzI7iy4mUmLnEYmC2TUljY
-	Iw9PxqTQLwzYZPSxyNLPe7gaNcKDmEZktk05c5+0ZVC9QMK2SYOYKfHqW+jlwA==
-Message-ID: <e16b7ad3-7d2a-4573-81fe-84e14999fe57@bootlin.com>
-Date: Wed, 18 Nov 2026 09:38:55 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [scarthgap][PATCH] glibc: fix CVE-2026-84243
-To: Fabien Thomas <fabien.thomas@smile.fr>,
- openembedded-core@lists.openembedded.org
-Cc: thomas.petazzoni@bootlin.com
-References: <20261104150611.1720587-1-joaomarcos.costa@bootlin.com>
- <DMXJC8MY3ICL.3R9DYAAS6OXEF@smile.fr>
-Content-Language: en-US, fr
-From: Joao Marcos Costa <joaomarcos.costa@bootlin.com>
-Organization: Bootlin
-In-Reply-To: <DMXJC8MY3ICL.3R9DYAAS6OXEF@smile.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=moTRZ9j5;
+ spf=pass (domain: smile.fr, ip: 209.85.221.48, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-490c3ae81d3so411467f8f.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 01:04:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google2; t=1794992684; x=1795597484; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=UexsbpIPqvtxYZABIyNhWSXPmlFp22+dxXSMaWvbStM=;
+        b=moTRZ9j5zBBD3nr5mxKRNwkMK+R3bpWND91Et5kt7AbmhFuLbVubjik41Ms5efRx4U
+         FtmpvAfg6ZD6urHeKkBuR6VzTUM+q6r8AkGDcgTyxNwWaQuwFM1E3BxpD7M0b/cjDKCI
+         uXT1TswvAzqsW8fkiMdDx9YZWZ/OJiD8x/bWf/OTEqXaxEjU+11OUXY0aG2cNagE+7lz
+         O8oLETd27/PM0o2buykrF7aHb81u54r2fhKaK6uw2GflHjU356n4HxMDUuDl4Op9E4qI
+         ehqywlWwcLPL/N+ABPHBVuh7QQjGwDqROI49gd8fv8M66E2DaxsiBGKm3/3MZsor/JYi
+         dHMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794992684; x=1795597484;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=UexsbpIPqvtxYZABIyNhWSXPmlFp22+dxXSMaWvbStM=;
+        b=t/Ohom+iHgy9lN3lfjI/D+4haxWVFNNiXCSzidHFeXwhW2xeiruzwL+ZnwY7DPcECX
+         P7UKNGnQ97L2f0K43zfaCgFylwyW50TBsBL8zqUxVMc+8BizNvuOzwa6aU16/8tHVZf6
+         11sZq8N/nNGnB6nMeLjg858ovBMTSHjv76Ovc5yl26ugmjhNTfMRkB+IHanhgdi1ixVJ
+         wBQDG0X18+0+jyq00Mntzewoy+jl6zTRdrpJKgX0C9tfqIBiGv9Pw0Z6cUUwfVlnvvPg
+         srwQJ/BMXpqx2xEJHa8Va7KZlK567L1GwmhG4DEOxvh59odvzCPA5Y5QYbHv1RiE2kSa
+         ElPg==
+X-Gm-Message-State: APuU4Z82Fq6EcnDpTrr/na9zp4B0rm5K2+BosNYGMMoBgH7rsJarJ8+4
+	m36cwyE4OT//46FXfs94LuNffV4HHe81YELWcbrjxguy10l5YjJKEJ0Qm0EphtBDeJ8=
+X-Gm-Gg: AZFdTZcQ14p9sRn6n9eCK5+5+gKdJfNAO0No88z0GrehaYlAD5qwPH1FpI6pGC3Z7yL
+	WHGo32bjL0KOcW0TxLSpXv0b256G6Jvgg32OQo1V86R1ocMZBUkhyYuY/jy+9tO526V2WXFaAP7
+	rTcZ/jJL08okhnvtKPw1tOQyMZjvj2Z1wGOGTHTdxIpXK6zqUYY3jpTvjJJ8ognVmWJYAUBNOe8
+	AXxaiUsNXSmAS0t5Kr23SMmeutfsfhbc0cnz/4IDjZ2cV4ShtcRfaV5D1o+T/lgyRQ9nomZd9vE
+	IoyKw05uY5OdyFSppLuGy0bVgZnRj52SQG6z+TYW2yMtiinWG2atENOc27l3GUxturarLHsrsc4
+	tSQmkoBmRglaJVfeDfxGs0DgCa7CVEhoeFxCRVFVqpNe3YxEzVRr3QWUA/Jwbjy3JZ4aqdmm6g4
+	Nsa2fQucLwQ++I/rHIr29x8XsU1WLw28GGSAvKCm+iN6OTCw7LEK7FpPcr3PS5GaAxDhHGqlm6S
+	gVvAG9aoeMJ7ih68ScpTPRf0GWT/siW9DG7AW1i0yGng0g5McPQyMjz7E2ufIac4xpSeAH8rkRZ
+	UFWq7Wuw+/UnzPyvFdY9YMPp1pX2Rg1VPpZzw1QffRQNZ7XB9P3F1Q71cmN281TH27QxSI1u0HJ
+	2N+m0A2xh4KxMQzOK
+X-Received: by 2002:a05:6000:2681:b0:4a4:9c15:82d0 with SMTP id ffacd0b85a97d-4a63648e177mr4849036f8f.4.1794992683769;
+        Wed, 18 Nov 2026 01:04:43 -0800 (PST)
+Return-Path: <yoann.congal@smile.fr>
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a655f9f53dsm3435892f8f.35.2026.11.18.01.04.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Nov 2026 01:04:43 -0800 (PST)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 18 Nov 2026 10:04:42 +0100
+Message-Id: <DMY7SUIMH84V.3DI26DWHENG5F@smile.fr>
+Subject: Re: [OE-core] [PATCH] pseudo: inherit upstream-stable-release-point
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: "OE-core ML" <openembedded-core@lists.openembedded.org>,
+ <mark.hatle@amd.com>
+To: "Alexander Kanavin" <alex.kanavin@gmail.com>
+X-Mailer: aerc 0.20.0
+References: <20261117164151.1362220-1-yoann.congal@smile.fr>
+ <CANNYZj9Uj5v-Tb1TrA+TrxrdEyjO+qj25byZ0fWtUpiLHKH-DA@mail.gmail.com>
+In-Reply-To: <CANNYZj9Uj5v-Tb1TrA+TrxrdEyjO+qj25byZ0fWtUpiLHKH-DA@mail.gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 08:39:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250524
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 09:04:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250525
 
-Hello, Fabien
+On Tue Nov 17, 2026 at 6:13 PM CET, Alexander Kanavin wrote:
+> On Tue, 17 Nov 2026 at 17:42, Yoann Congal via openembedded-core
+> <yoann.congal=3Dsmile.fr@lists.openembedded.org> wrote:
+>
+>>
+>> Pseudo now has a stable branch pseudo-1.9 with pseudo-1.9.x tags on it.
+>
+>
+> Is this branch collecting only bugfixes (or fixes needed for continuing
+> operation of yocto release branches)? Is this going to be a policy for an=
+y
+> future point releases, or is it a one-off just for 1.9.x? There should be
+> confirmation of these questions, in addition to the existence of the bran=
+ch.
+>
+> Alex
 
-On 11/17/26 2:54 PM, Fabien Thomas wrote:
-> On Wed Nov 4, 2026 at 4:06 PM CET, Joao Marcos Costa via openembedded-c=
-ore wrote:
->> This vulnerability, marked as High [1], was fixed upstream [2] since
->> 2.45.
->>
->> Backport the fix to glibc v2.39.
->>
->> The only changes not included in the backport are the ones in NEWS fil=
-e.
->>
->> [1] https://nvd.nist.gov/vuln/detail/cve-2026-84243
->> [2] https://sourceware.org/bugzilla/show_bug.cgi?id=3D17142
->>
->> Signed-off-by: Jo=C3=A3o Marcos Costa (Schneider Electric) <joaomarcos=
-.costa@bootlin.com>
->> ---
->>   .../glibc/glibc/CVE-2026-84243.patch          | 193 ++++++++++++++++=
-++
->>   meta/recipes-core/glibc/glibc_2.39.bb         |   1 +
->>   2 files changed, 194 insertions(+)
->>   create mode 100644 meta/recipes-core/glibc/glibc/CVE-2026-84243.patc=
-h
->>
->=20
-> Hello Jo=C3=A3o,
->=20
-> Thanks for this patch. However, I can't apply it directly in Scarthgap =
-until
-> Wrynose branch has been updated, as mentionned in this thread [1].
->=20
-> I'm putting it on hold until then.
->=20
-> [1] https://lore.kernel.org/all/20261112062448.3128219-1-hthakar@cisco.=
-com/
+Hello,
 
-Sure, no worries.
+Good point.
 
+The best we have right now is this:
+https://lore.kernel.org/all/1783104055-19005-1-git-send-email-mark.hatle@ke=
+rnel.crashing.org/
+> (I have already created a pseudo-1.9 branch so we can backport stable
+> changes as needed.)
+
+Which is a bit terse...
+
+As nothing about this is urgent nor critical, I've created a bug:
+16529 =E2=80=93 Document pseudo stable policy (1.9.x)
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16529
+... so it can be treated at the right time.
+
+As for this patch, let's hold it until the policy has been cleared up.
+
+Regards,
 --=20
-Best regards,
-Jo=C3=A3o Marcos Costa
+Yoann Congal
+Smile ECS
 
