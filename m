@@ -1,182 +1,131 @@
-Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.592.1795034965699198219
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.593.1795034966797514843
  for <openembedded-core@lists.openembedded.org>;
  Wed, 18 Nov 2026 12:49:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre.com header.s=google header.b=UkFYe9Tz;
- spf=pass (domain: baylibre.com, ip: 209.85.160.176, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-55bd96affd2so2814431cf.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 12:49:25 -0800 (PST)
+ dkim=pass header.i=@baylibre.com header.s=google header.b=UFfIYnTZ;
+ spf=pass (domain: baylibre.com, ip: 209.85.160.173, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-53644ab1f7bso11731111cf.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 12:49:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1795034964; x=1795639764; darn=lists.openembedded.org;
+        d=baylibre.com; s=google; t=1795034966; x=1795639766; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=JfbLiMnfeI0Q8DFY8T6IxuDvwVUHfeh+M9zgixKK7Es=;
-        b=UkFYe9TzZHujz5Z4zwrsK7H4/sXFRXHdfnXUUeA+48h4TvHG7iCI5mxBIFRWjR9C19
-         VjmZbZZKm7T+igNUscIlzms+sAMqgsaRI+B8M5YdmcuBMb4uePQR9+H/TmWJZb8rLfjs
-         vnIH5lAA8JJnNbNKXbIo9bdyrZGeCTZNnnlG8EgVZCY/yYpTLh0gzaE6iBylSlgT828e
-         zWMFP3SNs8S9/AsUk7QJH9N0duksIkuroiO8RHq8WvfMwCRtDfPIIeKbieuv0QdLCcuL
-         aQtAT3jrJvUbMG4wZ9rnTUOKz0tEnXeFLlBSI7fXy5JNPDeiJb4GG46ggqHPi7yDTyr7
-         YDSg==
+        bh=zK75qA3J7DNQEmMb6IF9UszkGrjC5CT8DpROWalXV2o=;
+        b=UFfIYnTZ45BaY5gqLM6eRjiyM/yFIhNa1lt0KQJGjmrbUVHyw2X4Do0dZ2WTfCPZhA
+         62KrtHbm04SQllomwHhwVia7xRaQfPOTVBTXIitjsYcHDc0SXlxznCitNKs9zOdBjNdl
+         pWvMT6Rrg8Ut6dbSIo1xC0ulFpPzZVfKJwAi2piVFi55IX3nVoC/7qeTRRwDG6BXKZGX
+         Ks4zUIMudiaanYuxfcANz3GSAjWbL0CF5PlcSDSnsre1Xyc6PGnXdktxpXWYpw3KL3GF
+         /hziDO9zoi09TmulQ/XhVOx2giKCnJ+2vlsXsPjivOp/b2SCwQTDF1pkux2izqjcSFki
+         F6XQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795034964; x=1795639764;
+        d=1e100.net; s=20260707; t=1795034966; x=1795639766;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=JfbLiMnfeI0Q8DFY8T6IxuDvwVUHfeh+M9zgixKK7Es=;
-        b=e4Nwijl5CpG3rq1orXjEBG2i4vpdCwwm39MD4FZVt0twOAVL6LqLNy8YOugjlwZ3kQ
-         LS7RQ6GUacW9vDRIb1kqJ47X0MOylVXwm3sWsH47XLVNVs9TsUeCDNrxnUWmWEvBDyQs
-         NJxav0m8jNzkXUh+3wmBJyFeVbx3pW+JylsmZHZg5LvyxCm78NPs3nXP97knFI+RV40I
-         TOFfMo7KOjCZxaX8wRPR4yPcK25hv2WT4c1/1suGGidB/8N4EYto/7UVubvnNDpq20H3
-         s8ZQACkOTXVubvOdw3bMEsCvtzXm+IuqtuHHohCr6taUvoq3ETmFCTBgyNCn2aWsa3A+
-         KFeA==
-X-Gm-Message-State: APuU4Z+ZfinGdIZ2JNfPYEH3Ox72LcxWwa5yXz1cp/Ft6f3AkMsKKcz+
-	0Ic7WnaVhT+exTQcapccW5V42dI1WwEAj0t8QXs1iYkBSU0QV+P0xo2zTam/1AEaN0GzAZtzYuq
-	eqzKl
-X-Gm-Gg: AYBFou2LSim6+T/Y0Jc9EFis7MRlfll1X37Ja4YJRVIqdsiOEV3S5m/8BbMJWWbHJ9C
-	xsm60OfHczRhXeASeIKTpdiLamwr6nVD/InSqJipUIZQ5LOXR9DcDMDbPZsmkKVF4wBRUcIIXYJ
-	c2lZvaYt6vRPMslcb3U0E5ZgA6G6CKqLKjaVoyub4WqvemMC0OjuhnvsJucYSA4hRUu6bD59tXk
-	pU4Y/+9UsaMjQv1jLXHRWQQGGyBdpTNIlCZnjSfyOhfDF22cccdMsY7zcJ00VYMIrMyzuk4vTNu
-	4EaBnhWlLAK+N8NIMi+6fxlZ9E+IhHP5ya1e+jTztPolz4sa+/5FwJvEEU9s/bA8OJ4SA7wyYt8
-	QHNHLXAYOS+CIcRkrGNuq18d7r4rrZPWFNHe4qqLqRnpr1tl68UKdCrThRdGU4h/TLLOlcqP+ml
-	cfGeh3SzT6Qr0hmsLVguJ6tzvduHdSxRktW9EgXeZlicmb1xD0CxFgBUsxdspCnKL/ywN0OBAYc
-	v/CjaSGXCmd8IaI+G0Yr5NEn1scNvRNQPUWC896GidKNrZQjqCDbJpNXdBLewnnViZcrpbkCfNv
-	5IWUkM6wVdDjPmzywxS2ONz+7Iagb8NQSqGst1IHeTM1mYgKxLM8NBfpEBX88IqQusaZhfLnQsB
-	cvHFiE202BzFp57IkQ8y1jDWSgg==
-X-Received: by 2002:a05:622a:5e14:b0:55c:aee9:4f69 with SMTP id d75a77b69052e-55d6839e453mr11990051cf.5.1795034964323;
-        Wed, 18 Nov 2026 12:49:24 -0800 (PST)
+        bh=zK75qA3J7DNQEmMb6IF9UszkGrjC5CT8DpROWalXV2o=;
+        b=FpiMUrofDgiU95EbbCtG2y2Oq6w/MJCBFy7zoMJX+HcjKQ25Uo7JxJ14qRuZLX04z5
+         kR2OmqJb8w9tmhckdY5yBf8ESz4EHTOCjMG5dUCBaFyoG8fyLy4pkioKR82lhPiOe5/K
+         y2J1YdnloUhCajYLnksi2Rm3Ivu4PqhTwdfoZ8SuyxtAGkDsHqlYbgEdu2Tjo+rrRsDt
+         gLwwA86KJDBwjV1uwrUQFMRL9u2dYXDrSDMy5KyjKgyceUaOqZQTE+yL2wKNcYoi+OOs
+         HCl4e2oNbYa4yfRDo/fA+gSD5d+10fbK/KzbBAmg8FEI9lsG5WRXmZ2lvMy4R2lYiE9h
+         1bzw==
+X-Gm-Message-State: APuU4Z8SphTZy59a01823PYAOdl3qfDEcC0oPHCPlNZ9Rwe01bilcG02
+	XMqkLfH2hr4umyYDvI7IHkb0O7Q96vJsr7I96lGMKQlVrZrI5nZxqYfgtnTTlkLKpXs1wi5asJ2
+	eBP1t
+X-Gm-Gg: AYBFou0NCfrX0inc3s655LUp+6cBl9iHsVDAv8ley0WK5JGp7+n/mFn2Uap1A5OZik5
+	Bvyab5RaN5OZ0jRKuJlH4fDX4YaEfITagMt2OgydMKsfmSJxWXs9JLVe0Xize/BDNbzKyJH3T4w
+	xqYd3YTKKEUL/NOAbmZ4sUbVQIfIm3a+I8hxssnxPyo2cM44GkgVb8jrW1rO/GNH5TnNGtPYrqQ
+	DsWhn4LrHu5+qiyPQzcX8Jqu73v75eVpIN7f4YBWyFisSF2mVJJ6E+n+z5GeHTUzPX+WOxh9H9y
+	cdrmdnlfi+ItnBJbpEH79WZfXqNGsme7STt3Zg/9PbARuZmGsvrrdBIqDvXACuiKKyntf3ORF3B
+	BL+CJlQ9MrUGBh1o9td1yC2uJD3iRBt4bAU96PZn7jKVk7HelCqhrJEk6oX9oj4EZ30d7oYiYPO
+	Wy2aU+esi/6UvrL2bD557D5srfz0VsLY6Mf3j2b5PIbHUpeK/5vBqBhLwHPjGCpgMnp+nr76Fob
+	/DniA/yC/D+oWBbUF7+PF+t6avYH/Xp7lsaEh0Yz0Y3/4wq55jvoHBcmKVy9rCUTvB/BjhJtC9G
+	Cb0ukemOpVaQzG0f3PfN2Z3OZLWySS0yexjcuRfowNlHsTmRPXvRvSFDoVPMcdMm5TseVuPnrWo
+	kjhwv
+X-Received: by 2002:ac8:5994:0:b0:535:1368:4582 with SMTP id d75a77b69052e-55d5a612c80mr62583831cf.46.1795034965594;
+        Wed, 18 Nov 2026 12:49:25 -0800 (PST)
 Return-Path: <tgamblin@baylibre.com>
 Received: from megalith.cgocable.net ([2001:1970:3847:e000:e8bd:ca0f:c232:9f10])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d66bca072sm8637541cf.17.2026.11.18.12.49.23
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d66bca072sm8637541cf.17.2026.11.18.12.49.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 12:49:23 -0800 (PST)
+        Wed, 18 Nov 2026 12:49:24 -0800 (PST)
 From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
 Cc: raj.khem@gmail.com,
 	mark.hatle@kernel.crashing.org,
 	paul@pbarker.dev
-Subject: [OE-core][PATCH 01/12] arch-riscv.inc, tune-riscv.inc: add RISCVPKGARCH
-Date: Wed, 18 Nov 2026 15:48:42 -0500
-Message-ID: <20261118204853.2155173-2-tgamblin@baylibre.com>
+Subject: [OE-core][PATCH 02/12] arch-riscv.inc: add zmmul, zaamo, zalrsc, zca, zcd
+Date: Wed, 18 Nov 2026 15:48:43 -0500
+Message-ID: <20261118204853.2155173-3-tgamblin@baylibre.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261118204853.2155173-1-tgamblin@baylibre.com>
 References: <20261118204853.2155173-1-tgamblin@baylibre.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 20:49:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250584
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 20:49:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250585
 Content-Type: text/plain; charset="utf-8"
 
-Set each generic RISC-V tune's package arch as a literal in
-RISCVPKGARCH:tune-<name>, matching how we do so for ARM and ARMPKGARCH.
-Include a fallback to TUNE_RISCV_PKGARCH for tunes that don't set
-RISCVPKGARCH:tune-<name>.
+Add TUNE_FEATURES for the zmmul, zaamo, zalrsc, zca, and zcd extensions,
+which are enabled by compilers with m, a, c, and c with d:
 
-No package arch changes.
+|tgamblin@megalith ~/workspace/git/linux (master)$ riscv64-linux-gnu-gcc -march=rv64gc -mabi=lp64d -Q --help=target | grep march
+|  --print-supported-extensions          -march=help
+|  -march=                               rv64imafdc_zicsr_zifencei_zmmul_zaamo_zalrsc_zca_zcd
+|  -march=help                           [disabled]
+|  -print-supported-extensions           -march=help
+
+Only pass them to '-march' when TUNE_FEATURES lists them, so that
+'-march' doesn't change for existing tunes. Also add them to the
+generated package arch, so that e.g. 'rv64ia_zmmul' doesn't share a
+package arch with 'rv64ia', but only when the extension that they're a
+subset of isn't enabled, so that e.g. 'rv64ima_zmmul' still shares one
+with 'rv64ima', as the code is the same.
 
 Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- meta/conf/machine/include/riscv/README        | 10 ++++++++--
- .../conf/machine/include/riscv/arch-riscv.inc |  8 ++++++--
- .../conf/machine/include/riscv/tune-riscv.inc | 20 +++++++++++++------
- 3 files changed, 28 insertions(+), 10 deletions(-)
+ .../conf/machine/include/riscv/arch-riscv.inc | 25 +++++++++++++++++++
+ 1 file changed, 25 insertions(+)
 
-diff --git a/meta/conf/machine/include/riscv/README b/meta/conf/machine/include/riscv/README
-index beef68f523..b17c86c814 100644
---- a/meta/conf/machine/include/riscv/README
-+++ b/meta/conf/machine/include/riscv/README
-@@ -87,7 +87,13 @@ TUNE_RISCV_ABI - This is the generated ABI that corresponds to the ARCH and
-                  ISA variation.  The ISA affects the ABI when the 'e', 'f'
-                  and 'd' extension are used.
- 
--TUNE_RISCV_PKGARCH - This is the generated PKGARCH value.
-+TUNE_RISCV_PKGARCH - This is the PKGARCH value generated from TUNE_FEATURES.
-+
-+RISCVPKGARCH - This is the package arch actually used.  As with ARMPKGARCH
-+               on arm, each tune sets it as a literal in
-+               RISCVPKGARCH:tune-<name>, so that it only changes when
-+               deliberately changed.  Tunes that don't set it fall back to
-+               TUNE_RISCV_PKGARCH.
- 
- The standard variables are defined as:
- 
-@@ -99,7 +105,7 @@ not adequate for some reason.  It is expected that most, if not all,
- implementations will use the default behavior.
- 
- TUNE_ARCH = "${TUNE_RISCV_ARCH}"
--TUNE_PKGARCH = "${TUNE_RISCV_PKGARCH}"
-+TUNE_PKGARCH = "${RISCVPKGARCH}"
- 
- The above two will always base their setting off the standard TUNE_FEATURES.
- 
 diff --git a/meta/conf/machine/include/riscv/arch-riscv.inc b/meta/conf/machine/include/riscv/arch-riscv.inc
-index 6f9b74974d..b2a9aa8952 100644
+index b2a9aa8952..6883e39a5f 100644
 --- a/meta/conf/machine/include/riscv/arch-riscv.inc
 +++ b/meta/conf/machine/include/riscv/arch-riscv.inc
-@@ -121,9 +121,13 @@ TUNE_CCARGS = "${@ '-march=${TUNE_RISCV_MARCH} -mabi=${TUNE_RISCV_ABI}' if not d
- TUNE_ARCH = "${TUNE_RISCV_ARCH}"
+@@ -94,6 +94,31 @@ TUNEVALID[zifencei] = "Instruction-fetch fence extension"
+ TUNE_RISCV_MARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zifencei", "_zifencei", "", d)}"
+ TUNE_RISCV_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zifencei", "_zifencei", "", d)}"
  
- # Construct TUNE_PKGARCH
--# This should result in a package are like:
-+# As with ARMPKGARCH on arm, each tune sets its package arch as a literal in
-+# RISCVPKGARCH:tune-<name>, so that it only changes when deliberately changed.
-+# Tunes that don't set it fall back to TUNE_RISCV_PKGARCH, which is built from
-+# TUNE_FEATURES above, e.g.:
- #    riscv32imac
--TUNE_PKGARCH = "${TUNE_RISCV_PKGARCH}"
-+RISCVPKGARCH = "${@d.getVar('RISCVPKGARCH:tune-${DEFAULTTUNE}') or d.getVar('TUNE_RISCV_PKGARCH')}"
-+TUNE_PKGARCH = "${RISCVPKGARCH}"
- 
- # Misc settings
- # Fix: ld: unrecognized option '--hash-style=sysv'
-diff --git a/meta/conf/machine/include/riscv/tune-riscv.inc b/meta/conf/machine/include/riscv/tune-riscv.inc
-index ed71dc06ba..88c9184c8b 100644
---- a/meta/conf/machine/include/riscv/tune-riscv.inc
-+++ b/meta/conf/machine/include/riscv/tune-riscv.inc
-@@ -6,27 +6,35 @@ AVAILTUNES += "riscv64gcv riscv64gc riscv32gc riscv64 riscv32 riscv64nc riscv64n
- 
- # Default
- TUNE_FEATURES:tune-riscv64gc := "${@oe.tune.riscv_isa_to_tune("rv64gc")}"
--PACKAGE_EXTRA_ARCHS:tune-riscv64gc = "${TUNE_RISCV_PKGARCH}"
-+RISCVPKGARCH:tune-riscv64gc ?= "riscv64imafdc_zicsr_zifencei"
-+PACKAGE_EXTRA_ARCHS:tune-riscv64gc = "${RISCVPKGARCH:tune-riscv64gc}"
- 
- TUNE_FEATURES:tune-riscv64gcv := "${@oe.tune.riscv_isa_to_tune("rv64gcv")}"
--PACKAGE_EXTRA_ARCHS:tune-riscv64gcv = "${TUNE_RISCV_PKGARCH}"
-+RISCVPKGARCH:tune-riscv64gcv ?= "riscv64imafdcv_zicsr_zifencei"
-+PACKAGE_EXTRA_ARCHS:tune-riscv64gcv = "${RISCVPKGARCH:tune-riscv64gcv}"
- 
- TUNE_FEATURES:tune-riscv32gc := "${@oe.tune.riscv_isa_to_tune("rv32gc")}"
--PACKAGE_EXTRA_ARCHS:tune-riscv32gc = "${TUNE_RISCV_PKGARCH}"
-+RISCVPKGARCH:tune-riscv32gc ?= "riscv32imafdc_zicsr_zifencei"
-+PACKAGE_EXTRA_ARCHS:tune-riscv32gc = "${RISCVPKGARCH:tune-riscv32gc}"
- 
- # Compatibility aliases so that layers using old tunes don't break
- TUNE_FEATURES:tune-riscv64 := "${TUNE_FEATURES:tune-riscv64gc}"
-+RISCVPKGARCH:tune-riscv64 ?= "${RISCVPKGARCH:tune-riscv64gc}"
- PACKAGE_EXTRA_ARCHS:tune-riscv64 = "${PACKAGE_EXTRA_ARCHS:tune-riscv64gc}"
- TUNE_FEATURES:tune-riscv32 := "${TUNE_FEATURES:tune-riscv32gc}"
-+RISCVPKGARCH:tune-riscv32 ?= "${RISCVPKGARCH:tune-riscv32gc}"
- PACKAGE_EXTRA_ARCHS:tune-riscv32 = "${PACKAGE_EXTRA_ARCHS:tune-riscv32gc}"
- 
- # No float
- TUNE_FEATURES:tune-riscv64nf := "${@oe.tune.riscv_isa_to_tune("rv64imac_zicsr_zifencei")}"
--PACKAGE_EXTRA_ARCHS:tune-riscv64nf = "${TUNE_RISCV_PKGARCH}"
-+RISCVPKGARCH:tune-riscv64nf ?= "riscv64imac_zicsr_zifencei"
-+PACKAGE_EXTRA_ARCHS:tune-riscv64nf = "${RISCVPKGARCH:tune-riscv64nf}"
- 
- TUNE_FEATURES:tune-riscv32nf := "${@oe.tune.riscv_isa_to_tune("rv32imac_zicsr_zifencei")}"
--PACKAGE_EXTRA_ARCHS:tune-riscv32nf = "${TUNE_RISCV_PKGARCH}"
-+RISCVPKGARCH:tune-riscv32nf ?= "riscv32imac_zicsr_zifencei"
-+PACKAGE_EXTRA_ARCHS:tune-riscv32nf = "${RISCVPKGARCH:tune-riscv32nf}"
- 
- # no compressed
- TUNE_FEATURES:tune-riscv64nc := "${@oe.tune.riscv_isa_to_tune("rv64imafd_zicsr_zifencei")}"
--PACKAGE_EXTRA_ARCHS:tune-riscv64nc = "${TUNE_RISCV_PKGARCH}"
-+RISCVPKGARCH:tune-riscv64nc ?= "riscv64imafd_zicsr_zifencei"
-+PACKAGE_EXTRA_ARCHS:tune-riscv64nc = "${RISCVPKGARCH:tune-riscv64nc}"
++# zmmul, zaamo, zalrsc, zca and zcd are subsets of single-letter extensions
++# above (m, a, c and c with d), which compilers enable along with them. They
++# are only passed on when listed in TUNE_FEATURES, so that -march doesn't
++# change for existing tunes, and only added to the package arch when the
++# extension they're part of isn't enabled.
++TUNEVALID[zmmul] = "Integer multiplication (without division) extension"
++TUNE_RISCV_MARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zmmul", "_zmmul", "", d)}"
++TUNE_RISCV_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zmmul", bb.utils.contains("TUNE_FEATURES", "m", "", "_zmmul", d), "", d)}"
++
++TUNEVALID[zaamo] = "Atomic memory operations extension"
++TUNE_RISCV_MARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zaamo", "_zaamo", "", d)}"
++TUNE_RISCV_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zaamo", bb.utils.contains("TUNE_FEATURES", "a", "", "_zaamo", d), "", d)}"
++
++TUNEVALID[zalrsc] = "Load-reserved/store-conditional extension"
++TUNE_RISCV_MARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zalrsc", "_zalrsc", "", d)}"
++TUNE_RISCV_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zalrsc", bb.utils.contains("TUNE_FEATURES", "a", "", "_zalrsc", d), "", d)}"
++
++TUNEVALID[zca] = "Compressed integer instructions extension"
++TUNE_RISCV_MARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zca", "_zca", "", d)}"
++TUNE_RISCV_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zca", bb.utils.contains("TUNE_FEATURES", "c", "", "_zca", d), "", d)}"
++
++TUNEVALID[zcd] = "Compressed double-precision floating-point instructions extension"
++TUNE_RISCV_MARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zcd", "_zcd", "", d)}"
++TUNE_RISCV_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zcd", bb.utils.contains("TUNE_FEATURES", "c d", "", "_zcd", d), "", d)}"
++
+ TUNEVALID[zba] = "Address bit manipulation extension"
+ TUNE_RISCV_MARCH .= "${@bb.utils.contains_any("TUNE_FEATURES", "b zba", "_zba", "", d)}"
+ TUNE_RISCV_PKGARCH .= "${@bb.utils.contains_any("TUNE_FEATURES", "b zba", "_zba", "", d)}"
 -- 
 2.56.0
 
