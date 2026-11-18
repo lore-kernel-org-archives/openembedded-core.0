@@ -1,53 +1,54 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4151.1795045471018095579
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4152.1795045472952607606
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Nov 2026 15:44:31 -0800
+ Wed, 18 Nov 2026 15:44:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=JLxe6M6s;
- spf=pass (domain: gmail.com, ip: 209.85.221.54, mailfrom: stondo@gmail.com)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-48dfc0421d9so1474103f8f.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 15:44:30 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=Ch4Uvi9Z;
+ spf=pass (domain: gmail.com, ip: 209.85.221.43, mailfrom: stondo@gmail.com)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-4a7b8abe209so830057f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 15:44:32 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795045469; x=1795650269; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=osdvNKeU33W2G5T1BSIous7WG58bi7Y95WwZr7JrdV4=;
-        b=JLxe6M6s/fLwSYHlgwxbHr4FrSSAgJCdnejCwrypGFy8kZRAwP1xeQossxsK0y6ZyM
-         YqGrsmOZImFwfn50MzuIiHux8f5PhGHoFe5cM61PeMHSsv+W0uWQ6xLL7gOacGl6ojdm
-         02ZjzOETZe2LoYr2ORwUgScvMi4iWvLnru1KDp4zOtrN8cBR/W21uOeRRtnrGfAtH0Fu
-         kYvlEfdKwmgST6mPpbnR8g1njbbSlnw1fksw72DrduDkKhYLwMK3qJDlkUY8PYPx4LOp
-         lwFaag4QhOfu5R77lDdO/W6T43JvDsd5gY8SIroigVcdeY9i9ilGrS9LcxDSY/tc4kSF
-         3sWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795045469; x=1795650269;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1795045471; x=1795650271; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=osdvNKeU33W2G5T1BSIous7WG58bi7Y95WwZr7JrdV4=;
-        b=x3/MuP7jqRaPIiWpr7tZp3ESmpSxLbrr1XlUmkLRRLGwpm/XgAs+ifnQCghogI8pMB
-         YOZmaPr3CrA7Affk74a8YgTqLw2FCnV9g4Mbvli/+ljKKaeHyYAuCmg1lFpMmw2XxCq2
-         1WnMLG5eo+vVb5XzBhc0dMlXRVx6g1xNmce9BsBgNxnmPck/FOy8os7LcZ/MYeO70CXR
-         9nmEyuLuahj+ZdDCQe9VKErmJkbrgODpmkUvKALgRHgBnQ/LLZK38S08MxFQ+VMtFbVa
-         rBtGMtp8BimwxRdcg/+y2qCJlPbG2psR0iSuqmLPmj9ALctMNlthUvPY25hJk4GCUdtb
-         Dxag==
-X-Gm-Message-State: APuU4Z8C3nPeyCj6nS+ikTSvcqOE8JvOpY3CyrAlpL1c9hNVJRyQNLUu
-	q+U0Sss676AhUwSSnY8THEAxJC+Uc7z7OQgSr43JqPr1BlQx0T8Iz+IpKVY0YQ==
-X-Gm-Gg: AZFdTZei/NOiJfZsA3qwA2xWJn0R3cMvDYBvhXqWMnNBCknWM7e/huybzAqNQmk81mC
-	BrFV+FftSuqzPcQlHEC8MvpSXGmuy0s74QyJM2JxzR7RV6/XVq2jpnu1sAii/d8KmHeWseazw4x
-	kxwm5pizYO7YtEXciAmyf6cgGmFE/gux2S4AMvHcDB1ni16AnW7jZbetKkRkEZq/soxX7zKQOeR
-	YQWhCPQeCgPsgi9f6j09UbWMsG3JpuqBaq5+0EqLePqI1tBQvb3+suDaC13v8Xgt1m/+HUlAkmB
-	6VwoZgedbwSZsSWzf9MkU/rZgUGfT4QQ+RIf7LVFh7xAshugGJ2z0XtF/8tdpDhNK6XwTcBSXqS
-	b5KBH9ulspJunp0G30LIqvomLDy77Xs84xtlvGz0mTSMjEe5aR7ymCzQqbKMOLQPrZljlMMXQcf
-	O1RHB1I23oIoyCsVrslkG7DMX+tghnV+oObl0XlQVqkRbKSZzFgGMLIwayG9VHVT49WDbGuG/SQ
-	y2tAuyQikIkBIT3ZMwVXhhVXu+sfOUB8BM99mFi5UZhH+K2sNUbQFgDdLnKovR9Doq9+FlsSLj+
-	hvvHkZdO7W5g
-X-Received: by 2002:a05:6000:d8a:b0:4a3:a0f:ecf0 with SMTP id ffacd0b85a97d-4a63bdb0aabmr6947715f8f.55.1795045469139;
-        Wed, 18 Nov 2026 15:44:29 -0800 (PST)
+        bh=xO0OOZkadpAthd17lMA31hFxO3/QewgAd0/TDcrDg1w=;
+        b=Ch4Uvi9Z02Xe1X6b2o0ncJ3okChz1V4UO4l5sOHoBlL5qsU72/56z2hmW9+JI2R5IF
+         jL9f+z5KUfjkqrALIZFMjDenOPhZe0w3qeDB0sqxFCnwOoYtVjG5Apwit/81QpjXKs/Y
+         vfdMEly8BJJbpVhNC0GU34wkNOJoDMp6p+HmSddtQJJ+jSbtIjqrzKFnKq439nWlNVF6
+         abnHxumk+mwczn6YpVqOk3gOOKVo2AI94k+wyE2X/tE45W7FrhNiJS8xiEXd8jmaLMaI
+         fphfYRRolEX7M/W8PE2ciJgbWMqUGQVs2tiDeQybbCpZ5XbyMHQkVr26HgdKb5DI6sKG
+         6LVQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795045471; x=1795650271;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=xO0OOZkadpAthd17lMA31hFxO3/QewgAd0/TDcrDg1w=;
+        b=bEJVnMqgwQAjqTXOF1NKyDxi550/TzjhC0kKWGrMyPSgXr7V4LYK7yPx0iT2kMDZ0C
+         7DhGH8Tkp3kcQGdlXk0ozxl+0nDEcnkkkig4x1MoYzWtIyI5U46F+TbvDasKjMkUPSj6
+         XYTtoEjitp1Th3vswoBfNDUngUQVSelNhm/hslWc7ftj26al8n2qIXMOg32BKN51bRFH
+         vLMTweAzgVUqd0lWlWKYl1/lNqXsckZFDWuJEvq9JlyqPNPTiFhCTBve3nxs+A1DPXv2
+         nrs3SkAzuJH2UnyvnZgXslPr/95NjiPtnvxFHiFeBYMEOyOPGwHzwdFbNXYUlTGBRQUD
+         iI2A==
+X-Gm-Message-State: APuU4Z+RPy0cK3djWx9fdtFw3tXCeo2cL3qdaNw2nv9QiJvzL5sQIZk4
+	+L0pvf8oA9iYnv+y739Phf8SHcAP/evN0zV0wvDgEUGh6Z7jId/WC0bz722buQ==
+X-Gm-Gg: AZFdTZcAY4j85BwHHxa8Un+qzODKoi365ajlNsJNoKme8KEYULocJyzTeqbZGorl6y4
+	IkiT2vzv38UVMgkUukKab7qhYT6NE9hVqLBjS2+DKW8NPrxrPORYoV5yrDkRGFKtbXC8rGobeq+
+	87Wp2/BN6gaapSHb3jcMQU1nEMn8rY3uqMQtJrbjSEaUf/3miYAkSQKbgq0NhQ/foIgKBre6wQm
+	pON3exiM3t+ODlwAEMUI548YcDEQSu6rbu7N0qbnWNJ3WTrbf2hVMaL4WB4GJXFxBAF4O5gkyNl
+	aPoeC3tNXMZki5p53a+YMHLdEpgFyNVAdZ17hDKxGJRszsaf1lFbiutCdT/psB3aE/9rBIbDN5k
+	PiNPZnxkaM0KlaVKc5QW9gnyf/MhIGARMLAVBdXkaAVK3A/cEZlNtWUwoNLQ7a2sOTTUHpR1L1Y
+	hQRgpj1D+Ytov3SvbZeC+FjTGk6X5tdj/38OWp9dj/kbNUmoKpSYxcM5gmqzuOr354gW1Lk13SX
+	HyDtvNXA1Fo3QQQXSGN0IgBz2SATiOrdfC7nasq/NaOLwkquJsRDpJ0YprlJcmpHIB7P8vtv1fK
+	iTerMuPwcGFx
+X-Received: by 2002:a05:6000:4a07:b0:48e:3767:d885 with SMTP id ffacd0b85a97d-4a63f64e505mr8642851f8f.53.1795045471028;
+        Wed, 18 Nov 2026 15:44:31 -0800 (PST)
 Return-Path: <stondo@gmail.com>
 Received: from fedora ([165.225.94.251])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a654a8c3c6sm6730718f8f.19.2026.11.18.15.44.26
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a654a8c3c6sm6730718f8f.19.2026.11.18.15.44.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 15:44:26 -0800 (PST)
+        Wed, 18 Nov 2026 15:44:29 -0800 (PST)
 From: Stefano Tondo <stondo@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Joshua Watt <JPEWhacker@gmail.com>,
@@ -55,82 +56,67 @@ Cc: Joshua Watt <JPEWhacker@gmail.com>,
 	Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>,
 	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
 	stefano.tondo.ext@siemens.com
-Subject: [PATCH v2 0/4] spdx30: identity and purls of dependency downloads
-Date: Thu, 19 Nov 2026 00:44:21 +0100
-Message-ID: <20261118234425.3681880-1-stondo@gmail.com>
+Subject: [PATCH v2 1/4] spdx30: Take name, version and PURL of downloads from the fetcher
+Date: Thu, 19 Nov 2026 00:44:22 +0100
+Message-ID: <20261118234425.3681880-2-stondo@gmail.com>
 X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261118234425.3681880-1-stondo@gmail.com>
+References: <20261118234425.3681880-1-stondo@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 23:44:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250600
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250601
 Content-Type: text/plain; charset="utf-8"
 
-Hi,
+From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 
-This series implements the parts of the RFC "spdx30: name, version
-and purl for dependency downloads" [1] that we agreed on. It needs
-the bitbake series "fetch: package identity of crate, gomod and npm
-URLs" [2].
+The fetchers of package registries (crate, gomod, npm) know the name
+and the version of each package they download. Today the SPDX of such
+a download only has the file name, so an SBOM scanner cannot match
+the dependency.
 
-1. The SPDX of a crate, gomod or npm download gets the name, the
-   version and the purl from the fetcher.
-2. For Cargo recipes, a new do_cargo_metadata task writes the crate
-   dependency graph for the target. The build links to each crate
-   download with a runtime, build or test scope. A crate that is not
-   used on the target gets an annotation.
-3. Each output package gets the purls of its source downloads as
-   external identifiers, as Joshua proposed: a statically linked
-   dependency is part of the binary. A purl is left out only when the
-   cargo graph proves that the crate is not in the target. The
-   software_packageUrl of the package does not change.
-4. Selftests with python3-bcrypt.
+Ask the fetcher with package_identity() and set the name, the version
+and the PURL of the download. This needs package_identity() in
+bitbake.
 
-For python3-bcrypt, the output package gets the purls of 25 of its
-42 crates. The other 17 crates are not built into the target.
+Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
+---
+ meta/lib/oe/spdx30_tasks.py | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
 
-Two points for review:
-
-- All output packages of a recipe get the purls, also -dbg and -src.
-  I have no proof per package, so I followed the rule "keep the purl
-  unless there is proof".
-- Go recipes have no filter yet. go version -m can give the proof per
-  binary, and I can add it in a follow-up.
-
-Changes in v2:
-
-- Patch 2/4: the walk over the cargo graph expands each workspace
-  member only once. In v1 it did not end for python3-uv-build, where
-  the member uv-preview is a dev dependency of itself. do_create_spdx
-  used memory until the OOM killer stopped it. Thanks to Mathieu for
-  the report [3].
-- Patch 2/4: add unit tests for the scopes, with member cycles.
-- Rebased on master.
-
-Tests: oe-selftest -r oelib.cargo_scopes spdx.SPDX30Check passes on
-master (22 tests) and on master-next (22 tests). With v2,
-do_create_spdx of python3-uv-build and python3-uv-build-native takes
-less than 2 seconds and about 100 MB, with uv-build 0.13.7 and
-0.13.8. For the other cargo recipes in OE-Core, the scopes are the
-same as in v1.
-
-[1] https://lore.kernel.org/openembedded-core/20261105122145.543282-1-stondo@gmail.com/
-[2] https://lore.kernel.org/bitbake-devel/20261118092831.201831-1-stondo@gmail.com/
-[3] https://lore.kernel.org/openembedded-core/DMYFTUY2A6RH.1WI2PDCNCPOJY@bootlin.com/
-
-Stefano Tondo (4):
-  spdx30: Take name, version and PURL of downloads from the fetcher
-  spdx30: Record the lifecycle scope of crate dependencies
-  spdx30: Add the PURLs of the source downloads to the output packages
-  oeqa/selftest: spdx: Test crate identity, scope and output PURLs
-
- meta/classes-recipe/cargo.bbclass             |  17 +++
- meta/lib/oe/spdx30_tasks.py                   | 128 +++++++++++++++++-
- .../oeqa/selftest/cases/oelib/cargo_scopes.py |  73 ++++++++++
- meta/lib/oeqa/selftest/cases/spdx.py          | 122 +++++++++++++++++
- 4 files changed, 339 insertions(+), 1 deletion(-)
- create mode 100644 meta/lib/oeqa/selftest/cases/oelib/cargo_scopes.py
-
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+index 6eaa74ce3d..58fe45ec7e 100644
+--- a/meta/lib/oe/spdx30_tasks.py
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -463,6 +463,19 @@ def enrich_source_package(d, dl, fd, file_name, primary_purpose):
+             )
+ 
+ 
++def set_package_identity(d, dl, fd):
++    """Set name, version and PURL of a download that names a package.
++
++    Fetchers of package registries (crate, gomod, npm) know which package
++    a URL downloads, see FetchMethod.package_identity() in bitbake.
++    """
++    identity = fd.method.package_identity(fd, d)
++    if identity:
++        dl.name = identity["name"]
++        dl.software_packageVersion = identity["version"]
++        dl.software_packageUrl = identity["purl"]
++
++
+ def add_download_files(d, objset):
+     inputs = set()
+     release_date = get_release_date(d)
+@@ -528,6 +541,7 @@ def add_download_files(d, objset):
+             )
+ 
+             enrich_source_package(d, dl, fd, file_name, primary_purpose)
++            set_package_identity(d, dl, fd)
+ 
+             if release_date is not None:
+                 dl.releaseTime = release_date
 -- 
 2.56.1
 
