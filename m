@@ -1,64 +1,64 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.598.1795034973081007192
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.602.1795034968214989667
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Nov 2026 12:49:33 -0800
+ Wed, 18 Nov 2026 12:49:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre.com header.s=google header.b=Jf3WGBW8;
- spf=pass (domain: baylibre.com, ip: 209.85.160.173, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-5364d86f7f0so17215131cf.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 12:49:32 -0800 (PST)
+ dkim=pass header.i=@baylibre.com header.s=google header.b=e0UZvaKv;
+ spf=pass (domain: baylibre.com, ip: 209.85.160.179, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-5430f70c827so20543621cf.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 12:49:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1795034972; x=1795639772; darn=lists.openembedded.org;
+        d=baylibre.com; s=google; t=1795034967; x=1795639767; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=dY1++kw6FewzDjCLhQ1asRVYp+wsExy49aP8gt1T3d0=;
-        b=Jf3WGBW8oprUfRIDKuGmGrwJ3RSm9XVcuLIsTr9KF5X2je+X4t1Lty2naEb/tFthlq
-         xDyJ4R9SaOgni0pmmBAhVZLBoh5VU0s4Od3gvvz5Y6zUkFqaBs/zG8ztoRcfE16jl2G5
-         6N6ddp3DP6sTm/vW3Cy+KQJkuqz2uxhU4JyIcnWb7f1VvGk4p2mLXa8lvuNc54ybRBYo
-         F275sNV5iQUBq7XchsP10a7+M0I4SowJd8YzM/FB2TPt9fwAVP9yG4nlX2wbYJvtvNvS
-         MWsn0yZxrZ534B+Pqi6sRBcG1V34hOJDykKEFd9U4ON38y172+Tjw9NzJOes70qD7apy
-         A7mw==
+        bh=pyB8Lq0JyUc8t5nQ+HZiOlReXCqlNwgyqNb6K2jq2sM=;
+        b=e0UZvaKvt+TE0wPzhosk9GDlK5DKt6ouSsnxrwUEgc2kavXL33UVGbfGG6+a4jDJuE
+         n2hPa4EVTyM0c4nxrcsv4mAGccJZaQ2brHn/IFKDLaxE8FVnAdQYsxYAlP7f7LBi3lSH
+         1kHcEEiVYL9JQeTNpveDvfoqYVUV9rtlUUY9F+CqbgYUrdtCRMhiGc18LM04P8abjN9h
+         AptjYO8JoK4cREjb4QiJZ8DfgCC1JPDjnp0QY/0utXL8E1Opz7fhGo5fE6fCaR43Tpai
+         RjPrnf7rTUPWHNyBdclcarAKGHbeDM/ZYr0JbSpwFZkfqPQl1hccv5D6Ca+KgmhPYiZ0
+         kkYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795034972; x=1795639772;
+        d=1e100.net; s=20260707; t=1795034967; x=1795639767;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dY1++kw6FewzDjCLhQ1asRVYp+wsExy49aP8gt1T3d0=;
-        b=AC5ngfEIbAOv2moRZmDBIGQx6Y6V4yYRUJFco5G4PTzzt/0KEjTA2YMd7uIXg2/4vU
-         EhQOiRNwH9ikwQJ1dROPOK14hJcYHxXzwtPlt0yE+SqJXLFnVi/v5FlK3LOsRqXaCANc
-         AjVERVkqRM9rjB+JnccyLDEz3GdtwH+XkpjSJBg8BchIsHyRBbs0kFr3n5CGVLfpjs8o
-         VW7nyERi2lgRs8QHG8AvO4T6cLy3jnDn/5vqINGDlWodHAcCS9e7doElhU+oamwKlPGu
-         jbRvmQ84uJwgzGgX4lQdvObXgve20y0oMuYkfuWTviy6j2Bk5QqR+ei5T7kKtqUC01js
-         E34w==
-X-Gm-Message-State: APuU4Z//zgKvSPQhAfva7mfjhvS7ExddmrcdCLPW64s8OTJsR0qVt3Mj
-	TvYVyeZqSZH+M8n2k59ITeiW5aUhZfjBdSN+uaEWj8XkCJA6gsY+Rq/hP5z7XW0icthdsekeAcr
-	VjHDS
-X-Gm-Gg: AYBFou3efRyNdT+JdMxtz+e31UZLOc4cChnHDRol9DYI0rSaH1EfaxtTNoV5YIKBa47
-	CTO3y+A+rbgKPRSY/NKSZSsKsYI1LrF3YgghS3IXUoQ6NCBZZ5smRzqfXpSqWtr5kG5O8ec5x+y
-	WhFfbkcO73k4gm1hALj8GlCYuFd3K5NUSp7mlEdtVXlBclJMH49KzTBpOirJpHr9kWpJkWIWMHf
-	DBn6IHWjaFoThDFO/jG/trWO0A4ZBm6A2WVd60GiIJwvWG/ED9MUFF2C+Gmh59P2jZpOm6CcD5/
-	SbhuCQga47B8YacLSBh3k2qC9C08UpMR89HZnUoo1KvkvwhpNldvZr0+chKi2B9btWarlHzn5PJ
-	jd4L9n+LcFJcdfB2k/4lvmrVQg6RuXJg08tdDJpkMGtsQDp9xefZ0dmzTxRLnZBf9oW/QzIEJCo
-	9s9iseoZyL+STTPsV9eDKkzp3BXI4LTHc1aEk3sOD0WKUBIQlUJ+URK5rtbNWQ4v4sqt5c0UV8l
-	ftKrM+j6i0h19Xr3VHP+NaF0RHw4FVxCF+mFMdNf5sdE63a1ckB5xsf1wtuQxubyB+tVABMaBbr
-	kI0DjKzAHlSLzc3+tJlTK/Z+b3uKymMaun5S4wueMMkfoKZR9uMTOxPzvHnVhREEsON2uK2SEt7
-	vxMAT
-X-Received: by 2002:ac8:5d48:0:b0:536:72b4:b835 with SMTP id d75a77b69052e-55d5a5fc199mr60978561cf.46.1795034971829;
-        Wed, 18 Nov 2026 12:49:31 -0800 (PST)
+        bh=pyB8Lq0JyUc8t5nQ+HZiOlReXCqlNwgyqNb6K2jq2sM=;
+        b=ixYL9aQKGglBWzfosSQPbWaN+z1yPwtTQbaby3JTtkck8+VPg5y/zeOzrRs8fRcazJ
+         zk6TpE9M8eE+OYRmuIWlVf3qN3NQVt5xfZtcWCy9mTBvVzuYt8jEFDdb7i+O0OFzP38F
+         FE/1w2gu93ZkQZwp/OcQufnHaecbkVbR2Qoc3pJHkGPvk/jxiQdcT2zQ0kMaRgQf1z40
+         X12FA8nWx9BXtnjnj4ik3OXhsQA77xrbEa9ufcIRyiQy2+ZNndRhRrVW3Waa+DXMbpwP
+         YeLuq5ZyTFuTgQRjz+thOCYW+j8u2d78SZ4o3emf6axK0llcJk/6WnhFE79AXfEYvva5
+         Xhcw==
+X-Gm-Message-State: APuU4Z/aYS9Fl0ntPBfDXDyQBDM50499JFzEIXN+l7AIWyd3+rZixPpX
+	BIMlqqf9SnC4YwvqzN1+A30yucDaIrQFzjni24gpfnbTbSkhDNQ09M43PrEmaLbcDqrom7RMJ+g
+	2DSHg
+X-Gm-Gg: AYBFou2C4sgnZ55HM+U92ryw469dai2q8l03lhtbi91BRlnX3q1wdKHL0rlbboa4Q4A
+	gMYZjDs+jQSRkJc9wGecWegsZOFsKIx+gZ3aZCgCnBZHgDIG2Nt2TbRZjoMGFrOC+DoATkMPQYc
+	HFteEMPZAtodudPLc/lLQYka7XWEsQ3q8KEoI9BFSJiZL37NuphDbzxs6t5Ogn2HUE4VpDjQBJy
+	KO18s58MZp4Lo1iaXd+TEpNflJ9C4WgZFcJnzmMmElOK5PkAhgI5MOEi1Qa3SVrk8LNuJuWyc9S
+	ze8949lgp4bcNtpTEaG/XpaO8pX5771t50Q/aKuY4dsyIr25+Y8wGZatvrhK02sQXnV/L++qZIc
+	NPNUGBbLdiSn+N0T0G94Rwzm3+wsFLb+ilRPHCkylDs0pCD4Bv3wSW/C7KInITDsXHDUuQaENRt
+	qCX/CPoAepe6xXVGA8uexslK+5t1OyvYKEeKzZ06dC+wz9C44V32jfa8knlavFwVsS8aZsRMjTk
+	xgZOn/TuDUx1Th+1HIpGEK52XJUoAsH4W3DSLygNWKMaca05RLXbAqXBIFSKyXjVN4wja8r+9W1
+	GS8C3WTI9gftJ9gQprHUeRIb4GqkRfEJs4bmdFalyInvcTVuDRLdeqWgN0cD6Ci9/TDAYyWjedW
+	RbWUy
+X-Received: by 2002:a05:622a:1a90:b0:536:352d:65f6 with SMTP id d75a77b69052e-55d5a62eb65mr58668611cf.64.1795034966948;
+        Wed, 18 Nov 2026 12:49:26 -0800 (PST)
 Return-Path: <tgamblin@baylibre.com>
 Received: from megalith.cgocable.net ([2001:1970:3847:e000:e8bd:ca0f:c232:9f10])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d66bca072sm8637541cf.17.2026.11.18.12.49.30
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d66bca072sm8637541cf.17.2026.11.18.12.49.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2026 12:49:30 -0800 (PST)
+        Wed, 18 Nov 2026 12:49:26 -0800 (PST)
 From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
 Cc: raj.khem@gmail.com,
 	mark.hatle@kernel.crashing.org,
 	paul@pbarker.dev
-Subject: [OE-core][PATCH 06/12] arch-riscv.inc, tune-riscv.inc: add rva22u64 tune
-Date: Wed, 18 Nov 2026 15:48:47 -0500
-Message-ID: <20261118204853.2155173-7-tgamblin@baylibre.com>
+Subject: [OE-core][PATCH 03/12] lib/oe/tune.py: support RISC-V profiles in riscv_isa_to_tune()
+Date: Wed, 18 Nov 2026 15:48:44 -0500
+Message-ID: <20261118204853.2155173-4-tgamblin@baylibre.com>
 X-Mailer: git-send-email 2.56.0
 In-Reply-To: <20261118204853.2155173-1-tgamblin@baylibre.com>
 References: <20261118204853.2155173-1-tgamblin@baylibre.com>
@@ -66,144 +66,71 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 20:49:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250589
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250586
 Content-Type: text/plain; charset="utf-8"
 
-Add TUNE_FEATURES for extensions mandated by the RVA22U64 profile but
-not yet included in arch-riscv.inc:
-
-- zic64b
-- zicbop
-- zicboz
-- zihintpause
-- zihpm
-- za64rs
-- zfhmin
-- zkt
-
-It also mandates the following, which were already in oe-core:
-
-- b
-- zicbom
-- zba
-- zbb
-- zbs
-
-Then, add an 'rva22u64' tune using them. Zifencei isn't mandatory in the
-profile, but it is added on top of the profile's extensions since Linux
-requires it, making the package arch 'rva22u64_zifencei'.
+Add RISCV_PROFILES for mapping the rva20u64, rva22u64, and rva23u64
+profile names to their extension sets according to the RISC-V Profiles
+specification. riscv_isa_to_tune() now accepts them in addition to ISA
+strings, for tunes based on a profile.
 
 Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- .../conf/machine/include/riscv/arch-riscv.inc | 37 ++++++++++++++++++-
- .../conf/machine/include/riscv/tune-riscv.inc |  6 ++-
- 2 files changed, 41 insertions(+), 2 deletions(-)
+ meta/conf/machine/include/riscv/README |  3 +++
+ meta/lib/oe/tune.py                    | 21 +++++++++++++++++++--
+ 2 files changed, 22 insertions(+), 2 deletions(-)
 
-diff --git a/meta/conf/machine/include/riscv/arch-riscv.inc b/meta/conf/machine/include/riscv/arch-riscv.inc
-index 26b8940f15..0661c24e8e 100644
---- a/meta/conf/machine/include/riscv/arch-riscv.inc
-+++ b/meta/conf/machine/include/riscv/arch-riscv.inc
-@@ -82,10 +82,24 @@ TUNE_RISCV_MARCH .= "${@bb.utils.contains("TUNE_FEATURES", "v", "v", "", d)}"
- TUNE_RISCV_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "v", "v", "", d)}"
- 
- # Now the special Z extensions
-+# zic64b, zicbop, zicboz, zihintpause, zihpm, za64rs, zfhmin and zkt are
-+# mandatory in the RVA22U64 and later profiles
-+TUNEVALID[zic64b] = "Cache blocks are 64 bytes extension"
-+TUNE_RISCV_MARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zic64b", "_zic64b", "", d)}"
-+TUNE_RISCV_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zic64b", "_zic64b", "", d)}"
+diff --git a/meta/conf/machine/include/riscv/README b/meta/conf/machine/include/riscv/README
+index b17c86c814..ef7a484f25 100644
+--- a/meta/conf/machine/include/riscv/README
++++ b/meta/conf/machine/include/riscv/README
+@@ -126,3 +126,6 @@ rv32g -> rv 32 i m a f d zicsr zifencei
+ The helper can be called using oe.tune.riscv_isa_to_tune("<ISA>") such as
+ oe.tune.riscv_isa_to_tune("rv64gc") which would return:
+  rv 64 i m a f d c zicsr zifencei
 +
- TUNEVALID[zicbom] = "Cache-block management extension"
- TUNE_RISCV_MARCH .= "${@bb.utils.contains_any("TUNE_FEATURES", "zicbom", "_zicbom", "", d)}"
- TUNE_RISCV_PKGARCH .= "${@bb.utils.contains_any("TUNE_FEATURES", "zicbom", "_zicbom", "", d)}"
++The RISC-V profile names listed in RISCV_PROFILES in lib/oe/tune.py, such as
++rva22u64, are also accepted, and return the profile's mandatory extensions.
+diff --git a/meta/lib/oe/tune.py b/meta/lib/oe/tune.py
+index 7fda19430d..580c84d4fa 100644
+--- a/meta/lib/oe/tune.py
++++ b/meta/lib/oe/tune.py
+@@ -4,16 +4,33 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ #
  
-+TUNEVALID[zicbop] = "Cache-block prefetch extension"
-+TUNE_RISCV_MARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zicbop", "_zicbop", "", d)}"
-+TUNE_RISCV_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zicbop", "_zicbop", "", d)}"
++# RISC-V profile name -> equivalent ISA string, i.e. the mandatory extensions of
++# each profile as ratified in the RISC-V Profiles specification
++# (https://github.com/riscv/riscv-profiles):
++#   RVA20U64, RVA22U64: RVA20/RVA22 Profiles, version 1.0
++#   RVA23U64: RVA23 Profiles, version 1.0
++# plus the extensions those imply (e.g. zmmul, zaamo, zca, zve*).
++#
++# Do not regenerate these from compiler output (e.g. gcc's -march expansion);
++# a newer compiler, or clang, may expand a profile differently. For example,
++# gcc's rva22u64 leaves out zihpm, which the specification makes mandatory.
++RISCV_PROFILES = {
++    'rva20u64': 'rv64imafdc_ziccamoa_ziccif_zicclsm_ziccrse_zicntr_zicsr_zmmul_za128rs_zaamo_zalrsc_zca_zcd',
++    'rva22u64': 'rv64imafdcb_zic64b_zicbom_zicbop_zicboz_ziccamoa_ziccif_zicclsm_ziccrse_zicntr_zicsr_zihintpause_zihpm_zmmul_za64rs_zaamo_zalrsc_zfhmin_zca_zcd_zba_zbb_zbs_zkt',
++    'rva23u64': 'rv64imafdcbv_zic64b_zicbom_zicbop_zicboz_ziccamoa_ziccif_zicclsm_ziccrse_zicntr_zicond_zicsr_zihintntl_zihintpause_zihpm_zimop_zmmul_za64rs_zaamo_zalrsc_zawrs_zfa_zfhmin_zca_zcb_zcd_zcmop_zba_zbb_zbs_zkt_zvbb_zve32f_zve32x_zve64d_zve64f_zve64x_zvfhmin_zvkb_zvkt_zvl128b_zvl32b_zvl64b_supm',
++}
 +
-+TUNEVALID[zicboz] = "Cache-block zero extension"
-+TUNE_RISCV_MARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zicboz", "_zicboz", "", d)}"
-+TUNE_RISCV_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zicboz", "_zicboz", "", d)}"
-+
- # The following are mandatory in the RVA20U64 and later profiles
- TUNEVALID[ziccamoa] = "Main memory supports all atomics in A extension"
- TUNE_RISCV_MARCH .= "${@bb.utils.contains("TUNE_FEATURES", "ziccamoa", "_ziccamoa", "", d)}"
-@@ -115,6 +129,14 @@ TUNEVALID[zifencei] = "Instruction-fetch fence extension"
- TUNE_RISCV_MARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zifencei", "_zifencei", "", d)}"
- TUNE_RISCV_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zifencei", "_zifencei", "", d)}"
+ # riscv_isa_to_tune(isa)
+ #
+ # Automatically translate a RISC-V ISA string to TUNE_FEATURES
+ #
+ # Abbreviations, such as rv32g -> rv32imaffd_zicsr_zifencei are supported.
+ #
+-# Profiles, such as rva22u64, are NOT supported, you must use ISA strings.
++# The profile names in RISCV_PROFILES, such as rva22u64, are also supported,
++# and are translated to the profile's mandatory extensions.
+ #
+ def riscv_isa_to_tune(isa):
+-    _isa = isa.lower()
++    _isa = RISCV_PROFILES.get(isa.lower(), isa).lower()
  
-+TUNEVALID[zihintpause] = "Pause hint extension"
-+TUNE_RISCV_MARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zihintpause", "_zihintpause", "", d)}"
-+TUNE_RISCV_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zihintpause", "_zihintpause", "", d)}"
-+
-+TUNEVALID[zihpm] = "Hardware performance counters extension"
-+TUNE_RISCV_MARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zihpm", "_zihpm", "", d)}"
-+TUNE_RISCV_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zihpm", "_zihpm", "", d)}"
-+
- # zmmul, zaamo, zalrsc, zca and zcd are subsets of single-letter extensions
- # above (m, a, c and c with d), which compilers enable along with them. They
- # are only passed on when listed in TUNE_FEATURES, so that -march doesn't
-@@ -124,11 +146,16 @@ TUNEVALID[zmmul] = "Integer multiplication (without division) extension"
- TUNE_RISCV_MARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zmmul", "_zmmul", "", d)}"
- TUNE_RISCV_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zmmul", bb.utils.contains("TUNE_FEATURES", "m", "", "_zmmul", d), "", d)}"
- 
--# Mandatory in the RVA20U64 profile
-+# Mandatory in the RVA20U64 profile. Later profiles require za64rs (below),
-+# which is stricter, instead.
- TUNEVALID[za128rs] = "Reservation set size of at most 128 bytes extension"
- TUNE_RISCV_MARCH .= "${@bb.utils.contains("TUNE_FEATURES", "za128rs", "_za128rs", "", d)}"
- TUNE_RISCV_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "za128rs", "_za128rs", "", d)}"
- 
-+TUNEVALID[za64rs] = "Reservation set size of at most 64 bytes extension"
-+TUNE_RISCV_MARCH .= "${@bb.utils.contains("TUNE_FEATURES", "za64rs", "_za64rs", "", d)}"
-+TUNE_RISCV_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "za64rs", "_za64rs", "", d)}"
-+
- TUNEVALID[zaamo] = "Atomic memory operations extension"
- TUNE_RISCV_MARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zaamo", "_zaamo", "", d)}"
- TUNE_RISCV_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zaamo", bb.utils.contains("TUNE_FEATURES", "a", "", "_zaamo", d), "", d)}"
-@@ -137,6 +164,10 @@ TUNEVALID[zalrsc] = "Load-reserved/store-conditional extension"
- TUNE_RISCV_MARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zalrsc", "_zalrsc", "", d)}"
- TUNE_RISCV_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zalrsc", bb.utils.contains("TUNE_FEATURES", "a", "", "_zalrsc", d), "", d)}"
- 
-+TUNEVALID[zfhmin] = "Minimal half-precision floating-point extension"
-+TUNE_RISCV_MARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zfhmin", "_zfhmin", "", d)}"
-+TUNE_RISCV_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zfhmin", "_zfhmin", "", d)}"
-+
- TUNEVALID[zca] = "Compressed integer instructions extension"
- TUNE_RISCV_MARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zca", "_zca", "", d)}"
- TUNE_RISCV_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zca", bb.utils.contains("TUNE_FEATURES", "c", "", "_zca", d), "", d)}"
-@@ -161,6 +192,10 @@ TUNEVALID[zbs] = "Single-bit manipulation extension"
- TUNE_RISCV_MARCH .= "${@bb.utils.contains_any("TUNE_FEATURES", "b zbs", "_zbs", "", d)}"
- TUNE_RISCV_PKGARCH .= "${@bb.utils.contains_any("TUNE_FEATURES", "b zbs", "_zbs", "", d)}"
- 
-+TUNEVALID[zkt] = "Data-independent execution latency extension"
-+TUNE_RISCV_MARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zkt", "_zkt", "", d)}"
-+TUNE_RISCV_PKGARCH .= "${@bb.utils.contains("TUNE_FEATURES", "zkt", "_zkt", "", d)}"
-+
- # Construct TUNE_CCARGS
- # This should result in a CCARG similar to:
- #   -march=rv32imac -mabi=ilp32
-diff --git a/meta/conf/machine/include/riscv/tune-riscv.inc b/meta/conf/machine/include/riscv/tune-riscv.inc
-index bce345f684..6aad54ae97 100644
---- a/meta/conf/machine/include/riscv/tune-riscv.inc
-+++ b/meta/conf/machine/include/riscv/tune-riscv.inc
-@@ -2,7 +2,7 @@ require conf/machine/include/riscv/arch-riscv.inc
- 
- DEFAULTTUNE ?= "riscv64gc"
- 
--AVAILTUNES += "riscv64gcv riscv64gc riscv32gc riscv64 riscv32 riscv64nc riscv64nf riscv32nf rva20u64"
-+AVAILTUNES += "riscv64gcv riscv64gc riscv32gc riscv64 riscv32 riscv64nc riscv64nf riscv32nf rva20u64 rva22u64"
- 
- # Default
- TUNE_FEATURES:tune-riscv64gc := "${@oe.tune.riscv_isa_to_tune("rv64gc")}"
-@@ -44,3 +44,7 @@ PACKAGE_EXTRA_ARCHS:tune-riscv64nc = "${RISCVPKGARCH:tune-riscv64nc}"
- TUNE_FEATURES:tune-rva20u64 := "${@oe.tune.riscv_isa_to_tune("rva20u64")} zifencei"
- RISCVPKGARCH:tune-rva20u64 ?= "rva20u64_zifencei"
- PACKAGE_EXTRA_ARCHS:tune-rva20u64 = "${RISCVPKGARCH:tune-rva20u64}"
-+
-+TUNE_FEATURES:tune-rva22u64 := "${@oe.tune.riscv_isa_to_tune("rva22u64")} zifencei"
-+RISCVPKGARCH:tune-rva22u64 ?= "rva22u64_zifencei"
-+PACKAGE_EXTRA_ARCHS:tune-rva22u64 = "${RISCVPKGARCH:tune-rva22u64}"
+     feature = []
+     iter = 0
 -- 
 2.56.0
 
