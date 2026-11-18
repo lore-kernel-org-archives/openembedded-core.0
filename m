@@ -1,123 +1,130 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9761.1794998011648263826
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10016.1794999260783420186
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Nov 2026 02:33:31 -0800
+ Wed, 18 Nov 2026 02:54:21 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=chggbEUj;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: joaomarcos.costa@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 982414E41626
-	for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 10:33:29 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 6DB0B5FE9B;
-	Wed, 18 Nov 2026 10:33:29 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D6C2511BC1048;
-	Wed, 18 Nov 2026 11:33:27 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1794998008; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=5ZEtMy2oYOC/DXu+KbQWsMkX9rPuES84HC6421hp44s=;
-	b=chggbEUjZxyi9MIMEXgBaZe1VED6YO6bY/yvjzHuL8gto8jjRSldi8ZLlkA1tbR6QNY1YP
-	9uVndP/zr8ewJpOkbLu+j50LTIOowYdg7NcAvK9VS3KfKFCWrO9fUos+4Uh3pEv2wOhuMK
-	sAZuHSBvllXyodjk3AKnNMPFgOVRH9KWSWciuFM1qh48sNSNorEp9Fw5Jzk4ypMT0W3gQK
-	FmA/VrUuUFL7O4R8YFLf3W/WmuHCwuf7fQUFr872Y/OeAwOYNFWU5KaZ5oid4eOzi2s+x1
-	WoRSiyAK6SGK3B0w11UVkXmDCys0yG+eKkFmb8MeWpTQXhJHInTdRxO10lHEHQ==
-From: =?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa=20=28Schneider=20Electric=29?= <joaomarcos.costa@bootlin.com>
-To: openembedded-core@lists.openembedded.org
-Cc: thomas.petazzoni@bootlin.com,
-	yoann.congal@smile.fr,
-	bastien.jauny@smile.fr,
-	=?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa=20=28Schneider=20Electric=29?= <joaomarcos.costa@bootlin.com>
-Subject: [blacksail][PATCH 2/2] expat: fix CVE-2026-117610
-Date: Wed, 18 Nov 2026 11:30:42 +0100
-Message-ID: <20261118103042.1825679-3-joaomarcos.costa@bootlin.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261118103042.1825679-1-joaomarcos.costa@bootlin.com>
-References: <20261118103042.1825679-1-joaomarcos.costa@bootlin.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=afzAvMER;
+ spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: bastien.jauny@smile.fr)
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4a214c5c4c0so8527675e9.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 02:54:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google2; t=1794999259; x=1795604059; darn=lists.openembedded.org;
+        h=in-reply-to:references:subject:to:from:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Qxw6WGNkJpo51l8W+ThRCd9P9kMvaGB/CPS+4vx1PRA=;
+        b=afzAvMERZrdf5dc1ApcVgfo2IF7U5CkiM+BgPw/3xujPhuhoFXh7ld84o2UyQ+jKvr
+         t5mHwW1inHDyVdEDfdl8uhdKOZAoEw8My85NT0ScNV3zGKn855Glrx4UdxmjtXtqvcyr
+         8w/g7CSM1EIdU3SjnA73GjaBK5uhVMjfkhnOLyopiGQaMXvu51i5QQEC7YsLH7h+8wTK
+         vRsbBKrSMEsoQsUYeqhs8ThAKW5M4IHPhQvB1qyObd9gxdzA+rq1NcIY9C7w1vMZ5YCT
+         rzBlya2pour2LYXxtYS/0h0ORymf90CLc6va8usup2mweYk8NkkBAEDStMsDlOG9iEwe
+         /wxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1794999259; x=1795604059;
+        h=in-reply-to:references:subject:to:from:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Qxw6WGNkJpo51l8W+ThRCd9P9kMvaGB/CPS+4vx1PRA=;
+        b=QX9M/kULHR2XURVyDDyzYUjVpnjw0dXe8HNmz1zW/POAw1GXOEDBQTRnTWLzXSZED/
+         asdcPIrZzLhigi+xtB8uNSoW8rtilSf8zhu3O0gsHev2XWlyZnwFZFBdG0/T/82Vv0CN
+         sAMUCS/TKwhbkycxb+P4xMjHgJPvhT+GBLOwS7X1PzEyZKEMcZDwBjPjQNstjLF4YguM
+         FyI4eB+YyH4DNdfR/XlJkmA+Q29zNv1C8+N52dfd5ooUUorDw9RCCXrf4qS2PivzJqAg
+         Aa8mt75wkqtykkSJJC00crTMh8Rhyyt9P6U+6xuwyscbCWcWJSxaFs4euBgA+HiQM5b9
+         Dm9w==
+X-Forwarded-Encrypted: i=1; AL+hErFuxcS6UcZKt0cqvD0ZaCR7yXkgRJEPtWzmg8ttT14QRaJp7IdJPZrI9MPeE/1YhLSSDxZhSUki37DNa7I0vkFrAw==@lists.openembedded.org
+X-Gm-Message-State: APuU4Z9LsLyC7yyNclKdT+YHiGDBQJlTS4CmPhUXdd2Bqw11BAIansXR
+	35bNsW/LO1fkRA2L7ES9YadUDypmko2GqbFfVYdMiQKEm+VWAn719CuMEcjUbdz7Qi0=
+X-Gm-Gg: AYBFou2cTeLwhGBCqSmyL//XQNyk+7zEKuPbeGQGVs9D+9MJtML9WIFnzsV51Ml7Cyo
+	MBpGZYR5burSEitabT8/jR1/bdOgCplBpwHxtq04P4YygIH5XBpvlgh67z9swEzDbbKzboQ/4PT
+	Qfp0AILKSefpZKfpWUL+lfwRUCV5xtXJF10GcRgwJ+LJ5ed2RhgydkOetYv66PJvasTZPsSEvYK
+	/0HIcoy5CXZrYGpiCzKHk9hecszIEMknqDihBdDbFX/ojzkHG75+4XUlRpguTGFVPcC4+Dedxh6
+	sSHS3ECgXezjCqNvF7R0UH90CDtYQ/zQw9AEKzZRudhvsLX5HpO2p9UXP+ORbVqjNCc5uXFevzO
+	EfAZXGLiqEFvZy3s58yLYjZWqzYy6FBeWSIHhCmh3YOVexVTELnc8ERCvc+jzDmTdNkSJCOKPCh
+	J7gDWlbLBny+8Ao8kJ5oV9zJLtIoAEmJgOpABA8UfSG1j1zfqdv/mqgerzuOrXdAXzUNhxrZv5e
+	cU5J7ZwcRtqWYtTKX6VpFPzJNBOWpkRDHeiE6Bvd1YM7FCSJAT6ttr1qJTpJYbPCvIhDsup2YLe
+	wuybg1inQl+t8gbC077uG5VYNtA7I3/pVTKhisE1b/2iPdhtZKH0irfKtoQ5SQ8gJjSbmOZT5ab
+	ajtskXnsrHjzMEMQKK5F7n+hRwCpX4rV7kg1M
+X-Received: by 2002:a05:600c:310e:b0:4b8:d17e:da27 with SMTP id 5b1f17b1804b1-4bb7da4372dmr41813875e9.27.1794999258871;
+        Wed, 18 Nov 2026 02:54:18 -0800 (PST)
+Return-Path: <bastien.jauny@smile.fr>
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb7d256f64sm51993595e9.1.2026.11.18.02.54.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Nov 2026 02:54:18 -0800 (PST)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 18 Nov 2026 11:54:17 +0100
+Message-Id: <DMYA4R46NAH8.35CZD2IV2F2X9@smile.fr>
+From: "Bastien Jauny" <bastien.jauny@smile.fr>
+To: <dkelaiya@cisco.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][scarthgap][PATCH 3/3] curl: set CVE_STATUS for
+ CVE-2026-80231
+X-Mailer: aerc 0.22.0-38-g09b49b623995
+References: <20261104105645.2523473-1-dkelaiya@cisco.com>
+ <20261104105645.2523473-4-dkelaiya@cisco.com>
+In-Reply-To: <20261104105645.2523473-4-dkelaiya@cisco.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 10:33:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250536
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 18 Nov 2026 10:54:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250537
 
-This vulnerability, marked as High [1], was fixed upstream [2] since
-2.10.0.
+On Wed Nov 4, 2026 at 11:56 AM CET, Darsh Kelaiya -X (dkelaiya - E INFOCHIP=
+S PRIVATE LIMITED at Cisco) via openembedded-core wrote:
+> From: Darsh Kelaiya <dkelaiya@cisco.com>
+>
+> Analysis:
+> - Select the native CA connection-reuse fix in [2], identified by
+>   the advisory [1]. It compares the effective native CA setting.
+> - The advisory limits the issue to Windows and macOS [1]. Scarthgap
+>   builds curl, curl-native and nativesdk-curl for Linux.
+> - In curl 8.7.1, native_ca_store is derived from CURLSSLOPT_NATIVE_CA.
+>   The same flag is retained in ssl_primary_config.ssl_options,
+>   which is cloned and compared for connection reuse.
+> - The later implicit native CA selection in [3] is absent from the
+>   Scarthgap source. Do not import the Wrynose TLS configuration patch.
+> - Hence ignoring the CVE using not-applicable-platform for Linux.
+>   Reassess if the SDK platform or native CA configuration changes.
+>
+> Reference:
+> [1] https://curl.se/docs/CVE-2026-80231.html
+> [2] https://github.com/curl/curl/commit/7be1e70cb6bcd83e130ecfe8cb91b6a7d=
+cdeff42
+> [3] https://github.com/curl/curl/commit/eefd03c572996e5de4dec4fe295ad6f10=
+3e0eefc
+>
+> Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+> ---
+>  meta/recipes-support/curl/curl_8.7.1.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-suppo=
+rt/curl/curl_8.7.1.bb
+> index 33265f0f25..28d834abb2 100644
+> --- a/meta/recipes-support/curl/curl_8.7.1.bb
+> +++ b/meta/recipes-support/curl/curl_8.7.1.bb
+> @@ -66,6 +66,7 @@ CVE_STATUS[CVE-2026-9547] =3D "not-applicable-config: v=
+ulnerable libssh backend is
+>  CVE_STATUS[CVE-2026-82209] =3D "not-applicable-config: public suffix lis=
+t support is disabled by the recipe with --without-libpsl"
+>  CVE_STATUS[CVE-2026-12064] =3D "${@bb.utils.contains('PACKAGECONFIG', 'l=
+ibssh2', 'unpatched', 'not-applicable-config: SCP/SFTP support is not enabl=
+ed in PACKAGECONFIG', d)}"
+>  CVE_STATUS[CVE-2026-19931] =3D "${@bb.utils.contains('PACKAGECONFIG', 'k=
+rb5 negotiate-auth', 'unpatched', 'not-applicable-config: GSS-API Negotiate=
+ is disabled', d)}"
+> +CVE_STATUS[CVE-2026-80231] =3D "not-applicable-platform: native CA reuse=
+ issue affects Windows and macOS, not Linux"
+> =20
+>  inherit autotools pkgconfig binconfig multilib_header ptest
+> =20
 
-Backport the fix to expat v2.8.3.
+Hi Darsh,
 
-This backport is actually partial. PR#1444 adds a second commit providing=
- a
-new test case, but the code uses helper functions not yet
-defined/available. A few other commits would also need to be backported s=
-o
-that the test compiles at v2.8.3.
+This will need to be addressed upstream first. I see that this CVE is
+already discussed in wrynose so we'll put this patch on hold for now.
 
-[1] https://nvd.nist.gov/vuln/detail/cve-2026-117610
-[2] https://github.com/libexpat/libexpat/pull/1444
-
-Signed-off-by: Jo=C3=A3o Marcos Costa (Schneider Electric) <joaomarcos.co=
-sta@bootlin.com>
----
- .../expat/expat/CVE-2026-117610.patch         | 30 +++++++++++++++++++
- meta/recipes-core/expat/expat_2.8.5.bb        |  1 +
- 2 files changed, 31 insertions(+)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-117610.patch
-
-diff --git a/meta/recipes-core/expat/expat/CVE-2026-117610.patch b/meta/r=
-ecipes-core/expat/expat/CVE-2026-117610.patch
-new file mode 100644
-index 0000000000..5843b4ac85
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2026-117610.patch
-@@ -0,0 +1,30 @@
-+From 731159c29d2df0f98ba3a4c61e4bf5d0075acb63 Mon Sep 17 00:00:00 2001
-+From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Mon, 26 Oct 2026 17:39:32 +0100
-+Subject: [PATCH] lib: Fix initial non-final empty subparser call with a
-+ handler
-+
-+CVE: CVE-2026-117610
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/pull/144=
-4/commits/bfc28346fa3efeb8ca56c17437d24a7344e5feab]
-+Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
-+
-+---
-+ lib/xmlparse.c | 5 +++++
-+ 1 file changed, 5 insertions(+)
-+
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index cb8839be..75c3a806 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -3227,6 +3227,11 @@ externalEntityInitProcessor2(XML_Parser parser, c=
-onst char *start,
-+     }
-+     parser->m_eventPtr =3D start;
-+     return XML_ERROR_PARTIAL_CHAR;
-++  case XML_TOK_NONE:
-++    if (! parser->m_parsingStatus.finalBuffer) {
-++      *endPtr =3D start;
-++    }
-++    return XML_ERROR_NONE;
-+   }
-+   parser->m_processor =3D externalEntityInitProcessor3;
-+   return externalEntityInitProcessor3(parser, start, end, endPtr);
-diff --git a/meta/recipes-core/expat/expat_2.8.5.bb b/meta/recipes-core/e=
-xpat/expat_2.8.5.bb
-index cca713d95f..2ee4a78afc 100644
---- a/meta/recipes-core/expat/expat_2.8.5.bb
-+++ b/meta/recipes-core/expat/expat_2.8.5.bb
-@@ -14,6 +14,7 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/R_${VERSION_TA=
-G}/expat-${PV}.tar.bz2  \
-            file://CVE-2026-77214.patch \
-            file://CVE-2026-118370-01.patch \
-            file://CVE-2026-118370-02.patch \
-+           file://CVE-2026-117610.patch \
-            "
-=20
- GITHUB_BASE_URI =3D "https://github.com/libexpat/libexpat/releases/"
+Thanks,
 --=20
-2.55.0
+Bastien Jauny
+Smile
 
