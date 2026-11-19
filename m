@@ -1,115 +1,109 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1905.1795105940312516008
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1974.1795106242780888080
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Nov 2026 08:32:20 -0800
+ Thu, 19 Nov 2026 08:37:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=foZHsohP;
- spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4bb70074ab2so26569755e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 08:32:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795105938; x=1795710738; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=v6xfc6Bqi/2u20aJyNhlxmjqkTY86JQLUFRZ5rhrgHg=;
-        b=foZHsohPV/TYitokWzq3vVEKmXo8B69gMtbdLjLOwf1p9m7VqJfG60gmNWTrtn5szo
-         Wk3YYHsYtI7Fawwy8JlhgNcIJZJ2gkYEaeLMHZHnm4o+yXA9ixNcNmE28u1rVr2JwBVQ
-         7xDDySmmCSqETAPK2iF6JoppcjYgDEA38dF/U4ACmO9EX7ZSA+jufUWZhBDZjhuMDg0B
-         +0hZGOGYdMRcZLzCS5e6sg/YGICNPAh2+8S+LS/AS7szazbsPsJUTTzTcc03I6osgN9b
-         IV8AInk/HY7ezBAUjsRSCzJbYkLFDYa4KWmcKMmeapmqa2tENondUd2pVqrFcMik5Q8g
-         1LXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795105938; x=1795710738;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=v6xfc6Bqi/2u20aJyNhlxmjqkTY86JQLUFRZ5rhrgHg=;
-        b=F4Z0mhVnztjoiO1wzjss8gQQhOkibdE1CXaUTgOzukiplqH0BR3DeK2mK1yM5KfYG7
-         3Uubo7+cW4XaYgnd+/Gz/aavPQP79K11OXqtz8n2ZyoM5ae8hkxiCkApWhV5zZmbqFFM
-         0nU+NvP9xyWKjFElEHbcr/lI+Y8Z0knnknZra+BXXWACR+SrB1w74iRIRcvSqiXmGs3V
-         94aeslkMEjN73e0LbBkFvfkiMp6R8c+7x73xGy4R61H+F81UQIzw+JgmDOmQBOF0TWch
-         09HGf/BOoJgQju9VsCeyBp0x/TbJ/GkRi2WgpJ2x+2Hp44ewRQ9zF80CYMovOmUZLPQY
-         PUmw==
-X-Forwarded-Encrypted: i=1; AL+hErEUpvgI1y7IMSlLtGp8Myk1tmVod7PktSWbCN/5vHCaml6bHoy9DmzzxTjcMpQmUINQapGuDJJT6W38xcopYddZMA==@lists.openembedded.org
-X-Gm-Message-State: APuU4Z8UpvMOANpEM/6HhBaq5WMSBq+kRIngNntutOiKMGYiSL0MnP0p
-	0aHuvXvVFGZc4+VSpARDBKi9FJ8pd4af9UHOZ6z0rWuiqevexGGVIRIGksECEOI8iT4=
-X-Gm-Gg: AYBFou2ZRuAwJruFvVE3tpU9D/w6K4kr9xnBKmdFu/6JpKBbHtzVas4zOb543NdbpqT
-	PmteAZLv5mbGuZTF83VGM9isl7/x+QkbYrBePrckWb4uJoa7hFvRBys2gjeZDRNvVXlDfe6LCIk
-	qN+ywL8+hLK0k5bmLwCr4cwInGI3oWhQg9ftu8KlslHfU3MHqNevKTlQ7M/OO2Wz7VnVZPafa0+
-	JtGSsAyEcTZoqQqyatHncBAdopIDHJ43O05toPfY8ECl/5rmp1V2457/CyBdv1t56dWzhLOrXLk
-	5fSYYJVFzeYJbxpJ8wPWBkIfSJlUOvoGV8gicwzUKraHy05dRR/DgF2hYpQjZ11txXGos5Qo04t
-	sZ5pSZbQXNuh7YPHzx39wHZWZ3WMjgSIESJMDbxqKPeF/fbiGl+bqtOpp3//zenakhSWfV+cPOx
-	HooMdd9VES71gflJ+Xtdve8OGsn2Jnp1WsOrtA/Wt3p/in3d9iAMoz0iFe0DzdbRb62TEg5Aa6Z
-	M41qa0FBaYOzEoIcnQcgXTUi/jo0xZU3FsKQtY7RcRpGMIyMVgUXeTAxviNTb/3zkAnfrDdkRSU
-	tD9tgfF1cGSdUh6HuRFgTfRaD9bPVhykSW9mgC5fBWsZbmNSMeyA+kaJFos4bh7FEfiXKgR2EOc
-	zAIzBTOldYEotYCkkIJvki1/rkDHhsK7IdY8QgA==
-X-Received: by 2002:a05:600c:64c8:b0:4bb:68e5:b952 with SMTP id 5b1f17b1804b1-4bb88819be1mr444625e9.16.1795105938264;
-        Thu, 19 Nov 2026 08:32:18 -0800 (PST)
-Return-Path: <yoann.congal@smile.fr>
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb84e5f081sm39679035e9.4.2026.11.19.08.32.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Nov 2026 08:32:17 -0800 (PST)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=xW1Id36p;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 6D1D24E4166E;
+	Thu, 19 Nov 2026 16:37:20 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 41F8A5FF9A;
+	Thu, 19 Nov 2026 16:37:20 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B28D911BC0D13;
+	Thu, 19 Nov 2026 17:37:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1795106235; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=YG7zQx5DDbX3Oh8aKCIL1oO3UQdLl/H/x8lnBFKE/8Q=;
+	b=xW1Id36pwcl1o1kYH0v3mStOb/KF8yvPVwJsSgcjZSIvZVk/OLwi8x4iAELtXIsNMPwDyg
+	in+PsJazHSGInMR0Z13qX55aBBoFN158Ai70jjibelbXSwWw/MoPLUAnQYzOA7DF4H8/v0
+	/uxBrL6ABvvAeJ6KtSBVf3OlxjOCscF3KfPrl+QRo3xic8d1aXkHOOpLGumI5spuQv7Jfp
+	iftoqcZw8e/RtIvKBQ4ZH7gCjt6Pix8zHGv23i4iA8lFk5UGKHJtOPFCDbnReFNPxATZgh
+	ZE+9ITBZTdSkUZMFf1swyjDx/fxTg2WKIMqBSnZ4+fcTTcMlRgN5cTuWsZnegA==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 19 Nov 2026 17:32:17 +0100
-Message-Id: <DMZBY36PKSWI.2LL0TBN45MSM4@smile.fr>
-Subject: Re: [OE-core][scarthgap 07/19] TEST-pseudo: test patches
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <fabien.thomas@smile.fr>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <cover.1795101267.git.fabien.thomas@smile.fr>
- <bdb4753f398e8ed8d036cdd38c6dd2eee5e482f4.1795101267.git.fabien.thomas@smile.fr>
-In-Reply-To: <bdb4753f398e8ed8d036cdd38c6dd2eee5e482f4.1795101267.git.fabien.thomas@smile.fr>
+Date: Thu, 19 Nov 2026 17:37:11 +0100
+Message-Id: <DMZC1UCBZWE1.2YVVEIWJYOYI3@bootlin.com>
+Subject: Re: [PATCH v2 0/4] spdx30: identity and purls of dependency
+ downloads
+Cc: <openembedded-core@lists.openembedded.org>, "Joshua Watt"
+ <JPEWhacker@gmail.com>, "Alexander Kanavin" <alex.kanavin@gmail.com>,
+ "Stefan Herbrechtsmeier" <stefan.herbrechtsmeier@weidmueller.com>, "Jaipaul
+ Cheernam" <jaipaul.cheernam@est.tech>, <stefano.tondo.ext@siemens.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Stefano Tondo" <stondo@gmail.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20261118234425.3681880-1-stondo@gmail.com>
+ <DMZ6W5V8KTSJ.1SA7GOSZRNZVM@bootlin.com>
+ <20261119133530.716702-1-stondo@gmail.com>
+In-Reply-To: <20261119133530.716702-1-stondo@gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 16:32:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250709
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 16:37:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250710
 
-On Thu Nov 19, 2026 at 4:22 PM CET, Fabien Thomas via openembedded-core wro=
-te:
-> From: Yoann Congal <yoann.congal@smile.fr>
+On Thu Nov 19, 2026 at 2:35 PM CET, Stefano Tondo wrote:
+> On Thu Nov 19, 2026 at 1:34 PM CET, Mathieu Dubois-Briand wrote:
+>> Thanks for the v2, it does look better in term of memory.
+>>
+>> Yet I can see this failure:
+>>
+>> ERROR: zip-native-3.0-r0 do_create_spdx: Error executing a python functi=
+on in exec_func_python() autogenerated:
+> [...]
+>> Exception: AttributeError: 'Wget' object has no attribute 'package_ident=
+ity'
 >
-> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-> Signed-off-by: Fabien Thomas <fabien.thomas@smile.fr>
-> ---
->  ...ree-tests-when-the-function-or-sysca.patch | 157 ++++++++
->  ...-t-generate-unused-_int-paths-with-n.patch |  59 +++
->  ...ts-linux-Don-t-require-linux-mount.h.patch |  67 ++++
->  ...004-configure-Require-GCC-5-or-later.patch |  76 ++++
->  ...erialize-path-changes-across-clients.patch | 339 ++++++++++++++++++
->  ...ath-lock-in-create-and-metadata-wrap.patch | 182 ++++++++++
->  ...ted-files-under-the-path-lock-before.patch | 248 +++++++++++++
->  ...s-Add-a-parallel-create-rename-link-.patch |  87 +++++
->  ...Add-information-specific-to-file-pro.patch | 216 +++++++++++
->  ...S.md-Add-to-assist-future-developers.patch | 113 ++++++
->  meta/recipes-devtools/pseudo/pseudo_git.bb    |  10 +
->  11 files changed, 1554 insertions(+)
->  create mode 100644 meta/recipes-devtools/pseudo/files/0001-test-Skip-ope=
-n_tree-tests-when-the-function-or-sysca.patch
->  create mode 100644 meta/recipes-devtools/pseudo/files/0002-makewrappers-=
-Don-t-generate-unused-_int-paths-with-n.patch
->  create mode 100644 meta/recipes-devtools/pseudo/files/0003-ports-linux-D=
-on-t-require-linux-mount.h.patch
->  create mode 100644 meta/recipes-devtools/pseudo/files/0004-configure-Req=
-uire-GCC-5-or-later.patch
->  create mode 100644 meta/recipes-devtools/pseudo/files/0005-pseudo_client=
--serialize-path-changes-across-clients.patch
->  create mode 100644 meta/recipes-devtools/pseudo/files/0006-ports-hold-th=
-e-path-lock-in-create-and-metadata-wrap.patch
->  create mode 100644 meta/recipes-devtools/pseudo/files/0007-ports-check-c=
-reated-files-under-the-path-lock-before.patch
->  create mode 100644 meta/recipes-devtools/pseudo/files/0008-test-parallel=
--ops-Add-a-parallel-create-rename-link-.patch
->  create mode 100644 meta/recipes-devtools/pseudo/files/0009-README.securi=
-ty-Add-information-specific-to-file-pro.patch
->  create mode 100644 meta/recipes-devtools/pseudo/files/0010-AGENTS.md-Add=
--to-assist-future-developers.patch
+> Hi Mathieu,
+>
+> Thanks for the test.
+>
+> This series needs the bitbake series "fetch: package identity of
+> crate, gomod and npm URLs" [1]. It adds FetchMethod.package_identity().
+> The bitbake of this build (b6d163ca65 on mathieu/master-next) does not
+> have it. The two bitbake patches apply cleanly on b6d163ca65. Can you
+> add them for the next build? The lib32-lsb-release failure has the
+> same cause.
+>
+>> ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/qemux86=
+-world/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-plugins-rs/0.=
+15.4/temp/log.do_compile.1234281
+> [...]
+>> | Error: CliError { error: Some(no matching package named `gstreamer` fo=
+und
+>
+> I think this failure comes from "gstreamer1.0-plugins-rs: Upgrade
+> 0.15.3 -> 0.15.4", and not from this series. This series does not
+> change do_compile.
+>
+> At the 0.15.4 tag, Cargo.lock takes gstreamer, gstreamer-base,
+> gstreamer-audio and gstreamer-video from the gstreamer-rs git
+> repository, and not from crates.io. The new
+> gstreamer1.0-plugins-rs-crates.inc lists only the crates.io crates, so
+> these crates are missing: it has 1048 entries, 0.15.3 had 1098. No
+> SRC_URI entry fetches them from git, so the offline build does not
+> find them. I added Jaipaul to Cc.
+>
+> [1] https://lore.kernel.org/bitbake-devel/20261118092831.201831-1-stondo@=
+gmail.com/
+>
+> Best regards,
+> Stefano
 
-This is a test patch that should not be merged like this. I'll do a
-proper upgrade in the next series.
+
+Hi Stefano,
+
+Sorry, I had some interleaved errors in there. I will try to test this
+in a cleaner setup.
+
+Thanks,
+Mathieu
+
 --=20
-Yoann Congal
-Smile ECS
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
