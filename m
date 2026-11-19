@@ -1,629 +1,236 @@
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10550.1795076728527119291
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10628.1795078608826279505
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Nov 2026 00:25:30 -0800
+ Thu, 19 Nov 2026 00:56:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=RuPgAs7X;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=5783957acd=harish.sadineni@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AJ6w3CW2275732
-	for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 08:25:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=CVR0IQfHP
-	p4vkycR6dc6NW1LeujZSO4sCPzBVWajP5w=; b=RuPgAs7XDzO0wwLQ/bgiWbX70
-	ZUg57oUcLv8hGzktBj/msvi99jdV6b6eOijxPuYqM2K7ARi0LzInqy7WXawZ2YTz
-	tb6hGd3YFanM5ysm35nJZSyXqs7kCVQilKZ7rAcmAFem7YrybqSvtwRX3F3yILCa
-	QpnnCR5Qbe68I0wDs3Mld9ZdyEMQhekV3ph7dFeAeA/xHrYTn7CsNTjWuasgTe4d
-	vDKtFOqVz48ABbyACQJnSPJVFiKSRrONU4JFoKxm+2zXyVxfaZRJblnHITx/5ufw
-	+IXGTYWkn7rekxyBFwgjqZ/VrNpvYrcfBZIaEz0yKhG2LJc87J5LtOQOSRROw==
-Received: from ch4pr04cu002.outbound.protection.outlook.com (mail-northcentralusazon11023093.outbound.protection.outlook.com [40.107.201.93])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4j0yvh5pts-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 08:25:27 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=o5rVrzNYmW2Dr+1XW5jLO15doOMDIGRH/oGulw66h/4qglzhqj8GeOWnEgnAnMGADgmVCpNRAN0CTXCDB+RnUZCTVRIm8bKFRQdWQoN761TPcCK0xQF6vyNMPtSTCnJDVkeEDAgJGjSsqHeoQqxFvX0BDd7kgmyK9hUbk6Ja65Q8G/Qdz+cL6trroiClyGunO3lbpj6SoIs+hB2U1822gJwK0IoIivOt9VPrdR9cewJ52Uds5VeWtprHDfZM88lmmweAsNfVnQOWOoo70XUBBxez15Jh4xCwxKeSyMPNiPW7h09S02Q+lo5YDCXG5sWk56OPgo7ebawivunfQbKYNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CVR0IQfHPp4vkycR6dc6NW1LeujZSO4sCPzBVWajP5w=;
- b=qoF5sC1uTPdAGLDpoDU9nRYVE6h6BGhQW8kiY5dRJgEDdmP6G8TCdLC27ZUbT8irv4hLImoh61p0NIWPJYtYN8K1QVhcrcpHjX+1Pz03fRDGoJ4hEKVPsQNImaHvfguXjUowzimnj1Y7kMAN40/mH+H0fhiHckcJG0s50BIxUlJkbXunfhfiMCdLth4IUb+kBqto1C0+OK4rqfirssPYbr1xPHT9093o4Zt6mip9I9i67QRvlJxC/HDJltBzjiZMefcEyrokhMEC49C5xdVMhwBm0w7DiPLEY1XKmRuklfYPbl+ROHfWJaj9i93PXKhkn/nCYL/wvSmXKxNHScJW8g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=windriver.com;
-Received: from SA3PR11MB346485.namprd11.prod.outlook.com
- (2603:10b6:806:5a4::14) by MW4PR11MB5775.namprd11.prod.outlook.com
- (2603:10b6:303:181::7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.16; Thu, 19 Nov
- 2026 08:25:23 +0000
-Received: from SA3PR11MB346485.namprd11.prod.outlook.com
- ([fe80::7e79:2dbb:6903:6080]) by SA3PR11MB346485.namprd11.prod.outlook.com
- ([fe80::7e79:2dbb:6903:6080%6]) with mapi id 15.21.0615.013; Thu, 19 Nov 2026
- 08:25:23 +0000
-From: Harish.Sadineni@windriver.com
-To: openembedded-core@lists.openembedded.org
-Cc: Sundeep.kokkonda@Windriver.com
-Subject: [blacksail][PATCH v2] gcc: Fix for CVE-2026-125709
-Date: Thu, 19 Nov 2026 00:25:01 -0800
-Message-ID: <20261119082505.2117537-1-Harish.Sadineni@windriver.com>
-X-Mailer: git-send-email 2.49.0
-Content-Type: text/plain; charset=UTF-8
-X-ClientProxiedBy: BY3PR05CA0018.namprd05.prod.outlook.com
- (2603:10b6:a03:254::23) To SA3PR11MB346485.namprd11.prod.outlook.com
- (2603:10b6:806:5a4::14)
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=Ly4hvSSV;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=KmP8yzim;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: shuai.zhang@oss.qualcomm.com)
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AJ6wHkV1534921
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 08:12:30 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	wAFxtU0WGHuWHSJa1rSZ0oX/0wFFeHcj/7QdrLdGul4=; b=Ly4hvSSVAFOMQ3nY
+	/vcG39+RGYobCB6RcZREsUxNmeVOQ9qcy/SPy65oZi+IgE1U9K/AkGBIxBSLRpk7
+	dYP8c1hSD+cPH2QraU69PHTi3DdAdxomGSPrxa1gudE+aTEUnmLf07QKoO3qJj9h
+	t0AavKLjeb8lJ9i8NN7z3RG1mps5UfZcMkeOEv4ARpu8+x5qXtMDqg0kXqrSFdno
+	u6MhnvkIEeBRGpRFuzn4XBdv9sXOL7FUggR4oGjpY1MV/EOM8sX8E86IJQKfcnYx
+	qRHiJpE3uZKYO1SmkteKcf4prMEZoVyWvtbi8Ldw+LD95tVcpK7wMl6M7MjC83t0
+	XOTvpQ==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j1dpcc3w5-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 08:12:29 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3b3fa6c8d4bso692016a91.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 00:12:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=oss.qualcomm.com; s=google; t=1795075949; x=1795680749; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=wAFxtU0WGHuWHSJa1rSZ0oX/0wFFeHcj/7QdrLdGul4=;
+        b=KmP8yzimWD9I7QSR7x1LZYutDQzDWw5dRqoRpM2nePvkBudLF1tOckw+7mvtQxfAV0
+         B2IXT/9/xV8JGDHa3/ZNsY8E9qUhFWFfEUHtfoeXL9EVyNc3dWkWor7tHj3fIBkZX4FC
+         INddy1yuDPjODCSM5oPpb04x716IqD4LwH0WXglZ4DIvUKyNrhC2r2CmkMD3vMgcOMrz
+         PTzSIwQjSdOqx1bzlse9untCbLRMzl8yDlfLyj7TWnj8LGf7zA1hOOj7ygKt0KmIH1Dv
+         7TxRcWBfCFaC4AU8oHTblybwRE4pGzasO1t1kHav7MYsk9/CZ6lJEIDBkD4sADQPkozH
+         Jn3Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795075949; x=1795680749;
+        h=content-transfer-encoding:content-type:in-reply-to:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=wAFxtU0WGHuWHSJa1rSZ0oX/0wFFeHcj/7QdrLdGul4=;
+        b=efw9PIlXSyZtjs5dz4KuzQQWyQxk9wJdg/uGxvFyhM59BBQIYx5g2Yev3C+k4fuPtJ
+         rahyUy+bkUcvih9TH6U+xsqUUiW8ruuY6suw/BcU1wxE1H1n26tpDi2U12mgKEEVSbHC
+         e1u8p5K5hi2MUVgI12YqffB8Rb1ezWG3YfOFYnlhy4RTkF2Od9wTDDDQ5qNs22xmXVb0
+         luNXWbSbliCSY28Jpa77oQsVX9uvcgXUvBBDQuv9lxDZoBOCaO631VMz2I3fk/X+D65y
+         P58s6+0vEaUIEnxJAeD3nOW2fYEdCYyygJoQkGA2Dp9IKQBcCvLa24cdriob038EHmme
+         TJRA==
+X-Gm-Message-State: APuU4Z/ozxt6O3y4kwd32ATMLmqfe04xUbJRF9jt3XAbJEngzkAFUDf9
+	fxTI0Sc+SNzF4s8bX5+nY2C0JO5A9aiRsL9IHHYcNM/Zj21H6Dwt/pF0IG9354aphhclvfe1iOn
+	2plNBjSL3hfayBWGAiu09guSdEmqrsynHe7tHonPcymNmdL0CICcpZnwk5P3pt6aN1l1maVTkB8
+	/SC9eU3QG8G8c5SHQ=
+X-Gm-Gg: AZFdTZdAIIv0vNpW446D5a9Tpt36ki8/MNmXADsFLeLdO00ueInzwMAfYlNU9t1+OWF
+	voNgFGPvLYg64jcsqadMu+1sMjtHxssj33MNOiZw5rhV98YU2cziaSeU9CeIre0CsdpyZWu1Yjm
+	ETG3Rm2FScEwobVUWZhHx2QDxqNzEIAXg1KOXD/K2V2TQueKuAsr9yE9HzoUPphS6AXUkd1OBd7
+	YVxaawHCCRQBKKEA+BoNYm2ZCkkLvRPD5kXYwqIwZPzoerqf08emt7DJcu1IKGjDWfuy1w8o8GA
+	mLeVGaVw7sxQCLo7DaAVV7n5YXJ/tSxF+tl8AWCaaQL3Ea/bLyFcOsF15ip0KLrbhTKV4o4uZlw
+	fBFSlz87PYF/lph1uaLS0snKvaSclISB0SFhUeHxkaINJeGVggApAinv2XGOwDCYQV1r4VkLHbv
+	wA
+X-Received: by 2002:a17:90b:5544:b0:3b1:6689:a016 with SMTP id 98e67ed59e1d1-3b409eb69bamr339311a91.16.1795075949140;
+        Thu, 19 Nov 2026 00:12:29 -0800 (PST)
+X-Received: by 2002:a17:90b:5544:b0:3b1:6689:a016 with SMTP id 98e67ed59e1d1-3b409eb69bamr339285a91.16.1795075948483;
+        Thu, 19 Nov 2026 00:12:28 -0800 (PST)
+Received: from [10.239.97.158] ([114.94.8.21])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b4058e12c4sm1562506a91.10.2026.11.19.00.12.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Nov 2026 00:12:27 -0800 (PST)
+Message-ID: <a4daf280-ed05-4335-95c1-dd0f99123184@oss.qualcomm.com>
+Date: Thu, 19 Nov 2026 16:12:23 +0800
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SA3PR11MB346485:EE_|MW4PR11MB5775:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3602bf12-77fa-408a-740e-08df4616a7fd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|52116014|366016|376014|1800799024|23010399003|18002099003|6133799003|261009223027099003|3023799007|5023799004|56012099006|11063799006|260925022911599003|260925021911599003|260925021311599003|261102123227099003|10067099003|261028144727099003|261026140227099003|261026121527099003|261021121427099003|261022105027099003|38350700014;
-X-Microsoft-Antispam-Message-Info: mHGlpEsKWRCPt6svO+A+D7L0Ue718QBIgeV5AfeofWhzIRkXwDBBrZN2xqDtPHKvWR3aK6cTfHh6eH9gx9mRWkjsjm1AvQ9osqJBS8rPJ532vOdxfB5Ylgei04+wB0AoBkFJMBaL88cvS1VZXQ+O/4CL0dJ4xq8I930VJ14efNBiNGNPeEWYH8K8nSEReCenu8h8Lauy2j13k2Duqqll9IaZ73KSTvuq1u1mDZHFTMERthe+GjSjng+gaSyMzvirEXl8lf2Gci0oL+yX2JNpxkR8PyD4PYGyMdjxbzIc7iapcujpKfvc/Luhp1DhraqoL8QP+ts72bIJ6BJ2BthCkwZW8k16fusqTfkkm9jm3XZnBrbob00274g5dJlJTzFh66Xa6L5iwj3RSE36e9vlwhfH6AoehCwEUWgayZY7cZ71FtLtvB1VtRCLcnry3n4xxLpZVY3TjZ7fkdlOSMM2+6TSJzvzLseE+IxrtJmzydYgBsPMa7BrtY4+oAQB1gxxaOE0v+NXBoE2qilFyutzPob+GZsticlz7aDHEmbcfHE8d2oO2CVSeHJWmppNV7mLoLQcNxZqdIaVQzLvBnig3TE0diyy4tl3IbNz39AnWtk2EDuWgFhxVKjyZtNhmZ2fmfry9/p3ijIiRiXsCASChDHNIw1N6l0elN3VpN3Z2KCorZBnUWtmqD6fanQjfMMN2wwbftQXM7X7NZsF3BaoXK5RkJAvpcr64hFkc0UmYXM=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA3PR11MB346485.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(366016)(376014)(1800799024)(23010399003)(18002099003)(6133799003)(261009223027099003)(3023799007)(5023799004)(56012099006)(11063799006)(260925022911599003)(260925021911599003)(260925021311599003)(261102123227099003)(10067099003)(261028144727099003)(261026140227099003)(261026121527099003)(261021121427099003)(261022105027099003)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?blROb1dCZ1VLT3RQOWQ2czYvUjVQNk1hclA0bEtrNVpVcDR3K2hoTG5MUGVr?=
- =?utf-8?B?RVhIYW4xbGtFam1UUkVialRGS3cvbGpML0ZIaUhRYUhoWlpiTVNFLzkva2VN?=
- =?utf-8?B?VFlCTnhWUy9qVk51azArWEtBeDE5b0I4a1VSeExyMUZ3b0Z2Y2UyK3NtY1Ro?=
- =?utf-8?B?NDkwNlZ2UlBxQVVmNWxMcnpVdVJGOThWTFVDQXYxMzJxalFsZ2N2TEhhb20r?=
- =?utf-8?B?QXdWYUJzNGNiVm5GNGk3VXlQS2hOWXRFUkowcG42VURaVHBZRVQyWHlMTWll?=
- =?utf-8?B?b1pFRVZsVXMwNk8vL1dBU0ZaZ0N0MGREL3RiZW1KNXZ1V3pUZ3l1QmZkVkRO?=
- =?utf-8?B?aytpazlDWFBWSkxRaXp3M2F2a05vUWdiUlRNR1NQMFp3aTN3Y212Z081UHhI?=
- =?utf-8?B?cmU3VkFXVG03Yk14eFlDQVVZZ2Z5bE5YM0hiaW9NcjE3ZnkrYTV0QS9TZ1ll?=
- =?utf-8?B?aUVGR0dzSEN4QXVraW9nV2dmVmc0MEMvelFyLzV3RWRndlJIb0lsdU9YZGpw?=
- =?utf-8?B?WkZOanJwUjdPNUdKN1o3cG5Pc3dPZXo4WGxWYkFYNFZjWFpZVG9HTDlQcDdM?=
- =?utf-8?B?U1AvZGsrYUtKSHZFSkFJSHBFcmxnNU9OWFRBSnR6THEyL1ZKY2gwVzJjTDZt?=
- =?utf-8?B?VkRHSmtUQURkd0doVFIwMUZmSExuZFNKZkQ3U1J3MXZTY1NQejUrUjBJTzFy?=
- =?utf-8?B?MU16YUh0Rk03Y2FscEp3TU9MSDd4b3d1TlpDOGFCR2hUcUlLaG4vNVh5Y1Zw?=
- =?utf-8?B?UjBsSkY5Q1lRQzdlVTZ3WGtwdVBsbDdjdjc0d1J6a3U2T0xZL1dhcU9SeWZq?=
- =?utf-8?B?MDh3aUlKZnk0Ni81LzFycDZXaGt5cmwwYmhOcnpydE9lYy9ReUQ1WHpSQVZi?=
- =?utf-8?B?L1A0ZlJQVmc3Q2dTWGQxc0pMb3VaekZseEthN1l6SzlTREMzbHFKZUh1OGZ6?=
- =?utf-8?B?ZDA3cnFTbnFQTXR0ZG5JK01vQ0Y3UXBIRlFMcVlEeGp5S2Y1OThwU1dVQ29G?=
- =?utf-8?B?dlozdmNYQkY0K0ZhL2Ftb3AyN3VMbTAwa3NiNHBQd0s2cURmRzF6emhCaUxG?=
- =?utf-8?B?RFNiNkE4MDZSdFM1cjhyQXBiUTA3RGhsV3VJMHpzT0ZEUjU5ZEFneTBjeGFx?=
- =?utf-8?B?ejR3ZndpdmlCdkVIQXpmNUNqZjhCOWluRm1GYUJwUUxxeEV4SVlQUHhobFdt?=
- =?utf-8?B?NDhHeTZnd0VWSFArVldrYzcxekdONzd3STBja1g5NGUvMXdMZ2syZ0p2R0lI?=
- =?utf-8?B?aGt1YXc1SFBBb2JyYWJzc3VsUXE2M0M0bVZjQjFXYnk3QlBhV1pXdDR1UktF?=
- =?utf-8?B?VzN6RmhUbmF3UmEzbGRieHQ0MnVBald2Q1RFU3pzQ0ZBaFI4M040a3lSb3hJ?=
- =?utf-8?B?R2RtYzdqc2lhVE5MQlZuZ1RrRm9JRU9oNTd3NHV6ZmxDUm56NEdRVTc5anps?=
- =?utf-8?B?OEE2Q2gwY0gvZC9rdUtiNFhXVzhnRytZWjhoRDV6Nk5SckZ3d1N2MStUNW1B?=
- =?utf-8?B?eVBMWEo5TDhpdFhNUTVQVlZ6RURYbUlBazNWamxZUHRGblg4ZjNQbi8vYmJo?=
- =?utf-8?B?emY5ZERmdEhHN3NZTmxtYTlOYWd5a280L2lQbnJ1WUlkQklJdEVWNkRPOG9H?=
- =?utf-8?B?MnRkQ0xhTTgvQ3J6V2JoNHVjcm52K013UUJ6dHZCOHUzNSttRUVsV2pkT2Nt?=
- =?utf-8?B?dEs0eFNYRS9WdUhDY3N5a29OZmtKVElkSXlaUlYybUhHMXVGZktTWDRGbmc2?=
- =?utf-8?B?Z0ZWZnU1NTEwT0QwOVBrSEhrRm9JRUxRVE9TK0cyVDFrcjM1RjJhRkJZNi9M?=
- =?utf-8?B?cVgycytZS1lHUE9BOFFYNno4NFRZUUp0SVV6Q1FqK2hRZ1VUTUtCZTJuSkY4?=
- =?utf-8?B?TVRuSFZiMTkzTUR2WXhiSHRVN3hVYUNsTkpIT3VYMW0xbitqcXFQbjdkWTM3?=
- =?utf-8?B?aFBQV3U2b2d0T3NLUmRWNWZ0bTdWRnBpcFJzVU1jUzM3ckQ3WVk0M1F6R1Y1?=
- =?utf-8?B?MjY3dXpYNi9sUW1kTVBEL1IyUlNudnlLUnNtbHZ2eERxQ3BuUlVBcmluOTQx?=
- =?utf-8?B?Q3hQZDJ0OXAzMlN0NW84RzhhK1FMMzFlbUkxdHZUK2hVN2dkNSswU3M1WUls?=
- =?utf-8?B?d3FrT0RiYlMrQzBGSlpvMGRScDhGdlp1eG1uMElsejJKNXllbDdjSUhwUldw?=
- =?utf-8?B?cWpIdGU1K3ZqVWxEYVNXSzN3SHMvSFluQW82TDVwbmVYV2wxbVRTYk1WcWx4?=
- =?utf-8?B?WUh1M2c2a21zS0VFdUlhbGtmbVpYbnNOclVPaDJCRUZ4N0oyQ1JZdzBaNGxT?=
- =?utf-8?B?TC83TUNWY1JrMVFoYms3VFpjc2RKeHhzM3MzLzNpVXc4dzRBTzYrM3pjTG5w?=
- =?utf-8?Q?71tUfAyVkzkU+GAQ=3D?=
-X-Exchange-RoutingPolicyChecked: DI/zOs7UcTM30SCpzimRp7peF50KaVic6J7wF9pSgulofLwkihhawzyumcuAOxtjQGO1/3UMFwKkrRXU8MIS/eOoKzLm9XuJjhsGpE6i03BdGNGHJ7wNkDkhfuOYejw68b4oAuZ3ur2GUGmQzMXxGn84KWCzYzErkHESNouBDKIQhBy9/pCB97fv4SZ1QR3WfHxP9AxMIl6zPZSN9RzPZD95XqekMivFHNxfRNfZ8Fti9242AxnzcAN+RUuwSHnZqg6M2mOQJ4zUZjvZk6rASyYbHkQXZpMEK+dpUizc33PIBHztkuRzo8J481st9YMAxaIZApE5jpxFtNDKzLie3w==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3602bf12-77fa-408a-740e-08df4616a7fd
-X-MS-Exchange-CrossTenant-AuthSource: SA3PR11MB346485.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2026 08:25:23.2535
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OqQDN7kbV67WQGOViLp7HP3YFahEiMyWcmpomXVl2EUmGpLs4xh7MXTPCBnI+YVxQ0zEe6HHHn6TL28cAtF0gwaCRgjd1kOYrRI852Si97w=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB5775
-X-Proofpoint-GUID: 469KZuXsLlUaXI_NcJEVO1VNY4FiQql7
-X-Proofpoint-ORIG-GUID: 469KZuXsLlUaXI_NcJEVO1VNY4FiQql7
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE5MDAzMyBTYWx0ZWRfX9aMtSHu2alrF
- e+jdT7hGLMBkRE45l7rVAKs4dI9FFOnzlKFxvbpCKgvq2fComNzhxetqcqBkcXg/MR3dfvimWhw
- ypJcQ9R8IZUsk4UrUpJWVmM/LTFMrQVxhTa62OQWj+kZFgKiPVEiN13GRvUz5vm7opsryxTM8ck
- c7ojMrKQGCQH04gHC+YFAKQmMxaDgoqUistzF/ZmS8tUuYR5tjc3HwP/XPrKlJvw3ztFTfqg8Oj
- 36ouDTpYlywxEx9IOSEGItFn/iGAnLIC1SHuJbgpHPFCh3vd+umIhma7ajOwiDHOlRC2gwxCBgq
- xGfP4Usg0d+PjBvIieQUHuWudtrwXVo2NQ/VzgpmPzHzoeC9sdefVKuGjr/C3dqSxzwGLRKlx99
- jlSfnkqTeXDGrxRo6MK+nauvZLjJJMZqGjV92HihColieX8jIh3yQ6kBy001BL1I0oO1g+TECtr
- MINzN4iSwxlY9/7KM1g==
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE5MDAzMyBTYWx0ZWRfX9Brf4HoG2wal
- eJRdl8khOg+k8eRETDLjnZUR8WCRzP7dLytEZgnrd2hPmbUewmFkI0WV8U3UeDASumx9kx9K9+X
- HWxRGc2z7lbB/XyxRceG8jQ9JIAjDHucrub2hlzOeUuLutriFqKa
-X-Authority-Analysis: v=2.4 cv=GNCdgeNK c=1 sm=1 tr=0 ts=6afeb277 cx=c_pps
- a=oX9DDLBFzmmLrgrYpmrGcg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22
- a=PYnjg3YJAAAA:8 a=mDV3o1hIAAAA:8 a=20KFwNOVAAAA:8 a=t7CeM3EgAAAA:8
- a=j5bqmL3JzUQx6YTb6fkA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=FdTzh2GWekK77mhwV6Dw:22
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] [wrynose][backport] bluez5: Abort continuing response on fragmented CT replies
+To: openembedded-core@lists.openembedded.org
+Cc: cheng.jiang@oss.qualcomm.com, wei.deng@oss.qualcomm.com,
+        mengshi.wu@oss.qualcomm.com, jinwang.li@oss.qualcomm.com,
+        xiuzhuo.shang@oss.qualcomm.com, chenhong.zhou@oss.qualcomm.com
+References: <20261111112254.1486896-1-shuai.zhang@oss.qualcomm.com>
+From: Shuai Zhang <shuai.zhang@oss.qualcomm.com>
+In-Reply-To: <20261111112254.1486896-1-shuai.zhang@oss.qualcomm.com>
+X-Authority-Analysis: v=2.4 cv=YJ0KWhGx c=1 sm=1 tr=0 ts=6afeaf6e cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=Uz3yg00KUFJ2y2WijEJ4bw==:17
+ a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
+ a=Q4-j1AaZAAAA:8 a=NEAV23lmAAAA:8 a=EUspDBNiAAAA:8 a=jIbkme_7AAAA:8
+ a=UIFwVCDISMsRLlRzA6MA:9 a=QEXdDO2ut3YA:10 a=uKXjsCUrEbL0IQVhDsJ9:22
+ a=9H3Qd4_ONW2Ztcrla5EB:22 a=4Z6V1Uo88S3JekNeKaJk:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE5MDAzMiBTYWx0ZWRfXx2Fi+xWwbXdT
+ aiMXYJxmgdberErrNFSAuN515XmpIOJyyBCTjy7e0OF3vJ5e2Rdymo+gG0SqQ0oPn3IkiUiN6LO
+ VWIBvry32ktFkppjWB6FzQmHXmqpTPCTkBLdEcfVdqCboMOpcWkG4kKvwsBI3fv+ARPdLUj8Opy
+ 8b83BDI1e/hk9wuUfRSNwAGsmfZDb/XcXh03iZBl/0Ur6JmQBhhteqwIXUiB02guzO90Y4rb5kq
+ E8JUNCUpFswgx3LroFuMQl8iO1SqyoyiOhmXHhrwd3a50NxjJyO9tBFk0minflkX7+sLws1WRe5
+ EtnyFyjduPR8sEkB277YUaCFIdaG5p0laNNPIKTQnOfNbNbeWyQeFXAh0I5s5yGHui6C7CEhvjB
+ XYQTErtbUNbhuur8dAb+9STLiLHF1G8Aa48I1J+1c2NuKDRuKj4ZXXL3fThSHVhPX6Sm4qnbEE7
+ RjlV/nHuVFIRWz3Lcjg==
+X-Proofpoint-ORIG-GUID: efJt6uyfisyFLBzox7d5dQXfYNSQ7TOC
+X-Proofpoint-GUID: efJt6uyfisyFLBzox7d5dQXfYNSQ7TOC
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE5MDAzMiBTYWx0ZWRfX9g6A1tOLh4yw
+ fA8sGrDb04tjN8eaEpUPfZ2F0EbQ+ti0pRK+uEPndlg5w9CMmid3R4OxR109XVxYPVQwF1i4CsY
+ DeHNBOso5zZujMk54kO22wF22VDqdpc=
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-11-19_02,2026-11-16_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0 spamscore=0 clxscore=1015 suspectscore=0
- lowpriorityscore=0 phishscore=0 impostorscore=0 bulkscore=0
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ impostorscore=0 bulkscore=0 malwarescore=0 priorityscore=1501
+ lowpriorityscore=0 suspectscore=0 phishscore=0 spamscore=0 adultscore=0
+ clxscore=1015 classifier=typeunknown authscore=0 authtc= authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611190033
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 6AJ6w3CW2275732
+ definitions=main-2611190032
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 08:25:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250654
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 09:13:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250655
 
-From: Harish Sadineni <Harish.Sadineni@windriver.com>
+Hi maintainers
 
-libstdc++: Fix buffer overflows in basic_filebuf::overflow [PR118099]
+On 11/11/2026 7:22 PM, Shuai Zhang wrote:
+> Send AbortContinuingResponse when a Get Element Attributes reply
+> arrives fragmented, as the CT side does not reassemble fragments.
+>
+> Backport upstream bluez commit 249e2bedf ("avrcp: Abort continuing
+> response on fragmented CT replies") to bluez 5.86.
+>
+> Fixes PTS test AVRCP/CT/RCR/BV-03-C.
+>
+> Signed-off-by: Shuai Zhang <shuai.zhang@oss.qualcomm.com>
+> ---
+> Changes for v3:
+> - Remove Simon Mikuda's Signed-off-by from the recipe patch, as he did
+>    not sign off the upstream commit
+> Link to v2: https://lists.openembedded.org/g/openembedded-core/message/248377
+>
+> Changes for v2:
+> - Fix subject prefix to [wrynose][backport]
+> - Drop Upstream-Status tag from the commit message
+> Link to v1: https://lists.openembedded.org/g/openembedded-core/topic/patchtest_results_for/121863269
+> ---
+>   meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
+>   ...inuing-response-on-fragmented-CT-rep.patch | 62 +++++++++++++++++++
+>   2 files changed, 63 insertions(+)
+>   create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-avrcp-Abort-continuing-response-on-fragmented-CT-rep.patch
+>
+> diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+> index d857c23..2d0ee56 100644
+> --- a/meta/recipes-connectivity/bluez5/bluez5.inc
+> +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+> @@ -76,6 +76,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+>              file://0001-src-device-Fix-stored-gatt-cache-DB-Hash-value-no.patch    \
+>              file://0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch \
+>              file://0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch \
+> +           file://0001-avrcp-Abort-continuing-response-on-fragmented-CT-rep.patch \
+>              "
+>   S = "${UNPACKDIR}/bluez-${PV}"
+>   
+> diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-avrcp-Abort-continuing-response-on-fragmented-CT-rep.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-avrcp-Abort-continuing-response-on-fragmented-CT-rep.patch
+> new file mode 100644
+> index 0000000..68f824d
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/bluez5/bluez5/0001-avrcp-Abort-continuing-response-on-fragmented-CT-rep.patch
+> @@ -0,0 +1,62 @@
+> +From 41a00c93baa48cbd63b182b853e93a946962cada Mon Sep 17 00:00:00 2001
+> +From: Simon Mikuda <simon.mikuda@streamunlimited.com>
+> +Date: Tue, 9 Jun 2026 23:26:56 +0200
+> +Subject: [PATCH] avrcp: Abort continuing response on fragmented CT replies
+> +
+> +Send AbortContinuingResponse when a Get Element Attributes reply
+> +arrives fragmented, as the CT side does not reassemble fragments.
+> +
+> +Fixes PTS test AVRCP/CT/RCR/BV-03-C
+> +
+> +Upstream-Status: Backport [https://github.com/bluez/bluez/commit/249e2bedfacf51fc6c89f43a0adb9a12d761c2b7]
+> +Signed-off-by: Shuai Zhang <shuai.zhang@oss.qualcomm.com>
+> +---
+> + profiles/audio/avrcp.c | 25 +++++++++++++++++++++++++
+> + 1 file changed, 25 insertions(+)
+> +
+> +diff --git a/profiles/audio/avrcp.c b/profiles/audio/avrcp.c
+> +index 326dfda..557ed97 100644
+> +--- a/profiles/audio/avrcp.c
+> ++++ b/profiles/audio/avrcp.c
+> +@@ -2466,6 +2466,24 @@ static void avrcp_parse_attribute_list(struct avrcp_player *player,
+> + 	}
+> + }
+> +
+> ++static void avrcp_abort_continuing(struct avrcp *session, uint8_t pdu_id)
+> ++{
+> ++	uint8_t buf[AVRCP_HEADER_LENGTH + 1];
+> ++	struct avrcp_header *pdu = (void *) buf;
+> ++
+> ++	memset(buf, 0, sizeof(buf));
+> ++
+> ++	set_company_id(pdu->company_id, IEEEID_BTSIG);
+> ++	pdu->pdu_id = AVRCP_ABORT_CONTINUING;
+> ++	pdu->packet_type = AVRCP_PACKET_TYPE_SINGLE;
+> ++	pdu->params_len = cpu_to_be16(1);
+> ++	pdu->params[0] = pdu_id;
+> ++
+> ++	avctp_send_vendordep_req(session->conn, AVC_CTYPE_CONTROL,
+> ++					AVC_SUBUNIT_PANEL, buf, sizeof(buf),
+> ++					NULL, session);
+> ++}
+> ++
+> + static gboolean avrcp_get_element_attributes_rsp(struct avctp *conn,
+> + 						uint8_t code, uint8_t subunit,
+> + 						uint8_t transaction,
+> +@@ -2483,6 +2501,13 @@ static gboolean avrcp_get_element_attributes_rsp(struct avctp *conn,
+> + 	if (code == AVC_CTYPE_REJECTED)
+> + 		return FALSE;
+> +
+> ++	/* Abort fragmented responses as reassembly is not supported */
+> ++	if (pdu->packet_type == AVRCP_PACKET_TYPE_START ||
+> ++			pdu->packet_type == AVRCP_PACKET_TYPE_CONTINUING) {
+> ++		avrcp_abort_continuing(session, AVRCP_GET_ELEMENT_ATTRIBUTES);
+> ++		return FALSE;
+> ++	}
+> ++
+> + 	count = pdu->params[0];
+> +
+> + 	if (be16_to_cpu(pdu->params_len) - 1 < count * 8) {
+> +--
+> +2.34.1
+> +
 
-If we fail to write the content of the buffer after inserting the
-overflow character into the end of it, then remove that overflow
-character before propagating the error back to the caller. Without this,
-the caller is left with pptr set past epptr, and successive calls to
-overflow will write further past the end of the managed buffer with each
-failure.
 
-References:
-https://nvd.nist.gov/vuln/detail/cve-2026-125709
-https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D118099
-https://bugzilla.redhat.com/show_bug.cgi?id=3D2569390
+just following up to see if there are any updates on this.
 
-Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
----
- meta/recipes-devtools/gcc/gcc-16.2.inc        |   1 +
- .../gcc/gcc/0027-CVE-2026-125709.patch        | 378 ++++++++++++++++++
- 2 files changed, 379 insertions(+)
- create mode 100644 meta/recipes-devtools/gcc/gcc/0027-CVE-2026-125709.pa=
-tch
+Thanks,
 
-diff --git a/meta/recipes-devtools/gcc/gcc-16.2.inc b/meta/recipes-devtoo=
-ls/gcc/gcc-16.2.inc
-index 3497493619..a629b48d95 100644
---- a/meta/recipes-devtools/gcc/gcc-16.2.inc
-+++ b/meta/recipes-devtools/gcc/gcc-16.2.inc
-@@ -75,6 +75,7 @@ SRC_URI =3D "${BASEURI} \
-            file://0001-mapper-localhost-might-not-be-known.patch \
-            file://0001-Fix-check-for-working-assembler-gdwarf-4-option.p=
-atch \
- 	   file://0026-CVE-2026-102010.patch \
-+	   file://0027-CVE-2026-125709.patch \
- "
-=20
- UNPACKDIR =3D "${TMPDIR}/work-shared/gcc-${PV}-${PR}/sources"
-diff --git a/meta/recipes-devtools/gcc/gcc/0027-CVE-2026-125709.patch b/m=
-eta/recipes-devtools/gcc/gcc/0027-CVE-2026-125709.patch
-new file mode 100644
-index 0000000000..cb3a437475
---- /dev/null
-+++ b/meta/recipes-devtools/gcc/gcc/0027-CVE-2026-125709.patch
-@@ -0,0 +1,378 @@
-+From 68b1b9056c70acb31f2964963b51c480ff820602 Mon Sep 17 00:00:00 2001
-+From: Jonathan Wakely <jwakely@redhat.com>
-+Date: Wed, 28 Oct 2026 10:34:17 +0000
-+Subject: libstdc++: Fix buffer overflows in basic_filebuf::overflow [PR1=
-18099]
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+If we fail to write the content of the buffer after inserting the
-+overflow character into the end of it, then remove that overflow
-+character before propagating the error back to the caller. Without this,
-+the caller is left with pptr set past epptr, and successive calls to
-+overflow will write further past the end of the managed buffer with each
-+failure.
-+
-+The new 118099-codecvt.cc tests were assisted by an LLM because I was
-+too lazy to remember how to write codecvt facets.
-+
-+Assisted-by: LLM
-+
-+libstdc++-v3/ChangeLog:
-+
-+	PR libstdc++/118099
-+	* include/bits/fstream.tcc (basic_filebuf::overflow): Rewind the
-+	put position if outputting the put area fails.
-+	* testsuite/27_io/basic_filebuf/overflow/char/118099-codecvt.cc:
-+	New test.
-+	* testsuite/27_io/basic_filebuf/overflow/char/118099.cc: New
-+	test.
-+	* testsuite/27_io/basic_filebuf/overflow/wchar_t/118099-codecvt.cc:
-+	New test.
-+	* testsuite/27_io/basic_filebuf/overflow/wchar_t/118099.cc:
-+	New test.
-+
-+CVE: CVE-2026-125709
-+
-+Upstream-Status: Backport [https://gcc.gnu.org/cgit/gcc/commit/?id=3D68b=
-1b9056c70acb31f2964963b51c480ff820602]
-+
-+Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
-+
-+Reviewed-by: Tomasz Kami=C5=84ski <tkaminsk@redhat.com>
-+(cherry picked from commit 2d296e9f024edbb49cad1f3ebb5ae34c71ea5f7a)
-+---
-+ libstdc++-v3/include/bits/fstream.tcc              |  8 +++
-+ .../basic_filebuf/overflow/char/118099-codecvt.cc  | 76 +++++++++++++++=
-+++++++
-+ .../27_io/basic_filebuf/overflow/char/118099.cc    | 57 +++++++++++++++=
-+
-+ .../overflow/wchar_t/118099-codecvt.cc             | 76 +++++++++++++++=
-+++++++
-+ .../27_io/basic_filebuf/overflow/wchar_t/118099.cc | 57 +++++++++++++++=
-+
-+ 5 files changed, 274 insertions(+)
-+ create mode 100644 libstdc++-v3/testsuite/27_io/basic_filebuf/overflow/=
-char/118099-codecvt.cc
-+ create mode 100644 libstdc++-v3/testsuite/27_io/basic_filebuf/overflow/=
-char/118099.cc
-+ create mode 100644 libstdc++-v3/testsuite/27_io/basic_filebuf/overflow/=
-wchar_t/118099-codecvt.cc
-+ create mode 100644 libstdc++-v3/testsuite/27_io/basic_filebuf/overflow/=
-wchar_t/118099.cc
-+
-+diff --git a/libstdc++-v3/include/bits/fstream.tcc b/libstdc++-v3/includ=
-e/bits/fstream.tcc
-+index 99aa296b83c4..0d1d9491cb6a 100644
-+--- a/libstdc++-v3/include/bits/fstream.tcc
-++++ b/libstdc++-v3/include/bits/fstream.tcc
-+@@ -561,11 +561,18 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
-+             }
-+ 	  if (this->pbase() < this->pptr())
-+ 	    {
-++	      struct _Guard {
-++		~_Guard() { if (_M_p) _M_p->pbump(-1); }
-++		basic_filebuf* _M_p;
-++	      };
-++	      _Guard __g =3D { };
-++
-+ 	      // If appropriate, append the overflow char.
-+ 	      if (!__testeof)
-+ 		{
-+ 		  *this->pptr() =3D traits_type::to_char_type(__c);
-+ 		  this->pbump(1);
-++		  __g._M_p =3D this;
-+ 		}
-+=20
-+ 	      // Convert pending sequence to external representation,
-+@@ -573,6 +580,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
-+ 	      if (_M_convert_to_external(this->pbase(),
-+ 					 this->pptr() - this->pbase()))
-+ 		{
-++		  __g._M_p =3D 0;
-+ 		  _M_set_buffer(0);
-+ 		  __ret =3D traits_type::not_eof(__c);
-+ 		}
-+diff --git a/libstdc++-v3/testsuite/27_io/basic_filebuf/overflow/char/11=
-8099-codecvt.cc b/libstdc++-v3/testsuite/27_io/basic_filebuf/overflow/cha=
-r/118099-codecvt.cc
-+new file mode 100644
-+index 000000000000..e4b1106b9b8d
-+--- /dev/null
-++++ b/libstdc++-v3/testsuite/27_io/basic_filebuf/overflow/char/118099-co=
-decvt.cc
-+@@ -0,0 +1,76 @@
-++// { dg-do run }
-++// { dg-require-fileio "" }
-++
-++// PR libstdc++/118099
-++// basic_filebuf::overflow leaves streambuf in inconsistent state on I/=
-O error
-++//
-++// Companion test of 118099.cc testing the throwing failure path in ove=
-rflow:
-++// a codecvt whose do_out always returns error makes _M_convert_to_exte=
-rnal
-++// throw after the overflow character has been written to the end of pu=
-t area.
-++// If the put pointer is advanced before the throw (and only rewound on=
- the
-++// non-throwing error path), a caller that catches the exception and ke=
-eps
-++// writing will cause overflow(c) to write past the end of the managed =
-buffer,
-++// just like the original PR libstdc++/118099 testcase.
-++
-++#include <fstream>
-++#include <locale>
-++#include <testsuite_hooks.h>
-++
-++typedef char C;
-++
-++struct failing_codecvt : std::codecvt<C, char, std::mbstate_t>
-++{
-++protected:
-++  result
-++  do_out(state_type&, const intern_type* from, const intern_type*,
-++	 const intern_type*& from_next,
-++	 extern_type* to, extern_type*, extern_type*& to_next) const
-++  {
-++    from_next =3D from;
-++    to_next =3D to;
-++    return error;
-++  }
-++
-++  bool do_always_noconv() const throw() { return false; }
-++};
-++
-++static void
-++test_pr118099_codecvt()
-++{
-++  const C val =3D C('x');
-++  const C canary =3D ~val;
-++  const int N =3D 8;
-++  C buf[N * 2];
-++  for (int i =3D 0; i < N * 2; ++i)
-++    buf[i] =3D canary;
-++
-++  std::basic_filebuf<C> fb;
-++  fb.pubimbue(std::locale(std::locale::classic(), new failing_codecvt))=
-;
-++  fb.pubsetbuf(buf, N); // filebuf can use buf[0..N]
-++  fb.open("tmp_118099_codecvt", std::ios_base::out | std::ios_base::tru=
-nc);
-++  VERIFY( fb.is_open() );
-++
-++  // Libstdc++ filebuf throws ios::failure for the codecvt error,
-++  // but the standard allows overflow to return eof instead.
-++  // To make this test portable, we check for either kind of error.
-++  bool got_error =3D false;
-++  for (int i =3D 0; i < N * 2; ++i)
-++    try {
-++      std::char_traits<C>::int_type r =3D fb.sputc(val);
-++      if (std::char_traits<C>::eq_int_type(r, std::char_traits<C>::eof(=
-)))
-++	got_error =3D true;
-++    } catch (const std::exception&) {
-++      got_error =3D true;
-++    }
-++  VERIFY( got_error ); // a codecvt error actually happened
-++
-++  for (int i =3D 0; i < N; ++i)
-++    VERIFY( buf[i] =3D=3D val );
-++  for (int i =3D N; i < N * 2; ++i)
-++    VERIFY( buf[i] =3D=3D canary ); // nothing was written past buf[0..=
-N]
-++}
-++
-++int main()
-++{
-++  test_pr118099_codecvt();
-++}
-+diff --git a/libstdc++-v3/testsuite/27_io/basic_filebuf/overflow/char/11=
-8099.cc b/libstdc++-v3/testsuite/27_io/basic_filebuf/overflow/char/118099=
-.cc
-+new file mode 100644
-+index 000000000000..2407119dcb1b
-+--- /dev/null
-++++ b/libstdc++-v3/testsuite/27_io/basic_filebuf/overflow/char/118099.cc
-+@@ -0,0 +1,57 @@
-++// { dg-do run }
-++// { dg-require-fileio "" }
-++
-++// PR libstdc++/118099
-++// basic_filebuf::overflow leaves streambuf in inconsistent state on I/=
-O error
-++
-++#include <fstream>
-++#include <testsuite_hooks.h>
-++
-++static void
-++test_pr118099()
-++{
-++  typedef char C;
-++
-++  // Only run if /dev/full already exists as a device: probe it with a
-++  // read-only open first, so we never accidentally create a regular fi=
-le
-++  // named /dev/full on a hypothetical system with a writable /dev.
-++  {
-++    std::filebuf probe;
-++    if (!probe.open("/dev/full", std::ios_base::in))
-++      return; // no /dev/full here: nothing to test.
-++  }
-++
-++  const C val =3D C('x');
-++  const C canary =3D ~val;
-++  const int N =3D 8;
-++  C buf[N * 2] =3D { };
-++  for (int i =3D 0; i < N * 2; ++i)
-++    buf[i] =3D canary;
-++
-++  std::basic_filebuf<C> fb;
-++  fb.pubsetbuf(buf, N); // filebuf can use buf[0..N]
-++  fb.open("/dev/full", std::ios_base::out);
-++  VERIFY( fb.is_open() );
-++
-++  int i =3D 0;
-++  // Keep writing until overflow happens (and fails):
-++  while (fb.sputc(val) !=3D std::char_traits<C>::eof())
-++    ++i;
-++  // There should have been N-1 successful calls before overflow failed=
-:
-++  VERIFY( i =3D=3D (N - 1) );
-++  // Overflow some more:
-++  VERIFY( fb.sputc(val) =3D=3D std::char_traits<C>::eof() );
-++  VERIFY( fb.sputc(val) =3D=3D std::char_traits<C>::eof() );
-++  VERIFY( fb.sputc(val) =3D=3D std::char_traits<C>::eof() );
-++
-++  // Verify that only the first N positions in the buffer were changed:
-++  for (i =3D 0; i < N; ++i)
-++    VERIFY( buf[i] =3D=3D val );
-++  for (; i < N * 2; ++i)
-++    VERIFY( buf[i] =3D=3D canary );
-++}
-++
-++int main()
-++{
-++  test_pr118099();
-++}
-+diff --git a/libstdc++-v3/testsuite/27_io/basic_filebuf/overflow/wchar_t=
-/118099-codecvt.cc b/libstdc++-v3/testsuite/27_io/basic_filebuf/overflow/=
-wchar_t/118099-codecvt.cc
-+new file mode 100644
-+index 000000000000..add23cc99500
-+--- /dev/null
-++++ b/libstdc++-v3/testsuite/27_io/basic_filebuf/overflow/wchar_t/118099=
--codecvt.cc
-+@@ -0,0 +1,76 @@
-++// { dg-do run }
-++// { dg-require-fileio "" }
-++
-++// PR libstdc++/118099
-++// basic_filebuf::overflow leaves streambuf in inconsistent state on I/=
-O error
-++//
-++// Companion test of 118099.cc testing the throwing failure path in ove=
-rflow:
-++// a codecvt whose do_out always returns error makes _M_convert_to_exte=
-rnal
-++// throw after the overflow character has been written to the end of pu=
-t area.
-++// If the put pointer is advanced before the throw (and only rewound on=
- the
-++// non-throwing error path), a caller that catches the exception and ke=
-eps
-++// writing will cause overflow(c) to write past the end of the managed =
-buffer,
-++// just like the original PR libstdc++/118099 testcase.
-++
-++#include <fstream>
-++#include <locale>
-++#include <testsuite_hooks.h>
-++
-++typedef wchar_t C;
-++
-++struct failing_codecvt : std::codecvt<C, char, std::mbstate_t>
-++{
-++protected:
-++  result
-++  do_out(state_type&, const intern_type* from, const intern_type*,
-++	 const intern_type*& from_next,
-++	 extern_type* to, extern_type*, extern_type*& to_next) const
-++  {
-++    from_next =3D from;
-++    to_next =3D to;
-++    return error;
-++  }
-++
-++  bool do_always_noconv() const throw() { return false; }
-++};
-++
-++static void
-++test_pr118099_codecvt()
-++{
-++  const C val =3D C('x');
-++  const C canary =3D ~val;
-++  const int N =3D 8;
-++  C buf[N * 2];
-++  for (int i =3D 0; i < N * 2; ++i)
-++    buf[i] =3D canary;
-++
-++  std::basic_filebuf<C> fb;
-++  fb.pubimbue(std::locale(std::locale::classic(), new failing_codecvt))=
-;
-++  fb.pubsetbuf(buf, N); // filebuf can use buf[0..N]
-++  fb.open("tmp_118099_codecvt", std::ios_base::out | std::ios_base::tru=
-nc);
-++  VERIFY( fb.is_open() );
-++
-++  // Libstdc++ filebuf throws ios::failure for the codecvt error,
-++  // but the standard allows overflow to return eof instead.
-++  // To make this test portable, we check for either kind of error.
-++  bool got_error =3D false;
-++  for (int i =3D 0; i < N * 2; ++i)
-++    try {
-++      std::char_traits<C>::int_type r =3D fb.sputc(val);
-++      if (std::char_traits<C>::eq_int_type(r, std::char_traits<C>::eof(=
-)))
-++	got_error =3D true;
-++    } catch (const std::exception&) {
-++      got_error =3D true;
-++    }
-++  VERIFY( got_error ); // a codecvt error actually happened
-++
-++  for (int i =3D 0; i < N; ++i)
-++    VERIFY( buf[i] =3D=3D val );
-++  for (int i =3D N; i < N * 2; ++i)
-++    VERIFY( buf[i] =3D=3D canary ); // nothing was written past buf[0..=
-N]
-++}
-++
-++int main()
-++{
-++  test_pr118099_codecvt();
-++}
-+diff --git a/libstdc++-v3/testsuite/27_io/basic_filebuf/overflow/wchar_t=
-/118099.cc b/libstdc++-v3/testsuite/27_io/basic_filebuf/overflow/wchar_t/=
-118099.cc
-+new file mode 100644
-+index 000000000000..bcbbd58ee9c1
-+--- /dev/null
-++++ b/libstdc++-v3/testsuite/27_io/basic_filebuf/overflow/wchar_t/118099=
-.cc
-+@@ -0,0 +1,57 @@
-++// { dg-do run }
-++// { dg-require-fileio "" }
-++
-++// PR libstdc++/118099
-++// basic_filebuf::overflow leaves streambuf in inconsistent state on I/=
-O error
-++
-++#include <fstream>
-++#include <testsuite_hooks.h>
-++
-++static void
-++test_pr118099()
-++{
-++  typedef wchar_t C;
-++
-++  // Only run if /dev/full already exists as a device: probe it with a
-++  // read-only open first, so we never accidentally create a regular fi=
-le
-++  // named /dev/full on a hypothetical system with a writable /dev.
-++  {
-++    std::filebuf probe;
-++    if (!probe.open("/dev/full", std::ios_base::in))
-++      return; // no /dev/full here: nothing to test.
-++  }
-++
-++  const C val =3D C('x');
-++  const C canary =3D ~val;
-++  const int N =3D 8;
-++  C buf[N * 2] =3D { };
-++  for (int i =3D 0; i < N * 2; ++i)
-++    buf[i] =3D canary;
-++
-++  std::basic_filebuf<C> fb;
-++  fb.pubsetbuf(buf, N); // filebuf can use buf[0..N]
-++  fb.open("/dev/full", std::ios_base::out);
-++  VERIFY( fb.is_open() );
-++
-++  int i =3D 0;
-++  // Keep writing until overflow happens (and fails):
-++  while (fb.sputc(val) !=3D std::char_traits<C>::eof())
-++    ++i;
-++  // There should have been N-1 successful calls before overflow failed=
-:
-++  VERIFY( i =3D=3D (N - 1) );
-++  // Cause some more calls to overflow, which should also fail:
-++  VERIFY( fb.sputc(val) =3D=3D std::char_traits<C>::eof() );
-++  VERIFY( fb.sputc(val) =3D=3D std::char_traits<C>::eof() );
-++  VERIFY( fb.sputc(val) =3D=3D std::char_traits<C>::eof() );
-++
-++  // Verify that only the first N positions in the buffer were changed:
-++  for (i =3D 0; i < N; ++i)
-++    VERIFY( buf[i] =3D=3D val );
-++  for (; i < N * 2; ++i)
-++    VERIFY( buf[i] =3D=3D canary );
-++}
-++
-++int main()
-++{
-++  test_pr118099();
-++}
-+--=20
-+cgit=20
-+
---=20
-2.49.0
+Shuai
 
