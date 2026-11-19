@@ -1,112 +1,142 @@
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14422.1795095334895947610
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14883.1795095966231065966
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Nov 2026 05:35:35 -0800
+ Thu, 19 Nov 2026 05:46:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=OLE972ys;
- spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: stondo@gmail.com)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4bb68c197c7so32159425e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 05:35:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795095333; x=1795700133; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Y1Al3raVkFgeunWVNn+Lggc8QXmAIkM78ZySAd0D6eI=;
-        b=OLE972ysCTxdtXddAKFET2PkepnYd5tAL7ABOjIfddtsrm2lO80hnn53GzuJWwpgUP
-         VEJxpWd/8KgbLWKgjtsZtHPR8ptHZ96Re4vjnt8tBI22FnjdMdK1QufTZDb7/tDY7b1M
-         7URH+bicdJIm0SEraca9M+zD0PlOH1Z8NNb38xW0nj9mi1Tn8ZLNE6LMyAICz4xfPiGr
-         YEqlzlwPLSUF4sNcskFvmW8BWgLuuiquuAW2I5EkUjz519Fe6WjX6G73cY4+PaAEpQ2b
-         6OFmTLlXJdLyYwn4XnrNg+UE4Y6wNbpxbs0ZNZsSmS0GaFzSihvqYSSQvXMx0OUDomkI
-         m30A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795095333; x=1795700133;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Y1Al3raVkFgeunWVNn+Lggc8QXmAIkM78ZySAd0D6eI=;
-        b=NgwnW6oDbEsmkLF23KOdJPMvlLmA9F2KTirlafHEMOU3rLrjYxTLlO2MkKqsF7VRtE
-         jeosPruMtwpY3s4BvcDi0AqUwjyVpQfmqX4734DzGAsPCtNJDA4vdKNLvYVq/K62YZVw
-         A8HH8YmW2W3I/MhYsFgdbZkWfszWZcF/T4jXwyunqcilDN4zjZIbpZ/AkvViqV4VEqDJ
-         CZMNTDprACz3wuUlghcIvO4BLlD7u7hHQPYFSpq9JML87cnRnVSji01OoCCuue+cK0pf
-         KNdO2KaECXA5LfmHqILxAXn3ZhYtydBgo8n0CaBq9gw/S31CApYpL54vq9HVmwkfMkBK
-         H4bw==
-X-Gm-Message-State: APuU4Z/m+qKdsCMTYdtvosj8HadE7EUVRDOWrX0IRmxNv+X5KObu37ag
-	hnfBa0CqFYS+C/Vy6YIP8sOq7s3cP9RMJjiazR4YJ9R01LS2vdUHcTy0
-X-Gm-Gg: AYBFou3a2s1y9V868qjR7lxVNGF/7ZWOkS2eUZk6EcyfjT0JHwT166X+/8PG1V3PZrr
-	OtidzZ2nPADp+Hbb4mBJjQZfp1/03uiE0s+Zj1whmvo3wUX2i3jc0iM3HjnABRnBB1qwLGkUN8j
-	pnENDwV6F5kgKtds1nvAT0v4yxQIgp3GoxZ23OjRJHFsZ2z9178jxI6FjacWdpTy4BPqNinFWat
-	+9uFdjui4ro7jVD+Rbih2MhYBwPFRvWlES0gIpAITm++dYmUacT6AFjjpAVHS/2va1akh9ebOot
-	MS4KQoYU2qa/CCYjqhNnJWjwBxRRIVj0fQhntEPlJ/mBR+T+26bprVd+657C8qQGSCV25EDd12u
-	UOTarDWjzl48kzDxl6Euc9ac5P7r0mEBAEZUtkg8abpirxunnhEva9s9aihw2DeZ0h8aCJ1aqMA
-	VAj9NfB6BaAWxBwStwol3tzKHDVX/mUdAF9qynJU8qi5fEhWkVpCZ4LrpyG4eT5zFfl57JYWe1G
-	JQ55Frj2/lcSBk3X1NEYAZR4o7cy7Cmw/px7DLcpvJp1zKKTASNPhz9Hlj0lftiMyOWVYk2JWpI
-	HPFEIH0Vxow=
-X-Received: by 2002:a05:600c:3111:b0:4a6:4d6b:a840 with SMTP id 5b1f17b1804b1-4bb7da2bb49mr127828035e9.31.1795095332615;
-        Thu, 19 Nov 2026 05:35:32 -0800 (PST)
-Return-Path: <stondo@gmail.com>
-Received: from fedora ([165.225.94.251])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb84e051desm29083635e9.1.2026.11.19.05.35.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Nov 2026 05:35:31 -0800 (PST)
-From: Stefano Tondo <stondo@gmail.com>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org,
-	Joshua Watt <JPEWhacker@gmail.com>,
-	Alexander Kanavin <alex.kanavin@gmail.com>,
-	Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>,
-	Jaipaul Cheernam <jaipaul.cheernam@est.tech>,
-	stefano.tondo.ext@siemens.com
-Subject: Re: [PATCH v2 0/4] spdx30: identity and purls of dependency downloads
-Date: Thu, 19 Nov 2026 14:35:30 +0100
-Message-ID: <20261119133530.716702-1-stondo@gmail.com>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <DMZ6W5V8KTSJ.1SA7GOSZRNZVM@bootlin.com>
-References: <20261118234425.3681880-1-stondo@gmail.com> <DMZ6W5V8KTSJ.1SA7GOSZRNZVM@bootlin.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=xqXQrcSy;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 07D501A170A;
+	Thu, 19 Nov 2026 13:46:04 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id D076B60237;
+	Thu, 19 Nov 2026 13:46:03 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B577D11BC0B0C;
+	Thu, 19 Nov 2026 14:45:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1795095959; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=wEqDTClxb4aW6noikcBjFCWbdvHfdMU4D6GtSZs5PUg=;
+	b=xqXQrcSyf5lZz07RJS7aS44eaxIVdD0EileQSPkn08hdfN/pWbo46KVOVtxtnYqsn4jS1/
+	F2s80EY0ObToA0eqOniy1tiOCKGwSCSzv+ER4lp8l8QmU/NixZlfefEzlVW0MGLHbWsGJd
+	6nWJ9YZ3qqCIE07MUFydrvzHbr48OEelp/VzLS/uWDTti0kHVDR0TOHvxpWpMQJY+G+U8J
+	YZvffdPPVcFy4i1EFCaDA7iE3v1EVfwuq1Rxe3U8/U9kw5MoCmhI5AslDDJOTG83TbRmJ+
+	bVNogSJ5D+069EKZn5j8F/lHHre6iP2/6vX2YC9poRA7SDTXQgjj9uS0pDlFEw==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 19 Nov 2026 14:45:57 +0100
+Message-Id: <DMZ8EQKIIH8N.3HVUP915JIV7T@bootlin.com>
+Subject: Re: [OE-core] [PATCH v2] gstreamer1.0-plugins-rs: drop S override
+ and fix LIC_FILES_CHKSUM paths
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Jaipaul Cheernam" <jaipaul.cheernam@est.tech>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20261118063416.18496-3-jaipaul.cheernam@est.tech>
+ <20261118160802.24904-1-jaipaul.cheernam@est.tech>
+In-Reply-To: <20261118160802.24904-1-jaipaul.cheernam@est.tech>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 13:35:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250668
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 13:46:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250669
 
-On Thu Nov 19, 2026 at 1:34 PM CET, Mathieu Dubois-Briand wrote:
-> Thanks for the v2, it does look better in term of memory.
+On Wed Nov 18, 2026 at 5:08 PM CET, Jaipaul Cheernam wrote:
+> S was set to ${UNPACKDIR}, but the sources are unpacked into
+> ${UNPACKDIR}/${BP}. This was likely missed in previous cleanups.
 >
-> Yet I can see this failure:
->
-> ERROR: zip-native-3.0-r0 do_create_spdx: Error executing a python function in exec_func_python() autogenerated:
-[...]
-> Exception: AttributeError: 'Wget' object has no attribute 'package_identity'
+> Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+> ---
 
-Hi Mathieu,
+Hi Jaipaul,
 
-Thanks for the test.
+Thanks for the v2.
 
-This series needs the bitbake series "fetch: package identity of
-crate, gomod and npm URLs" [1]. It adds FetchMethod.package_identity().
-The bitbake of this build (b6d163ca65 on mathieu/master-next) does not
-have it. The two bitbake patches apply cleanly on b6d163ca65. Can you
-add them for the next build? The lib32-lsb-release failure has the
-same cause.
+I believe we have another issue now:
 
-> ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-plugins-rs/0.15.4/temp/log.do_compile.1234281
-[...]
-> | Error: CliError { error: Some(no matching package named `gstreamer` found
+ERROR: gstreamer1.0-plugins-rs-0.15.4-r0 do_compile: Execution of '/srv/pok=
+ybuild/yocto-worker/qemux86-world/build/build/tmp/work/x86-64-v3-poky-linux=
+/gstreamer1.0-plugins-rs/0.15.4/temp/run.do_compile.3078309' failed with ex=
+it code 1
+...
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/qemux86-wo=
+rld/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-plugins-rs/0.15.=
+4/temp/log.do_compile.3078309
+Log data follows:
+| DEBUG: Executing shell function do_compile
+| NOTE: Using rust targets from /srv/pokybuild/yocto-worker/qemux86-world/b=
+uild/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-plugins-rs/0.15.4/rus=
+t-targets/
+| Error: CliError { error: Some(no matching package named `gstreamer` found
+| location searched: directory source `/srv/pokybuild/yocto-worker/qemux86-=
+world/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-plugins-rs/0.1=
+5.4/sources/cargo_home/bitbake` (which is replacing registry `crates-io`)
+| required by package `gst-plugin-tutorial v0.15.4 (/srv/pokybuild/yocto-wo=
+rker/qemux86-world/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-p=
+lugins-rs/0.15.4/sources/gstreamer1.0-plugins-rs-0.15.4/tutorial)`
+| help: packages with similar names: bitreader
+|
+| note: offline mode (via `--offline`) can sometimes cause surprising resol=
+ution failures
+| help: if this error is too confusing you may wish to retry without `--off=
+line`
+|
+| Stack backtrace:
+|    0: <unknown>
+|    1: <unknown>
+|    2: <unknown>
+|    3: <unknown>
+|    4: <unknown>
+|    5: <unknown>
+|    6: <unknown>
+|    7: <unknown>
+|    8: <unknown>
+|    9: <unknown>
+|   10: <unknown>
+|   11: <unknown>
+|   12: <unknown>
+|   13: <unknown>
+|   14: __libc_start_call_main
+|   15: __libc_start_main@GLIBC_2.2.5
+|   16: <unknown>), exit_code: 101 }
+| WARNING: /srv/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work/x=
+86-64-v3-poky-linux/gstreamer1.0-plugins-rs/0.15.4/temp/run.do_compile.3078=
+309:159 exit 1 from 'cargo-cbuild cbuild -v --target x86_64-poky-linux-gnu =
+--profile=3Drelease --manifest-path=3D/srv/pokybuild/yocto-worker/qemux86-w=
+orld/build/build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-plugins-rs/0.15=
+.4/sources/gstreamer1.0-plugins-rs-0.15.4//Cargo.toml --offline -p gst-plug=
+in-audiofx -p gst-plugin-closedcaption -p gst-plugin-fallbackswitch -p gst-=
+plugin-file -p gst-plugin-hlssink3 -p gst-plugin-inter -p gst-plugin-isobmf=
+f -p gst-plugin-mpegtslive -p gst-plugin-reqwest -p gst-plugin-rtp -p gst-p=
+lugin-rtsp -p gst-plugin-threadshare -p gst-plugin-tracers -p gst-plugin-vi=
+deofx -p gst-plugin-webp -p gst-plugin-webrtc -p gst-plugin-webrtc-signalli=
+ng --destdir /srv/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work=
+/x86-64-v3-poky-linux/gstreamer1.0-plugins-rs/0.15.4/image --prefix /usr --=
+libdir /usr/lib64 --library-type cdylib'
+| WARNING: Backtrace (BB generated script):
+| 	#1: cargo_c_do_compile, /srv/pokybuild/yocto-worker/qemux86-world/build/=
+build/tmp/work/x86-64-v3-poky-linux/gstreamer1.0-plugins-rs/0.15.4/temp/run=
+.do_compile.3078309, line 159
+| 	#2: do_compile, /srv/pokybuild/yocto-worker/qemux86-world/build/build/tm=
+p/work/x86-64-v3-poky-linux/gstreamer1.0-plugins-rs/0.15.4/temp/run.do_comp=
+ile.3078309, line 151
+| 	#3: main, /srv/pokybuild/yocto-worker/qemux86-world/build/build/tmp/work=
+/x86-64-v3-poky-linux/gstreamer1.0-plugins-rs/0.15.4/temp/run.do_compile.30=
+78309, line 218
+NOTE: recipe gstreamer1.0-plugins-rs-0.15.4-r0: task do_compile: Failed
+ERROR: Task (/srv/pokybuild/yocto-worker/qemux86-world/build/layers/openemb=
+edded-core/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-rs_0.15.4=
+.bb:do_compile) failed with exit code '1'
 
-I think this failure comes from "gstreamer1.0-plugins-rs: Upgrade
-0.15.3 -> 0.15.4", and not from this series. This series does not
-change do_compile.
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/59/builds/5073
 
-At the 0.15.4 tag, Cargo.lock takes gstreamer, gstreamer-base,
-gstreamer-audio and gstreamer-video from the gstreamer-rs git
-repository, and not from crates.io. The new
-gstreamer1.0-plugins-rs-crates.inc lists only the crates.io crates, so
-these crates are missing: it has 1048 entries, 0.15.3 had 1098. No
-SRC_URI entry fetches them from git, so the offline build does not
-find them. I added Jaipaul to Cc.
+Can you have a look at the issue?
 
-[1] https://lore.kernel.org/bitbake-devel/20261118092831.201831-1-stondo@gmail.com/
+Thanks,
+Mathieu
 
-Best regards,
-Stefano
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
