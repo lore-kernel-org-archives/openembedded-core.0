@@ -1,123 +1,199 @@
-Received: from aer-iport-1.cisco.com (aer-iport-1.cisco.com [173.38.203.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7919.1795060431402844995
+Received: from aer-iport-7.cisco.com (aer-iport-7.cisco.com [173.38.203.69])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8199.1795061920306621915
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Nov 2026 19:53:52 -0800
+ Wed, 18 Nov 2026 20:18:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Jl4S30b9;
- spf=pass (domain: cisco.com, ip: 173.38.203.51, mailfrom: hthakar@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=CNiBKx8d;
+ spf=pass (domain: cisco.com, ip: 173.38.203.69, mailfrom: yurade@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=2106; q=dns/txt;
-  s=iport01; t=1795060431; x=1796270031;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=qE/U1sY90CiQ8vykKNli5qxNuXEbkUhtw4zBNvacpZI=;
-  b=Jl4S30b96oBliqKp5XVY5nXRJ6w+aHwEFqCPZMmIa5axXTqzZBEqYH1P
-   RwC13odf+rJ6P489XmmHFZSKHutGcnq6y30L2/HuIU3LZbKQ44aklc7CB
-   Hk69bwGEInT+bGt23ykN+eb68I2I4mlunZ9Znoav5tbOxmLUBz0GMIiLR
-   8RVDZvSjgqadE6+V4iXv3aL6FRbMt4ySGiR+f7m9YmRlDMsyZRRlCO9g0
-   RA9aiUvSQFqvp2DijG7sF9XCqNqdfaFmDwglswheAuSelGbXGd0LaYJP7
-   4H0Rn7h9npkoTgfguJMaHuxM6cKAMopOKuQfT1jBETrTam90zQ9kuR0NA
-   w==;
-X-CSE-ConnectionGUID: AyJ4udquRlGCgg0fMb0MuQ==
-X-CSE-MsgGUID: KBH5xVo6TX+eDHz0NNKJQQ==
-X-IPAS-Result: =?us-ascii?q?A0BBAgBjcf5q/9FK/pBQCoJZgld1YENJk1oBT4IhniyBf?=
- =?us-ascii?q?g8BAQEPRA0EAQGTJwImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBAQIBB?=
- =?us-ascii?q?wWBDhOGTw2QSwF2XESDAgGCdAMRuTOCLIEBhH7bMwELFAGBOIVCiCR1AYR9J?=
- =?us-ascii?q?xsbgXKEf4JhBBiBDQx6hXkEgiJ6Eo5riVtIgR4DWSwBVRMNCgsHBYFoAzUSK?=
- =?us-ascii?q?hVuMh2BIzsXgQcbBgWBHIEegRKBA12BKyheIYEIgXYCglGCAAIBSUEOB0VTC?=
- =?us-ascii?q?SVDEkckIggSCQETGiwKgRo1PAkmPxUMZwsaBWEIAg0MdDkQMB4kLwUaJj4bC?=
- =?us-ascii?q?oEMJx8eGw4CDhgNSBEsNxUZBD5uB5NRgxiBDxMYgWymNaERCiiDeYwklToaM?=
- =?us-ascii?q?4QEgVelF5kIglmLMZZRhGqBaDyBWXAVgyIJShkPji0XiHPHKyYyCzIBAQcCB?=
- =?us-ascii?q?w4DC4FokACBfgEB?=
-IronPort-Data: A9a23:ewLheaukfO6SEIcot2+2UusyrefnVANfMUV32f8akzHdYApBsoF/q
- tZmKWmGOP7ZYTOjfdgjaITk/B4AuMXRy4djSgpo+38zHiISgMeUXt7xwmUckM+xwmwvaGo9s
- q3yv/GZdJhcokf0/0nrb/656ykmiMlkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
- eja/YuFZzdJ5xYuajhKsvva+Es01BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
- 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
- 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIw0/dVXXxC7
- OEiLB8mYR/bice8mJemc7w57igjBJGD0II3s3x6iDWcBvE8TNWbE+PB5MRT23E7gcUm8fT2P
- pZFL2AyMFKfP1sVYgZ/5JEWxI9EglH/bz1Rq1uPjaE2+GPUigd21dABNfKLI43XGJ0Iwy50o
- Erl1USkEi8dauCvijep0mD0oMnsvxrCDdd6+LqQs6QCbEeo7msLBRsbUFG2rfW0hgu1XMhSA
- 0gV4TY1668q+UqmS9PwUxG1rDiDpBF0ZjZLO+Q38kSJj6HT+QvcXjhCRT9aY9tgv8gzLdA36
- mK0cxrSLWQHmNWopbi1r994cRva1fApEFI/
-IronPort-HdrOrdr: A9a23:QpdAwqOosPazoMBcTvGjsMiBIKoaSvp037BN7TESdfU7SKKlfq
- yV8cjztiWE6wr5JktApTnoAsDpKhnhHPVOjrX5U43PYOCfgguVBbAny5f+yDv9HCC73Otc2a
- B8N5VaMrTLfD1HZQKQ2njeLz7mq+P3lJyVuQ==
-X-Talos-CUID: 9a23:5ySvbmC1A2TqhlL6EwB21hIJFtk4SHny53jfe0GdAz5MVYTAHA==
-X-Talos-MUID: 9a23:tg56rgqYB14wyc9zUZMezxJIFJp43aPwNHBOnLkmqZGiEw9SAg7I2Q==
+  d=cisco.com; i=@cisco.com; l=6570; q=dns/txt;
+  s=iport01; t=1795061920; x=1796271520;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=LccjFtQxG2r41TB5QESXMJ9icoHkDWYUzflOenBDURI=;
+  b=CNiBKx8dP/ULywHyc696U+X3AvrL4fVmjg42f3QyxTzaaiagzRtVOW9E
+   ri0KA0RRNw3nophS4B+NVKE6Qlp1+h/VAPNOKpmvBqVjdb92C9eAzJtSG
+   /b9B8QU0J6p+izXQ+/UNP618FI+LiZkn7MtcQy5qGv63tqgqgKmIqd7ph
+   qdRfTm4p3vFTbyfyeoPrxbU4lnSi0Quk7O2FB2yUoKA7D7+e05Raw0qJT
+   3F8TSvypsGTyL86dzkn6Pp03CPT/J2WLbh8IsGW9mP1v9mfikGCrPXiPM
+   ZOqcx9OBNzHTD8fV7n2W4m099rkrSNQvwAFN2ms7XQuHZN61q9ysABICw
+   A==;
+X-CSE-ConnectionGUID: c+QWJijJRPaI+WWXwJ7xLA==
+X-CSE-MsgGUID: 9wpnqLSPQYC7j5Ajwet4Kw==
+X-IPAS-Result: =?us-ascii?q?A0BeAwBZd/5q/81K/pBaglmDTGBDSZQqgiGeLBSBag8BA?=
+ =?us-ascii?q?QEPNxoEAQGFBQKOIAImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBAQIBB?=
+ =?us-ascii?q?wWBDhOGXJATAgEDMgEYARsiUSsrgxsBgnQDuUOCLIEBgykBgVTZS4F0FYE4j?=
+ =?us-ascii?q?WZ2hH0nG4FJRIR/hCmGYASDHBKQPIgKSIEeA1ksAVUTDQoLBwWBaAM1EioVb?=
+ =?us-ascii?q?jIdgSM7F4EHGwYFgRyBHoESgQNdgSsoXiGBCIF2AoJRggACAUlBDgdFUwklQ?=
+ =?us-ascii?q?xJHJCIIEgkBExosCoEaNTwJJj8VDGcLGgVhCAINDHQ5EDAeJC8FGiY+GwqBD?=
+ =?us-ascii?q?CcfHhsOAg4YDUgRLDcVGQQ+bgeTUYMYFnkHgigQGKV1oRGEK4wklToaM6pym?=
+ =?us-ascii?q?QikDk2EaoFoPIFZMxoIGxWDIglKGQ/eYiYyAjsBAQcCBw4DC4FokX4BAQ?=
+IronPort-Data: A9a23:PaVyOKBFsle66hVW/2Piw5YqxClBgxIJ4kV8jS/XYbTApGl30TUOy
+ zceDWnVPv7camfzct9zO4q+801VusCHnNBqOVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
+ /02M4eGcYZsCC+G+39BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jXGthh
+ fuo+5eBYQb8i2YvWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
+ P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
+ 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TEyLZXM2M3P68iwu9WQl5xx
+ eM6dyApR0XW7w626OrTpuhEj8k5ac2uN4QFtzQ4kXfSDO0tRtbIRKCiCd1whWtswJoTQbCBO
+ 4xDMWcHgBfoO3WjPn8GFYg3kOqAjXjkeDoeo1WQzUYyyzaJklctiuG2WDbTUo2VXcNMun2gn
+ 1PtoGakKxMFOcDD6iXQpxpAgceKx0sXQrk6E6W18PNvilCfymEfTRYRT1aTpfiillX4XMpSL
+ UER8CcioaU+skuxQbHAswaQqXOe+xpZUN1KHqhitEeGy7Hf5ECSAW1soiN9VeHKffQeHVQCv
+ mJlVfuwbdCzmNV5kU6gy4o=
+IronPort-HdrOrdr: A9a23:UF2u36pPsmNf6r26HpHGW/saV5oHeYIsimQD101hICG9Ffbo8/
+ xG88506faZslsssTQb6LO90cq7MBbhHOBOgLX5VI3KNGKNhILrFvAB0WKI+VLd8kPFmtK1rZ
+ 0BT4FOTPvtEFN9kcH2pCO8E9om3Z271ZrAv5a485+oJjsaEp2JKGxCe2CmLnE=
+X-Talos-CUID: =?us-ascii?q?9a23=3A7m3AVmiTVQE+zkMr6/5fsk4LeDJueT7k81XRIW2?=
+ =?us-ascii?q?CMW9IC4KqeUCyp7NAup87?=
+X-Talos-MUID: =?us-ascii?q?9a23=3A+GjlKAzmFVo7KuWZbWDS3wXwS1yaqPWxEEYUta4?=
+ =?us-ascii?q?+gvivai4tEjWCgSjrYZByfw=3D=3D?=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,220,1787011200"; 
-   d="scan'208";a="61955055"
-Received: from aer-l-core-08.cisco.com ([144.254.74.209])
-  by aer-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 19 Nov 2026 03:53:47 +0000
-Received: from sjc-ads-5245.cisco.com (sjc-ads-5245.cisco.com [10.28.23.9])
+   d="scan'208";a="62634213"
+Received: from aer-l-core-04.cisco.com ([144.254.74.205])
+  by aer-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 19 Nov 2026 04:18:38 +0000
+Received: from sjc-ads-7871.cisco.com (sjc-ads-7871.cisco.com [10.30.222.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by aer-l-core-08.cisco.com (Postfix) with ESMTPS id 3740C18000181
-	for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 03:53:47 +0000 (GMT)
-Received: by sjc-ads-5245.cisco.com (Postfix, from userid 1887505)
-	id DC9DBCC1611; Wed, 18 Nov 2026 19:53:45 -0800 (PST)
-From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>
+	by aer-l-core-04.cisco.com (Postfix) with ESMTPS id C5909180001C7
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 04:18:37 +0000 (GMT)
+Received: by sjc-ads-7871.cisco.com (Postfix, from userid 1889728)
+	id 713C7CC1611; Wed, 18 Nov 2026 20:18:36 -0800 (PST)
+From: Yogita Urade <yurade@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose][PATCH] glibc: stable 2.43 branch updates to 124e9adcd4
-Date: Wed, 18 Nov 2026 19:53:45 -0800
-Message-Id: <20261119035345.3136238-1-hthakar@cisco.com>
+Subject: [OE-core][wrynose][v3 PATCH 00/27] python3-git: Security fixes
+Date: Wed, 18 Nov 2026 20:18:35 -0800
+Message-Id: <20261119041835.1637478-1-yurade@cisco.com>
 X-Mailer: git-send-email 2.35.6
+In-Reply-To: <20261106144331.3354811-1-yurade@cisco.com>
+References: <20261106144331.3354811-1-yurade@cisco.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5245.cisco.com [10.28.23.9];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 10.28.23.9, sjc-ads-5245.cisco.com
-X-Outbound-Node: aer-l-core-08.cisco.com
+X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-7871.cisco.com [10.30.222.158];TLSv1.3;TLS_AES_256_GCM_SHA384;256
+X-Outbound-SMTP-Client: 10.30.222.158, sjc-ads-7871.cisco.com
+X-Outbound-Node: aer-l-core-04.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 03:54:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250607
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 04:18:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250608
 Content-Type: text/plain; charset="utf-8"
 
-From: Hetvi Thakar <hthakar@cisco.com>
+Backport 27 GitPython security fixes covering 28 CVEs to the python3-git
+3.1.43 recipe on wrynose. The series adds the fixes as patches and updates
+the recipe to apply them.
 
-Update SRCREV from 562cd7badd to 124e9adcd4 on release/2.43/master.
-This pulls eight stable maintenance commits, including fixes for:
+CVE-2026-78678 and CVE-2026-78679 are addressed together. The CVE-2026-76222
+fix includes a regression correction and follow-up patch, CVE-2026-73619
+and CVE-2026-87819 are each carried in two patches. The patches retain
+upstream references.
 
-  CVE-2026-84243: LANGUAGE directory traversal in gettext
-  CVE-2026-100290: double free after regex allocation failures
-  CVE-2026-115819: extra NUL byte in wide scanf conversions
+Changes in v2:
+- Re-reviewed all patches and removed changes that were not needed for the backports.
+- Restored upstream commit metadata and corrected CVE references.
+- Updated Backport Changes notes to describe the differences from upstream.
+- Removed trailing whitespace and regenerated the series diffstat.
 
-Record these CVEs as stable backports because the recipe version remains
-2.43+git and version-based matching cannot identify the fixes.
+Changes in v3:
+- Restored the required trailing spaces.
+- Added rationale explaining that CVE-2026-67324 and CVE-2026-87818 complete
+  unsafe-option guards backported earlier in the series, without claiming
+  that the published affected ranges include unmodified GitPython 3.1.43.
 
-Upstream: https://sourceware.org/git/?p=glibc.git;a=commit;h=124e9adcd407737f0462aa4ba38a37678e8941ec
+Yogita Urade (27):
+  python3-git: fix CVE-2026-67326
+  python3-git: fix CVE-2026-67323
+  python3-git: Fix CVE-2026-67325
+  python3-git: fix CVE-2026-67324
+  python3-git: fix CVE-2026-67322
+  python3-git: fix CVE-2026-69097
+  python3-git: fix CVE-2026-73625
+  python3-git: fix CVE-2026-73623
+  python3-git: fix CVE-2026-73624
+  python3-git: fix CVE-2026-73622
+  python3-git: fix CVE-2026-73621
+  python3-git: fix CVE-2026-73620
+  python3-git: fix CVE-2026-73619
+  python3-git: fix CVE-2026-76221
+  python3-git: fix CVE-2026-76220
+  python3-git: fix CVE-2026-76219
+  python3-git: fix CVE-2026-76218
+  python3-git: fix CVE-2026-76217
+  python3-git: fix CVE-2026-76222
+  python3-git: fix CVE-2026-78678 CVE-2026-78679
+  python3-git: fix CVE-2026-78677
+  python3-git: fix CVE-2026-78676
+  python3-git: fix CVE-2026-78675
+  python3-git: fix CVE-2026-87817
+  python3-git: fix CVE-2026-87818
+  python3-git: Fix CVE-2026-87819
+  python3-git: fix CVE-2026-100689
 
-Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
----
- meta/recipes-core/glibc/glibc-version.inc | 2 +-
- meta/recipes-core/glibc/glibc_2.43.bb     | 1 +
- 2 files changed, 2 insertions(+), 1 deletion(-)
+ .../python/python3-git/CVE-2026-100689.patch  |  91 ++++
+ .../python/python3-git/CVE-2026-67322.patch   | 171 +++++++
+ .../python/python3-git/CVE-2026-67323.patch   | 356 ++++++++++++++
+ .../python/python3-git/CVE-2026-67324.patch   |  94 ++++
+ .../python3-git/CVE-2026-67325_p1.patch       |  49 ++
+ .../python3-git/CVE-2026-67325_p2.patch       |  52 ++
+ .../python/python3-git/CVE-2026-67326.patch   | 107 +++++
+ .../python/python3-git/CVE-2026-69097.patch   |  60 +++
+ .../python3-git/CVE-2026-73619_p1.patch       |  58 +++
+ .../python3-git/CVE-2026-73619_p2.patch       |  43 ++
+ .../python/python3-git/CVE-2026-73620.patch   | 130 +++++
+ .../python/python3-git/CVE-2026-73621.patch   |  72 +++
+ .../python/python3-git/CVE-2026-73622.patch   |  60 +++
+ .../python/python3-git/CVE-2026-73623.patch   |  53 +++
+ .../python/python3-git/CVE-2026-73624.patch   | 139 ++++++
+ .../python/python3-git/CVE-2026-73625.patch   |  59 +++
+ .../python/python3-git/CVE-2026-76217.patch   | 179 +++++++
+ .../python/python3-git/CVE-2026-76218.patch   |  92 ++++
+ .../python/python3-git/CVE-2026-76219.patch   | 153 ++++++
+ .../python/python3-git/CVE-2026-76220.patch   |  65 +++
+ .../python/python3-git/CVE-2026-76221.patch   |  59 +++
+ .../CVE-2026-76222-regression.patch           |  39 ++
+ .../python3-git/CVE-2026-76222_p1.patch       | 118 +++++
+ .../python3-git/CVE-2026-76222_p2.patch       |  45 ++
+ .../python/python3-git/CVE-2026-78675.patch   |  47 ++
+ .../python/python3-git/CVE-2026-78676.patch   |  67 +++
+ .../python/python3-git/CVE-2026-78677.patch   |  87 ++++
+ .../CVE-2026-78678_CVE-2026-78679.patch       | 220 +++++++++
+ .../python/python3-git/CVE-2026-87817.patch   | 443 ++++++++++++++++++
+ .../python/python3-git/CVE-2026-87818.patch   |  56 +++
+ .../python3-git/CVE-2026-87819_p1.patch       |  78 +++
+ .../python3-git/CVE-2026-87819_p2.patch       | 146 ++++++
+ .../python/python3-git_3.1.43.bb              |  32 ++
+ 33 files changed, 3520 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-100689.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-67322.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-67323.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-67324.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-67325_p1.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-67325_p2.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-67326.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-69097.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-73619_p1.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-73619_p2.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-73620.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-73621.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-73622.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-73623.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-73624.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-73625.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76217.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76218.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76219.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76220.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76221.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76222-regression.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76222_p1.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76222_p2.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-78675.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-78676.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-78677.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-78678_CVE-2026-78679.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-87817.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-87818.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-87819_p1.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-87819_p2.patch
 
-diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
-index e8e6bb665a..ec079d9127 100644
---- a/meta/recipes-core/glibc/glibc-version.inc
-+++ b/meta/recipes-core/glibc/glibc-version.inc
-@@ -1,6 +1,6 @@
- SRCBRANCH ?= "release/2.43/master"
- PV = "2.43+git"
--SRCREV_glibc ?= "562cd7badd3f9edd74b68316439f910f6f7c4c1f"
-+SRCREV_glibc ?= "124e9adcd407737f0462aa4ba38a37678e8941ec"
- SRCREV_localedef ?= "cba02c503d7c853a38ccfb83c57e343ca5ecd7e5"
- 
- GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
-diff --git a/meta/recipes-core/glibc/glibc_2.43.bb b/meta/recipes-core/glibc/glibc_2.43.bb
-index c962171cf3..5d2344389f 100644
---- a/meta/recipes-core/glibc/glibc_2.43.bb
-+++ b/meta/recipes-core/glibc/glibc_2.43.bb
-@@ -25,6 +25,7 @@ CVE_STATUS_STABLE_BACKPORTS = "CVE-2025-15281 CVE-2026-0861 CVE-2026-0915 CVE-20
-     CVE-2026-5435 CVE-2026-5450 CVE-2026-5928 CVE-2026-6238 CVE-2026-6791 \
-     CVE-2026-6368 CVE-2026-19499 CVE-2026-77117 CVE-2026-80489 CVE-2026-18374 CVE-2026-8674 \
-     CVE-2026-89092 CVE-2026-97399 CVE-2026-19542 CVE-2026-86805 CVE-2026-95818 \
-+    CVE-2026-84243 CVE-2026-100290 CVE-2026-115819 \
- "
- CVE_STATUS_STABLE_BACKPORTS[status] = "cpe-stable-backport: fix available in used git hash"
- 
 -- 
 2.35.6
 
