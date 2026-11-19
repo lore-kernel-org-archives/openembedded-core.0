@@ -1,313 +1,144 @@
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.696.1795110627311891459
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4745.1795121353127061942
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Nov 2026 09:50:27 -0800
+ Thu, 19 Nov 2026 12:49:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=DDEo7Txz;
- spf=pass (domain: gmail.com, ip: 209.85.128.175, mailfrom: jpewhacker@gmail.com)
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-8b4b9ba815bso16992477b3.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 09:50:27 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; t=1795110626; cv=none;
-        d=google.com; s=arc-20260327;
-        b=JmRyiAGiNfluVx1Wed69Oea1fjlbDE4oosqT8AuX0Q1JVeqwz4XhNmcfDx7j3NGlLr
-         osACn5klCkr8Fv5C+9YWp6S9iRNt/qKp9jKohW9Sp0pXhWutAunS1q2X+JaHhoYXxgdj
-         jFcRqb2usH31allQJpkcwEAKR1R+uUJ54hz8GxCbUUJ4j/bvSyDXYIt9L/2L3bZ70ON3
-         7QDjEbkbs25LU6i4tigTpsnOJXkYmYrH3hZUa5vkoBO5C2+73r3uacL5fqTZjxTP0xFz
-         kpcxddpbFLRNqd7UqE/g2ZLUX8FCx/ouLTGJhpyFzPrOchUClhxpgbgGBMquv/nBgMk9
-         DMRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=rfBd+NJWc+M76lk7uVOPeMolUxaK2uZhCXVBoJYwrj0=;
-        fh=5WqXRqI6ug1yACSoa6PHrWl4WohnUzPE95rEea745qs=;
-        b=meipRubQHWenMoor397KRtHVfHT4cj8LEq3ALk7W5oCVL0XaM1lyUILmKD5PaPF3/A
-         v1mYWW+uPGGWNUYrdJly8ptinUn+l8nz3aod+Def7kNd9swTzZaPkmXqXQD8xdvbamT6
-         EF2nPWV8UrcHlf6p+IvGQ77IppzbcvrCw0N4eIE3c+gz1E3W3w2H9ZGOtZFJSUmce/A1
-         hsX20EW+f7pbEl82lInbDJ/8hL2hZ8AyrBxK81xc2yWY4v+uZKWlgp+BPDdXQUpbbfLb
-         ztXKR1xQwIPSqBs86+0eRErvncrpOnP28geCUZoDW56rpfjtoxEqfkTEyQUtucyvI0l+
-         kNIw==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=sK1e/H/z;
+ spf=pass (domain: gmail.com, ip: 209.85.221.41, mailfrom: stondo@gmail.com)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48dfc0421d9so135540f8f.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 12:49:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795110626; x=1795715426; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=rfBd+NJWc+M76lk7uVOPeMolUxaK2uZhCXVBoJYwrj0=;
-        b=DDEo7TxzyJfDxZ0RUZNdENfXMn09TxtN7Vc29/3F1BtZABxCSiTeUel29KkbLZYYnQ
-         31nBWPqnjHdf/83Ad2CPWu4mRgAw1ABoko+kmRD3LJaEMDauBt5VzpXJ48/lxLjyZ/ID
-         jZUFF+jisKspkBnFfqJmMHlPO1paUC5bTpIzQBo/c1X6Xm0Bfjq5U8sgaqR9BzmdSdKX
-         fgJJpuuSyjv4bHU2YOz3n3iRt5YnMSHRAKDCu5+XHF7HyG5mNgPg2cA/L5Mxt5X/E3P9
-         vmayMlBjPn6grz7IWlciUGBIDRUSbL2+NUk+CDOqmrMPCMNCcF56fwGNGOxEFAksaZ5o
-         85Iw==
+        d=gmail.com; s=20260707; t=1795121351; x=1795726151; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=4VeZANmx8bkRT3bPeSFjMHQ79lbuEAU4a28bWqVvQl0=;
+        b=sK1e/H/z9CvnmOMqRaTe9rGXqea0uK0V5DDOGn2XrpRGGgjHfzLTdFgVuh0KI+qXIQ
+         q472sWBaV8MsszQ735axIYObGS25h4OyWkuSQ7Y2koENxh+j9H9jCTJm48GHGlVmrAgi
+         TPFWj4eNLdOAe9wdrUyi9xoxsFeooz3VYirpMavIZykyKWQb34sbidMGVd5zOZVWcWu5
+         72YBB+7K1vvANb9uyvXnt0OtCgddatDERf6i82zjeOiUR3NYkAn3u3Y4XvilydqZvYQm
+         FkTFrcgNeWD6ZgCBBXeLA5TZ1iChcSDkixD8FxUy3NPKZhqzMo+8Ou7WGaopJij4VQ1d
+         GcQQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795110626; x=1795715426;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=rfBd+NJWc+M76lk7uVOPeMolUxaK2uZhCXVBoJYwrj0=;
-        b=og+Sjyvl0PlfBEFgJ2H+UyRbtXKIM6n70pssv3PC+0SLL9eNzt1UzhAHVmnQv5Ol+I
-         LdTdJViAAfMfsS4PA67+AaNYQapQLLGbmpKuooYc1IqPeL20YDzJ9PwO9ZOt0E54JtPW
-         0ZT8HVN0H7V0o0746l604wnVMUSIB1gM8YJNDzrtuw7pXP0V/mm021a23vVhRDxN/C9w
-         eYc9AuI3GnK9J1qxbjRwPBbRADb2g50jqRYUYhC3XEI1NGah2Lv6fGU5mvkpKSvp4ncJ
-         nMpd80KKO5/y98xL/S57w49fR79HWnR5bP/flU41qV8dhEWSsyEsQmQ+zMrEHk12Fq8U
-         K2Ug==
-X-Gm-Message-State: APuU4Z9L3JSqzb1mq5nvValIRVGy0xkAmdDdS8sIhnoDPtim3dMlaRuM
-	b/fFZ0mhuj32f9XnJldkww8K9mehXGIVaYob/Jya1zrhXc+XwG6pipuLUS32Hx+7nU6/ubCDhld
-	XnZIK5/pjYuzktu8rk3s8Vyf9L3ZBSZo=
-X-Gm-Gg: AZFdTZeGsNBUpmswKRUuOBadC8YXKgcNj6a2hkVDIUTBZXqkQRqhJ1sb9jGgdJO+Fpa
-	bM/YzFV/I2sbNOIsQaf4BcGM+hRuhZgplsPEyrXyIaKPLFDGh4P2kc+D0/L3GFe70YIbl0V4V4z
-	OTSa33D+rlL6A3tZL+Rr9xmW6B8vF1U7HYmX9rDdeTIpPOjuVdBAhAeWAZZqxtd1guFRwXhM3MT
-	JMssnz5ukgmzX4Boob3uGXI8VcWyj40Y+AvVhdl72TUVjVbjx6EUb3Hq9dZx6651X3l7qsypSnj
-	U+c9OJYJ5xdyvea1BknNBqCDT66JqrWY/xmkVa84D2lvmktTPuF1yEPIQx/xUXKShGY/9BDKmWU
-	Z6ha65ovEBx8uuLstbhBKz+Gdp6OGICxP4ttgaWBIIUhb/HyX4c0=
-X-Received: by 2002:a05:690c:e17:b0:8b4:dd2b:10da with SMTP id
- 00721157ae682-8b52049a10cmr2799167b3.20.1795110626249; Thu, 19 Nov 2026
- 09:50:26 -0800 (PST)
+        d=1e100.net; s=20260707; t=1795121351; x=1795726151;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=4VeZANmx8bkRT3bPeSFjMHQ79lbuEAU4a28bWqVvQl0=;
+        b=PMfP8IVY9ffhUbwOTXpCW2IJMwVDOJZVzcI6DGiEiOF17aLKzMr8l67BBo++YCOgY0
+         p4MudpfIOsRKngFpRKwoXPsjLdl9LenwUKGF+jmE12y+yOAKxlOfV2wUnvdqU2rZnIs6
+         35aJnEHw7kYh0SOiRfDU1u4GLdiRFHhkplAvBd2csack/hUefplXcnMGGiCLMU2OoGyC
+         k/2Qoiq/gu21gvDXbxHmh1zjOo0sRZsLmF43/e4VsiGgQamXEFkacVWGQF0pr0m/OvS4
+         wNZW4wNF3B9FUy/VOTWk0GojEmeA4d5R4wj2dc6qnVGEBYBGckLJfIzZ/3D5wujSFEoK
+         JZsA==
+X-Gm-Message-State: APuU4Z9+97RCDoYn7a3r90wuZDi8e3WMxPIrgI0eZIBKmA/9f2bGB6Xe
+	3Xk4CWAJuvgsgMQqv5SaxIGGW5tFyLyTNeO3l/TCrq6m8x1Yqax2FKCl1au4Q2lc
+X-Gm-Gg: AZFdTZc1lSOaWcWAEX0lkLG/eM1XhpIbjrKSkyZiUbuSjIbVucWr1KGSkwADWR8lw1Z
+	XjQr8nk2Q+caHxQxfxgxmu4Lskp3nqiqB8syUKlvTdKvR7SdSfMiLg5c50owRI5JBo46Bg5TmO6
+	LORSMIP7wsmMZntHgY70UBCKnT6eat+62YDGSdtNEKugRI7EjLa8Y4GhV1kvR8UftHNOYyNOBNn
+	hlPA4v/LFGbIxUTq8npSGuIPrZX2DljPJNyfRcRxDs5yWaXuzjdn9RXaZBEBVt6vGOEo0N7eN7a
+	hrPWrjxGzYJV1lFjRsIlnKB2jtcsPCTsrFmCCNofBT9dPsRweBaaJJcQjuaVro7aFQL3nW93UDi
+	I/Z3PnSFGmxUm2AeCp69PDFqdJfvK+keb4wbQtC+hYiQQ49Gsf+a+Uz0T9u+Q0KEqyVB1t5THbC
+	l91o3+Yrpmo+ZUTNhTQwPzLB3zde95Opx7wyiiHr6vVUm1f1XP2S43BQnYQz5XPQKWDllEWTpHo
+	FwVuGkPNnWzVYsrxPzPYQN6clFzgntmQkpr77XrWQLiiSDRZtAwpumzDTNuZlREb8W171y6t5mr
+	2QpPZ1oXxRDhA94wKsq/UVKzBFa1hw9S
+X-Received: by 2002:a05:6000:299c:20b0:4a7:9630:7b4c with SMTP id ffacd0b85a97d-4abb9459073mr787208f8f.47.1795121351172;
+        Thu, 19 Nov 2026 12:49:11 -0800 (PST)
+Return-Path: <stondo@gmail.com>
+Received: from fedora ([165.225.94.251])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6c43563esm1606171f8f.57.2026.11.19.12.49.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Nov 2026 12:49:10 -0800 (PST)
+From: Stefano Tondo <stondo@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Joshua Watt <JPEWhacker@gmail.com>,
+	Alexander Kanavin <alex.kanavin@gmail.com>,
+	Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>,
+	Paul Barker <paul@pbarker.dev>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Peter Marko <peter.marko@siemens.com>,
+	stefano.tondo.ext@siemens.com
+Subject: [PATCH v3 0/4] spdx30: identity and purls of dependency downloads
+Date: Thu, 19 Nov 2026 21:49:05 +0100
+Message-ID: <20261119204909.2931233-1-stondo@gmail.com>
+X-Mailer: git-send-email 2.56.1
 MIME-Version: 1.0
-References: <20261115211936.3574127-1-khem.raj@oss.qualcomm.com>
-In-Reply-To: <20261115211936.3574127-1-khem.raj@oss.qualcomm.com>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Thu, 19 Nov 2026 10:50:14 -0700
-X-Gm-Features: AclHuK9cz7pn93sWe0QjqyGa43yYAhwfvQRCO3pOJz47ADw9NgbhWFFqtXzXcg4
-Message-ID: <CAJdd5GYS47auf6wGf6cN5xSHzoShRORwUYCGn29UX+9atRNvZQ@mail.gmail.com>
-Subject: Re: [PATCH] create-spdx-3.0: Install deploy task SPDX into the task's
- arch directory
-To: Khem Raj <raj.khem@gmail.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	Khem Raj <khem.raj@oss.qualcomm.com>
-Content-Type: multipart/alternative; boundary="00000000000035d0b60660a4c3fe"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 17:50:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250716
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 20:49:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250717
+Content-Type: text/plain; charset="utf-8"
 
---00000000000035d0b60660a4c3fe
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hi,
 
-On Sun, Nov 15, 2026 at 2:19=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrote=
-:
+This series implements the parts of the RFC "spdx30: name, version
+and purl for dependency downloads" [1] that we agreed on. It needs
+v2 of the bitbake series "fetch: package identity of crate, gomod
+and npm URLs" [2].
 
-> Deploy tasks write their SPDX documents to DEPLOY_DIR_SPDX/SSTATE_PKGARCH=
-,
-> but the sstate manifest of a machine specific deploy task, such as
-> do_deploy, uses the stamp-extra-info arch (MACHINE_ARCH). For an allarch
-> recipe with do_deploy, the documents therefore land in the shared allarch
-> directory while each machine has its own manifest, so building it for a
-> second machine in the same TMPDIR fails:
->
->   ERROR: qcom-partition-conf-git-r0 do_deploy: Recipe qcom-partition-conf
->   is trying to install files into a shared area when those files already
->   exist.
->
-> .../deploy/spdx/3.0.1/allarch/deploy/qcom-partition-conf-do_deploy-deploy=
-.spdx.json
->       (matched in manifest-uno_q-qcom-partition-conf.deploy)
->
-> Install the documents into the directory of the stamp-extra-info arch
-> instead, falling back to SSTATE_PKGARCH. The arch must not be part of the
-> sstate object itself, since an allarch recipe shares that object between
-> machines, so write the documents without the arch directory, through a
-> task scoped SPDX_PKGARCH that is empty, and add the arch to the sstate
-> output directory, as do_deploy itself does with DEPLOY_DIR_IMAGE.
->
+1. The SPDX of a crate, gomod or npm download gets the name, the
+   version and the purl from the fetcher.
+2. For Cargo recipes, a new do_cargo_metadata task writes the crate
+   dependency graph for the target. The build links to each crate
+   download with a runtime, build or test scope. A crate that is not
+   used on the target gets an annotation.
+3. Each output package gets the purls of its source downloads as
+   external identifiers, as Joshua proposed: a statically linked
+   dependency is part of the binary. A purl is left out only when the
+   cargo graph proves that the crate is not in the target. The
+   software_packageUrl of the package does not change.
+4. Selftests with python3-bcrypt.
 
-LGTM, thanks
+For python3-bcrypt, the output package gets the purls of 25 of its
+42 crates. The other 17 crates are not built into the target.
 
-Reviewed-by: Joshua Watt <JPEWhacker@gmail.com
+Two points for review:
 
+- All output packages of a recipe get the purls, also -dbg and -src.
+  I have no proof per package, so I followed the rule "keep the purl
+  unless there is proof".
+- Go recipes have no filter yet. go version -m can give the proof per
+  binary, and I can add it in a follow-up.
 
->
-> Fixes: 1b77fe51ec ("spdx: Add ability for deploy tasks to create SPDX")
->
-> Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
-> Cc: Joshua Watt <JPEWhacker@gmail.com>
-> ---
->  meta/classes/create-spdx-3.0.bbclass |  4 +++-
->  meta/lib/oe/sbom30.py                | 11 +++++++++--
->  2 files changed, 12 insertions(+), 3 deletions(-)
->
-> diff --git a/meta/classes/create-spdx-3.0.bbclass
-> b/meta/classes/create-spdx-3.0.bbclass
-> index 0d0bddcc67..f214448a1e 100644
-> --- a/meta/classes/create-spdx-3.0.bbclass
-> +++ b/meta/classes/create-spdx-3.0.bbclass
-> @@ -426,8 +426,10 @@ python () {
->          new_postfuncs.extend(postfuncs)
->
->          d.setVarFlag(task, "postfuncs", " ".join(new_postfuncs))
-> +        d.setVar("SPDX_PKGARCH:task-" + task[3:].replace("_", "-"), "")
-> +        spdx_arch =3D d.getVarFlag(task, "stamp-extra-info", False) or
-> "${SSTATE_PKGARCH}"
->          d.prependVarFlag(task, "sstate-inputdirs", f"{spdx_deploy} ")
-> -        d.prependVarFlag(task, "sstate-outputdirs", "${DEPLOY_DIR_SPDX} =
-")
-> +        d.prependVarFlag(task, "sstate-outputdirs",
-> f"${{DEPLOY_DIR_SPDX}}/{spdx_arch} ")
->          d.prependVarFlag(task, "file-checksums", "${SPDX3_DEP_FILES} ")
->          d.prependVarFlag(task, "dirs", f"{spdx_deploy} ")
->          d.prependVarFlag(task, "cleandirs", f"{spdx_deploy} ")
-> diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
-> index 520f9df3ef..62e181b970 100644
-> --- a/meta/lib/oe/sbom30.py
-> +++ b/meta/lib/oe/sbom30.py
-> @@ -1043,6 +1043,13 @@ def load_jsonld(d, path, required=3DFalse):
->      return objset
->
->
-> +def get_pkg_arch(d):
-> +    pkg_arch =3D d.getVar("SPDX_PKGARCH")
-> +    if pkg_arch is None:
-> +        pkg_arch =3D d.getVar("SSTATE_PKGARCH")
-> +    return pkg_arch
-> +
-> +
->  def jsonld_arch_path(d, arch, subdir, name, deploydir=3DNone):
->      if deploydir is None:
->          deploydir =3D Path(d.getVar("DEPLOY_DIR_SPDX"))
-> @@ -1109,7 +1116,7 @@ def write_jsonld_doc(d, objset, dest):
->
->
->  def make_jsonld_link(d, fn, subdir, name, deploydir):
-> -    pkg_arch =3D d.getVar("SSTATE_PKGARCH")
-> +    pkg_arch =3D get_pkg_arch(d)
->
->      link_name =3D jsonld_arch_path(
->          d,
-> @@ -1136,7 +1143,7 @@ def write_recipe_jsonld_doc(
->      create_spdx_id_links=3DTrue,
->      create_task_link=3DFalse,
->  ):
-> -    pkg_arch =3D d.getVar("SSTATE_PKGARCH")
-> +    pkg_arch =3D get_pkg_arch(d)
->
->      dest =3D jsonld_arch_path(d, pkg_arch, subdir, objset.doc.name,
-> deploydir=3Ddeploydir)
->
->
+Changes in v3:
 
---00000000000035d0b60660a4c3fe
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+- Patch 1/4: read the PackageIdentity dataclass that
+  package_identity() returns in v2 of the bitbake series [2], as Paul
+  proposed [4].
+- Rebased on master, which has python3-uv-build 0.13.8.
 
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Sun, Nov 15,=
- 2026 at 2:19=E2=80=AFPM Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com"=
->raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quot=
-e" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204)=
-;padding-left:1ex">Deploy tasks write their SPDX documents to DEPLOY_DIR_SP=
-DX/SSTATE_PKGARCH,<br>
-but the sstate manifest of a machine specific deploy task, such as<br>
-do_deploy, uses the stamp-extra-info arch (MACHINE_ARCH). For an allarch<br=
->
-recipe with do_deploy, the documents therefore land in the shared allarch<b=
-r>
-directory while each machine has its own manifest, so building it for a<br>
-second machine in the same TMPDIR fails:<br>
-<br>
-=C2=A0 ERROR: qcom-partition-conf-git-r0 do_deploy: Recipe qcom-partition-c=
-onf<br>
-=C2=A0 is trying to install files into a shared area when those files alrea=
-dy<br>
-=C2=A0 exist.<br>
-=C2=A0 =C2=A0 .../deploy/spdx/3.0.1/allarch/deploy/qcom-partition-conf-do_d=
-eploy-deploy.spdx.json<br>
-=C2=A0 =C2=A0 =C2=A0 (matched in manifest-uno_q-qcom-partition-conf.deploy)=
-<br>
-<br>
-Install the documents into the directory of the stamp-extra-info arch<br>
-instead, falling back to SSTATE_PKGARCH. The arch must not be part of the<b=
-r>
-sstate object itself, since an allarch recipe shares that object between<br=
->
-machines, so write the documents without the arch directory, through a<br>
-task scoped SPDX_PKGARCH that is empty, and add the arch to the sstate<br>
-output directory, as do_deploy itself does with DEPLOY_DIR_IMAGE.<br></bloc=
-kquote><div><br></div><div>LGTM, thanks</div><div><br></div><div>Reviewed-b=
-y: Joshua Watt &lt;<a href=3D"mailto:JPEWhacker@gmail.com">JPEWhacker@gmail=
-.com</a></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex">
-<br>
-Fixes: 1b77fe51ec (&quot;spdx: Add ability for deploy tasks to create SPDX&=
-quot;)<br>
-<br>
-Signed-off-by: Khem Raj &lt;<a href=3D"mailto:khem.raj@oss.qualcomm.com" ta=
-rget=3D"_blank">khem.raj@oss.qualcomm.com</a>&gt;<br>
-Cc: Joshua Watt &lt;<a href=3D"mailto:JPEWhacker@gmail.com" target=3D"_blan=
-k">JPEWhacker@gmail.com</a>&gt;<br>
----<br>
-=C2=A0meta/classes/create-spdx-3.0.bbclass |=C2=A0 4 +++-<br>
-=C2=A0meta/lib/oe/sbom30.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 | 11 +++++++++--<br>
-=C2=A02 files changed, 12 insertions(+), 3 deletions(-)<br>
-<br>
-diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spd=
-x-3.0.bbclass<br>
-index 0d0bddcc67..f214448a1e 100644<br>
---- a/meta/classes/create-spdx-3.0.bbclass<br>
-+++ b/meta/classes/create-spdx-3.0.bbclass<br>
-@@ -426,8 +426,10 @@ python () {<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0new_postfuncs.extend(postfuncs)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0d.setVarFlag(task, &quot;postfuncs&quot;,=
- &quot; &quot;.join(new_postfuncs))<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 d.setVar(&quot;SPDX_PKGARCH:task-&quot; + task=
-[3:].replace(&quot;_&quot;, &quot;-&quot;), &quot;&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 spdx_arch =3D d.getVarFlag(task, &quot;stamp-e=
-xtra-info&quot;, False) or &quot;${SSTATE_PKGARCH}&quot;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0d.prependVarFlag(task, &quot;sstate-input=
-dirs&quot;, f&quot;{spdx_deploy} &quot;)<br>
--=C2=A0 =C2=A0 =C2=A0 =C2=A0 d.prependVarFlag(task, &quot;sstate-outputdirs=
-&quot;, &quot;${DEPLOY_DIR_SPDX} &quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 d.prependVarFlag(task, &quot;sstate-outputdirs=
-&quot;, f&quot;${{DEPLOY_DIR_SPDX}}/{spdx_arch} &quot;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0d.prependVarFlag(task, &quot;file-checksu=
-ms&quot;, &quot;${SPDX3_DEP_FILES} &quot;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0d.prependVarFlag(task, &quot;dirs&quot;, =
-f&quot;{spdx_deploy} &quot;)<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0d.prependVarFlag(task, &quot;cleandirs&qu=
-ot;, f&quot;{spdx_deploy} &quot;)<br>
-diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py<br>
-index 520f9df3ef..62e181b970 100644<br>
---- a/meta/lib/oe/sbom30.py<br>
-+++ b/meta/lib/oe/sbom30.py<br>
-@@ -1043,6 +1043,13 @@ def load_jsonld(d, path, required=3DFalse):<br>
-=C2=A0 =C2=A0 =C2=A0return objset<br>
-<br>
-<br>
-+def get_pkg_arch(d):<br>
-+=C2=A0 =C2=A0 pkg_arch =3D d.getVar(&quot;SPDX_PKGARCH&quot;)<br>
-+=C2=A0 =C2=A0 if pkg_arch is None:<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 pkg_arch =3D d.getVar(&quot;SSTATE_PKGARCH&quo=
-t;)<br>
-+=C2=A0 =C2=A0 return pkg_arch<br>
-+<br>
-+<br>
-=C2=A0def jsonld_arch_path(d, arch, subdir, name, deploydir=3DNone):<br>
-=C2=A0 =C2=A0 =C2=A0if deploydir is None:<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0deploydir =3D Path(d.getVar(&quot;DEPLOY_=
-DIR_SPDX&quot;))<br>
-@@ -1109,7 +1116,7 @@ def write_jsonld_doc(d, objset, dest):<br>
-<br>
-<br>
-=C2=A0def make_jsonld_link(d, fn, subdir, name, deploydir):<br>
--=C2=A0 =C2=A0 pkg_arch =3D d.getVar(&quot;SSTATE_PKGARCH&quot;)<br>
-+=C2=A0 =C2=A0 pkg_arch =3D get_pkg_arch(d)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0link_name =3D jsonld_arch_path(<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0d,<br>
-@@ -1136,7 +1143,7 @@ def write_recipe_jsonld_doc(<br>
-=C2=A0 =C2=A0 =C2=A0create_spdx_id_links=3DTrue,<br>
-=C2=A0 =C2=A0 =C2=A0create_task_link=3DFalse,<br>
-=C2=A0):<br>
--=C2=A0 =C2=A0 pkg_arch =3D d.getVar(&quot;SSTATE_PKGARCH&quot;)<br>
-+=C2=A0 =C2=A0 pkg_arch =3D get_pkg_arch(d)<br>
-<br>
-=C2=A0 =C2=A0 =C2=A0dest =3D jsonld_arch_path(d, pkg_arch, subdir, <a href=
-=3D"http://objset.doc.name" rel=3D"noreferrer" target=3D"_blank">objset.doc=
-.name</a>, deploydir=3Ddeploydir)<br>
-<br>
-</blockquote></div></div>
+Changes in v2:
 
---00000000000035d0b60660a4c3fe--
+- Patch 2/4: the walk over the cargo graph expands each workspace
+  member only once. In v1 it did not end for python3-uv-build, where
+  the member uv-preview is a dev dependency of itself. do_create_spdx
+  used memory until the OOM killer stopped it. Thanks to Mathieu for
+  the report [3].
+- Patch 2/4: add unit tests for the scopes, with member cycles.
+- Rebased on master.
+
+Tests: with v2 of the bitbake series, oe-selftest -r
+oelib.cargo_scopes spdx.SPDX30Check passes on master (22 tests).
+do_create_spdx of python3-uv-build and python3-uv-build-native
+(0.13.8) takes less than 1 second and about 90 MB.
+
+[1] https://lore.kernel.org/openembedded-core/20261105122145.543282-1-stondo@gmail.com/
+[2] https://lore.kernel.org/bitbake-devel/20261119204856.2930668-1-stondo@gmail.com/
+[3] https://lore.kernel.org/openembedded-core/DMYFTUY2A6RH.1WI2PDCNCPOJY@bootlin.com/
+[4] https://lore.kernel.org/bitbake-devel/DMZ3ERL47CEB.3KE9TOG6YIZPD@pbarker.dev/
+
+Stefano Tondo (4):
+  spdx30: Take name, version and PURL of downloads from the fetcher
+  spdx30: Record the lifecycle scope of crate dependencies
+  spdx30: Add the PURLs of the source downloads to the output packages
+  oeqa/selftest: spdx: Test crate identity, scope and output PURLs
+
+ meta/classes-recipe/cargo.bbclass             |  17 +++
+ meta/lib/oe/spdx30_tasks.py                   | 128 +++++++++++++++++-
+ .../oeqa/selftest/cases/oelib/cargo_scopes.py |  73 ++++++++++
+ meta/lib/oeqa/selftest/cases/spdx.py          | 122 +++++++++++++++++
+ 4 files changed, 339 insertions(+), 1 deletion(-)
+ create mode 100644 meta/lib/oeqa/selftest/cases/oelib/cargo_scopes.py
+
+-- 
+2.56.1
+
