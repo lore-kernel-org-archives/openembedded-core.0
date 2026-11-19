@@ -1,91 +1,92 @@
-Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16190.1795099398839045146
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16252.1795099578103202649
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Nov 2026 06:43:19 -0800
+ Thu, 19 Nov 2026 06:46:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@pengutronix.de header.s=20260414 header.b=e++AmvjB;
- spf=pass (domain: pengutronix.de, ip: 185.203.200.13, mailfrom: uol@pengutronix.de)
-Received: from dude03.red.stw.pengutronix.de (dude03.red.stw.pengutronix.de [IPv6:2a0a:edc0:0:1101:1d::39])
-	(Authenticated sender: relay-from-dude03.red.stw.pengutronix.de)
-	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 904DD205821;
-	Thu, 19 Nov 2026 15:43:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1795099395;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=a6R8jgB892wy66cDUXrSFvzWwbmhilF/72w30FgdZnA=;
-	b=e++AmvjBPkdiRC8q1sa+XyxNQJBLXQahAuMQdkELrzCgMOSx1PRVMdfwquIiwx9ObBXxDF
-	7PCfaAFS955C0N4S5T/86k4ZMTqM0HS1CNcA5JKrppxwvW7zCiqE6jK1KhYYveR8hpj2ct
-	5ApqP9j6bXu6lxKbLDhNPyBp1B9L39CxVWepuJNaxVxwAQ1X3kksnWOGx9uS/LD8lHRgVm
-	0AzkM0cPN3P1G24M9C1lMp8DZOuwMWpLOUbI//86g/9wLV5M9MDnl5Z2ILx5I4Y622yDDe
-	TrBQYPehsmeciZRnYGziODHRY4iT3WeRGUYbD/90EZPODTIJ5o4F3qkbvUUzew==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1795099395;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=a6R8jgB892wy66cDUXrSFvzWwbmhilF/72w30FgdZnA=;
-	b=YDhtt/xgNd4rjpnZR0YRh0kcIMIAUsV1Zxf3oK73RtVCCfEumtju4hslzKkCpXS6dsaRc2
-	31/HsrVDAXz61dRNh4evBVpGF899WSwK95PR84r4fjzkSIPbkH6sKulNs6y2xXDlAl+8Vp
-	V9ti9MEtRbyqrwGf+1tV1y8ouT0aml3ITpnqkY3cDk7xN0ztBdu2pyVeIlmo4pfTlHn8+W
-	Fd/+mdgg0wSW2fO0vTiZCUJ3jaQED71WLmF+ELuTgJ6CbzeCaDfWpm9sJCcUTc5SPeNYN+
-	nux0Z/8j8FAXdLsuDSQVhgBMQlipXdsV9CuCm2cW12pTBbuhVFIvbUOn7pTXUg==
-ARC-Seal: i=1; s=20260414; d=pengutronix.de; t=1795099395; a=rsa-sha256;
-	cv=none;
-	b=QhE2skSA5xQcKeaulsma8wgDEEfyATTpBEe6DXZ+J+Jnz/5KV/loLMuHYugw/1MPevhPQj
-	KVFuyF7xfuRIngRY/RFw/m1l0xNXujxMi7BhaaR7CGwLVJ1SllDrBNL2y7D5BYlRiH8UNA
-	WAhv1as8qsfaHB5252al4wBSQwghd52F9zVZX93Q5mEcdoPaA9/0j1Hsj5Aqdrgb6ohGIR
-	OAuQDdKJR7Lh/oOtxhITQJfrKGn29q3AfsDtHN1EGPFJtojl/VIp6xBmDoex0kqLTWj6is
-	4W/vkpL/pLxaLF+DZpBgKKreF0C/GIBAnd79kbzVLDRrF8MZlO9MxwYTWZoNww==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=relay-from-dude03.red.stw.pengutronix.de smtp.mailfrom=uol@pengutronix.de
-Received: by dude03.red.stw.pengutronix.de (Postfix, from userid 1052)
-	id 79FA82CADB7; Thu, 19 Nov 2026 15:43:15 +0100 (CET)
-From: =?UTF-8?q?Ulrich=20=C3=96lmann?= <u.oelmann@pengutronix.de>
-To: OpenEmbedded Core Developers <openembedded-core@lists.openembedded.org>
-Cc: yocto@pengutronix.de,
-	=?UTF-8?q?Ulrich=20=C3=96lmann?= <u.oelmann@pengutronix.de>
-Subject: [PATCH] documentation.conf: fix typo
-Date: Thu, 19 Nov 2026 15:43:06 +0100
-Message-ID: <20261119144306.1655505-1-u.oelmann@pengutronix.de>
-X-Mailer: git-send-email 2.47.3
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=h/B9yZV3;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=uracJTvZ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101a1f445cabc-7456a681-09af-4776-996b-87db90b061d6-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1795099577; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=Rlw/TK8dTOPvD1cACQm67MkvG8i+NaoQk1jFY5lBy2U=;
+	b=h/B9yZV3Nz1D/+EQ14hgS48WcGg4rvBzu5xINYX5jG2bBxUBNGtyk5p3mIO8vqc2
+	bjG9B8iOfRziYIJ3DTHvrduEU1jVYLszuH5ovNNlebx5kZZA4vY8HfzPWj0Qeeu09ut
+	sg+ClbRQPbDl+cwRjzEIxx0V8WVKEnmO9d1aeJrs=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1795099577;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=Rlw/TK8dTOPvD1cACQm67MkvG8i+NaoQk1jFY5lBy2U=;
+	b=uracJTvZkKqRjx9qxAdptCxMcDKXxmYQXvpb7Utt+7w2UKLdqSuCSOIwZjkfT+gK
+	ORD8JX1mKeXLJtZg98vf47CWbO/DPu4k/YaEgcNLxa7eazMhZTcjZq8rwUkJ331M6/t
+	0lxSOwCvXB8mXJYB1HXU+h7sZ+XVta7v+/qeRF/0=
+From: patchtest@automation.yoctoproject.org
+To: =?utf-8?q?Ulrich_=C3=96lmann?= <u.oelmann@pengutronix.de>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] documentation.conf: fix typo
+In-Reply-To: <20261119144306.1655505-1-u.oelmann@pengutronix.de>
+References: <20261119144306.1655505-1-u.oelmann@pengutronix.de>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101a1f445cabc-7456a681-09af-4776-996b-87db90b061d6-000000@us-west-2.amazonses.com>
+Date: Thu, 19 Nov 2026 14:46:17 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.11.19-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 14:43:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250680
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 14:46:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250681
 
-Signed-off-by: Ulrich =C3=96lmann <u.oelmann@pengutronix.de>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- meta/conf/documentation.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Testing patch /home/patchtest/share/mboxes/documentation.conf-fix-typo.patch
 
-diff --git a/meta/conf/documentation.conf b/meta/conf/documentation.conf
-index 08de68e0ed7e..2a3c7f80a234 100644
---- a/meta/conf/documentation.conf
-+++ b/meta/conf/documentation.conf
-@@ -139,7 +139,7 @@ DISTRO_EXTRA_RDEPENDS[doc] =3D "Specifies a list of d=
-istro-specific packages to ad
- DISTRO_EXTRA_RRECOMMENDS[doc] =3D "Specifies a list of distro-specific p=
-ackages to add to all images if the packages exist. The list of packages =
-are automatically installed but you can remove them."
- DISTRO_FEATURES[doc] =3D "The features enabled for the distribution."
- DISTRO_FEATURES_DEFAULTS[doc] =3D "The default set of distribution featu=
-res, prior to any filtering. Usually you should leave this alone and modi=
-fy DISTRO_FEATURES and/or DISTRO_FEATURES_OPTED_OUT."
--DISTRO_FEATURES_OPTED_OUT[doc] =3D "The set of default distribtion featu=
-res to disable. Prefer opting out of features using this variable instead=
- of using DISTRO_FEATURES:remove."
-+DISTRO_FEATURES_OPTED_OUT[doc] =3D "The set of default distribution feat=
-ures to disable. Prefer opting out of features using this variable instea=
-d of using DISTRO_FEATURES:remove."
- DISTRO_NAME[doc] =3D "The long name of the distribution."
- DISTRO_PN_ALIAS[doc] =3D "Alias names used for the recipe in various Lin=
-ux distributions."
- DISTRO_VERSION[doc] =3D "The version of the distribution."
---=20
-2.47.3
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping test (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
