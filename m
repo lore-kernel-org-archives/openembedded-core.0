@@ -1,69 +1,72 @@
-Received: from aer-iport-6.cisco.com (aer-iport-6.cisco.com [173.38.203.68])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8010.1795062167956330772
+Received: from aer-iport-4.cisco.com (aer-iport-4.cisco.com [173.38.203.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8009.1795062167036122572
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Nov 2026 20:22:48 -0800
+ Wed, 18 Nov 2026 20:22:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Ihp5Aat8;
- spf=pass (domain: cisco.com, ip: 173.38.203.68, mailfrom: yurade@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=ehsZUfV0;
+ spf=pass (domain: cisco.com, ip: 173.38.203.54, mailfrom: yurade@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=6233; q=dns/txt;
-  s=iport01; t=1795062168; x=1796271768;
+  d=cisco.com; i=@cisco.com; l=10759; q=dns/txt;
+  s=iport01; t=1795062170; x=1796271770;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=SCDZvcat/IL5A4qQwgBMX+31fqoUKiQ5QF5wNhe5tBU=;
-  b=Ihp5Aat8FzTh2Mp4i6NPD0rIu8IIoempDiAuy0bCurqx2FwIHxskbhT2
-   Tf3y6wOTVX9HE2jiwm5MIabgjLVk+QaXcjDrHQ9m8TJ5lJrgnsqJI9AZQ
-   mz6olxHar+jHWYREgZQX0nmjGr/h8Gi9T4+cUVqjD7lvjRMvoXPFEovxR
-   zDDFwbM1bWbVWX7wsaNasdqTQ+52G9lmPx7me7QiskU0eNoctm6zaGjka
-   /N4O5hTBCwVM3rmxjFkGGQSOi4wB99L1hn87bec7mYGC36qNbJ7WSvxS9
-   97uH7WZLA1Ex+m6OCPL+ICNk3hCztkPWkA5BeAuioPZK+ADA9ztSrez4k
+  bh=V+cTkmHgD3EWcDoOyhkB7zrHWnAZx4Ar4SygLsCNG2I=;
+  b=ehsZUfV0JWrXULyeBUIelx1JYsHPA4HzoS5X5XWbsflewTNkVMjsAs3M
+   HVL+TP3qGrZ2677miaCOfR0d09mOZqed1kjrRwbrHpRxcboJyotOPWWN+
+   fmF9wfmIqrKjNa8JgIQ8K/X9FvFftJ2YCA+1/dtVFl3dUurT2TCrJgx5y
+   Heozj7G3CiFLhO7RucRYYNN50FXwWLOT7sUyEWBsjbZq2OiN+KnFzVE77
+   Iv1Bf7oXTGhRjjJV3DDRoKKVw2QP6NwBZ+W5eqfq5fEnh1p2iibI3TCr4
+   2B22n7725kDFbKzFRBsLmjZD1TNfdkSgpT+gSGExqifPO2CFe3r+Zekwh
    A==;
-X-CSE-ConnectionGUID: SOkWboLURS+8LWSj/6Yjxw==
-X-CSE-MsgGUID: 6Vda0GmESLCWa4OjStXrUQ==
-X-IPAS-Result: =?us-ascii?q?A0BJAgDWd/5q/89K/pBaglmCV3VgQ0kDlCeCIQOTJIsFg?=
- =?us-ascii?q?X4PAQEBD0QNBAEBhD9GAo4gAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQEKAQEFA?=
- =?us-ascii?q?QEBAgEHBYEOE4ZPDZASAQIBAycLARgBPRwDAQIvKyMIGYMCAYI6AzcDEbk1g?=
- =?us-ascii?q?XkzgQGDKQE/AkNQ2EwQb4FoAQsUAYE4hUKIJF0YAYR9JxuBSUSBFYNqgQWBX?=
- =?us-ascii?q?AKIJgSCDYEPEoFUjRcCgU+ICkiBHgNZLAFVEw0KCwcFgWgDNRIqFW4yHYEjO?=
- =?us-ascii?q?xeBBxsGBYEcgR6BEoEDXYErKF4hgQiBdgKCUYIAAgFJQQ4HRVMJJUMSRyQiC?=
- =?us-ascii?q?BIJARMaLAqBGjU8CSY/FQxnCxoFYQgCDQx0ORAwHiQvBRomPhsKgQwnHx4bD?=
- =?us-ascii?q?gIOGA1IESw3FRkEPm4Hk1GCJSYtDhIBPFEBEBuCLAZIknEykgSBNZ9chCuMJ?=
- =?us-ascii?q?JU6GjOEBIFXkkOSVAuYfY4KllGEaoFoPIFZMxoIGxWDIglKGQ+OOYNrhRNRx?=
- =?us-ascii?q?lomMgIJAy8BAQcCBw4DC4FokX4BAQ?=
-IronPort-Data: A9a23:sFT+IavJQ1O+WJCmNBK8H4UkB+fnVBxfMUV32f8akzHdYApBsoF/q
- tZmKTuEbqmLNzD1fYt0bdi19kJUv8TTm4M1HAI6qCE8FH5GgMeUXt7xwmUckM+xwmwvaGo9s
- q3yv/GZdJhcokf0/0nrb/656ykmiMlkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
- eja/YuFZzdJ5xYuajhKsvva+Es01BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
- 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
- 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIwwcF0PmtJ0
- cEiE3NdSi+4haXo8bCrVbw57igjBJGD0II3s3x6iDWcBvE8TNWbHePB5MRT23E7gcUm8fT2P
- pZFL2AyMFKfP1sVYgh/5JEWxI9EglHubidRpF+9rqss6G+Vxwt0uFToGIeEI4LWGp4E9qqej
- jz4822hLRQ3D/i09jPZ1XCXmt/VoBquDer+E5X9rJaGmma7wXQeDhATX1a3rfS1z0W5Qd93L
- 00P5jFoqrA/8kGuRNTxUxC05nmesXYht8F4GuAgrQXIwa3O7kPBWC4PTyVKb5ots8peqSEW6
- 2JlVujBXVRH2IB5g1rHnltIhVte4RQoEFI=
-IronPort-HdrOrdr: A9a23:RkZ6iKveJVsJ32A8gx2rp7hL7skDWtV00zEX/kB9WHVpm6uj5q
+X-CSE-ConnectionGUID: rPS/Bb4TTPSBtjGlS8yJiA==
+X-CSE-MsgGUID: xuc+icteTr6YFNc0rHgRYQ==
+X-IPAS-Result: =?us-ascii?q?A0BLAgDWd/5q/85K/pBRCYJZgld1YENJA5QngTVsA5Mki?=
+ =?us-ascii?q?wUUgWoPAQEBD0QNBAEBhD9GAo4gAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQEKA?=
+ =?us-ascii?q?QEFAQEBAgEHBYEOE4ZPDZASAQIBAycLARgBPRwDAQIvKyMIGYMCAYI6AzcDE?=
+ =?us-ascii?q?bk1gXkzgQGDKQE/AkNQ2EwQb4FoAQsUAYE4hUKIJF0YAUSEOScbgUlEgRWDa?=
+ =?us-ascii?q?oEFSwGBEAKBKwEICgEHhmAEgxwSgVSBC4wMAoFPiApIgR4DWSwBVRMNCgsHB?=
+ =?us-ascii?q?YFoAzUSKhVuMh2BIzsXgQcbBgWBHIEegRKBA12BKyheIYEIgXYCglGCAAIBS?=
+ =?us-ascii?q?UEOB0VTCSVDEkckIggSCQETGiwKgRo1PAkmPxUMZwsaBWEIAg0MdDkQMB4kL?=
+ =?us-ascii?q?wUaJj4bCoEMJx8eGw4CDhgNSBEsNxUZBD5uB5NRghAWJS0ZBgEBPBs2AQceB?=
+ =?us-ascii?q?hc/gTUIGZM1AgiQFYIhoRGEK4wklToaM4QEgVeSQ5JUC5h9jgqVaTE3hGqBa?=
+ =?us-ascii?q?DxpcDMaCBsVgyIJShkPjjmBY4IIhRNRbMVuJjICCQMvAQEHAgcOAwuBaJACL?=
+ =?us-ascii?q?YFPAQE?=
+IronPort-Data: A9a23:Ham7IKKj3mpN9YyAFE+Rm5QlxSXFcZb7ZxGr2PjKsXjdYENS0DAFm
+ jZJWG+FOPuLN2b8LdkiYIi0pExQsZTQn4JnGwAd+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
+ 63yUvGZcoZpCCea9k3wWlTYhSEU/bmSQbbhA/LzNCl0RAt1IA8skhsLd9QR2uaEuvDnRVnS0
+ T/Oi5eHYgH8gmckajl8B5+r8XuDgtyj4Fv0gXRmDRx7lAe2v2UYCpsZOZawIxPQKqFIHvS3T
+ vr017qw+GXU5X8FUrtJRZ6iLyXm6paLVeS/oiI+t5qK23CulQRuukoPD8fwXG8M49m/c3+d/
+ /0W3XC4YV9B0qQhA43xWTEAe811FfUuFLMqvRFTvOTLp3AqfUcAzN10NHpxF4dExtpPOktS9
+ 9McE2AcTBGq0rfeLLKTEoGAh+wqIdOuOMYUvWttiGmES/0nWpvEBa7N4Le03h9p2pwIR6uCI
+ ZVFL2A3MnwsYDUXUrsTIIMjhu6ki1H0ciZTrxSeoq9fD237klUgieGybIW9ltqiVdhe3UeTu
+ m/65TrILDcRbMa/xgC0yyf57gPItWahMG4IL5W/7vNsjViZy2AfBRFTXlyhrNG9i1WiQJRYM
+ 0ES9y8koKQ++UDtScPyNyBUu1aNswRZX59bFPc3rVnQjKHV+A2eQGMDS1atdeAbiSP/fhRyv
+ nfhoj8jLWYHXGG9IZ5FyoqpkA==
+IronPort-HdrOrdr: A9a23:3+RCbKv2gvnmrjcfhndcVOum7skDWtV00zEX/kB9WHVpm6uj5q
  STdZsguyMc5Ax9ZJhko6HiBEDiewK4yXcK2+gs1N6ZNWGM0ldAbrsSj7cKqAeOJ8SRzIJgPN
  9bE5RWOZnXEUVwi9r87U2TFtYtx8TCzYWT7N2uqEuEiWpRGthdB8ATMHf8LnFL
-X-Talos-CUID: 9a23:Y4dKTWE66h8D2Ur1qmJc000rEMcBT0fmjyf0HHS6TjhYSq2KHAo=
-X-Talos-MUID: 9a23:avbe3AVPrSlDWAXq/GHSiDg6G8JF2ICFN0lRtpc9p/meCBUlbg==
+X-Talos-CUID: =?us-ascii?q?9a23=3AbhXmU2hatZoESFpkaWlAKH2pUjJuaEXmi13af3O?=
+ =?us-ascii?q?EMV1DVL+6TWTA6YFlup87?=
+X-Talos-MUID: =?us-ascii?q?9a23=3AodUH0A0IS1tmszJp+bQBs1DGSTUj87mlS0EGjZg?=
+ =?us-ascii?q?6oZe1Gwp7Yy29gw6Ge9py?=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,220,1787011200"; 
-   d="scan'208";a="59164739"
-Received: from aer-l-core-06.cisco.com ([144.254.74.207])
-  by aer-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 19 Nov 2026 04:22:46 +0000
+   d="scan'208";a="61911747"
+Received: from aer-l-core-05.cisco.com ([144.254.74.206])
+  by aer-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 19 Nov 2026 04:22:47 +0000
 Received: from sjc-ads-7871.cisco.com (sjc-ads-7871.cisco.com [10.30.222.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by aer-l-core-06.cisco.com (Postfix) with ESMTPS id 07152180004B4
-	for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 04:22:46 +0000 (GMT)
+	by aer-l-core-05.cisco.com (Postfix) with ESMTPS id 82E42180003BA
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 04:22:47 +0000 (GMT)
 Received: by sjc-ads-7871.cisco.com (Postfix, from userid 1889728)
-	id 43E4CCBEF6C; Wed, 18 Nov 2026 20:22:43 -0800 (PST)
+	id B077FCC8C97; Wed, 18 Nov 2026 20:22:43 -0800 (PST)
 From: Yogita Urade <yurade@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose][v3 PATCH 12/27] python3-git: fix CVE-2026-73620
-Date: Wed, 18 Nov 2026 20:22:27 -0800
-Message-Id: <20261119042242.1640611-13-yurade@cisco.com>
+Subject: [OE-core][wrynose][v3 PATCH 26/27] python3-git: Fix CVE-2026-87819
+Date: Wed, 18 Nov 2026 20:22:41 -0800
+Message-Id: <20261119042242.1640611-27-yurade@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20261119042242.1640611-1-yurade@cisco.com>
 References: <20261106144331.3354811-1-yurade@cisco.com>
@@ -72,174 +75,280 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-7871.cisco.com [10.30.222.158];TLSv1.3;TLS_AES_256_GCM_SHA384;256
 X-Outbound-SMTP-Client: 10.30.222.158, sjc-ads-7871.cisco.com
-X-Outbound-Node: aer-l-core-06.cisco.com
+X-Outbound-Node: aer-l-core-05.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 04:22:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250615
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250628
 Content-Type: text/plain; charset="utf-8"
 
-This patch applies the upstream fix as referenced in [2],
-using the commit shown in [1].
+This patch applies the upstream fix as referenced in [3],
+using the commit shown in [1] and [2].
 
-[1] https://github.com/gitpython-developers/GitPython/commit/3af0c2516c5e18c829da30338614688f6b69b49c
-[2] https://security-tracker.debian.org/tracker/CVE-2026-73620
+[1] https://github.com/gitpython-developers/GitPython/commit/751473a5f3221d6f989291cbebcc404353fd3ba8
+[2] https://github.com/gitpython-developers/GitPython/commit/bc63b027e2fc737e2ec0222bfa764e1aa76a427f
+[3] https://security-tracker.debian.org/tracker/CVE-2026-87819
 
 Signed-off-by: Yogita Urade <yurade@cisco.com>
 ---
 Changes in v2:
 - Changed the advisory reference from NVD to Debian Security Tracker.
-  Refreshed the embedded hunk context and index hashes.
+  Added the omitted release-note change to p1. In p2, restored comments
+  identifying the Actor.from_string and review-follow-up changes, and
+  moved the Co-authored-by trailer into the commit-message trailer block.
 ---
- .../python/python3-git/CVE-2026-73620.patch   | 130 ++++++++++++++++++
- .../python/python3-git_3.1.43.bb              |   1 +
- 2 files changed, 131 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-73620.patch
+ .../python3-git/CVE-2026-87819_p1.patch       |  78 ++++++++++
+ .../python3-git/CVE-2026-87819_p2.patch       | 146 ++++++++++++++++++
+ .../python/python3-git_3.1.43.bb              |   2 +
+ 3 files changed, 226 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-87819_p1.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-87819_p2.patch
 
-diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-73620.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-73620.patch
+diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-87819_p1.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-87819_p1.patch
 new file mode 100644
-index 0000000000..7901c8d28d
+index 0000000000..be6e0a2b31
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-git/CVE-2026-73620.patch
-@@ -0,0 +1,130 @@
-+From cc80ea13457773907fa7843e274dca8dc7d196a5 Mon Sep 17 00:00:00 2001
-+From: "GPT 5.6" <codex@openai.com>
-+Date: Sun, 26 Jul 2026 05:54:27 +0200
-+Subject: [PATCH] Block unsafe checkout-index and tag file options
++++ b/meta/recipes-devtools/python/python3-git/CVE-2026-87819_p1.patch
+@@ -0,0 +1,78 @@
++From 47e0d430af6885ceeaa38a8c5517efac872b70b4 Mon Sep 17 00:00:00 2001
++From: Byron <sebastian.thiel@icloud.com>
++Date: Tue, 11 Aug 2026 14:18:25 +0200
++Subject: [PATCH] fix: parse actor identities without regular expressions
 +
-+GHSA-3f7w-8rr8-f37f reports that caller-controlled options forwarded by
-+IndexFile.checkout() and TagReference.create() can make Git write to or read
-+from arbitrary filesystem paths.
++<!-- agent -->
++GHSA-g5vv-9gxw-82hx reports quadratic backtracking when an actor
++identity contains a long unterminated email delimiter.
 +
-+Add regression coverage proving the unsafe options are rejected by default while
-+preserving the explicit allow_unsafe_options escape hatch. Reuse GitPython's
-+existing option candidate normalization and unsafe-option guard at both public
-+API boundaries.
++Add a regression that exercises a 20,000-character malformed identity,
++then replace both actor regexes with direct delimiter scans following
++Git's first-opening, first-closing delimiter behavior. Keep GitPython's
++whole-string fallback when either delimiter is absent.
 +
-+Git baseline: a23bace963d508bd96983cc637131392d3face18.
-+Documentation/git-checkout-index.adoc defines --prefix as prepending an output
-+path, and Documentation/git-tag.adoc defines -F/--file as reading a tag message
-+from a file.
++Reference Git baseline cf5497b14c5a24f10c13f7e0ee85cb95
++ident.c::split_ident_line and its invalid-committer cases in
++t/t9300-fast-import.sh. Also reference gix-actor's signature decoder and
++lenient identity tests.
 +
-+CVE: CVE-2026-73620
-+Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/3af0c2516c5e18c829da30338614688f6b69b49c]
++CVE: CVE-2026-87819
++Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/751473a5f3221d6f989291cbebcc404353fd3ba8]
 +
 +Backport Changes:
-+- Omitted test/test_index.py, test/test_refs.py because the current PyPI
-+  source archive does not include the test suite and the python3-git
++- Omitted test/test_actor.py because the current PyPI source
++  archive does not include the test suite and the python3-git
 +  recipe does not run it.
++- Omitted doc/source/changes.rst file changes.
 +
-+Co-authored-by: Sebastian Thiel <sebastian.thiel@icloud.com>
-+(cherry picked from commit 3af0c2516c5e18c829da30338614688f6b69b49c)
++Assisted-by: GPT 5.6
++Co-authored-by: GPT 5.6 <codex@openai.com>
++(cherry picked from commit 751473a5f3221d6f989291cbebcc404353fd3ba8)
 +Signed-off-by: Yogita Urade <yurade@cisco.com>
 +---
-+ git/index/base.py | 12 ++++++++++++
-+ git/refs/tag.py   | 13 +++++++++++++
-+ 2 files changed, 25 insertions(+)
++ git/util.py | 24 ++++++++----------------
++ 1 file changed, 8 insertions(+), 16 deletions(-)
 +
-+diff --git a/git/index/base.py b/git/index/base.py
-+index dfe7e0dc..90d4c16f 100644
-+--- a/git/index/base.py
-++++ b/git/index/base.py
-+@@ -129,6 +129,8 @@ IndexFile
-+     Make sure you use :meth:`index.write() <write>` once you are done manipulating the
-+     index directly before operating on it using the git command.
-+     """
-++    unsafe_git_checkout_index_options = ["--prefix"]
-++
++diff --git a/git/util.py b/git/util.py
++index 9619937c..9a698e6d 100644
++--- a/git/util.py
+++++ b/git/util.py
++@@ -772,10 +772,6 @@ class Actor:
++     committers and authors or anything with a name and an email as mentioned in the git
++     log entries."""
 + 
-+     __slots__ = ("repo", "version", "entries", "_extension_data", "_file_path")
-+ 
-+@@ -1199,6 +1201,7 @@ IndexFile.checkout
-+         paths: Union[None, Iterable[PathLike]] = None,
-+         force: bool = False,
-+         fprogress: Callable = lambda *args: None,
-++        allow_unsafe_options: bool = False,
-+         **kwargs: Any,
-+     ) -> Union[None, Iterator[PathLike], Sequence[PathLike]]:
-+         """Check out the given paths or all files from the version known to the index
-+@@ -1224,6 +1227,9 @@ IndexFile.checkout
-+             The provided progress information will contain ``None`` as path and item if
-+             no explicit paths are given. Otherwise progress information will be send
-+             prior and after a file has been checked out.
-++        :param allow_unsafe_options:
-++            Allow unsafe options, such as ``--prefix``.
-++
-+ 
-+         :param kwargs:
-+             Additional arguments to be passed to :manpage:`git-checkout-index(1)`.
-+@@ -1248,6 +1254,12 @@ IndexFile.checkout
-+             i.e. if you want :manpage:`git-checkout(1)`-like behaviour, use
-+             ``head.checkout`` instead of ``index.checkout``.
-+         """
-++        if not allow_unsafe_options:
-++            Git.check_unsafe_options(
-++                options=Git._option_candidates([], kwargs),
-++                unsafe_options=self.unsafe_git_checkout_index_options,
-++            )
-++
-+         args = ["--index"]
-+         if force:
-+             args.append("--force")
-+diff --git a/git/refs/tag.py b/git/refs/tag.py
-+index 1e38663a..487eaa14 100644
-+--- a/git/refs/tag.py
-++++ b/git/refs/tag.py
-+@@ -14,6 +14,7 @@ module imports
-+ 
-+ # typing ------------------------------------------------------------------
-+ 
-++from git.cmd import Git
-+ from typing import Any, TYPE_CHECKING, Type, Union
-+ 
-+ from git.types import AnyGitObject, PathLike
-+@@ -40,6 +41,8 @@ TagReference
-+         print(tagref.tag.message)
-+     """
-+ 
-++    unsafe_git_tag_options = ["--file", "-F"]
-++
-+     __slots__ = ()
-+ 
-+     _common_default = "tags"
-+@@ -92,6 +95,7 @@ TagReference.create
-+         reference: Union[str, "SymbolicReference"] = "HEAD",
-+         logmsg: Union[str, None] = None,
-+         force: bool = False,
-++        allow_unsafe_options: bool = False,
-+         **kwargs: Any,
-+     ) -> "TagReference":
-+         """Create a new tag reference.
-+@@ -121,12 +125,21 @@ TagReference.create
-+         :param force:
-+             If ``True``, force creation of a tag even though that tag already exists.
-+ 
-++        :param allow_unsafe_options:
-++            Allow unsafe options, such as ``--file``.
-++
-+         :param kwargs:
-+             Additional keyword arguments to be passed to :manpage:`git-tag(1)`.
-+ 
++-    # PRECOMPILED REGEX
++-    name_only_regex = re.compile(r"<(.*)>")
++-    name_email_regex = re.compile(r"(.*) <(.*?)>")
++-
++     # ENVIRONMENT VARIABLES
++     # These are read when creating new commits.
++     env_author_name = "GIT_AUTHOR_NAME"
++@@ -820,18 +816,14 @@ class Actor:
 +         :return:
-+             A new :class:`TagReference`.
++             :class:`Actor`
 +         """
-++        if not allow_unsafe_options:
-++            Git.check_unsafe_options(
-++                options=Git._option_candidates([], kwargs),
-++                unsafe_options=cls.unsafe_git_tag_options,
-++            )
++-        m = cls.name_email_regex.search(string)
++-        if m:
++-            name, email = m.groups()
++-            return Actor(name, email)
++-        else:
++-            m = cls.name_only_regex.search(string)
++-            if m:
++-                return Actor(m.group(1), None)
++-            # Assume the best and use the whole string as name.
++-            return Actor(string, None)
++-            # END special case name
++-        # END handle name/email matching
+++        line = string.partition("\n")[0]
+++        left_bracket = line.find("<")
+++        right_bracket = line.find(">", left_bracket + 1)
+++        if left_bracket >= 0 and right_bracket >= 0:
+++            return Actor(line[:left_bracket].rstrip(), line[left_bracket + 1 : right_bracket])
 ++
-+         if "ref" in kwargs and kwargs["ref"]:
-+             reference = kwargs["ref"]
+++        # Assume the best and use the whole string as name.
+++        return Actor(string, None)
 + 
++     @classmethod
++     def _main_actor(
+diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-87819_p2.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-87819_p2.patch
+new file mode 100644
+index 0000000000..6bd578f535
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-git/CVE-2026-87819_p2.patch
+@@ -0,0 +1,146 @@
++From 0d63f66a673cfcad25a1fd85f56177d19a1b6547 Mon Sep 17 00:00:00 2001
++From: Byron <sebastian.thiel@icloud.com>
++Date: Fri, 28 Aug 2026 08:37:50 +0200
++Subject: [PATCH] fix: restore Actor.name_email_regex (#2220)
++
++<!-- agent -->
++GitPython 3.1.60 removed the Actor.name_email_regex class attribute while
++replacing internal actor parsing, which broke downstream consumers such as
++python-semantic-release.
++
++Bring back the historical compiled pattern for downstream compatibility,
++but emit DeprecationWarning whenever the class member is accessed. The warning
++explains its quadratic behavior on long malformed strings and points callers to
++the public Actor(name, email) constructor when fields are separate, or direct
++string parsing when they are not.
++
++Assisted-by: GPT 5.6
++Co-authored-by: GPT 5.6 <codex@openai.com>
++
++# 252a84ac Add public Actor.from_string constructor (#2220)
++
++Add public Actor.from_string constructor (#2220)
++
++Promote the existing actor identity parser to Actor.from_string while retaining _from_string as a compatibility alias. Point the name_email_regex deprecation warning to the new public constructor or Actor(name, email).
++
++Validation:
++- actor-related test/test_actor.py and test/test_util.py cases: 12 passed
++- ruff check and format checks passed
++- basedpyright git/util.py: no errors
++
++Co-authored-by: Codex GPT-5 <codex@openai.com>
++
++# dd2181d8 Address review feedback about Actor subclasses
++
++Address review feedback about Actor subclasses
++
++Review feedback: Actor.from_string() should preserve the class on which the public classmethod is called instead of always returning a base Actor.
++
++Construct through cls on both parsing paths and cover subclass construction directly.
++
++Validation:
++- actor-related test/test_actor.py and test/test_util.py cases: 13 passed
++- ruff check and format checks passed
++- basedpyright git/util.py: no errors
++
++# fcf1ecb1 Address review feedback about constructor typing
++
++Address review feedback about constructor typing
++
++Review feedback: Actor.from_string() constructs subclasses at runtime but its Actor return annotation prevents type checkers from preserving subclass-specific members.
++
++Use the project existing Python 3.7-compatible bound TypeVar pattern so the declared return type follows cls.
++
++Validation:
++- actor-related test/test_actor.py and test/test_util.py cases: 13 passed
++- ruff check and format checks passed
++- basedpyright git/util.py: no errors
++
++Co-authored-by: Codex GPT-5 <codex@openai.com>
++
++CVE: CVE-2026-87819
++Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/bc63b027e2fc737e2ec0222bfa764e1aa76a427f]
++
++Backport Changes:
++- Omitted test/test_actor.py because the current PyPI source archive
++  does not include the test suite and the python3-git recipe does not
++  run it.
++
++(cherry picked from commit bc63b027e2fc737e2ec0222bfa764e1aa76a427f)
++Signed-off-by: Yogita Urade <yurade@cisco.com>
++---
++ git/util.py | 26 +++++++++++++++++++++++---
++ 1 file changed, 23 insertions(+), 3 deletions(-)
++
++diff --git a/git/util.py b/git/util.py
++index 9a698e6d..16cd25ef 100644
++--- a/git/util.py
+++++ b/git/util.py
++@@ -80,6 +80,7 @@ from typing import (
++     Sequence,
++     Tuple,
++     TYPE_CHECKING,
+++    Type,
++     TypeVar,
++     Union,
++     cast,
++@@ -108,6 +109,7 @@ from git.types import (
++ 
++ T_IterableObj = TypeVar("T_IterableObj", bound=Union["IterableObj", "Has_id_attribute"], covariant=True)
++ # So IterableList[Head] is subtype of IterableList[IterableObj].
+++T_Actor = TypeVar("T_Actor", bound="Actor")
++ 
++ _logger = logging.getLogger(__name__)
++ 
++@@ -767,11 +769,27 @@ class CallableRemoteProgress(RemoteProgress):
++         self._callable(*args, **kwargs)
++ 
++ 
+++class _DeprecatedActorNameEmailRegex:
+++    _pattern = re.compile(r"(.*) <(.*?)>")
+++
+++    def __get__(self, _instance: Any, _owner: Any) -> Pattern[str]:
+++        warnings.warn(
+++            "Actor.name_email_regex is deprecated and will be removed in GitPython 4.0.0 because searching long "
+++            "malformed strings with it can take quadratic time. Use Actor.from_string() to parse actor identities, "
+++            "or Actor(name, email) when the fields are already separate.",
+++            DeprecationWarning,
+++            stacklevel=2,
+++        )
+++        return self._pattern
+++
+++
++ class Actor:
++     """Actors hold information about a person acting on the repository. They can be
++     committers and authors or anything with a name and an email as mentioned in the git
++     log entries."""
++ 
+++    name_email_regex = _DeprecatedActorNameEmailRegex()
+++
++     # ENVIRONMENT VARIABLES
++     # These are read when creating new commits.
++     env_author_name = "GIT_AUTHOR_NAME"
++@@ -805,7 +823,7 @@ class Actor:
++         return '<git.Actor "%s <%s>">' % (self.name, self.email)
++ 
++     @classmethod
++-    def _from_string(cls, string: str) -> "Actor":
+++    def from_string(cls: Type[T_Actor], string: str) -> T_Actor:
++         """Create an :class:`Actor` from a string.
++ 
++         :param string:
++@@ -820,10 +838,12 @@ class Actor:
++         left_bracket = line.find("<")
++         right_bracket = line.find(">", left_bracket + 1)
++         if left_bracket >= 0 and right_bracket >= 0:
++-            return Actor(line[:left_bracket].rstrip(), line[left_bracket + 1 : right_bracket])
+++            return cls(line[:left_bracket].rstrip(), line[left_bracket + 1 : right_bracket])
++ 
++         # Assume the best and use the whole string as name.
++-        return Actor(string, None)
+++        return cls(string, None)
+++
+++    _from_string = from_string
++ 
++     @classmethod
++     def _main_actor(
 diff --git a/meta/recipes-devtools/python/python3-git_3.1.43.bb b/meta/recipes-devtools/python/python3-git_3.1.43.bb
-index f712a0e699..d47ce73d72 100644
+index efd17b45c4..1c77341132 100644
 --- a/meta/recipes-devtools/python/python3-git_3.1.43.bb
 +++ b/meta/recipes-devtools/python/python3-git_3.1.43.bb
-@@ -33,6 +33,7 @@ SRC_URI += "file://CVE-2026-42284.patch \
-            file://CVE-2026-73624.patch \
-            file://CVE-2026-73622.patch \
-            file://CVE-2026-73621.patch \
-+           file://CVE-2026-73620.patch \
+@@ -50,6 +50,8 @@ SRC_URI += "file://CVE-2026-42284.patch \
+            file://CVE-2026-78675.patch \
+            file://CVE-2026-87817.patch \
+            file://CVE-2026-87818.patch \
++           file://CVE-2026-87819_p1.patch \
++           file://CVE-2026-87819_p2.patch \
             "
  SRC_URI[sha256sum] = "35f314a9f878467f5453cc1fee295c3e18e52f1b99f10f6cf5b1682e968a9e7c"
  
