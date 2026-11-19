@@ -1,127 +1,113 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11750.1795083900496314653
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11542.1795084235757467346
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Nov 2026 02:25:00 -0800
+ Thu, 19 Nov 2026 02:30:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=A6QXO9Pr;
- spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a210470b49so19080515e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 02:25:00 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=s4FBEPOe;
+ spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: stondo@gmail.com)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4bb70074ab2so21574675e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 02:30:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795083899; x=1795688699; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=HivymBtqPIc+8Hl/7vfUcCPHuBA9xuLbn+3cazUJZSo=;
-        b=A6QXO9Prp5VQIWiJAxDvr5/f4f2rTbiYPWQ09+5MAbydF//ZS2EBhoLjenUkcQiBTK
-         LbvI2+rOlCtno0Sc9VloQ6zGIh/XEySUoF+g0LiSSVJyl6QZjjSTYIBMM784pM+doq2U
-         t0LP4HFaqvg5ND2vTZSomS4vuwafH2bGJJOkSlgCCGhPV865NMZyV+PfMoIG3++iSY1c
-         sAmx/GNr1oKZRh0S515PUXzegx3ZcA/t3J5GP6iXCDupoOuTf9ZbTXs6L9qcFxS486ZL
-         NULgTgRCaXyO83pqvyok+R8liPbeLDayx4Vk9TsaXUyyaS+m3fV6jFHUHE28YbOviioE
-         rd8g==
+        d=gmail.com; s=20260707; t=1795084234; x=1795689034; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=gOyqYxnH3gCvRiqrqcHkmeaK8v4YRrZyu2BDD5qBhz4=;
+        b=s4FBEPOe7qFO69vGCB9emsKIBFrlPs7SNUEuCRahUSMt6NFawIn1Nc/q86tMwdqDEt
+         HBADU1so3SchTpC/dXnlJgyNuWp4nwPUbQp3J6FNhR1vIZCVxT7Q6Y1dYcUMe3ScU7uT
+         AeFECtg55n43hzz0KT/xN+4Prcu7ZrXXH1SMBPEtTPgUfpuSrBfEEyFBbXi9EFJpGKJm
+         bnQX5tD0ODiFDP0qlvCWlwEQjkQkf0+VeF5uWrGEca2C70ogOsIu5i1mASRDU3rdyQEe
+         oT+yH6OhTT8tINR1uS2o1zjvH075BPyfEt3ZSPGG+96h4lWEF7Jll6nEEaO6wXAsfmyd
+         1tsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795083899; x=1795688699;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=HivymBtqPIc+8Hl/7vfUcCPHuBA9xuLbn+3cazUJZSo=;
-        b=DfhyysFHd/n1WNF+pf/fPgx+PayfqE4nN63HzIuHFZK0EywxPSFPx8LB6wPpk2MEQG
-         YByQ+AVpnxVWXMi9gExNhzv/pzJpgqe7LiXSUgwnKPMynz744qch3SaS5dxYHjXJX7Zu
-         4/Y3uSIwtwAsS1aZomOfP7B3EmBUcgebb1d2rPo6EQp1luT11fKylyYKvsUiKFv1jVxy
-         dUYH7e3FnGphGZENfYhjLY2xxECLYZjIpu68gYzMLVeXfG7KG8nQ9w8oS9Oismkb3Ifn
-         vAh9dt54+vSpYVIGNw6EpkVnd0lsZQlKY0ZwdzgqsIX2J9bs8DAzs2UYExs1I7pwXAUl
-         R91w==
-X-Forwarded-Encrypted: i=1; AL+hErFxkHn+xEKiBzFElwucSKYoYNod4IJSLcP/WI1nZGct/T9KtwaRP8I0xj9Ne/CRZtvvBFBNzb+8CZOsmP37w+tFVA==@lists.openembedded.org
-X-Gm-Message-State: APuU4Z/ZPGmKTgdeMBWCb2EdbwPBYm97WaTZ7B8WZQS8Qs3R7tKGlSJt
-	IuGqSuIJDFb4St27R6x8Cfc65Y88Z7PE7f1bBCMHMxXo72/ZZcX8YQouvsTxIuFDfiA=
-X-Gm-Gg: AYBFou0cVb0sh2dJVQHpQM0O6JVV6OoX/0A33PagdYOSYwrbSCgPABPVhvjZWI4i4GK
-	uaWhXPxdo2zHsAVisM+G/UpVM+drsw4+S0XbhqwHBnLjtj3lAcMyOByxOBr6CN4C95SEReWONsW
-	B09ZRNSDtCkn0haHRuVfj0wvCvnl7NeQ2J/UaWDM4hYnTIfzfR2lTJ7YL00e/5Ry/Oafuf631Pv
-	0fgPt73ZX88iPiJ/Lcw/SLuP9jq2wTZoSwewiO9jzlRQ/FfxHzYQRuhT8IJyjgexJd7EKMFqZKZ
-	S4ZLFiBvcoXCAXkOGTejbOZStKXpeSHLf9wjG+VUJkN4Kl59bPAacBOH2/6/2ilftLiqeoyWJum
-	2Fs7erqJxzzpUe9a1AgqqSBhyf3oAu0ll9gEYyO1MxKHfhBkhNZB+VBwouU9s5G+mPOHSysybWW
-	np52JL3+k9ZfPO6Nide1hLjfz6Y+gtsVLocHmMyOVVS8ca5dbcHQH7K+SbgDokNgQTxS9BQBW0f
-	O84Y9s4g/lRErePht0uMvo6uVRyHdSmtr7sbt3WF8a9cs33/XAmDRv9Tu7NAo9L9dnpavnHi5zo
-	05U453KgjXh1PbDEfJRqdw7wZpG8xMGpD6jO8p6lpBsVSCAyiBJrkQVVE9nP8sgpvqXclyapPZz
-	6eziTwKDFqQyBe/8l
-X-Received: by 2002:a05:600c:8b8b:b0:4a6:30c3:1114 with SMTP id 5b1f17b1804b1-4bb7da19d2emr102043545e9.12.1795083898623;
-        Thu, 19 Nov 2026 02:24:58 -0800 (PST)
-Return-Path: <yoann.congal@smile.fr>
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb853a9846sm31184135e9.11.2026.11.19.02.24.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Nov 2026 02:24:58 -0800 (PST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 19 Nov 2026 11:24:57 +0100
-Message-Id: <DMZ44U8O2RR3.3PG16IJMUE4A7@smile.fr>
-Subject: Re: [OE-core] [PATCH v3] [wrynose][backport] bluez5: Abort
- continuing response on fragmented CT replies
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <cheng.jiang@oss.qualcomm.com>, <wei.deng@oss.qualcomm.com>,
- <mengshi.wu@oss.qualcomm.com>, <jinwang.li@oss.qualcomm.com>,
- <xiuzhuo.shang@oss.qualcomm.com>, <chenhong.zhou@oss.qualcomm.com>
-To: <shuai.zhang@oss.qualcomm.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20261111112254.1486896-1-shuai.zhang@oss.qualcomm.com>
- <a4daf280-ed05-4335-95c1-dd0f99123184@oss.qualcomm.com>
-In-Reply-To: <a4daf280-ed05-4335-95c1-dd0f99123184@oss.qualcomm.com>
+        d=1e100.net; s=20260707; t=1795084234; x=1795689034;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=gOyqYxnH3gCvRiqrqcHkmeaK8v4YRrZyu2BDD5qBhz4=;
+        b=M3XtcnDcKAKs/KYkj7KCV8WMxecTH++DAQKcwV9Djt0CI1t5imvT3/0kKXHeWJgs0P
+         LFZ5jhYXBVLPAVHW3WAYmXOUN/uumvpE+1dzvJgM/2fkjS2wymJ9CZUNcotYWUpqLC2F
+         ahrsyTMbV3Mmi0SIhinow6KLKn/lcU7Z9UxjVFW85nOeUZ2g7UUPJo28LJyBwy7GilDD
+         b/+VsxZQidJtwKeyOYIQsEv2ko7QOGdP6yD0FgicXjRdHVPMAPfaeH2baRLBZEmw1q1G
+         WFist4Jfj4DI9WHFDYWPWmqcsgTTLmkCT1GqDzJgTfZez/S5hY5WfGFEgbNuh//0DwTa
+         6z9w==
+X-Gm-Message-State: APuU4Z/vwoRYQKCwbfvBQ89MBrdjkrZAZXNi5zvbG0L7FP5TU8Pp4N2D
+	nndBJlAMpAY6du+BkyJMcHMBTnSo5cassPSAr8/PIxwbV0zdMyQ176be
+X-Gm-Gg: AYBFou3pYd0SY72UD3mTzr+RZIUwzHQSpq1iZ1yb5S8ICcORM427kaMPtr+VqzLfxTP
+	v6WO9rqF6sXKfk7jQxB6aPklFe+I9egFzjdzsYoxO81l3534sswZQE6v00p7Q+Sn+yC7Lo9XvUm
+	qS1VNRZzXx9zaHaADJTHf66bRpHIyHVT2tuZStojbQU5SIsWfPUM6rpWB4mmOEb/eZk5Hl27w7S
+	PgOqfU1xEDKkNngECRPbN9hb4NyydVyUt1xMmLEFb4ZteZLeAxCIvJOu7yy13VjQnHuLfTsUssT
+	e8oaQ1dvFKuVLuv8GZl2cWDgnjXCGC8/KSDci5PK+mdF4UWFDGl79AUT1PqI26JHNEJA2TV06ho
+	MI5SEYfklSu1UpHSvvnpCS1HfwuvnQHwz/Xxrb7CzbdtbT+igWxpNWY2RbJ+IyXR4pbdqtZBurH
+	9jSiaUbQ9ho/GloBS4RzLCVIGsWHfbAOuzbIwxuYZQ01FcBOAj45Zw69+GYw2OPmUnB+SpkF/75
+	XhL6szRvq4nzGzi8o1ZRvhRMIxZHmx6bPFCDOJ8ox7hzKmh2hN9LoNzce5tL8HbCxLpvc3fq8ko
+	eXYtOb/MSKQ=
+X-Received: by 2002:a05:600c:1553:b0:4a2:677:ad8e with SMTP id 5b1f17b1804b1-4bb7da48319mr94505085e9.34.1795084233532;
+        Thu, 19 Nov 2026 02:30:33 -0800 (PST)
+Return-Path: <stondo@gmail.com>
+Received: from fedora ([165.225.94.251])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4a654a8c39bsm9755030f8f.17.2026.11.19.02.30.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Nov 2026 02:30:30 -0800 (PST)
+From: Stefano Tondo <stondo@gmail.com>
+To: Paul Barker <paul@pbarker.dev>
+Cc: openembedded-core@lists.openembedded.org,
+	Joshua Watt <JPEWhacker@gmail.com>,
+	Alexander Kanavin <alex.kanavin@gmail.com>,
+	Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	stefano.tondo.ext@siemens.com
+Subject: Re: [PATCH v2 4/4] oeqa/selftest: spdx: Test crate identity, scope and output PURLs
+Date: Thu, 19 Nov 2026 11:30:29 +0100
+Message-ID: <20261119103029.311675-1-stondo@gmail.com>
+X-Mailer: git-send-email 2.56.1
+In-Reply-To: <DMZ3O22TVVFQ.155PGZ293VQJO@pbarker.dev>
+References: <20261118234425.3681880-1-stondo@gmail.com> <20261118234425.3681880-5-stondo@gmail.com> <DMZ3O22TVVFQ.155PGZ293VQJO@pbarker.dev>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 10:25:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250660
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 10:30:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250661
+Content-Type: text/plain; charset="utf-8"
 
-On Thu Nov 19, 2026 at 9:12 AM CET, Shuai Zhang via openembedded-core wrote=
-:
-> Hi maintainers
->
-> On 11/11/2026 7:22 PM, Shuai Zhang wrote:
->> Send AbortContinuingResponse when a Get Element Attributes reply
->> arrives fragmented, as the CT side does not reassemble fragments.
->>
->> Backport upstream bluez commit 249e2bedf ("avrcp: Abort continuing
->> response on fragmented CT replies") to bluez 5.86.
->>
->> Fixes PTS test AVRCP/CT/RCR/BV-03-C.
->>
->> Signed-off-by: Shuai Zhang <shuai.zhang@oss.qualcomm.com>
->> ---
->> Changes for v3:
->> - Remove Simon Mikuda's Signed-off-by from the recipe patch, as he did
->>    not sign off the upstream commit
->> Link to v2: https://lists.openembedded.org/g/openembedded-core/message/2=
-48377
->>
->> Changes for v2:
->> - Fix subject prefix to [wrynose][backport]
->> - Drop Upstream-Status tag from the commit message
->> Link to v1: https://lists.openembedded.org/g/openembedded-core/topic/pat=
-chtest_results_for/121863269
->> ---
->>   meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
->>   ...inuing-response-on-fragmented-CT-rep.patch | 62 +++++++++++++++++++
->>   2 files changed, 63 insertions(+)
->>   create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-avrcp-=
-Abort-continuing-response-on-fragmented-CT-rep.patch
->>
->
-> just following up to see if there are any updates on this.
->
-> Thanks,
->
-> Shuai
+On Thu Nov 19, 2026 at 10:03 AM GMT, Paul Barker wrote:
+> Does it use a fixed version of the python3-bcrypt recipe or just
+> whatever version is currently in OE-Core?
 
-It is part of the current review series:
-https://lore.kernel.org/openembedded-core/cover.1794939400.git.yoann.congal=
-@smile.fr/
-... pending negative reviews, it should merge tomorrow.
+Hi Paul,
 
-PS: Checking if your patch is in the review series is a good reason to
-read those.
+It uses the version that is currently in OE-Core. There is no copy of
+the recipe in meta-selftest.
 
-Regards,
---=20
-Yoann Congal
-Smile ECS
+> If it tracks the version used in OE-Core, is it likely to start failing
+> when python3-bcrypt adds or removes dependencies in the future?
+
+I do not expect it to fail. I wrote the tests for this case. They do
+not contain crate versions or crate counts. The 42 crates are only in the
+commit message. The tests get the expected values from the build:
+
+- The name, version and PURL of each crate must agree with its
+  crates.io download URL.
+- Each crate must have exactly one lifecycle scope, or an annotation
+  that it is not built.
+- The cargo PURLs of the output package must be equal to the set of
+  crates that have the runtime scope in the build SPDX.
+
+When the recipe adds or removes a dependency, these sets change together.
+
+The tests use three facts about the dependencies of python3-bcrypt:
+
+- blowfish has the runtime scope. It is the cipher of bcrypt.
+- syn has the build scope. The pyo3 proc-macros use it.
+- At least one crate is for another platform, so it is not built.
+  Today there are five: r-efi, wasi, wasip2 and wit-bindgen come
+  from getrandom, and portable-atomic comes from pyo3.
+
+Only a large change in bcrypt or pyo3 can make the first two false.
+The third is less certain, but getrandom supports WebAssembly and UEFI,
+and it is unlikely to stop. If this check fails, the message shows the
+fact that changed. Then we can use a different crate or remove the
+check.
+
+Best regards,
+Stefano
