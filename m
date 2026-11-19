@@ -1,62 +1,62 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.98.1795101867800227723
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.86.1795101868364048402
  for <openembedded-core@lists.openembedded.org>;
  Thu, 19 Nov 2026 07:24:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=SOiW/c85;
- spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: fabien.thomas@smile.fr)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4bb64ef5a00so17879745e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 07:24:27 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=S6Mu6jMx;
+ spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: fabien.thomas@smile.fr)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4bb69f5b161so15165955e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 07:24:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795101866; x=1795706666; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1795101867; x=1795706667; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=dw4VAovE/a92cuzsg2cG05H8Nf5LNb2rGLcZ7KrtMzM=;
-        b=SOiW/c855hqaOvoc3D0H3ps7Xkjbe1Gl+0LontqauF0LVUWEHfA+/ctdkXTeOi4sRn
-         ywF7F5sEMXhAuZh8k+nZdrv6BI/3Ywv70RNLkaokrAK0/Z6RBWr5XA4gExgnw+SM9dKE
-         LgVXIo3/xUExO1aiqCcqRF+VQ3npkHA3IuVMpflxCd0OrEOY72FmUWmfcONnbgdwyTdd
-         GUhoaOyymmnYP4CVfA2BozI+aeIdzF1Dq3atkqbobTqw0FcExTfPfVT4b/rT+WwtUSjs
-         TWyHgLZbBgjFztWaIZZMxPz/UCteQQG28Oya1SU6VP0pYQ7Wlxm1cRZGtw4KOiP3Tirb
-         hEkQ==
+        bh=QPuJz6j5M5GbLbR59aho6u9zslJOiRl2gqJMLOJugiY=;
+        b=S6Mu6jMx3rd0lsqqZ0dw1WZahqStlH6Zsgu54xItEl5DcT/0Ue1VFRQJPo+pe23sqL
+         744K9Oz0sZpzECU55ilyJYCIEoFXt/p5r8oOJ/jyM1dhpE2p3Cfc9a/PRmKI3g0beKJy
+         xEjDkX+ptmLqnXvoMB/+sVbKkxH0Kgyj8/Ictd0V5siOcTGVhD72YDLwqwWP2x9KpfXl
+         2opxJrQ+JbpuNTGZPzhDxmqW2jsEWaMaOfk8mSGgvaCWL91pynpXDTRgd6hIYUZhyuPl
+         fhFzZbm2Z9fg8fmFGO2N6GX6TJ6gKitvVHkzebSVhPd6DijY2jNGs/MkLxR4z2hG1tmi
+         RKYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795101866; x=1795706666;
+        d=1e100.net; s=20260707; t=1795101867; x=1795706667;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=dw4VAovE/a92cuzsg2cG05H8Nf5LNb2rGLcZ7KrtMzM=;
-        b=Juawj0lbUmZoj739+eLpbutk6w5/oZQH9YFkoROlGhzkf8l11gLsnhU/AfN/CxCH/U
-         3SrSmxVreBB1qobD8qv4OLaB+ERNcRbxcW03et7dRSH+43SCqr3qaKyDf8PJfU74v5XU
-         HKKkbm6tKU2xv3XDmUqEHbkvhugZXihdLCDIWfhMjmpu5LNOiyvemMESZESwO1RC3sDz
-         Jn49hfXzN+lxz/d2B2t4QamDl/XpIxIJdrklipZbfgScSPdD7gqbGjia1A4PzFdGZkIm
-         lUxvvy7IOJPqF1GwYbjxcCLxxJRCYg67ZUa6fk/Fv8AMOG/k94+aWpTuPNQEJvAIWcb5
-         oVIQ==
-X-Gm-Message-State: APuU4Z+R8EXUV3Cq9sslDURxzTPNOC1x0d5prtCumOxUo4Yy2q3JxzQh
-	/UqMjbSPifWvChDuNDHk9jSFB1M3b+ojtZSLLoGz4SC4ZmVI49FnzCuXVkJlwkMP0x8qmZ/3Wd0
-	geyybwRw=
-X-Gm-Gg: AYBFou1+TV/xqQ6+j7596uxrTfO0Y2BQvdcbZa9tGe1BqqmTNWap7FWPH763hyoVglz
-	iR7xERNu/2oo6VzkmE1sFAXlo+J5ldRcIsTqBnfoxYHbRFsDSxZIJCURpsZNIFtM3mf1hvO9AAM
-	IlrvURzYdCGmzRgMj7+V9yxhkoLBKhdoEOKUEgu4bUNEE4TN6IbgpZe5L20rm04Amamb/j1JQP9
-	3TW3kunghZrYfrtjGfeeUczC5Ymj7f5jCg8zZfIdx/m8AJ3nmtdcYoJuzK7AZPNq3BTCOnNd4MG
-	/HgezMGwSY1NpdxXn6KyYvsK+aIBnL17drc+3l0EBCDX/eM/D3l0s4Inae4qbf1w/UtOyIo77aQ
-	omk7PJklodqi8WGQG09SmdDj55z5rbNcGWSdBp2qI3+W/2sOLXcDaAryCtPbLWD0r82gB96vxfB
-	CLjTaPlJLm+Mr09V5Yp+7xPypm4yUK934JZwNQgmGcOVjutqAzlPC9QyPq/q60tVFfESKpChrsp
-	b0uZO3jght51XTnJgTLrFSuuBoOCAsQhffM6ZxDZr1vNV6wD1TdLHHknrY312pQzKUp6PzxY2Lf
-	DSe+nYRxI9ekC6QLiTtHZwPOK6fWwVVFjd9aM0W0AH3y3Z8b+dZbGEKAaWYD588U/UgScnESzKP
-	AUYF+NcHbyWTwQG52ufoO+v4STemz086MSuyfOZ7nhI8OMFbQqZf2SVA=
-X-Received: by 2002:a05:600c:a54:b0:4bb:6375:aa41 with SMTP id 5b1f17b1804b1-4bb7da48344mr118595985e9.27.1795101865889;
-        Thu, 19 Nov 2026 07:24:25 -0800 (PST)
+        bh=QPuJz6j5M5GbLbR59aho6u9zslJOiRl2gqJMLOJugiY=;
+        b=AYR/9pSi9NHVL2ysVPRIC1HMT8IrYEsctv18WbBqrUHH2+ama2TirsXl1k+rRgf4di
+         XSSE1B/VjZLPTasO8eaLracSJMkOhxMfagIRggAhxbtE9cw51FodMk89iy362fcaOglw
+         Pt8leZuylprvdjoB66q8Bv++OzXQOu61wv9vbKOz08VQYE+bANXvekGXWJQA5Rdsa0c8
+         YDu1x0+7MzLmOE6tqOvP3MFDiUrjvr9h01NDRI5ZfdCFr+D+Zq+1c5c8hfALSeOmHTJX
+         NfTcEqyOOWB1UIGTsaqsXRRVLy0nztq7nhW7ZUh0rRlVZFmgi/bMPfBG92V+YQPiGvc6
+         IEkg==
+X-Gm-Message-State: APuU4Z90Mwxb6R5FtscTLkKmLLSTyeOEDM0BEuuMWfouppamVzSL5Yhn
+	81gTriBTopKjl0dKnpsBgekLzHp6teRf2GkUYN+YoST1BE8xzw2v3Ku5P3uys/fUri+LQEysOX2
+	47+EFilc=
+X-Gm-Gg: AYBFou1dfE9SC/pd3AsSZ9HKa+aEClpQeFcMrAqeKkXDGBQzhoFwcEdLYDfMoL7eQf6
+	4iVywKb1w1SVqPIKXUZcxelt445Fn2t9gfddMi3fJeCoX0VUgiOfuhgQO4NPL/RYwpOOo64NoiB
+	ET/soks9sZGF+KTr3odWogvRmRbbozJJLIREAnq7CznBsPiRwY/J7E1+uZHDWCzVnAk+O2eKc+C
+	KsqPF9qCpY/5NIsC9eu1PBFGM2tx4QFqzwwRB4kAM1yNmKTjSRFPRLdXjzw15I2SsOx3FL7+fJ2
+	vVAOOCnOoW32wmSDOUyKLa01S8ksBqvCBc3XuFbER8wSn0KFxCnjqIT7nLlQDst5+Ze/OwpJ7W7
+	dziDNpTeSOISMXWZT9EzJBSn/BvCQGLpZMrdgBabkuI+0l4WYRqh3cHm3bF6F3ZN0m2ycq4UyTn
+	mSnrrKm5AGeZ43nubMMFh9gZrpLuTDOCriciQRtecLLe6CE22TH6TGHBQMLioB7VMLfTKXShxeb
+	t+jd9RifxIf+4ZIBxqFF6BxwW7TPujS3KLCdhui5WAb9Gi83i53TOwoWem6mYVg5u/gjyBPvLPO
+	jSDNeFmphZPJ6vZMGlzuc7jgyFmKJB4uU52TIavmyPdNX1qEM7EsNJfQFu8W2ZxFyxcrUcdus5k
+	S8HOx5DcYGt5qdSWgCv1QnzRP9Jbd0Q5i/YMi3p/s3GACC4jwk2WAGBI=
+X-Received: by 2002:a05:600c:6092:b0:4bb:5f95:c014 with SMTP id 5b1f17b1804b1-4bb7da1efc6mr116648025e9.19.1795101866452;
+        Thu, 19 Nov 2026 07:24:26 -0800 (PST)
 Return-Path: <fabien.thomas@smile.fr>
 Received: from FRSMI25-GIGUE ([2a01:e0a:8cc:5b00:2270:efa7:7aaf:bcdc])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884865b1sm4222275e9.5.2026.11.19.07.24.25
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884865b1sm4222275e9.5.2026.11.19.07.24.26
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Nov 2026 07:24:25 -0800 (PST)
+        Thu, 19 Nov 2026 07:24:26 -0800 (PST)
 From: Fabien Thomas <fabien.thomas@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 10/19] curl: fix CVE-2026-92389
-Date: Thu, 19 Nov 2026 16:22:36 +0100
-Message-ID: <95df3a2155305579bf7bf38cc433e11708466ffb.1795101267.git.fabien.thomas@smile.fr>
+Subject: [OE-core][scarthgap 11/19] curl: set CVE_STATUS for CVE-2026-19931
+Date: Thu, 19 Nov 2026 16:22:37 +0100
+Message-ID: <03b991a8cf6fbbdf58b29675c71cfa4d3d291ae8.1795101267.git.fabien.thomas@smile.fr>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <cover.1795101267.git.fabien.thomas@smile.fr>
 References: <cover.1795101267.git.fabien.thomas@smile.fr>
@@ -64,107 +64,53 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 15:24:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250693
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250694
 Content-Type: text/plain; charset="utf-8"
 
-From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+From: Darsh Kelaiya <dkelaiya@cisco.com>
 
-Backport patch to fix CVE-2026-92389.
+Analysis:
+- The advisory [1] names [2] as its fixed-in commit. It moves
+  connection maintenance to admin handles, preserving the identity
+  used by authentication reuse checks.
+- Earlier, [4] added Negotiate/NTLM connection reuse checks,
+  including an SSPI ambient-user check using recent_conn_id.
+  Later, [5] removed that SSPI check; the other checks remain.
+- Curl 8.7.1 predates [4]. Applying [2] alone would not reproduce
+  the later upstream behavior; a source fix needs backport analysis.
+- The advisory describes Negotiate reuse with empty credentials and
+  lists curl 8.7.1 within the affected range [1].
+- On Linux, this requires krb5 and negotiate-auth. Scarthgap enables
+  negotiate-auth but leaves krb5 disabled by default.
+- Follow the merged GSS-API configuration check in [3]. Set
+  not-applicable-config if either option is absent; otherwise keep
+  unpatched while the source backport is deferred.
+- Record the CVE as not-applicable-config unless both required
+  PACKAGECONFIG options are enabled; otherwise retain unpatched status.
+  The CVE_STATUS decision is conditional, not hardcoded.
 
-References:
-  https://nvd.nist.gov/vuln/detail/CVE-2026-92389
+Reference:
+[1] https://curl.se/docs/CVE-2026-19931.html
+[2] https://github.com/curl/curl/commit/7103a93b05bc69ea98ed9d05d02fa9eeba533f2f
+[3] https://github.com/openembedded/openembedded-core/commit/93c410c455b92a2b1fe3b77347e57d02f344056b
+[4] https://github.com/curl/curl/commit/1a17959fc7a80864c9c9b37097856bdb4a465cf8
+[5] https://github.com/curl/curl/commit/1c58877705b172da892cb9c18c5edb572f2d1d73
 
-Upstream fix:
-  https://github.com/curl/curl/commit/63dd390fab905a239a97e270
-
-Tested with ptest:
-Before: PASSED: 857, FAILED: 0, SKIPPED: 0, ABORTED: 0
-After: PASSED: 857, FAILED: 0, SKIPPED: 0, ABORTED: 0
-
-Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-[bajau: fixed recipe files list]
+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 Signed-off-by: Bastien Jauny <bastien.jauny@smile.fr>
 ---
- .../curl/curl/CVE-2026-92389.patch            | 60 +++++++++++++++++++
- meta/recipes-support/curl/curl_8.7.1.bb       |  1 +
- 2 files changed, 61 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-92389.patch
+ meta/recipes-support/curl/curl_8.7.1.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-92389.patch b/meta/recipes-support/curl/curl/CVE-2026-92389.patch
-new file mode 100644
-index 0000000000..387cca9ee1
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-92389.patch
-@@ -0,0 +1,60 @@
-+From a1705881527f7ee59606a61c4ba52e0737655571 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Wed, 16 Sep 2026 23:46:44 +0200
-+Subject: [PATCH] tftp: verify direction in a few places
-+
-+Closes #22974
-+
-+Conflicts Resolved:
-+
-+Adaptation notes:
-+- Upstream moved tftp_tx() above tftp_connect_for_tx(); kept 8.7.1 layout and added the upload check in tftp_tx().
-+
-+Assisted-by: kiro:claude-opus-5.5
-+
-+CVE: CVE-2026-92389
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/63dd390fab905a239a97e270]
-+
-+Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-+---
-+ lib/tftp.c | 9 +++++++++
-+ 1 file changed, 9 insertions(+)
-+
-+diff --git a/lib/tftp.c b/lib/tftp.c
-+index ff2b7b7457..371902c0d8 100644
-+--- a/lib/tftp.c
-++++ b/lib/tftp.c
-+@@ -545,10 +545,14 @@ static CURLcode tftp_send_first(struct tftp_state_data *state,
-+     break;
-+ 
-+   case TFTP_EVENT_ACK: /* Connected for transmit */
-++    if(!data->state.upload)
-++      return CURLE_TFTP_ILLEGAL;
-+     result = tftp_connect_for_tx(state, event);
-+     break;
-+ 
-+   case TFTP_EVENT_DATA: /* Connected for receive */
-++    if(data->state.upload)
-++      return CURLE_TFTP_ILLEGAL;
-+     result = tftp_connect_for_rx(state, event);
-+     break;
-+ 
-+@@ -709,6 +713,9 @@ static CURLcode tftp_tx(struct tftp_state_data *state, tftp_event_t event)
-+   char *bufptr;
-+   bool eos;
-+ 
-++  if(!data->state.upload)
-++    return CURLE_TFTP_ILLEGAL;
-++
-+   switch(event) {
-+ 
-+   case TFTP_EVENT_ACK:
-+@@ -1131,6 +1138,8 @@ static CURLcode tftp_receive_packet(struct Curl_easy *data)
-+ 
-+     switch(state->event) {
-+     case TFTP_EVENT_DATA:
-++      if(data->state.upload)
-++        return CURLE_TFTP_ILLEGAL;
-+       /* Don't pass to the client empty or retransmitted packets */
-+       if(state->rbytes > 4 &&
-+          (NEXT_BLOCKNUM(state->block) == getrpacketblock(&state->rpacket))) {
 diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb
-index ab33d4aa77..e08ca2f930 100644
+index e08ca2f930..4be96a6f7f 100644
 --- a/meta/recipes-support/curl/curl_8.7.1.bb
 +++ b/meta/recipes-support/curl/curl_8.7.1.bb
-@@ -43,6 +43,7 @@ SRC_URI = "https://curl.se/download/${BP}.tar.xz \
-            file://CVE-2026-13608.patch \
-            file://CVE-2026-8286.patch \
-            file://CVE-2026-80230.patch \
-+           file://CVE-2026-92389.patch \
-            "
+@@ -65,6 +65,7 @@ CVE_STATUS[CVE-2026-8458] = "${@bb.utils.contains('PACKAGECONFIG', 'krb5 negotia
+ CVE_STATUS[CVE-2026-9547] = "not-applicable-config: vulnerable libssh backend is not enabled by the recipe"
+ CVE_STATUS[CVE-2026-82209] = "not-applicable-config: public suffix list support is disabled by the recipe with --without-libpsl"
+ CVE_STATUS[CVE-2026-12064] = "${@bb.utils.contains('PACKAGECONFIG', 'libssh2', 'unpatched', 'not-applicable-config: SCP/SFTP support is not enabled in PACKAGECONFIG', d)}"
++CVE_STATUS[CVE-2026-19931] = "${@bb.utils.contains('PACKAGECONFIG', 'krb5 negotiate-auth', 'unpatched', 'not-applicable-config: GSS-API Negotiate is disabled', d)}"
  
- SRC_URI:append:class-nativesdk = " \
+ inherit autotools pkgconfig binconfig multilib_header ptest
+ 
