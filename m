@@ -1,159 +1,123 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7058.1795057391399380731
+Received: from aer-iport-1.cisco.com (aer-iport-1.cisco.com [173.38.203.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7919.1795060431402844995
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Nov 2026 19:03:11 -0800
+ Wed, 18 Nov 2026 19:53:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=AXDjrqdb;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.180.131, mailfrom: jinwli@qualcomm.com)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AJ1C1Qf2884403
-	for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 03:03:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=aqQ+34pfiJSB7vmQiAsZKDbMo70wHGthKtM
-	lj9yX0q8=; b=AXDjrqdbprT5Yw+j3RAsVJmJmP2Y8+S7A7MdzcJB48wGk5Bztua
-	ibP/r+jyPSOxSf8Dq3fvPYEHSne/2LA31hfMvPYEKqkpY4OEGMpo7+luASelNbnR
-	7DjKaBOqL3HzfO2nE0WZAyrB8OqWk5vyXyLwmn8C/sgSIEoSFdf3u6taXgwPFOSx
-	lckllTP7jpE7OSUcEcytY6szMH11Z3HE5TnCzOnKFugJEWhG7xYaqv1vKlPIkpGY
-	2G6UYQ/nJPO0reoAnWD8gAHE9CkTf3C3l3qCngfB1mAGSfQFcnnsNdTH+x57p2s+
-	aP2lZhpA+/TCGu+ZC/R0dETKwuTatQ80qzA==
-Received: from aptaippmta01.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j1dnru3h0-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 03:03:09 +0000 (GMT)
-Received: from pps.filterd (aptaippmta01.qualcomm.com [127.0.0.1])
-	by APTAIPPMTA01.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 6AJ336TT3564726;
-	Thu, 19 Nov 2026 03:03:06 GMT
-Received: from bt-iot-sh02-lnx.ap.qualcomm.com (smtphost-taiwan.qualcomm.com [10.249.136.33])
-	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTPS id 6AJ335Nj3564719
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Thu, 19 Nov 2026 03:03:06 +0000 (GMT)
-Received: by bt-iot-sh02-lnx.ap.qualcomm.com (Postfix, from userid 4467392)
-	id CA48524469; Thu, 19 Nov 2026 11:03:04 +0800 (CST)
-From: Jinwang Li <jinwang.li@oss.qualcomm.com>
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Jl4S30b9;
+ spf=pass (domain: cisco.com, ip: 173.38.203.51, mailfrom: hthakar@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=2106; q=dns/txt;
+  s=iport01; t=1795060431; x=1796270031;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=qE/U1sY90CiQ8vykKNli5qxNuXEbkUhtw4zBNvacpZI=;
+  b=Jl4S30b96oBliqKp5XVY5nXRJ6w+aHwEFqCPZMmIa5axXTqzZBEqYH1P
+   RwC13odf+rJ6P489XmmHFZSKHutGcnq6y30L2/HuIU3LZbKQ44aklc7CB
+   Hk69bwGEInT+bGt23ykN+eb68I2I4mlunZ9Znoav5tbOxmLUBz0GMIiLR
+   8RVDZvSjgqadE6+V4iXv3aL6FRbMt4ySGiR+f7m9YmRlDMsyZRRlCO9g0
+   RA9aiUvSQFqvp2DijG7sF9XCqNqdfaFmDwglswheAuSelGbXGd0LaYJP7
+   4H0Rn7h9npkoTgfguJMaHuxM6cKAMopOKuQfT1jBETrTam90zQ9kuR0NA
+   w==;
+X-CSE-ConnectionGUID: AyJ4udquRlGCgg0fMb0MuQ==
+X-CSE-MsgGUID: KBH5xVo6TX+eDHz0NNKJQQ==
+X-IPAS-Result: =?us-ascii?q?A0BBAgBjcf5q/9FK/pBQCoJZgld1YENJk1oBT4IhniyBf?=
+ =?us-ascii?q?g8BAQEPRA0EAQGTJwImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBAQIBB?=
+ =?us-ascii?q?wWBDhOGTw2QSwF2XESDAgGCdAMRuTOCLIEBhH7bMwELFAGBOIVCiCR1AYR9J?=
+ =?us-ascii?q?xsbgXKEf4JhBBiBDQx6hXkEgiJ6Eo5riVtIgR4DWSwBVRMNCgsHBYFoAzUSK?=
+ =?us-ascii?q?hVuMh2BIzsXgQcbBgWBHIEegRKBA12BKyheIYEIgXYCglGCAAIBSUEOB0VTC?=
+ =?us-ascii?q?SVDEkckIggSCQETGiwKgRo1PAkmPxUMZwsaBWEIAg0MdDkQMB4kLwUaJj4bC?=
+ =?us-ascii?q?oEMJx8eGw4CDhgNSBEsNxUZBD5uB5NRgxiBDxMYgWymNaERCiiDeYwklToaM?=
+ =?us-ascii?q?4QEgVelF5kIglmLMZZRhGqBaDyBWXAVgyIJShkPji0XiHPHKyYyCzIBAQcCB?=
+ =?us-ascii?q?w4DC4FokACBfgEB?=
+IronPort-Data: A9a23:ewLheaukfO6SEIcot2+2UusyrefnVANfMUV32f8akzHdYApBsoF/q
+ tZmKWmGOP7ZYTOjfdgjaITk/B4AuMXRy4djSgpo+38zHiISgMeUXt7xwmUckM+xwmwvaGo9s
+ q3yv/GZdJhcokf0/0nrb/656ykmiMlkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
+ eja/YuFZzdJ5xYuajhKsvva+Es01BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
+ 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
+ 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIw0/dVXXxC7
+ OEiLB8mYR/bice8mJemc7w57igjBJGD0II3s3x6iDWcBvE8TNWbE+PB5MRT23E7gcUm8fT2P
+ pZFL2AyMFKfP1sVYgZ/5JEWxI9EglH/bz1Rq1uPjaE2+GPUigd21dABNfKLI43XGJ0Iwy50o
+ Erl1USkEi8dauCvijep0mD0oMnsvxrCDdd6+LqQs6QCbEeo7msLBRsbUFG2rfW0hgu1XMhSA
+ 0gV4TY1668q+UqmS9PwUxG1rDiDpBF0ZjZLO+Q38kSJj6HT+QvcXjhCRT9aY9tgv8gzLdA36
+ mK0cxrSLWQHmNWopbi1r994cRva1fApEFI/
+IronPort-HdrOrdr: A9a23:QpdAwqOosPazoMBcTvGjsMiBIKoaSvp037BN7TESdfU7SKKlfq
+ yV8cjztiWE6wr5JktApTnoAsDpKhnhHPVOjrX5U43PYOCfgguVBbAny5f+yDv9HCC73Otc2a
+ B8N5VaMrTLfD1HZQKQ2njeLz7mq+P3lJyVuQ==
+X-Talos-CUID: 9a23:5ySvbmC1A2TqhlL6EwB21hIJFtk4SHny53jfe0GdAz5MVYTAHA==
+X-Talos-MUID: 9a23:tg56rgqYB14wyc9zUZMezxJIFJp43aPwNHBOnLkmqZGiEw9SAg7I2Q==
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.27,220,1787011200"; 
+   d="scan'208";a="61955055"
+Received: from aer-l-core-08.cisco.com ([144.254.74.209])
+  by aer-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 19 Nov 2026 03:53:47 +0000
+Received: from sjc-ads-5245.cisco.com (sjc-ads-5245.cisco.com [10.28.23.9])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by aer-l-core-08.cisco.com (Postfix) with ESMTPS id 3740C18000181
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 03:53:47 +0000 (GMT)
+Received: by sjc-ads-5245.cisco.com (Postfix, from userid 1887505)
+	id DC9DBCC1611; Wed, 18 Nov 2026 19:53:45 -0800 (PST)
+From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Cc: cheng.jiang@oss.qualcomm.com, quic_chezhou@quicinc.com,
-        wei.deng@oss.qualcomm.com, shuai.zhang@oss.qualcomm.com,
-        mengshi.wu@oss.qualcomm.com, xiuzhuo.shang@oss.qualcomm.com,
-        jinwang.li@oss.qualcomm.com
-Subject: [PATCH] bluez5: Fix use-after-free in connection_lost
-Date: Thu, 19 Nov 2026 11:02:59 +0800
-Message-Id: <20261119030259.3095766-1-jinwang.li@oss.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+Subject: [OE-core][wrynose][PATCH] glibc: stable 2.43 branch updates to 124e9adcd4
+Date: Wed, 18 Nov 2026 19:53:45 -0800
+Message-Id: <20261119035345.3136238-1-hthakar@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE5MDAxMSBTYWx0ZWRfX5S2zNjzisJJ7
- 9HM0Fmb92Z6WJ2SXEwqJgyg7c8CRRjkS0LwiI16AmB53yxOFpzbCN8jndpt+gLTiDAU4mn7pgHz
- MShzuhirW73dtSUlFB0StZ8ChIoTZvsyvUV4Nf894RHVXYdSyJEkSE4RMR/M5OkKVofEyTfzEUW
- PiEFQukgZ8YCRR3xuV0nea1efEVV9mzru1L0SisBbL3QIGsJZczmKzLI1+4kIJAPh3b0saRyZxu
- OiAYw946oIQak2GVT13WMkY5cKjIL74cGhLsRN4nXHSb2uC1DuEUAizS3926D6EfDH8QFBCV4Ai
- ey9Xj4Cu5LHyP2ABOtNN39OxOILswuZBB0TQPItgNi4EtNmq2SwvDkRZzATdqwQIA9GgZSV8nKJ
- UaS9glWgRZa0861sLnv6RGbsRMJIzgB7GllE2w7KMY8L1rUdPZwCsUtwiB9jFNX4MjWaKHDRpjU
- 1iofJ67rsmgExnlqU+g==
-X-Proofpoint-GUID: oT-mKW_CF3EMTv8PQGHExFWuc33O2rDA
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE5MDAxMSBTYWx0ZWRfXxTb7L6o8CUi4
- 5DNjId1YGAVedhFEtMAXhQNW9yK9pooaH844rTkui/bWPOI8rgnHUCVoDxlaTXRlX0oOqcUfjCZ
- l9FNy6BH2pctMIQTCQY/t0DefQZqgeI=
-X-Proofpoint-ORIG-GUID: oT-mKW_CF3EMTv8PQGHExFWuc33O2rDA
-X-Authority-Analysis: v=2.4 cv=bfH+w+PB c=1 sm=1 tr=0 ts=6afe66ed cx=c_pps
- a=nuhDOHQX5FNHPW3J6Bj6AA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=3WHJM1ZQz_JShphwDgj5:22 a=NEAV23lmAAAA:8 a=EUspDBNiAAAA:8
- a=2PHYnJuJ6uv5tJDAhSIA:9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-19_01,2026-11-16_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 suspectscore=0 adultscore=0 malwarescore=0 bulkscore=0
- spamscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611190011
+X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5245.cisco.com [10.28.23.9];TLSv1.3;TLS_AES_256_GCM_SHA384;256
+X-Outbound-SMTP-Client: 10.28.23.9, sjc-ads-5245.cisco.com
+X-Outbound-Node: aer-l-core-08.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 03:03:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250606
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 03:54:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250607
 Content-Type: text/plain; charset="utf-8"
 
-A sink may start reverse discovery when processing a remote stream
-configuration. If the signaling channel disconnects after the stream is
-configured and discovery holds the last setup reference, stream cleanup
-frees that setup before the pending discovery callback runs, causing a
-use-after-free.
+From: Hetvi Thakar <hthakar@cisco.com>
 
-Complete discovery with the disconnect error before releasing streams
-so the callback runs while its setup is still valid.
+Update SRCREV from 562cd7badd to 124e9adcd4 on release/2.43/master.
+This pulls eight stable maintenance commits, including fixes for:
 
-Signed-off-by: Jinwang Li <jinwang.li@oss.qualcomm.com>
+  CVE-2026-84243: LANGUAGE directory traversal in gettext
+  CVE-2026-100290: double free after regex allocation failures
+  CVE-2026-115819: extra NUL byte in wide scanf conversions
+
+Record these CVEs as stable backports because the recipe version remains
+2.43+git and version-based matching cannot identify the fixes.
+
+Upstream: https://sourceware.org/git/?p=glibc.git;a=commit;h=124e9adcd407737f0462aa4ba38a37678e8941ec
+
+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
- ...ix-use-after-free-in-connection_lost.patch | 44 +++++++++++++++++++
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-avdtp-Fix-use-after-free-in-connection_lost.patch
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
+ meta/recipes-core/glibc/glibc_2.43.bb     | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index 1eb4f20b52..5339ec753b 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -64,6 +64,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-            file://init \
-            file://run-ptest \
-            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
-+           file://0001-avdtp-Fix-use-after-free-in-connection_lost.patch \
-            "
- S = "${UNPACKDIR}/bluez-${PV}"
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index e8e6bb665a..ec079d9127 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.43/master"
+ PV = "2.43+git"
+-SRCREV_glibc ?= "562cd7badd3f9edd74b68316439f910f6f7c4c1f"
++SRCREV_glibc ?= "124e9adcd407737f0462aa4ba38a37678e8941ec"
+ SRCREV_localedef ?= "cba02c503d7c853a38ccfb83c57e343ca5ecd7e5"
  
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-avdtp-Fix-use-after-free-in-connection_lost.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-avdtp-Fix-use-after-free-in-connection_lost.patch
-new file mode 100644
-index 0000000000..8bdd74ef83
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-avdtp-Fix-use-after-free-in-connection_lost.patch
-@@ -0,0 +1,44 @@
-+From ac2cc2527bf20f516f22055c2844973ca0e0ec80 Mon Sep 17 00:00:00 2001
-+From: Jinwang Li <jinwang.li@oss.qualcomm.com>
-+Date: Mon, 16 Nov 2026 17:07:19 +0800
-+Subject: [PATCH] avdtp: Fix use-after-free in connection_lost
-+
-+A sink may start reverse discovery when processing a remote stream
-+configuration. If the signaling channel disconnects after the stream is
-+configured and discovery holds the last setup reference, stream cleanup
-+frees that setup before the pending discovery callback runs, causing a
-+use-after-free.
-+
-+Complete discovery with the disconnect error before releasing streams
-+so the callback runs while its setup is still valid.
-+
-+Fixes: 02877c5e98b8 ("a2dp: Add reverse discovery")
-+Assisted-by: Claude:claude-sonnet-5
-+
-+Upstream-Status: Backport [https://github.com/bluez/bluez/commit/43de1efcb453ec401c2f2ae09682486b4f3e1ff3]
-+Signed-off-by: Jinwang Li <jinwang.li@oss.qualcomm.com>
-+---
-+ profiles/audio/avdtp.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/profiles/audio/avdtp.c b/profiles/audio/avdtp.c
-+index 30f80a0c2..5ebc0c5cc 100644
-+--- a/profiles/audio/avdtp.c
-++++ b/profiles/audio/avdtp.c
-+@@ -1159,11 +1159,11 @@ static void connection_lost(struct avdtp *session, int err)
-+ 	ba2str(device_get_address(session->device), address);
-+ 	DBG("Disconnected from %s", address);
-+ 
-++	finalize_discovery(session, err);
-++
-+ 	g_slist_foreach(session->streams, (GFunc) release_stream, session);
-+ 	session->streams = NULL;
-+ 
-+-	finalize_discovery(session, err);
-+-
-+ 	avdtp_set_state(session, AVDTP_SESSION_STATE_DISCONNECTED);
-+ 
-+ 	avdtp_unref(session);
-+-- 
-+2.34.1
-+
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
+diff --git a/meta/recipes-core/glibc/glibc_2.43.bb b/meta/recipes-core/glibc/glibc_2.43.bb
+index c962171cf3..5d2344389f 100644
+--- a/meta/recipes-core/glibc/glibc_2.43.bb
++++ b/meta/recipes-core/glibc/glibc_2.43.bb
+@@ -25,6 +25,7 @@ CVE_STATUS_STABLE_BACKPORTS = "CVE-2025-15281 CVE-2026-0861 CVE-2026-0915 CVE-20
+     CVE-2026-5435 CVE-2026-5450 CVE-2026-5928 CVE-2026-6238 CVE-2026-6791 \
+     CVE-2026-6368 CVE-2026-19499 CVE-2026-77117 CVE-2026-80489 CVE-2026-18374 CVE-2026-8674 \
+     CVE-2026-89092 CVE-2026-97399 CVE-2026-19542 CVE-2026-86805 CVE-2026-95818 \
++    CVE-2026-84243 CVE-2026-100290 CVE-2026-115819 \
+ "
+ CVE_STATUS_STABLE_BACKPORTS[status] = "cpe-stable-backport: fix available in used git hash"
+ 
 -- 
-2.34.1
+2.35.6
 
