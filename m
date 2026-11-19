@@ -1,92 +1,67 @@
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16252.1795099578103202649
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16543.1795100352517849330
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Nov 2026 06:46:18 -0800
+ Thu, 19 Nov 2026 06:59:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=h/B9yZV3;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=uracJTvZ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101a1f445cabc-7456a681-09af-4776-996b-87db90b061d6-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1795099577; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=Rlw/TK8dTOPvD1cACQm67MkvG8i+NaoQk1jFY5lBy2U=;
-	b=h/B9yZV3Nz1D/+EQ14hgS48WcGg4rvBzu5xINYX5jG2bBxUBNGtyk5p3mIO8vqc2
-	bjG9B8iOfRziYIJ3DTHvrduEU1jVYLszuH5ovNNlebx5kZZA4vY8HfzPWj0Qeeu09ut
-	sg+ClbRQPbDl+cwRjzEIxx0V8WVKEnmO9d1aeJrs=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1795099577;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=Rlw/TK8dTOPvD1cACQm67MkvG8i+NaoQk1jFY5lBy2U=;
-	b=uracJTvZkKqRjx9qxAdptCxMcDKXxmYQXvpb7Utt+7w2UKLdqSuCSOIwZjkfT+gK
-	ORD8JX1mKeXLJtZg98vf47CWbO/DPu4k/YaEgcNLxa7eazMhZTcjZq8rwUkJ331M6/t
-	0lxSOwCvXB8mXJYB1HXU+h7sZ+XVta7v+/qeRF/0=
-From: patchtest@automation.yoctoproject.org
-To: =?utf-8?q?Ulrich_=C3=96lmann?= <u.oelmann@pengutronix.de>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] documentation.conf: fix typo
-In-Reply-To: <20261119144306.1655505-1-u.oelmann@pengutronix.de>
-References: <20261119144306.1655505-1-u.oelmann@pengutronix.de>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a1f445cabc-7456a681-09af-4776-996b-87db90b061d6-000000@us-west-2.amazonses.com>
-Date: Thu, 19 Nov 2026 14:46:17 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.19-54.240.27.29
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=o9xhb1+P;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0849B1575
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 06:59:09 -0800 (PST)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 8A7093F673
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 06:59:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795100351; bh=Sm9mzKj65Mmwx91fAgeodm4KZgbUGKFlScNeaiE5zRM=;
+	h=From:To:Subject:Date:From;
+	b=o9xhb1+P+JfkJ/VJok7XbPUsu9s0Ks02IpJYtKKaVcO4swr9svYoriXW8BaAMOSgA
+	 sMndeiDh1WiD/IiB6q7M0ZODN/WARCYMyzzkM1Ci14esk1PfBQTjUPpDrGxhh4q9lh
+	 m97EV5vJ5RV2nJTUIrFx9Wsv2nYsf4scQBxzoySM=
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] python3-sphinx: remove obsolete __pycache__ deletion
+Date: Thu, 19 Nov 2026 14:59:07 +0000
+Message-ID: <20261119145907.3851749-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+X-ARM-No-Footer: NoDisclaimer
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 14:46:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250681
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 14:59:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250682
+Content-Type: text/plain; charset="utf-8"
 
---NextPart
-Content-Type: text/plain
+The pyc files are reproducible since Python 3.11[1], so this workaround
+is no longer needed.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+[1] cpython 33d95c6facd ("bpo-37596: Make `set` and `frozenset`
+    marshalling deterministic (GH-27926)")
 
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
-Testing patch /home/patchtest/share/mboxes/documentation.conf-fix-typo.patch
+ meta/recipes-devtools/python/python3-sphinx_9.2.0.bb | 5 -----
+ 1 file changed, 5 deletions(-)
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+diff --git a/meta/recipes-devtools/python/python3-sphinx_9.2.0.bb b/meta/=
+recipes-devtools/python/python3-sphinx_9.2.0.bb
+index fde0777022d..91240e52cb0 100644
+--- a/meta/recipes-devtools/python/python3-sphinx_9.2.0.bb
++++ b/meta/recipes-devtools/python/python3-sphinx_9.2.0.bb
+@@ -10,11 +10,6 @@ SRC_URI +=3D "file://0001-Revert-singlehtml-deprecate-=
+the-fix_refuris-helper-f.pat
+=20
+ inherit python_flit_core pypi
+=20
+-do_install:append () {
+-	# The cache format of "{None, 'en', 'ja'}" doesn't seem to be consisten=
+t (dict ordering?)
+-	rm -f ${D}${libdir}/${PYTHON_DIR}/site-packages/sphinx/writers/__pycach=
+e__/*latex*
+-}
+-
+ RDEPENDS:${PN} =3D "\
+     python3-alabaster \
+     python3-babel \
+--=20
+2.43.0
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping test (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
