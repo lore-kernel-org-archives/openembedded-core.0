@@ -1,144 +1,131 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.94.1795101876306215715
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1882.1795105883268856444
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Nov 2026 07:24:36 -0800
+ Thu, 19 Nov 2026 08:31:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=UvyhrCBZ;
- spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: fabien.thomas@smile.fr)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4bb6adaf0f1so21398925e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 07:24:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795101874; x=1795706674; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=tHqgn2TuqEYs+boZl8Jqww321c0F6s6ObKWvbCyNpIA=;
-        b=UvyhrCBZNqIMSOYs4vAPuUO4b5BiSzrvNbGoPGcO1GYjhQ5GN9vYGRflABlCqpkWiR
-         95zrUs+OQTwfqpMql256p/6FE/92skO8ng6zGfAcs/pES+SRlBAWBD38kxAOXy9fxLGE
-         7vzCrvO+DSFArfVok+mSIBRosI0I5AxvKS3O6ebJRL6ZlfXUuu2sWcrsJkIFdxH4q5vb
-         xTADPAFQb0EpTZyx3L1l/VCsv0vovk3I26aryeDqiDfFJ58hius2I5jcAOSKHFgUbExq
-         XyoNGOtQLHnpCmwBVVz7cfwWNfMKF/a3B4102ytm+YRwOTYKmv8eyiOfg6FpcvEF+u2u
-         8TeQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795101874; x=1795706674;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=tHqgn2TuqEYs+boZl8Jqww321c0F6s6ObKWvbCyNpIA=;
-        b=Xi9IS2VeT0uFrPjxEeDf582P12gLFYENWrkCyhvoPpd4x54HlwhaQXZDnKMMq4DiL9
-         u40VGaT4FRIuNxz6cYRQsdss/AXJcOAtm0dmN5AMYJvqGHdDJ2DcMSIM0k49BCuBtFbG
-         g+rHynivfiyb3+Y17ufnA4J/nwy030Om/p7XV6peOtZihKS8jCqGwEh0Degf0yNDM0ks
-         YiaRCk2XNHBQY/7PmlKaudbAfL/usbW2klnm3tPgqJfJEsRVJwwfpnT7hqVZMYzGvIhd
-         2mUBEtEV36KfSixPf4e8Wr2NA51S+I0HnqsrA0ztK6R4a6phODBAyWe22EZ47OGDLcY1
-         9aMw==
-X-Gm-Message-State: APuU4Z/ppZnj9vuINBK/crrjSJ+CNpLuSUikfeqwJB2tKoZWSpLo6GJF
-	SreSywKPDjYVzgBT0QGVNhKpqKPsrydK7323K+MAUPa7pQ6HPAh9dQxSMtYIgzo8Bt9S1KKy9Zu
-	8pwqyDkM=
-X-Gm-Gg: AYBFou32hYI4OxVLtCuZV52OLMHyO8xgkbIvpx6Q8qvN2Z28Oibcm27K0a+giXLFiBL
-	8TOt33zvGrQEazs09B2rmX3E/0gQ9j1nRup/il3ey+ZP5x08jsgnQhYp2cB9AB/6J9ET8d1YMhE
-	+lYnffhYNe24AwKHZ/UD3jpJSGY/5Ru7+Ns0u/67GSOdOWkjqdbDvXs4+WgJDFPtzjzTRFsE4jI
-	TfnmS1/gzYZOyr7AWe0RMG9QKfyRKlCTdTr5POiLXEb1jy9G0y3tUJEhTVELRn88/GlWxKAdnaj
-	P/t/Jiz3wB+KwH/hPMxKbOqiaRNYhZswbEsQ9VLr8VNMyvWrOWEJ1Lixpn1LgtG8ZRbnbs9Igmo
-	hQfGOoIUZtKo0YPknUqjiuPZnfwum0+tbVCEhPIdqNyIZfJUDd5zW3fc3UJQT7N/VJ+PSmisGGL
-	N6V87qtfy21SfAnbIaaN6QMXe2VLOCOGKmjAGqeBq3jUQlfpDVLJNum0axRV/UQE/YfJEIMoWNe
-	Mi8G/qS3xYDSE3dKLT7SXREV62kP0OeLqRfaOYyGzb8EowC/l/bTp/jDEe49Y7P4Vpe1iotuc5u
-	cXoFItRk6Oq0gNJv5FwvZ728eCSRy5oOa3ltPKazO4yrmdE6Krg9Am9qwadnj/GQlNn2z1cVQK9
-	MZPM0npRp8lEEBOKmLzmIePgk86e1o0zKKMy6KThqfGYMwaQJlW2H2/Q=
-X-Received: by 2002:a05:600c:154b:b0:4a1:dfaf:f465 with SMTP id 5b1f17b1804b1-4bb7d5d3f46mr125393465e9.4.1795101873886;
-        Thu, 19 Nov 2026 07:24:33 -0800 (PST)
-Return-Path: <fabien.thomas@smile.fr>
-Received: from FRSMI25-GIGUE ([2a01:e0a:8cc:5b00:2270:efa7:7aaf:bcdc])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884865b1sm4222275e9.5.2026.11.19.07.24.32
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Nov 2026 07:24:32 -0800 (PST)
-From: Fabien Thomas <fabien.thomas@smile.fr>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=m//z9KJ8;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7036C1575
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 08:31:19 -0800 (PST)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 153863F673
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 08:31:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1795105882; bh=FuKJesH0Mb4KnkYp4yVJYfatM5ZOdrV/CtoILlLq4qw=;
+	h=From:To:Subject:Date:From;
+	b=m//z9KJ80IYhmeLPS1YDq34ElvQDJkr8OXj9nN8WYcttBMmOiLc+nmsMFdjZZPW5M
+	 CL3xjvdul8sKOjbP3dQPvIRhUZwfH4/7+Vq82x4PAoCjsSDlmQq/pjYEtuycWX6hh2
+	 psKaI65OytshFtIFoK20GAUOHDCiwaPZOOIcbJKI=
+From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 18/19] aspell: Backport a fix to build with gcc-15/clang-19
-Date: Thu, 19 Nov 2026 16:22:44 +0100
-Message-ID: <993d5766d34bade5b6722452811d1f25977efd41.1795101267.git.fabien.thomas@smile.fr>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <cover.1795101267.git.fabien.thomas@smile.fr>
-References: <cover.1795101267.git.fabien.thomas@smile.fr>
+Subject: [PATCH v2 1/6] python3: support setting RPROVIDES in the manifest
+Date: Thu, 19 Nov 2026 16:31:12 +0000
+Message-ID: <20261119163117.2242351-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-ARM-No-Footer: NoDisclaimer
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 15:24:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250701
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 16:31:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250703
 Content-Type: text/plain; charset="utf-8"
 
-From: Khem Raj <raj.khem@gmail.com>
+Allow modules to have a 'rprovides' key, that sets RPROVIDES for the
+generated package.
 
-Signed-off-by: Khem Raj <raj.khem@gmail.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(From OE-Core rev: d6cb53c0773d28f57b5699125ef825936d4725d1)
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Fabien Thomas <fabien.thomas@smile.fr>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- ...default-vector_hash-t.hpp-fix-gcc-15.patch | 42 +++++++++++++++++++
- .../recipes-support/aspell/aspell_0.60.8.1.bb |  3 +-
- 2 files changed, 44 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-support/aspell/aspell/0001-modules-speller-default-vector_hash-t.hpp-fix-gcc-15.patch
+ .../python/python3/create_manifest3.py        | 23 ++++++++++++-------
+ .../recipes-devtools/python/python3_3.15.2.bb |  9 ++++++++
+ 2 files changed, 24 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-support/aspell/aspell/0001-modules-speller-default-vector_hash-t.hpp-fix-gcc-15.patch b/meta/recipes-support/aspell/aspell/0001-modules-speller-default-vector_hash-t.hpp-fix-gcc-15.patch
-new file mode 100644
-index 0000000000..4045e8e412
---- /dev/null
-+++ b/meta/recipes-support/aspell/aspell/0001-modules-speller-default-vector_hash-t.hpp-fix-gcc-15.patch
-@@ -0,0 +1,42 @@
-+From d45bf96b0a3556acb2c83069a78eaaac973d31b4 Mon Sep 17 00:00:00 2001
-+From: Sergei Trofimovich <slyich@gmail.com>
-+Date: Sun, 21 Jul 2024 22:01:50 +0100
-+Subject: [PATCH] modules/speller/default/vector_hash-t.hpp: fix gcc-15 build
+diff --git a/meta/recipes-devtools/python/python3/create_manifest3.py b/m=
+eta/recipes-devtools/python/python3/create_manifest3.py
+index 9ce04fdd2aa..8ba51a2a0c3 100644
+--- a/meta/recipes-devtools/python/python3/create_manifest3.py
++++ b/meta/recipes-devtools/python/python3/create_manifest3.py
+@@ -229,9 +229,20 @@ for pypkg in old_manifest:
+ # will RDEPEND on it
+=20
+ for pypkg in old_manifest:
++    # Handle special cases, we assume that when they were manually added
++    # to the manifest we knew what we were doing.
++    special_packages =3D ['misc', 'modules', 'dev', 'tests']
++    if pypkg in special_packages or 'staticdev' in pypkg:
++        print_indent('Passing %s package directly' % pypkg, 2)
++        new_manifest[pypkg] =3D old_manifest[pypkg]
++        if 'rprovides' not in new_manifest[pypkg]:
++            new_manifest[pypkg]['rprovides'] =3D []
++        continue
 +
-+Uncoming `gcc-15` added extra checks for template instantiation that is
-+guaranteed to fail in
-+  https://gcc.gnu.org/git/?p=gcc.git;a=commitdiff;h=313afcfdabeab3e6705ac0bd1273627075be0023
+     # Use an empty dict as data structure to hold data for each package =
+and fill it up
+     new_manifest[pypkg] =3D {}
+     new_manifest[pypkg]['summary'] =3D old_manifest[pypkg]['summary']
++    new_manifest[pypkg]['rprovides'] =3D old_manifest[pypkg].get('rprovi=
+des', [])
+     new_manifest[pypkg]['rdepends'] =3D []
+     if "skip_depends" in old_manifest[pypkg]:
+         new_manifest[pypkg]['skip_depends'] =3D old_manifest[pypkg]['ski=
+p_depends']
+@@ -248,14 +259,6 @@ for pypkg in old_manifest:
+     print('Handling package %s' % pypkg)
+     print('--------------------------')
+=20
+-    # Handle special cases, we assume that when they were manually added=
+=20
+-    # to the manifest we knew what we were doing.
+-    special_packages =3D ['misc', 'modules', 'dev', 'tests']
+-    if pypkg in special_packages or 'staticdev' in pypkg:
+-        print_indent('Passing %s package directly' % pypkg, 2)
+-        new_manifest[pypkg] =3D old_manifest[pypkg]
+-        continue
+-
+     for filedep in old_manifest[pypkg]['files']:
+         # We already handled core on the first pass, we can ignore it no=
+w
+         if pypkg =3D=3D 'core':
+@@ -440,6 +443,10 @@ for pypkg in new_manifest:
+     new_manifest[pypkg]['files'].sort()
+     new_manifest[pypkg]['cached'].sort()
+     new_manifest[pypkg]['rdepends'].sort()
++    new_manifest[pypkg]['rprovides'].sort()
++    # Remove empty sections
++    if not new_manifest[pypkg]['rprovides']:
++        new_manifest[pypkg].pop('rprovides')
+=20
+ # Create the manifest from the data structure that was built
+ with open('python3-manifest.json.new','w') as outfile:
+diff --git a/meta/recipes-devtools/python/python3_3.15.2.bb b/meta/recipe=
+s-devtools/python/python3_3.15.2.bb
+index bfc783c9227..13d10face62 100644
+--- a/meta/recipes-devtools/python/python3_3.15.2.bb
++++ b/meta/recipes-devtools/python/python3_3.15.2.bb
+@@ -428,6 +428,10 @@ python(){
+         pypackage =3D pn + '-' + key + '-native'
+         if pypackage not in rprovides:
+               rprovides.append(pypackage)
++        for subkey in python_manifest[key].get('rprovides', ()):
++            pypackage =3D pn + '-' + subkey + '-native'
++            if pypackage not in rprovides:
++                rprovides.append(pypackage)
+=20
+     d.setVar('RPROVIDES:class-native', ' '.join(rprovides))
+=20
+@@ -461,6 +465,11 @@ python(){
+                 value=3Dvalue.split('-', 1)[1]
+             d.appendVar('RDEPENDS:' + pypackage, ' ' + pn + '-' + value)
+=20
++        for value in python_manifest[key].get('rprovides', ()):
++            if '${PN}' in value:
++                value=3Dvalue.split('-', 1)[1]
++            d.appendVar('RPROVIDES:' + pypackage, ' ' + pn + '-' + value=
+)
 +
-+As a result `aspell` build now fails as:
-+
-+    In file included from modules/speller/default/readonly_ws.cpp:51:
-+    modules/speller/default/vector_hash-t.hpp: In member function 'void aspeller::VectorHashTable<Parms>::recalc_size()':
-+    modules/speller/default/vector_hash-t.hpp:186:43: error: 'class aspeller::VectorHashTable<Parms>' has no member named 'e'
-+      186 |     for (iterator i = begin(); i != this->e; ++i, ++this->_size);
-+          |                                           ^
-+    modules/speller/default/vector_hash-t.hpp:186:59: error: 'class aspeller::VectorHashTable<Parms>' has no member named '_size'; did you mean 'size'?
-+      186 |     for (iterator i = begin(); i != this->e; ++i, ++this->_size);
-+          |                                                           ^~~~~
-+          |                                                           size
-+
-+It looks like `_size` is `size_` mis-spelling and `e` was not introduced
-+here.
-+Upstream-Status: Backport [https://github.com/GNUAspell/aspell/commit/ee6cbb12ff36a1e6618d7388a78dd4e0a2b44041]
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ modules/speller/default/vector_hash-t.hpp | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/modules/speller/default/vector_hash-t.hpp b/modules/speller/default/vector_hash-t.hpp
-+index 969a80c..e4420b4 100644
-+--- a/modules/speller/default/vector_hash-t.hpp
-++++ b/modules/speller/default/vector_hash-t.hpp
-+@@ -183,7 +183,7 @@ namespace aspeller {
-+   template<class Parms>
-+   void VectorHashTable<Parms>::recalc_size() {
-+     size_ = 0;
-+-    for (iterator i = begin(); i != this->e; ++i, ++this->_size);
-++    for (iterator i = begin(), e = end(); i != e; ++i, ++size_);
-+   }
-+ 
-+ }
-diff --git a/meta/recipes-support/aspell/aspell_0.60.8.1.bb b/meta/recipes-support/aspell/aspell_0.60.8.1.bb
-index 0ea9b063e0..43940b1e1b 100644
---- a/meta/recipes-support/aspell/aspell_0.60.8.1.bb
-+++ b/meta/recipes-support/aspell/aspell_0.60.8.1.bb
-@@ -13,7 +13,8 @@ HOMEPAGE = "http://aspell.net/"
- LICENSE = "LGPL-2.0-only | LGPL-2.1-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
- 
--SRC_URI = "${GNU_MIRROR}/aspell/aspell-${PV}.tar.gz"
-+SRC_URI = "${GNU_MIRROR}/aspell/aspell-${PV}.tar.gz \
-+           file://0001-modules-speller-default-vector_hash-t.hpp-fix-gcc-15.patch"
- SRC_URI[sha256sum] = "d6da12b34d42d457fa604e435ad484a74b2effcd120ff40acd6bb3fb2887d21b"
- 
- PACKAGECONFIG ??= ""
+         for value in python_manifest[key].get('rrecommends', ()):
+             if '${PN}' in value:
+                 value=3Dvalue.split('-', 1)[1]
+--=20
+2.43.0
+
