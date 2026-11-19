@@ -1,298 +1,197 @@
-Received: from aer-iport-1.cisco.com (aer-iport-1.cisco.com [173.38.203.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8252.1795062169724906525
+Received: from aer-iport-2.cisco.com (aer-iport-2.cisco.com [173.38.203.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8250.1795062166873332270
  for <openembedded-core@lists.openembedded.org>;
- Wed, 18 Nov 2026 20:22:50 -0800
+ Wed, 18 Nov 2026 20:22:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=DPI6go1S;
- spf=pass (domain: cisco.com, ip: 173.38.203.51, mailfrom: yurade@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=WOdgy4Sc;
+ spf=pass (domain: cisco.com, ip: 173.38.203.52, mailfrom: yurade@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=8441; q=dns/txt;
-  s=iport01; t=1795062169; x=1796271769;
+  d=cisco.com; i=@cisco.com; l=6570; q=dns/txt;
+  s=iport01; t=1795062167; x=1796271767;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=XWCqbl2rdyiaIT2PRePpTqCoh0T4fXvD6mQkOSwTv1o=;
-  b=DPI6go1SG2VQBbySDlSXWn6JG6axe0ESLR1WLvUMixYF9V0063BxVh4c
-   aVlm+fQQGwWAK8E2VENgjXZfcFmMn9rC9bHJX0uDuo6EbshaLMXfDfOe/
-   Ht7lXSKVhlJzYQhHkJAqfxSBiVTr+h0EeTkCs1Pb3Jj68Yu3KlRKQ5Dwz
-   jRs/jdcekO/jvcrhunBmi7+LLp9/ZqyoB3+Guq4sy9g82B7CLLWma0w3J
-   vgLNP3iRKSM8X8Koyygykbb8olSf8c1GSVouAiBlvgYuFfNECih6wfu3c
-   G6bjcrU/ezxakaWW63eQ5TMzu4WVy9rZEqILFOuinvOucADzm8jz6Vb9U
-   A==;
-X-CSE-ConnectionGUID: N35QutJeSBqA69XHXHql9w==
-X-CSE-MsgGUID: gBIhLcUBTn+CbhHl/D2V6A==
-X-IPAS-Result: =?us-ascii?q?A0BJAgDWd/5q/9BK/pBaglmCV3VgQ0kDlCeCIQOeKRSBa?=
- =?us-ascii?q?g8BAQEPRA0EAQGEP0YCjiACJjQJDgECBAMCAwEBAQEBAQEBAQEBAQoBAQUBA?=
- =?us-ascii?q?QECAQcFgQ4Thk8NkBIBAgEDJwsBGAE9HAMBAi8rIwgZgwIBgjoDNwMRRrhvg?=
- =?us-ascii?q?XkzgQGDKQE/AkNQ2EwQb4FoAQsUAYE4hUKIJF0YAYR9JxuBSUSBFYNqgQWBX?=
- =?us-ascii?q?AKBJx8Bhl8Egg2BDxKBVIECgiCJdQKBT4gKSIEeA1ksAVUTDQoLBwWBaAM1E?=
- =?us-ascii?q?ioVbjIdgSM7F4EHGwYFgRyBHoESgQNdgSsoXiGBCIF2AoJRggACAUlBDgdFU?=
- =?us-ascii?q?wklQxJHJCIIEgkBExosCoEaNTwJJj8VDGcLGgVhCAINDHQ5EDAeJC8FGiY+G?=
- =?us-ascii?q?wqBDCcfHhsOAg4YDUgRLDcVGQQ+bgeTUYIlJjsLBwE8Hx8TARAbgXgFAQ0hB?=
- =?us-ascii?q?QoCAhGTEZJAoRGEK4wklToaM4VbpRcLmH2OCpYETYRqgWg8gUMPBzMaCBsVO?=
- =?us-ascii?q?4JnCUoZD16NW4NrhRNRxlomMgIGAwMvAQEHAgcOAwuBaJAAAiYHgU8BAQ?=
-IronPort-Data: A9a23:wSmSsqKpQFI7ITgbFE+Rm5QlxSXFcZb7ZxGr2PjKsXjdYENShDYPy
- WVNXjrVPPvfa2egeNonYY2x9U0GvsCGzYVmSgUd+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
- 63yUvGZcoZpCCea9k3wWlTYhSEU/bmSQbbhA/LzNCl0RAt1IA8skhsLd9QR2uaEuvDnRVnS0
- T/Oi5eHYgH8gmckajl8B5+r8XuDgtyj4Fv0gXRmDRx7lAe2v2UYCpsZOZawIxPQKqFIHvS3T
- vr017qw+GXU5X8FUrtJRZ6iLyXm6paLVeS/oiI+t5qK23CulQRuukoPD8fwXG8M49m/c3+d/
- /0W3XC4YV9B0qQhA43xWTEAe811FfUuFLMqvRFTvOTLp3AqfUcAzN1IVxwPIJE6991dGEgQp
- Mw4GBAUakGc0rfeLLKTEoGAh+wqIdOuOMYUvWttiGmGS/0nWpvEBa7N4Le03h9p2pwIR6uCI
- ZVFL2A3PHwsYDUXUrsTIIMjhu6ki1H0ciZTrxSeoq9fD237klUgjei3boa9ltqiSu90nmKTm
- 0j6+SfSCBE6MJuzkwTb2yf57gPItWahMG4IL5W/7vNsjViZy2AfBRFTXlyhrNG9i1WiQJRYM
- 0ES9y8koKQ++UDtScPyNyBUu1aNswRZX59bFPc3rVnSjKHV+A2eQGMDS1atdeAbiSP/fhRyv
- nfhoj8jLWUHXGG9IZ5FyoqpkA==
-IronPort-HdrOrdr: A9a23:IbEaia60vxk+ONA2xwPXwOTXdLJyesId70hD6qkXc20wTiX2ra
- 6TdZgguCMczQxhO03I+urwXZVoP0m8yXcd2+B4Vt2ftUvdyQmVxepZgrcKrQeNJ8SHzI5g/J
- YlVbRiA9vtClU/p8P77A6kV+sE+rC8gceVbSO09QYVcemsAJsQiTtENg==
-X-Talos-CUID: 9a23:1i4yAmGcFxSXcYp6qmJBrxMtB9wHf0b31V6Ocn+YOUZwTOyKHAo=
-X-Talos-MUID: 9a23:oWMFPAUpZhWCxJnq/DDGpTFGP/pC36LtI0oNsZFBl5O6awUlbg==
+  bh=LccjFtQxG2r41TB5QESXMJ9icoHkDWYUzflOenBDURI=;
+  b=WOdgy4ScTmxwXhZmSpaAlp/G7/0/ZAGlESgyqXzx5oGBLoeFIB7m+a/Q
+   vlMj5vJNnkaV/EfhGFIcZOYn3EJjyh4i5zWc5XdEIZHct2VBB8d8HmLdT
+   AjJEF6UWrgbwQBsjk4oO4x3Rcrp/j1EHx+wYAxtLqOU4UBR4d5MuTsLef
+   RihUCuw2ltYq2QY6DraSBCb/zO+ynV/sgJQFlgE0OrKU3y0yurPCF0Ri+
+   V4iD+5sgEwmjUz21XXPjvQLkByD2W+aK9e34totMFFHoqIWanJoHZuWYa
+   WVKJnQihyv6C2Fv5yx5kkNquz8JuZSfV25YTuLKQTt74hOKfyYG9mg/A5
+   w==;
+X-CSE-ConnectionGUID: R1dpTPKTRaqhMOXQRI0OjQ==
+X-CSE-MsgGUID: synqfp3ST4i5fWrLOEusdQ==
+X-IPAS-Result: =?us-ascii?q?A0BeAwDWd/5q/81K/pBaglmDTGBDSZQqgiGeLBSBag8BA?=
+ =?us-ascii?q?QEPNxoEAQGFBQKOIAImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBAQIBB?=
+ =?us-ascii?q?wWBDhOGXJATAgEDMgEYARsiUSsrgxsBgnQDuUaCLIEBgykBgVTZS4F0FYE4j?=
+ =?us-ascii?q?WZ2hH0nG4FJRIR/hCmGYASDHBKQPIgKSIEeA1ksAVUTDQoLBwWBaAM1EioVb?=
+ =?us-ascii?q?jIdgSM7F4EHGwYFgRyBHoESgQNdgSsoXiGBCIF2AoJRggACAUlBDgdFUwklQ?=
+ =?us-ascii?q?xJHJCIIEgkBExosCoEaNTwJJj8VDGcLGgVhCAINDHQ5EDAeJC8FGiY+GwqBD?=
+ =?us-ascii?q?CcfHhsOAg4YDUgRLDcVGQQ+bgeTUYMYFnkHgigQGKV1oRGEK4wklToaM6pym?=
+ =?us-ascii?q?QikDk2EaoFoPIFZMxoIGxWDIglKGQ/eYiYyAjsBAQcCBw4DC4FokX4BAQ?=
+IronPort-Data: A9a23:5/UHbq+dPs8sAyOXGStzDrUDyn+TJUtcMsCJ2f8bNWPcYEJGY0x3y
+ GQXXG/XbqqJa2ekeoskYd+09k9SvJHUxtc1TANtqyhEQiMRo6IpJzg2wmQcns+2BpeeJK6yx
+ 5xGMrEsFOhtEDmB4E/rYuK8xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2bBVOCvT/
+ 4mtyyHjEAX9gWAtaztEs/nrRC5H5ZwehhtJ5jTSWtgT1LPuvyF9JI4SI6i3M0z5TuF8dsamR
+ /zOxa2O5WjQ+REgELuNyt4XpWVTH9Y+lSDX4pZnc/DKbipq/0Te4Y5nXBYoUnq7vh3S9zxHJ
+ HqhgrTrIeshFvWkdO3wyHC0GQkmVUFN0OevzXRSLaV/wmWeG0YAzcmCA2kMZIEAxt5UPVtH7
+ Pw9DwA0VDHboOCPlefTpulE3qzPLeHiMZlavjRryivUSK56B5vCWK7No9Rf2V/chOgXQaqYP
+ ZdFL2UzKk6YPnWjOX9PYH46tPa1nHDzfhVTqUmeouw85G27IAlZjuG8bIaOJ4XiqcN9hVeev
+ 2zepF/FXhBHOuOF7R2o72mgv7qa9c/8cMdIfFGizdZtmFCVy2kZBREaWFf+qv6jh2a6WslDM
+ AoT4icooK04+UCnQ9W7WAe3yENopTYVVsAVF6gx7xuAj/KIpQ2YHWMDCDVGbbTKqfMLeNDj7
+ XfR9/uBONClmOT9pa61nltMkQ6PBA==
+IronPort-HdrOrdr: A9a23:9m1Jjq25BG6FRfKmSx1ivgqjBJ4kLtp133Aq2lEZdPUzSL39qy
+ nAppomPHPP5Qr5HUtQ+uxoW5PwJE80i6QV3WB5B97LN2PbUSmTXeNfBODZrAEIdReTygck78
+ ddWpk7LsHsBl5nisu/ygy5H9E8hOSjysmT9IDjJ7MHd3ASV0mmhD0JbDqmLg==
+X-Talos-CUID: 9a23:R4qjg21QvJmXtVTTqIWndrxfIJkpakHl70vqKla4LEFZcYe0EXiSwfYx
+X-Talos-MUID: 9a23:zttBYwro7FPFLE2eFHIezypzMt5m+/+VNBwMzJs5oe2jGDFrNw7I2Q==
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,220,1787011200"; 
-   d="scan'208";a="61958264"
-Received: from aer-l-core-07.cisco.com ([144.254.74.208])
-  by aer-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 19 Nov 2026 04:22:47 +0000
+   d="scan'208";a="61944351"
+Received: from aer-l-core-04.cisco.com ([144.254.74.205])
+  by aer-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 19 Nov 2026 04:22:44 +0000
 Received: from sjc-ads-7871.cisco.com (sjc-ads-7871.cisco.com [10.30.222.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by aer-l-core-07.cisco.com (Postfix) with ESMTPS id 5EA981800027A
-	for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 04:22:47 +0000 (GMT)
+	by aer-l-core-04.cisco.com (Postfix) with ESMTPS id 3CD21180001C7
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 04:22:44 +0000 (GMT)
 Received: by sjc-ads-7871.cisco.com (Postfix, from userid 1889728)
-	id 720A9CBEF7D; Wed, 18 Nov 2026 20:22:43 -0800 (PST)
+	id DED20CC1611; Wed, 18 Nov 2026 20:22:42 -0800 (PST)
 From: Yogita Urade <yurade@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose][v3 PATCH 18/27] python3-git: fix CVE-2026-76217
-Date: Wed, 18 Nov 2026 20:22:33 -0800
-Message-Id: <20261119042242.1640611-19-yurade@cisco.com>
+Subject: [OE-core][wrynose][v3 PATCH 00/27] python3-git: Security fixes
+Date: Wed, 18 Nov 2026 20:22:15 -0800
+Message-Id: <20261119042242.1640611-1-yurade@cisco.com>
 X-Mailer: git-send-email 2.35.6
-In-Reply-To: <20261119042242.1640611-1-yurade@cisco.com>
+In-Reply-To: <20261106144331.3354811-1-yurade@cisco.com>
 References: <20261106144331.3354811-1-yurade@cisco.com>
- <20261119042242.1640611-1-yurade@cisco.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-7871.cisco.com [10.30.222.158];TLSv1.3;TLS_AES_256_GCM_SHA384;256
 X-Outbound-SMTP-Client: 10.30.222.158, sjc-ads-7871.cisco.com
-X-Outbound-Node: aer-l-core-07.cisco.com
+X-Outbound-Node: aer-l-core-04.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 04:22:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250625
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 04:22:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250611
 Content-Type: text/plain; charset="utf-8"
 
-This patch applies the upstream fix as referenced in [2],
-using the commit shown in [1].
+Backport 27 GitPython security fixes covering 28 CVEs to the python3-git
+3.1.43 recipe on wrynose. The series adds the fixes as patches and updates
+the recipe to apply them.
 
-[1] https://github.com/gitpython-developers/GitPython/commit/f2550b65bf60ca087190981e2c7b6865e201f40c
-[2] https://security-tracker.debian.org/tracker/CVE-2026-76217
+CVE-2026-78678 and CVE-2026-78679 are addressed together. The CVE-2026-76222
+fix includes a regression correction and follow-up patch, CVE-2026-73619
+and CVE-2026-87819 are each carried in two patches. The patches retain
+upstream references.
 
-Signed-off-by: Yogita Urade <yurade@cisco.com>
----
 Changes in v2:
-- Changed the advisory reference from NVD to Debian Security Tracker.
-  Removed the stale cherry-pick and Signed-off-by trailers and
-  refreshed the embedded hunk context.
----
- .../python/python3-git/CVE-2026-76217.patch   | 179 ++++++++++++++++++
- .../python/python3-git_3.1.43.bb              |   1 +
- 2 files changed, 180 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76217.patch
+- Re-reviewed all patches and removed changes that were not needed for the backports.
+- Restored upstream commit metadata and corrected CVE references.
+- Updated Backport Changes notes to describe the differences from upstream.
+- Removed trailing whitespace and regenerated the series diffstat.
 
-diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-76217.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-76217.patch
-new file mode 100644
-index 0000000000..f369c778b0
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-git/CVE-2026-76217.patch
-@@ -0,0 +1,179 @@
-+From c99cba55c8ad6eff105ee61b15f7c683e7e4d878 Mon Sep 17 00:00:00 2001
-+From: Byron <sebastian.thiel@icloud.com>
-+Date: Tue, 4 Aug 2026 03:18:54 +0000
-+Subject: [PATCH] Guard pathspec file inputs in high-level commands
-+
-+<!-- agent -->
-+GHSA-hh9p-6wh2-4mfc reports that high-level rm and checkout wrappers
-+forwarded pathspec file options without GitPython's unsafe-option policy.
-+A regression showed that both commands surfaced multi-line pathspec data in
-+Git errors, while reset consumed the same caller-selected file without a
-+validation error. The audit also found that reset's positional commit could
-+carry the option before its argument separator.
-+
-+Define one shared unsafe pathspec-file option list and apply it to
-+IndexFile.remove, Head.checkout, and HEAD.reset before invoking Git. Check
-+reset's positional commit as well as keyword options, retain the standard
-+allow_unsafe_options escape hatch for trusted callers, and cover abbreviated
-+long-option spellings.
-+
-+An audit against Git cf5497b14c5a24f10c13f7e0ee85cb95af13ea6a
-+(v2.55.0.windows.3-16-gcf5497b14c) found pathspec-file support in add,
-+checkout/restore, commit, reset, rm, and stash. GitPython has no arbitrary
-+high-level option forwarding to the other commands, and git mv does not
-+support this option.
-+
-+Validated with focused rejection and opt-in tests, 214 affected-module
-+regressions, Ruff, basedpyright, and git diff --check.
-+
-+CVE: CVE-2026-76217
-+Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/f2550b65bf60ca087190981e2c7b6865e201f40c]
-+
-+Backport Changes:
-+- Omitted test/test_git.py, test/test_index.py, test/test_refs.py because the
-+  current PyPI source archive does not include the test suite and the
-+  python3-git recipe does not run it.
-+
-+Assisted-by: GPT 5.6
-+Co-authored-by: GPT 5.6 <codex@openai.com>
-+(cherry picked from commit f2550b65bf60ca087190981e2c7b6865e201f40c)
-+Signed-off-by: Yogita Urade <yurade@cisco.com>
-+---
-+ git/cmd.py        |  6 ++++++
-+ git/index/base.py | 10 ++++++++++
-+ git/refs/head.py  | 27 ++++++++++++++++++++++++++-
-+ 3 files changed, 42 insertions(+), 1 deletion(-)
-+
-+diff --git a/git/cmd.py b/git/cmd.py
-+index 63bbb3f7..20abd015 100644
-+--- a/git/cmd.py
-++++ b/git/cmd.py
-+@@ -421,6 +421,12 @@ class Git(metaclass=_GitMeta):
-+ 
-+     re_unsafe_protocol = re.compile(r"(.+)::.+")
-+ 
-++    unsafe_git_pathspec_from_file_options = [
-++        # Reads pathspecs from a caller-controlled file. Some commands include an
-++        # unmatched pathspec in their error output, which can disclose the file.
-++        "--pathspec-from-file",
-++    ]
-++
-+     def __getstate__(self) -> Dict[str, Any]:
-+         return slots_to_dict(self, exclude=self._excluded_)
-+ 
-+
-+diff --git a/git/index/base.py b/git/index/base.py
-+index fb1acb1a..f5932f2d 100644
-+--- a/git/index/base.py
-++++ b/git/index/base.py
-+@@ -1011,6 +1011,7 @@ IndexFile.remove
-+         self,
-+         items: Sequence[Union[PathLike, Blob, BaseIndexEntry, "Submodule"]],
-+         working_tree: bool = False,
-++        allow_unsafe_options: bool = False,
-+         **kwargs: Any,
-+     ) -> List[str]:
-+         R"""Remove the given items from the index and optionally from the working tree
-+@@ -1041,6 +1042,10 @@ IndexFile.remove documentation
-+             physically removing the respective file. This may fail if there are
-+             uncommitted changes in it.
-+ 
-++        :param allow_unsafe_options:
-++            Allow unsafe options such as ``--pathspec-from-file`` to be passed to
-++            :manpage:`git-rm(1)`.
-++
-+         :param kwargs:
-+             Additional keyword arguments to be passed to :manpage:`git-rm(1)`, such as
-+             ``r`` to allow recursive removal.
-+@@ -1052,6 +1057,11 @@ IndexFile.remove unsafe-option validation
-+             This is interesting to know in case you have provided a directory or globs.
-+             Paths are relative to the repository.
-+         """
-++        if not allow_unsafe_options:
-++            Git.check_unsafe_options(
-++                options=Git._option_candidates([], kwargs),
-++                unsafe_options=Git.unsafe_git_pathspec_from_file_options,
-++            )
-+         args = []
-+         if not working_tree:
-+             args.append("--cached")
-+
-+diff --git a/git/refs/head.py b/git/refs/head.py
-+index 7e6fc337..1b82fbd3 100644
-+--- a/git/refs/head.py
-++++ b/git/refs/head.py
-+@@ -19,6 +19,7 @@ HEAD.reset import
-+ 
-+ from typing import Any, Sequence, TYPE_CHECKING, Union
-+ 
-++from git.cmd import Git
-+ from git.types import Commit_ish, PathLike
-+ 
-+ if TYPE_CHECKING:
-+@@ -66,6 +67,7 @@ HEAD.reset signature
-+         index: bool = True,
-+         working_tree: bool = False,
-+         paths: Union[PathLike, Sequence[PathLike], None] = None,
-++        allow_unsafe_options: bool = False,
-+         **kwargs: Any,
-+     ) -> "HEAD":
-+         """Reset our HEAD to the given commit optionally synchronizing the index and
-+@@ -88,12 +90,21 @@ HEAD.reset option validation and documentation
-+             Single path or list of paths relative to the git root directory
-+             that are to be reset. This allows to partially reset individual files.
-+ 
-++        :param allow_unsafe_options:
-++            Allow unsafe options such as ``--pathspec-from-file`` to be passed to
-++            :manpage:`git-reset(1)`.
-++
-+         :param kwargs:
-+             Additional arguments passed to :manpage:`git-reset(1)`.
-+ 
-+         :return:
-+             self
-+         """
-++        if not allow_unsafe_options:
-++            Git.check_unsafe_options(
-++                options=Git._option_candidates([commit], kwargs),
-++                unsafe_options=Git.unsafe_git_pathspec_from_file_options,
-++            )
-+         mode: Union[str, None]
-+         mode = "--soft"
-+         if index:
-+@@ -238,7 +249,12 @@ Head.checkout signature
-+         self.path = "%s/%s" % (self._common_path_default, new_path)
-+         return self
-+ 
-+-    def checkout(self, force: bool = False, **kwargs: Any) -> Union["HEAD", "Head"]:
-++    def checkout(
-++        self,
-++        force: bool = False,
-++        allow_unsafe_options: bool = False,
-++        **kwargs: Any,
-++    ) -> Union["HEAD", "Head"]:
-+         """Check out this head by setting the HEAD to this reference, by updating the
-+         index to reflect the tree we point to and by updating the working tree to
-+         reflect the latest index.
-+@@ -250,6 +266,10 @@ Head.checkout documentation
-+             If ``False``, :exc:`~git.exc.GitCommandError` will be raised in that
-+             situation.
-+ 
-++        :param allow_unsafe_options:
-++            Allow unsafe options such as ``--pathspec-from-file`` to be passed to
-++            :manpage:`git-checkout(1)`.
-++
-+         :param kwargs:
-+             Additional keyword arguments to be passed to git checkout, e.g.
-+             ``b="new_branch"`` to create a new branch at the given spot.
-+@@ -265,6 +285,11 @@ Head.checkout unsafe-option validation
-+             the HEAD detached which is allowed and possible, but remains a special state
-+             that some tools might not be able to handle.
-+         """
-++        if not allow_unsafe_options:
-++            Git.check_unsafe_options(
-++                options=Git._option_candidates([], kwargs),
-++                unsafe_options=Git.unsafe_git_pathspec_from_file_options,
-++            )
-+         kwargs["f"] = force
-+         if kwargs["f"] is False:
-+             kwargs.pop("f")
-diff --git a/meta/recipes-devtools/python/python3-git_3.1.43.bb b/meta/recipes-devtools/python/python3-git_3.1.43.bb
-index 173643a49b..4e5eec73f1 100644
---- a/meta/recipes-devtools/python/python3-git_3.1.43.bb
-+++ b/meta/recipes-devtools/python/python3-git_3.1.43.bb
-@@ -40,6 +40,7 @@ SRC_URI += "file://CVE-2026-42284.patch \
-            file://CVE-2026-76220.patch \
-            file://CVE-2026-76219.patch \
-            file://CVE-2026-76218.patch \
-+           file://CVE-2026-76217.patch \
-            "
- SRC_URI[sha256sum] = "35f314a9f878467f5453cc1fee295c3e18e52f1b99f10f6cf5b1682e968a9e7c"
- 
+Changes in v3:
+- Restored the required trailing spaces.
+- Added rationale explaining that CVE-2026-67324 and CVE-2026-87818 complete
+  unsafe-option guards backported earlier in the series, without claiming
+  that the published affected ranges include unmodified GitPython 3.1.43.
+
+Yogita Urade (27):
+  python3-git: fix CVE-2026-67326
+  python3-git: fix CVE-2026-67323
+  python3-git: Fix CVE-2026-67325
+  python3-git: fix CVE-2026-67324
+  python3-git: fix CVE-2026-67322
+  python3-git: fix CVE-2026-69097
+  python3-git: fix CVE-2026-73625
+  python3-git: fix CVE-2026-73623
+  python3-git: fix CVE-2026-73624
+  python3-git: fix CVE-2026-73622
+  python3-git: fix CVE-2026-73621
+  python3-git: fix CVE-2026-73620
+  python3-git: fix CVE-2026-73619
+  python3-git: fix CVE-2026-76221
+  python3-git: fix CVE-2026-76220
+  python3-git: fix CVE-2026-76219
+  python3-git: fix CVE-2026-76218
+  python3-git: fix CVE-2026-76217
+  python3-git: fix CVE-2026-76222
+  python3-git: fix CVE-2026-78678 CVE-2026-78679
+  python3-git: fix CVE-2026-78677
+  python3-git: fix CVE-2026-78676
+  python3-git: fix CVE-2026-78675
+  python3-git: fix CVE-2026-87817
+  python3-git: fix CVE-2026-87818
+  python3-git: Fix CVE-2026-87819
+  python3-git: fix CVE-2026-100689
+
+ .../python/python3-git/CVE-2026-100689.patch  |  91 ++++
+ .../python/python3-git/CVE-2026-67322.patch   | 171 +++++++
+ .../python/python3-git/CVE-2026-67323.patch   | 356 ++++++++++++++
+ .../python/python3-git/CVE-2026-67324.patch   |  94 ++++
+ .../python3-git/CVE-2026-67325_p1.patch       |  49 ++
+ .../python3-git/CVE-2026-67325_p2.patch       |  52 ++
+ .../python/python3-git/CVE-2026-67326.patch   | 107 +++++
+ .../python/python3-git/CVE-2026-69097.patch   |  60 +++
+ .../python3-git/CVE-2026-73619_p1.patch       |  58 +++
+ .../python3-git/CVE-2026-73619_p2.patch       |  43 ++
+ .../python/python3-git/CVE-2026-73620.patch   | 130 +++++
+ .../python/python3-git/CVE-2026-73621.patch   |  72 +++
+ .../python/python3-git/CVE-2026-73622.patch   |  60 +++
+ .../python/python3-git/CVE-2026-73623.patch   |  53 +++
+ .../python/python3-git/CVE-2026-73624.patch   | 139 ++++++
+ .../python/python3-git/CVE-2026-73625.patch   |  59 +++
+ .../python/python3-git/CVE-2026-76217.patch   | 179 +++++++
+ .../python/python3-git/CVE-2026-76218.patch   |  92 ++++
+ .../python/python3-git/CVE-2026-76219.patch   | 153 ++++++
+ .../python/python3-git/CVE-2026-76220.patch   |  65 +++
+ .../python/python3-git/CVE-2026-76221.patch   |  59 +++
+ .../CVE-2026-76222-regression.patch           |  39 ++
+ .../python3-git/CVE-2026-76222_p1.patch       | 118 +++++
+ .../python3-git/CVE-2026-76222_p2.patch       |  45 ++
+ .../python/python3-git/CVE-2026-78675.patch   |  47 ++
+ .../python/python3-git/CVE-2026-78676.patch   |  67 +++
+ .../python/python3-git/CVE-2026-78677.patch   |  87 ++++
+ .../CVE-2026-78678_CVE-2026-78679.patch       | 220 +++++++++
+ .../python/python3-git/CVE-2026-87817.patch   | 443 ++++++++++++++++++
+ .../python/python3-git/CVE-2026-87818.patch   |  56 +++
+ .../python3-git/CVE-2026-87819_p1.patch       |  78 +++
+ .../python3-git/CVE-2026-87819_p2.patch       | 146 ++++++
+ .../python/python3-git_3.1.43.bb              |  32 ++
+ 33 files changed, 3520 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-100689.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-67322.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-67323.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-67324.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-67325_p1.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-67325_p2.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-67326.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-69097.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-73619_p1.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-73619_p2.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-73620.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-73621.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-73622.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-73623.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-73624.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-73625.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76217.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76218.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76219.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76220.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76221.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76222-regression.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76222_p1.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-76222_p2.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-78675.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-78676.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-78677.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-78678_CVE-2026-78679.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-87817.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-87818.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-87819_p1.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-87819_p2.patch
+
 -- 
 2.35.6
 
