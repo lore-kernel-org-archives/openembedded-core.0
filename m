@@ -1,236 +1,241 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10628.1795078608826279505
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11266.1795081317334409813
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Nov 2026 00:56:48 -0800
+ Thu, 19 Nov 2026 01:42:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=Ly4hvSSV;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=KmP8yzim;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: shuai.zhang@oss.qualcomm.com)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AJ6wHkV1534921
-	for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 08:12:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	wAFxtU0WGHuWHSJa1rSZ0oX/0wFFeHcj/7QdrLdGul4=; b=Ly4hvSSVAFOMQ3nY
-	/vcG39+RGYobCB6RcZREsUxNmeVOQ9qcy/SPy65oZi+IgE1U9K/AkGBIxBSLRpk7
-	dYP8c1hSD+cPH2QraU69PHTi3DdAdxomGSPrxa1gudE+aTEUnmLf07QKoO3qJj9h
-	t0AavKLjeb8lJ9i8NN7z3RG1mps5UfZcMkeOEv4ARpu8+x5qXtMDqg0kXqrSFdno
-	u6MhnvkIEeBRGpRFuzn4XBdv9sXOL7FUggR4oGjpY1MV/EOM8sX8E86IJQKfcnYx
-	qRHiJpE3uZKYO1SmkteKcf4prMEZoVyWvtbi8Ldw+LD95tVcpK7wMl6M7MjC83t0
-	XOTvpQ==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j1dpcc3w5-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 08:12:29 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3b3fa6c8d4bso692016a91.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 00:12:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1795075949; x=1795680749; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=wAFxtU0WGHuWHSJa1rSZ0oX/0wFFeHcj/7QdrLdGul4=;
-        b=KmP8yzimWD9I7QSR7x1LZYutDQzDWw5dRqoRpM2nePvkBudLF1tOckw+7mvtQxfAV0
-         B2IXT/9/xV8JGDHa3/ZNsY8E9qUhFWFfEUHtfoeXL9EVyNc3dWkWor7tHj3fIBkZX4FC
-         INddy1yuDPjODCSM5oPpb04x716IqD4LwH0WXglZ4DIvUKyNrhC2r2CmkMD3vMgcOMrz
-         PTzSIwQjSdOqx1bzlse9untCbLRMzl8yDlfLyj7TWnj8LGf7zA1hOOj7ygKt0KmIH1Dv
-         7TxRcWBfCFaC4AU8oHTblybwRE4pGzasO1t1kHav7MYsk9/CZ6lJEIDBkD4sADQPkozH
-         Jn3Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795075949; x=1795680749;
-        h=content-transfer-encoding:content-type:in-reply-to:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=wAFxtU0WGHuWHSJa1rSZ0oX/0wFFeHcj/7QdrLdGul4=;
-        b=efw9PIlXSyZtjs5dz4KuzQQWyQxk9wJdg/uGxvFyhM59BBQIYx5g2Yev3C+k4fuPtJ
-         rahyUy+bkUcvih9TH6U+xsqUUiW8ruuY6suw/BcU1wxE1H1n26tpDi2U12mgKEEVSbHC
-         e1u8p5K5hi2MUVgI12YqffB8Rb1ezWG3YfOFYnlhy4RTkF2Od9wTDDDQ5qNs22xmXVb0
-         luNXWbSbliCSY28Jpa77oQsVX9uvcgXUvBBDQuv9lxDZoBOCaO631VMz2I3fk/X+D65y
-         P58s6+0vEaUIEnxJAeD3nOW2fYEdCYyygJoQkGA2Dp9IKQBcCvLa24cdriob038EHmme
-         TJRA==
-X-Gm-Message-State: APuU4Z/ozxt6O3y4kwd32ATMLmqfe04xUbJRF9jt3XAbJEngzkAFUDf9
-	fxTI0Sc+SNzF4s8bX5+nY2C0JO5A9aiRsL9IHHYcNM/Zj21H6Dwt/pF0IG9354aphhclvfe1iOn
-	2plNBjSL3hfayBWGAiu09guSdEmqrsynHe7tHonPcymNmdL0CICcpZnwk5P3pt6aN1l1maVTkB8
-	/SC9eU3QG8G8c5SHQ=
-X-Gm-Gg: AZFdTZdAIIv0vNpW446D5a9Tpt36ki8/MNmXADsFLeLdO00ueInzwMAfYlNU9t1+OWF
-	voNgFGPvLYg64jcsqadMu+1sMjtHxssj33MNOiZw5rhV98YU2cziaSeU9CeIre0CsdpyZWu1Yjm
-	ETG3Rm2FScEwobVUWZhHx2QDxqNzEIAXg1KOXD/K2V2TQueKuAsr9yE9HzoUPphS6AXUkd1OBd7
-	YVxaawHCCRQBKKEA+BoNYm2ZCkkLvRPD5kXYwqIwZPzoerqf08emt7DJcu1IKGjDWfuy1w8o8GA
-	mLeVGaVw7sxQCLo7DaAVV7n5YXJ/tSxF+tl8AWCaaQL3Ea/bLyFcOsF15ip0KLrbhTKV4o4uZlw
-	fBFSlz87PYF/lph1uaLS0snKvaSclISB0SFhUeHxkaINJeGVggApAinv2XGOwDCYQV1r4VkLHbv
-	wA
-X-Received: by 2002:a17:90b:5544:b0:3b1:6689:a016 with SMTP id 98e67ed59e1d1-3b409eb69bamr339311a91.16.1795075949140;
-        Thu, 19 Nov 2026 00:12:29 -0800 (PST)
-X-Received: by 2002:a17:90b:5544:b0:3b1:6689:a016 with SMTP id 98e67ed59e1d1-3b409eb69bamr339285a91.16.1795075948483;
-        Thu, 19 Nov 2026 00:12:28 -0800 (PST)
-Received: from [10.239.97.158] ([114.94.8.21])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b4058e12c4sm1562506a91.10.2026.11.19.00.12.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Nov 2026 00:12:27 -0800 (PST)
-Message-ID: <a4daf280-ed05-4335-95c1-dd0f99123184@oss.qualcomm.com>
-Date: Thu, 19 Nov 2026 16:12:23 +0800
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] [wrynose][backport] bluez5: Abort continuing response on fragmented CT replies
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=j2uP2uza;
+ spf=temperror, err=temporary DNS error (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=5783888df5=deepesh.varatharajan@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AJ6wsPU2277194
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 09:41:56 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=Eu/0661VR
+	uitRb257vgx4kNsojx3n8gX+tQ/BNmcDOg=; b=j2uP2uzay6Nq8icvNyRt+l+Gk
+	579z9c4MgnRZfhl5223nXcZEWlaG9PLYPYKH3jMQyaTr0qrGw7n9PVzP/37uFsbS
+	3EJlhGBecYVqvb5AoaI7AKiElYl9Jr8msrrlhEszq1ZC5qjkPiD56YoOOxMPDqK7
+	S2yzhyHcoutc3kXl3PVDqT8s+30SjbGF8s/2253DToRTzM9qlLrM3GnI2mH+EUTD
+	NoNJPw/hw4XELQLelwY3mU8RMzJ6E6MDzwF/lV+7ywBjxecv+cY8HbhAlnq43yAL
+	ljXAuhLbcMP4Q7YNlmfauliPX+9zv/WtuLDp46AG6fKe03fYgfoBaZKzAvKNA==
+Received: from ch4pr04cu002.outbound.protection.outlook.com (mail-northcentralusazon11023135.outbound.protection.outlook.com [40.107.201.135])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4j0yvh5tdx-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 09:41:55 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lrzE+qXIkwDg9PqxMY2223RUeJcKvcOWcM2c0nvQJ3xoUABJlIxhx6XdfxLd5c4nTzb1P2Q1dxfPjs/qIbIDb93aVP7ZbLGGd2bpFh6EbMfwCZgwEQID9GKQHhSDyvE/Nad52jTFvyCrfD6ZT3oZtM/R4BuotkxdwsvZb8cMzx9U+EH8ICL97ZdrSP5RCDAPP29Brs9tEfaKmhQjMA5StF0iUhCFHH8/sqIIWVwaC38XOdUCVoDJtGUDJGf0F9lKkHWnodIQHcg6I+4AbHhCqWuz9lmOukklCWbg+5ctrap9okT9XmxNRj30vZSt9w0lnZpceTBRXrqashrCEKxvew==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Eu/0661VRuitRb257vgx4kNsojx3n8gX+tQ/BNmcDOg=;
+ b=viSkPXMtdopJy9wFPwjjIJpC1xlgnX2hAU9RUtqdwbZ46dtaNBd8hmvZbhB18hrfDCRwntUTzvv61caa0bDZag/vyk1xPbdxfWUIVKEd9Jw2AQyt8Jwu7/GF62RencHY0Qnyo9MgWhMZ4S1jpxwrAF0bgwzrUJ765QPeRSUBuz7nxP4cWH+gvfy985wbQAc95WiZcpCcMlQv1ySwtKbiyZy8LtFyDiu+WKztnLpyibV2tM75IQG41n5R/G3CxuNCDfWDUU6ryQEj2yMuSM+zR8OkThoV56VejYpi7JQkU4zdy5yMmeU6ZnQebaeqqzccRso4e4txKXQMV4DMDAJw8g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=windriver.com;
+Received: from CH3SPRMB0031.namprd11.prod.outlook.com (2603:10b6:610:14d::10)
+ by LV0PR11MB086872.namprd11.prod.outlook.com (2603:10b6:408:600::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.14; Thu, 19 Nov
+ 2026 09:41:53 +0000
+Received: from CH3SPRMB0031.namprd11.prod.outlook.com
+ ([fe80::edd3:84b0:a509:60df]) by CH3SPRMB0031.namprd11.prod.outlook.com
+ ([fe80::edd3:84b0:a509:60df%6]) with mapi id 15.21.0639.010; Thu, 19 Nov 2026
+ 09:41:53 +0000
+From: Deepesh.Varatharajan@windriver.com
 To: openembedded-core@lists.openembedded.org
-Cc: cheng.jiang@oss.qualcomm.com, wei.deng@oss.qualcomm.com,
-        mengshi.wu@oss.qualcomm.com, jinwang.li@oss.qualcomm.com,
-        xiuzhuo.shang@oss.qualcomm.com, chenhong.zhou@oss.qualcomm.com
-References: <20261111112254.1486896-1-shuai.zhang@oss.qualcomm.com>
-From: Shuai Zhang <shuai.zhang@oss.qualcomm.com>
-In-Reply-To: <20261111112254.1486896-1-shuai.zhang@oss.qualcomm.com>
-X-Authority-Analysis: v=2.4 cv=YJ0KWhGx c=1 sm=1 tr=0 ts=6afeaf6e cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=Uz3yg00KUFJ2y2WijEJ4bw==:17
- a=IkcTkHD0fZMA:10 a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22
- a=Q4-j1AaZAAAA:8 a=NEAV23lmAAAA:8 a=EUspDBNiAAAA:8 a=jIbkme_7AAAA:8
- a=UIFwVCDISMsRLlRzA6MA:9 a=QEXdDO2ut3YA:10 a=uKXjsCUrEbL0IQVhDsJ9:22
- a=9H3Qd4_ONW2Ztcrla5EB:22 a=4Z6V1Uo88S3JekNeKaJk:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE5MDAzMiBTYWx0ZWRfXx2Fi+xWwbXdT
- aiMXYJxmgdberErrNFSAuN515XmpIOJyyBCTjy7e0OF3vJ5e2Rdymo+gG0SqQ0oPn3IkiUiN6LO
- VWIBvry32ktFkppjWB6FzQmHXmqpTPCTkBLdEcfVdqCboMOpcWkG4kKvwsBI3fv+ARPdLUj8Opy
- 8b83BDI1e/hk9wuUfRSNwAGsmfZDb/XcXh03iZBl/0Ur6JmQBhhteqwIXUiB02guzO90Y4rb5kq
- E8JUNCUpFswgx3LroFuMQl8iO1SqyoyiOhmXHhrwd3a50NxjJyO9tBFk0minflkX7+sLws1WRe5
- EtnyFyjduPR8sEkB277YUaCFIdaG5p0laNNPIKTQnOfNbNbeWyQeFXAh0I5s5yGHui6C7CEhvjB
- XYQTErtbUNbhuur8dAb+9STLiLHF1G8Aa48I1J+1c2NuKDRuKj4ZXXL3fThSHVhPX6Sm4qnbEE7
- RjlV/nHuVFIRWz3Lcjg==
-X-Proofpoint-ORIG-GUID: efJt6uyfisyFLBzox7d5dQXfYNSQ7TOC
-X-Proofpoint-GUID: efJt6uyfisyFLBzox7d5dQXfYNSQ7TOC
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE5MDAzMiBTYWx0ZWRfX9g6A1tOLh4yw
- fA8sGrDb04tjN8eaEpUPfZ2F0EbQ+ti0pRK+uEPndlg5w9CMmid3R4OxR109XVxYPVQwF1i4CsY
- DeHNBOso5zZujMk54kO22wF22VDqdpc=
+Cc: Sundeep.Kokkonda@windriver.com, Deepesh.Varatharajan@windriver.com
+Subject: [PATCH] rust: Fix intermittent test failure
+Date: Thu, 19 Nov 2026 01:41:38 -0800
+Message-ID: <20261119094138.1600327-1-Deepesh.Varatharajan@windriver.com>
+X-Mailer: git-send-email 2.49.0
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0PR13CA0059.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c2::34) To CH3SPRMB0031.namprd11.prod.outlook.com
+ (2603:10b6:610:14d::10)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3SPRMB0031:EE_|LV0PR11MB086872:EE_
+X-MS-Office365-Filtering-Correlation-Id: e496b75c-a947-4283-4a93-08df46215797
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|366016|52116014|376014|1800799024|261021135927099003|38350700014|10067099003|260925022911599003|260925021911599003|260925021311599003|56012099006|11063799006|261026140227099003|261028144727099003|261021121427099003|261022105027099003|261102123227099003|261009223027099003|12006099003|25016099003|18002099003|6133799003|29003799003|13003099007;
+X-Microsoft-Antispam-Message-Info: 0eEVpRLVgUs+2UF742zLPu5goKvZGP3m+Yg+XFUcUEOO+2oqDCb7Gtv7xzLhGV653iU5N38twVBqkQhpcn7UYs4tvfJXmofrG1GY/4FmDxjMYLHVUL7sewxc/xCr6U2/DpOQp69rciCekETJnx2cDu1J4S7nJU++hgRu0sZ9OhS7WkNrq0b8kfpah9ec6keM/4tG+F/0yGNxOEAD9DEQl7whuQ2NB+p3eB6ZVUz4anyBmGAJ2TZ/HfK/KFJkpag+wUxD1+kEhgy5x41oLJhTwnQqGNEekoooaJDy+G8IYRzZPaGZiHj/+STzOJSYViwYttVhoEqemp8R1EvF2Zde6AZ6vtlC30nGnflROzzu3YsgsjUujhSuNpzEEd3NmLuZLCbRykqwRi0iev6VhX8pap+sepezh7HZSsrpQrE0wmIVaw5gOV1lrx7w7g7+NZpsGYi27N4VPRWzyqYHXHo319cMFlz1NZLTV4bGOWkTmrhOtJDqftkVcI3dnrABT3ZLluJ+8ucp7JH05rHsOyjHTdxaM6EzzDxT/5SrcZp4MkAaXtunbu70RLv0GeRus7KDWIPBKQ/G2EGxCBZxfHQVuipE57/4SWB1EMtpPlqN7cbvWa5ir5sVt1SeCXnKoqySb21OELEBUb8JXye23kTSwIX0ERE2Xp9MIL0yrCT9Djc=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3SPRMB0031.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(52116014)(376014)(1800799024)(261021135927099003)(38350700014)(10067099003)(260925022911599003)(260925021911599003)(260925021311599003)(56012099006)(11063799006)(261026140227099003)(261028144727099003)(261021121427099003)(261022105027099003)(261102123227099003)(261009223027099003)(12006099003)(25016099003)(18002099003)(6133799003)(29003799003)(13003099007);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?LCOgz+M9yWHmn4xEsXzFJwlm+TR6t5cEz4Nk7UNV+Sr4UrL6nFCpQQB61Z66?=
+ =?us-ascii?Q?3ngTah/CJRiGPJzuc40aJCy1ZBExnGuiDQ89GYRQBksxR+HzaRZDE8WbKhZJ?=
+ =?us-ascii?Q?CHI0/cC1pD4wht78bhcPLVJ/wyLiVJu9Jh4rcZx0xygTt9mQJ5kY7/ycqv5Y?=
+ =?us-ascii?Q?TYe+zp2cbX1A+JQsxYVNdWPFWg5LLRuSpc4RarSKSLwKN54bU12V0bVI6DjN?=
+ =?us-ascii?Q?KIcnhVb2O+JjDgrPsfzB44QEFKwXxa7bdMugDzSuVEjABCsBd+z+Wb1cRMYu?=
+ =?us-ascii?Q?UFBTsFCYTADjmLXOvLNXWvyZZePIhlaMN6/b1zsTQAP35P7h20r2em28Y5uT?=
+ =?us-ascii?Q?HiFO8GQ1BOrrbrZsSz6Nc2JIxXcSnaiHlil6v7VY/t+j6odf4ko+oBafgbMH?=
+ =?us-ascii?Q?G/Hr682/mpgcM/jP1aSRWDUirhuPzqhkqtdBxlOHOno0ZSxGbyesGNG93hBf?=
+ =?us-ascii?Q?YkXkdtOIrBiKY2m9kHfw/0UiGO9cRMDaGj46EkopcKRU8KhjLJdVanqLDZsl?=
+ =?us-ascii?Q?Y7Kq/z2N0OKKDzsTyvSR8uJaDdym/IyUyBOTJyGS4CRx1luWBSZcFBmlKJ1f?=
+ =?us-ascii?Q?OLI6w9mfBboXSmbG4jSQz89HPRmqA+mdWwHGTwr8S5P7s/eWMRP2H8vuqaKG?=
+ =?us-ascii?Q?w6zNAn8lFUyahbL1MEUln2I4Adm+sV0mF/1BABAkY3KX6GzMUSfhrzqzZWLS?=
+ =?us-ascii?Q?wd3JyoGb1st9z64X0de6znmwk4n5YG7TBXKOyxUd35480FUyTX1TmwTh37vX?=
+ =?us-ascii?Q?GU6N7Wo2GNlqGzE7UTlkCCggy0xcocxDHTuKCWHAhiGlJsjTGmUY6P7wOH1u?=
+ =?us-ascii?Q?l4B7YhKU2R2RnE0g8EviYdqs7cjX9zNNbNWnmEVCCqpvRMCLMwrE1YK+HQ7p?=
+ =?us-ascii?Q?ZgwoYhLw+DCxAyFbivkSeiv0o8wgbNFxVKY7WjiYkYGkDrRzbv7Cp9JTjemm?=
+ =?us-ascii?Q?chiR34zHmOS+gImk3uwtOn8nUqP04jtW+yYvxGouVdP9TRsNtp4y7PoiAa2S?=
+ =?us-ascii?Q?P28PDJ3/ZBew5ZHXRRsf/+FUImREOnoL7clQVoCsHECNiGhA+KcOT5bdQ8WT?=
+ =?us-ascii?Q?SfZvHJS0Q8rYZGoot+Mi6wLqssYy4eAXkGyqneEJhiGQSU6Z+UwyqEYl3p49?=
+ =?us-ascii?Q?CyWwA9o+36BpXf5Ob/2emX4SoempN1r1koqdChmKGCSecqlhk7uu2lhbmXeE?=
+ =?us-ascii?Q?ktOvcRXcnfJcpePMl6Q9dqTzy3V0guMFWSYpyvXabeH+OGcpMdIToMASUVp+?=
+ =?us-ascii?Q?Dl0xT/J3xcmA5lwJ7LjBtU3ks4EyJ052xtFkIlVntH5TCbF4QrdSrZPTE5vg?=
+ =?us-ascii?Q?e/YS2e5hE/t20aJKdp6qjindemXyW7h2hjU7j8h9sdPdvNxxM5uES5xwERQ5?=
+ =?us-ascii?Q?utJAFX1NjaDRGta8QjEeD8E/w0XojYqpwYQz0Hvfsy0XrTp7Gl/2V5h+l/GN?=
+ =?us-ascii?Q?FvfSSdJc1/IUWbKJ3JFCWS0ovpIyE05MIacpIonNRMc71UqUxc8Ew4ybruay?=
+ =?us-ascii?Q?1j4WyXm7YJPJuMT4K6ThIEHxW9u2X3DBn+Is1fraXZkcfBJMo6RvBLtIWDnm?=
+ =?us-ascii?Q?dHigG1+YuPXmUdCacxZLp0MfWHPWGuMduCTFonNI6NwYnuUSqhjlyPDXzEK+?=
+ =?us-ascii?Q?8wjJ7u9g5AYcJTgaYgo4agfc9+O5aaMGeOPM4MxN04Fl2haVbjc0YoiubVR1?=
+ =?us-ascii?Q?WTLFYtCUqkOXCa3IsQP5fU+Q/y4anDcDRnq/HyCIEHOGZX/bwRRYbUN8f7Qq?=
+ =?us-ascii?Q?lKYvxon9tBLOiWWAEl2/HbHF+01tWYmx8TD6Chvt/8A9xCRdQ5Wb?=
+X-Exchange-RoutingPolicyChecked: T2030zpjzvoK3eSgMkU3kBGi/nFImT5X/SMYjaU4EyujY9LJYLyIyfhCSubQnW1Mrjtl0Q3km62o7MPER0WoGHJFCZqSEjPDT0UHXPkq344BGtbsnL29i9xP14GzOsbq4MKN3kBTx3vKXz1ylhKiNF+A7k0tV+SSlaqWX1WAS38iolkdjV5sCbbRq+czG9OoonfyDGpVAHy26Jn8hWB3Cnz5v2mFz08ZkA7huOsHJzujhRtI7w7VUgrY5Cu0xyCj2WfQO0CQ56Kq+uZLfqi5X38uPeqL+1vhCuUKxRM2gH6Zv6wm4FHIYg3D0uEZJIPmtpl2STRy4zhNkGr3qvPfrQ==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: e496b75c-a947-4283-4a93-08df46215797
+X-MS-Exchange-CrossTenant-AuthSource: CH3SPRMB0031.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2026 09:41:52.9336
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YYMmnbMi3EkfQFTipKjaS1BMQ6TZWhCcF78kGk8SBFXtglEHL/wSo50G+H1BbKzq/A/uRHGBNJqZLu7+4JL//oLUyv0hLm30ez4yc+pzvHYKzIQgmi4SriFDv+RDPq4k
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV0PR11MB086872
+X-Proofpoint-GUID: 8dANj5aD1kZVxraPvJ4B2nEoeGYJwy6F
+X-Proofpoint-ORIG-GUID: 8dANj5aD1kZVxraPvJ4B2nEoeGYJwy6F
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTE5MDAzOCBTYWx0ZWRfXwKQTsTSX4xfj
+ Me4D9TtBRYK1Y6x6IlNl6a/7rwaSVI/5CSGpsfNX4xMGf7CxrPs86pw/x/eYWAdXRObh9D0HJ9h
+ 9kOnn/ZNBySpkHptrvtL8Tf9LB6uQrZ+oh7Tg1hVUM9EYqWyfC8hHo4t2t0p8pKnG7Ut5Eu4zC6
+ tkHUcctvChtgvoG7j4a7IlBQxhztf7LWQ/8SmwupUCmaiOA+Ef7gMd/jfOo1wL9Z8p3GkhkvDT3
+ TyTGXR8sof5jWKZEZaqXD4gNGJPJpkAz0J+GovFJW0x0tK+2QyYALxqvsUvi5YSbji7lgYaA+JH
+ b33MSCa53VUIDEyXVUF+Rjl8HOJoe2Orqi6NawAd6Dl9oxVXDb3ViRnQNjvcMUyOjHNYrSef+vb
+ hDN1WAxkuy7nbUYg5rOHgd6/+X0Tv9YJqscSfrpWxAehMYQH0aeYcHHdP+JvZz4Xw3onBLxkIZq
+ jtmuRKh37RoWclJIN7g==
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTE5MDAzOCBTYWx0ZWRfX+8btK+DcbfSl
+ eBKY/35Nxcf5Qe+a2kuHNNVdWbeD8uYNyKlEM5pIiG23xHcWQ6HXc8r4cT6xkafv4cvjCG72sSB
+ hByxw1UpK/sfQ+5BaNAb7gLaX2d3qqwTH5VefV0WqDWoVF1jb7dh
+X-Authority-Analysis: v=2.4 cv=GNCdgeNK c=1 sm=1 tr=0 ts=6afec463 cx=c_pps
+ a=TbD1l2oU6eC219p4blkGNg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=NEAV23lmAAAA:8
+ a=ei4SEBeUAAAA:8 a=t7CeM3EgAAAA:8 a=mkIxG36oAAAA:8 a=Bk1BE_CMDg1iwUWdAl4A:9
+ a=8zIOOLb7Ym0NljyPXbuS:22 a=FdTzh2GWekK77mhwV6Dw:22 a=KRdHDfwrMGS2gN7yEUgk:22
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-11-19_02,2026-11-16_01,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 bulkscore=0 malwarescore=0 priorityscore=1501
- lowpriorityscore=0 suspectscore=0 phishscore=0 spamscore=0 adultscore=0
- clxscore=1015 classifier=typeunknown authscore=0 authtc= authcc=
+ malwarescore=0 adultscore=0 spamscore=0 clxscore=1015 suspectscore=0
+ lowpriorityscore=0 phishscore=0 impostorscore=0 bulkscore=0
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2611040001
- definitions=main-2611190032
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+ definitions=main-2611190038
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 09:13:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250655
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 09:42:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250656
+Content-Type: text/plain; charset="utf-8"
 
-Hi maintainers
+From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 
-On 11/11/2026 7:22 PM, Shuai Zhang wrote:
-> Send AbortContinuingResponse when a Get Element Attributes reply
-> arrives fragmented, as the CT side does not reassemble fragments.
->
-> Backport upstream bluez commit 249e2bedf ("avrcp: Abort continuing
-> response on fragmented CT replies") to bluez 5.86.
->
-> Fixes PTS test AVRCP/CT/RCR/BV-03-C.
->
-> Signed-off-by: Shuai Zhang <shuai.zhang@oss.qualcomm.com>
-> ---
-> Changes for v3:
-> - Remove Simon Mikuda's Signed-off-by from the recipe patch, as he did
->    not sign off the upstream commit
-> Link to v2: https://lists.openembedded.org/g/openembedded-core/message/248377
->
-> Changes for v2:
-> - Fix subject prefix to [wrynose][backport]
-> - Drop Upstream-Status tag from the commit message
-> Link to v1: https://lists.openembedded.org/g/openembedded-core/topic/patchtest_results_for/121863269
-> ---
->   meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
->   ...inuing-response-on-fragmented-CT-rep.patch | 62 +++++++++++++++++++
->   2 files changed, 63 insertions(+)
->   create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-avrcp-Abort-continuing-response-on-fragmented-CT-rep.patch
->
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-> index d857c23..2d0ee56 100644
-> --- a/meta/recipes-connectivity/bluez5/bluez5.inc
-> +++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-> @@ -76,6 +76,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
->              file://0001-src-device-Fix-stored-gatt-cache-DB-Hash-value-no.patch    \
->              file://0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch \
->              file://0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch \
-> +           file://0001-avrcp-Abort-continuing-response-on-fragmented-CT-rep.patch \
->              "
->   S = "${UNPACKDIR}/bluez-${PV}"
->   
-> diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-avrcp-Abort-continuing-response-on-fragmented-CT-rep.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-avrcp-Abort-continuing-response-on-fragmented-CT-rep.patch
-> new file mode 100644
-> index 0000000..68f824d
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/bluez5/bluez5/0001-avrcp-Abort-continuing-response-on-fragmented-CT-rep.patch
-> @@ -0,0 +1,62 @@
-> +From 41a00c93baa48cbd63b182b853e93a946962cada Mon Sep 17 00:00:00 2001
-> +From: Simon Mikuda <simon.mikuda@streamunlimited.com>
-> +Date: Tue, 9 Jun 2026 23:26:56 +0200
-> +Subject: [PATCH] avrcp: Abort continuing response on fragmented CT replies
-> +
-> +Send AbortContinuingResponse when a Get Element Attributes reply
-> +arrives fragmented, as the CT side does not reassemble fragments.
-> +
-> +Fixes PTS test AVRCP/CT/RCR/BV-03-C
-> +
-> +Upstream-Status: Backport [https://github.com/bluez/bluez/commit/249e2bedfacf51fc6c89f43a0adb9a12d761c2b7]
-> +Signed-off-by: Shuai Zhang <shuai.zhang@oss.qualcomm.com>
-> +---
-> + profiles/audio/avrcp.c | 25 +++++++++++++++++++++++++
-> + 1 file changed, 25 insertions(+)
-> +
-> +diff --git a/profiles/audio/avrcp.c b/profiles/audio/avrcp.c
-> +index 326dfda..557ed97 100644
-> +--- a/profiles/audio/avrcp.c
-> ++++ b/profiles/audio/avrcp.c
-> +@@ -2466,6 +2466,24 @@ static void avrcp_parse_attribute_list(struct avrcp_player *player,
-> + 	}
-> + }
-> +
-> ++static void avrcp_abort_continuing(struct avrcp *session, uint8_t pdu_id)
-> ++{
-> ++	uint8_t buf[AVRCP_HEADER_LENGTH + 1];
-> ++	struct avrcp_header *pdu = (void *) buf;
-> ++
-> ++	memset(buf, 0, sizeof(buf));
-> ++
-> ++	set_company_id(pdu->company_id, IEEEID_BTSIG);
-> ++	pdu->pdu_id = AVRCP_ABORT_CONTINUING;
-> ++	pdu->packet_type = AVRCP_PACKET_TYPE_SINGLE;
-> ++	pdu->params_len = cpu_to_be16(1);
-> ++	pdu->params[0] = pdu_id;
-> ++
-> ++	avctp_send_vendordep_req(session->conn, AVC_CTYPE_CONTROL,
-> ++					AVC_SUBUNIT_PANEL, buf, sizeof(buf),
-> ++					NULL, session);
-> ++}
-> ++
-> + static gboolean avrcp_get_element_attributes_rsp(struct avctp *conn,
-> + 						uint8_t code, uint8_t subunit,
-> + 						uint8_t transaction,
-> +@@ -2483,6 +2501,13 @@ static gboolean avrcp_get_element_attributes_rsp(struct avctp *conn,
-> + 	if (code == AVC_CTYPE_REJECTED)
-> + 		return FALSE;
-> +
-> ++	/* Abort fragmented responses as reassembly is not supported */
-> ++	if (pdu->packet_type == AVRCP_PACKET_TYPE_START ||
-> ++			pdu->packet_type == AVRCP_PACKET_TYPE_CONTINUING) {
-> ++		avrcp_abort_continuing(session, AVRCP_GET_ELEMENT_ATTRIBUTES);
-> ++		return FALSE;
-> ++	}
-> ++
-> + 	count = pdu->params[0];
-> +
-> + 	if (be16_to_cpu(pdu->params_len) - 1 < count * 8) {
-> +--
-> +2.34.1
-> +
+Fixes [YOCTO #16460]
 
+Fix an intermittent test failure by backporting the upstream Rust commit.
 
-just following up to see if there are any updates on this.
+https://github.com/rust-lang/rust/commit/a292cb16d5cfc32923be91c86afaf727682a38dc
 
-Thanks,
+Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+---
+ ...se-thread-local-in-c_str_alloc_error.patch | 64 +++++++++++++++++++
+ meta/recipes-devtools/rust/rust-source.inc    |  1 +
+ 2 files changed, 65 insertions(+)
+ create mode 100644 meta/recipes-devtools/rust/files/0006-alloctests-use-thread-local-in-c_str_alloc_error.patch
 
-Shuai
+diff --git a/meta/recipes-devtools/rust/files/0006-alloctests-use-thread-local-in-c_str_alloc_error.patch b/meta/recipes-devtools/rust/files/0006-alloctests-use-thread-local-in-c_str_alloc_error.patch
+new file mode 100644
+index 0000000000..f213220157
+--- /dev/null
++++ b/meta/recipes-devtools/rust/files/0006-alloctests-use-thread-local-in-c_str_alloc_error.patch
+@@ -0,0 +1,64 @@
++From a292cb16d5cfc32923be91c86afaf727682a38dc Mon Sep 17 00:00:00 2001
++From: Jules Bertholet <julesbertholet@quoi.xyz>
++Date: Mon, 16 Nov 2026 09:24:03 -0500
++Subject: [PATCH] alloctests: use thread-local in `c_str_alloc_error`
++
++Upstream-Status: Backport [https://github.com/rust-lang/rust/commit/a292cb16d5cfc32923be91c86afaf727682a38dc]
++Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
++
++diff --git a/library/alloctests/tests/c_str_alloc_error.rs b/library/alloctests/tests/c_str_alloc_error.rs
++index 1e7d54d75b3..fc572169583 100644
++--- a/library/alloctests/tests/c_str_alloc_error.rs
+++++ b/library/alloctests/tests/c_str_alloc_error.rs
++@@ -15,20 +15,22 @@
++ #![feature(alloc_error_hook)]
++ 
++ use std::alloc::{GlobalAlloc, Layout, System, set_alloc_error_hook};
+++use std::cell::Cell;
++ use std::ffi::CString;
++ use std::panic::{AssertUnwindSafe, catch_unwind};
++-use std::sync::atomic::{AtomicBool, Ordering};
++ 
++ // Once armed, the first allocation of 8 bytes or more fails and disarms, so the
++ // reallocation inside `clone_into`'s grow path fails while the runtime's own
++ // smaller allocations keep succeeding.
++ struct OneShotFailingAlloc;
++ 
++-static ARMED: AtomicBool = AtomicBool::new(false);
+++thread_local! {
+++    static ARMED: Cell<bool> = const { Cell::new(false) };
+++}
++ 
++ unsafe impl GlobalAlloc for OneShotFailingAlloc {
++     unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
++-        if layout.size() >= 8 && ARMED.swap(false, Ordering::SeqCst) {
+++        if layout.size() >= 8 && ARMED.replace(false) {
++             return core::ptr::null_mut();
++         }
++         unsafe { System.alloc(layout) }
++@@ -39,7 +41,7 @@ unsafe fn dealloc(&self, ptr: *mut u8, layout: Layout) {
++     }
++ 
++     unsafe fn realloc(&self, ptr: *mut u8, layout: Layout, new_size: usize) -> *mut u8 {
++-        if new_size >= 8 && ARMED.swap(false, Ordering::SeqCst) {
+++        if new_size >= 8 && ARMED.replace(false) {
++             return core::ptr::null_mut();
++         }
++         unsafe { System.realloc(ptr, layout, new_size) }
++@@ -59,11 +61,11 @@ fn clone_into_alloc_failure_leaves_target_valid() {
++     let src = CString::new("a fairly long value").unwrap();
++     let mut target = CString::new("x").unwrap();
++ 
++-    ARMED.store(true, Ordering::SeqCst);
+++    ARMED.set(true);
++     // Under Miri the failing allocator is honored, so this reallocation unwinds; in a
++     // normal build the allocator can't intercept it and `clone_into` just succeeds.
++     let res = catch_unwind(AssertUnwindSafe(|| src.as_c_str().clone_into(&mut target)));
++-    ARMED.store(false, Ordering::SeqCst);
+++    ARMED.set(false);
++ 
++     if cfg!(miri) {
++         assert!(res.is_err(), "clone_into should have unwound on the alloc failure");
++-- 
++2.49.0
++
+diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devtools/rust/rust-source.inc
+index ed779f3478..94a20a5350 100644
+--- a/meta/recipes-devtools/rust/rust-source.inc
++++ b/meta/recipes-devtools/rust/rust-source.inc
+@@ -8,6 +8,7 @@ SRC_URI += "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n
+             file://0003-cargo-omit-host-triple-from-unit-metadata-hash.patch;patchdir=${RUSTSRC} \
+             file://0004-Re-bless-tests-adjust-for-new-Cargo-lints.patch;patchdir=${RUSTSRC} \
+             file://0005-rustc_llvm-drop-native-sysroot-L-when-cross-building.patch;patchdir=${RUSTSRC} \
++            file://0006-alloctests-use-thread-local-in-c_str_alloc_error.patch;patchdir=${RUSTSRC} \
+ "
+ SRC_URI[rust.sha256sum] = "90dab90b8084eb57c35ae2b1d0b70c8e5138ace6023b22c60a5a400f586f63b2"
+ 
+-- 
+2.49.0
 
