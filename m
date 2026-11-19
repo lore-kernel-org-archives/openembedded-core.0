@@ -1,384 +1,271 @@
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15436.1795097621061115589
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15189.1795097628362383351
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Nov 2026 06:13:46 -0800
+ Thu, 19 Nov 2026 06:13:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=pz84g1BD;
- spf=pass (domain: est.tech, ip: 52.101.65.50, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=EXvJgNF4;
+ spf=pass (domain: est.tech, ip: 52.101.70.49, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=l8bd4pYsrfM5FeLhKCZ6MddAWmzJBWGonn6nElPqEAGXg46DWg3ur7DRPgHvNhyS2zP4FSz3LvZ+J85RHwI07nnzj3HGg2LftYxzmJYMkbGNw3jV+KNQksbWRjgAPyHcA7Kh9FyNZYqqh9dQN/5Aieefp/SIVVNS6BPpCJuB3bp0103Cb1o9tylJAT0pNeFv+qPWNDmSeFfxC5VK6hidWoRZa0UN7XkmlTsocTpHsLjN7ezrUwc8u4JotRO+UJoXNZWh5m+JeVMZuBikixILMrTysJ5xh1VhIxPWrNoMFDDRb72oFJSiqBM0rOa4oyJMxoQyXmPfZTjqYHus6n9fpA==
+ b=waeWeKOlAlR250e6dZyF9iGDhZ0aAEMy4f0YvKT0S5jGZus2/cGPRUsjO2a9LnmOSVUnHGmdR/URJYisOzVIrQPHy49W0PO3/0YlcjNYly9j/xJuPdnYDVVO/XnbaPZf2pKwio5+HwWKwekP2awUlUIDO1b0A2nicbay/8UqC3+l4xB0O0RYIl91aQtBcIJ1qoH4mgiN1+E2Rh/CzMijkySyaGrEhFhzX6V6jkOJZPcqtA1a+fgtZ4MYQXye+1t7vZotQzRoYcle+8Z7ROyTcoVl1r0XAGlQ99mJSnj22Lyus8X2+y8dsVDeOuLYdqz6AuDeuGcTmIvqxov3Xc86wQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3q8VjjpHZqnB/p0XTvdPNWfE3EIwILADL7phNSWfBbQ=;
- b=SnaNLQjDlQeKPCuRECUhvW+h5e8F2xSuHw6AJL8ISia5oZG8iUEfenL36zDr5DZQKw/hHlrAyt/DmSyqGbctUdaTR25O62i4nyG/QUn9Q6+6ng3r2o7fRrwhcdMU6X6QfQZ0qVIqAc01cZLY7muOs6h3oBDdXYlj88A58lcODdoulIE1lQCku7jqiVcVfP4qBlWDLEdmG8CNF0D2xOoHn8dQvpMweC21Y/m3L13NVGhvKfGMreJnq5oh8xlApIWNMAdiay4IaKZ+n4RmFy7BJcg/TXcgp5zyFc11qfO6auRtRYYjfMtcIy5pFPpdSm1AphfckbF1H6XAvxA5ZCPVUw==
+ bh=dUsdKi1faOGL4I9iMT9NVD5P5VI+q1klmfyYPDoOYhs=;
+ b=TQbSjck8MHF6OnVSLKnGMyRQukgHA3M4eqNX8IIhPUK/kwMdhga5MMAgI/liMcvTCrRtQudRlJZGgDsUPvBlWXy0mlWUMg1glqVqnNj6T1iPj1WkwWMJdBzGD+odPbKNn91rZjPTWmMWahV7iiDH88pTFKrPkfvDfEjCF2IHmcMlMBJLz4DT/geaHlVdTFlmsLO3yp+3vaIB5aqB8UJ/zLyeTQEXiAWykWj49mPPl9+4Et9KN/zSFs1ClU+HADFbaJY+WriR6eUbi/TS1zae+9ffxl1wK981SkHJD4XadnfX1MiK3IfgQGSvjtvUk79i6PI5pQn11OFOaH3W0/Ik3w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3q8VjjpHZqnB/p0XTvdPNWfE3EIwILADL7phNSWfBbQ=;
- b=pz84g1BDwOcx79DIY9jvKTJn+oNVid3xHyusOGrzTCoS1rHoWDnSFfvFtUPZcva2z0RBr4ir3CMfAa+hDXClxCZaPGl6b9pWywdvkBpgD9uFo165uHBSkVyc7llx4V9/KwNCyfBRrPxiGQ0Ujcozq376GkBB/TJ6OET8wddGh7SKCekYele3l1hacwbLlsdrTJOUfbg0d/FWh793gb/iiSlGf1KjRWMAaUiRmGIyVVTdlTw5Enc0q05083U8ovOzvDovvf9KqK3MBK7s4RGW26hnRqVm5e8thKpPpH4ICdqIHogmgaVMqrpS2JQygWc3DcxkdNmK7AMPbUvJa63UPQ==
+ bh=dUsdKi1faOGL4I9iMT9NVD5P5VI+q1klmfyYPDoOYhs=;
+ b=EXvJgNF4tDbRJxEzT3MCXhVCq3Ur9HI2EecHRlgQWmriI7z1P2jTvViiIs/iyhRWKRSB1LegAw1uUwyNmJrsPbe6aHWVolzTO+OA0ViNnMqegs/tL/c3a8L6eFBCTH1UXKqK9br40C/h61JTgqASwAvugaoNUBQNn6aiAI67LCroCGfpivAlPQsGN7ANYiraa+gVp0eITdQMD+zGlN0mkLLXAfE4ZYd4KF/AnZutG4AqECXtt5LZTpGVw8DuaRdKiLYWHH+/SdtIP6HEAUcq8nTU/2Bjah7QOnjXX0VEMAv/WxChBROctekhgzocKEGZRBwh2aT4RI4w5+3TYuciDw==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
- by GV1P189MB2785.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:1ee::22) with
+ by AMBP189MB354107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:78c::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.10; Thu, 19 Nov
- 2026 14:13:42 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.615.16; Thu, 19 Nov
+ 2026 14:13:43 +0000
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0615.013; Thu, 19 Nov 2026
- 14:13:42 +0000
+ 14:13:43 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/7] gnutls: Upgrade 3.8.13 -> 3.18.14
-Date: Thu, 19 Nov 2026 15:13:30 +0100
-Message-ID: <20261119141333.34492-5-jaipaul.cheernam@est.tech>
+Subject: [PATCH 5/7] webkitgtk: Upgrade 2.54.2 -> 2.54.3
+Date: Thu, 19 Nov 2026 15:13:31 +0100
+Message-ID: <20261119141333.34492-6-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20261119141333.34492-1-jaipaul.cheernam@est.tech>
 References: <20261119141333.34492-1-jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: LO4P265CA0101.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2bc::10) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: LO4P265CA0094.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2bc::9) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:20b:6c0::19)
 Return-Path: jaipaul.cheernam@est.tech
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|GV1P189MB2785:EE_
-X-MS-Office365-Filtering-Correlation-Id: bf7fd938-6707-4da0-722e-08df464750d0
+X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|AMBP189MB354107:EE_
+X-MS-Office365-Filtering-Correlation-Id: a02605b4-ae0d-41f4-6ff2-08df464751b0
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|376014|23010399003|366016|22082099003|18002099003|6133799003|12006099003|261009223027099003|11063799006|260925021311599003|260925022911599003|260925021911599003|56012099006|261102123227099003|261102130727099003|261026121527099003|261026140227099003|261021121427099003|261022105027099003|261028144727099003|261021123027099003|10067099003;
-X-Microsoft-Antispam-Message-Info: FAN3qOTtkj5oE0VMlUx4vVWBDZ9WngsKvT9I1YFc8YFF6oQ5u4Koz5GP3bVfBUuofNQI7LHgr+4lzP0V7MhRKMqSw7Jyk+mx2j3k+nOxGc8Oz44YZjVONvHY5Of9Onjfulbj3DutdzS+UBNRdrIeaeWXfF9K2EyYdRxnk8kwydFmtdGTPHFHHzJoaAzWgBBlQOmxifiEICbLkkt1Zr/6g7f+pOQUXgUnH5izKy7GP3ASpu20sSYQAUgV6/8MAAetYvFaQ3XC4jVwlyNu4frxAUZpQtxoXxZ/m7F9q3iG/S76rf0iUBriRiSyvz56KWrhblPZeOUxFMy5af3gy3N8TE3FwqP+SgjGMVU6hkokw7IFdZs22XWpNv+Aj77c+Z+Mfrt29b2JgZaBhRPV/9wsR4As34JD3FEIWSk682jr1u6kSbHooHGqThngGcCDHjPsO0tnSKNvpu6VAp7QeDHKGLlbWhqwB5mezowm8hi6tsANDF0+UOpH92nyqX22UAjKAX2tTYeI4zEtCDv4+gbd0707smz2ifs8UvolYJePXxQnWUEVT9tSEWR5mpqcF1SDKXb+wSpmiViHY2bgXW1YZr9RTswlZYAjsVr8p3AgrKe6plvgQLI1lYbFypSkcGOM
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(366016)(22082099003)(18002099003)(6133799003)(12006099003)(261009223027099003)(11063799006)(260925021311599003)(260925022911599003)(260925021911599003)(56012099006)(261102123227099003)(261102130727099003)(261026121527099003)(261026140227099003)(261021121427099003)(261022105027099003)(261028144727099003)(261021123027099003)(10067099003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|23010399003|10067099003|56012099006|11063799006|260925021311599003|260925022911599003|260925021911599003|261026121527099003|261028144727099003|261026140227099003|261022075727099003|261022105027099003|261021123027099003|261021121427099003|261102123227099003|261009223027099003|261009221227099003|261009220027099003|261009223327099003|261009221727099003|12006099003|18002099003|22082099003|13003099007;
+X-Microsoft-Antispam-Message-Info: kzMaNxZmBGM1Mq80VP3+3J9/Zn3o63p17+qZsdN45N+/W1rI7Jbis3+a1s6sHz3qfooTXmb0OvatdwtpxSKp+HkOIeQXSCq4GDNz0ExmuPQ9U+KG5iXjA5syp1E6+pTDbgV2M2Z8JX12xaHN0K/81ZDYimZsWsC3jN1bLVrowiDIew/Abt6NtH3RVFxOO0rWaUq0aqIBpPBUStSgvvh/wC8Kv9osBdm4Yjd8+dl/T4c42qwFjFdMsGwEbFIH4KPcPWxKvyNnTyVS6UlyFt0MdATyVIK/BI42KUtisyqKnEYZ5SbLzDVfDX7qgDClbC348sQuo23klgbc6Yt3u8SRWuNE1i5R+PaA3cfywbPf1VpPTOvyMN15zAtJiMIyNVTLLVdRxTvQpWVpgdjTbwtNAgJUOE/2lgqhg6p90D4Mmf0280WmGqYwWfn3AuMVv3sf8HPnm7JR5LPcP/5B3aA4NzsgR6yMqAb+tRFrt/MUDeVILr2nFm/OrZRqhzuKNF8h6R3QBXBnqATkwDbDhSFZCZDgiGun5U79Bqo6WFaXntSnWZYoQMiCe0iJjaEQznmiacRf+DjHEYQAzIayDGgqlVw4S1zUWQ4M4eT03LyvpIHdhbx2Rj/myYxEdOJNkbwe
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(23010399003)(10067099003)(56012099006)(11063799006)(260925021311599003)(260925022911599003)(260925021911599003)(261026121527099003)(261028144727099003)(261026140227099003)(261022075727099003)(261022105027099003)(261021123027099003)(261021121427099003)(261102123227099003)(261009223027099003)(261009221227099003)(261009220027099003)(261009223327099003)(261009221727099003)(12006099003)(18002099003)(22082099003)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?TPQ/IUWbh9EqkxZE1Zbvl1bpmGpX9YAhsLc1ZqvGvinLicXr/gyO0ZsG9o5/?=
- =?us-ascii?Q?ijvHGTMW5Qv5JIAhn+xwNaljr7k1toHlqMURrzfphGSVLH0qovw1gHKXtIIu?=
- =?us-ascii?Q?vTgIuxwcBJUNS0B4744P7vDMQ45uk49GOCW3B5nzfuuzmWr2eDG1HxY+Alq6?=
- =?us-ascii?Q?7JnRDh1uLIEJyUXP71fC+Ae289DnwU6oQEf+aK+idMMDrAFAJuLCtPh6k1sB?=
- =?us-ascii?Q?SPLqQnmQ1WGhVY2qZE1mdpC8katmjIci37BFSTLEmx6hp4/GDwPUs+sJsGJn?=
- =?us-ascii?Q?oetgqFyyztKPPuxJVkGT8uC4ckYjPstBdHUTxSeYi/rKCl9su4CxAKObdmIw?=
- =?us-ascii?Q?4Kb/uQ7lzWRzwu117kQ/rsPrUNSw//EERh5/JLX4yqX6XuCJ7TtHinf3WmlK?=
- =?us-ascii?Q?FQ8EuwHICFw3puN7SrTWMvrAszVt3s1IxiAN7qLBRati/nHIADXJd3KDGOgi?=
- =?us-ascii?Q?yUF+rhvGAYHWV+NE6Bt8ugBh5lH3QMY4baFMEnIv7PbCsAFuhoRaDBBjzjFz?=
- =?us-ascii?Q?4pSblQDK+B3Pe7sz1GTFUESlBUc5h2b0BaRIt8w8XYt8hVG0OTZjHW5RSaa1?=
- =?us-ascii?Q?uDKT0pdclsXCsxjpzFa0W9kuXrnDV/MOuVBSrZPju40zSRLYrxgawK2WnOEA?=
- =?us-ascii?Q?IrOK0Kzcoh8Pq/az5cLSPuy94B1GyE46S7x/8sfvfEJmMgQBnDkNL7obpEG2?=
- =?us-ascii?Q?5MLyy1liXz82H5Jpjkr8gCYyDxbOcxqmK88banQ0RjwKq7SWCm033K7O5ILH?=
- =?us-ascii?Q?RoLsMtO2S/xBXLTItc7S0ZTGaVq+672P9B707cypHYF0nMcevVkoLlxFKBsp?=
- =?us-ascii?Q?+UpQvf6b/dDhJNnPnIInkSKyxoCYhzxhVMZZGTM1XASOxeQgHzK8DEOjKCj3?=
- =?us-ascii?Q?ifOVvmfch93vkpnCC9CMXETUgtHjbev51RpV24zmOilZL8Rw4z15ZgIpHZWX?=
- =?us-ascii?Q?anQE7+Vp3TzNfc5eu8sshUBmwrseQjS+6qmnh0eqdMOBGrYyNhNZFG4/IatM?=
- =?us-ascii?Q?3xk3rrg7OKwgSQ0lyQmyoQBUj1ez1R45lw01c2GdsqSK5aY3Hpfd5bDDD9xL?=
- =?us-ascii?Q?XbZNPipjq1MXyL59voja14L5AFVjbho4y3Hc0LeRxfeTr0hX8VsMIkx2tOuX?=
- =?us-ascii?Q?UUs2bqYItXQnGkml2k3WvDGSZD8EqzdzrGbfzUjN7JSB8n1Pu+4TIzmF4mwl?=
- =?us-ascii?Q?LmQhxzFss+gNmsRJOjTwmzNTdKHNk16HfcnlanC7DJY1oIDK0lvQ9EnXoIdk?=
- =?us-ascii?Q?zcR+RyQyPxC/sbSDru/DnImjRSNNBwDVd7xm3+2tfBVTXNMldbwK4JOi0QRj?=
- =?us-ascii?Q?/0sR455Gx/EmSIFfbrD/XKzH1s55wVov95wFt4470do5GEWtz86qtTPHwo0W?=
- =?us-ascii?Q?Z/sHARpzq85iigO12P+WL7q6tUk0nBppgT9MNJ8+vJFdR/7UkIV7CUQuUn2O?=
- =?us-ascii?Q?ijFEbaIw238rvNTlpk3+pcx++RUgboceIeZYm0brI6ii24lF6D2ZBkaAih1b?=
- =?us-ascii?Q?0+T1M1Gc0yUEUOG/qPLhIJzQ+n8a1e8V101iEIOmZEnMxQGqZS3eTzZsKwza?=
- =?us-ascii?Q?sB1wnVOgNNWIsSsIXvCaFbqLw21mHIXoH/AjEG2XnN00ZQNvTuN8Ea3qChxi?=
- =?us-ascii?Q?LgiDrP4wjGaL598PEA82nka0Xgv1q/6e+boiXyDkF05tkjs05wlCTSSuodva?=
- =?us-ascii?Q?jN9sgngZ7+x+KBVCT8jlgnKnSY1uy58ov1E4aEIS4E5pImKkFm0WMuqd7SzV?=
- =?us-ascii?Q?Ss/vncOX1A=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?0OdYaL67guKezEhNVZ6VMq0Gp3yxZdzxCWTPNv452Ogxvd8Op7S+6pX/wMFa?=
+ =?us-ascii?Q?xeDvsLqo/wyocRNZfaEV5Mpr2N8qOKaiaBzzcYv5tF9cQ4FOEPE2TwuQZyrE?=
+ =?us-ascii?Q?R0Ax4uiFNZDdLx7ZRJHvWlbEtbTUlVEVtlbqiB57EWjca/tpZcx5LBFO8ZWQ?=
+ =?us-ascii?Q?hDUBulRc9hvrVxtGkW2zgEnA2Iqg+W+7K+TUg7bJdfXkBjHy4Fiv07ADekQR?=
+ =?us-ascii?Q?bGCIDNd+hKePjedF3G8o4ln9JVdu8ZF24Cxp4qBO0t2q2IXLxRMmHg6Kavn0?=
+ =?us-ascii?Q?K+cyZV3L5dghsG2dxp1mqqmNnFr36HudtAhLnYQqlO7Yph1Z2/Rs1KGJi5Yu?=
+ =?us-ascii?Q?ZmMWfrbF2PR/pZpN1WH3QyqsyZO+uHhA15dd0+JdaL1crOB5LbZ/aVGVuY6v?=
+ =?us-ascii?Q?JaU9jruKAMKDysITHg5YDgqeIFZwMpOHpNcvD9ZAAxt4D8Kaa+b3bPMbk2G5?=
+ =?us-ascii?Q?4Zgvsti95To/Myng4pdCkyoxbNXvSdTkbrmNqVI4bR4nAKnivxFfUjlCcmFL?=
+ =?us-ascii?Q?6kcvyKg5u2QjbkaRcCYPWecgwU1qGVFN5fy62wJEYYkC5DHfhQHnebZG4Y9G?=
+ =?us-ascii?Q?fM+8bqk3zRSJf7id56RlHwtx89QgNC4NiUX2RyGhBOFf6kAu3kk8pRaClmZt?=
+ =?us-ascii?Q?pWW5JuXZajU6qYWcpWUv57RLAiPvhkJ0vsDM0T4d/p0bJih2AoIHt6wFjYSq?=
+ =?us-ascii?Q?A+QE6AsvcH5UVl53mVtUQ8uWwXCL8MNCQZvbZ3Z+wP4ePhkXNfvoSbfOSTPl?=
+ =?us-ascii?Q?+NuhLT/CEroLc15+6q74wQ0EtyIfBPqUlnYaw3m/rjCF2Kicr6yq94bEtVn9?=
+ =?us-ascii?Q?QiaNj/rqwasOvMgeQLBQtlhNJQiZXiNWkvqNaRfS+UFJOhX2y+CO3AXB2oep?=
+ =?us-ascii?Q?sSZ1o7tcJ47AhLDt2rMpd/oYxBzajgkWfPXKPv2feO+5qFCbmx1hTy3qwPBi?=
+ =?us-ascii?Q?jogEEvf3f2iHz/Y9qFnKt+uEexh9X40w60FtqCXowWVLdiCv+shQ/8QloveG?=
+ =?us-ascii?Q?kGdtomMNf4SNTaHMYN0and/kS5xjzzUllu1RouLM6xw20/k2bulgVLMVpYBT?=
+ =?us-ascii?Q?2LKW2w+qdYW5ZoDx2MsrTXdPrpCVXMKvXhy3hyDRjFqykr61pLlT93EKZ/6G?=
+ =?us-ascii?Q?8cvVXbgCZdSsH9Y6W8n4BdmB/0nr/PyJ/JhmKBM9yZ+sk6tMUhCEeTgCWmjl?=
+ =?us-ascii?Q?VVZjwEqZ35cVy9gjrnGb7ld8dxTibvvuXY7JmPlvqW4ydPV2CgYNi7zHBFJG?=
+ =?us-ascii?Q?zwTrQ0TtMSz4eTOvRWPtl6QWdvQ/+yVNUDqYsUIaA3oaLi1DIt/ixpAekfvr?=
+ =?us-ascii?Q?x0DW59wXfTiujrEQLHqnSkRimd7/lMrdj/zR5C6jlMHHGNFqDSoEP0vKmck7?=
+ =?us-ascii?Q?ORz+wVYsxvv4gBUclMwz2es+BHa3eOvLWD45R5WAP7CeD6jvtJPMumDw9Jqn?=
+ =?us-ascii?Q?V/LD81BzvihYlEHLnbVC5HxIf4H26lpoaUUbBanqVweI3XmFshxqoHEgIs3r?=
+ =?us-ascii?Q?pz81/VzZoUZGG9ADVy5U7dkXH0kzM8bjqn710d8b+ktgSA3zQcKKpvMrLZhr?=
+ =?us-ascii?Q?ScFxT5LpHdTGVGHo3cptiLIH/e1paRT95Zq2ixkYtsyqfJgcHatqauGNPkz4?=
+ =?us-ascii?Q?CmAlwan172l1VHfCq5OsBxmtYDx7b5gU/J/NYgciGL13EPFU57CE+nnxbTww?=
+ =?us-ascii?Q?TSlOY+WcKFhIi6wWEdiQYJagfoWBPuSKPGVEdAGJeRhbpbFsrDAbRZ5MPNKe?=
+ =?us-ascii?Q?IIvY8hVfqA=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: bf7fd938-6707-4da0-722e-08df464750d0
+X-MS-Exchange-CrossTenant-Network-Message-Id: a02605b4-ae0d-41f4-6ff2-08df464751b0
 X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2026 14:13:42.3837
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Nov 2026 14:13:43.8338
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 6lDhaQTXO6gofVR3yLkgLgjWgH8xQlmeP+KxV1vpRBOH0gNvIs7AUKYhf+1+zedbOfDBXLRWS/t/gfyKVT9y9sTgLhadlTLbqetHJMyBpJY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1P189MB2785
+X-MS-Exchange-CrossTenant-UserPrincipalName: d7qT3y+UfMuISy2MM9ItBc5o+uPjeROHcdSMlNdmzC9W8hSGNL658DWyuF9c6GrzMB+EdjuRsKNQDWUycUJNPImDECfc+GJGuULkqmSczFo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBP189MB354107
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 19 Nov 2026 14:13:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250676
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250677
 Content-Type: text/plain; charset="utf-8"
 
-NEWS: https://github.com/gnutls/gnutls/blob/3.8.14/NEWS
-
-CVEs fixed in this release
-CVE-2026-127039 CVE-2026-127040 CVE-2026-127231
-
-- drop two patches which are part of upstream now
-  0001-tests-mini-dtls-framents-link-to-gnulib.patch
-  0001-tests-pkcs11-trust-list-fault-fix-issues-in-linking.patch
-- Remove the read-only gtk-doc.m4 and pkg.m4 shipped in the 3.8.14
-  tarball so aclocal can reinstall them, and fix the m4 cleanup to use
-  ${S}.
-- drop the libtasn1 PACKAGECONFIG and add libtasn1 to DEPENDS as upstream r=
-emoved [1]
-
-gnutls test summary:
---------------------
-total: 393
-pass : 378
-fail : 0
-skip : 15
-
-[1] https://github.com/gnutls/gnutls/commit/2b6aab676db1f052d9f7ee9b05053df=
-545b18715
+Release-Notes: https://www.webkitgtk.org/2026/11/18/webkitgtk2.54.3-release=
+d.html
 
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- ...ile-should-be-excuted-in-target-envi.patch |  6 ++--
- ...ts-mini-dtls-framents-link-to-gnulib.patch | 25 ---------------
- ...ust-list-fault-fix-issues-in-linking.patch | 31 -------------------
- .../gnutls/gnutls/Add-ptest-support.patch     | 18 +++++------
- .../gnutls/gnutls/arm_eabi.patch              |  2 +-
- .../{gnutls_3.8.13.bb =3D> gnutls_3.8.14.bb}    | 16 +++++-----
- 6 files changed, 21 insertions(+), 77 deletions(-)
- delete mode 100644 meta/recipes-support/gnutls/gnutls/0001-tests-mini-dtls=
--framents-link-to-gnulib.patch
- delete mode 100644 meta/recipes-support/gnutls/gnutls/0001-tests-pkcs11-tr=
-ust-list-fault-fix-issues-in-linking.patch
- rename meta/recipes-support/gnutls/{gnutls_3.8.13.bb =3D> gnutls_3.8.14.bb=
-} (88%)
+ ...e-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch | 2 +-
+ ...GObjectIntrospection.cmake-prefix-variables-obta.patch | 4 ++--
+ ...ce-cmake-FindGLib.cmake-do-not-set-include-dirs-.patch | 2 +-
+ ...as-Do-not-include-stdatomic.h-from-C-translation.patch | 8 ++++----
+ .../recipes-sato/webkit/webkitgtk/fix-ftbfs-riscv64.patch | 2 +-
+ meta/recipes-sato/webkit/webkitgtk/reproducibility.patch  | 2 +-
+ meta/recipes-sato/webkit/webkitgtk/sys_futex.patch        | 2 +-
+ meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch  | 2 +-
+ .../webkit/{webkitgtk_2.54.2.bb =3D> webkitgtk_2.54.3.bb}   | 2 +-
+ 9 files changed, 13 insertions(+), 13 deletions(-)
+ rename meta/recipes-sato/webkit/{webkitgtk_2.54.2.bb =3D> webkitgtk_2.54.3=
+.bb} (99%)
 
-diff --git a/meta/recipes-support/gnutls/gnutls/0001-Creating-.hmac-file-sh=
-ould-be-excuted-in-target-envi.patch b/meta/recipes-support/gnutls/gnutls/0=
-001-Creating-.hmac-file-should-be-excuted-in-target-envi.patch
-index 0847dde8a9d..165cbcea23e 100644
---- a/meta/recipes-support/gnutls/gnutls/0001-Creating-.hmac-file-should-be=
--excuted-in-target-envi.patch
-+++ b/meta/recipes-support/gnutls/gnutls/0001-Creating-.hmac-file-should-be=
--excuted-in-target-envi.patch
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-t=
+o-control-macro-__PAS_ALWAYS_I.patch b/meta/recipes-sato/webkit/webkitgtk/0=
+001-CMake-Add-a-variable-to-control-macro-__PAS_ALWAYS_I.patch
+index 243f5870bf0..5e1fb8b2652 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-contr=
+ol-macro-__PAS_ALWAYS_I.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/0001-CMake-Add-a-variable-to-contr=
+ol-macro-__PAS_ALWAYS_I.patch
 @@ -1,4 +1,4 @@
--From c4f6cb380471b5e5478ae6f7f8c5604a6a64ec1c Mon Sep 17 00:00:00 2001
-+From f564b05747598c92655ef5bea7e49acc48cb447d Mon Sep 17 00:00:00 2001
- From: Lei Maohui <leimaohui@fujitsu.com>
- Date: Mon, 23 May 2022 10:44:43 +0900
- Subject: [PATCH] Creating .hmac file should be excuted in target environme=
-nt,
-@@ -11,10 +11,10 @@ Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
-  1 file changed, 1 insertion(+), 2 deletions(-)
+-From bf74a02e45b3e147d912833a4ec6ba489a28344d Mon Sep 17 00:00:00 2001
++From 73f7316ee08a5369555e3e631d48ba6a5a01cf9e Mon Sep 17 00:00:00 2001
+ From: Kai Kang <kai.kang@windriver.com>
+ Date: Fri, 11 Aug 2023 14:20:48 +0800
+ Subject: [PATCH] Add a variable to control macro
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospecti=
+on.cmake-prefix-variables-obta.patch b/meta/recipes-sato/webkit/webkitgtk/0=
+001-FindGObjectIntrospection.cmake-prefix-variables-obta.patch
+index 37ad5ecb805..5a9be948362 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmak=
+e-prefix-variables-obta.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/0001-FindGObjectIntrospection.cmak=
+e-prefix-variables-obta.patch
+@@ -1,4 +1,4 @@
+-From 1eb26767f3ce493e8fd4ecd7a0d3d8bb645a225b Mon Sep 17 00:00:00 2001
++From 773c76b7f22c213fd8b67dc6952c3c715973ee4d Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Tue, 27 Oct 2015 16:02:19 +0200
+ Subject: [PATCH] FindGObjectIntrospection.cmake: prefix variables obtained
+@@ -14,7 +14,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 3 insertions(+)
 =20
- diff --git a/lib/Makefile.am b/lib/Makefile.am
--index a50d311..193ea19 100644
-+index 2382952..f1f0d67 100644
- --- a/lib/Makefile.am
- +++ b/lib/Makefile.am
--@@ -275,8 +275,7 @@ hmac_file =3D .libs/.$(gnutls_so).hmac
-+@@ -267,8 +267,7 @@ hmac_file =3D .libs/.$(gnutls_so).hmac
- =20
-  all-local: $(hmac_file)
- =20
-diff --git a/meta/recipes-support/gnutls/gnutls/0001-tests-mini-dtls-framen=
-ts-link-to-gnulib.patch b/meta/recipes-support/gnutls/gnutls/0001-tests-min=
-i-dtls-framents-link-to-gnulib.patch
-deleted file mode 100644
-index 7f999c4b22e..00000000000
---- a/meta/recipes-support/gnutls/gnutls/0001-tests-mini-dtls-framents-link=
--to-gnulib.patch
-+++ /dev/null
-@@ -1,25 +0,0 @@
--From 68b2fb63c8df61d1480121a859f8c955f4910c01 Mon Sep 17 00:00:00 2001
--From: Alexander Sosedkin <asosedkin@redhat.com>
--Date: Thu, 30 Apr 2026 13:08:01 +0200
--Subject: [PATCH] tests/mini-dtls-framents: link to gnulib
--
--Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
--
--Upstream-Status: Backport [https://github.com/gnutls/gnutls/commit/68b2fb6=
-3c8df61d1480121a859f8c955f4910c01]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- tests/Makefile.am | 1 +
-- 1 file changed, 1 insertion(+)
--
--diff --git a/tests/Makefile.am b/tests/Makefile.am
--index f8797964d..1b27df751 100644
----- a/tests/Makefile.am
--+++ b/tests/Makefile.am
--@@ -524,6 +524,7 @@ pathbuf_CPPFLAGS =3D $(AM_CPPFLAGS) \
-- mini_dtls_fragments_CPPFLAGS =3D $(AM_CPPFLAGS) \
-- 	-I$(top_srcdir)/gl	\
-- 	-I$(top_builddir)/gl
--+mini_dtls_fragments_LDADD =3D $(LDADD) ../gl/libgnu.la
--=20
-- if ENABLE_PKCS11
-- if !WINDOWS
-diff --git a/meta/recipes-support/gnutls/gnutls/0001-tests-pkcs11-trust-lis=
-t-fault-fix-issues-in-linking.patch b/meta/recipes-support/gnutls/gnutls/00=
-01-tests-pkcs11-trust-list-fault-fix-issues-in-linking.patch
-deleted file mode 100644
-index b15a05d5b63..00000000000
---- a/meta/recipes-support/gnutls/gnutls/0001-tests-pkcs11-trust-list-fault=
--fix-issues-in-linking.patch
-+++ /dev/null
-@@ -1,31 +0,0 @@
--From 9c573a2a0e7473ab79c43a6d3ecb0ab68ce896dc Mon Sep 17 00:00:00 2001
--From: Daiki Ueno <ueno@gnu.org>
--Date: Thu, 7 May 2026 09:42:09 +0900
--Subject: [PATCH] tests/pkcs11/trust-list-fault: fix issues in linking
--
--This fixes the use of automake variables and also adds the linked mock
--library in .gitignore.
--
--Signed-off-by: Daiki Ueno <ueno@gnu.org>
--
--Upstream-Status: Backport [https://github.com/gnutls/gnutls/commit/9c573a2=
-a0e7473ab79c43a6d3ecb0ab68ce896dc]
--Signed-off-by: Peter Marko <peter.marko@siemens.com>
-----
-- tests/Makefile.am | 4 ++--
-- 1 file changed, 2 insertions(+), 2 deletions(-)
--
--diff --git a/tests/Makefile.am b/tests/Makefile.am
--index 1b27df751..f6a60a32b 100644
----- a/tests/Makefile.am
--+++ b/tests/Makefile.am
--@@ -540,8 +540,8 @@ pkcs11_os_locking_ok_DEPENDENCIES =3D libpkcs11mock4.l=
-a libutils.la
-- pkcs11_os_locking_ok_LDADD =3D $(LDADD) $(LIBDL)
-- pkcs11_long_label_DEPENDENCIES =3D libpkcs11mock4.la libutils.la
-- pkcs11_long_label_LDADD =3D $(LDADD) $(LIBDL)
---pkcs11_trust_fault_DEPENDENCIES =3D libpkcs11mock5.la libutils.la
---pkcs11_trust_fault_LDADD =3D $(LDADD) $(LIBDL)
--+pkcs11_trust_list_fault_DEPENDENCIES =3D libpkcs11mock5.la libutils.la
--+pkcs11_trust_list_fault_LDADD =3D $(LDADD) $(LIBDL)
-- endif
-- endif
--=20
-diff --git a/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch b/m=
-eta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
-index 8c867a5a400..b9454741737 100644
---- a/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
-+++ b/meta/recipes-support/gnutls/gnutls/Add-ptest-support.patch
+ diff --git a/Source/cmake/FindGI.cmake b/Source/cmake/FindGI.cmake
+-index 8cf372f3..40471487 100644
++index a8a56fdd..572ca99c 100644
+ --- a/Source/cmake/FindGI.cmake
+ +++ b/Source/cmake/FindGI.cmake
+ @@ -72,6 +72,9 @@ if (PKG_CONFIG_FOUND)
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-Source-cmake-FindGLib.=
+cmake-do-not-set-include-dirs-.patch b/meta/recipes-sato/webkit/webkitgtk/0=
+001-Source-cmake-FindGLib.cmake-do-not-set-include-dirs-.patch
+index d9d664bca4a..cabdd3dab15 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/0001-Source-cmake-FindGLib.cmake-d=
+o-not-set-include-dirs-.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/0001-Source-cmake-FindGLib.cmake-d=
+o-not-set-include-dirs-.patch
 @@ -1,4 +1,4 @@
--From 6abc86acecff5a30173eb78a971ec5b65f77e1de Mon Sep 17 00:00:00 2001
-+From 6d524052b77e431902c8216e9964c6cb955feca6 Mon Sep 17 00:00:00 2001
- From: Ravineet Singh <ravineet.a.singh@est.tech>
- Date: Tue, 10 Jan 2023 16:11:10 +0100
- Subject: [PATCH] gnutls: add ptest support
-@@ -12,12 +12,12 @@ Signed-off-by: Ravineet Singh <ravineet.a.singh@est.tec=
+-From 1899b9f2eadbe4f2cd5b4a68d0788e8a9f02cabb Mon Sep 17 00:00:00 2001
++From f4361f879eefd480197ba0210d102c2100a4c24b Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Sun, 21 Jun 2026 22:57:24 +0200
+ Subject: [PATCH] Source/cmake/FindGLib.cmake: do not set include dirs from
+diff --git a/meta/recipes-sato/webkit/webkitgtk/0001-libpas-Do-not-include-=
+stdatomic.h-from-C-translation.patch b/meta/recipes-sato/webkit/webkitgtk/0=
+001-libpas-Do-not-include-stdatomic.h-from-C-translation.patch
+index f16900c378e..ef962bd742f 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/0001-libpas-Do-not-include-stdatom=
+ic.h-from-C-translation.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/0001-libpas-Do-not-include-stdatom=
+ic.h-from-C-translation.patch
+@@ -1,8 +1,8 @@
+-From c018bf3bca4a42f9540e50e0f5080c38223c2ddf Mon Sep 17 00:00:00 2001
++From ed10e504c0a627769973d3078548bbd54ed750f9 Mon Sep 17 00:00:00 2001
+ From: Pablo Saavedra <psaavedra@igalia.com>
+ Date: Thu, 17 Sep 2026 12:05:38 +0200
+-Subject: [PATCH] [libpas] Do not include <stdatomic.h> from C++ translatio=
+n
+- units https://bugs.webkit.org/show_bug.cgi?id=3D324345
++Subject: [PATCH] Do not include <stdatomic.h> from C++ translation units
++ https://bugs.webkit.org/show_bug.cgi?id=3D324345
+=20
+ Reviewed by NOBODY (OOPS!).
+=20
+@@ -42,7 +42,7 @@ Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tec=
 h>
-  3 files changed, 11 insertions(+)
+  1 file changed, 2 insertions(+)
 =20
- diff --git a/Makefile.am b/Makefile.am
--index 843193f..816b09f 100644
-+index d04e475..893f750 100644
- --- a/Makefile.am
- +++ b/Makefile.am
--@@ -197,6 +197,9 @@ dist-hook:
-- distcheck-hook:
-- 	@test -d "$(top_srcdir)/po/.reference" || { echo "PO files are not downl=
-oaded; run ./bootstrap without --skip-po"; exit 1; }
-+@@ -205,6 +205,9 @@ distcheck-hook:
-+ 		$(MAKE) -C $(top_srcdir) abi-check-latest; \
-+ 	fi
- =20
- +install-ptest:
- +	 $(MAKE) -C tests DESTDIR=3D$(DESTDIR)/tests $@
-@@ -26,10 +26,10 @@ index 843193f..816b09f 100644
- =20
-  include $(top_srcdir)/cligen/cligen.mk
- diff --git a/configure.ac b/configure.ac
--index 1744813..efb9e34 100644
-+index 2e51385..52d531d 100644
- --- a/configure.ac
- +++ b/configure.ac
--@@ -1413,6 +1413,8 @@ AC_SUBST(LIBGNUTLS_CFLAGS)
-+@@ -1411,6 +1411,8 @@ AC_SUBST(LIBGNUTLS_CFLAGS)
- =20
-  AM_CONDITIONAL(NEEDS_LIBRT, test "$gnutls_needs_librt" =3D "yes")
- =20
-@@ -39,10 +39,10 @@ index 1744813..efb9e34 100644
- =20
-  hw_features=3D
- diff --git a/tests/Makefile.am b/tests/Makefile.am
--index 189d068..8430b05 100644
-+index b55eaf0..e3713b2 100644
- --- a/tests/Makefile.am
- +++ b/tests/Makefile.am
--@@ -745,6 +745,12 @@ SH_LOG_COMPILER =3D $(SHELL)
-+@@ -693,6 +693,12 @@ SH_LOG_COMPILER =3D $(SHELL)
-  AM_VALGRINDFLAGS =3D --suppressions=3D$(srcdir)/suppressions.valgrind
-  LOG_COMPILER =3D $(LOG_VALGRIND)
- =20
-diff --git a/meta/recipes-support/gnutls/gnutls/arm_eabi.patch b/meta/recip=
-es-support/gnutls/gnutls/arm_eabi.patch
-index d493448aabc..859eeef4011 100644
---- a/meta/recipes-support/gnutls/gnutls/arm_eabi.patch
-+++ b/meta/recipes-support/gnutls/gnutls/arm_eabi.patch
+ diff --git a/Source/bmalloc/libpas/src/libpas/pas_utils.h b/Source/bmalloc=
+/libpas/src/libpas/pas_utils.h
+-index 9626340809303..e781d8fb12c8d 100644
++index 433b26f0..49117c2f 100644
+ --- a/Source/bmalloc/libpas/src/libpas/pas_utils.h
+ +++ b/Source/bmalloc/libpas/src/libpas/pas_utils.h
+ @@ -42,7 +42,9 @@
+diff --git a/meta/recipes-sato/webkit/webkitgtk/fix-ftbfs-riscv64.patch b/m=
+eta/recipes-sato/webkit/webkitgtk/fix-ftbfs-riscv64.patch
+index a77db5668da..5d1687f0395 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/fix-ftbfs-riscv64.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/fix-ftbfs-riscv64.patch
 @@ -1,4 +1,4 @@
--From 46b3079095c5ceb0dc742785853bbaf288f325c6 Mon Sep 17 00:00:00 2001
-+From 36ca2870a05f4aa75d22d54b00e01b3c4634c5a2 Mon Sep 17 00:00:00 2001
- From: Joe Slater <jslater@windriver.com>
- Date: Wed, 25 Jan 2017 13:52:59 -0800
- Subject: [PATCH] gnutls: account for ARM_EABI
-diff --git a/meta/recipes-support/gnutls/gnutls_3.8.13.bb b/meta/recipes-su=
-pport/gnutls/gnutls_3.8.14.bb
-similarity index 88%
-rename from meta/recipes-support/gnutls/gnutls_3.8.13.bb
-rename to meta/recipes-support/gnutls/gnutls_3.8.14.bb
-index 88b6135bf1f..8dedb1db415 100644
---- a/meta/recipes-support/gnutls/gnutls_3.8.13.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.8.14.bb
-@@ -14,7 +14,7 @@ LIC_FILES_CHKSUM =3D "file://README.md;beginline=3D181;en=
-dline=3D205;md5=3De159ff2a6e9cc
-                     file://COPYING;md5=3D1ebbd3e34237af26da5dc08a4e440464 =
-\
-                     file://COPYING.LESSERv2;md5=3D4bf661c1e3793e55c8d1051b=
-c5e0ae21"
-=20
--DEPENDS =3D "nettle gmp virtual/libiconv libunistring"
-+DEPENDS =3D "nettle gmp virtual/libiconv libunistring libtasn1"
-=20
- SHRT_VER =3D "${@d.getVar('PV').split('.')[0]}.${@d.getVar('PV').split('.'=
-)[1]}"
-=20
-@@ -23,22 +23,19 @@ SRC_URI =3D "https://www.gnupg.org/ftp/gcrypt/gnutls/v$=
-{SHRT_VER}/gnutls-${PV}.tar
-            file://0001-Creating-.hmac-file-should-be-excuted-in-target-env=
-i.patch \
-            file://run-ptest \
-            file://Add-ptest-support.patch \
--           file://0001-tests-pkcs11-trust-list-fault-fix-issues-in-linking=
-.patch \
--           file://0001-tests-mini-dtls-framents-link-to-gnulib.patch \
+-From ae017d7bd4d98a28a4f89a4ca75493333172bd35 Mon Sep 17 00:00:00 2001
++From c9ef6dd13cbdc16b1ba50757451d631f572c723d Mon Sep 17 00:00:00 2001
+ From: Alberto Garcia <berto@igalia.com>
+ Date: Fri, 19 Dec 2025 10:10:41 +0000
+ Subject: [PATCH] Use WTF_CPU_UNKNOWN when building for riscv64
+diff --git a/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch b/met=
+a/recipes-sato/webkit/webkitgtk/reproducibility.patch
+index c2e7961db33..9ca40a0ad3c 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/reproducibility.patch
+@@ -1,4 +1,4 @@
+-From 5cbe3e7db8982078157de0d2bcc8e8bedf7d3c77 Mon Sep 17 00:00:00 2001
++From f0c2db534b2807465a36f6e23011dad9cf711da3 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Mon, 3 Jan 2022 14:18:34 +0000
+ Subject: [PATCH] webkitgtk: Add reproducibility fix
+diff --git a/meta/recipes-sato/webkit/webkitgtk/sys_futex.patch b/meta/reci=
+pes-sato/webkit/webkitgtk/sys_futex.patch
+index 1797d833037..decd5d0d5cb 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/sys_futex.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/sys_futex.patch
+@@ -1,4 +1,4 @@
+-From addce4888885a925f7711efda729d94cea312fe0 Mon Sep 17 00:00:00 2001
++From d537da81bbec0c05e10525c0a29e0af9128c0ce4 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Wed, 18 Dec 2024 20:24:22 -0800
+ Subject: [PATCH] Fix build on newer 32bit architectures with only 64bit ti=
+me_t
+diff --git a/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch b/met=
+a/recipes-sato/webkit/webkitgtk/t6-not-declared.patch
+index 84fc64ca1bc..2a59f3b2d94 100644
+--- a/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch
++++ b/meta/recipes-sato/webkit/webkitgtk/t6-not-declared.patch
+@@ -1,4 +1,4 @@
+-From 8b7bb89d335163162fdc374f5a231273ae5b2f75 Mon Sep 17 00:00:00 2001
++From 668ee03b07f9d64b1e7eaefba6c74ed1975f7b7c Mon Sep 17 00:00:00 2001
+ From: Michael Catanzaro <mcatanzaro@redhat.com>
+ Date: Mon, 5 Feb 2024 11:00:49 -0600
+ Subject: [PATCH] =3D?UTF-8?q?LowLevelInterpreter.cpp:339:21:=3D20error:=3D=
+20?=3D
+diff --git a/meta/recipes-sato/webkit/webkitgtk_2.54.2.bb b/meta/recipes-sa=
+to/webkit/webkitgtk_2.54.3.bb
+similarity index 99%
+rename from meta/recipes-sato/webkit/webkitgtk_2.54.2.bb
+rename to meta/recipes-sato/webkit/webkitgtk_2.54.3.bb
+index fe6713d641c..3270eaf3874 100644
+--- a/meta/recipes-sato/webkit/webkitgtk_2.54.2.bb
++++ b/meta/recipes-sato/webkit/webkitgtk_2.54.3.bb
+@@ -19,7 +19,7 @@ SRC_URI =3D "https://www.webkitgtk.org/releases/${BPN}-${=
+PV}.tar.xz \
+            file://0001-Source-cmake-FindGLib.cmake-do-not-set-include-dirs=
+-.patch \
+            file://0001-libpas-Do-not-include-stdatomic.h-from-C-translatio=
+n.patch \
             "
+-SRC_URI[sha256sum] =3D "a76345b391bef6211fb5ab6cfab2e86b285d18cda17cbb9ade=
+595f1252b86065"
++SRC_URI[sha256sum] =3D "2779c1b46f88762e8400650271ba14452dc4e30b3705998155=
+2d8b562b7d0862"
 =20
--SRC_URI[sha256sum] =3D "ffed8ec1bf09c2426d4f14aae377de4753b53e537d685e604e=
-99a8b16ca9c97e"
-+SRC_URI[sha256sum] =3D "7e2d258071f5db9620aa7ff34259331d004f7beafa3eb18560=
-cfaf60acfbf02a"
-=20
- inherit autotools texinfo pkgconfig gettext lib_package gtk-doc ptest
-=20
--PACKAGECONFIG ??=3D "libidn libtasn1 ${@bb.utils.filter('DISTRO_FEATURES',=
- 'seccomp', d)}"
-+PACKAGECONFIG ??=3D "libidn ${@bb.utils.filter('DISTRO_FEATURES', 'seccomp=
-', d)}"
- PACKAGECONFIG:append:class-native =3D " p11-kit"
-=20
- # You must also have CONFIG_SECCOMP enabled in the kernel for
- # seccomp to work.
- PACKAGECONFIG[seccomp] =3D "--with-libseccomp-prefix=3D${STAGING_DIR_HOST}=
-,ac_cv_libseccomp=3Dno,libseccomp"
- PACKAGECONFIG[libidn] =3D "--with-idn,--without-idn,libidn2"
--PACKAGECONFIG[libtasn1] =3D "--without-included-libtasn1,--with-included-l=
-ibtasn1,libtasn1"
- PACKAGECONFIG[p11-kit] =3D "--with-p11-kit,--without-p11-kit,p11-kit"
- PACKAGECONFIG[tpm] =3D "--with-tpm,--without-tpm,trousers"
- PACKAGECONFIG[fips] =3D "--enable-fips140-mode --with-libdl-prefix=3D${STA=
-GING_DIR_HOST}"
-@@ -60,9 +57,12 @@ EXTRA_OECONF =3D " \
- # Otherwise the tools try and use HOSTTOOLS_DIR/bash as a shell.
- export POSIX_SHELL =3D "${base_bindir}/sh"
-=20
-+# Regenerate bundled m4 files from the sysroot; since 3.8.14 some are
-+# shipped read-only, which breaks aclocal.
- do_configure:prepend() {
--	for dir in . lib; do
--		rm -f ${dir}/aclocal.m4 ${dir}/m4/libtool.m4 ${dir}/m4/lt*.m4
-+	for dir in ${S} ${S}/lib; do
-+		rm -f ${dir}/aclocal.m4 ${dir}/m4/libtool.m4 ${dir}/m4/lt*.m4 \
-+		      ${dir}/m4/gtk-doc.m4 ${dir}/m4/pkg.m4
- 	done
- }
+ inherit cmake pkgconfig gobject-introspection perlnative features_check up=
+stream-version-is-even gi-docgen
 =20
