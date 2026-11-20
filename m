@@ -1,41 +1,40 @@
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1244.1795158387698531638
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1242.1795158387354885887
  for <openembedded-core@lists.openembedded.org>;
  Thu, 19 Nov 2026 23:06:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Vvvhd0hC;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=x2liGATE;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101a1f7c7282c-e79a9540-8c06-4a46-b99c-2d4db49f4c81-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=UZUlymbP;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ecsPt+cc;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a1f7c7264b-6e39cdaf-a990-4397-9bfa-3ad8aa91310f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1795158386;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=TR9ZegL5+pTqPpABJ7wEsBOpAKh3p/q+Wuue+gcP7Dw=;
-	b=Vvvhd0hCP/8+CJZ/paho/8kisfSxOrpgwHUwGe/uE3cpo9dYvfeBsvpiSaI5bWsd
-	/oQ/nJACtUUSy7j/9ioszXvWDNL2GWgzBhjeb37k4peWbnVdz39LWB9GdEURRqX/hnB
-	GvD/4IZV+F1/t0rz3FsHaLvkz97kG1ZY5GWJNcYQ=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=QS/lPhgxfVwSpRV5ToArwknbLG8CkgqvwUr8T6LOb3M=;
+	b=UZUlymbPpUzQqWAFd8pihyxzO43N+NrA1RRLWtoh15qF4gq+mK9dK9MdZohWQrb1
+	lXhPFvwAI9RxV0KwZ2EdZe1wUGxcYIBQEvJrQRdbSy52DDBjO6G6qnGf7EU2HCAageW
+	QOkscNcN3UE8dKbuR/OWuIkSZoNMI1dsRnTSgOKM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1795158386;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=TR9ZegL5+pTqPpABJ7wEsBOpAKh3p/q+Wuue+gcP7Dw=;
-	b=x2liGATE5IydKbczgR+cVHUKFyald2j/kQvgqWJ6xbozPj+PuBDtdjnZyLFw5z9+
-	muu3xSw3YwoKPS+cwj+/FeCxmxLBpv7vpeElp9HYMJZJaF6YQ6sUbpmAg8TqTNXStIV
-	CNarb/rGnCQLWXzKKB8w5ls+lnwxz0DoAnET0iGo=
-Content-Type: multipart/mixed; boundary="===============0476425610860590632=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=QS/lPhgxfVwSpRV5ToArwknbLG8CkgqvwUr8T6LOb3M=;
+	b=ecsPt+ccB4OEyzSv8kq8/F51/tCoB4cU7d+ynhNcyLfdoKwntXmjB1UWdc0cZQrU
+	JpmLiVoWz5vNTL+CGDHiJ0kwLZrRuTkXL+EO/CO86ITgSp5lEl1P2w5B5A43/p95KyB
+	SVAWdJl+bKI2kneHmWVILde5vUMKKIryznOc7JCk=
+Content-Type: multipart/mixed; boundary="===============6787696653356095807=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Venkatasainath Ravikanti <venkatasainath.ravikanti@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] flex: upgrading to 2.7.2 FAILED
-Message-ID: <010101a1f7c7282c-e79a9540-8c06-4a46-b99c-2d4db49f4c81-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] cmake-native,cmake: upgrading to 4.5.1 FAILED
+Message-ID: <010101a1f7c7264b-6e39cdaf-a990-4397-9bfa-3ad8aa91310f-000000@us-west-2.amazonses.com>
 Date: Fri, 20 Nov 2026 07:06:26 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.20-54.240.27.45
+X-SES-Outgoing: 2026.11.20-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 07:06:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250731
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250730
 
---===============0476425610860590632==
+--===============6787696653356095807==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -43,717 +42,1731 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *flex* to *2.7.2* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *cmake-native,cmake* to *4.5.1* has Failed(do_compile).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe flex failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 963 .bb files complete (0 cached, 963 parsed). 2014 targets, 43 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.20.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.1.99+snapshot-af4749da9279e16b3e1c883e2e5b52d0091a52ad"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:af4749da9279e16b3e1c883e2e5b52d0091a52ad"
-meta-yocto-bsp       
-meta-poky            = "master:6ee74fbbe3a36dabb7f8f85ee10691eaf8aa3252"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 2 Local 2 Mirrors 0 Missed 0 Current 28 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 964 .bb files complete (0 cached, 964 parsed). 2015 targets, 43 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.20.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.1.99+snapshot-af4749da9279e16b3e1c883e2e5b52d0091a52ad"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:af4749da9279e16b3e1c883e2e5b52d0091a52ad"
-meta-yocto-bsp       
-meta-poky            = "master:6ee74fbbe3a36dabb7f8f85ee10691eaf8aa3252"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  25% |#########                           | ETA:  0:00:00
-Adding changed files:  50% |##################                  | ETA:  0:00:00
-Adding changed files:  75% |###########################         | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://github.com/westes/flex/releases/download/v2.7.2/flex-2.7.2.tar.gz...
-INFO: Rebasing devtool onto 0674270e756e5c02f46f098ba6e85c1456dd1933
-WARNING: Command 'git rebase 0674270e756e5c02f46f098ba6e85c1456dd1933' failed:
-Auto-merging configure.ac
-CONFLICT (content): Merge conflict in configure.ac
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/flex
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/flex/flex_2.7.2.bb
-INFO: Changelog extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/flex.txt
-INFO: Changelog metadata written to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/flex.json
+do_compile failed
 
 
+
+Next steps:
+    - apply the patch: git am 0001-cmake-native-cmake-upgrade-4.4.5-4.5.1.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============0476425610860590632==
+
+-- >8 --
+From 1fdfcbf2bc4b6556b30f4b53337ace7bd398b4b5 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Fri, 20 Nov 2026 05:25:27 +0000
+Subject: [PATCH] cmake-native,cmake: upgrade 4.4.5 -> 4.5.1
+
+---
+ .../cmake/{cmake-native_4.4.5.bb => cmake-native_4.5.1.bb}      | 0
+ meta/recipes-devtools/cmake/cmake.inc                           | 2 +-
+ meta/recipes-devtools/cmake/{cmake_4.4.5.bb => cmake_4.5.1.bb}  | 0
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/cmake/{cmake-native_4.4.5.bb => cmake-native_4.5.1.bb} (100%)
+ rename meta/recipes-devtools/cmake/{cmake_4.4.5.bb => cmake_4.5.1.bb} (100%)
+
+diff --git a/meta/recipes-devtools/cmake/cmake-native_4.4.5.bb b/meta/recipes-devtools/cmake/cmake-native_4.5.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake-native_4.4.5.bb
+rename to meta/recipes-devtools/cmake/cmake-native_4.5.1.bb
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index 30294fd9b8..c7e3172098 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -19,7 +19,7 @@ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+            "
+ 
+-SRC_URI[sha256sum] = "a0c54c88abb8078dd8eccadb717fc6bb194bf18e7d44c86309910288886e04e2"
++SRC_URI[sha256sum] = "a79bf33cbe05686fdf79c2bbbcfe5e8e62ad16d3d540fa737cbedfeed41fb69e"
+ 
+ UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+diff --git a/meta/recipes-devtools/cmake/cmake_4.4.5.bb b/meta/recipes-devtools/cmake/cmake_4.5.1.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake_4.4.5.bb
+rename to meta/recipes-devtools/cmake/cmake_4.5.1.bb
+-- 
+2.47.1
+
+
+--===============6787696653356095807==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="flex-changelog.txt"
+Content-Disposition: attachment; filename="cmake-changelog.txt"
 
-ghcr.io/westes/flex-
-ci@sha256:ec845185ff56c0a0ae1e9c83862d3f7bf626f63335b1cc895a7b93aed40fa8d8.
+CMake 3.18 Release Notes
+************************
 
-ghcr.io/westes/flex-
-ci@sha256:83a5849088fb651a5cae4958c97c4de4496aeda904279fa445a71e98ad5935f0.
-
-ghcr.io/westes/flex-
-ci@sha256:8fabfd5186659b13b3c769a0b7d4b798862fabee59160c76aa22c0f0124e004b.
-
-ghcr.io/westes/flex-
-ci@sha256:89a63cd98e8c377a3041278518a1043084e0c08509100cfb9c4e651155ca5303.
-
-[github/codeql-action/analyze](https://github.com/github/codeql-action).Updates
-`github/codeql-action/init` from 4.39.1 to 4.39.3 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/9b3254085494b55a0f7c4c
-2b3d2d52cc712ce370...33d7b85da1a04171e211befe2c739303b9a4c066)Updates
-`github/codeql-action/analyze` from 4.39.1 to 4.39.3 - [Release
-notes](https://github.com/github/codeql-action/releases) -
+.. only:: html
+  .. contents::
+Changes made since CMake 3.17 include the following.
 
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/9b3254085494b55a0f7c4c
-2b3d2d52cc712ce370...33d7b85da1a04171e211befe2c739303b9a4c066)--- updated-
-dependencies: - dependency-name: github/codeql-action/init   dependency-version:
-4.39.3   dependency-type: direct:production   update-type: version-
-update:semver-patch   dependency-group: github-actions - dependency-name:
-github/codeql-action/analyze   dependency-version: 4.39.3   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[github/codeql-action/analyze](https://github.com/github/codeql-action).Updates
-`github/codeql-action/init` from 4.37.4 to 4.39.1 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/f205ea1c3313d32999d8d6
-a48b4f6530d4437b38...9b3254085494b55a0f7c4c2b3d2d52cc712ce370)Updates
-`github/codeql-action/analyze` from 4.37.4 to 4.39.1 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/f205ea1c3313d32999d8d6
-a48b4f6530d4437b38...9b3254085494b55a0f7c4c2b3d2d52cc712ce370)--- updated-
-dependencies: - dependency-name: github/codeql-action/init   dependency-version:
-4.39.1   dependency-type: direct:production   update-type: version-
-update:semver-minor   dependency-group: github-actions - dependency-name:
-github/codeql-action/analyze   dependency-version: 4.39.1   dependency-type:
-direct:production   update-type: version-update:semver-minor   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[github/codeql-action/analyze](https://github.com/github/codeql-action).Updates
-`github/codeql-action/init` from 4.37.3 to 4.37.4 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/e4fba868fa4b1b91e1fdab
-776edc8cfbe6e9fb81...f205ea1c3313d32999d8d6a48b4f6530d4437b38)Updates
-`github/codeql-action/analyze` from 4.37.3 to 4.37.4 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/e4fba868fa4b1b91e1fdab
-776edc8cfbe6e9fb81...f205ea1c3313d32999d8d6a48b4f6530d4437b38)--- updated-
-dependencies: - dependency-name: github/codeql-action/init   dependency-version:
-4.37.4   dependency-type: direct:production   update-type: version-
-update:semver-patch   dependency-group: github-actions - dependency-name:
-github/codeql-action/analyze   dependency-version: 4.37.4   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[github/codeql-action/analyze](https://github.com/github/codeql-action).Updates
-`actions/checkout` from 7.0.0 to 7.0.1 - [Release
-notes](https://github.com/actions/checkout/releases) -
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/9c091bb21b7c1c1d1991bb908d
-89e4e9dddfe3e0...3d3c42e5aac5ba805825da76410c181273ba90b1)Updates
-`github/codeql-action/init` from 4.36.3 to 4.37.3 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/54f647b7e1bb85c95cddab
-cd46b0c578ec92bc1a...e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81)Updates
-`github/codeql-action/analyze` from 4.36.3 to 4.37.3 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/54f647b7e1bb85c95cddab
-cd46b0c578ec92bc1a...e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-version: 7.0.1
-dependency-type: direct:production   update-type: version-update:semver-patch
-dependency-group: github-actions - dependency-name: github/codeql-action/init
-dependency-version: 4.37.3   dependency-type: direct:production   update-type:
-version-update:semver-minor   dependency-group: github-actions - dependency-
-name: github/codeql-action/analyze   dependency-version: 4.37.3   dependency-
-type: direct:production   update-type: version-update:semver-minor   dependency-
-group: github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[github/codeql-action/analyze](https://github.com/github/codeql-action).Updates
-`github/codeql-action/init` from 4.36.2 to 4.36.3 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/8aad20d150bbac5944a9f9
-d289da16a4b0d87c1e...54f647b7e1bb85c95cddabcd46b0c578ec92bc1a)Updates
-`github/codeql-action/analyze` from 4.36.2 to 4.36.3 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/8aad20d150bbac5944a9f9
-d289da16a4b0d87c1e...54f647b7e1bb85c95cddabcd46b0c578ec92bc1a)--- updated-
-dependencies: - dependency-name: github/codeql-action/init   dependency-version:
-4.36.3   dependency-type: direct:production   update-type: version-
-update:semver-patch   dependency-group: github-actions - dependency-name:
-github/codeql-action/analyze   dependency-version: 4.36.3   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/df4cb1c069e1874edd31b4311f
-1884172cec0e10...9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-version: 7.0.0
-dependency-type: direct:production   update-type: version-update:semver-major
-dependency-group: github-actions ...  Signed-off-by: dependabot[bot]
-<support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/87557b9c84dde89fdd9b10
-e88954ac2f4248e463...8aad20d150bbac5944a9f9d289da16a4b0d87c1e)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-version:
-4.36.2   dependency-type: direct:production   update-type: version-
-update:semver-patch   dependency-group: github-actions ...  Signed-off-by:
-dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/de0fac2e4500dabe0009e67214
-ff5f5447ce83dd...df4cb1c069e1874edd31b4311f1884172cec0e10)Updates
-`github/codeql-action` from 4.36.0 to 4.36.1 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/7211b7c8077ea37d8641b6
-271f6a365a22a5fbfa...87557b9c84dde89fdd9b10e88954ac2f4248e463)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-version: 6.0.3
-dependency-type: direct:production   update-type: version-update:semver-patch
-dependency-group: github-actions - dependency-name: github/codeql-action
-dependency-version: 4.36.1   dependency-type: direct:production   update-type:
-version-update:semver-patch   dependency-group: github-actions ...  Signed-off-
-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/9e0d7b8d25671d64c341c1
-9c0152d693099fb5ba...7211b7c8077ea37d8641b6271f6a365a22a5fbfa)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-version:
-4.36.0   dependency-type: direct:production   update-type: version-
-update:semver-minor   dependency-group: github-actions ...  Signed-off-by:
-dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/e46ed2cbd01164d986452f
-91f178727624ae40d7...9e0d7b8d25671d64c341c19c0152d693099fb5ba)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-version:
-4.35.4   dependency-type: direct:production   update-type: version-
-update:semver-patch   dependency-group: github-actions ...  Signed-off-by:
-dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/95e58e9a2cdfd71adc6e03
-53d5c52f41a045d225...e46ed2cbd01164d986452f91f178727624ae40d7)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-version:
-4.35.3   dependency-type: direct:production   update-type: version-
-update:semver-patch   dependency-group: github-actions ...  Signed-off-by:
-dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/c10b8064de6f491fea5242
-54123dbe5e09572f13...95e58e9a2cdfd71adc6e0353d5c52f41a045d225)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-version:
-4.35.2   dependency-type: direct:production   update-type: version-
-update:semver-patch   dependency-group: github-actions ...  Signed-off-by:
-dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/c793b717bc78562f491db7
-b0e93a3a178b099162...c10b8064de6f491fea524254123dbe5e09572f13)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-version:
-4.35.1   dependency-type: direct:production   update-type: version-
-update:semver-minor   dependency-group: github-actions ...  Signed-off-by:
-dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/89a39a4e59826350b863aa
-6b6252a07ad50cf83e...c793b717bc78562f491db7b0e93a3a178b099162)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-version:
-4.32.5   dependency-type: direct:production   update-type: version-
-update:semver-patch   dependency-group: github-actions ...  Signed-off-by:
-dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/08c6903cd8c0fde910a37f8832
-2edcfb5dd907a8...de0fac2e4500dabe0009e67214ff5f5447ce83dd)Updates
-`github/codeql-action` from 3.29.10 to 4.32.4 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/96f518a34f7a8700180577
-16cc4d7a5c014bd61c...89a39a4e59826350b863aa6b6252a07ad50cf83e)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-version: 6.0.2
-dependency-type: direct:production   update-type: version-update:semver-major
-dependency-group: github-actions - dependency-name: github/codeql-action
-dependency-version: 4.32.4   dependency-type: direct:production   update-type:
-version-update:semver-major   dependency-group: github-actions ...  Signed-off-
-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/11bd71901bbe5b1630ceea73d2
-7597364c9af683...08c6903cd8c0fde910a37f88322edcfb5dd907a8)Updates
-`github/codeql-action` from 3.28.18 to 3.29.10 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/ff0a06e83cb2de871e5a09
-832bc6a81e7276941f...96f518a34f7a870018057716cc4d7a5c014bd61c)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-version: 5.0.0
-dependency-type: direct:production   update-type: version-update:semver-major
-dependency-group: github-actions - dependency-name: github/codeql-action
-dependency-version: 3.29.10   dependency-type: direct:production   update-type:
-version-update:semver-minor   dependency-group: github-actions ...  Signed-off-
-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/1b549b9259bda1cb5ddde3
-b41741a82a2d15a841...ff0a06e83cb2de871e5a09832bc6a81e7276941f)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-version:
-3.28.18   dependency-type: direct:production   update-type: version-
-update:semver-patch   dependency-group: github-actions ...  Signed-off-by:
-dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/6bb031afdd8eb862ea3fc1
-848194185e076637e5...1b549b9259bda1cb5ddde3b41741a82a2d15a841)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/b6a472f63d85b9c78a3ac5
-e89422239fc15e9b3c...6bb031afdd8eb862ea3fc1848194185e076637e5)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/48ab28a6f5dbc2a99bf1e0
-131198dd8f1df78169...b6a472f63d85b9c78a3ac5e89422239fc15e9b3c)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/f09c1c0a94de965c15400f
-5634aa42fac8fb8f88...48ab28a6f5dbc2a99bf1e0131198dd8f1df78169)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-minor   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/4f3212b61783c3c68e8309
-a0f18a699764811cda...f09c1c0a94de965c15400f5634aa42fac8fb8f88)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/eef61447b9ff4aafe5dcd4e0bb
-f5d482be7e7871...11bd71901bbe5b1630ceea73d27597364c9af683)Updates
-`github/codeql-action` from 3.26.13 to 3.27.1 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/f779452ac5af1c261dce03
-46a8f964149f49322b...4f3212b61783c3c68e8309a0f18a699764811cda)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-minor   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/d632683dd7b4114ad314bca155
-54477dd762a938...eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871)Updates
-`github/codeql-action` from 3.26.11 to 3.26.13 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/6db8d6351fd0be61f9ed8e
-bd12ccd35dcec51fea...f779452ac5af1c261dce0346a8f964149f49322b)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/e2b3eafc8d227b0241d48b
-e5f425d47c2d750a13...6db8d6351fd0be61f9ed8ebd12ccd35dcec51fea)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/692973e3d937129bcbf40652eb
-9f2f61becf3332...d632683dd7b4114ad314bca15554477dd762a938)Updates
-`github/codeql-action` from 3.26.8 to 3.26.10 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/294a9d92911152fe08befb
-9ec03e240add280cb3...e2b3eafc8d227b0241d48be5f425d47c2d750a13)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-minor   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/8214744c546c1e5c8f03dd
-e8fab3a7353211988d...294a9d92911152fe08befb9ec03e240add280cb3)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/2c779ab0d087cd7fe7b826
-087247c2c81f27bfa6...8214744c546c1e5c8f03dde8fab3a7353211988d)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/429e1977040da7a23b6822
-b13c129cd1ba93dbb2...2c779ab0d087cd7fe7b826087247c2c81f27bfa6)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/eb055d739abdc2e8de2e5f
-4ba1a8b246daa779aa...429e1977040da7a23b6822b13c129cd1ba93dbb2)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/afb54ba388a7dca6ecae48
-f608c4ff05ff4cc77a...eb055d739abdc2e8de2e5f4ba1a8b246daa779aa)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-minor   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/b611370bb5703a7efb587f
-9d136a52ea24c5c38c...afb54ba388a7dca6ecae48f608c4ff05ff4cc77a)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/23acc5c183826b7a8a97bc
-e3cecc52db901f8251...b611370bb5703a7efb587f9d136a52ea24c5c38c)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/a5ac7e51b41094c92402da3b24
-376905380afc29...692973e3d937129bcbf40652eb9f2f61becf3332)Updates
-`github/codeql-action` from 3.25.8 to 3.25.10 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/2e230e8fe0ad3a14a340ad
-0815ddb96d599d2aff...23acc5c183826b7a8a97bce3cecc52db901f8251)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/f079b8493333aace61c814
-88f8bd40919487bd9f...2e230e8fe0ad3a14a340ad0815ddb96d599d2aff)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/9fdb3e49720b44c48891d0
-36bb502feb25684276...f079b8493333aace61c81488f8bd40919487bd9f)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/44c2b7a8a4ea60a981eaca3cf9
-39b5f4305c123b...a5ac7e51b41094c92402da3b24376905380afc29)Updates
-`github/codeql-action` from 3.25.5 to 3.25.6 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/b7cec7526559c32f161647
-6ff32d17ba4c59b2d6...9fdb3e49720b44c48891d036bb502feb25684276)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/0ad4b8fadaa221de15dcec353f
-45205ec38ea70b...44c2b7a8a4ea60a981eaca3cf939b5f4305c123b)Updates
-`github/codeql-action` from 3.25.3 to 3.25.5 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/d39d31e687223d841ef683
-f52467bd88e9b21c14...b7cec7526559c32f1616476ff32d17ba4c59b2d6)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/1d96c772d19495a3b5c517cd2b
-c0cb401ea0529f...0ad4b8fadaa221de15dcec353f45205ec38ea70b)Updates
-`github/codeql-action` from 3.25.1 to 3.25.3 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/c7f9125735019aa87cfc36
-1530512d50ea439c71...d39d31e687223d841ef683f52467bd88e9b21c14)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-https://lists.defectivebydesign.org/archive/html/help-flex/2013-01/msg00000.html
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/9bb56186c3b09b4f86b1c65136
-769dd318469633...1d96c772d19495a3b5c517cd2bc0cb401ea0529f)Updates
-`github/codeql-action` from 3.24.10 to 3.25.1 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/4355270be187e1b672a7a1
-c7c7bae5afdc1ab94a...c7f9125735019aa87cfc361530512d50ea439c71)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-minor   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/1b1aada464948af03b9508
-97e5eb522f92603cc2...4355270be187e1b672a7a1c7c7bae5afdc1ab94a)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/05963f47d870e2cb19a537
-396c1f668a348c7d8f...1b1aada464948af03b950897e5eb522f92603cc2)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/012739e5082ff0c22ca6d6
-ab32e07c36df03c4a4...e5f05b81d5b6ff8cfa111c80c22c5fd02a384118)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-minor   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/407ffafae6a767df3e0230
-c3df91b6443ae8df75...c0d1daa7f7e14667747d73a7dbbe8c074bc8bfe2)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/74483a38d39275f33fcff5
-f35b679b5ca4a26a99...407ffafae6a767df3e0230c3df91b6443ae8df75)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/8ade135a41bc03ea155e62e844
-d188df1ea18608...b4ffde65f46336ab88eb53be808477a3936bae11)Updates
-`github/codeql-action` from 2.22.3 to 2.22.5 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/0116bc2df50751f9724a2e
-35ef1f24d22f90e4e1...74483a38d39275f33fcff5f35b679b5ca4a26a99)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/ddccb873888234080b77e9
-bc2d4764d5ccaaccf9...0116bc2df50751f9724a2e35ef1f24d22f90e4e1)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-minor   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/3df4ab11eba7bda6032a0b82a6
-bb43b11571feac...8ade135a41bc03ea155e62e844d188df1ea18608)Updates
-`github/codeql-action` from 2.21.7 to 2.21.9 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/04daf014b50eaf774287bf
-3f0f1869d4b4c4b913...ddccb873888234080b77e9bc2d4764d5ccaaccf9)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-minor   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/00e563ead9f72a8461b248
-76bee2d0c2e8bd2ee8...04daf014b50eaf774287bf3f0f1869d4b4c4b913)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-<https://lists.gnu.org/archive/html/bug-autoconf/2018-02/msg00005.html>As a
-workaround, let's move comments out of AC_CHECK_FUNCS.  Signed-off-by: Kang-Che
-Sung <explorer09@gmail.com>
-
---===============0476425610860590632==--
+New Features
+============
+
+Languages
+---------
+
+Command-Line
+------------
+
+Commands
+--------
+
+Variables
+---------
+
+Properties
+----------
+
+Modules
+-------
+
+Generator Expressions
+---------------------
+
+CTest
+-----
+
+CPack
+-----
+
+Other
+-----
+
+Deprecated and Removed Features
+===============================
+
+Other Changes
+=============
+
+Updates
+=======
+
+Changes made since CMake 3.18.0 include the following.
+
+3.18.1
+------
+
+3.18.2
+------
+
+3.18.3
+------
+
+CMake 3.6 Release Notes
+***********************
+
+.. only:: html
+  .. contents::
+Changes made since CMake 3.5 include the following.
+
+New Features
+============
+
+Generators
+----------
+
+Commands
+--------
+
+Variables
+---------
+
+Properties
+----------
+
+Modules
+-------
+
+Platforms
+---------
+
+CTest
+-----
+
+CPack
+-----
+
+<PackageName>_<VersionNumber>-<DebianRevisionNumber>_<DebianArchitecture>.deb
+
+  For backward compatibility this feature is disabled by default. See
+  :variable:`CPACK_DEBIAN_FILE_NAME` and
+  :variable:`CPACK_DEBIAN_<COMPONENT>_FILE_NAME`.
+
+Other
+-----
+
+Deprecated and Removed Features
+===============================
+
+Other Changes
+=============
+
+CMake 4.0 Release Notes
+***********************
+
+.. only:: html
+  .. contents::
+Changes made since CMake 3.31 include the following.
+
+New Features
+============
+
+File-Based API
+--------------
+
+Command-Line
+------------
+
+Commands
+--------
+
+Variables
+---------
+
+  See policy :policy:`CMP0181`.
+
+Properties
+----------
+
+Modules
+-------
+
+Generator Expressions
+---------------------
+
+CTest
+-----
+
+CPack
+-----
+
+Deprecated and Removed Features
+===============================
+
+Other Changes
+=============
+
+  Notes:
+
+Updates
+=======
+
+Changes made since CMake 4.0.0 include the following.
+
+4.0.1
+-----
+
+4.0.2
+-----
+
+4.0.3, 4.0.4
+------------
+
+4.0.5
+-----
+
+4.0.6, 4.0.7
+------------
+
+CMake 4.2 Release Notes
+***********************
+
+.. only:: html
+  .. contents::
+Changes made since CMake 4.1 include the following.
+
+New Features
+============
+
+File-Based API
+--------------
+
+Generators
+----------
+
+Platforms
+---------
+
+Command-Line
+------------
+
+Commands
+--------
+
+Variables
+---------
+
+Properties
+----------
+
+Modules
+-------
+
+Generator Expressions
+---------------------
+
+CPack
+-----
+
+Deprecated and Removed Features
+===============================
+
+Other Changes
+=============
+
+Updates
+=======
+
+Changes made since CMake 4.2.0 include the following.
+
+4.2.1
+-----
+
+4.2.2
+-----
+
+4.2.3, 4.2.4, 4.2.5, 4.2.6, 4.2.7, 4.2.8
+----------------------------------------
+
+CMake 4.5 Release Notes
+***********************
+
+.. only:: html
+  .. contents::
+Changes made since CMake 4.4 include the following.
+
+New Features
+============
+
+Diagnostics
+-----------
+
+Presets
+-------
+
+File-Based API
+--------------
+
+Instrumentation
+---------------
+
+Generators
+----------
+
+Languages
+---------
+
+Compilers
+---------
+
+Command-Line
+------------
+
+Commands
+--------
+
+File Sets
+---------
+
+Variables
+---------
+
+Environment Variables
+---------------------
+
+Properties
+----------
+
+Modules
+-------
+
+Generator Expressions
+---------------------
+
+Autogen
+-------
+
+CTest
+-----
+
+CPack
+-----
+
+Deprecated and Removed Features
+===============================
+
+Other Changes
+=============
+
+.. |CPS| replace:: Common Package Specification
+
+Updates
+=======
+
+Changes made since CMake 4.5.0 include the following.
+
+4.5.1
+-----
+
+--===============6787696653356095807==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-cmake-native-cmake-upgrade-4.4.5-4.5.1.patch"
+
+RnJvbSAxZmRmY2JmMmJjNGI2NTU2YjMwZjRiNTMzMzdhY2U3YmQzOThiNGI1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMjAgTm92IDIwMjYgMDU6MjU6MjcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
+bWFrZS1uYXRpdmUsY21ha2U6IHVwZ3JhZGUgNC40LjUgLT4gNC41LjEKCi0tLQogLi4uL2NtYWtl
+L3tjbWFrZS1uYXRpdmVfNC40LjUuYmIgPT4gY21ha2UtbmF0aXZlXzQuNS4xLmJifSAgICAgIHwg
+MAogbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLmluYyAgICAgICAgICAgICAgICAg
+ICAgICAgICAgIHwgMiArLQogbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL3tjbWFrZV80LjQu
+NS5iYiA9PiBjbWFrZV80LjUuMS5iYn0gIHwgMAogMyBmaWxlcyBjaGFuZ2VkLCAxIGluc2VydGlv
+bigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS97
+Y21ha2UtbmF0aXZlXzQuNC41LmJiID0+IGNtYWtlLW5hdGl2ZV80LjUuMS5iYn0gKDEwMCUpCiBy
+ZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL3tjbWFrZV80LjQuNS5iYiA9PiBjbWFr
+ZV80LjUuMS5iYn0gKDEwMCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Nt
+YWtlL2NtYWtlLW5hdGl2ZV80LjQuNS5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9j
+bWFrZS1uYXRpdmVfNC41LjEuYmIKc2ltaWxhcml0eSBpbmRleCAxMDAlCnJlbmFtZSBmcm9tIG1l
+dGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS1uYXRpdmVfNC40LjUuYmIKcmVuYW1lIHRv
+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS1uYXRpdmVfNC41LjEuYmIKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS5pbmMgYi9tZXRhL3JlY2lw
+ZXMtZGV2dG9vbHMvY21ha2UvY21ha2UuaW5jCmluZGV4IDMwMjk0ZmQ5YjguLmM3ZTMxNzIwOTgg
+MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS5pbmMKKysrIGIv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLmluYwpAQCAtMTksNyArMTksNyBAQCBD
+TUFLRV9NQUpPUl9WRVJTSU9OID0gIiR7QCcuJy5qb2luKGQuZ2V0VmFyKCdQVicpLnNwbGl0KCcu
+JylbMDoyXSl9IgogU1JDX1VSSSA9ICJodHRwczovL2NtYWtlLm9yZy9maWxlcy92JHtDTUFLRV9N
+QUpPUl9WRVJTSU9OfS9jbWFrZS0ke1BWfS50YXIuZ3ogXAogICAgICAgICAgICAiCiAKLVNSQ19V
+Uklbc2hhMjU2c3VtXSA9ICJhMGM1NGM4OGFiYjgwNzhkZDhlY2NhZGI3MTdmYzZiYjE5NGJmMThl
+N2Q0NGM4NjMwOTkxMDI4ODg4NmUwNGUyIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImE3OWJmMzNj
+YmUwNTY4NmZkZjc5YzJiYmJjZmU1ZThlNjJhZDE2ZDNkNTQwZmE3MzdjYmVkZmVlZDQxZmI2OWUi
+CiAKIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gImNtYWtlLSg/UDxwdmVyPlxkKyhcLlxkKykrKVwu
+dGFyIgogCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2VfNC40
+LjUuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2VfNC41LjEuYmIKc2ltaWxh
+cml0eSBpbmRleCAxMDAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9j
+bWFrZV80LjQuNS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtl
+XzQuNS4xLmJiCi0tIAoyLjQ3LjEKCg==
+
+--===============6787696653356095807==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 963 .bb files complete (0 cached, 963 parsed). 2014 targets, 43 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+Removing 1 recipes from the x86-64-v3 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.20.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.1.99+snapshot-40bb14c8363234f7b4e92f104a552633fd7d9335"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:40bb14c8363234f7b4e92f104a552633fd7d9335"
+meta-yocto-bsp       
+meta-poky            = "master:6ee74fbbe3a36dabb7f8f85ee10691eaf8aa3252"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 168 Local 19 Mirrors 0 Missed 149 Current 392 (11% match, 73% complete)
+done.
+Removing 22 stale sstate objects for arch qemux86_64...done.
+Removing 49 stale sstate objects for arch x86_64...done.
+Removing 58 stale sstate objects for arch x86-64-v3...done.
+NOTE: Executing Tasks
+NOTE: Running setscene task 538 of 560 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.11.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 542 of 560 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/json-c/json-c_0.19.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running setscene task 553 of 560 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-packaging_26.3.bb:do_deploy_source_date_epoch_setscene)
+NOTE: Running task 265 of 1381 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/cmake/cmake-native_4.5.1.bb:do_recipe_qa)
+NOTE: Running task 419 of 1381 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.10.0.bb:do_generate_toolchain_file)
+NOTE: Running task 553 of 1381 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk-doc/gtk-doc_1.37.0.bb:do_write_config)
+NOTE: Running task 845 of 1381 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/cmake/cmake-native_4.5.1.bb:do_create_recipe_spdx)
+NOTE: Running task 1010 of 1381 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/cmake/cmake_4.5.1.bb:do_recipe_qa)
+NOTE: recipe cmake-native-4.5.1-r0: task do_recipe_qa: Started
+NOTE: recipe cmake-native-4.5.1-r0: task do_create_recipe_spdx: Started
+NOTE: recipe cmake-4.5.1-r0: task do_recipe_qa: Started
+NOTE: recipe libarchive-native-3.8.11-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe json-c-native-0.19-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe python3-packaging-native-26.3-r0: task do_deploy_source_date_epoch_setscene: Started
+NOTE: recipe expat-native-2.10.0-r0: task do_generate_toolchain_file: Started
+NOTE: recipe gtk-doc-native-1.37.0-r0: task do_write_config: Started
+NOTE: recipe expat-native-2.10.0-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe gtk-doc-native-1.37.0-r0: task do_write_config: Succeeded
+NOTE: recipe libarchive-native-3.8.11-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: recipe json-c-native-0.19-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running task 1083 of 1381 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.11.bb:do_fetch)
+NOTE: recipe python3-packaging-native-26.3-r0: task do_deploy_source_date_epoch_setscene: Succeeded
+NOTE: Running task 1084 of 1381 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/json-c/json-c_0.19.bb:do_fetch)
+NOTE: Setscene tasks completed
+NOTE: Running task 1085 of 1381 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-packaging_26.3.bb:do_fetch)
+NOTE: recipe json-c-native-0.19-r0: task do_fetch: Started
+NOTE: recipe libarchive-native-3.8.11-r0: task do_fetch: Started
+NOTE: recipe python3-packaging-native-26.3-r0: task do_fetch: Started
+NOTE: recipe libarchive-native-3.8.11-r0: task do_fetch: Succeeded
+NOTE: Running task 1086 of 1381 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.11.bb:do_unpack)
+NOTE: recipe json-c-native-0.19-r0: task do_fetch: Succeeded
+NOTE: recipe python3-packaging-native-26.3-r0: task do_fetch: Succeeded
+NOTE: Running task 1087 of 1381 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/json-c/json-c_0.19.bb:do_unpack)
+NOTE: Running task 1088 of 1381 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-packaging_26.3.bb:do_unpack)
+NOTE: recipe cmake-4.5.1-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 1089 of 1381 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/cmake/cmake_4.5.1.bb:do_fetch)
+NOTE: recipe libarchive-native-3.8.11-r0: task do_unpack: Started
+NOTE: recipe python3-packaging-native-26.3-r0: task do_unpack: Started
+NOTE: recipe json-c-native-0.19-r0: task do_unpack: Started
+NOTE: recipe cmake-native-4.5.1-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 1090 of 1381 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/cmake/cmake-native_4.5.1.bb:do_fetch)
+NOTE: recipe cmake-native-4.5.1-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 1091 of 1381 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.10.0.bb:do_create_recipe_spdx)
+NOTE: Running task 1092 of 1381 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/expat/expat_2.10.0.bb:do_create_recipe_spdx)
+NOTE: recipe python3-packaging-native-26.3-r0: task do_unpack: Succeeded
+NOTE: Running task 1093 of 1381 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-packaging_26.3.bb:do_patch)
+NOTE: recipe json-c-native-0.19-r0: task do_unpack: Succeeded
+NOTE: Running task 1094 of 1381 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/json-c/json-c_0.19.bb:do_patch)
+NOTE: recipe cmake-4.5.1-r0: task do_fetch: Started
+NOTE: recipe cmake-native-4.5.1-r0: task do_fetch: Started
+NOTE: recipe cmake-4.5.1-r0: task do_fetch: Succeeded
+NOTE: recipe cmake-native-4.5.1-r0: task do_fetch: Succeeded
+NOTE: Running task 1095 of 1381 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/cmake/cmake_4.5.1.bb:do_unpack)
+NOTE: Running task 1096 of 1381 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/cmake/cmake-native_4.5.1.bb:do_unpack)
+NOTE: Running task 1097 of 1381 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/cmake/cmake-native_4.5.1.bb:do_prepare_recipe_sysroot)
+NOTE: recipe expat-2.10.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe expat-native-2.10.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe cmake-native-4.5.1-r0: task do_unpack: Started
+NOTE: recipe cmake-native-4.5.1-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe python3-packaging-native-26.3-r0: task do_patch: Started
+NOTE: recipe json-c-native-0.19-r0: task do_patch: Started
+NOTE: recipe cmake-4.5.1-r0: task do_unpack: Started
+NOTE: recipe libarchive-native-3.8.11-r0: task do_unpack: Succeeded
+NOTE: Running task 1098 of 1381 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.11.bb:do_patch)
+NOTE: recipe python3-packaging-native-26.3-r0: task do_patch: Succeeded
+NOTE: recipe json-c-native-0.19-r0: task do_patch: Succeeded
+NOTE: Running task 1100 of 1381 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/json-c/json-c_0.19.bb:do_generate_toolchain_file)
+NOTE: recipe expat-2.10.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe libarchive-native-3.8.11-r0: task do_patch: Started
+NOTE: recipe expat-native-2.10.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 1102 of 1381 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.15.2.bb:do_create_recipe_spdx)
+NOTE: recipe json-c-native-0.19-r0: task do_generate_toolchain_file: Started
+NOTE: recipe cmake-native-4.5.1-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe json-c-native-0.19-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe python3-native-3.15.2-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libarchive-native-3.8.11-r0: task do_patch: Succeeded
+NOTE: recipe python3-native-3.15.2-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 1104 of 1381 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-flit-core_3.12.0.bb:do_create_recipe_spdx)
+NOTE: recipe python3-flit-core-native-3.12.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe python3-flit-core-native-3.12.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 1105 of 1381 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-installer_1.1.0.bb:do_create_recipe_spdx)
+NOTE: recipe python3-installer-native-1.1.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe python3-installer-native-1.1.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 1106 of 1381 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pyproject-hooks_1.3.3.bb:do_create_recipe_spdx)
+NOTE: recipe python3-pyproject-hooks-native-1.3.3-r0: task do_create_recipe_spdx: Started
+NOTE: recipe cmake-4.5.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1107 of 1381 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/cmake/cmake_4.5.1.bb:do_patch)
+NOTE: recipe cmake-native-4.5.1-r0: task do_unpack: Succeeded
+NOTE: Running task 1108 of 1381 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/cmake/cmake-native_4.5.1.bb:do_patch)
+NOTE: recipe python3-pyproject-hooks-native-1.3.3-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 1109 of 1381 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-build_1.6.1.bb:do_create_recipe_spdx)
+NOTE: recipe cmake-4.5.1-r0: task do_patch: Started
+NOTE: recipe cmake-native-4.5.1-r0: task do_patch: Started
+NOTE: recipe python3-build-native-1.6.1-r0: task do_create_recipe_spdx: Started
+NOTE: recipe cmake-native-4.5.1-r0: task do_patch: Succeeded
+NOTE: recipe cmake-4.5.1-r0: task do_patch: Succeeded
+NOTE: Running task 1110 of 1381 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/cmake/cmake-native_4.5.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1111 of 1381 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/cmake/cmake-native_4.5.1.bb:do_populate_lic)
+NOTE: Running task 1112 of 1381 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/cmake/cmake_4.5.1.bb:do_deploy_source_date_epoch)
+NOTE: Running task 1113 of 1381 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/cmake/cmake_4.5.1.bb:do_generate_toolchain_file)
+NOTE: Running task 1114 of 1381 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/cmake/cmake_4.5.1.bb:do_populate_lic)
+NOTE: recipe cmake-native-4.5.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe cmake-native-4.5.1-r0: task do_populate_lic: Started
+NOTE: recipe cmake-4.5.1-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe cmake-4.5.1-r0: task do_generate_toolchain_file: Started
+NOTE: recipe cmake-4.5.1-r0: task do_populate_lic: Started
+NOTE: recipe cmake-4.5.1-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe python3-build-native-1.6.1-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 1115 of 1381 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools_84.2.1.bb:do_create_recipe_spdx)
+NOTE: recipe cmake-native-4.5.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe python3-setuptools-native-84.2.1-r0: task do_create_recipe_spdx: Started
+NOTE: recipe cmake-4.5.1-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe cmake-native-4.5.1-r0: task do_populate_lic: Succeeded
+NOTE: Running task 1116 of 1381 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/cmake/cmake-native_4.5.1.bb:do_configure)
+NOTE: recipe cmake-native-4.5.1-r0: task do_configure: Started
+NOTE: recipe cmake-4.5.1-r0: task do_populate_lic: Succeeded
+NOTE: recipe python3-setuptools-native-84.2.1-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 1117 of 1381 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/meson/meson_1.12.1.bb:do_create_recipe_spdx)
+NOTE: recipe meson-native-1.12.1-r0: task do_create_recipe_spdx: Started
+NOTE: recipe meson-native-1.12.1-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 1118 of 1381 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk-doc/gtk-doc_1.37.0.bb:do_create_recipe_spdx)
+NOTE: Running task 1119 of 1381 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.90.0.bb:do_create_recipe_spdx)
+NOTE: recipe gtk-doc-native-1.37.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe glib-2.0-native-1_2.90.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe glib-2.0-native-1_2.90.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 1120 of 1381 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemu-native_11.1.3.bb:do_create_recipe_spdx)
+NOTE: recipe gtk-doc-native-1.37.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe qemu-native-11.1.3-r0: task do_create_recipe_spdx: Started
+NOTE: Running task 1121 of 1381 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libidn/libidn2_2.3.8.bb:do_create_recipe_spdx)
+NOTE: Running task 1122 of 1381 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.42.4.bb:do_create_recipe_spdx)
+NOTE: recipe libidn2-2.3.8-r0: task do_create_recipe_spdx: Started
+NOTE: recipe util-linux-native-2.42.4-r0: task do_create_recipe_spdx: Started
+NOTE: recipe qemu-native-11.1.3-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe libidn2-2.3.8-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 1123 of 1381 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libpsl/libpsl_0.23.3.bb:do_create_recipe_spdx)
+NOTE: recipe util-linux-native-2.42.4-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 1124 of 1381 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/e2fsprogs/e2fsprogs_1.47.4.bb:do_create_recipe_spdx)
+NOTE: recipe libpsl-0.23.3-r0: task do_create_recipe_spdx: Started
+NOTE: recipe e2fsprogs-native-1.47.4-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libpsl-0.23.3-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe e2fsprogs-native-1.47.4-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 1125 of 1381 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/curl/curl_8.23.0.bb:do_create_recipe_spdx)
+NOTE: Running task 1126 of 1381 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.11.bb:do_create_recipe_spdx)
+NOTE: recipe curl-8.23.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libarchive-3.8.11-r0: task do_create_recipe_spdx: Started
+NOTE: recipe libarchive-3.8.11-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe curl-8.23.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: Running task 1127 of 1381 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/cmake/cmake_4.5.1.bb:do_create_recipe_spdx)
+NOTE: recipe cmake-4.5.1-r0: task do_create_recipe_spdx: Started
+NOTE: recipe cmake-4.5.1-r0: task do_create_recipe_spdx: Succeeded
+Log data follows:
+| DEBUG: Executing python function extend_recipe_sysroot
+| NOTE: Direct dependencies are ['/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/quilt/quilt-native_0.69.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_4.1.0.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/ncurses/ncurses_6.6.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/zlib/zlib_1.4.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bzip2/bzip2_1.0.8.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/xz/xz_5.8.4.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/zstd/zstd_1.5.7.b
+ b:do_populate_sysroot']
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['gettext-minimal-native', 'libtool-native', 'quilt-native', 'texinfo-dummy-native', 'openssl-native', 'ncurses-native', 'zlib-native', 'make-native', 'perl-native', 'bzip2-native', 'xz-native', 'zstd-native', 'gdbm-native']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function do_configure
+| ---------------------------------------------
+| Source directory: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1
+| Binary directory: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build
+| Prefix directory: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr
+| System:           Linux
+| Generator:        Unix Makefiles
+| Doing parallel make: 16
+| 
+| ---------------------------------------------
+| CMake 4.5.1, Copyright 2000-2026 Kitware, Inc. and Contributors
+| C compiler on this system is: gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe
+| C++ compiler on this system is: g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden
+| Makefile processor on this system is: make
+| g++  has setenv
+| g++  has unsetenv
+| g++  does not have environ in stdlib.h
+| g++  has <ext/stdio_filebuf.h>
+| ---------------------------------------------
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmAddCompileDefinitionsCommand.cxx -o cmAddCompileDefinitionsCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmAddCustomCommandCommand.cxx -o cmAddCustomCommandCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmAddCustomRuleCommand.cxx -o cmAddCustomRuleCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmAddCustomTargetCommand.cxx -o cmAddCustomTargetCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmAddDefinitionsCommand.cxx -o cmAddDefinitionsCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmAddDependenciesCommand.cxx -o cmAddDependenciesCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmAddExecutableCommand.cxx -o cmAddExecutableCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmAddLibraryCommand.cxx -o cmAddLibraryCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmAddSubDirectoryCommand.cxx -o cmAddSubDirectoryCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmAddTestCommand.cxx -o cmAddTestCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmArgumentParser.cxx -o cmArgumentParser.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmBinUtilsLinker.cxx -o cmBinUtilsLinker.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmBinUtilsLinuxELFGetRuntimeDependenciesTool.cxx -o cmBinUtilsLinuxELFGetRuntimeDependenciesTool.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmBinUtilsLinuxELFLinker.cxx -o cmBinUtilsLinuxELFLinker.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmBinUtilsLinuxELFObjdumpGetRuntimeDependenciesTool.cxx -o cmBinUtilsLinuxELFObjdumpGetRuntimeDependenciesTool.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmBinUtilsMacOSMachOGetRuntimeDependenciesTool.cxx -o cmBinUtilsMacOSMachOGetRuntimeDependenciesTool.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmBinUtilsMacOSMachOLinker.cxx -o cmBinUtilsMacOSMachOLinker.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmBinUtilsMacOSMachOOToolGetRuntimeDependenciesTool.cxx -o cmBinUtilsMacOSMachOOToolGetRuntimeDependenciesTool.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmBinUtilsWindowsPEGetRuntimeDependenciesTool.cxx -o cmBinUtilsWindowsPEGetRuntimeDependenciesTool.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmBinUtilsWindowsPEDumpbinGetRuntimeDependenciesTool.cxx -o cmBinUtilsWindowsPEDumpbinGetRuntimeDependenciesTool.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmBinUtilsWindowsPELinker.cxx -o cmBinUtilsWindowsPELinker.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmBinUtilsWindowsPEObjdumpGetRuntimeDependenciesTool.cxx -o cmBinUtilsWindowsPEObjdumpGetRuntimeDependenciesTool.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmBlockCommand.cxx -o cmBlockCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmBreakCommand.cxx -o cmBreakCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmBuildCommand.cxx -o cmBuildCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmBuildDatabase.cxx -o cmBuildDatabase.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmCMakeLanguageCommand.cxx -o cmCMakeLanguageCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmCMakeMinimumRequired.cxx -o cmCMakeMinimumRequired.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmList.cxx -o cmList.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmCMakeDiagnosticCommand.cxx -o cmCMakeDiagnosticCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmCMakePath.cxx -o cmCMakePath.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmCMakePathCommand.cxx -o cmCMakePathCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmCMakePolicyCommand.cxx -o cmCMakePolicyCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmCMakeString.cxx -o cmCMakeString.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmCPackPropertiesGenerator.cxx -o cmCPackPropertiesGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmCacheDocumentationTable.cxx -o cmCacheDocumentationTable.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmCacheManager.cxx -o cmCacheManager.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmCachePatternTable.cxx -o cmCachePatternTable.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmCommands.cxx -o cmCommands.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmCommonTargetGenerator.cxx -o cmCommonTargetGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmComputeComponentGraph.cxx -o cmComputeComponentGraph.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmComputeLinkDepends.cxx -o cmComputeLinkDepends.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmComputeLinkInformation.cxx -o cmComputeLinkInformation.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmComputeTargetDepends.cxx -o cmComputeTargetDepends.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmConditionEvaluator.cxx -o cmConditionEvaluator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmConfigureFileCommand.cxx -o cmConfigureFileCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmContinueCommand.cxx -o cmContinueCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmCoreTryCompile.cxx -o cmCoreTryCompile.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmCreateTestSourceList.cxx -o cmCreateTestSourceList.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmCryptoHash.cxx -o cmCryptoHash.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmCustomCommand.cxx -o cmCustomCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmCustomCommandGenerator.cxx -o cmCustomCommandGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmCustomCommandLines.cxx -o cmCustomCommandLines.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmCustomRule.cxx -o cmCustomRule.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmCxxModuleMapper.cxx -o cmCxxModuleMapper.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmCxxModuleUsageEffects.cxx -o cmCxxModuleUsageEffects.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmDefinePropertyCommand.cxx -o cmDefinePropertyCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmDefinitions.cxx -o cmDefinitions.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmDiagnostics.cxx -o cmDiagnostics.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmDiagnosticContext.cxx -o cmDiagnosticContext.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmDirectoryPropertyHelper.cxx -o cmDirectoryPropertyHelper.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmDiscoverTestsCommand.cxx -o cmDiscoverTestsCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmDocumentationFormatter.cxx -o cmDocumentationFormatter.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmELF.cxx -o cmELF.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmEnableLanguageCommand.cxx -o cmEnableLanguageCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmEnableTestingCommand.cxx -o cmEnableTestingCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmEnvironment.cxx -o cmEnvironment.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmEvaluatedTargetProperty.cxx -o cmEvaluatedTargetProperty.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmExecProgramCommand.cxx -o cmExecProgramCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmExecuteProcessCommand.cxx -o cmExecuteProcessCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmExpandedCommandArgument.cxx -o cmExpandedCommandArgument.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmExperimental.cxx -o cmExperimental.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmExportBuildCMakeConfigGenerator.cxx -o cmExportBuildCMakeConfigGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmExportBuildFileGenerator.cxx -o cmExportBuildFileGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmExportCMakeConfigGenerator.cxx -o cmExportCMakeConfigGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmExportFileGenerator.cxx -o cmExportFileGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmExportInstallCMakeConfigGenerator.cxx -o cmExportInstallCMakeConfigGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmExportInstallFileGenerator.cxx -o cmExportInstallFileGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmExportSet.cxx -o cmExportSet.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmExportTryCompileFileGenerator.cxx -o cmExportTryCompileFileGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmExprParserHelper.cxx -o cmExprParserHelper.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmExternalMakefileProjectGenerator.cxx -o cmExternalMakefileProjectGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmFileCommand.cxx -o cmFileCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmFileCommand_ReadMacho.cxx -o cmFileCommand_ReadMacho.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmFileCopier.cxx -o cmFileCopier.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmFileInstaller.cxx -o cmFileInstaller.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmFileSet.cxx -o cmFileSet.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmFileSetMetadata.cxx -o cmFileSetMetadata.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmFileTime.cxx -o cmFileTime.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmFileTimeCache.cxx -o cmFileTimeCache.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmFileTimes.cxx -o cmFileTimes.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmFindBase.cxx -o cmFindBase.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmFindCommon.cxx -o cmFindCommon.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmFindFileCommand.cxx -o cmFindFileCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmFindLibraryCommand.cxx -o cmFindLibraryCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmFindPackageCommand.cxx -o cmFindPackageCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmFindPackageStack.cxx -o cmFindPackageStack.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmFindPathCommand.cxx -o cmFindPathCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmFindProgramCommand.cxx -o cmFindProgramCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmForEachCommand.cxx -o cmForEachCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmFunctionBlocker.cxx -o cmFunctionBlocker.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmFunctionCommand.cxx -o cmFunctionCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmFSPermissions.cxx -o cmFSPermissions.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGeneratedFileStream.cxx -o cmGeneratedFileStream.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGenExContext.cxx -o cmGenExContext.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGenExEvaluation.cxx -o cmGenExEvaluation.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGeneratorExpression.cxx -o cmGeneratorExpression.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGeneratorExpressionDAGChecker.cxx -o cmGeneratorExpressionDAGChecker.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGeneratorExpressionEvaluationFile.cxx -o cmGeneratorExpressionEvaluationFile.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGeneratorExpressionEvaluator.cxx -o cmGeneratorExpressionEvaluator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGeneratorExpressionLexer.cxx -o cmGeneratorExpressionLexer.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGeneratorExpressionNode.cxx -o cmGeneratorExpressionNode.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGeneratorExpressionParser.cxx -o cmGeneratorExpressionParser.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGeneratorFileSet.cxx -o cmGeneratorFileSet.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGeneratorFileSets.cxx -o cmGeneratorFileSets.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGeneratorRule.cxx -o cmGeneratorRule.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGeneratorTarget.cxx -o cmGeneratorTarget.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGeneratorTarget_CompatibleInterface.cxx -o cmGeneratorTarget_CompatibleInterface.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGeneratorTarget_HeaderSetVerification.cxx -o cmGeneratorTarget_HeaderSetVerification.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGeneratorTarget_IncludeDirectories.cxx -o cmGeneratorTarget_IncludeDirectories.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGeneratorTarget_Link.cxx -o cmGeneratorTarget_Link.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGeneratorTarget_LinkDirectories.cxx -o cmGeneratorTarget_LinkDirectories.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGeneratorTarget_Options.cxx -o cmGeneratorTarget_Options.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGeneratorTarget_Sources.cxx -o cmGeneratorTarget_Sources.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGeneratorTarget_TransitiveProperty.cxx -o cmGeneratorTarget_TransitiveProperty.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGeneratorTarget_Wrappers.cxx -o cmGeneratorTarget_Wrappers.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGetCMakePropertyCommand.cxx -o cmGetCMakePropertyCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGetDirectoryPropertyCommand.cxx -o cmGetDirectoryPropertyCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGetFilenameComponentCommand.cxx -o cmGetFilenameComponentCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGetPipes.cxx -o cmGetPipes.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGetPropertyCommand.cxx -o cmGetPropertyCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGetSourceFilePropertyCommand.cxx -o cmGetSourceFilePropertyCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGetTargetPropertyCommand.cxx -o cmGetTargetPropertyCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGetTestPropertyCommand.cxx -o cmGetTestPropertyCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGlobalCommonGenerator.cxx -o cmGlobalCommonGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGlobalGenerator.cxx -o cmGlobalGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGlobVerificationManager.cxx -o cmGlobVerificationManager.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmHexFileConverter.cxx -o cmHexFileConverter.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmIfCommand.cxx -o cmIfCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmImportedCxxModuleInfo.cxx -o cmImportedCxxModuleInfo.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmIncludeCommand.cxx -o cmIncludeCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmIncludeGuardCommand.cxx -o cmIncludeGuardCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmIncludeDirectoryCommand.cxx -o cmIncludeDirectoryCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmIncludeRegularExpressionCommand.cxx -o cmIncludeRegularExpressionCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmInstallCMakeConfigExportGenerator.cxx -o cmInstallCMakeConfigExportGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmInstallCommand.cxx -o cmInstallCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmInstallCommandArguments.cxx -o cmInstallCommandArguments.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmInstallCxxModuleBmiGenerator.cxx -o cmInstallCxxModuleBmiGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmInstallDirectoryGenerator.cxx -o cmInstallDirectoryGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmInstallExportGenerator.cxx -o cmInstallExportGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmInstallFileSetGenerator.cxx -o cmInstallFileSetGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmInstallFilesGenerator.cxx -o cmInstallFilesGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmInstallGenerator.cxx -o cmInstallGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmInstallGetRuntimeDependenciesGenerator.cxx -o cmInstallGetRuntimeDependenciesGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmInstallImportedRuntimeArtifactsGenerator.cxx -o cmInstallImportedRuntimeArtifactsGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmInstallDirs.cxx -o cmInstallDirs.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmInstallRuntimeDependencySet.cxx -o cmInstallRuntimeDependencySet.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmInstallRuntimeDependencySetGenerator.cxx -o cmInstallRuntimeDependencySetGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmInstallScriptGenerator.cxx -o cmInstallScriptGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmInstallSubdirectoryGenerator.cxx -o cmInstallSubdirectoryGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmInstallTargetGenerator.cxx -o cmInstallTargetGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmInstalledFile.cxx -o cmInstalledFile.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmJSONHelpers.cxx -o cmJSONHelpers.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmJSONState.cxx -o cmJSONState.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmLDConfigLDConfigTool.cxx -o cmLDConfigLDConfigTool.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmLDConfigTool.cxx -o cmLDConfigTool.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmLinkDirectoriesCommand.cxx -o cmLinkDirectoriesCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmLinkItem.cxx -o cmLinkItem.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmLinkItemGraphVisitor.cxx -o cmLinkItemGraphVisitor.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmLinkLineComputer.cxx -o cmLinkLineComputer.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmLinkLineDeviceComputer.cxx -o cmLinkLineDeviceComputer.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmListCommand.cxx -o cmListCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmListFileCache.cxx -o cmListFileCache.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmLocalCommonGenerator.cxx -o cmLocalCommonGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmLocalGenerator.cxx -o cmLocalGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmMSVC60LinkLineComputer.cxx -o cmMSVC60LinkLineComputer.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmMacroCommand.cxx -o cmMacroCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmMakefile.cxx -o cmMakefile.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmMarkAsAdvancedCommand.cxx -o cmMarkAsAdvancedCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmMathCommand.cxx -o cmMathCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmMessageCommand.cxx -o cmMessageCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmMessenger.cxx -o cmMessenger.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmNewLineStyle.cxx -o cmNewLineStyle.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmOSXBundleGenerator.cxx -o cmOSXBundleGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmOptionCommand.cxx -o cmOptionCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmOrderDirectories.cxx -o cmOrderDirectories.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmObjectLocation.cxx -o cmObjectLocation.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmOutputConverter.cxx -o cmOutputConverter.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmParseArgumentsCommand.cxx -o cmParseArgumentsCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmPathLabel.cxx -o cmPathLabel.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmPathResolver.cxx -o cmPathResolver.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmPolicies.cxx -o cmPolicies.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmProcessOutput.cxx -o cmProcessOutput.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmProjectCommand.cxx -o cmProjectCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmValue.cxx -o cmValue.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmPropertyDefinition.cxx -o cmPropertyDefinition.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmPropertyMap.cxx -o cmPropertyMap.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGccDepfileLexerHelper.cxx -o cmGccDepfileLexerHelper.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGccDepfileReader.cxx -o cmGccDepfileReader.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmReturnCommand.cxx -o cmReturnCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmPackageInfoReader.cxx -o cmPackageInfoReader.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmPlaceholderExpander.cxx -o cmPlaceholderExpander.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmPlistParser.cxx -o cmPlistParser.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmRule.cxx -o cmRule.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmRulePlaceholderExpander.cxx -o cmRulePlaceholderExpander.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmRuntimeDependencyArchive.cxx -o cmRuntimeDependencyArchive.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmScriptGenerator.cxx -o cmScriptGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmSearchPath.cxx -o cmSearchPath.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmSeparateArgumentsCommand.cxx -o cmSeparateArgumentsCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmSetCommand.cxx -o cmSetCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmSetDirectoryPropertiesCommand.cxx -o cmSetDirectoryPropertiesCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmSetPropertyCommand.cxx -o cmSetPropertyCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmSetSourceFilesPropertiesCommand.cxx -o cmSetSourceFilesPropertiesCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmSetTargetPropertiesCommand.cxx -o cmSetTargetPropertiesCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmSetTestsPropertiesCommand.cxx -o cmSetTestsPropertiesCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmSiteNameCommand.cxx -o cmSiteNameCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmSourceFile.cxx -o cmSourceFile.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmSourceFileLocation.cxx -o cmSourceFileLocation.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmSourceFilePropertyHelper.cxx -o cmSourceFilePropertyHelper.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmSpecializedRule.cxx -o cmSpecializedRule.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmStandardLevelResolver.cxx -o cmStandardLevelResolver.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmState.cxx -o cmState.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmStateDirectory.cxx -o cmStateDirectory.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmStateSnapshot.cxx -o cmStateSnapshot.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmStdIoConsole.cxx -o cmStdIoConsole.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmStdIoInit.cxx -o cmStdIoInit.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmStdIoStream.cxx -o cmStdIoStream.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmStdIoTerminal.cxx -o cmStdIoTerminal.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmString.cxx -o cmString.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmStringAlgorithms.cxx -o cmStringAlgorithms.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmStringReplaceHelper.cxx -o cmStringReplaceHelper.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmStringCommand.cxx -o cmStringCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmSubcommandTable.cxx -o cmSubcommandTable.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmSystemTools.cxx -o cmSystemTools.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmTarget.cxx -o cmTarget.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmTargetCompileDefinitionsCommand.cxx -o cmTargetCompileDefinitionsCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmTargetCompileFeaturesCommand.cxx -o cmTargetCompileFeaturesCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmTargetCompileOptionsCommand.cxx -o cmTargetCompileOptionsCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmTargetIncludeDirectoriesCommand.cxx -o cmTargetIncludeDirectoriesCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmTargetLinkLibrariesCommand.cxx -o cmTargetLinkLibrariesCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmTargetLinkOptionsCommand.cxx -o cmTargetLinkOptionsCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmTargetPrecompileHeadersCommand.cxx -o cmTargetPrecompileHeadersCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmTargetPropCommandBase.cxx -o cmTargetPropCommandBase.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmTargetPropertyComputer.cxx -o cmTargetPropertyComputer.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmTargetPropertyEntry.cxx -o cmTargetPropertyEntry.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmTargetPropertyHelper.cxx -o cmTargetPropertyHelper.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmTargetSourcesCommand.cxx -o cmTargetSourcesCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmTargetTraceDependencies.cxx -o cmTargetTraceDependencies.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmTest.cxx -o cmTest.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmTestGenerator.cxx -o cmTestGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmTestPropertyHelper.cxx -o cmTestPropertyHelper.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmTimestamp.cxx -o cmTimestamp.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmTransformDepfile.cxx -o cmTransformDepfile.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmTryCompileCommand.cxx -o cmTryCompileCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmTryRunCommand.cxx -o cmTryRunCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmUnsetCommand.cxx -o cmUnsetCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmUVHandlePtr.cxx -o cmUVHandlePtr.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmUVProcessChain.cxx -o cmUVProcessChain.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmVersion.cxx -o cmVersion.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmWhileCommand.cxx -o cmWhileCommand.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmWindowsRegistry.cxx -o cmWindowsRegistry.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmWorkingDirectory.cxx -o cmWorkingDirectory.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmXcFramework.cxx -o cmXcFramework.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmake.cxx -o cmake.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmakemain.cxx -o cmakemain.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmcmd.cxx -o cmcmd.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cm_fileno.cxx -o cm_fileno.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmDepends.cxx -o cmDepends.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmDependsC.cxx -o cmDependsC.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmDependsCompiler.cxx -o cmDependsCompiler.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmGlobalUnixMakefileGenerator3.cxx -o cmGlobalUnixMakefileGenerator3.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmLocalUnixMakefileGenerator3.cxx -o cmLocalUnixMakefileGenerator3.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmMakefileExecutableTargetGenerator.cxx -o cmMakefileExecutableTargetGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmMakefileLibraryTargetGenerator.cxx -o cmMakefileLibraryTargetGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmMakefileTargetGenerator.cxx -o cmMakefileTargetGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmMakefileUtilityTargetGenerator.cxx -o cmMakefileUtilityTargetGenerator.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/cmProcessTools.cxx -o cmProcessTools.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/cm_utf8.c -o cm_utf8.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Utilities/std/cm/bits/fs_path.cxx -o fs_path.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Utilities/std/cm/bits/string_view.cxx -o string_view.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/LexerParser/cmExprLexer.cxx -o cmExprLexer.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/LexerParser/cmExprParser.cxx -o cmExprParser.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4
+ .5.1/Source/LexerParser/cmGccDepfileLexer.cxx -o cmGccDepfileLexer.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser/cmListFileLexer.c -o cmListFileLexer.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -DKWSYS_NAMESPACE=cmsys -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-nati
+ ve/4.5.1/sources/cmake-4.5.1/Source/kwsys/Directory.cxx -o Directory.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -DKWSYS_NAMESPACE=cmsys -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-nati
+ ve/4.5.1/sources/cmake-4.5.1/Source/kwsys/EncodingCXX.cxx -o EncodingCXX.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -DKWSYS_NAMESPACE=cmsys -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-nati
+ ve/4.5.1/sources/cmake-4.5.1/Source/kwsys/FStream.cxx -o FStream.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -DKWSYS_NAMESPACE=cmsys -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-nati
+ ve/4.5.1/sources/cmake-4.5.1/Source/kwsys/Glob.cxx -o Glob.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -DKWSYS_NAMESPACE=cmsys -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-nati
+ ve/4.5.1/sources/cmake-4.5.1/Source/kwsys/RegularExpression.cxx -o RegularExpression.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -DKWSYS_NAMESPACE=cmsys -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-nati
+ ve/4.5.1/sources/cmake-4.5.1/Source/kwsys/Status.cxx -o Status.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities -DKWSYS_CXX_HAS_SETENV=1 -DKWSYS_CXX_HAS_UNSETENV=1 -DKWSYS_CXX_HAS_ENVIRON_IN_STDLIB_H=0 -DKWSYS_CXX_HA
+ S_UTIMENSAT=0 -DKWSYS_CXX_HAS_UTIMES=0 -DKWSYS_NAMESPACE=cmsys -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/kwsys/SystemTools.cxx -o SystemTools.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -DKWSYS_NAMESPACE=cmsys -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/kwsys/EncodingC.c -o EncodingC.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -DKWSYS_NAMESPACE=cmsys -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/kwsys/ProcessUNIX.c -o ProcessUNIX.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities -DKWSYS_STRING_C -DKWSYS_NAMESPACE=cmsys -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/kwsys/String.c -o String.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -DKWSYS_NAMESPACE=cmsys -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/kwsys/System.c -o System.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -D_GNU_SOURCE -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix -I/srv/pokybuild/yocto-worker/auh/buil
+ d/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/strscpy.c -o uv-src-strscpy.c.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -D_GNU_SOURCE -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix -I/srv/pokybuild/yocto-worker/auh/buil
+ d/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/strtok.c -o uv-src-strtok.c.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -D_GNU_SOURCE -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix -I/srv/pokybuild/yocto-worker/auh/buil
+ d/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/timer.c -o uv-src-timer.c.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -D_GNU_SOURCE -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix -I/srv/pokybuild/yocto-worker/auh/buil
+ d/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/uv-common.c -o uv-src-uv-common.c.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -D_GNU_SOURCE -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix -I/srv/pokybuild/yocto-worker/auh/buil
+ d/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix/cmake-bootstrap.c -o uv-src-unix-cmake-bootstrap.c.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -D_GNU_SOURCE -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix -I/srv/pokybuild/yocto-worker/auh/buil
+ d/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix/core.c -o uv-src-unix-core.c.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -D_GNU_SOURCE -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix -I/srv/pokybuild/yocto-worker/auh/buil
+ d/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix/fs.c -o uv-src-unix-fs.c.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -D_GNU_SOURCE -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix -I/srv/pokybuild/yocto-worker/auh/buil
+ d/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix/loop.c -o uv-src-unix-loop.c.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -D_GNU_SOURCE -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix -I/srv/pokybuild/yocto-worker/auh/buil
+ d/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix/loop-watcher.c -o uv-src-unix-loop-watcher.c.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -D_GNU_SOURCE -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix -I/srv/pokybuild/yocto-worker/auh/buil
+ d/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix/no-fsevents.c -o uv-src-unix-no-fsevents.c.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -D_GNU_SOURCE -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix -I/srv/pokybuild/yocto-worker/auh/buil
+ d/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix/pipe.c -o uv-src-unix-pipe.c.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -D_GNU_SOURCE -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix -I/srv/pokybuild/yocto-worker/auh/buil
+ d/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix/poll.c -o uv-src-unix-poll.c.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -D_GNU_SOURCE -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix -I/srv/pokybuild/yocto-worker/auh/buil
+ d/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix/posix-hrtime.c -o uv-src-unix-posix-hrtime.c.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -D_GNU_SOURCE -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix -I/srv/pokybuild/yocto-worker/auh/buil
+ d/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix/posix-poll.c -o uv-src-unix-posix-poll.c.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -D_GNU_SOURCE -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix -I/srv/pokybuild/yocto-worker/auh/buil
+ d/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix/process.c -o uv-src-unix-process.c.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -D_GNU_SOURCE -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix -I/srv/pokybuild/yocto-worker/auh/buil
+ d/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix/signal.c -o uv-src-unix-signal.c.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -D_GNU_SOURCE -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix -I/srv/pokybuild/yocto-worker/auh/buil
+ d/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix/stream.c -o uv-src-unix-stream.c.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -D_GNU_SOURCE -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix -I/srv/pokybuild/yocto-worker/auh/buil
+ d/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix/tcp.c -o uv-src-unix-tcp.c.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -D_GNU_SOURCE -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/include -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix -I/srv/pokybuild/yocto-worker/auh/buil
+ d/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibuv/src/unix/tty.c -o uv-src-unix-tty.c.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities -DNO_IMPORT_EXPORT -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibrhash/librhash/algorithms.c -o rhash-librhash-algorithms.c.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities -DNO_IMPORT_EXPORT -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibrhash/librhash/byte_order.c -o rhash-librhash-byte_order.c.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities -DNO_IMPORT_EXPORT -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibrhash/librhash/hex.c -o rhash-librhash-hex.c.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities -DNO_IMPORT_EXPORT -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibrhash/librhash/md5.c -o rhash-librhash-md5.c.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities -DNO_IMPORT_EXPORT -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibrhash/librhash/rhash.c -o rhash-librhash-rhash.c.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities -DNO_IMPORT_EXPORT -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibrhash/librhash/sha1.c -o rhash-librhash-sha1.c.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities -DNO_IMPORT_EXPORT -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibrhash/librhash/sha256.c -o rhash-librhash-sha256.c.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities -DNO_IMPORT_EXPORT -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibrhash/librhash/sha3.c -o rhash-librhash-sha3.c.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities -DNO_IMPORT_EXPORT -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibrhash/librhash/sha512.c -o rhash-librhash-sha512.c.o
+| gcc  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe   -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities -DNO_IMPORT_EXPORT -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmlibrhash/librhash/util.c -o rhash-librhash-util.c.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.
+ 5.1/Utilities/cmjsoncpp/include -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmjsoncpp/src/lib_json/json_reader.cpp -o jsoncpp-src-lib_json-json_reader.cpp.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.
+ 5.1/Utilities/cmjsoncpp/include -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmjsoncpp/src/lib_json/json_value.cpp -o jsoncpp-src-lib_json-json_value.cpp.o
+| g++  -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.
+ 5.1/Utilities/cmjsoncpp/include -c /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/cmjsoncpp/src/lib_json/json_writer.cpp -o jsoncpp-src-lib_json-json_writer.cpp.o
+| g++  -L/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/lib                         -L/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/lib                         -Wl,--enable-new-dtags                         -Wl,-rpath-link,/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/lib                         -Wl,-rpath-link,/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/lib                         -Wl,-rpath,/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/lib                         -Wl,-rpath,/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/lib                         -Wl,-O1 -Wl,--allow-shlib-undefined -Wl,--dynamic-linker=/srv/po
+ kybuild/yocto-worker/auh/build/build/tmp/sysroots-uninative/x86_64-linux/lib/ld-linux-x86-64.so.2 -pthread -isystem/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/include -O2 -pipe -fvisibility-inlines-hidden    -D_FILE_OFFSET_BITS=64 -D_TIME_BITS=64    -DCMAKE_BOOTSTRAP    -DCMake_HAVE_CXX_MAKE_UNIQUE=1 -DCMake_HAVE_CXX_FILESYSTEM=1   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Source/LexerParser   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities/std   -I/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/Utilities  cm
+ AddCompileDefinitionsCommand.o cmAddCustomCommandCommand.o cmAddCustomRuleCommand.o cmAddCustomTargetCommand.o cmAddDefinitionsCommand.o cmAddDependenciesCommand.o cmAddExecutableCommand.o cmAddLibraryCommand.o cmAddSubDirectoryCommand.o cmAddTestCommand.o cmArgumentParser.o cmBinUtilsLinker.o cmBinUtilsLinuxELFGetRuntimeDependenciesTool.o cmBinUtilsLinuxELFLinker.o cmBinUtilsLinuxELFObjdumpGetRuntimeDependenciesTool.o cmBinUtilsMacOSMachOGetRuntimeDependenciesTool.o cmBinUtilsMacOSMachOLinker.o cmBinUtilsMacOSMachOOToolGetRuntimeDependenciesTool.o cmBinUtilsWindowsPEGetRuntimeDependenciesTool.o cmBinUtilsWindowsPEDumpbinGetRuntimeDependenciesTool.o cmBinUtilsWindowsPELinker.o cmBinUtilsWindowsPEObjdumpGetRuntimeDependenciesTool.o cmBlockCommand.o cmBreakCommand.o cmBuildCommand.o cmBuildDatabase.o cmCMakeLanguageCommand.o cmCMakeMinimumRequired.o cmList.o cmCMakeDiagnosticCommand.o cmCMakePath.o cmCMakePathCommand.o cmCMakePolicyCommand.o cmCMakeString.o cmCPackPropertiesGenerator.
+ o cmCacheDocumentationTable.o cmCacheManager.o cmCachePatternTable.o cmCommands.o cmCommonTargetGenerator.o cmComputeComponentGraph.o cmComputeLinkDepends.o cmComputeLinkInformation.o cmComputeTargetDepends.o cmConditionEvaluator.o cmConfigureFileCommand.o cmContinueCommand.o cmCoreTryCompile.o cmCreateTestSourceList.o cmCryptoHash.o cmCustomCommand.o cmCustomCommandGenerator.o cmCustomCommandLines.o cmCustomRule.o cmCxxModuleMapper.o cmCxxModuleUsageEffects.o cmDefinePropertyCommand.o cmDefinitions.o cmDiagnostics.o cmDiagnosticContext.o cmDirectoryPropertyHelper.o cmDiscoverTestsCommand.o cmDocumentationFormatter.o cmELF.o cmEnableLanguageCommand.o cmEnableTestingCommand.o cmEnvironment.o cmEvaluatedTargetProperty.o cmExecProgramCommand.o cmExecuteProcessCommand.o cmExpandedCommandArgument.o cmExperimental.o cmExportBuildCMakeConfigGenerator.o cmExportBuildFileGenerator.o cmExportCMakeConfigGenerator.o cmExportFileGenerator.o cmExportInstallCMakeConfigGenerator.o cmExportInstallFi
+ leGenerator.o cmExportSet.o cmExportTryCompileFileGenerator.o cmExprParserHelper.o cmExternalMakefileProjectGenerator.o cmFileCommand.o cmFileCommand_ReadMacho.o cmFileCopier.o cmFileInstaller.o cmFileSet.o cmFileSetMetadata.o cmFileTime.o cmFileTimeCache.o cmFileTimes.o cmFindBase.o cmFindCommon.o cmFindFileCommand.o cmFindLibraryCommand.o cmFindPackageCommand.o cmFindPackageStack.o cmFindPathCommand.o cmFindProgramCommand.o cmForEachCommand.o cmFunctionBlocker.o cmFunctionCommand.o cmFSPermissions.o cmGeneratedFileStream.o cmGenExContext.o cmGenExEvaluation.o cmGeneratorExpression.o cmGeneratorExpressionDAGChecker.o cmGeneratorExpressionEvaluationFile.o cmGeneratorExpressionEvaluator.o cmGeneratorExpressionLexer.o cmGeneratorExpressionNode.o cmGeneratorExpressionParser.o cmGeneratorFileSet.o cmGeneratorFileSets.o cmGeneratorRule.o cmGeneratorTarget.o cmGeneratorTarget_CompatibleInterface.o cmGeneratorTarget_HeaderSetVerification.o cmGeneratorTarget_IncludeDirectories.o cmGenerator
+ Target_Link.o cmGeneratorTarget_LinkDirectories.o cmGeneratorTarget_Options.o cmGeneratorTarget_Sources.o cmGeneratorTarget_TransitiveProperty.o cmGeneratorTarget_Wrappers.o cmGetCMakePropertyCommand.o cmGetDirectoryPropertyCommand.o cmGetFilenameComponentCommand.o cmGetPipes.o cmGetPropertyCommand.o cmGetSourceFilePropertyCommand.o cmGetTargetPropertyCommand.o cmGetTestPropertyCommand.o cmGlobalCommonGenerator.o cmGlobalGenerator.o cmGlobVerificationManager.o cmHexFileConverter.o cmIfCommand.o cmImportedCxxModuleInfo.o cmIncludeCommand.o cmIncludeGuardCommand.o cmIncludeDirectoryCommand.o cmIncludeRegularExpressionCommand.o cmInstallCMakeConfigExportGenerator.o cmInstallCommand.o cmInstallCommandArguments.o cmInstallCxxModuleBmiGenerator.o cmInstallDirectoryGenerator.o cmInstallExportGenerator.o cmInstallFileSetGenerator.o cmInstallFilesGenerator.o cmInstallGenerator.o cmInstallGetRuntimeDependenciesGenerator.o cmInstallImportedRuntimeArtifactsGenerator.o cmInstallDirs.o cmInstallR
+ untimeDependencySet.o cmInstallRuntimeDependencySetGenerator.o cmInstallScriptGenerator.o cmInstallSubdirectoryGenerator.o cmInstallTargetGenerator.o cmInstalledFile.o cmJSONHelpers.o cmJSONState.o cmLDConfigLDConfigTool.o cmLDConfigTool.o cmLinkDirectoriesCommand.o cmLinkItem.o cmLinkItemGraphVisitor.o cmLinkLineComputer.o cmLinkLineDeviceComputer.o cmListCommand.o cmListFileCache.o cmLocalCommonGenerator.o cmLocalGenerator.o cmMSVC60LinkLineComputer.o cmMacroCommand.o cmMakefile.o cmMarkAsAdvancedCommand.o cmMathCommand.o cmMessageCommand.o cmMessenger.o cmNewLineStyle.o cmOSXBundleGenerator.o cmOptionCommand.o cmOrderDirectories.o cmObjectLocation.o cmOutputConverter.o cmParseArgumentsCommand.o cmPathLabel.o cmPathResolver.o cmPolicies.o cmProcessOutput.o cmProjectCommand.o cmValue.o cmPropertyDefinition.o cmPropertyMap.o cmGccDepfileLexerHelper.o cmGccDepfileReader.o cmReturnCommand.o cmPackageInfoReader.o cmPlaceholderExpander.o cmPlistParser.o cmRule.o cmRulePlaceholderExpande
+ r.o cmRuntimeDependencyArchive.o cmScriptGenerator.o cmSearchPath.o cmSeparateArgumentsCommand.o cmSetCommand.o cmSetDirectoryPropertiesCommand.o cmSetPropertyCommand.o cmSetSourceFilesPropertiesCommand.o cmSetTargetPropertiesCommand.o cmSetTestsPropertiesCommand.o cmSiteNameCommand.o cmSourceFile.o cmSourceFileLocation.o cmSourceFilePropertyHelper.o cmSpecializedRule.o cmStandardLevelResolver.o cmState.o cmStateDirectory.o cmStateSnapshot.o cmStdIoConsole.o cmStdIoInit.o cmStdIoStream.o cmStdIoTerminal.o cmString.o cmStringAlgorithms.o cmStringReplaceHelper.o cmStringCommand.o cmSubcommandTable.o cmSystemTools.o cmTarget.o cmTargetCompileDefinitionsCommand.o cmTargetCompileFeaturesCommand.o cmTargetCompileOptionsCommand.o cmTargetIncludeDirectoriesCommand.o cmTargetLinkLibrariesCommand.o cmTargetLinkOptionsCommand.o cmTargetPrecompileHeadersCommand.o cmTargetPropCommandBase.o cmTargetPropertyComputer.o cmTargetPropertyEntry.o cmTargetPropertyHelper.o cmTargetSourcesCommand.o cmTarg
+ etTraceDependencies.o cmTest.o cmTestGenerator.o cmTestPropertyHelper.o cmTimestamp.o cmTransformDepfile.o cmTryCompileCommand.o cmTryRunCommand.o cmUnsetCommand.o cmUVHandlePtr.o cmUVProcessChain.o cmVersion.o cmWhileCommand.o cmWindowsRegistry.o cmWorkingDirectory.o cmXcFramework.o cmake.o cmakemain.o cmcmd.o cm_fileno.o cmDepends.o cmDependsC.o cmDependsCompiler.o cmGlobalUnixMakefileGenerator3.o cmLocalUnixMakefileGenerator3.o cmMakefileExecutableTargetGenerator.o cmMakefileLibraryTargetGenerator.o cmMakefileTargetGenerator.o cmMakefileUtilityTargetGenerator.o cmProcessTools.o cm_utf8.o fs_path.o string_view.o cmExprLexer.o cmExprParser.o cmGccDepfileLexer.o cmListFileLexer.o Directory.o EncodingCXX.o FStream.o Glob.o RegularExpression.o Status.o SystemTools.o EncodingC.o ProcessUNIX.o String.o System.o uv-src-strscpy.c.o uv-src-strtok.c.o uv-src-timer.c.o uv-src-uv-common.c.o uv-src-unix-cmake-bootstrap.c.o uv-src-unix-core.c.o uv-src-unix-fs.c.o uv-src-unix-loop.c.o uv-src-uni
+ x-loop-watcher.c.o uv-src-unix-no-fsevents.c.o uv-src-unix-pipe.c.o uv-src-unix-poll.c.o uv-src-unix-posix-hrtime.c.o uv-src-unix-posix-poll.c.o uv-src-unix-process.c.o uv-src-unix-signal.c.o uv-src-unix-stream.c.o uv-src-unix-tcp.c.o uv-src-unix-tty.c.o rhash-librhash-algorithms.c.o rhash-librhash-byte_order.c.o rhash-librhash-hex.c.o rhash-librhash-md5.c.o rhash-librhash-rhash.c.o rhash-librhash-sha1.c.o rhash-librhash-sha256.c.o rhash-librhash-sha3.c.o rhash-librhash-sha512.c.o rhash-librhash-util.c.o jsoncpp-src-lib_json-json_reader.cpp.o jsoncpp-src-lib_json-json_value.cpp.o jsoncpp-src-lib_json-json_writer.cpp.o  -ldl -lrt -o cmake
+| loading initial cache file /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/build/Bootstrap.cmk/InitialCacheFlags.cmake
+| -- The C compiler identification is GNU 14.2.0
+| -- The CXX compiler identification is GNU 14.2.0
+| -- Detecting C compiler ABI info
+| -- Detecting C compiler ABI info - done
+| -- Check for working C compiler: /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/gcc - skipped
+| -- Detecting C compile features
+| -- Detecting C compile features - done
+| -- Detecting CXX compiler ABI info
+| -- Detecting CXX compiler ABI info - done
+| -- Check for working CXX compiler: /srv/pokybuild/yocto-worker/auh/build/build/tmp/hosttools/g++ - skipped
+| -- Detecting CXX compile features
+| -- Detecting CXX compile features - done
+| -- Using system-installed: BZIP2 FORM LIBLZMA ZLIB ZSTD
+| -- Using bundled: CPPDAP CURL EXPAT JSONCPP LIBARCHIVE LIBRHASH LIBUV NGHTTP2 KWIML
+| -- Checking if compiler supports C11 _Thread_local
+| -- Checking if compiler supports C11 _Thread_local - yes
+| -- Checking if compiler supports needed C++17 constructs
+| -- Checking if compiler supports needed C++17 constructs - yes
+| -- Checking if compiler supports C++ make_unique
+| -- Checking if compiler supports C++ make_unique - yes
+| -- Checking if compiler supports C++ filesystem
+| -- Checking if compiler supports C++ filesystem - yes
+| -- Looking for unsetenv
+| -- Looking for unsetenv - found
+| -- Looking for environ
+| -- Looking for environ - not found
+| -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+| -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+| -- Found Threads: TRUE
+| -- Checking whether C compiler has ptrdiff_t in stddef.h
+| -- Checking whether C compiler has ptrdiff_t in stddef.h - yes
+| -- Checking whether C compiler has ssize_t in unistd.h
+| -- Checking whether C compiler has ssize_t in unistd.h - yes
+| -- Checking whether C compiler has clock_gettime
+| -- Checking whether C compiler has clock_gettime - yes
+| -- Checking whether CXX compiler has setenv
+| -- Checking whether CXX compiler has setenv - yes
+| -- Checking whether CXX compiler has unsetenv
+| -- Checking whether CXX compiler has unsetenv - yes
+| -- Checking whether CXX compiler has environ in stdlib.h
+| -- Checking whether CXX compiler has environ in stdlib.h - no
+| -- Checking whether CXX compiler has utimes
+| -- Checking whether CXX compiler has utimes - yes
+| -- Checking whether CXX compiler has utimensat
+| -- Checking whether CXX compiler has utimensat - yes
+| -- Checking whether CXX compiler struct stat has st_mtim member
+| -- Checking whether CXX compiler struct stat has st_mtim member - yes
+| -- Checking whether CXX compiler struct stat has st_mtimespec member
+| -- Checking whether CXX compiler struct stat has st_mtimespec member - no
+| -- Looking for include files sys/types.h, ifaddrs.h
+| -- Looking for include files sys/types.h, ifaddrs.h - found
+| -- Checking whether CXX compiler has rlimit64
+| -- Checking whether CXX compiler has rlimit64 - yes
+| -- Looking for C++ include execinfo.h
+| -- Looking for C++ include execinfo.h - found
+| -- Checking whether backtrace works with this C++ compiler
+| -- Checking whether backtrace works with this C++ compiler - yes
+| -- Looking for C++ include dlfcn.h
+| -- Looking for C++ include dlfcn.h - found
+| -- Checking whether dladdr works with this C++ compiler
+| -- Checking whether dladdr works with this C++ compiler - yes
+| -- Looking for C++ include cxxabi.h
+| -- Looking for C++ include cxxabi.h - found
+| -- Checking whether cxxabi works with this C++ compiler
+| -- Checking whether cxxabi works with this C++ compiler - yes
+| -- Checking whether CXX compiler has getloadavg
+| -- Checking whether CXX compiler has getloadavg - yes
+| -- Checking whether <ext/stdio_filebuf.h> is available
+| -- Checking whether <ext/stdio_filebuf.h> is available - yes
+| -- Found ZLIB: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/lib/libz.so (found version "1.2.11")
+| -- Found OpenSSL: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/lib/libcrypto.so (found version "1.1.1k")
+| -- Looking for connect in socket
+| -- Looking for connect in socket - not found
+| -- Performing Test HAVE_SOCKADDR_IN6_SIN6_SCOPE_ID
+| -- Performing Test HAVE_SOCKADDR_IN6_SIN6_SCOPE_ID - Success
+| -- Performing Test HAVE_SOCKADDR_IN6_SIN6_ADDR
+| -- Performing Test HAVE_SOCKADDR_IN6_SIN6_ADDR - Success
+| -- Looking for OPENSSL_IS_AWSLC
+| -- Looking for OPENSSL_IS_AWSLC - not found
+| -- Looking for OPENSSL_IS_BORINGSSL
+| -- Looking for OPENSSL_IS_BORINGSSL - not found
+| -- Looking for LIBRESSL_VERSION_NUMBER
+| -- Looking for LIBRESSL_VERSION_NUMBER - not found
+| CMake Error at Utilities/cmcurl/CMakeLists.txt:1040 (message):
+|   Found OpenSSL version 1.1.1k.  When building CMake with vendored curl, at
+|   least version 3.0.0 is required, or configure CMake with
+|   -DCMAKE_USE_OPENSSL=OFF to build without OpenSSL.
+| 
+| 
+| -- Configuring incomplete, errors occurred!
+| ---------------------------------------------
+| Error when bootstrapping CMake:
+| Problem while running initial CMake
+| ---------------------------------------------
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/temp/run.do_configure.3245881:137 exit 11 from '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/sources/cmake-4.5.1/bootstrap --verbose --prefix=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr --parallel=16 -- -DCMAKE_USE_SYSTEM_LIBRARIES=1 -DCMAKE_LIBRARY_PATH=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/recipe-sysroot-native/usr/lib -DBUILD_CursesDialog=1 -DCMAKE_USE_SYSTEM_LIBRARY_JSONCPP=0 -DCMAKE_USE_SYSTEM_LIBRARY_CPPDAP=0 -DCMAKE_USE_SYSTEM_LIBRARY_LIBARCHIVE=0 -DCMAKE_USE_SYSTEM_LIBRARY_LIBUV=0 -DCMAKE_USE_SYSTEM_LIBRARY_LIBRHASH=0 -DCMAKE_USE_SYSTEM_LIBRARY_EXPAT=0 -DCMAKE_USE_SYSTEM_LIBRARY_CURL=0 -DCMAKE_DISABLE_FIND_PACKAGE_Libidn2=ON -DENABLE_ACL=0 -DHAVE_ACL_LIBACL_H=0 -DHAVE_SYS_ACL_H=0 -DCMAKE_USE_SYSTEM_LIBRARY_NGHTTP2=0 -DHAVE_EXT2FS_
+ EXT2_FS_H=0 -DHAVE_WORKING_EXT2_IOC_GETFLAGS=0'
+| WARNING: Backtrace (BB generated script):
+| 	#1: do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/temp/run.do_configure.3245881, line 137
+| 	#2: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/temp/run.do_configure.3245881, line 144
+NOTE: recipe cmake-native-4.5.1-r0: task do_configure: Failed
+NOTE: Tasks Summary: Attempted 1127 tasks of which 1080 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20261120052435.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20261120052435.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/cmake/cmake-native_4.5.1.bb:do_configure
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/temp/log.do_configure.3245881
+Summary: There was 1 ERROR message, returning a non-zero exit code.
+ERROR: cmake-native-4.5.1-r0 do_configure: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/temp/run.do_configure.3245881' failed with exit code 11
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/cmake-native/4.5.1/temp/log.do_configure.3245881
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/cmake/cmake-native_4.5.1.bb:do_configure) failed with exit code '1'
+
+--===============6787696653356095807==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="cmake-native-changelog.txt"
+
+CMake 3.18 Release Notes
+************************
+
+.. only:: html
+  .. contents::
+Changes made since CMake 3.17 include the following.
+
+New Features
+============
+
+Languages
+---------
+
+Command-Line
+------------
+
+Commands
+--------
+
+Variables
+---------
+
+Properties
+----------
+
+Modules
+-------
+
+Generator Expressions
+---------------------
+
+CTest
+-----
+
+CPack
+-----
+
+Other
+-----
+
+Deprecated and Removed Features
+===============================
+
+Other Changes
+=============
+
+Updates
+=======
+
+Changes made since CMake 3.18.0 include the following.
+
+3.18.1
+------
+
+3.18.2
+------
+
+3.18.3
+------
+
+CMake 3.6 Release Notes
+***********************
+
+.. only:: html
+  .. contents::
+Changes made since CMake 3.5 include the following.
+
+New Features
+============
+
+Generators
+----------
+
+Commands
+--------
+
+Variables
+---------
+
+Properties
+----------
+
+Modules
+-------
+
+Platforms
+---------
+
+CTest
+-----
+
+CPack
+-----
+
+<PackageName>_<VersionNumber>-<DebianRevisionNumber>_<DebianArchitecture>.deb
+
+  For backward compatibility this feature is disabled by default. See
+  :variable:`CPACK_DEBIAN_FILE_NAME` and
+  :variable:`CPACK_DEBIAN_<COMPONENT>_FILE_NAME`.
+
+Other
+-----
+
+Deprecated and Removed Features
+===============================
+
+Other Changes
+=============
+
+CMake 4.0 Release Notes
+***********************
+
+.. only:: html
+  .. contents::
+Changes made since CMake 3.31 include the following.
+
+New Features
+============
+
+File-Based API
+--------------
+
+Command-Line
+------------
+
+Commands
+--------
+
+Variables
+---------
+
+  See policy :policy:`CMP0181`.
+
+Properties
+----------
+
+Modules
+-------
+
+Generator Expressions
+---------------------
+
+CTest
+-----
+
+CPack
+-----
+
+Deprecated and Removed Features
+===============================
+
+Other Changes
+=============
+
+  Notes:
+
+Updates
+=======
+
+Changes made since CMake 4.0.0 include the following.
+
+4.0.1
+-----
+
+4.0.2
+-----
+
+4.0.3, 4.0.4
+------------
+
+4.0.5
+-----
+
+4.0.6, 4.0.7
+------------
+
+CMake 4.2 Release Notes
+***********************
+
+.. only:: html
+  .. contents::
+Changes made since CMake 4.1 include the following.
+
+New Features
+============
+
+File-Based API
+--------------
+
+Generators
+----------
+
+Platforms
+---------
+
+Command-Line
+------------
+
+Commands
+--------
+
+Variables
+---------
+
+Properties
+----------
+
+Modules
+-------
+
+Generator Expressions
+---------------------
+
+CPack
+-----
+
+Deprecated and Removed Features
+===============================
+
+Other Changes
+=============
+
+Updates
+=======
+
+Changes made since CMake 4.2.0 include the following.
+
+4.2.1
+-----
+
+4.2.2
+-----
+
+4.2.3, 4.2.4, 4.2.5, 4.2.6, 4.2.7, 4.2.8
+----------------------------------------
+
+CMake 4.5 Release Notes
+***********************
+
+.. only:: html
+  .. contents::
+Changes made since CMake 4.4 include the following.
+
+New Features
+============
+
+Diagnostics
+-----------
+
+Presets
+-------
+
+File-Based API
+--------------
+
+Instrumentation
+---------------
+
+Generators
+----------
+
+Languages
+---------
+
+Compilers
+---------
+
+Command-Line
+------------
+
+Commands
+--------
+
+File Sets
+---------
+
+Variables
+---------
+
+Environment Variables
+---------------------
+
+Properties
+----------
+
+Modules
+-------
+
+Generator Expressions
+---------------------
+
+Autogen
+-------
+
+CTest
+-----
+
+CPack
+-----
+
+Deprecated and Removed Features
+===============================
+
+Other Changes
+=============
+
+.. |CPS| replace:: Common Package Specification
+
+Updates
+=======
+
+Changes made since CMake 4.5.0 include the following.
+
+4.5.1
+-----
+
+--===============6787696653356095807==--
