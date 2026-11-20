@@ -1,36 +1,36 @@
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.528.1795195314744651414
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.529.1795195319828344900
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Nov 2026 09:21:55 -0800
+ Fri, 20 Nov 2026 09:22:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=eu23OnUp;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=UrvG2KQo;
  spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: joaomarcos.costa@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id EE4B94E4168C;
-	Fri, 20 Nov 2026 17:21:52 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 3763A4E4168A;
+	Fri, 20 Nov 2026 17:21:58 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id C5A71601B9;
-	Fri, 20 Nov 2026 17:21:52 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A41F111BC04D7;
-	Fri, 20 Nov 2026 18:21:51 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 0C148601B9;
+	Fri, 20 Nov 2026 17:21:58 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 835D811BC066B;
+	Fri, 20 Nov 2026 18:21:52 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1795195312; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1795195313; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=tKYnYEb1IuQkc1b3IHnl3WYbGGm1SoT4coqhBBg1rUE=;
-	b=eu23OnUpbXgidAhzDesomCiqozvLkQsMetbA0c9vKDZziU2RaBkH+o8Ss8cRiEOA7dOIN5
-	SKWEeBQK8QBIdR7NiDurs2k1y1ldegDQLJGeVan28C583mwAQkmc9qYtjeVjy+ElRXzc5B
-	7gYp8hnaZTvKYh7r8UoR4m8Z1u7/OETPSbTqw1TVTtcB6y99X16SKA8eGy0TjFzaLT1qzc
-	yboLf/sY3ZOyJXIZlqxWoXeUsALJO4na2niWeTPs132TJ+eYEc40CPKAAqJ5I6+IcxdA/1
-	6GXoKlbtJgGnIblgu8KPGjCx2Pz5gxpMeDT5n6mu00ZkBSgIOD9PfgRZZVK9dA==
+	bh=Qbu7KK4s6s2jrPNFB+FJ45saACXN2WiZrDZB/5U3JI4=;
+	b=UrvG2KQoeD/hYBZwkClB0T46A1isXMwU4gCdy7azfOT9ETTFFmhxkTGLVKwhw29XjH3XXb
+	BGEh7sftJJtalb1u4hvBU4HKwMxKYphddyqxgWQKw4l/vE7zgKM4C93cJGYnt1z4uzxP2B
+	QB1NC6n1TaWH5OmbMgBwrrdIjZl4SiEtcPRhr5fqcXL6VIPs0mfTF7cALScCBYCqfyHa1W
+	KfSCpOgCXXFlhTuR5gQb2RoxZOU+X8BhYxZWcfTSStn2l1fw6ta1vtGNSVPyIFVh8KDQrb
+	fJ0+lTiSbaSHFiVreGylt3bhc4Yz/hNGWkewY4Pd3DEZnh/yRv8Mr354q8YnFg==
 From: =?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa=20=28Schneider=20Electric=29?= <joaomarcos.costa@bootlin.com>
 To: openembedded-core@lists.openembedded.org
 Cc: thomas.petazzoni@bootlin.com,
 	yoann.congal@smile.fr,
 	bastien.jauny@smile.fr,
 	=?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa=20=28Schneider=20Electric=29?= <joaomarcos.costa@bootlin.com>
-Subject: [blacksail][PATCH 3/4] curl: fix CVE-2026-92391
-Date: Fri, 20 Nov 2026 18:21:25 +0100
-Message-ID: <20261120172126.3187901-4-joaomarcos.costa@bootlin.com>
+Subject: [blacksail][PATCH 4/4] curl: fix CVE-2026-94266
+Date: Fri, 20 Nov 2026 18:21:26 +0100
+Message-ID: <20261120172126.3187901-5-joaomarcos.costa@bootlin.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261120172126.3187901-1-joaomarcos.costa@bootlin.com>
 References: <20261120172126.3187901-1-joaomarcos.costa@bootlin.com>
@@ -40,251 +40,266 @@ X-Last-TLS-Session-Version: TLSv1.3
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 17:22:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250822
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250823
 
 This vulnerability, marked as High [1], was fixed upstream [2] since
 v8.23.0.
 
 Backport the fix to curl v8.22.0.
 
-[1] https://nvd.nist.gov/vuln/detail/cve-2026-92391
-[2] https://curl.se/docs/CVE-2026-92391.html
+[1] https://nvd.nist.gov/vuln/detail/cve-2026-94266
+[2] https://curl.se/docs/CVE-2026-94266.html
 
 Signed-off-by: Jo=C3=A3o Marcos Costa (Schneider Electric) <joaomarcos.co=
 sta@bootlin.com>
 ---
- .../curl/curl/CVE-2026-92391.patch            | 200 ++++++++++++++++++
+ .../curl/curl/CVE-2026-94266.patch            | 220 ++++++++++++++++++
  meta/recipes-support/curl/curl_8.22.0.bb      |   1 +
- 2 files changed, 201 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-92391.patch
+ 2 files changed, 221 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-94266.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-92391.patch b/meta/r=
-ecipes-support/curl/curl/CVE-2026-92391.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-94266.patch b/meta/r=
+ecipes-support/curl/curl/CVE-2026-94266.patch
 new file mode 100644
-index 0000000000..55288d5296
+index 0000000000..1e85a70190
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-92391.patch
-@@ -0,0 +1,200 @@
-+From 8f839f842ec95a897d3f716f7220d1460109e3d0 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/curl/curl/CVE-2026-94266.patch
+@@ -0,0 +1,220 @@
++From 835f55d8f87da137c262af5d16ba209bcd4398de Mon Sep 17 00:00:00 2001
 +From: Daniel Stenberg <daniel@haxx.se>
-+Date: Sun, 13 Sep 2026 00:06:44 +0200
-+Subject: [PATCH] mime: do curl_mime_free() non-recursively
++Date: Mon, 21 Sep 2026 11:13:13 +0200
++Subject: [PATCH] getinfo: make sure CURLINFO_EFFECTIVE_URL does not cont=
+ain
++ creds
 +MIME-Version: 1.0
 +Content-Type: text/plain; charset=3DUTF-8
 +Content-Transfer-Encoding: 8bit
 +
-+Verify with test 3595: deeply nested curl_mime_free()
++Reported-by: Joshua Rogers
 +
-+Closes #22927
++Verified in test 1876
 +
-+CVE: CVE-2026-92391
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/d7546809d=
-5bd548b69ec49fca26565c8f6f0d344]
++Closes #23016
++
++CVE: CVE-2026-94266
++Upstream-Status: Backport [https://github.com/curl/curl/commit/7a6bd027d=
+0de2b6857472d35da090ef60cc29f19]
 +
 +Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
 +---
-+ lib/mime.c                 | 28 +++++++++++----
-+ tests/data/Makefile.am     |  2 +-
-+ tests/data/test3595        | 21 ++++++++++++
-+ tests/libtest/Makefile.inc |  3 +-
-+ tests/libtest/lib3595.c    | 70 ++++++++++++++++++++++++++++++++++++++
-+ 5 files changed, 115 insertions(+), 9 deletions(-)
-+ create mode 100644 tests/data/test3595
-+ create mode 100644 tests/libtest/lib3595.c
++ lib/getinfo.c          | 47 +++++++++++++++++++++++++----
++ lib/transfer.c         |  1 +
++ lib/url.c              |  1 +
++ lib/urldata.h          |  1 +
++ tests/data/Makefile.am |  2 +-
++ tests/data/test1876    | 67 ++++++++++++++++++++++++++++++++++++++++++
++ 6 files changed, 113 insertions(+), 6 deletions(-)
++ create mode 100644 tests/data/test1876
 +
-+diff --git a/lib/mime.c b/lib/mime.c
-+index 6004375765..41150dca94 100644
-+--- a/lib/mime.c
-++++ b/lib/mime.c
-+@@ -1109,20 +1109,36 @@ void Curl_mime_cleanpart(curl_mimepart *part)
-+   }
++diff --git a/lib/getinfo.c b/lib/getinfo.c
++index 23f1de270c..eda62da515 100644
++--- a/lib/getinfo.c
+++++ b/lib/getinfo.c
++@@ -63,6 +63,7 @@ void Curl_initinfo(struct Curl_easy *data)
++=20
++   curlx_safefree(info->contenttype);
++   curlx_safefree(info->wouldredirect);
+++  curlx_safefree(info->effective_url);
++=20
++   memset(&info->primary, 0, sizeof(info->primary));
++   info->retry_after =3D 0;
++@@ -76,15 +77,51 @@ void Curl_initinfo(struct Curl_easy *data)
++ #endif
 + }
 +=20
-+-/* Recursively delete a mime handle and its parts. */
-++/* Non-recursively delete a mime handle and its parts. */
-+ void curl_mime_free(curl_mime *mime)
-+ {
-+   curl_mimepart *part;
-+=20
-+-  if(mime) {
-+-    mime_subparts_unbind(mime);  /* Be sure it is not referenced anymor=
-e. */
-+-    while(mime->firstpart) {
-+-      part =3D mime->firstpart;
-++  if(!mime)
-++    return;
+++static CURLcode effective_url(struct Curl_easy *data,
+++                              const char **param_charp)
+++{
+++  const char *s =3D Curl_bufref_ptr(&data->state.url);
+++  *param_charp =3D s ? s : "";
+++  if(s) {
+++    char *url =3D NULL;
+++    /* Make a copy of the URL without credentials */
+++    CURLU *u =3D curl_url();
+++    CURLUcode uc;
+++    if(!u)
+++      return CURLE_OUT_OF_MEMORY;
 ++
-++  mime_subparts_unbind(mime);  /* Be sure it is not referenced anymore.=
- */
+++    uc =3D curl_url_set(u, CURLUPART_URL, s,
+++                      CURLU_NON_SUPPORT_SCHEME |
+++                      (data->set.path_as_is ? CURLU_PATH_AS_IS : 0));
+++    if(!uc)
+++      uc =3D curl_url_set(u, CURLUPART_USER, NULL, 0);
+++    if(!uc)
+++      uc =3D curl_url_set(u, CURLUPART_PASSWORD, NULL, 0);
+++    if(!uc)
+++      uc =3D curl_url_get(u, CURLUPART_URL, &url, CURLU_GET_EMPTY);
 ++
-++  while(mime) {
-++    part =3D mime->firstpart;
-++    if(part) {
-+       mime->firstpart =3D part->nextpart;
-++      if(part->kind =3D=3D MIMEKIND_MULTIPART && part->arg &&
-++         part->freefunc =3D=3D mime_subparts_free) {
-++        curl_mime *subparts =3D (curl_mime *)part->arg;
-++        part->freefunc =3D NULL;
-++        cleanup_part_content(part);
-++        subparts->parent =3D mime->parent;
-++        mime->parent =3D (curl_mimepart *)subparts;
-++      }
-+       Curl_mime_cleanpart(part);
-+       curlx_free(part);
-+     }
-+-    curlx_free(mime);
-++    else {
-++      curl_mime *parent =3D (curl_mime *)mime->parent;
-++      curlx_free(mime);
-++      mime =3D parent;
+++    curl_url_cleanup(u);
+++
+++    if(uc || !url)
+++      return CURLE_OUT_OF_MEMORY;
+++    if(strcmp(url, s)) {
+++      /* they are different */
+++      curlx_free(data->info.effective_url);
+++      data->info.effective_url =3D url;
+++      *param_charp =3D url;
 ++    }
-+   }
-+ }
+++    else
+++      curl_free(url);
+++  }
+++  return CURLE_OK;
+++}
+++
++ static CURLcode getinfo_char(struct Curl_easy *data, CURLINFO info,
++                              const char **param_charp)
++ {
++   switch(info) {
++-  case CURLINFO_EFFECTIVE_URL: {
++-    const char *s =3D Curl_bufref_ptr(&data->state.url);
++-    *param_charp =3D s ? s : "";
++-  }
++-    break;
+++  case CURLINFO_EFFECTIVE_URL:
+++    return effective_url(data, param_charp);
++   case CURLINFO_EFFECTIVE_METHOD: {
++     const char *m =3D CURL_EASY_STR(data, STRING_CUSTOMREQUEST);
++     if(!m) {
++diff --git a/lib/transfer.c b/lib/transfer.c
++index 3b6c5c03dd..d940f8dc22 100644
++--- a/lib/transfer.c
+++++ b/lib/transfer.c
++@@ -503,6 +503,7 @@ CURLcode Curl_pretransfer(struct Curl_easy *data)
++   data->state.authhost.want =3D data->set.httpauth;
++   data->state.authproxy.want =3D data->set.proxyauth;
++   curlx_safefree(data->info.wouldredirect);
+++  curlx_safefree(data->info.effective_url);
++   Curl_data_priority_clear_state(data);
++   if(data->set.http_auto_referer)
++     Curl_bufref_free(&data->state.referer);
++diff --git a/lib/url.c b/lib/url.c
++index 6eeae43d0d..61126a1d29 100644
++--- a/lib/url.c
+++++ b/lib/url.c
++@@ -267,6 +267,7 @@ CURLcode Curl_close(struct Curl_easy **datap)
++   curlx_safefree(data->state.most_recent_ftp_entrypath);
++   curlx_safefree(data->info.contenttype);
++   curlx_safefree(data->info.wouldredirect);
+++  curlx_safefree(data->info.effective_url);
 +=20
++   /* No longer a dirty share, if it exists */
++   if(Curl_share_easy_unlink(data))
++diff --git a/lib/urldata.h b/lib/urldata.h
++index 1c0101847b..fb6df8619e 100644
++--- a/lib/urldata.h
+++++ b/lib/urldata.h
++@@ -409,6 +409,7 @@ struct PureInfo {
++   curl_off_t numconnects; /* how many new connections libcurl created *=
+/
++   char *contenttype; /* the content type of the object */
++   char *wouldredirect; /* URL this would have been redirected to if ask=
+ed to */
+++  char *effective_url; /* when needed */
++   curl_off_t retry_after; /* info from Retry-After: header */
++   const char *conn_scheme;
++   int httpcode;  /* Recent HTTP, FTP, RTSP or SMTP response code */
 +diff --git a/tests/data/Makefile.am b/tests/data/Makefile.am
-+index 4a27927b1c..e0ce23abfb 100644
++index e0ce23abfb..8cdeaf7a0a 100644
 +--- a/tests/data/Makefile.am
 ++++ b/tests/data/Makefile.am
-+@@ -2091,7 +2091,7 @@ TESTCASES =3D \
-+   test3401 \
-+   \
-+   test3500 \
++@@ -1740,7 +1740,7 @@ TESTCASES =3D \
++   test1849 \
++   test1850 \
++   test1851 \
 +-  \
-++  test3595 \
-+   test4000 \
-+   test4001 \
-+   \
-+diff --git a/tests/data/test3595 b/tests/data/test3595
+++  test1876 \
++   test1900 \
++   test1901 \
++   test1902 \
++diff --git a/tests/data/test1876 b/tests/data/test1876
 +new file mode 100644
-+index 0000000000..b2b1dd26c2
++index 0000000000..4fc3b9fd02
 +--- /dev/null
-++++ b/tests/data/test3595
-+@@ -0,0 +1,21 @@
+++++ b/tests/data/test1876
++@@ -0,0 +1,67 @@
 ++<?xml version=3D"1.0" encoding=3D"US-ASCII"?>
 ++<testcase>
 ++<info>
 ++<keywords>
-++mime
+++netrc
 ++</keywords>
 ++</info>
 ++
+++# Server-side
+++<reply>
+++<data crlf=3D"headers" nocheck=3D"yes">
+++HTTP/1.1 301 redir
+++Content-Length: 0
+++Content-Type: text/html
+++Location: %TESTNUMBER0002
+++
+++</data>
+++
+++<data2 crlf=3D"headers">
+++HTTP/1.1 200 OK
+++Content-Length: 0
+++Content-Type: text/html
+++
+++</data2>
+++
+++</reply>
+++
 ++# Client-side
 ++<client>
-++<tool>
-++lib%TESTNUMBER
-++</tool>
+++<server>
+++http
+++</server>
 ++<name>
-++curl_mime_free
+++verify no credentials present in effective URL after redirect
 ++</name>
+++<file name=3D"%LOGDIR/netrc">
+++machine %HOSTIP
+++login netrcuser
+++password netrcSECRET123
+++</file>
+++
+++<command option=3D"no-include">
+++http://%HOSTIP:%HTTPPORT/%TESTNUMBER --netrc-optional --netrc-file %LOG=
+DIR/netrc -L -w 'EFFECTIVE_URL=3D%{url_effective}\n'
+++</command>
 ++</client>
 ++
+++# Verify data after the test has been "shot"
 ++<verify>
+++<protocol crlf=3D"headers">
+++GET /%TESTNUMBER HTTP/1.1
+++Host: %HOSTIP:%HTTPPORT
+++Authorization: Basic %b64[netrcuser:netrcSECRET123]b64%
+++User-Agent: curl/%VERSION
+++Accept: */*
+++
+++GET /%TESTNUMBER0002 HTTP/1.1
+++Host: %HOSTIP:%HTTPPORT
+++Authorization: Basic %b64[netrcuser:netrcSECRET123]b64%
+++User-Agent: curl/%VERSION
+++Accept: */*
+++
+++</protocol>
+++<stdout>
+++EFFECTIVE_URL=3Dhttp://%HOSTIP:%HTTPPORT/%TESTNUMBER0002
+++</stdout>
 ++</verify>
 ++</testcase>
-+diff --git a/tests/libtest/Makefile.inc b/tests/libtest/Makefile.inc
-+index 26c72e5672..9cdc7b2da1 100644
-+--- a/tests/libtest/Makefile.inc
-++++ b/tests/libtest/Makefile.inc
-+@@ -325,5 +325,4 @@ TESTS_C =3D \
-+   lib3105.c \
-+   lib3207.c \
-+   lib3208.c \
-+-  lib5000.c \
-+-  lib5004.c
-++  lib3595.c
-+diff --git a/tests/libtest/lib3595.c b/tests/libtest/lib3595.c
-+new file mode 100644
-+index 0000000000..1f343f503e
-+--- /dev/null
-++++ b/tests/libtest/lib3595.c
-+@@ -0,0 +1,70 @@
-++/**********************************************************************=
-*****
-++ *                                  _   _ ____  _
-++ *  Project                     ___| | | |  _ \| |
-++ *                             / __| | | | |_) | |
-++ *                            | (__| |_| |  _ <| |___
-++ *                             \___|\___/|_| \_\_____|
-++ *
-++ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
-++ *
-++ * This software is licensed as described in the file COPYING, which
-++ * you should have received as part of this distribution. The terms
-++ * are also available at https://curl.se/docs/copyright.html.
-++ *
-++ * You may opt to use, copy, modify, merge, publish, distribute and/or =
-sell
-++ * copies of the Software, and permit persons to whom the Software is
-++ * furnished to do so, under the terms of the COPYING file.
-++ *
-++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY O=
-F ANY
-++ * KIND, either express or implied.
-++ *
-++ * SPDX-License-Identifier: curl
-++ *
-++ **********************************************************************=
-*****/
-++#include "unitcheck.h"
-++
-++static CURLcode test_lib3595(const char *arg)
-++{
-++  UNITTEST_BEGIN_SIMPLE
-++
-++#if !defined(CURL_DISABLE_MIME) &&                                     =
- \
-++  (!defined(CURL_DISABLE_HTTP) ||                                      =
- \
-++   !defined(CURL_DISABLE_SMTP) ||                                      =
- \
-++   !defined(CURL_DISABLE_IMAP))
-++
-++  curl_mime *root =3D NULL;
-++  curl_mime *current =3D NULL;
-++  curl_mime *sub =3D NULL;
-++  curl_mimepart *part =3D NULL;
-++  int i;
-++
-++  if(curl_global_init(CURL_GLOBAL_ALL) !=3D CURLE_OK) {
-++    curl_mfprintf(stderr, "curl_global_init() failed\n");
-++    return TEST_ERR_MAJOR_BAD;
-++  }
-++
-++  /* Create a deeply nested mime structure to verify that non-recursive
-++     curl_mime_free works properly. */
-++  (void)arg;
-++  root =3D curl_mime_init(NULL);
-++  fail_unless(root !=3D NULL, "curl_mime_init root failed");
-++  current =3D root;
-++
-++  for(i =3D 0; i < 50; i++) {
-++    part =3D curl_mime_addpart(current);
-++    fail_unless(part !=3D NULL, "curl_mime_addpart failed");
-++    sub =3D curl_mime_init(NULL);
-++    fail_unless(sub !=3D NULL, "curl_mime_init sub failed");
-++    curl_mime_subparts(part, sub);
-++    current =3D sub;
-++  }
-++
-++  /* Free deep structure */
-++  curl_mime_free(root);
-++  curl_global_cleanup();
-++#else
-++  (void)arg;
-++#endif
-++
-++  UNITTEST_END_SIMPLE
-++}
 diff --git a/meta/recipes-support/curl/curl_8.22.0.bb b/meta/recipes-supp=
 ort/curl/curl_8.22.0.bb
-index 4c6a088e62..6445aae426 100644
+index 6445aae426..64397f1a77 100644
 --- a/meta/recipes-support/curl/curl_8.22.0.bb
 +++ b/meta/recipes-support/curl/curl_8.22.0.bb
-@@ -19,6 +19,7 @@ SRC_URI =3D " \
-     file://CVE-2026-92389.patch \
+@@ -20,6 +20,7 @@ SRC_URI =3D " \
      file://CVE-2026-87865.patch \
      file://CVE-2026-92386.patch \
-+    file://CVE-2026-92391.patch \
+     file://CVE-2026-92391.patch \
++    file://CVE-2026-94266.patch \
  "
 =20
  SRC_URI:append:class-nativesdk =3D " \
