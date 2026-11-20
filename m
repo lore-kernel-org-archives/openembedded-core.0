@@ -1,54 +1,54 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6323.1795182826573577360
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6386.1795182827902775215
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Nov 2026 05:53:46 -0800
+ Fri, 20 Nov 2026 05:53:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=GtA6tp3w;
- spf=pass (domain: gmail.com, ip: 209.85.128.45, mailfrom: stondo@gmail.com)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4a35a60499eso7217155e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 05:53:46 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=O9yoBDyc;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: stondo@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4a140e7405dso8337795e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 05:53:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795182825; x=1795787625; darn=lists.openembedded.org;
+        d=gmail.com; s=20260707; t=1795182826; x=1795787626; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=dt/B9SfL0/WeDc9OgwBpfZ7ZRxcHO8ccyD3tvyMmp3g=;
-        b=GtA6tp3wLwbANwsA1RX81Hl8Q53qX86YG7oW8OZyohz+Od9rZ5SS36X5h32g+s3d4G
-         uKFgc1MC6pUptpw7AV4c1//T83bKEiIrM3cqohZKuFfPco8ZQwZJHpMjoPa7Xxd9aVrA
-         +csPfF1ul/15N6BtVkRyu95NOWKdRm3g9LNPD2YFg0LQBnOgYTBkIjpdW08CAVwjN+Ph
-         ThPa6MYW+gS6VUNTQPW5B50MJyGXlZThFXiRPaXNEzwQq/4CjZnrtx5Fw85BpU5M82CW
-         kfKd7e6kG9Fm/YoakhYbNS2vin4wyRl4T6g+oBEA40imso4pwhK6OUzMCfk+r5FKrIlu
-         8u7A==
+        bh=36PISSeuZF8VjgxufAYHZcqgrQ/dXVu9sOTMES5F2JE=;
+        b=O9yoBDycND5pfeG/niLmQPaqe+a6Y6pUmF1cCDESFKL+IMMVzRx90yvUwYp/+0S3ZX
+         SeYDDAmRHkzlNr6JSrT+ZwK/zw1ltYS5f93tZ8LahehFdEziNYXpyIw86Ad17Dfl1Dj1
+         zqE9/xeykei1qADCGSz5jeCtzWBC1g2qmdjsPlypYWWMxlrv2DTxDBr4owHeC+RkB/EX
+         vQdlkcyq6L9A4cDzq1oHEQBfh49xWzvO6s0Slh/Q6EWtLe+2t4QkQbC+siCWE+aPrvlW
+         U0f+pEa5/nNK1aZkhT0ND7r+ODUqmt0Y8IH6lvHBDP31HEYw6bp05eHn8IMEeOw3MpVE
+         AKSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795182825; x=1795787625;
+        d=1e100.net; s=20260707; t=1795182826; x=1795787626;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dt/B9SfL0/WeDc9OgwBpfZ7ZRxcHO8ccyD3tvyMmp3g=;
-        b=0HPHczlC03swi/FxVuhrTUq7SpM1lx2VrscPaGeXQN796Y856cr6CC4Y015yZguBPF
-         Z0DUpiBe5AxJNkt1dHR5qmBFo4YngcRpmFTroijvPdVHhaoVLvsLdgq2r8iYaNXdbVNR
-         b1vjjrqP/VthbJJpH8U1U+Y8SMwo4ysaq6+GYh9fJ6i6hp8XV1kVDl4ZybRRnylULcyE
-         wzMsF7TqpFJIbaMTT1qHIkwAdH1oN6FnptTVLzi2Mh7Vyx17NPtJAJ7szEiKESx+Ypd9
-         h6h2qn0QgvVyB8DSYxgCvQQm6ySQzwoO3QbZRBxjflYQCuFA7064YYMWzdfV3JMiIJxB
-         T9Kw==
-X-Gm-Message-State: APuU4Z+7inblwj1V0ptMa7bTVNlo5eZ/KNwfOdB59qS5LU9kDV1x5nyz
-	nP0NQK1B5BVOY59Ws1llS/wY3hN5+99hxBgWn61YuwUFzCIj6++Byzu351XDnoL2
-X-Gm-Gg: AYBFou2+m/YTVHZ/3c1zsLPbaZ5NWPAltlM0CfU84OcVphOmuTm17RlK8tPd5x1JmIb
-	tW8DhRxmqwgbfNZcf5hqPhAzgMjJi63PanvTJPdVourThApLQhyTBiiwjledjZVuEtJMHvhgslx
-	c82yCd/8ZJNRqqF74P9/gQPToWWf+gv2+C9RBXEPf2/nOmAqFuyB4Hxs4TRcWLlnJhT8xrEpgim
-	6iobvBl6q/w/DG01Jcs3/SNTLVQuc892bvFlOPW0aAf7Y3WCd6Z6qB+DZgvzlvOKN/ExnU/jiAE
-	eSNZjjLXgVddAnkjlnbW9BPIdw8niGRI97088jt0f0iI5vSf3XcDENDcBPPddmS/tbSQiArj6WJ
-	lPLbL8UqQD/yc7kT4eytDIeDzcAy3dR0fDc2ylwgkLNbwRz+398KrKfef9uq/DC6qCHbYqXP6to
-	kocdBKt8SL+sxSnBCR/ZpX87kjZ+TX1njlhhbx437PxZmBcx+Q+Dj+aWgnZuZz77BvA1bvUGqr6
-	4a8QeStVZMVDmPjl8dUS14OWPNFcWXSMWPdD9o/NTpJDruSxu1ElEwpucjoHLEFqZdru0LUyfAM
-	hX1OJ1bd9tnyrRaR7bgIQZ63PIuMfOlt
-X-Received: by 2002:a05:600c:a0d:b0:4a1:825a:56fd with SMTP id 5b1f17b1804b1-4bb88826c1fmr69214955e9.32.1795182824774;
-        Fri, 20 Nov 2026 05:53:44 -0800 (PST)
+        bh=36PISSeuZF8VjgxufAYHZcqgrQ/dXVu9sOTMES5F2JE=;
+        b=AnolIsSPMxebmDj2Uh+EsVV3+zEkvNFY2zqzVpm1UkYUoXzyrz0W8Qc+U/s8qsKigI
+         0UGD15K1SSpgkSiTyGuYSEjf/VfUBHzIM5B0uKR56vMEH0h01JpOmhrSfGqpI3cvVFi+
+         7MkHvjiUCvL/wcRRVrc8Ww+gE8tl5kmPHdORtARJYLXt/bSEHcfce3udbFC637POG0mU
+         XtvcShi7mlelBLKbAOT5KEsr78YNNLWqWlYovs/rBbn0lBHWqwQxmN7MncdoChYIU/E5
+         Pup9DD7JrbtvWeh/6aWHbUN/l0It5AzFh5IqAq/PDhxiYOb8qG1tkpqN6Ue/MTdw+eu8
+         1X/Q==
+X-Gm-Message-State: APuU4Z+gJc4W0F7yKESV1hYJavlk6NC9PQK6IAuADFb0+UeWzUUMVXp6
+	gpterajQVYqjvaUu1Gl0Qqw5vVnFPQ10WoUEGQ4hFos4zWvbFdRa4jVNxkEqujyn
+X-Gm-Gg: AYBFou22JSvJik7RZmVYRh5pfdVwHKpSI8bWloU2GFcL+KwPIX0sB51ekEGJ7xFNopL
+	ykhDzEzZ9DNFBuX6awiO0MNyHCMkZxpvaVTz9J+O/5AGLQy3LVr/bKwCGd+/rwaFvxR88/zqGc0
+	hQsUj8tdBqpDvD+ZIud04bentQkjfGXFIl+XWLx06ROS2b8qugtl5mixrRXeiGRnfbQsEVakQVd
+	jkoJM2swDZp5HFtKlGhQydSKoasyzyepHJEmMlVp4IN71Pfmau8TV+IwO3xkUnHfdL+ZEk3N5t7
+	DVGS2pnhg+CuCPjknE/rW6Ywvp8Bp1e+514CV7h2x2HTr1AaAdBXfiK9k2f2HQXEVNOzOhxfoHV
+	GBK8C/W7b5WjRJR7aqZwhsC5fyF+s1j8mEHFQhvN8E2hyHjaPLv9SRIs/eNT5YGQs3CqWF9KJOx
+	ojitQayaSOw/G8wEJFQpb25ogMlyrLqbL2WXZUgV2SyCOWyY08VcCvRGPKpH9KearOBOnRMV2Kx
+	1H7k2DJuprpSi/hQc3v+OKFedmiVLCtmO5zp+qQFq7XiOupK/u8qlvsqMcHFOVKKJEUL1cXK///
+	Sirt2F+5pQa3
+X-Received: by 2002:a05:600c:1c0f:b0:4a1:f625:2108 with SMTP id 5b1f17b1804b1-4bb8881d4a3mr75203535e9.33.1795182825830;
+        Fri, 20 Nov 2026 05:53:45 -0800 (PST)
 Return-Path: <stondo@gmail.com>
 Received: from fedora ([165.225.94.251])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb88f6b6a6sm101009695e9.5.2026.11.20.05.53.43
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb88f6b6a6sm101009695e9.5.2026.11.20.05.53.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 05:53:44 -0800 (PST)
+        Fri, 20 Nov 2026 05:53:45 -0800 (PST)
 From: Stefano Tondo <stondo@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
@@ -56,9 +56,9 @@ Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
 	Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>,
 	Peter Marko <peter.marko@siemens.com>,
 	stefano.tondo.ext@siemens.com
-Subject: [PATCH 01/10] recipetool: create_npm: Give the fallback licenses as a string
-Date: Fri, 20 Nov 2026 14:53:32 +0100
-Message-ID: <20261120135342.2628228-2-stondo@gmail.com>
+Subject: [PATCH 02/10] recipetool: create: Get the checksum of npm packages from the registry
+Date: Fri, 20 Nov 2026 14:53:33 +0100
+Message-ID: <20261120135342.2628228-3-stondo@gmail.com>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <20261120135342.2628228-1-stondo@gmail.com>
 References: <20261120135342.2628228-1-stondo@gmail.com>
@@ -66,42 +66,94 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 13:53:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250794
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250795
 Content-Type: text/plain; charset="utf-8"
 
 From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 
-Since 727ea2769c ("license: Remove tidy_licenses()"),
-handle_license_vars() reads LICENSE from the extra values as a license
-string. The npm handler still gives a set, so recipetool create stops
-with "AttributeError: 'set' object has no attribute 'strip'" for each
-npm package that has dependencies.
+Since bitbake 9e45e00a2 ("fetch/{npm,npmsw}: re-enable fetchers now
+that checksums come from SRC_URI"), an npm:// URL needs a checksum.
+recipetool create gets an npm:// URL without a checksum, so it fails
+before the fetch:
 
-Join the sorted fallback licenses with " AND ". Also remove a line that
-sorted a copy of the set and did not use the result.
+  MissingParameterError: ... Missing checksum for npm package
+
+The usual way, a fetch with BB_STRICT_CHECKSUM = "ignore", does not
+work for npm on purpose. So get the checksum from the registry
+("dist.integrity") before the fetch, and add it to the URL in the
+recipe. For a new recipe, the registry is the only source of this
+checksum.
+
+Update the selftest for the checksum in SRC_URI.
 
 Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
 ---
- scripts/lib/recipetool/create_npm.py | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+ meta/lib/oeqa/selftest/cases/recipetool.py |  4 +++-
+ scripts/lib/recipetool/create.py           | 22 ++++++++++++++++++++++
+ 2 files changed, 25 insertions(+), 1 deletion(-)
 
-diff --git a/scripts/lib/recipetool/create_npm.py b/scripts/lib/recipetool/create_npm.py
-index 10eca3c63e..5edf647176 100644
---- a/scripts/lib/recipetool/create_npm.py
-+++ b/scripts/lib/recipetool/create_npm.py
-@@ -283,10 +283,9 @@ class NpmRecipeHandler(RecipeHandler):
-         (licfiles, packages, fallback_licenses) = self._handle_licenses(srctree, shrinkwrap_file, dev)
-         licvalues = match_licenses(licfiles, srctree, d)
-         split_pkg_licenses(licvalues, packages, lines_after, fallback_licenses)
--        fallback_licenses_flat = set(license for sublist in fallback_licenses.values() for license in sublist)
--        fallback_licesens_flat = sorted(fallback_licenses_flat).sort()
-+        fallback_licenses_flat = sorted(set(license for sublist in fallback_licenses.values() for license in sublist))
-         extravalues["LIC_FILES_CHKSUM"] = generate_common_licenses_chksums(fallback_licenses_flat, d)
--        extravalues["LICENSE"] = fallback_licenses_flat
-+        extravalues["LICENSE"] = " AND ".join(fallback_licenses_flat)
+diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
+index 0aaa090ff5..c6aa77399f 100644
+--- a/meta/lib/oeqa/selftest/cases/recipetool.py
++++ b/meta/lib/oeqa/selftest/cases/recipetool.py
+@@ -449,7 +449,9 @@ class RecipetoolCreateTests(RecipetoolBase):
+         checkvars['HOMEPAGE'] = 'https://github.com/savoirfairelinux/node-server-example#readme'
+         checkvars['LICENSE'] = 'BSD-3-Clause AND ISC AND MIT AND Unknown'
+         urls = []
+-        urls.append('npm://registry.npmjs.org/;package=@savoirfairelinux/node-server-example;version=${PV}')
++        urls.append('npm://registry.npmjs.org/;package=@savoirfairelinux/node-server-example;version=${PV}'
++                    ';sha512sum=f2dd7d88cb9a129fbb97eb87a8b5103bab24f783420fd7587f8000a355a12bf7'
++                    '83f1263230afc588123958b73e36bb241f63eaf08119aac5aa2a870bc4de9223')
+         urls.append('npmsw://${THISDIR}/${BPN}/npm-shrinkwrap.json')
+         checkvars['SRC_URI'] = set(urls)
+         checkvars['S'] = '${WORKDIR}/npm'
+diff --git a/scripts/lib/recipetool/create.py b/scripts/lib/recipetool/create.py
+index 662e7a6232..2df17dd6e4 100644
+--- a/scripts/lib/recipetool/create.py
++++ b/scripts/lib/recipetool/create.py
+@@ -413,6 +413,18 @@ def is_package(url):
+         return True
+     return False
  
-         classes.append("npm")
-         handled.append("buildsystem")
++def get_npm_checksum(registry, package, version):
++    """Get the checksum of an npm package from the registry.
++
++    The npm fetcher needs a checksum before the download. When a new recipe
++    is created, the registry is the only source of this checksum.
++    """
++    import urllib.request
++    from bb.fetch.npm import npm_integrity
++    url = "https://%s/%s/%s" % (registry.strip("/"), package, version)
++    with urllib.request.urlopen(url, timeout=60) as response:
++        return npm_integrity(json.load(response)["dist"]["integrity"])
++
+ def create_recipe(args):
+     import bb.process
+     import tempfile
+@@ -523,6 +535,15 @@ def create_recipe(args):
+         # Assume 'master' branch if not set
+         if scheme in ['git', 'gitsm'] and 'branch' not in params and 'nobranch' not in params:
+             params['branch'] = 'master'
++        npm_checksum = {}
++        if scheme == 'npm' and not any(p in params for p in bb.fetch.npm.CHECKSUM_PARMS):
++            try:
++                checksum_name, checksum = get_npm_checksum(network + path, params.get('package', ''), params.get('version', ''))
++            except Exception as e:
++                logger.error('Unable to get the checksum of %s from the registry: %s' % (srcuri, e))
++                sys.exit(1)
++            npm_checksum[checksum_name] = checksum
++            params.update(npm_checksum)
+         fetchuri = bb.fetch.encodeurl((scheme, network, path, user, passwd, params))
+ 
+         tmpparent = tinfoil.config_data.getVar('BASE_WORKDIR')
+@@ -587,6 +608,7 @@ def create_recipe(args):
+         # Since we might have a value in srcbranch, we need to
+         # recontruct the srcuri to include 'branch' in params.
+         scheme, network, path, user, passwd, params = bb.fetch.decodeurl(srcuri)
++        params.update(npm_checksum)
+         if scheme in ['git', 'gitsm']:
+             params['branch'] = srcbranch or 'master'
+ 
 -- 
 2.56.1
 
