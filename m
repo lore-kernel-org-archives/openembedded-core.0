@@ -1,246 +1,607 @@
-Received: from mail-dy1-f174.google.com (mail-dy1-f174.google.com [74.125.82.174])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1767.1795161821269706812
+Received: from aer-iport-8.cisco.com (aer-iport-8.cisco.com [173.38.203.70])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2404.1795165253706027900
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Nov 2026 00:03:41 -0800
+ Fri, 20 Nov 2026 01:00:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=hwbItF/6;
- spf=pass (domain: gmail.com, ip: 74.125.82.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-dy1-f174.google.com with SMTP id 5a478bee46e88-382f4710a17so974300eec.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 00:03:41 -0800 (PST)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=T/xnmHUN;
+ spf=pass (domain: cisco.com, ip: 173.38.203.70, mailfrom: devanshp@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795161820; x=1795766620; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=THxcVMvA8ZRj47YW3HU/UlKPtwMtnc59SqH5U4BWcD8=;
-        b=hwbItF/6TwB48f1ShjMzndhmbKWumcIiGVBTV6QNdgwciNi/D/ej+nXTNK0Dvfyw7G
-         qGMKofALrAuapIle8zAmH3nRYtF1QnbExMY1OIZROruHupMKHkRJTITTONNHD453ASHO
-         f5LxRG/SCr2LD1owhM/FwYpg17lF4q2ydTvZWstNCzZCq2NY4c2x4cF2D4p0nA2c3eIX
-         UPRFFNMmMAycrElK0/LaAtX+MOa2xpKAVHL+Z0+XDC8qafDi9a/VwBFx9pCmscVIyp3O
-         xKRCJZaHYFRmPW6hMoDTrMNe5VJNAXdElF5sL8lpw/ZE1ODvmJfhDhLOOAwTmmQnrC6f
-         3unA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795161820; x=1795766620;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=THxcVMvA8ZRj47YW3HU/UlKPtwMtnc59SqH5U4BWcD8=;
-        b=RAjZiSUSl/mSMWsrZP55lpzS0zy4k18rrdP1QhgOVdjx4jZ1NmaRc3mWZXuPFdIFsd
-         ImZ//f1T9Z26PXBJBiJD/cR+mqYXDYiM0gFFCg1LR91JRVS8ainJwu7nS00XVvnOvwsr
-         3pELwJnSvhsl9wQ27NgH1OrsPB7gDA3tgcLFyfyoTToIq11F9zGKJC5fr5x7maM7zIGT
-         FCHKR7SX7OsHlz5cKTUuQzlw/h9CKqmuZoBpO4DvKK5Y8hd6qEI0rS/zrxU1+2wVFmfu
-         gpsbUTogLIGeV/aFHdObbAv8LCeO/SuEsMR+82+2RCTZS2J5lwixDFHI9lwEUkRS0mhC
-         qBBQ==
-X-Gm-Message-State: APuU4Z9pL+QtRjE/YSUzFCjU9zjDe9NeFxnvqcp6x/DusZdfGle2ZkcL
-	Sdo9qI8dZ9/ZkeSQMLVbRLYEah1U5q7JxHuaPQKeIS6Zap2EKRpuDog48VAyVD+Z
-X-Gm-Gg: AZFdTZfAstfkrbMlcV2gU6VRfYvNJj74dYZ0wWH2LU34ODc9km8rqi8OaB7NeSSsAyZ
-	s624vyXPIQ7vRlNsTjibVYOpg1IPbkcDTDFULYbxSiRo90IqERABZAexBf3pazvk4tC7plmGcql
-	PL5adXqTwN1XrSKIZ9YJOsF1dJOaBWasks9Leyyd5M0l2198zXJ1DZSfJmhQryzD09vPbp2Fu9x
-	oKgIxADAtOGjotJfYuNt3tCjW9qh8uATFwiN0XxaZyMDgdF8XesKZn46XHVEsdp1tG026lx6PO6
-	1CnGQGQi92OhZw794J36mgcjPQNKtWCdUQ2eZfO6qLp7/+DmgFEcLRHJaiNF/PqS9dHHgNpmTgp
-	LYlpoqMagzMVstQaluSbYIx1AH4cTiFe+sGd3rRQ10HBjmHGKm/o5WYzO+npU6uEaqDrTdEP+Ck
-	l2Wkk2q4wc/2sljMAdE5JX4i3Xe8nIseu37X9JHqkr42EXBSpK9csysKrTgEQv/EFiXY9eMQ8fP
-	3vHhYxHKniP+IKEjoBwVTowcA7OLYJAmgR1YHPH4gS2Pat0UwTgCJhtktxNEZ2FtlLhBZiZ/B+H
-	GWSjDn0IbdldU+0eU+v2XVUvrjLxdobIhjR0PhgK3xJC1FHbtSm19LWXig5qinqXaRDrKEPi8ZV
-	cMbhjRRb77b2eh4DoXmqgquNfPVvaSfPuSRsND/QNk1Wuuy5VzZ46V/CC0H+oZP4YJEhdh6wMhc
-	Ogihz22N0luExjPgO2sfeasy/WvxEEnWF1wKnkTL6yxBpGTJZTi1h1I3dynoFAvgVFTU3WS7uhu
-	HxssbFhtXrVmB6eLqnFBLL8LT6YtyQToF5p8ez2QTNBaplBHemvY/jcxqauU59V5uRMQXJJLlri
-	e/sl
-X-Received: by 2002:a05:7300:3c92:b0:385:b3fd:dc10 with SMTP id 5a478bee46e88-385b3fde0f0mr1257605eec.30.1795161820257;
-        Fri, 20 Nov 2026 00:03:40 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385677c349csm5754765eec.22.2026.11.20.00.03.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 00:03:39 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
+  d=cisco.com; i=@cisco.com; l=20596; q=dns/txt;
+  s=iport01; t=1795165253; x=1796374853;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=9VgcU7L08YvBEMHNKlf/+A2XfmhC+0jHgJZsUlCQje0=;
+  b=T/xnmHUNtxtvkJmMqCn5MTJ5VTOOT+bffkkSWrfrWDLBbg1EjxqQO4Kz
+   eJbMuhnG+DBP0kyGVjGU5C9H8ItFQaBiD+dJtNvrZ46JLb7I8GiN+ht/+
+   KTQZr8HFZgwICD95JY+YFb750HSHNX7jsQb4Ko/0cFolzrVTEt32EWidE
+   XIdj3+DRWNQdCO920OC0CremESROvAAKDaE9a7gfYCLUsFCbDIYxVEK4U
+   bNl9kyQf5AQ/5i2rIOvbE7WXgwnhReMGigmFTLT8KWulrjk30nz6lqgZg
+   jx0y6ZJ3BirBEAjDKne41MvFSVinJUIG8PQXy7d80mUcGsEcpGMFtkZNI
+   Q==;
+X-CSE-ConnectionGUID: FeLYVNcpQJKzeXfRcow7gA==
+X-CSE-MsgGUID: M4UrhxO0TeCU39+iTdP7bg==
+X-IPAS-Result: =?us-ascii?q?A0BEAgCvCwBr/8xK/pBaglmCV3VgQ0mUKoIhniyBJANXD?=
+ =?us-ascii?q?wEBAQ9EDQQBAYQ/jmkCJjQJDgECBAMCAwEBAQEBAQEBAQEBAQoBAQUBAQECA?=
+ =?us-ascii?q?QcFgQ4Thk8NkBIBLQsBcgMBAlojIYMCAYJ0AxG4c4F5M4EBg2kCQ1DbMwELF?=
+ =?us-ascii?q?AGBOIVCiCRdGAGEfScbG4FyhH+BBYFcAQGIJgSCIoEMgVSNFwKBT4gmSIEeA?=
+ =?us-ascii?q?1ksAVUTDQoLBwWBaAM1EioVbjIdgSM7F4EHGwYFgRyBHoESgQNdgSsoXiGBC?=
+ =?us-ascii?q?IF2AoJRggACAUlBDgdFUwklQxJHJCIIEgkBExosCoEaNTwJJj8VDGcLGgVhC?=
+ =?us-ascii?q?AINDHQ5EDAeJC8FGiY+GwqBDCcfHhsOAh8QBg0YDUgRLDcVGQQ+bgeTbIJ5G?=
+ =?us-ascii?q?QcWG10BKxeCApNSkjahEQoog3mMJJU6GjOEBIFXkkOSVAuYfYs3glOWBE2Ea?=
+ =?us-ascii?q?oFoPDmBDgsHcBWDIglKGQ+OLgsLg2CBf8xcJjILMwEHAgcPAoFzkX4BAQ?=
+IronPort-Data: A9a23:DO4d869YoBsCp2n9MED6DrUD1H+TJUtcMsCJ2f8bNWPcYEJGY0x3n
+ GZKCj2PMvbZYWahftB2YIy2/B5S7MOEyIMxTwBlqyxEQiMRo6IpJzg2wmQcns+2BpeeJK6yx
+ 5xGMrEsFOhtEDmB4E/rYuK8xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2bBVOCvT/
+ 4mtyyHjEAX9gWAtazhMsvvrRC5H5ZwehhtJ5jTSWtgT1LPuvyF9JI4SI6i3M0z5TuF8dsamR
+ /zOxa2O5WjQ+REgELuNyt4XpWVTH9Y+lSDX4pZnc/DKbipq/0Te4Y5nXBYoUnq7vh3S9zxHJ
+ HqhgrTrIeshFvWkdO3wyHC0GQkmVUFN0OevzXRSLaV/wmWeG0YAzcmCA2kYMKkpxMB8GVhs1
+ u4VGD43ZRec2O2flefTpulE3qzPLeHiMZlavjRryivUSK59B5vCWK7No9Rf2V/chOgXQaqYP
+ ZdFL2UzKk6YP3WjOX9PYH46tOulmHD5aD1AgFmUvqEwpWPUyWSd1ZCwYYeEIoXRH625mG69+
+ l/c/3TeWi0XH+HEmHmEzn6U2eXAyHaTtIU6UefQGuRRqFqLy2oeDRcbWVe2rbyyjVSzc9ZeM
+ FAPvC02oK4/8UamQtXwU1u/unHsg/IHc9NdCag+rQqK0KeRu13fDWkfRTkHY9sj3CMreQEXO
+ payt4uBLVRSXHe9ExpxKp/8QeuOBBUo
+IronPort-HdrOrdr: A9a23:/25gVaBBPMgj/3blHemc55DYdb4zR+YMi2TDsHoBKyC9Hfb3qy
+ nDppkmPHzP+VUssQ8b+OxoUZPoKRi3yXcf2+Ys1NmZMDUOwFHJEKhSqa3/3jbnByryssRZ1a
+ tmbuxCLeeYNykesS4/izPIdOrJB7K8gcSVuds=
+X-Talos-CUID: =?us-ascii?q?9a23=3Aj2Adp2pzACBS99FcQ0qUQKXmUe4oVkzj6nzIGm2?=
+ =?us-ascii?q?bG2tZRoeeTkDP94oxxg=3D=3D?=
+X-Talos-MUID: 9a23:cvDzlghtZjT65sdJH+wMwcMpEZtV+aS+LxgxnL474JjHNBB8A2iXg2Hi
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.27,222,1787011200"; 
+   d="scan'208";a="59590132"
+Received: from aer-l-core-03.cisco.com ([144.254.74.204])
+  by aer-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Nov 2026 09:00:49 +0000
+Received: from sjc-ads-4935.cisco.com (sjc-ads-4935.cisco.com [10.28.39.199])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by aer-l-core-03.cisco.com (Postfix) with ESMTPS id 3070218000239
+	for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 09:00:49 +0000 (GMT)
+Received: by sjc-ads-4935.cisco.com (Postfix, from userid 1887503)
+	id D00CECC2EF3; Fri, 20 Nov 2026 01:00:47 -0800 (PST)
+From: "Devansh Patel -X (devanshp - E INFOCHIPS PRIVATE LIMITED at Cisco)" <devanshp@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <khem.raj@oss.qualcomm.com>
-Subject: [PATCH] python3: Fix -Wundef errors in public headers
-Date: Fri, 20 Nov 2026 00:03:32 -0800
-Message-ID: <20261120080335.895150-1-khem.raj@oss.qualcomm.com>
-X-Mailer: git-send-email 2.56.1
+Subject: [OE-core][master][PATCH] ovmf: Fix CVE-2026-111497
+Date: Fri, 20 Nov 2026 01:00:47 -0800
+Message-Id: <20261120090047.941720-1-devanshp@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-4935.cisco.com [10.28.39.199];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 10.28.39.199, sjc-ads-4935.cisco.com
+X-Outbound-Node: aer-l-core-03.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 08:03:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250747
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 09:01:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250748
 Content-Type: text/plain; charset="utf-8"
 
-Python 3.15.2 headers test _Py_STDC_VERSION without checking that it is
-defined, and pymacro.h even checks !defined() before comparing it. The
-macro is not defined when compiling C++, so C++ code including Python.h
-with -Werror=undef fails, e.g. libpeas:
+From: Devansh Patel <devanshp@cisco.com>
 
-  pyport.h:494:9: error: '_Py_STDC_VERSION' is not defined, evaluates
-  to 0 [-Werror,-Wundef]
+This patch applies the upstream v1.2 decoder backport for
+CVE-2026-111497. The upstream fix commit is referenced in [1],
+and the public CVE advisory is referenced in [2].
 
-The inverted pymacro.h check also drops the C11-C17 static_assert
-fallback. Backport both fixes from the 3.15 branch.
+Fix both embedded Brotli copies. BaseTools BrotliCompress builds the
+affected decoder and exposes decompression through its -d option.
+Retain the existing EDK II and Brotli revisions and their integration
+changes while adding the complete decoder and public-header fix.
 
-Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+[1] https://github.com/google/brotli/commit/b418fa81c48262a86a95332b0bc6d62c30aa78b6
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-111497
+
+Signed-off-by: Devansh Patel <devanshp@cisco.com>
 ---
- ...ly-use-_Py_STDC_VERSION-when-defined.patch | 81 +++++++++++++++++++
- ...store-C11-C17-static_assert-fallback.patch | 50 ++++++++++++
- .../recipes-devtools/python/python3_3.15.2.bb |  2 +
- 3 files changed, 133 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/0001-3.15-gh-154643-Only-use-_Py_STDC_VERSION-when-defined.patch
- create mode 100644 meta/recipes-devtools/python/python3/0001-3.15-gh-160704-Restore-C11-C17-static_assert-fallback.patch
+ .../ovmf/ovmf/CVE-2026-111497_p1.patch        | 239 ++++++++++++++++++
+ .../ovmf/ovmf/CVE-2026-111497_p2.patch        | 239 ++++++++++++++++++
+ meta/recipes-core/ovmf/ovmf_git.bb            |   2 +
+ 3 files changed, 480 insertions(+)
+ create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2026-111497_p1.patch
+ create mode 100644 meta/recipes-core/ovmf/ovmf/CVE-2026-111497_p2.patch
 
-diff --git a/meta/recipes-devtools/python/python3/0001-3.15-gh-154643-Only-use-_Py_STDC_VERSION-when-defined.patch b/meta/recipes-devtools/python/python3/0001-3.15-gh-154643-Only-use-_Py_STDC_VERSION-when-defined.patch
+diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2026-111497_p1.patch b/meta/recipes-core/ovmf/ovmf/CVE-2026-111497_p1.patch
 new file mode 100644
-index 0000000000..038300b081
+index 0000000000..624515cacb
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-3.15-gh-154643-Only-use-_Py_STDC_VERSION-when-defined.patch
-@@ -0,0 +1,81 @@
-+From beff3c022fe787f6879c7e38a6b8a64243184ab3 Mon Sep 17 00:00:00 2001
-+From: "Miss Islington (bot)"
-+ <31488909+miss-islington@users.noreply.github.com>
-+Date: Thu, 12 Nov 2026 07:39:16 -0800
-+Subject: [PATCH] [3.15] gh-154643: Only use _Py_STDC_VERSION when defined
-+ (GH-154650) (GH-161874)
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-core/ovmf/ovmf/CVE-2026-111497_p1.patch
+@@ -0,0 +1,239 @@
++From 3949252908321a51c536961b05faba022cc129d6 Mon Sep 17 00:00:00 2001
++From: Evgenii Kliuchnikov <eustas@google.com>
++Date: Fri, 27 Feb 2026 05:10:32 -0800
++Subject: [PATCH] Detect and report invalid stream earlier.
 +
-+Co-authored-by: Miro Hrončok <miro@hroncok.cz>
++PiperOrigin-RevId: 876198329
 +
-+Upstream-Status: Backport [https://github.com/python/cpython/commit/beff3c022fe787f6879c7e38a6b8a64243184ab3]
++CVE: CVE-2026-111497
++Upstream-Status: Backport [https://github.com/google/brotli/commit/b418fa81c48262a86a95332b0bc6d62c30aa78b6]
 +
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++(cherry picked from commit 0ed4268a4401abcb4472096340477cf4af7d1a2b)
++Signed-off-by: Devansh Patel <devanshp@cisco.com>
 +---
-+ Include/cpython/pyatomic.h                                  | 2 +-
-+ Include/pyport.h                                            | 2 +-
-+ Lib/test/test_cext/setup.py                                 | 6 ++++++
-+ .../C_API/2026-07-24-22-30-40.gh-issue-154643.z-ZutK.rst    | 2 ++
-+ 4 files changed, 10 insertions(+), 2 deletions(-)
-+ create mode 100644 Misc/NEWS.d/next/C_API/2026-07-24-22-30-40.gh-issue-154643.z-ZutK.rst
++ c/dec/decode.c            | 89 ++++++++++++++++++++++++++-------------
++ c/include/brotli/decode.h |  4 +-
++ 2 files changed, 60 insertions(+), 33 deletions(-)
 +
-+diff --git a/Include/cpython/pyatomic.h b/Include/cpython/pyatomic.h
-+index 71a76bdc82ce475..0a11f7781f07e00 100644
-+--- a/Include/cpython/pyatomic.h
-++++ b/Include/cpython/pyatomic.h
-+@@ -585,7 +585,7 @@ static inline void _Py_atomic_fence_release(void);
-+ #  define Py_ATOMIC_GCC_H
-+ #  include "pyatomic_gcc.h"
-+ #  undef Py_ATOMIC_GCC_H
-+-#elif _Py_STDC_VERSION >= 201112L && !defined(__STDC_NO_ATOMICS__)
-++#elif defined(_Py_STDC_VERSION) && _Py_STDC_VERSION >= 201112L && !defined(__STDC_NO_ATOMICS__)
-+ #  define Py_ATOMIC_STD_H
-+ #  include "pyatomic_std.h"
-+ #  undef Py_ATOMIC_STD_H
-+diff --git a/Include/pyport.h b/Include/pyport.h
-+index 6bf011e87709cc0..44d76511fbffbe2 100644
-+--- a/Include/pyport.h
-++++ b/Include/pyport.h
-+@@ -491,7 +491,7 @@ extern "C" {
-+ #ifdef WITH_THREAD
-+ #  ifdef thread_local
-+ #    define _Py_thread_local thread_local
-+-#  elif _Py_STDC_VERSION >= 201112L && !defined(__STDC_NO_THREADS__)
-++#  elif defined(_Py_STDC_VERSION) && _Py_STDC_VERSION >= 201112L && !defined(__STDC_NO_THREADS__)
-+ #    define _Py_thread_local _Thread_local
-+ #  elif defined(_MSC_VER)  /* AKA NT_THREADS */
-+ #    define _Py_thread_local __declspec(thread)
-+diff --git a/Lib/test/test_cext/setup.py b/Lib/test/test_cext/setup.py
-+index 10a3887931932ac..3b613ee729f52c4 100644
-+--- a/Lib/test/test_cext/setup.py
-++++ b/Lib/test/test_cext/setup.py
-+@@ -42,6 +42,9 @@
++diff --git a/c/dec/decode.c b/c/dec/decode.c
++index e87e7f5..74db1a2 100644
++--- a/c/dec/decode.c
+++++ b/c/dec/decode.c
++@@ -1176,7 +1176,7 @@ static BrotliDecoderErrorCode DecodeContextMap(brotli_reg_t context_map_size,
 + 
-+         # Ask for strict(er) compliance with the standard
-+         '-pedantic-errors',
-++
-++        # gh-154643: Headers should not use undefined macros in #if
-++        '-Werror=undef',
-+     ]
-+     if not support.Py_GIL_DISABLED:
-+         PUBLIC_CFLAGS.append(
-+@@ -94,6 +97,9 @@
++ /* Decodes a command or literal and updates block type ring-buffer.
++    Reads 3..54 bits. */
++-static BROTLI_INLINE BROTLI_BOOL DecodeBlockTypeAndLength(
+++static BROTLI_INLINE BrotliDecoderErrorCode DecodeBlockTypeAndLength(
++     int safe, BrotliDecoderState* s, int tree_type) {
++   brotli_reg_t max_block_type = s->num_block_types[tree_type];
++   const HuffmanCode* type_tree = &s->block_type_trees[
++@@ -1187,7 +1187,7 @@ static BROTLI_INLINE BROTLI_BOOL DecodeBlockTypeAndLength(
++   brotli_reg_t* ringbuffer = &s->block_type_rb[tree_type * 2];
++   brotli_reg_t block_type;
++   if (max_block_type <= 1) {
++-    return BROTLI_FALSE;
+++    return BROTLI_DECODER_ERROR_FORMAT_BLOCK_SWITCH;
++   }
 + 
-+         # We also use `long long`, a C++11 feature we can enable individually.
-+         '-Wno-long-long',
++   /* Read 0..15 + 3..39 bits. */
++@@ -1197,11 +1197,13 @@ static BROTLI_INLINE BROTLI_BOOL DecodeBlockTypeAndLength(
++   } else {
++     BrotliBitReaderState memento;
++     BrotliBitReaderSaveState(br, &memento);
++-    if (!SafeReadSymbol(type_tree, br, &block_type)) return BROTLI_FALSE;
+++    if (!SafeReadSymbol(type_tree, br, &block_type)) {
+++      return BROTLI_DECODER_NEEDS_MORE_INPUT;
+++    }
++     if (!SafeReadBlockLength(s, &s->block_length[tree_type], len_tree, br)) {
++       s->substate_read_block_length = BROTLI_STATE_READ_BLOCK_LENGTH_NONE;
++       BrotliBitReaderRestoreState(br, &memento);
++-      return BROTLI_FALSE;
+++      return BROTLI_DECODER_NEEDS_MORE_INPUT;
++     }
++   }
++ 
++@@ -1217,7 +1219,7 @@ static BROTLI_INLINE BROTLI_BOOL DecodeBlockTypeAndLength(
++   }
++   ringbuffer[0] = ringbuffer[1];
++   ringbuffer[1] = block_type;
++-  return BROTLI_TRUE;
+++  return BROTLI_DECODER_SUCCESS;
++ }
++ 
++ static BROTLI_INLINE void DetectTrivialLiteralBlockTypes(
++@@ -1254,62 +1256,68 @@ static BROTLI_INLINE void PrepareLiteralDecoding(BrotliDecoderState* s) {
++ 
++ /* Decodes the block type and updates the state for literal context.
++    Reads 3..54 bits. */
++-static BROTLI_INLINE BROTLI_BOOL DecodeLiteralBlockSwitchInternal(
+++static BROTLI_INLINE BrotliDecoderErrorCode DecodeLiteralBlockSwitchInternal(
++     int safe, BrotliDecoderState* s) {
++-  if (!DecodeBlockTypeAndLength(safe, s, 0)) {
++-    return BROTLI_FALSE;
+++  BrotliDecoderErrorCode result = DecodeBlockTypeAndLength(safe, s, 0);
+++  if (result != BROTLI_DECODER_SUCCESS) {
+++    return result;
++   }
++   PrepareLiteralDecoding(s);
++-  return BROTLI_TRUE;
+++  return BROTLI_DECODER_SUCCESS;
++ }
++ 
++-static void BROTLI_NOINLINE DecodeLiteralBlockSwitch(BrotliDecoderState* s) {
++-  DecodeLiteralBlockSwitchInternal(0, s);
+++static BROTLI_NOINLINE BrotliDecoderErrorCode
+++DecodeLiteralBlockSwitch(BrotliDecoderState* s) {
+++  return DecodeLiteralBlockSwitchInternal(0, s);
++ }
++ 
++-static BROTLI_BOOL BROTLI_NOINLINE SafeDecodeLiteralBlockSwitch(
+++static BROTLI_NOINLINE BrotliDecoderErrorCode SafeDecodeLiteralBlockSwitch(
++     BrotliDecoderState* s) {
++   return DecodeLiteralBlockSwitchInternal(1, s);
++ }
++ 
++ /* Block switch for insert/copy length.
++    Reads 3..54 bits. */
++-static BROTLI_INLINE BROTLI_BOOL DecodeCommandBlockSwitchInternal(
+++static BROTLI_INLINE BrotliDecoderErrorCode DecodeCommandBlockSwitchInternal(
++     int safe, BrotliDecoderState* s) {
++-  if (!DecodeBlockTypeAndLength(safe, s, 1)) {
++-    return BROTLI_FALSE;
+++  BrotliDecoderErrorCode result = DecodeBlockTypeAndLength(safe, s, 1);
+++  if (result != BROTLI_DECODER_SUCCESS) {
+++    return result;
++   }
++   s->htree_command = s->insert_copy_hgroup.htrees[s->block_type_rb[3]];
++-  return BROTLI_TRUE;
+++  return BROTLI_DECODER_SUCCESS;
++ }
++ 
++-static void BROTLI_NOINLINE DecodeCommandBlockSwitch(BrotliDecoderState* s) {
++-  DecodeCommandBlockSwitchInternal(0, s);
+++static BROTLI_NOINLINE BrotliDecoderErrorCode
+++DecodeCommandBlockSwitch(BrotliDecoderState* s) {
+++  return DecodeCommandBlockSwitchInternal(0, s);
++ }
++ 
++-static BROTLI_BOOL BROTLI_NOINLINE SafeDecodeCommandBlockSwitch(
++-    BrotliDecoderState* s) {
+++static BROTLI_NOINLINE BrotliDecoderErrorCode
+++SafeDecodeCommandBlockSwitch(BrotliDecoderState* s) {
++   return DecodeCommandBlockSwitchInternal(1, s);
++ }
++ 
++ /* Block switch for distance codes.
++    Reads 3..54 bits. */
++-static BROTLI_INLINE BROTLI_BOOL DecodeDistanceBlockSwitchInternal(
+++static BROTLI_INLINE BrotliDecoderErrorCode DecodeDistanceBlockSwitchInternal(
++     int safe, BrotliDecoderState* s) {
++-  if (!DecodeBlockTypeAndLength(safe, s, 2)) {
++-    return BROTLI_FALSE;
+++  BrotliDecoderErrorCode result = DecodeBlockTypeAndLength(safe, s, 2);
+++  if (result != BROTLI_DECODER_SUCCESS) {
+++    return result;
++   }
++   s->dist_context_map_slice = s->dist_context_map +
++       (s->block_type_rb[5] << BROTLI_DISTANCE_CONTEXT_BITS);
++   s->dist_htree_index = s->dist_context_map_slice[s->distance_context];
++-  return BROTLI_TRUE;
+++  return BROTLI_DECODER_SUCCESS;
++ }
++ 
++-static void BROTLI_NOINLINE DecodeDistanceBlockSwitch(BrotliDecoderState* s) {
++-  DecodeDistanceBlockSwitchInternal(0, s);
+++static BROTLI_NOINLINE BrotliDecoderErrorCode
+++DecodeDistanceBlockSwitch(BrotliDecoderState* s) {
+++  return DecodeDistanceBlockSwitchInternal(0, s);
++ }
++ 
++-static BROTLI_BOOL BROTLI_NOINLINE SafeDecodeDistanceBlockSwitch(
+++static BROTLI_NOINLINE BrotliDecoderErrorCode SafeDecodeDistanceBlockSwitch(
++     BrotliDecoderState* s) {
++   return DecodeDistanceBlockSwitchInternal(1, s);
++ }
++@@ -1940,6 +1948,9 @@ static BROTLI_INLINE BROTLI_BOOL CheckInputAmount(
++   return BrotliCheckInputAmount(br);
++ }
++ 
+++/* NB: METHOD should return BROTLI_FALSE only in case there is not enough input;
+++       in case of "unsafe" execution, when input is guaranteed to be sufficient,
+++       result is ignored. */
++ #define BROTLI_SAFE(METHOD)                       \
++   {                                               \
++     if (safe) {                                   \
++@@ -1952,6 +1963,22 @@ static BROTLI_INLINE BROTLI_BOOL CheckInputAmount(
++     }                                             \
++   }
++ 
+++/* NB: METHOD should return BROTLI_DECODER_SUCCESS, BROTLI_DECODER_ERROR_*, or
+++   BROTLI_DECODER_NEEDS_MORE_INPUT; the later two break the processing. */
+++#define BROTLI_SAFE_WITH_STATUS(METHOD)         \
+++  {                                             \
+++    BrotliDecoderErrorCode status;              \
+++    if (safe) {                                 \
+++      status = Safe##METHOD;                    \
+++    } else {                                    \
+++      status = METHOD;                          \
+++    }                                           \
+++    if (status != BROTLI_DECODER_SUCCESS) {     \
+++      result = status;                          \
+++      goto saveStateAndReturn;                  \
+++    }                                           \
+++  }
 ++
-++        # gh-154643: Headers should not use undefined macros in #if
-++        '-Werror=undef',
-+     ]
-+     INTERNAL_CXXFLAGS = [
-+         # Do not complain about unused parameteres in the internal C API
-+diff --git a/Misc/NEWS.d/next/C_API/2026-07-24-22-30-40.gh-issue-154643.z-ZutK.rst b/Misc/NEWS.d/next/C_API/2026-07-24-22-30-40.gh-issue-154643.z-ZutK.rst
-+new file mode 100644
-+index 000000000000000..17c2a58555e7ae9
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/C_API/2026-07-24-22-30-40.gh-issue-154643.z-ZutK.rst
-+@@ -0,0 +1,2 @@
-++In ``pyport.h`` and ``pyatomic.h`` don't use ``_Py_STDC_VERSION`` when it is
-++not defined, fixing build errors for C or C++ code built with ``-Werror=undef``.
-diff --git a/meta/recipes-devtools/python/python3/0001-3.15-gh-160704-Restore-C11-C17-static_assert-fallback.patch b/meta/recipes-devtools/python/python3/0001-3.15-gh-160704-Restore-C11-C17-static_assert-fallback.patch
++ static BROTLI_INLINE BrotliDecoderErrorCode ProcessCommandsInternal(
++     int safe, BrotliDecoderState* s) {
++   int pos = s->pos;
++@@ -1991,7 +2018,7 @@ CommandBegin:
++     goto saveStateAndReturn;
++   }
++   if (BROTLI_PREDICT_FALSE(s->block_length[1] == 0)) {
++-    BROTLI_SAFE(DecodeCommandBlockSwitch(s));
+++    BROTLI_SAFE_WITH_STATUS(DecodeCommandBlockSwitch(s));
++     goto CommandBegin;
++   }
++   /* Read the insert/copy length in the command. */
++@@ -2136,7 +2163,7 @@ CommandPostDecodeLiterals:
++   } else {
++     /* Read distance code in the command, unless it was implicitly zero. */
++     if (BROTLI_PREDICT_FALSE(s->block_length[2] == 0)) {
++-      BROTLI_SAFE(DecodeDistanceBlockSwitch(s));
+++      BROTLI_SAFE_WITH_STATUS(DecodeDistanceBlockSwitch(s));
++     }
++     BROTLI_SAFE(ReadDistance(s, br));
++   }
++@@ -2330,7 +2357,7 @@ CommandPostWrapCopy:
++   }
++ 
++ NextLiteralBlock:
++-  BROTLI_SAFE(DecodeLiteralBlockSwitch(s));
+++  BROTLI_SAFE_WITH_STATUS(DecodeLiteralBlockSwitch(s));
++   goto CommandInner;
++ 
++ saveStateAndReturn:
++@@ -2552,6 +2579,8 @@ BrotliDecoderResult BrotliDecoderDecompressStream(
++         if (result != BROTLI_DECODER_SUCCESS) {
++           break;
++         }
+++        BROTLI_DCHECK(s->meta_block_remaining_len <=
+++                      (int)BROTLI_BLOCK_SIZE_CAP);
++         BROTLI_LOG_UINT(s->is_last_metablock);
++         BROTLI_LOG_UINT(s->meta_block_remaining_len);
++         BROTLI_LOG_UINT(s->is_metadata);
++diff --git a/c/include/brotli/decode.h b/c/include/brotli/decode.h
++index 8d436db..10d01e3 100644
++--- a/c/include/brotli/decode.h
+++++ b/c/include/brotli/decode.h
++@@ -85,9 +85,7 @@ typedef enum {
++   BROTLI_ERROR_CODE(_ERROR_FORMAT_, PADDING_1, -14) SEPARATOR              \
++   BROTLI_ERROR_CODE(_ERROR_FORMAT_, PADDING_2, -15) SEPARATOR              \
++   BROTLI_ERROR_CODE(_ERROR_FORMAT_, DISTANCE, -16) SEPARATOR               \
++-                                                                           \
++-  /* -17 code is reserved */                                               \
++-                                                                           \
+++  BROTLI_ERROR_CODE(_ERROR_FORMAT_, BLOCK_SWITCH, -17) SEPARATOR           \
++   BROTLI_ERROR_CODE(_ERROR_, COMPOUND_DICTIONARY, -18) SEPARATOR           \
++   BROTLI_ERROR_CODE(_ERROR_, DICTIONARY_NOT_SET, -19) SEPARATOR            \
++   BROTLI_ERROR_CODE(_ERROR_, INVALID_ARGUMENTS, -20) SEPARATOR             \
+diff --git a/meta/recipes-core/ovmf/ovmf/CVE-2026-111497_p2.patch b/meta/recipes-core/ovmf/ovmf/CVE-2026-111497_p2.patch
 new file mode 100644
-index 0000000000..ac8a5bcd75
+index 0000000000..624515cacb
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-3.15-gh-160704-Restore-C11-C17-static_assert-fallback.patch
-@@ -0,0 +1,50 @@
-+From 9b6a1a1abf3febbe7ce24dd6fc46c846e544a480 Mon Sep 17 00:00:00 2001
-+From: "Miss Islington (bot)"
-+ <31488909+miss-islington@users.noreply.github.com>
-+Date: Wed, 28 Oct 2026 07:56:04 -0700
-+Subject: [PATCH] [3.15] gh-160704: Restore C11-C17 `static_assert` fallback
-+ (GH-160705) (GH-160825)
++++ b/meta/recipes-core/ovmf/ovmf/CVE-2026-111497_p2.patch
+@@ -0,0 +1,239 @@
++From 3949252908321a51c536961b05faba022cc129d6 Mon Sep 17 00:00:00 2001
++From: Evgenii Kliuchnikov <eustas@google.com>
++Date: Fri, 27 Feb 2026 05:10:32 -0800
++Subject: [PATCH] Detect and report invalid stream earlier.
 +
-+gh-160704: Restore C11-C17 `static_assert` fallback (GH-160705)
++PiperOrigin-RevId: 876198329
 +
-+`_Py_STDC_VERSION` needs to be defined before its value can be checked.
-+In 8335bcbf26b (gh-160208: Add a private wrapper around __STDC_VERSION__
-+(GH-160376), 2026-10-23), the condition `defined(_Py_STDC_VERSION)` is
-+incorrectly negated, which prevents the fallback definition of
-+`static_assert` in C11-C17 builds and causes a build error when building
-+with an old C library that does not define `static_assert`.
-+(cherry picked from commit a7ac7a8175ff64c2848f54644f5449ad44466a62)
++CVE: CVE-2026-111497
++Upstream-Status: Backport [https://github.com/google/brotli/commit/b418fa81c48262a86a95332b0bc6d62c30aa78b6]
 +
-+Signed-off-by: Ruoyu Zhong <zhongruoyu@outlook.com>
-+Co-authored-by: Ruoyu Zhong <zhongruoyu@outlook.com>
-+
-+Upstream-Status: Backport [https://github.com/python/cpython/commit/9b6a1a1abf3febbe7ce24dd6fc46c846e544a480]
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
++(cherry picked from commit 0ed4268a4401abcb4472096340477cf4af7d1a2b)
++Signed-off-by: Devansh Patel <devanshp@cisco.com>
 +---
-+ Include/pymacro.h                                               | 2 +-
-+ .../next/Build/2026-10-26-21-00-00.gh-issue-160704.ZRYLKF.rst   | 2 ++
-+ 2 files changed, 3 insertions(+), 1 deletion(-)
-+ create mode 100644 Misc/NEWS.d/next/Build/2026-10-26-21-00-00.gh-issue-160704.ZRYLKF.rst
++ c/dec/decode.c            | 89 ++++++++++++++++++++++++++-------------
++ c/include/brotli/decode.h |  4 +-
++ 2 files changed, 60 insertions(+), 33 deletions(-)
 +
-+diff --git a/Include/pymacro.h b/Include/pymacro.h
-+index 29d20953235651b..5f1ee98dd3ff46c 100644
-+--- a/Include/pymacro.h
-++++ b/Include/pymacro.h
-+@@ -25,7 +25,7 @@
-+ // behaviour. So only define if building as C, not C++ (if __cplusplus is
-+ // not defined), and only for C11-17.
-+ #if !defined(static_assert) && (defined(__GNUC__) || defined(__clang__)) \
-+-     && !defined(_Py_STDC_VERSION) \
-++     && defined(_Py_STDC_VERSION) \
-+      && _Py_STDC_VERSION >= 201112L && _Py_STDC_VERSION <= 201710L
-+ #  define static_assert _Static_assert
-+ #endif
-+diff --git a/Misc/NEWS.d/next/Build/2026-10-26-21-00-00.gh-issue-160704.ZRYLKF.rst b/Misc/NEWS.d/next/Build/2026-10-26-21-00-00.gh-issue-160704.ZRYLKF.rst
-+new file mode 100644
-+index 000000000000000..330415c155cd89a
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Build/2026-10-26-21-00-00.gh-issue-160704.ZRYLKF.rst
-+@@ -0,0 +1,2 @@
-++Fix C11-C17 builds with old C library headers that do not define
-++``static_assert``, including glibc versions older than 2.16.
-diff --git a/meta/recipes-devtools/python/python3_3.15.2.bb b/meta/recipes-devtools/python/python3_3.15.2.bb
-index bfc783c922..775165bbe6 100644
---- a/meta/recipes-devtools/python/python3_3.15.2.bb
-+++ b/meta/recipes-devtools/python/python3_3.15.2.bb
-@@ -24,6 +24,8 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://0001-3.15-gh-158097-Make-test_staggered_race_with_eager_t.patch \
-            file://0001-3.15-gh-160924-Don-t-run-the-build-Python-with-RUNSH.patch \
-            file://0001-gh-160881-Fix-test_is_python_process_non_python_subp.patch \
-+           file://0001-3.15-gh-160704-Restore-C11-C17-static_assert-fallback.patch \
-+           file://0001-3.15-gh-154643-Only-use-_Py_STDC_VERSION-when-defined.patch \
++diff --git a/c/dec/decode.c b/c/dec/decode.c
++index e87e7f5..74db1a2 100644
++--- a/c/dec/decode.c
+++++ b/c/dec/decode.c
++@@ -1176,7 +1176,7 @@ static BrotliDecoderErrorCode DecodeContextMap(brotli_reg_t context_map_size,
++ 
++ /* Decodes a command or literal and updates block type ring-buffer.
++    Reads 3..54 bits. */
++-static BROTLI_INLINE BROTLI_BOOL DecodeBlockTypeAndLength(
+++static BROTLI_INLINE BrotliDecoderErrorCode DecodeBlockTypeAndLength(
++     int safe, BrotliDecoderState* s, int tree_type) {
++   brotli_reg_t max_block_type = s->num_block_types[tree_type];
++   const HuffmanCode* type_tree = &s->block_type_trees[
++@@ -1187,7 +1187,7 @@ static BROTLI_INLINE BROTLI_BOOL DecodeBlockTypeAndLength(
++   brotli_reg_t* ringbuffer = &s->block_type_rb[tree_type * 2];
++   brotli_reg_t block_type;
++   if (max_block_type <= 1) {
++-    return BROTLI_FALSE;
+++    return BROTLI_DECODER_ERROR_FORMAT_BLOCK_SWITCH;
++   }
++ 
++   /* Read 0..15 + 3..39 bits. */
++@@ -1197,11 +1197,13 @@ static BROTLI_INLINE BROTLI_BOOL DecodeBlockTypeAndLength(
++   } else {
++     BrotliBitReaderState memento;
++     BrotliBitReaderSaveState(br, &memento);
++-    if (!SafeReadSymbol(type_tree, br, &block_type)) return BROTLI_FALSE;
+++    if (!SafeReadSymbol(type_tree, br, &block_type)) {
+++      return BROTLI_DECODER_NEEDS_MORE_INPUT;
+++    }
++     if (!SafeReadBlockLength(s, &s->block_length[tree_type], len_tree, br)) {
++       s->substate_read_block_length = BROTLI_STATE_READ_BLOCK_LENGTH_NONE;
++       BrotliBitReaderRestoreState(br, &memento);
++-      return BROTLI_FALSE;
+++      return BROTLI_DECODER_NEEDS_MORE_INPUT;
++     }
++   }
++ 
++@@ -1217,7 +1219,7 @@ static BROTLI_INLINE BROTLI_BOOL DecodeBlockTypeAndLength(
++   }
++   ringbuffer[0] = ringbuffer[1];
++   ringbuffer[1] = block_type;
++-  return BROTLI_TRUE;
+++  return BROTLI_DECODER_SUCCESS;
++ }
++ 
++ static BROTLI_INLINE void DetectTrivialLiteralBlockTypes(
++@@ -1254,62 +1256,68 @@ static BROTLI_INLINE void PrepareLiteralDecoding(BrotliDecoderState* s) {
++ 
++ /* Decodes the block type and updates the state for literal context.
++    Reads 3..54 bits. */
++-static BROTLI_INLINE BROTLI_BOOL DecodeLiteralBlockSwitchInternal(
+++static BROTLI_INLINE BrotliDecoderErrorCode DecodeLiteralBlockSwitchInternal(
++     int safe, BrotliDecoderState* s) {
++-  if (!DecodeBlockTypeAndLength(safe, s, 0)) {
++-    return BROTLI_FALSE;
+++  BrotliDecoderErrorCode result = DecodeBlockTypeAndLength(safe, s, 0);
+++  if (result != BROTLI_DECODER_SUCCESS) {
+++    return result;
++   }
++   PrepareLiteralDecoding(s);
++-  return BROTLI_TRUE;
+++  return BROTLI_DECODER_SUCCESS;
++ }
++ 
++-static void BROTLI_NOINLINE DecodeLiteralBlockSwitch(BrotliDecoderState* s) {
++-  DecodeLiteralBlockSwitchInternal(0, s);
+++static BROTLI_NOINLINE BrotliDecoderErrorCode
+++DecodeLiteralBlockSwitch(BrotliDecoderState* s) {
+++  return DecodeLiteralBlockSwitchInternal(0, s);
++ }
++ 
++-static BROTLI_BOOL BROTLI_NOINLINE SafeDecodeLiteralBlockSwitch(
+++static BROTLI_NOINLINE BrotliDecoderErrorCode SafeDecodeLiteralBlockSwitch(
++     BrotliDecoderState* s) {
++   return DecodeLiteralBlockSwitchInternal(1, s);
++ }
++ 
++ /* Block switch for insert/copy length.
++    Reads 3..54 bits. */
++-static BROTLI_INLINE BROTLI_BOOL DecodeCommandBlockSwitchInternal(
+++static BROTLI_INLINE BrotliDecoderErrorCode DecodeCommandBlockSwitchInternal(
++     int safe, BrotliDecoderState* s) {
++-  if (!DecodeBlockTypeAndLength(safe, s, 1)) {
++-    return BROTLI_FALSE;
+++  BrotliDecoderErrorCode result = DecodeBlockTypeAndLength(safe, s, 1);
+++  if (result != BROTLI_DECODER_SUCCESS) {
+++    return result;
++   }
++   s->htree_command = s->insert_copy_hgroup.htrees[s->block_type_rb[3]];
++-  return BROTLI_TRUE;
+++  return BROTLI_DECODER_SUCCESS;
++ }
++ 
++-static void BROTLI_NOINLINE DecodeCommandBlockSwitch(BrotliDecoderState* s) {
++-  DecodeCommandBlockSwitchInternal(0, s);
+++static BROTLI_NOINLINE BrotliDecoderErrorCode
+++DecodeCommandBlockSwitch(BrotliDecoderState* s) {
+++  return DecodeCommandBlockSwitchInternal(0, s);
++ }
++ 
++-static BROTLI_BOOL BROTLI_NOINLINE SafeDecodeCommandBlockSwitch(
++-    BrotliDecoderState* s) {
+++static BROTLI_NOINLINE BrotliDecoderErrorCode
+++SafeDecodeCommandBlockSwitch(BrotliDecoderState* s) {
++   return DecodeCommandBlockSwitchInternal(1, s);
++ }
++ 
++ /* Block switch for distance codes.
++    Reads 3..54 bits. */
++-static BROTLI_INLINE BROTLI_BOOL DecodeDistanceBlockSwitchInternal(
+++static BROTLI_INLINE BrotliDecoderErrorCode DecodeDistanceBlockSwitchInternal(
++     int safe, BrotliDecoderState* s) {
++-  if (!DecodeBlockTypeAndLength(safe, s, 2)) {
++-    return BROTLI_FALSE;
+++  BrotliDecoderErrorCode result = DecodeBlockTypeAndLength(safe, s, 2);
+++  if (result != BROTLI_DECODER_SUCCESS) {
+++    return result;
++   }
++   s->dist_context_map_slice = s->dist_context_map +
++       (s->block_type_rb[5] << BROTLI_DISTANCE_CONTEXT_BITS);
++   s->dist_htree_index = s->dist_context_map_slice[s->distance_context];
++-  return BROTLI_TRUE;
+++  return BROTLI_DECODER_SUCCESS;
++ }
++ 
++-static void BROTLI_NOINLINE DecodeDistanceBlockSwitch(BrotliDecoderState* s) {
++-  DecodeDistanceBlockSwitchInternal(0, s);
+++static BROTLI_NOINLINE BrotliDecoderErrorCode
+++DecodeDistanceBlockSwitch(BrotliDecoderState* s) {
+++  return DecodeDistanceBlockSwitchInternal(0, s);
++ }
++ 
++-static BROTLI_BOOL BROTLI_NOINLINE SafeDecodeDistanceBlockSwitch(
+++static BROTLI_NOINLINE BrotliDecoderErrorCode SafeDecodeDistanceBlockSwitch(
++     BrotliDecoderState* s) {
++   return DecodeDistanceBlockSwitchInternal(1, s);
++ }
++@@ -1940,6 +1948,9 @@ static BROTLI_INLINE BROTLI_BOOL CheckInputAmount(
++   return BrotliCheckInputAmount(br);
++ }
++ 
+++/* NB: METHOD should return BROTLI_FALSE only in case there is not enough input;
+++       in case of "unsafe" execution, when input is guaranteed to be sufficient,
+++       result is ignored. */
++ #define BROTLI_SAFE(METHOD)                       \
++   {                                               \
++     if (safe) {                                   \
++@@ -1952,6 +1963,22 @@ static BROTLI_INLINE BROTLI_BOOL CheckInputAmount(
++     }                                             \
++   }
++ 
+++/* NB: METHOD should return BROTLI_DECODER_SUCCESS, BROTLI_DECODER_ERROR_*, or
+++   BROTLI_DECODER_NEEDS_MORE_INPUT; the later two break the processing. */
+++#define BROTLI_SAFE_WITH_STATUS(METHOD)         \
+++  {                                             \
+++    BrotliDecoderErrorCode status;              \
+++    if (safe) {                                 \
+++      status = Safe##METHOD;                    \
+++    } else {                                    \
+++      status = METHOD;                          \
+++    }                                           \
+++    if (status != BROTLI_DECODER_SUCCESS) {     \
+++      result = status;                          \
+++      goto saveStateAndReturn;                  \
+++    }                                           \
+++  }
+++
++ static BROTLI_INLINE BrotliDecoderErrorCode ProcessCommandsInternal(
++     int safe, BrotliDecoderState* s) {
++   int pos = s->pos;
++@@ -1991,7 +2018,7 @@ CommandBegin:
++     goto saveStateAndReturn;
++   }
++   if (BROTLI_PREDICT_FALSE(s->block_length[1] == 0)) {
++-    BROTLI_SAFE(DecodeCommandBlockSwitch(s));
+++    BROTLI_SAFE_WITH_STATUS(DecodeCommandBlockSwitch(s));
++     goto CommandBegin;
++   }
++   /* Read the insert/copy length in the command. */
++@@ -2136,7 +2163,7 @@ CommandPostDecodeLiterals:
++   } else {
++     /* Read distance code in the command, unless it was implicitly zero. */
++     if (BROTLI_PREDICT_FALSE(s->block_length[2] == 0)) {
++-      BROTLI_SAFE(DecodeDistanceBlockSwitch(s));
+++      BROTLI_SAFE_WITH_STATUS(DecodeDistanceBlockSwitch(s));
++     }
++     BROTLI_SAFE(ReadDistance(s, br));
++   }
++@@ -2330,7 +2357,7 @@ CommandPostWrapCopy:
++   }
++ 
++ NextLiteralBlock:
++-  BROTLI_SAFE(DecodeLiteralBlockSwitch(s));
+++  BROTLI_SAFE_WITH_STATUS(DecodeLiteralBlockSwitch(s));
++   goto CommandInner;
++ 
++ saveStateAndReturn:
++@@ -2552,6 +2579,8 @@ BrotliDecoderResult BrotliDecoderDecompressStream(
++         if (result != BROTLI_DECODER_SUCCESS) {
++           break;
++         }
+++        BROTLI_DCHECK(s->meta_block_remaining_len <=
+++                      (int)BROTLI_BLOCK_SIZE_CAP);
++         BROTLI_LOG_UINT(s->is_last_metablock);
++         BROTLI_LOG_UINT(s->meta_block_remaining_len);
++         BROTLI_LOG_UINT(s->is_metadata);
++diff --git a/c/include/brotli/decode.h b/c/include/brotli/decode.h
++index 8d436db..10d01e3 100644
++--- a/c/include/brotli/decode.h
+++++ b/c/include/brotli/decode.h
++@@ -85,9 +85,7 @@ typedef enum {
++   BROTLI_ERROR_CODE(_ERROR_FORMAT_, PADDING_1, -14) SEPARATOR              \
++   BROTLI_ERROR_CODE(_ERROR_FORMAT_, PADDING_2, -15) SEPARATOR              \
++   BROTLI_ERROR_CODE(_ERROR_FORMAT_, DISTANCE, -16) SEPARATOR               \
++-                                                                           \
++-  /* -17 code is reserved */                                               \
++-                                                                           \
+++  BROTLI_ERROR_CODE(_ERROR_FORMAT_, BLOCK_SWITCH, -17) SEPARATOR           \
++   BROTLI_ERROR_CODE(_ERROR_, COMPOUND_DICTIONARY, -18) SEPARATOR           \
++   BROTLI_ERROR_CODE(_ERROR_, DICTIONARY_NOT_SET, -19) SEPARATOR            \
++   BROTLI_ERROR_CODE(_ERROR_, INVALID_ARGUMENTS, -20) SEPARATOR             \
+diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
+index bf69108f0a..528a702d79 100644
+--- a/meta/recipes-core/ovmf/ovmf_git.bb
++++ b/meta/recipes-core/ovmf/ovmf_git.bb
+@@ -20,6 +20,8 @@ SRC_URI = "gitsm://github.com/tianocore/edk2.git;branch=master;protocol=https;ta
+            file://0003-debug-prefix-map.patch \
+            file://0004-reproducible.patch \
+            file://0005-CryptoPkg-IntrinsicLib-fix-memcpy-alias-prototype-fo.patch \
++           file://CVE-2026-111497_p1.patch;patchdir=BaseTools/Source/C/BrotliCompress/brotli \
++           file://CVE-2026-111497_p2.patch;patchdir=MdeModulePkg/Library/BrotliCustomDecompressLib/brotli \
             "
- SRC_URI:append:class-native = " \
-            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
+ 
+ PV = "edk2-stable202605"
+-- 
+2.35.6
+
