@@ -1,317 +1,162 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9215.1795190874902924978
+Received: from PNZPR01CU001.outbound.protection.outlook.com (PNZPR01CU001.outbound.protection.outlook.com [40.107.51.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4873.1795177630966099851
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Nov 2026 08:07:55 -0800
+ Fri, 20 Nov 2026 04:27:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@snap.com header.s=google header.b=XQ5QqBU3;
- spf=pass (domain: snapchat.com, ip: 209.85.221.46, mailfrom: ecordonnier@snapchat.com)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-498f5fa4f70so873942f8f.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 08:07:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=snap.com; s=google; t=1795190873; x=1795795673; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=fxNuWCb2YgqjJ/dVLScv8YtNDVMozhYidNirC8ltXio=;
-        b=XQ5QqBU3QcgJi5wuWUcrOIq+af2+92uLAxk+Pcg239Bon0GQHRI6Fz7+QEmaVSss6z
-         9bUskf7gHxejbuJwNsB7o2W45+wf7UQ29Ci1ZPzGaZ60G9p+uaroD+wxZYoCv3L+6iew
-         iLN/OCi97vfFYhZWy9Bhoy36mR/kSwSpCBRCo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795190873; x=1795795673;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=fxNuWCb2YgqjJ/dVLScv8YtNDVMozhYidNirC8ltXio=;
-        b=EMY8mLrkBhH3mFHxyGhCWYMFWNk3jSNCVQmC/UzPOPD091oKQpdZIPMrhzvnLJS8fi
-         4l7HKqCeVgLwxYlzKqnog7yrTnjt3fUMzEnapnEoOa781vD6w4oDOH54rwHBjTjfY3+c
-         WiZlMYCTUZkwKezTxoHQCJ/GZcQemrPTNNijwLlAETJLtZHu3eGsSp8i0ijYjfPAjEig
-         P6+WLHLIkL7fHCWY9DsVijwXleaz1Z1R/pwNIJ4+/+QX26KaClY+AtcjvTJ5r6nbWki/
-         idU4y5Id2Z25ArVHm4t4uHm1t0ssfbOJbx2unX7h7fpDSC2zCEv2g22ho9Sr3j1hk9cn
-         IrOQ==
-X-Gm-Message-State: APuU4Z+D2uF83l2FtsH3ybOtVhtnjr4EDstbrQLLb1+9TBCDeYHhdIoE
-	hBotR/8I2On4GAkNud1dVs/5wEMglhCzOUskUcWNesjGPB2DOykJBjzyhEE0suq9/8wjBoRWKKH
-	UqZD6Nzk=
-X-Gm-Gg: AZFdTZdm6O4tyTbrQUIBeWjNeJxotnkcNJlfMpXp5FVSdt2JMLW3BEZqDds+Mu08a8T
-	rnZElgaLdxVyrG+NjSEKPwf0dlUYBXddLAdfocE/omLNUM2yoAfrfBeCuNU4mX5sI7r8UinZ0Lq
-	a+Th1zhUfzSB7uZQoFTG2+EwZo3mJK+o4Ds5qynXGtQRQcHPphi0vVdf8jRdEMgwewcbcMfDy1O
-	CyV9OptOgBlW2oqK1ftjIpa0PW6KnHS3tJJKxl9rgRsIbPj6QL6TKwJldTpmkO05YvPixOH8Sdo
-	nqFK2OiADH/MHIOrkuz97EWbz5uk861m0ydWBrbb+bcDThsz8TyOXafroI2E8yi9ZubZhGEUzFD
-	YHHMoanD+hsgUMXI6A4uzsJ8aZ74QNKTqNARW60eVhReHfMbBhKqeCejBXNOI7HZc/+kQ4m+fqX
-	b7FMHkdFlnnLqv/udWZrZmvKQVZQsZCyeRViXhJx+00Sj3csQ3Tezgz1+ByJ2k/Nj4E7qAwAFki
-	7tbqSKSRxaHGtH3HJJkebyATMlbhliGFOmrcMbVCkUHmmtUQoX726fGAFPo5xjWxI5FU9qU+qO7
-	0lT/bmQgn/2l/jCYhH4lRzeU07iGQ10+aSYeMOkS0fjCg41Ks2cXTqGX1YUbVs6DABUzSvmJXDF
-	wC/uGnRm9y06jGyUVKnQRt6nFI2IuRJdmz4EEH4Oh0sg/n4ToLaXsyFG+XudAuXKPLHdPoTSGco
-	c=
-X-Received: by 2002:a5d:5f4f:0:b0:4a7:35af:c83c with SMTP id ffacd0b85a97d-4abb3e21218mr7206353f8f.43.1795190872527;
-        Fri, 20 Nov 2026 08:07:52 -0800 (PST)
-Return-Path: <ecordonnier@snapchat.com>
-Received: from localhost.localdomain (80-108-196-96.cable.dynamic.surfer.at. [80.108.196.96])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab69bf61e8sm6902001f8f.11.2026.11.20.08.07.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 08:07:52 -0800 (PST)
-From: ecordonnier@snap.com
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bmwtechworks.in header.s=selector1 header.b=C/EsZRSu;
+ spf=pass (domain: bmwtechworks.in, ip: 40.107.51.42, mailfrom: upstream_ip-sk@bmwtechworks.in)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wBidbz0NnsEpAdUw3LYxTBUd5Mp87cCgzB3nbqXsYjmjh26ObtTewZ18X6PjgEAG8Ne2O883XW7MS+PUnaG4IzRQ0srNN3aX7p+ERnXh9kLLJvccJh1+vp3EIQ3s0gHgmtyuEgrnM92JHzn2fazd5Za3zMG87KyaLgr9zVjsfy/J//krMsjaJfuo5P6iwbovkQxF3oYLGWDKaI2r/6j0ohbNZb/STlg8oNyAYkXX/dajFR41kRDd6LHljuxQd8/Bbk/MfoivjI6l75vFaku3jAL3nhl0w8JExcgQme4ad6Sz9VMMrmnjpkeEHCR0lU3gTnTMmgKMQo0Y2rtldvJazw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=tRP5xSnGVZLSRLhOuxrl1kmHAO0Df6hAhZn3i2YNK7k=;
+ b=Ijr5nbPe+BJmUM5R6BaPzgekbhM4hhSwXbUvInQp/rOprGr/xcFYWl1xwBMgskU3DdhSR5mkooEXzPKio+3Tu2wyytTHYUuYNd21tl/ZtdPyUZ/qqeu05NRi6KiyeyqvFi9gaEJM58p+7YdA+jiQB/odRpbbl/dco4A/4EJnMUKMqi7ce/Hbu7X3EvhBhYMn7uIMuh/ixzCO+4brWjBo2ont0Qp4KNE2/+IaiZcceB+VRFR5nmz/DmfiiCCFRHZWbNqoKgivMafSbpzGGngvj9L9e+P3A9ZQtTlVqXPmr+Povp+9+h876KHLfwcnJh4tEFV3XdbU7tY62dyK0rDN5g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bmwtechworks.in; dmarc=pass action=none
+ header.from=bmwtechworks.in; dkim=pass header.d=bmwtechworks.in; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bmwtechworks.in;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=tRP5xSnGVZLSRLhOuxrl1kmHAO0Df6hAhZn3i2YNK7k=;
+ b=C/EsZRSukVEE9NFk3u+rmle8qe42pfKYgqozATzbbXtE5PwCComNwpHl5uKU4kS2UIANuFpEnYWjG50g2xRAY+rFGaVP+AlE2mLQTSJEnU4EPf/HJUGaVEtZoE30FsGc6s+WLdqpzIbNBW23CWx+pS0/6NdIwQVK3pL0DnB3EeBigFqUUfqCJFgotE2tcjhN1+0314bPM/1sIWf9tU5rgotwFj//Byja086aiJ9MIYX2mwKium9P3Q0j/4kNuRCGh5FyFvileAQZK7IKwV6LGA4jReZ+JSoGCUjjXXpWyGyoTNMr0D/Ksoy/Kkr7YpIp3TyEWhqPbaJ/x92i7FkRmQ==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bmwtechworks.in;
+Received: from MAYP287MB3754.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:148::9)
+ by MAUP287MB6324.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:210::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.12; Fri, 20 Nov
+ 2026 12:12:46 +0000
+Received: from MAYP287MB3754.INDP287.PROD.OUTLOOK.COM
+ ([fe80::ef09:5a67:49d7:9504]) by MAYP287MB3754.INDP287.PROD.OUTLOOK.COM
+ ([fe80::ef09:5a67:49d7:9504%5]) with mapi id 15.21.0639.011; Fri, 20 Nov 2026
+ 12:12:46 +0000
+From: Sana Kazi <UpStream_IP-SK@bmwtechworks.in>
 To: openembedded-core@lists.openembedded.org
-Cc: Etienne Cordonnier <ecordonnier@snap.com>,
-	Khem Raj <khem.raj@oss.qualcomm.com>
-Subject: [wrynose][PATCH] glibc: Do not use Transparent Huge Pages in malloc by default
-Date: Fri, 20 Nov 2026 17:07:46 +0100
-Message-ID: <20261120160746.314-1-ecordonnier@snap.com>
+CC: Sana Kazi <Kazi.S@bmwtechworks.in>
+Subject: [oe-core][master][PATCH] gettext: Fix falsely flagged static linking issue
+Date: Fri, 20 Nov 2026 17:42:41 +0530
+Message-ID: <20261120121241.11349-1-UpStream_IP-SK@bmwtechworks.in>
 X-Mailer: git-send-email 2.43.0
+X-ClientProxiedBy: PN4P287CA0090.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:268::6) To MAYP287MB3754.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:148::9)
+Return-Path: UpStream_IP-SK@bmwtechworks.in
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MAYP287MB3754:EE_|MAUP287MB6324:EE_
+X-MS-Office365-Filtering-Correlation-Id: 30e17f36-c944-474f-1a6b-08df46ff967f
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|52116014|376014|23010399003|366016|18002099003|6133799003|261009223027099003|55112099003|11063799006|56012099006|10067099003|261102123227099003|261026121527099003|261022075727099003|261021123027099003|261021121427099003|38350700014;
+X-Microsoft-Antispam-Message-Info: EXytBRIL99+xRsa+5P95tcqeC3+3dy9pDJcVlZm8EpusXiAZxyZ+6YBV3OLcSu3h/hQYeZyTS4SHK8wX7gf8BG3PirAKplgun4gUaD05g09a5XqWolxFfPZ8l5KYJNmHrvfgTYZYypNCBGaW+Qpgq5E5gh2vWcTpq3OICDnXVj9qnorRdaX1YJ9WYVzu4KIAeTcSPuwpHKnj5kSghRfbDWkSMNg8bSqyMkUYjYFhVyT/PAQtMM5w/cpBUiarzneD5xzq1b0U/aoDrlMjPQ/3JMRB8MW5cWuOcAny7O6groFi1yWgZDPnrrtjVKBVqQYEOs9AVQ3Gl21YnN9crIjY9TxIOu4LoIcaz2mtpJe4Jg7XkigzoQqXaKa4iLI8KTer9rBWWCQuzCgQ/lvrKdlumAnN4d+c6PwDNYAbXjbR2F+L+nUTzsPmqornpN6VsfYmONM4C5jyUGC3w+w9UqD9zgKhzdVbk5FM8YRK9qOu6W+PR+fdl3YfenEoZIb83uaIG84cc2JLxTEkg5awMg5ffTHZPcmJDZfi7J4xpCL2KodTYWufx+uLhZdbwa9xtlut4i3Xka+TnMLyo0fYp6RE0YCG8+LxEupCNsCbNjvFxijFqGPb8WgG+iPkAxNEScUImiNQBKyBG1BVkDVAXfmrlxp7Mb6OGYYDhPbgpDgoxfjo/zB+GrFAsnRitTkU/adJewuwEZbMieUqi8lLzCV77gKIc9Yk1ZJ265hzy8ph0Q8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MAYP287MB3754.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(376014)(23010399003)(366016)(18002099003)(6133799003)(261009223027099003)(55112099003)(11063799006)(56012099006)(10067099003)(261102123227099003)(261026121527099003)(261022075727099003)(261021123027099003)(261021121427099003)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?CS+bpjFXjZLKpTklOMBBU0WaiyAi/ImQuc66PZzXQjmLXdvz4Ph/DSPV/YdS?=
+ =?us-ascii?Q?0/woWrsVxpLWbh0xo7s6ham7AkCbQkgJK7FWAlgUugx5X2Ox7QsK/4A4Qkti?=
+ =?us-ascii?Q?mWMG3kaiQOnSTU+PFkEWbjTTAXaz5Zr3HqHZT7oZlA1ruli6kW90bc1cGJCs?=
+ =?us-ascii?Q?TvaJhS3ssp3F/dAKrGJ92PZrRYN2p/VNsyuwZpjFztf1/zTO9gElBAm59m7P?=
+ =?us-ascii?Q?4uu3Y8B9QKSgmfxbQPtOi+eUeHEd29PkrYl6uKYdhS+AmW1Wm3W+pqlmK6ru?=
+ =?us-ascii?Q?bJWQLHYL1Da6woKwy+/szn7MDxAHLen1xlBPhlYbFFF8N/KQ+9eF7Yxzi7Xe?=
+ =?us-ascii?Q?8SKxuL30TsNLFRoIDVQpasDXVGEHrzH+6/NGqnXPGyomtYN+wfcO+yIye6ju?=
+ =?us-ascii?Q?l8aO3Y0G4lnlzwBUKJg10FxT1cbLOP1IkaagOibxqfTTC7uZFALllqv6HmSS?=
+ =?us-ascii?Q?Zf1Qmr66jtjM/IUfv94Ul8hZ1G99sjP/+/4ra/COw8dMjwaRMeRI1cl788gK?=
+ =?us-ascii?Q?N2jmsblG7JBPVGx8xaMZR17Kgg6yIjzHiUs9uD66quTyGy38rR8mEOoU3n1T?=
+ =?us-ascii?Q?FOAbWAr6naDiiN+hen+9INCLSHziczxkh1d8JaftNIRfgp01CWfPQjHACcqY?=
+ =?us-ascii?Q?bzKDU1KFVTPBXcQYM19PSruCkxCNuj8jlz8QcyWoc7zh85k1M+8BK9CcZhMB?=
+ =?us-ascii?Q?d0ZtbGDiXHEDmsu2KtzWwy+YZiHWgWSXXOORXtHZGecHrfUTsoaAhWbGyNAS?=
+ =?us-ascii?Q?ZTIdWIxd4C/nWiEGR7vLf7nGaM3q6+TdfMM9I3UmgbwecbLiZupbHCJB6tuB?=
+ =?us-ascii?Q?asUhwAB4MRTrsm6JIR9jBStQK2E3Eb9e4MT7R05UJPBMkvkj8MHtBGtL+5P2?=
+ =?us-ascii?Q?Mf6OqqcdHA6ZdGmMloXBMYxOK2EvurB4rLepmYBOEmg2dcn0I1u5Hmb2vQrg?=
+ =?us-ascii?Q?GzLirN426VVxa4WAPwrilesFdPC3AF0gaE4LIuuFpnpwjcZpJAguRO7g01QT?=
+ =?us-ascii?Q?T1uZOarZs6aA3Hwyjujgefa6lv82ICIQcUQGMbO6ReDi5bwRrUlXzUPTNL5T?=
+ =?us-ascii?Q?FgfSDWCHGainoRtzHKLm7Jdu6BIG1KJZnnupTBkU+lTqYqrh3rdRCC9Piah1?=
+ =?us-ascii?Q?CjSWW/dRkCIv27NIeWOWY8KGQqqL/mbW44nlHLrL+ViO0I5ij9MGLSGh755N?=
+ =?us-ascii?Q?lbM1fsSxFE3Zca0GCDYv9zJKnjJO/j5cJBZo8iSFoQowqcpoU8+Gz7OGFT2O?=
+ =?us-ascii?Q?vuoBZVjuXARqomT4SjYp1sJhx/PKQ+l5JUFIxpxUQs9uZJbUS7udHvijWlCy?=
+ =?us-ascii?Q?Z/FDhWJgvdBFXCa0KynkVzNuXuHOXuDr8lp9074JqrwuMjkTeGVU/7YoVnb4?=
+ =?us-ascii?Q?N1cwMD2u4CZE0X6HM9DOZJiq4WUmSqc/MFaWQzUab/zx73uPkjgjYUGB7Vpq?=
+ =?us-ascii?Q?b5qcPED9dRlFAOQ1U/EH6dzdjTrjKpcnMt1t9mjNolpz6gtxE+fyDf+ZOAN9?=
+ =?us-ascii?Q?h6P15rFhuBz/tZv6aLKfbpek7lHUGmAAi2ifqH9Ad7fkv9URoy/x83Z2qj2D?=
+ =?us-ascii?Q?SEg9DLyC4R7T4TccB+wg+ZyttcxrBBYcX13aMupp1PK6iwbkdIW6WS9n4ncy?=
+ =?us-ascii?Q?jHUi32zzG1ClAdRKQw8MMZUpWXzBLASxW5PbKF4p8X9t3MDZ5T0vEbDO55Xa?=
+ =?us-ascii?Q?SSy2qo35oBYXxdfcsP40iComtzw99mdEt6o9bPCJ/38b9B4hfpdfKG/W99Xv?=
+ =?us-ascii?Q?xFoTAwi1ijIFcW8qrQ0G6udgUk0lvQo=3D?=
+X-OriginatorOrg: bmwtechworks.in
+X-MS-Exchange-CrossTenant-Network-Message-Id: 30e17f36-c944-474f-1a6b-08df46ff967f
+X-MS-Exchange-CrossTenant-AuthSource: MAYP287MB3754.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2026 12:12:46.6538
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 970fa6fd-1031-4cc6-8c56-488f3c61cd05
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cLNnr5iK+RXwahXAOo+zharUiYKqPnoNzT8SuzauAWJ3eZ7kXHO+obm/smMo85Ih5SztQjPTf40Jv3q1XflFoje9GlK13JAaVf6P2GzPqYM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAUP287MB6324
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 16:08:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250811
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 16:16:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250812
 Content-Type: text/plain; charset="utf-8"
 
-From: Etienne Cordonnier <ecordonnier@snap.com>
+From: Sana Kazi <Kazi.S@bmwtechworks.in>
 
-Since glibc 2.43 malloc on aarch64 defaults to glibc.malloc.hugetlb=1
-with a 2MB THP size, which considerably increases memory usage on
-embedded systems (an aarch64 system went from 465 MiB to 1105 MiB
-AnonPages at idle and started swapping).
+autotools_do_configure in autotools.bbclass deletes the
+shipped configure scripts and runs one recursive
+autoreconf --install --force. --install --force runs
+libtoolize --copy --force per libtool subproject,
+re-copying the lt*.m4 files with new timestamps.
+The aclocal.m4 of gettext-runtime/intl is not refreshed
+afterwards (gettext misconfiguration), so make considers
+intl out of date and regenerates/reconfigures it in do_compile.
+when make runs it sees the files with old timestamp and runs
+config.status --recheck which is why we get false positive.
 
-The default is a compile-time constant in glibc and GLIBC_TUNABLES does
-not reach AT_SECURE programs. Add a configure option to glibc to disable
-the default and wire it up as the malloc-default-thp PACKAGECONFIG, off
-by default to get the pre-2.43 behavior. THP can still be enabled at run
-time with glibc.malloc.hugetlb=1.
+$ rg -n 'config.status --recheck|static flag -static works' tmp/work/x86-64=
+-v3-oe-linux/gettext/1.0/temp/log.do_compile
+124:checking if x86_64-oe-linux-gcc  -m64 -march=3Dx86-64-v3 -fstack-protec=
+tor-strong  -O2 -D_FORTIFY_SOURCE=3D2 -Wformat -Wformat-security -Werror=3D=
+format-security --sysroot=3D/home/sana/bsys/upstream/yocto/build/tmp/work/x=
+86-64-v3-oe-linux/gettext/1.0/recipe-sysroot static flag -static works... (=
+cached) yes
 
-Backported to wrynose (glibc 2.43): the glibc patch is the 2.43 backport
-of the upstream submission, using the pre-refactor malloc-hugepages.h.
+touch <file> just updates a file's "last modified" time
+to right now, so that when make runs it knows that those
+files are not stale and need not run config.status --recheck
+which throws the false positive
 
-[YOCTO #16490]
-
-Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
-Tested-by: Etienne Cordonnier <ecordonnier@snap.com>
-(cherry picked from commit 766b888b41243980b811e848b40fb09894995ea7)
-AI-Generated: Uses Claude Code
-Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+Signed-off-by: Sana Kazi <Kazi.S@bmwtechworks.in>
 ---
- ...le-malloc-default-thp-configure-opti.patch | 189 ++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.43.bb         |   7 +
- 2 files changed, 196 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0023-malloc-Add-disable-malloc-default-thp-configure-opti.patch
+ meta/recipes-core/gettext/gettext_1.0.bb | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/meta/recipes-core/glibc/glibc/0023-malloc-Add-disable-malloc-default-thp-configure-opti.patch b/meta/recipes-core/glibc/glibc/0023-malloc-Add-disable-malloc-default-thp-configure-opti.patch
-new file mode 100644
-index 0000000000..9731dc08fd
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0023-malloc-Add-disable-malloc-default-thp-configure-opti.patch
-@@ -0,0 +1,189 @@
-+From f9f37cf138a539263b48e2a6fbe53dce95fe6244 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <raj.khem@gmail.com>
-+Date: Sat, 14 Nov 2026 21:11:13 +0100
-+Subject: [PATCH] malloc: Add --disable-malloc-default-thp configure option
+diff --git a/meta/recipes-core/gettext/gettext_1.0.bb b/meta/recipes-core/g=
+ettext/gettext_1.0.bb
+index 8a93ce1b49..353eb46edd 100644
+--- a/meta/recipes-core/gettext/gettext_1.0.bb
++++ b/meta/recipes-core/gettext/gettext_1.0.bb
+@@ -70,6 +70,17 @@ PACKAGECONFIG[libunistring] =3D "--with-libunistring-pre=
+fix=3D${STAGING_DIR_HOST},--
+ PACKAGECONFIG[msgcat-curses] =3D "--with-libncurses-prefix=3D${STAGING_DIR=
+_HOST},--disable-curses,ncurses,"
+ PACKAGECONFIG[selinux] =3D "--with-selinux,--without-selinux --disable-acl=
+,attr libselinux"
+=20
 +
-+Since glibc 2.43, malloc on aarch64 defaults to glibc.malloc.hugetlb=1
-+with a 2MB THP size and also applies MADV_HUGEPAGE to thread arenas.  On
-+memory constrained embedded systems this significantly increases the
-+resident memory of every process (BZ #34081).
++do_configure:append() {
++    touch "${S}/gettext-runtime/intl/aclocal.m4"
++    touch "${S}/gettext-runtime/intl/configure"
++    touch "${S}/gettext-runtime/intl/config.h.in"
++    touch "${S}/gettext-runtime/intl/Makefile.in"
++    touch "${B}/gettext-runtime/intl/config.status"
++    touch "${B}/gettext-runtime/intl/config.h"
++    touch "${B}/gettext-runtime/intl/Makefile"
++}
 +
-+Add a configure option, --disable-malloc-default-thp, which makes the
-+generic malloc-hugepages.h override any target definition of
-+DEFAULT_THP_PAGESIZE with 0.  The aarch64 header gets an include guard
-+so it cannot redefine DEFAULT_THP_PAGESIZE after the generic header has
-+undefined it.  This gives the pre-2.43 behavior (glibc.malloc.hugetlb
-+defaults to 0, THP can still be enabled at run time with
-+glibc.malloc.hugetlb=1).  The default is unchanged.
-+
-+Upstream-Status: Submitted [https://github.com/kraj/glibc/commit/f42cbe83a44f816cd1780516d738a8681044e9d7]
-+
-+Backported to glibc 2.43 (pre "hugepages abstraction" refactor): the
-+sysdeps hunks apply to sysdeps/generic/malloc-hugepages.h and
-+sysdeps/unix/sysv/linux/aarch64/malloc-hugepages.h using
-+DEFAULT_THP_PAGESIZE instead of MALLOC_DEFAULT_THP_PAGESIZE, and the
-+manual/tunables.texi hunk is dropped.  Functional change is identical.
-+
-+Signed-off-by: Khem Raj <raj.khem@gmail.com>
-+---
-+ INSTALL                                       |  9 ++++++++
-+ config.h.in                                   |  4 ++++
-+ configure                                     | 21 +++++++++++++++++++
-+ configure.ac                                  |  8 +++++++
-+ manual/install.texi                           |  8 +++++++
-+ sysdeps/generic/malloc-hugepages.h            |  4 ++++
-+ .../sysv/linux/aarch64/malloc-hugepages.h     |  7 +++++++
-+ 7 files changed, 61 insertions(+)
-+
-+diff --git a/INSTALL b/INSTALL
-+index 4174c9661fa..b1388784076 100644
-+--- a/INSTALL
-++++ b/INSTALL
-+@@ -250,6 +250,15 @@ passed to 'configure'.  For example:
-+      Disable using 'scv' instruction for syscalls.  All syscalls will
-+      use 'sc' instead, even if the kernel supports 'scv'.  PowerPC only.
-+ 
-++'--disable-malloc-default-thp'
-++     Do not make 'malloc' use Transparent Huge Pages by default.  This
-++     restores the behavior of 'glibc.malloc.hugetlb=0' as the default,
-++     which can reduce memory usage on systems with limited memory.  Huge
-++     pages can still be enabled at run time by setting the
-++     'glibc.malloc.hugetlb' tunable to '1'.  This only affects targets
-++     which use Transparent Huge Pages in 'malloc' by default, currently
-++     AArch64.
-++
-+ '--build=BUILD-SYSTEM'
-+ '--host=HOST-SYSTEM'
-+      These options are for cross-compiling.  If you specify both options
-+diff --git a/config.h.in b/config.h.in
-+index 2cd8c90eb66..74b1a2824c7 100644
-+--- a/config.h.in
-++++ b/config.h.in
-+@@ -29,6 +29,10 @@
-+ /* On powerpc*, define if scv should be used for syscalls (when available).  */
-+ #undef USE_PPC_SCV
-+ 
-++/* Define if malloc should use Transparent Huge Pages by default on
-++   targets which define DEFAULT_THP_PAGESIZE.  */
-++#undef USE_MALLOC_DEFAULT_THP
-++
-+ /* Define if _Unwind_Find_FDE should be exported from glibc.  */
-+ #undef  EXPORT_UNWIND_FIND_FDE
-+ 
-+diff --git a/configure b/configure
-+index 0cd2269859c..d4c8aee085d 100755
-+--- a/configure
-++++ b/configure
-+@@ -820,6 +820,7 @@ enable_pt_chown
-+ enable_mathvec
-+ enable_cet
-+ enable_scv
-++enable_malloc_default_thp
-+ enable_fortify_source
-+ enable_sframe
-+ with_cpu
-+@@ -1503,6 +1504,10 @@ Optional Features:
-+                           (CET), x86 only
-+   --disable-scv           syscalls will not use scv instruction, even if the
-+                           kernel supports it, powerpc only
-++  --disable-malloc-default-thp
-++                          malloc will not use Transparent Huge Pages by
-++                          default on targets which enable them,
-++                          glibc.malloc.hugetlb=1 can still enable them
-+   --enable-fortify-source[=1|2|3]
-+                           Use -D_FORTIFY_SOURCE=[1|2|3] to control code
-+                           hardening, defaults to highest possible value
-+@@ -4872,6 +4877,22 @@ then :
-+ 
-+ fi
-+ 
-++# Check whether --enable-malloc-default-thp was given.
-++if test ${enable_malloc_default_thp+y}
-++then :
-++  enableval=$enable_malloc_default_thp; use_malloc_default_thp=$enableval
-++else case e in #(
-++  e) use_malloc_default_thp=yes ;;
-++esac
-++fi
-++
-++
-++if test "$use_malloc_default_thp" != "no"
-++then :
-++  printf "%s\n" "#define USE_MALLOC_DEFAULT_THP 1" >>confdefs.h
-++
-++fi
-++
-+ # Check whether --enable-fortify-source was given.
-+ if test ${enable_fortify_source+y}
-+ then :
-+diff --git a/configure.ac b/configure.ac
-+index 3e4a601c01f..941babaefd0 100644
-+--- a/configure.ac
-++++ b/configure.ac
-+@@ -429,6 +429,14 @@ AC_ARG_ENABLE([scv],
-+ 
-+ AS_IF([[test "$use_scv" != "no"]],[AC_DEFINE(USE_PPC_SCV)])
-+ 
-++AC_ARG_ENABLE([malloc-default-thp],
-++	      AS_HELP_STRING([--disable-malloc-default-thp],
-++			     [malloc will not use Transparent Huge Pages by default on targets which enable them, glibc.malloc.hugetlb=1 can still enable them]),
-++	      [use_malloc_default_thp=$enableval],
-++	      [use_malloc_default_thp=yes])
-++
-++AS_IF([[test "$use_malloc_default_thp" != "no"]],[AC_DEFINE(USE_MALLOC_DEFAULT_THP)])
-++
-+ dnl Build glibc with _FORTIFY_SOURCE
-+ AC_ARG_ENABLE(fortify-source,
-+               AS_HELP_STRING([--enable-fortify-source@<:@=1|2|3@:>@],
-+diff --git a/manual/install.texi b/manual/install.texi
-+index 073cda05309..0a6534e3b35 100644
-+--- a/manual/install.texi
-++++ b/manual/install.texi
-+@@ -280,6 +280,14 @@ C++ libraries.
-+ Disable using @code{scv} instruction for syscalls. All syscalls will use
-+ @code{sc} instead, even if the kernel supports @code{scv}. PowerPC only.
-+ 
-++@item --disable-malloc-default-thp
-++Do not make @code{malloc} use Transparent Huge Pages by default.  This
-++restores the behavior of @code{glibc.malloc.hugetlb=0} as the default,
-++which can reduce memory usage on systems with limited memory.  Huge pages
-++can still be enabled at run time by setting the @code{glibc.malloc.hugetlb}
-++tunable to @code{1}.  This only affects targets which use Transparent
-++Huge Pages in @code{malloc} by default, currently AArch64.
-++
-+ @item --build=@var{build-system}
-+ @itemx --host=@var{host-system}
-+ These options are for cross-compiling.  If you specify both options and
-+diff --git a/sysdeps/generic/malloc-hugepages.h b/sysdeps/generic/malloc-hugepages.h
-+index ab2690f7b8a..23a4cdd5bce 100644
-+--- a/sysdeps/generic/malloc-hugepages.h
-++++ b/sysdeps/generic/malloc-hugepages.h
-+@@ -41,6 +41,10 @@ enum malloc_thp_mode_t __malloc_thp_mode (void) attribute_hidden;
-+ void __malloc_hugepage_config (size_t requested, size_t *pagesize, int *flags)
-+      attribute_hidden;
-+ 
-++#ifndef USE_MALLOC_DEFAULT_THP
-++# undef DEFAULT_THP_PAGESIZE
-++#endif
-++
-+ #ifndef DEFAULT_THP_PAGESIZE
-+ # define DEFAULT_THP_PAGESIZE	0
-+ #endif
-+diff --git a/sysdeps/unix/sysv/linux/aarch64/malloc-hugepages.h b/sysdeps/unix/sysv/linux/aarch64/malloc-hugepages.h
-+index 2204112e4e5..27eef7ecca6 100644
-+--- a/sysdeps/unix/sysv/linux/aarch64/malloc-hugepages.h
-++++ b/sysdeps/unix/sysv/linux/aarch64/malloc-hugepages.h
-+@@ -16,6 +16,13 @@
-+    License along with the GNU C Library; see the file COPYING.LIB.  If
-+    not, see <https://www.gnu.org/licenses/>.  */
-+ 
-++#ifndef _LINUX_AARCH64_MALLOC_HUGEPAGES_H
-++#define _LINUX_AARCH64_MALLOC_HUGEPAGES_H
-++
-++/* Only define this on the first inclusion, the generic malloc-hugepages.h may
-++   undefine it if glibc is configured with --disable-malloc-default-thp.  */
-+ #define DEFAULT_THP_PAGESIZE	(1UL << 21)
-+ 
-+ #include_next <malloc-hugepages.h>
-++
-++#endif
-diff --git a/meta/recipes-core/glibc/glibc_2.43.bb b/meta/recipes-core/glibc/glibc_2.43.bb
-index c962171cf3..1f48ab77f5 100644
---- a/meta/recipes-core/glibc/glibc_2.43.bb
-+++ b/meta/recipes-core/glibc/glibc_2.43.bb
-@@ -60,6 +60,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0020-fix-create-thread-failed-in-unprivileged-process-BZ-.patch \
-            file://0021-tests-Skip-2-qemu-tests-that-can-hang-in-oe-selftest.patch \
-            file://0022-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch \
-+           file://0023-malloc-Add-disable-malloc-default-thp-configure-opti.patch \
- "
- B = "${WORKDIR}/build-${TARGET_SYS}"
- 
-@@ -97,6 +98,12 @@ PACKAGECONFIG ??= "nscd memory-tagging"
- PACKAGECONFIG[nscd] = "--enable-nscd,--disable-nscd"
- PACKAGECONFIG[memory-tagging] = "--enable-memory-tagging,--disable-memory-tagging"
- 
-+# Since glibc 2.43 malloc defaults to 2MB Transparent Huge Pages on aarch64,
-+# which considerably increases memory usage on embedded systems
-+# (https://bugzilla.yoctoproject.org/show_bug.cgi?id=16490). Keep it disabled
-+# by default, THP can still be enabled at run time with glibc.malloc.hugetlb=1
-+PACKAGECONFIG[malloc-default-thp] = "--enable-malloc-default-thp,--disable-malloc-default-thp"
-+
- do_patch:append() {
-     bb.build.exec_func('do_fix_readlib_c', d)
- }
--- 
+ do_install:append:libc-musl () {
+ 	rm -f ${D}${libdir}/charset.alias
+ 	rm -f ${D}${includedir}/libintl.h
+--=20
 2.43.0
 
