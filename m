@@ -1,41 +1,40 @@
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1243.1795158387524757655
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1166.1795158391839978217
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Nov 2026 23:06:27 -0800
+ Thu, 19 Nov 2026 23:06:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=BNPLIkgs;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=DALq6LKm;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101a1f7c727aa-c97d8c5d-d3dd-4702-9f53-0b89731604cb-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=MtjH0wIr;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=amOlZd8p;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a1f7c73877-457b558d-3ed9-4436-b9d5-1f4f969766dd-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1795158386;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Pv6PAG2Y/VYUkefcIOJzacwCRltoozYaazeHUhH4Wu8=;
-	b=BNPLIkgsrXZl4ptcFHKNdsyLGU/QvVsIIgbN0ofrXodqoiclV4xpzI1AB69wjtpo
-	14TZ+AN0HvuvAyUh7DlzN9p7bkTQjEMfxkmm7cySpA/cI3jEeFTPt30FS01K9hr9sgM
-	7HDfP2yFzOsLeMZ8yHgSuC83CfKfw3+Pl78DoaXk=
+	t=1795158391;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=DMQo1cS5QWw0ZgJD05ICk63vR8+PpqBjT74nbanAjME=;
+	b=MtjH0wIrKO+VHOIGynlRH+HNvSZWiG/6xqL/k6uYtO/+EhTuYJbxJ6bAQd86yR70
+	a8Qd/LtpH42vlsJUDLr0d8HkQNg7Pso5gqkF92jMhB6O+2ppaZAIAUiQSUsvvlPHrxA
+	BkGIjZqG4oq3aLXo4CX8g7w88ntMWxRkjohQr4V0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1795158386;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Pv6PAG2Y/VYUkefcIOJzacwCRltoozYaazeHUhH4Wu8=;
-	b=DALq6LKmRgnGEWpkO03Q7o98/s2889zDEgnmjOaS3E8RUPQSAVxzcPdl3evWD/ia
-	FXRnQmoQbZ2g4/A+V8bYznL8XCnu/9Xd8Ih61P2LkY+TAagJGitrq1Mgftp4AaVYeCX
-	GLAtEWhAr1Xz/zcSJmJg/ouDKY227m9pZfjEz1k0=
-Content-Type: multipart/mixed; boundary="===============7174617727066275953=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1795158391;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=DMQo1cS5QWw0ZgJD05ICk63vR8+PpqBjT74nbanAjME=;
+	b=amOlZd8pQE4S/HNIGT0+pShqLBlHXORJB9kPAlXpI51hEb+VROh/DW0PfbhFMN/P
+	eBRJbEv3Rjse3Fv43VyNwQ/dy0w8xxkwXyKn3EuUtMf6aVy4LC3+XhlO5KhgqDtguR0
+	DvL/pJTGzocxrM3IJ6+GPM9Iyiv2skCDN3YI4J4I=
+Content-Type: multipart/mixed; boundary="===============7328955212410394846=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-hypothesis: upgrading to 6.170.16 SUCCEEDED
-Message-ID: <010101a1f7c727aa-c97d8c5d-d3dd-4702-9f53-0b89731604cb-000000@us-west-2.amazonses.com>
-Date: Fri, 20 Nov 2026 07:06:26 +0000
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] libmicrohttpd: upgrading to 1.0.11 SUCCEEDED
+Message-ID: <010101a1f7c73877-457b558d-3ed9-4436-b9d5-1f4f969766dd-000000@us-west-2.amazonses.com>
+Date: Fri, 20 Nov 2026 07:06:30 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.20-54.240.27.33
+X-SES-Outgoing: 2026.11.20-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 07:06:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250729
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 07:06:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250734
 
---===============7174617727066275953==
+--===============7328955212410394846==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -43,10 +42,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-hypothesis* to *6.170.16* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libmicrohttpd* to *1.0.11* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.170.12-6.170.16.patch
+    - apply the patch: git am 0001-libmicrohttpd-upgrade-1.0.10-1.0.11.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -64,106 +63,120 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 25113abf40c9212e4ad82f6c50ca784839e327b4 Mon Sep 17 00:00:00 2001
+From 351b4c172e3d7308d3e5c6e430ca5fbb55926f99 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 20 Nov 2026 05:54:22 +0000
-Subject: [PATCH] python3-hypothesis: upgrade 6.170.12 -> 6.170.16
+Date: Fri, 20 Nov 2026 07:06:22 +0000
+Subject: [PATCH] libmicrohttpd: upgrade 1.0.10 -> 1.0.11
 
+Thu Nov 19 11:50:38 PM CET 2026
+    Fix hang until timeout when epoll() would return exactly
+    a full batch of events. Optimize header parsing, resulting
+    in non-trivial speed-up for request handling. Both
+    issues reported and fixed by Ken Zangelin, thanks a lot!
+    Releasing GNU libmicrohttpd 1.0.11. -CG
 ---
- ...n3-hypothesis_6.170.12.bb => python3-hypothesis_6.170.16.bb} | 2 +-
+ .../{libmicrohttpd_1.0.10.bb => libmicrohttpd_1.0.11.bb}        | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.170.12.bb => python3-hypothesis_6.170.16.bb} (91%)
+ rename meta/recipes-support/libmicrohttpd/{libmicrohttpd_1.0.10.bb => libmicrohttpd_1.0.11.bb} (91%)
 
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.170.12.bb b/meta/recipes-devtools/python/python3-hypothesis_6.170.16.bb
+diff --git a/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.10.bb b/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.11.bb
 similarity index 91%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.170.12.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.170.16.bb
-index 564b1d1845..d6f9a8ae48 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.170.12.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.170.16.bb
-@@ -16,7 +16,7 @@ SRC_URI += " \
-     file://test_rle.py \
-     "
+rename from meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.10.bb
+rename to meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.11.bb
+index aab3041280..b20a0d4cb2 100644
+--- a/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.10.bb
++++ b/meta/recipes-support/libmicrohttpd/libmicrohttpd_1.0.11.bb
+@@ -7,7 +7,7 @@ SECTION = "net"
+ DEPENDS = "file"
  
--SRC_URI[sha256sum] = "92b353d21a010b50b638c730ce67cb631ca78a369b146bcc28b3488f83136e35"
-+SRC_URI[sha256sum] = "74fd937971ae3099a30028ca25a647b14f4bd9066bab62a6f10bd439bab0d871"
+ SRC_URI = "${GNU_MIRROR}/libmicrohttpd/${BPN}-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "04bfe8ef75db7d629a33de767599765cecadc56274a39822d5d081030d577685"
++SRC_URI[sha256sum] = "f227a044b75688e449b58ddedf0582255cc562899ff69f173a8ef76439744b4e"
  
- RDEPENDS:${PN} += " \
-     python3-attrs \
+ inherit autotools lib_package pkgconfig gettext
+ 
 -- 
 2.47.1
 
 
---===============7174617727066275953==
+--===============7328955212410394846==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-hypothesis: PKGV changed from 6.170.12 [default] to 6.170.16 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.170.12.tar.gz crate://crates.io/cfg-if/1.0.4 crate://crates.io/crunchy/0.2.4 crate://crates.io/getrandom/0.3.4 crate://crates.io/half/2.7.1 crate://crates.io/heck/0.5.0 crate://crates.io/libc/0.2.186 crate://crates.io/once_cell/1.21.4 crate://crates.io/portable-atomic/1.13.1 crate://crates.io/ppv-lite86/0.2.21 crate://crates.io/proc-macro2/1.0.106 crate://crates.io/pyo3/0.30.1 crate://crates.io/pyo3-build-config/0.30.1 crate://crates.io/pyo3-ffi/0.30.1 crate://crates.io/pyo3-macros/0.30.1 crate://crates.io/pyo3-macros-backend/0.30.1 crate://crates.io/quote/1.0.46 crate://crates.io/r-efi/5.3.0 crate://crates.io/rand/0.9.4 crate://crates.io/rand_chacha/0.9.0 crate://crates.io/rand_core/0.9.5 crate://crates.io/syn/2.0.118 crate://crates.io/syn/3.0.9 crate://crates.io/target-lexicon/0.13.5 crate://crates.io/unicode-ident/1.0.24 crate://crates.io
- /wasip2/1.0.4+wasi-0.2.12 crate://crates.io/wit-bindgen/0.57.1 crate://crates.io/zerocopy/0.8.53 crate://crates.io/zerocopy-derive/0.8.53 file://test_binary_search.py file://test_rle.py" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.170.16.tar.gz crate://crates.io/cfg-if/1.0.4 crate://crates.io/crunchy/0.2.4 crate://crates.io/getrandom/0.3.4 crate://crates.io/half/2.7.1 crate://crates.io/heck/0.5.0 crate://crates.io/libc/0.2.186 crate://crates.io/once_cell/1.21.4 crate://crates.io/portable-atomic/1.13.1 crate://crates.io/ppv-lite86/0.2.21 crate://crates.io/proc-macro2/1.0.106 crate://crates.io/pyo3/0.30.1 crate://crates.io/pyo3-build-config/0.30.1 crate://crates.io/pyo3-ffi/0.30.1 crate://crates.io/pyo3-macros/0.30.1 crate://crates.io/pyo3-macros-backend/0.30.1 crate://crates.io/quote/1.0.46 crate://crates.io/r-efi/5.3.0 crate://crates.io/rand/0.9.4 crate://crates.io/rand_chacha/0.9.0 crate://crates.io/rand_core/0.9.5 crate://crates.io/syn/2.0.118 crat
- e://crates.io/syn/3.0.9 crate://crates.io/target-lexicon/0.13.5 crate://crates.io/unicode-ident/1.0.24 crate://crates.io/wasip2/1.0.4+wasi-0.2.12 crate://crates.io/wit-bindgen/0.57.1 crate://crates.io/zerocopy/0.8.53 crate://crates.io/zerocopy-derive/0.8.53 file://test_binary_search.py file://test_rle.py"
-packages/x86-64-v3-poky-linux/python3-hypothesis: PV changed from "6.170.12" to "6.170.16"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 6.170.12 [default] to 6.170.16 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "6.170.12" to "6.170.16"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 6.170.12 [default] to 6.170.16 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "6.170.12" to "6.170.16"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 6.170.12 [default] to 6.170.16 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "6.170.12" to "6.170.16"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 6.170.12 [default] to 6.170.16 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "6.170.12" to "6.170.16"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PKGV changed from 6.170.12 [default] to 6.170.16 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PV changed from "6.170.12" to "6.170.16"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 6.170.12 [default] to 6.170.16 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "6.170.12" to "6.170.16"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 6.170.12 [default] to 6.170.16 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "6.170.12" to "6.170.16"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 4715332 to 4725632 (+0%)
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 6.170.12 [default] to 6.170.16 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.15/site-packages/hypothesis-6.170.12.dist-info -> /usr/lib/python3.15/site-packages/hypothesis-6.170.16.dist-info, directory renamed /usr/lib/python3.15/site-packages/hypothesis-6.170.12.dist-info/licenses -> /usr/lib/python3.15/site-packages/hypothesis-6.170.16.dist-info/licenses
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "6.170.12" to "6.170.16"
-Changes to packages/x86-64-v3-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.15/site-packages/hypothesis-6.170.12.dist-info moved to /usr/lib/python3.15/site-packages/hypothesis-6.170.16.dist-info
+packages/x86-64-v3-poky-linux/gcc-runtime/gcc-runtime-src: PKGSIZE changed from 11473425 to 11273993 (-2%)
+packages/x86-64-v3-poky-linux/libmicrohttpd: PV changed from "1.0.10" to "1.0.11"
+packages/x86-64-v3-poky-linux/libmicrohttpd: SRC_URI changed from "https://ftpmirror.gnu.org//libmicrohttpd/libmicrohttpd-1.0.10.tar.gz" to "https://ftpmirror.gnu.org//libmicrohttpd/libmicrohttpd-1.0.11.tar.gz"
+packages/x86-64-v3-poky-linux/libmicrohttpd: PKGV changed from 1.0.10 [default] to 1.0.11 [default]
+packages/x86-64-v3-poky-linux/libmicrohttpd/libmicrohttpd-bin: PV changed from "1.0.10" to "1.0.11"
+packages/x86-64-v3-poky-linux/libmicrohttpd/libmicrohttpd-bin: PKGV changed from 1.0.10 [default] to 1.0.11 [default]
+packages/x86-64-v3-poky-linux/libmicrohttpd/libmicrohttpd-dbg: PV changed from "1.0.10" to "1.0.11"
+packages/x86-64-v3-poky-linux/libmicrohttpd/libmicrohttpd-dbg: PKGV changed from 1.0.10 [default] to 1.0.11 [default]
+packages/x86-64-v3-poky-linux/libmicrohttpd/libmicrohttpd-dbg: PKGSIZE changed from 884512 to 884176 (-0%)
+packages/x86-64-v3-poky-linux/libmicrohttpd/libmicrohttpd-dev: PV changed from "1.0.10" to "1.0.11"
+packages/x86-64-v3-poky-linux/libmicrohttpd/libmicrohttpd-dev: PKGV changed from 1.0.10 [default] to 1.0.11 [default]
+packages/x86-64-v3-poky-linux/libmicrohttpd/libmicrohttpd-doc: PV changed from "1.0.10" to "1.0.11"
+packages/x86-64-v3-poky-linux/libmicrohttpd/libmicrohttpd-doc: PKGV changed from 1.0.10 [default] to 1.0.11 [default]
+packages/x86-64-v3-poky-linux/libmicrohttpd/libmicrohttpd-doc: PKGSIZE changed from 536239 to 536243 (+0%)
+packages/x86-64-v3-poky-linux/libmicrohttpd/libmicrohttpd-locale: PV changed from "1.0.10" to "1.0.11"
+packages/x86-64-v3-poky-linux/libmicrohttpd/libmicrohttpd-locale: PKGV changed from 1.0.10 [default] to 1.0.11 [default]
+packages/x86-64-v3-poky-linux/libmicrohttpd/libmicrohttpd-src: PV changed from "1.0.10" to "1.0.11"
+packages/x86-64-v3-poky-linux/libmicrohttpd/libmicrohttpd-src: FILELIST: directory renamed /usr/src/debug/libmicrohttpd/1.0.10/src/microhttpd -> /usr/src/debug/libmicrohttpd/1.0.11/src/microhttpd, directory renamed /usr/src/debug/libmicrohttpd/1.0.10/src/include -> /usr/src/debug/libmicrohttpd/1.0.11/src/include
+packages/x86-64-v3-poky-linux/libmicrohttpd/libmicrohttpd-src: PKGV changed from 1.0.10 [default] to 1.0.11 [default]
+packages/x86-64-v3-poky-linux/libmicrohttpd/libmicrohttpd-src: PKGSIZE changed from 1722235 to 1722962 (+0%)
+packages/x86-64-v3-poky-linux/libmicrohttpd/libmicrohttpd-staticdev: PV changed from "1.0.10" to "1.0.11"
+packages/x86-64-v3-poky-linux/libmicrohttpd/libmicrohttpd-staticdev: PKGV changed from 1.0.10 [default] to 1.0.11 [default]
+packages/x86-64-v3-poky-linux/libmicrohttpd/libmicrohttpd: PV changed from "1.0.10" to "1.0.11"
+packages/x86-64-v3-poky-linux/libmicrohttpd/libmicrohttpd: PKGV changed from 1.0.10 [default] to 1.0.11 [default]
 
---===============7174617727066275953==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.15/site-packages/hypothesis-6.170.12.dist-info -> /usr/lib/python3.15/site-packages/hypothesis-6.170.16.dist-info, directory renamed /usr/lib/python3.15/site-packages/hypothesis-6.170.12.dist-info/licenses -> /usr/lib/python3.15/site-packages/hypothesis-6.170.16.dist-info/licenses
-Changes to packages/x86-64-v3-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.15/site-packages/hypothesis-6.170.12.dist-info moved to /usr/lib/python3.15/site-packages/hypothesis-6.170.16.dist-info
-
---===============7174617727066275953==
+--===============7328955212410394846==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-hypothesis-upgrade-6.170.12-6.170.16.patch"
+ filename="0001-libmicrohttpd-upgrade-1.0.10-1.0.11.patch"
 
-RnJvbSAyNTExM2FiZjQwYzkyMTJlNGFkODJmNmM1MGNhNzg0ODM5ZTMyN2I0IE1vbiBTZXAgMTcg
+RnJvbSAzNTFiNGMxNzJlM2Q3MzA4ZDNlNWM2ZTQzMGNhNWZiYjU1OTI2Zjk5IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMjAgTm92IDIwMjYgMDU6NTQ6MjIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWh5cG90aGVzaXM6IHVwZ3JhZGUgNi4xNzAuMTIgLT4gNi4xNzAuMTYKCi0tLQogLi4u
-bjMtaHlwb3RoZXNpc182LjE3MC4xMi5iYiA9PiBweXRob24zLWh5cG90aGVzaXNfNi4xNzAuMTYu
-YmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0p
-CiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1oeXBvdGhlc2lz
-XzYuMTcwLjEyLmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjE3MC4xNi5iYn0gKDkxJSkKCmRp
-ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNp
-c182LjE3MC4xMi5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBv
-dGhlc2lzXzYuMTcwLjE2LmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEv
-cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTcwLjEyLmJiCnJl
-bmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182
-LjE3MC4xNi5iYgppbmRleCA1NjRiMWQxODQ1Li5kNmY5YThhZTQ4IDEwMDY0NAotLS0gYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182LjE3MC4xMi5iYgor
-KysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182LjE3
-MC4xNi5iYgpAQCAtMTYsNyArMTYsNyBAQCBTUkNfVVJJICs9ICIgXAogICAgIGZpbGU6Ly90ZXN0
-X3JsZS5weSBcCiAgICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiOTJiMzUzZDIxYTAxMGI1
-MGI2MzhjNzMwY2U2N2NiNjMxY2E3OGEzNjliMTQ2YmNjMjhiMzQ4OGY4MzEzNmUzNSIKK1NSQ19V
-Uklbc2hhMjU2c3VtXSA9ICI3NGZkOTM3OTcxYWUzMDk5YTMwMDI4Y2EyNWE2NDdiMTRmNGJkOTA2
-NmJhYjYyYTZmMTBiZDQzOWJhYjBkODcxIgogCiBSREVQRU5EUzoke1BOfSArPSAiIFwKICAgICBw
-eXRob24zLWF0dHJzIFwKLS0gCjIuNDcuMQoK
+CkRhdGU6IEZyaSwgMjAgTm92IDIwMjYgMDc6MDY6MjIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJtaWNyb2h0dHBkOiB1cGdyYWRlIDEuMC4xMCAtPiAxLjAuMTEKClRodSBOb3YgMTkgMTE6NTA6
+MzggUE0gQ0VUIDIwMjYKICAgIEZpeCBoYW5nIHVudGlsIHRpbWVvdXQgd2hlbiBlcG9sbCgpIHdv
+dWxkIHJldHVybiBleGFjdGx5CiAgICBhIGZ1bGwgYmF0Y2ggb2YgZXZlbnRzLiBPcHRpbWl6ZSBo
+ZWFkZXIgcGFyc2luZywgcmVzdWx0aW5nCiAgICBpbiBub24tdHJpdmlhbCBzcGVlZC11cCBmb3Ig
+cmVxdWVzdCBoYW5kbGluZy4gQm90aAogICAgaXNzdWVzIHJlcG9ydGVkIGFuZCBmaXhlZCBieSBL
+ZW4gWmFuZ2VsaW4sIHRoYW5rcyBhIGxvdCEKICAgIFJlbGVhc2luZyBHTlUgbGlibWljcm9odHRw
+ZCAxLjAuMTEuIC1DRwotLS0KIC4uLi97bGlibWljcm9odHRwZF8xLjAuMTAuYmIgPT4gbGlibWlj
+cm9odHRwZF8xLjAuMTEuYmJ9ICAgICAgICB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2Vy
+dGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYm1p
+Y3JvaHR0cGQve2xpYm1pY3JvaHR0cGRfMS4wLjEwLmJiID0+IGxpYm1pY3JvaHR0cGRfMS4wLjEx
+LmJifSAoOTElKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYm1pY3JvaHR0
+cGQvbGlibWljcm9odHRwZF8xLjAuMTAuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJtaWNy
+b2h0dHBkL2xpYm1pY3JvaHR0cGRfMS4wLjExLmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFt
+ZSBmcm9tIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYm1pY3JvaHR0cGQvbGlibWljcm9odHRwZF8x
+LjAuMTAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYm1pY3JvaHR0cGQvbGli
+bWljcm9odHRwZF8xLjAuMTEuYmIKaW5kZXggYWFiMzA0MTI4MC4uYjIwYTBkNGNiMiAxMDA2NDQK
+LS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlibWljcm9odHRwZC9saWJtaWNyb2h0dHBkXzEu
+MC4xMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJtaWNyb2h0dHBkL2xpYm1pY3Jv
+aHR0cGRfMS4wLjExLmJiCkBAIC03LDcgKzcsNyBAQCBTRUNUSU9OID0gIm5ldCIKIERFUEVORFMg
+PSAiZmlsZSIKIAogU1JDX1VSSSA9ICIke0dOVV9NSVJST1J9L2xpYm1pY3JvaHR0cGQvJHtCUE59
+LSR7UFZ9LnRhci5neiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIwNGJmZThlZjc1ZGI3ZDYyOWEz
+M2RlNzY3NTk5NzY1Y2VjYWRjNTYyNzRhMzk4MjJkNWQwODEwMzBkNTc3Njg1IgorU1JDX1VSSVtz
+aGEyNTZzdW1dID0gImYyMjdhMDQ0Yjc1Njg4ZTQ0OWI1OGRkZWRmMDU4MjI1NWNjNTYyODk5ZmY2
+OWYxNzNhOGVmNzY0Mzk3NDRiNGUiCiAKIGluaGVyaXQgYXV0b3Rvb2xzIGxpYl9wYWNrYWdlIHBr
+Z2NvbmZpZyBnZXR0ZXh0CiAKLS0gCjIuNDcuMQoK
 
---===============7174617727066275953==--
+--===============7328955212410394846==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="libmicrohttpd-changelog.txt"
+
+Thu Nov 19 11:50:38 PM CET 2026
+    Fix hang until timeout when epoll() would return exactly
+    a full batch of events. Optimize header parsing, resulting
+    in non-trivial speed-up for request handling. Both
+    issues reported and fixed by Ken Zangelin, thanks a lot!
+    Releasing GNU libmicrohttpd 1.0.11. -CG
+
+--===============7328955212410394846==--
