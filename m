@@ -1,117 +1,124 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7684.1795216824155331171
+Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7812.1795217362847369319
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Nov 2026 15:20:24 -0800
+ Fri, 20 Nov 2026 15:29:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=Wcp2qD7M;
- spf=pass (domain: smile.fr, ip: 209.85.221.52, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-4a32576da88so852129f8f.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 15:20:23 -0800 (PST)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=N2XctRhI;
+ spf=pass (domain: konsulko.com, ip: 209.85.216.43, mailfrom: tim.orling@konsulko.com)
+Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3b44bdcea8aso166061a91.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 15:29:22 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795216822; x=1795821622; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=VK1Q6U1wKAgyOILHdOa5PDKF07fGzdxyUrc3vozf6fw=;
-        b=Wcp2qD7MXwMSr0BqLH1aaIl+yAvyEtyG3SNnR9JADannYojZgr9j+nvuq/As9ldafM
-         ULMpQF3GZZa3CjecyWk4mkx9aJ5GXKzYLhIkPhF5xPG73+8yOZgbf0hESGYD7rp2luGo
-         1Ea+vp1G4l7A6gWupV+S9rW+T0Qnk8bfY4JRIYDFwOxL8KccahgZ3dPFSfqYdDofbTlq
-         OO5SZtpAx8XCewqbYUKp0widrBDouN7G6mcAzQOrCXefyuIWRSocZUK5LgYS1POYjW9A
-         vaeJBNqFYU/6Uth1Mi7NgurHiaRom4UG4w70/hrpWN09Y5RFsfywSwCOBsX/7H3Xt7JZ
-         eiPA==
+        d=konsulko.com; s=google; t=1795217362; x=1795822162; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=aJrp/ZP1ztEt/sxKx8wNnzdxjLdy9lvbVbPAbQ6i/XA=;
+        b=N2XctRhIcAEeL4ZQmS4x4gpOpiYNo+ufgbTTCZEIei+UxggKO3vx97tZGCEGDi8q8w
+         xw49FGwtYHI8m9TBfrjLGmkNUcSlRwjBGsvmtqNTr1eHAh3Jq8d/RmVXjvqOG2OAOsEY
+         YHQEToE5sxjJsWWMBRZWUhqZEAiGrI7xkBeNA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795216822; x=1795821622;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=VK1Q6U1wKAgyOILHdOa5PDKF07fGzdxyUrc3vozf6fw=;
-        b=n/yYDGkdzYziDaS0rZy8eV8NS4PeJ+xRpVlJpjqSmWJ9RavfugHTOwtZMyBpyHluos
-         JO5Odhd5ZHm9k+P3F4vlBLbVoh91jq5SMNuLpVUzHg+g2yUEYCqdutIJSbCvzp8z3j+t
-         kHKpc38lqOvnAOYUvF63Xip8dROxFlfLkY0eZwPxgfIs/gb2FiIUV9HesLSuREYB0H2T
-         eYIUVmU5nHguyaFKOYvS4znr4CecZjOws7K6/KdYT2ApHjEMVEFMwmlwEsxw5tj+xQ5t
-         v1AP53/sTzUriPHa2t+JzSdaJ1ltEK2L7BVkwQZQ0GoBgCDDIqBNgkPbFGSdXJpXV8Bs
-         LDiA==
-X-Forwarded-Encrypted: i=1; AL+hErEeqy6x2RDCY3U4jgVx5o4l/1qLls9kt7GpyMbQ+MWGnUffHZj+jIPyBLD0GycJY0nljaEVFpnkxnoD+KMOE7tDlQ==@lists.openembedded.org
-X-Gm-Message-State: APuU4Z/KYRX2uTXaA13bde2NcUbWKdrrmQruCstiDKxNoW6hkomvCj2Y
-	KBIVfRD7GTSll/m7NoKYicD4KDc3yv16EUuLz/JE9egt1H2dyGHMs71YXIt7qt7vTPM=
-X-Gm-Gg: AYBFou248gpd6vVv9ReE98Sz0AWNjZRq9InOSXng6AMbLA7QiC5GqIrjQ/zStmRvj0D
-	mniJFIDoCuxClDfFEu3Mc42OYVXkYK7nsKciaDPllFd9wazMdNaOMnsskbHoLZai9bJFTr1GrRj
-	hi96zJhLdDCi/ItJEdtON5BhT+oHvnsatkeQOFErnPmjQM138fJWIwJ5RC2yOk30Yf9eKvjZHtI
-	UXMBtVsg5zxnAIWyFVBgEjiGleAqx/KWLsn26xirNRYhtrSmUOG264h2PLpmvD6wKqKsZpV799o
-	Zj0yMGS2epebTJUK/XKewI+OhxAOOzaHUo88tS0fHrPk0Ps3lErTp3l7BfsVBBis8VSvEmAqJoq
-	GT3qRguUf6u/D1I4oKHiqGiKj2JgcW26bvVej643xgEewBY1hILFchRS4kFesl0EMBZC/4pJqY2
-	3Ha4t/D2vcymA7sSlE8PSM3ORZhRbA2q3U5f4hRaXkqsrze/fsJZCLCofUNyHbDObwGwC/ucoKr
-	vRHhV6Hnfp2LsRDNfVyR2hMP7sHPbdmQklgNXpfR/EybYM6dqD0Q0uBGHmDrZXU2JlcxbWtyHAr
-	FtRDQQXgxdEDdbL37DYFxSiblQFEpooIHj7fo6SaR4Fs7zFV1XoHrfJjbSUQem1MFOLxcjgVUoY
-	WxtfRVi/tFXxB+GXLzPUZdjceQPYnNnjCmUA2iw==
-X-Received: by 2002:a05:600c:828e:b0:4a1:cd83:b23e with SMTP id 5b1f17b1804b1-4bb88786ddemr100355915e9.0.1795216822279;
-        Fri, 20 Nov 2026 15:20:22 -0800 (PST)
-Return-Path: <yoann.congal@smile.fr>
-Received: from localhost (2a01cb001331aa00b03901bd7f693780.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:b039:1bd:7f69:3780])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb906640a2sm15624755e9.0.2026.11.20.15.20.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Nov 2026 15:20:21 -0800 (PST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 21 Nov 2026 00:20:21 +0100
-Message-Id: <DN0F92M3R0XZ.1O8238KWB8AYH@smile.fr>
-Subject: Re: [OE-core] [scarthgap][PATCH 0/2] openssh: fix GSSAPI
- CVE-2026-106555 and CVE-2026-106553
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <benhur.tessele@est.tech>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20261029171057.15032-1-benhur.tessele@est.tech>
-In-Reply-To: <20261029171057.15032-1-benhur.tessele@est.tech>
+        d=1e100.net; s=20260707; t=1795217362; x=1795822162;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=aJrp/ZP1ztEt/sxKx8wNnzdxjLdy9lvbVbPAbQ6i/XA=;
+        b=vepPFM74PtiBJh9i+4s+xg2zPLDHhLVs9+8Zh+ZpsT9caxwBucfFRSDCbxl2ifyHix
+         tCfyG4/QR+PblZr+hSxf5EGis9/9ySuaxicFc/Uj0+0muo/INf+0RvCJ49wFka3zlSvp
+         dV1pg0jOACQACrCmMxR0/7WgVS8taCnm1YjEy66Ed+JfLW2YJ8sT2pflhrSDlRBQpr6K
+         +c2hCBGZ2InEs3kLGJdRn5+t5IYwZ5jnp0zfGl51jUZR1JgRadnrXNNBnZL3SIPo0M7i
+         QsDj11R1Jh7x1sMtxtdLMhJXFWlKclkeEgArSNAQpAiemAnabkGG2KnFBJp9mFg/cVCA
+         9bFw==
+X-Gm-Message-State: APuU4Z/vZE8e5718MotF/8pPuV201Chq1DFL5KeBkksVoaWMu0B+b4D1
+	PpBi4uPccYEw4p1sZJAufE92JcmC2WyQDw4WNnt6qAAV/t7j163NVBbYjmpy8jnHwyUEko97CP3
+	Swadz
+X-Gm-Gg: AZFdTZdO5DFBLkvn1wCl0f7Y4FOuMgVIesCUlxGapqK/r2ZP6qUlD7dWruLZ0vt6yPe
+	I1mniteXyxirP58e1BflJZ+H99nlEtFg05MDVHCa7hdKabf/qW7/R5KORSjxDgYDCA/95EcSIn1
+	QZJ033uFfyaYIt5jFJVcj0YrEtIBl+Szg+rSzliPwySXYpSLMup+Z7IyR/+/+cSHG2xNKQUDA0S
+	3hRqXQ9hVAo9Z7eCsml9t1km3u/+0ZxXhZTQHapDCPuTQygjfPfRwfDmJ2CYcKVFr92n4m3uyRC
+	rTmOB23GbOslAev2+Es79TzQJCjyV7r+zvjhLbNcq2Nyq1czzXh1fvD2Z3QwfSd5qnVftnVpZHt
+	6fZPbWbr6HvSJVZzCgjwTQOdyQyQIlJS7kM/qWvNtU3yNIWorB8L12GG/snutAtua6Dsw8LGb//
+	IQKU3NvabnSxt4oPPCK4LqpImE94pjJ6hZhwHewKakvhcHZPqnJZ7fqkMLg4Yay8UQ3223+3/Mz
+	4HihoN7CQXCeq2VcVW77lMFeyOj9xDZ6E3fcSxyKb5/zkUn9kMWlMNUZFzYAug1XgELe6EZTT8v
+	CSz4FQlTeFtf3EK962NtahLzkqP6r2nF8RuPOfFt6kTBIgWfkSnN1tUUzKGQSngxJy2aoiCjpSk
+	T3OT//Ii6X50mvxul8U9UgXdgnrU=
+X-Received: by 2002:a17:90b:390b:b0:3b1:d40:2c4e with SMTP id 98e67ed59e1d1-3b41c56f34amr3150842a91.0.1795217362014;
+        Fri, 20 Nov 2026 15:29:22 -0800 (PST)
+Return-Path: <tim.orling@konsulko.com>
+Received: from thetis.home.local ([2606:c800:6024:2000:469f:1416:a3fd:1a92])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b44b73b2b3sm620500a91.2.2026.11.20.15.29.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Nov 2026 15:29:21 -0800 (PST)
+From: Tim Orling <tim.orling@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tim Orling <tim.orling@konsulko.com>
+Subject: [PATCH] libconvert-asn1-perl: upgrade 0.36 -> 0.37
+Date: Fri, 20 Nov 2026 15:28:58 -0800
+Message-ID: <20261120232857.2340898-2-tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.47.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 23:20:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250827
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 23:29:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250828
+Content-Type: text/plain; charset="utf-8"
 
-On Thu Oct 29, 2026 at 6:10 PM CET, Benhur T via lists.openembedded.org wro=
-te:
-> Backport two related upstream GSSAPIAuthentication fixes from OpenSSH
-> 10.6p1 to openssh 9.6p1:
->
-> - CVE-2026-106555: reset GSSAPI client state before each authentication
->   attempt (upstream 670510d1).
-> - CVE-2026-106553: only store GSSAPI credentials when authentication has
->   succeeded (upstream 6f9cd19a).
->
-> The patches are ordered as upstream, as the second one applies on top of
-> the helper function introduced by the first. The vulnerable code is only
-> built when PACKAGECONFIG contains kerberos.
->
-> Tested by building openssh (bitbake openssh -c compile) for qemux86-64
-> with the default PACKAGECONFIG and with kerberos enabled (krb5 from
-> meta-oe), confirming that GSSAPI support was compiled in.
->
-> Also ran the openssh ptest on qemux86-64 (core-image-ptest-openssh with
-> PACKAGECONFIG kerberos, bitbake ... -c testimage): 82 PASS, 0 FAIL,
-> 1 SKIP (agent-ptrace, gdb not installed). Note that the openssh
-> regression suite has no GSSAPI tests, so this checks for general
-> regressions only.
->
-> Benhur Tessele (2):
->   openssh: fix CVE-2026-106555
->   openssh: fix CVE-2026-106553
->
->  .../openssh/openssh/CVE-2026-106553.patch     |  88 ++++++++++++++
->  .../openssh/openssh/CVE-2026-106555.patch     | 109 ++++++++++++++++++
->  .../openssh/openssh_9.6p1.bb                  |   2 +
->  3 files changed, 199 insertions(+)
->  create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-10=
-6553.patch
->  create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-10=
-6555.patch
+0.37 is a security release:
 
-Hello,
+  * CVE-2026-126540: cap INTEGER/ENUMERATED decode size to prevent quadratic cost
+  * CVE-2026-126568: fix asn_recv OOM on truncated header or huge declared length
+  * CVE-2026-126576: bounds-check REAL exponent length; fix long-form mantissa size
+  * CVE-2026-126682: cap INTEGER/ENUMERATED encode size to prevent quadratic cost
+  * CVE-2026-126819: fix zero-length BIT STRING reading past end of buffer
+  * CVE-2026-126956: add configurable decode depth limit to prevent stack exhaustion
+  * CVE-2026-131868: prevent huge allocations in asn_read and asn_get
+  * CVE-2026-131877: limit OBJECT IDENTIFIER arc size to prevent quadratic cost
 
-This whole series is blocked pending a fix for those 2 CVEs on
-blacksail. I will let this series open for a few days but barring a
-blacksail fix, I will have, then, to drop this.
+It also discards invalid datagrams so SOCK_DGRAM sockets do not wedge.
+New default limits reject INTEGER/ENUMERATED values over 1025 bytes,
+nesting deeper than 99 levels and OID arcs over 32 bytes; configure()
+can raise or disable them.
 
-Regards,
---=20
-Yoann Congal
-Smile ECS
+https://metacpan.org/dist/Convert-ASN1/changes
+
+The new tests "use lib", so add perl-module-lib to the ptest RDEPENDS.
+Tested with core-image-ptest-libconvert-asn1-perl on qemux86-64.
+
+AI-Generated: Uses Claude Code (Claude Opus 5.5)
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+---
+ ...-asn1-perl_0.36.bb => libconvert-asn1-perl_0.37.bb} | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
+ rename meta/recipes-extended/perl/{libconvert-asn1-perl_0.36.bb => libconvert-asn1-perl_0.37.bb} (76%)
+
+diff --git a/meta/recipes-extended/perl/libconvert-asn1-perl_0.36.bb b/meta/recipes-extended/perl/libconvert-asn1-perl_0.37.bb
+similarity index 76%
+rename from meta/recipes-extended/perl/libconvert-asn1-perl_0.36.bb
+rename to meta/recipes-extended/perl/libconvert-asn1-perl_0.37.bb
+index 6cb3ce9fd9..7ff7263c22 100644
+--- a/meta/recipes-extended/perl/libconvert-asn1-perl_0.36.bb
++++ b/meta/recipes-extended/perl/libconvert-asn1-perl_0.37.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://README.md;beginline=91;endline=97;md5=ceff7fd286eb6d8
+ 
+ SRC_URI = "${CPAN_MIRROR}/authors/id/T/TI/TIMLEGGE/Convert-ASN1-${PV}.tar.gz"
+ 
+-SRC_URI[sha256sum] = "50439aedff4b403f24c9373eefd3c25770e33a9190d93a331e7a744f8b4e7cd3"
++SRC_URI[sha256sum] = "012b90bbb931e049340a114dbc510f845309d9ca76cc6c4fad751d317b4bf0fa"
+ 
+ S = "${UNPACKDIR}/Convert-ASN1-${PV}"
+ 
+@@ -17,6 +17,12 @@ EXTRA_PERLFLAGS = "-I ${PERLHOSTLIB}"
+ 
+ RDEPENDS:${PN} += "perl-module-exporter perl-module-constant perl-module-encode perl-module-encode-encoding perl-module-utf8 \
+                    perl-module-socket perl-module-time-local perl-module-posix perl-module-scalar-util perl-module-test-more"
+-RDEPENDS:${PN}-ptest += "perl-module-math-bigint perl-module-io-socket perl-module-data-dumper perl-module-math-bigint-calc"
++RDEPENDS:${PN}-ptest += "\
++    perl-module-data-dumper \
++    perl-module-io-socket \
++    perl-module-lib \
++    perl-module-math-bigint \
++    perl-module-math-bigint-calc \
++"
+ 
+ BBCLASSEXTEND = "native"
+-- 
+2.47.3
 
