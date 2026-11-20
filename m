@@ -1,167 +1,157 @@
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.117])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5795.1795180977627455881
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5872.1795181412263564542
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Nov 2026 05:22:59 -0800
+ Fri, 20 Nov 2026 05:30:12 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@vaisala.com header.s=selector1 header.b=RdhwqmLj;
- spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: vaisala.com, ip: 52.101.83.117, mailfrom: niko.mauno@vaisala.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eFUoKJvb1cVpcVumd8SWQyvUiN3z3G/ABbvh4TRcQWZpUeW7zL5sw0OqxYKsD4iqKrswLziSN3NxiM1pmS7aNzioB1/8/G6VFJWhrGgO1AuROZ02qLo/8Il+WoRuR/K9N9MJ+p2F5ADwCT5Z5JxLU4XdISPEQ0aHR01ENWMj1JuL17Fg53yhLcRzQ+WSf5PTRTAq9o+CFilR9v1COx10CBFy+ZcDQcbTBhDtX0aLelF/hrwIavQkt5zDRsUGwfzcd8Wy/TriKQpj/UCdQus7/iNA3gz7t6GmUPKw9URR1rVJsFCphfhq8oh6CB2A29TmQA/enGpsJzNh54SNe7gdlQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=qNd7nH92QXtDjQKKX1w2eKp8qavOBIcZw/LE4YGQBp0=;
- b=bFsZR9Os/4fF8xvZbQj9L7XGeiAJxIgD3fZSe1BA8ZVp+PQMgfZ2sstPHUjEbBktgJOCc6JL7eTpnIdjebb2rppCJVaHxdvi0ySz+N/io87GPmWL8QN/IKUEOjddVs1mdcqDWfWK/hYP0WIM7z3oT679lV+2Sth24v8oEbGWT2nd+kcbwX6xg9WdKmdPQQh0/1W76Tm7TIfJuNHBjLr1efageJd0Ve4oRDMk0uw5JQC9pShFExatRj9FJ18PZbTO/7sxT6/jjeLMKHCnRmhBsM4Id0IEzo04vuZgXlicfNXzlwFF3wN/rbTdFEfb4eQnRNuuHCZD4m2ykhcTP6MhjA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
- dkim=pass header.d=vaisala.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=qNd7nH92QXtDjQKKX1w2eKp8qavOBIcZw/LE4YGQBp0=;
- b=RdhwqmLjv9VxEwgYNKFAh4yqeoKfpE6yaofkTiiMM8L1Pg4NsDa4t80sKp+8tb6jKYMgAod9cu3bodZC51s7zTnqTv4J86uR8gqIP4kHFKNW8yqFUQeKJkelunY/sLPqV5uEkDYu+l87uMG/NoDWnGaIeFC1vfzL0SxZy5j6R6Me0y1sZuEATyalCffI7vLpMcSWLsj4//a/YwaPhRXmndEiJ7/h1q2f3OhPe/pW2RbLb1JkTT703QPXsFANUod0wIIIzSyC87m7gMZLz7pk/IV9gshMVleAkkt0QeoV8l2jPchkDd0DUluBxIKhWeseop3YapV96xQHGAAApqvfiQ==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=vaisala.com;
-Received: from GVXPR06MB9766.eurprd06.prod.outlook.com (2603:10a6:150:1dc::17)
- by PAXPR06MB7773.eurprd06.prod.outlook.com (2603:10a6:102:dc::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.12; Fri, 20 Nov
- 2026 13:22:51 +0000
-Received: from GVXPR06MB9766.eurprd06.prod.outlook.com
- ([fe80::485c:86c9:bd8:53bc]) by GVXPR06MB9766.eurprd06.prod.outlook.com
- ([fe80::485c:86c9:bd8:53bc%6]) with mapi id 15.21.0615.013; Fri, 20 Nov 2026
- 13:22:51 +0000
-From: Niko Mauno <niko.mauno@vaisala.com>
-To: openembedded-core@lists.openembedded.org
-CC: Niko Mauno <niko.mauno@vaisala.com>
-Subject: [PATCH] archiver: Fix diff mode for recipes without S
-Date: Fri, 20 Nov 2026 15:22:40 +0200
-Message-ID: <20261120132240.31653-1-niko.mauno@vaisala.com>
-X-Mailer: git-send-email 2.47.3
+ dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=VWeQ+dGI;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=WWUbaawv;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.154, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 7F2AB7A02DD
+	for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 08:30:11 -0500 (EST)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-03.internal (MEProxy); Fri, 20 Nov 2026 08:30:11 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:content-transfer-encoding:content-type:content-type:date:date
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1795181411;
+	 x=1795267811; bh=Hzi5248WQ7FXM45QFqOFlk2wf19q79jQ42LP55AH9bE=; b=
+	VWeQ+dGI1drKMWjT/8/eZJOhWbGlU8kQQ2wcAMaM3yq+/5nUSmZ4Wv39Dey7g4oh
+	ImX2+ebFmMxvf8bNqelrYgrubgOIDudEIWiLFaDyD6bx+7UgQWEkX0+novEpFfxr
+	uYsbEQILSpEeSOuRlli2dXCVJwB3YcFPPbmxWx6v3fIdldey8P8DQUWkI48RqZAA
+	+lmpfVajNzGnb8mirBT1KA560t3TqaoI0bLLYD9prTdPTbD4AJEZgsmRwMTfXvA3
+	8j+upcThQWH+9Bo2h0It1dS4gw0lrJoe3hodSg9QGidp6vnRMojcXdgTkmgOiZsy
+	ku2CbRxcwdvANWqRvxGbRg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm3; t=1795181411; x=1795267811; bh=H
+	zi5248WQ7FXM45QFqOFlk2wf19q79jQ42LP55AH9bE=; b=WWUbaawvg/vvLrOU/
+	sGghfD/f2X0yPzfIS/wbY3013o5AJD89I8Vs/Ca3qj0hiT+oZkdySpmpudbMb4ea
+	ic+bx7/KUNWNe9TquzJ8gGThz3XoMOSqu0qIFYejNhfELJUx6bjzSKXm9sumXBVk
+	Fo95KF32s/TUdRadIdNQlkCqAQeVH+pFhgJEOK//vLHB4IFJnBq++4nKoh8/51bd
+	ZHDnpWgzWhohtrD0As3j81nelAPm+DOdD7aaIafwyvz2yIQtT2VuoixpA+4ug/3b
+	FKcM12qxkDBcQJB56XosZEWbHCA+Be5uiZovYi5b5N0pHc1wQGZm6mh3LbmFdfNo
+	aGvBA==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=pbarker.dev a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1795181411; d=pbarker.dev;
+	mf=PHBhdWxAcGJhcmtlci5kZXY+;
+	rt=PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+;
+	s=fm2:rsa-sha256:ZYDupquXcTfFeGV4oRZYlzsPL4KxeVvRsk+JIx+MGVyjenW
+	f4HNJF7LYJ8K0d+UfuG4cfa0XXNFqUWuVw2SRRp6+CMqrCFIT5yuIl7YIHVlGgpR
+	wIM+SG30Yi5H9wFvRJ2lhIDHw39JL01qREtOpmJWi9jT0tvglbcZ4SY+8nuU+QAR
+	sWjjVAcTsAGYJ0r5s/Y3T6CTy2UXbK/4gRSW3FIj0Sh9EZ4Xs9ZwzKNoxYenGaUC
+	+eKuRHavOr0vbJaE5wX9HmBqi2bMAVvQpbtSG4qMytdyEtLTnpIeBA16YNzlMgph
+	+Rno1lw8jXBRwzCD8HUSf10oTd5QmeTFGinYqiw==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=11;
+	hn=content-transfer-encoding,content-type,date,feedback-id,from,
+	in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:GCjYurY1E9WsMucaH2GKcJFXvkIpvtFXseAUCQMqVwg=:EhpDUKrPtrVHJNDY4GumSN8UuHU+Iaf35DTwvv+bOPA=;
+X-ME-Sender: <xms:Y0sAa9klN9Fqq2R6Vx1BbDFpsKzif-zeuyx8zI8ZYAxMHdOG0ala_Q>
+    <xme:Y0sAa-2yG4ts6hLTtX5d_GdX7ak0HUJd-5nDPnqQ1PjNI_VWEtwUc1qCGv9lfXqrc
+    iFk9IUyvcOxhGbxUHMP9YE0p6W0pPM9mQ7VcIUfKQnZTaSzkieo5kA5>
+X-ME-Received: <xmr:Y0sAaxQTUcqzCqNePvKzWOwH8_soC2VWkr4yGVpx6W-9kBhZ_OY5xmeWn9WJ3k2zq6rT_7tatDIIZpmqGO-PPCrzpr2u>
+X-ME-Proxy-Cause: dmFkZTF8oEoWjMSyLK3Gw+7Qfi1h6bqd8hapvdJZqWjxzIhsDydEgWlfFaQiE4BKeEoO/S
+    MyWziURaLiAukLVKJvLkhLvcCFjE7TEcfGx4g9l/w7VAiJdDg7teQlwXVbo0ayZlFu0nBO
+    Ov3nvgie45DdVG/zLip++NUBJI16LJ9cguKCEas0tTRZXB9HlFkBqCmQ4vmo7C+TJiaiCG
+    ilRkROIUVJNxOVvUk4B63fU5lb12wPmqj9AfvPQ9YzftVh2Lk3IbsvVOUAsdLNK/weNoAd
+    /B0RTRunKc4iUEfDLhwFfZVwi2tuDM0QsW+CnuAwhsk3GZ/4yjRawKj8EId8RKitT2/rpt
+    Lf//67jFAzKhuAuRyBN/G+6KlsiY2JDPmSOM+nIS9O4YxvAz0gwjOY4AZCeJU/Rlt3mrcW
+    38DTphy5R16FpojrlExB4MexsidPo/MiBYbVqaX2de9xq5Qje54yWtabwox9qAnMLXpFQy
+    +gLsODZey5m6ZgDOPYAu/nIp/45cmmaWM2QLpYvWUXH+wHVniryJCWHH4+bAb04gU/jTSO
+    nurVuqk/U6QtkHq5yISRtx0XQQyYHkAPab8GSNStJyq4X0xV/JW2s/oF42bP4r3yWmu+lm
+    5los2s5vSzBvV91FyXpaRNqXPxiOgwek0btXkTl1lD04mEGbktypxc6m2dXA
+X-ME-Proxy: <xmx:Y0sAa4tg8xFW3A5zD97wVs9CMP5Tr8pEv_NG_k-xY_RIJ2rG47_h4Q>
+    <xmx:Y0sAa-Z6R8HzgkTq3-jidbnx7ufC2HKa--G6oLNT4CxAAb38WDLr4g>
+    <xmx:Y0sAa1vjeeGwWPfkrL4EKcKv_zmMK8Be18_QyQ6A2LzsoqWRaCKl6w>
+    <xmx:Y0sAa4FCouD2eajOjldHJnnFmpWoaytIiQOT1esw4ZjEb8MHK_nmww>
+    <xmx:Y0sAa1_yvc-kxShWoHuMYZF50F-bovH773xz4qoGJ4VeAvcmaJZQmzli>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
+ 20 Nov 2026 08:30:10 -0500 (EST)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: GV3PEPF0003D7C2.SWEP280.PROD.OUTLOOK.COM
- (2603:10a6:158:400::28d) To GVXPR06MB9766.eurprd06.prod.outlook.com
- (2603:10a6:150:1dc::17)
-Return-Path: niko.mauno@vaisala.com
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GVXPR06MB9766:EE_|PAXPR06MB7773:EE_
-X-MS-Office365-Filtering-Correlation-Id: e80c2fef-5ecd-4eae-ee90-08df4709609f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|52116014|1800799024|376014|23010399003|18002099003|11063799006|56012099006|261026121527099003|261102123227099003|261026140227099003|261028144727099003|261022105027099003|261021121427099003|261021123027099003|261009223027099003|38350700014|10067099003;
-X-Microsoft-Antispam-Message-Info: s+Uc8fg+bqnhPSFjbZGBYMoTMWvpA5dkLL1KiFvin5/4Zmxpt42KCQ6O2adPg7k8Xhpk939TtcADHSnwqN8WaEL5qpA5OK0MJYOLOrAe64QF7T3rDHXINn2PqEkCGJ39tTGU0oQWlTvC+a/FVN5g85dqS98J0tUH1rTlXZ7EdT5bMZ1tftZ5Vrgjwk+6Ip6xQ+UUcPEU99fLZpS/x8C9raZKHcTlRnfeo+R7+lVdn1sJnfLY/TaGgmImdzF/hImIlP5P69oPcYFdOmQu4bHzYHPnZF8jUUjAf5Vuz5DTG6GrR/3ZdAgK8SPNjK5xmM6MggixDa24Yt1ruXBvMYdksTIs5ymxxrsEH5hRnSff3iKfjBdYiMWDLKCRph9oNbkkPC1yZYlcn1k/uqA9BMYl5zm3M6gxmtlwanpUq/jACZsQvaNiKf4n4jU9CcsRBiHo9HMwZPq/t1D4+ZkSJ0kziBNhE96Gz2ao4O0PRoquOezfAgB/CpgkOz7JKmEVWOR3BfwR1QivfJlA63WU7CwHTvWwx7XLMK3+LJv231ILlD8tooI7kidD0xueEd8gTlPdxpNJ6SRQ0oE9IljZayhEcP+XHRRSPePobmmO+aYYDk9d8NZ83tc97VUT+nBr7+tJBR2Z6XPLQD90WhjRjtmsZcmsuNn2KDoafDBe9UpxCKBZGOHUwPszRaUluYV/uMU4nB7brdQJeHydep+bCVwXJQ92L3n6HHfYItaBJfvKQA0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR06MB9766.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(1800799024)(376014)(23010399003)(18002099003)(11063799006)(56012099006)(261026121527099003)(261102123227099003)(261026140227099003)(261028144727099003)(261022105027099003)(261021121427099003)(261021123027099003)(261009223027099003)(38350700014)(10067099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?yVI54KkEcedzTEHeD/Vl9J+Cbb/CsYJSYSS+3AJ0zTM20pHoReMvdQGnM2qz?=
- =?us-ascii?Q?pcrfxKG7FozQwZPJEJ097GKsAoNTgcPzBc8kRVxneIbhnz0ELP6Msk0FdIQP?=
- =?us-ascii?Q?+7g08cCGSJAKocKhE6jYzjo1swJJlPK+eNurTe2Jfw34nB0PPqOj4EBPDYLq?=
- =?us-ascii?Q?UqO6MdJ/3KxNlfQJz0OwsAa8Q13sJrp709NRVOu5Wvc6v1JdjmhwGH6Ckrdc?=
- =?us-ascii?Q?geZMCJBplYKrmdKCP5e1rYzKiL2Mw7sWxm+5f+ySoUJ8XQVHlgpQ+113U78M?=
- =?us-ascii?Q?b4H5duiWiEJt8UOV4H8cwWGWUgOMYo5vEXDtbDzcgugyp2b0jzA97x3T38F5?=
- =?us-ascii?Q?nwZMVeFTPDp6y1Vae9ptHQ4wWxqhwHlNSRPNVr6CNXx7tJ/9yiVQtawnpa8u?=
- =?us-ascii?Q?3yjSwQsifkrO8PBBWUukF9VYRKlGUsICPfkjnpPBy72tHHZFl8WAgZoKV3zn?=
- =?us-ascii?Q?AcZCcwMYnurilv9C5tFfLCriWpUfi71XenaRtR2XyNU0aUsO6CO+no5MZodQ?=
- =?us-ascii?Q?i3gTB0VSdcPJH7hobVkHWZnaycdiRUuTCoojM7YgVAXVWJj2c77uZbrfR2/H?=
- =?us-ascii?Q?OZshrE5JxgLqxUJyeIAdM5CvWscD+ngqp7B6yf/nBErQ4qWk4Y/PmycJJ6zd?=
- =?us-ascii?Q?X9fd9g546lagmaIrNzysLk2h3g/dnfheHR5B3h2pjyG7Ikrb1oNWI+Oyfe0o?=
- =?us-ascii?Q?8H5uzi7HJHDNDBogMH/u1z2997C3OApnJDhVcflS6uUTz68Ayxo6ix9bfQwr?=
- =?us-ascii?Q?bLtj0V49VuigjLaTpmYRSLQz6kkUycT76bWENlGPx9b4zQ8uWB22NyKOwkHj?=
- =?us-ascii?Q?0KW8Z0JiPnzUgIUdMoX4igifBbDxn3gQw7VDlVQh9s4icTYTeEwC7Ju3KBPn?=
- =?us-ascii?Q?H05t18XoIt95AY6SA48v+twlsZFzCsxgQT8glioEmLS+9hFfLfoHu5/X76Dv?=
- =?us-ascii?Q?9D7mb4J5Ft/zgsieAMWkyoze40/rRC7X/gMwSAJiBsxAHIk+1PCsRoB2/VxB?=
- =?us-ascii?Q?WrnYknkiUjtQB4QrOF8PzKtrHmKRRILLfeo4bN8H3iesJcTRDSZz1ORNfIRs?=
- =?us-ascii?Q?803msa7wevRS6yrr/x0Hywc0vF3SfyOLhFJ7uq37nl3141xJ0vZWupJjJrI8?=
- =?us-ascii?Q?AfNE2t6/fw3jSRRKQvNQ4b7D00sMRiWV81UZjINTEJb9e0qaX1NvVbIrOhYP?=
- =?us-ascii?Q?VTQHbB/ItOXfs8CYLLGsE2uf5sZnAJ+bbLTpx+eaReby0UOoZ4C7P8eHwpZw?=
- =?us-ascii?Q?tp3NHkr8lA1TMxq6s/6RG8AV38BX9Epso1VfrSezQRxHavwvV6fyFaz09cTv?=
- =?us-ascii?Q?NpAjHtUswUOYJ75rDjp+z0NnY1wOH9JhL+9b0CQCRMppGJbVtBlStm6NogZc?=
- =?us-ascii?Q?dFsMgUqVPaDtwRnY488cidvmmztlaj1Ef5FRXkJIK7RB/W7CoI6XCrKjWiyi?=
- =?us-ascii?Q?mlrxwOQVYQgYsHMHBtWxSpoA7jP0EX6qgb3TlbEXjUkNSGyfHevc89GpeVKC?=
- =?us-ascii?Q?LI0QU2PNK4UjtbFZzCzwJtnz/mtGMJCjoEoRWybDyDkaQShGwD8aV5nQN2sp?=
- =?us-ascii?Q?aRIbjgFc4OE7gDBBNSKQq8dA+oepRgBbsEpfMwhzp4YDG1vQ72b3uoLBN9vq?=
- =?us-ascii?Q?fvH3M8+7dAwUU7cNxTsOFU6/CDuWtuP/kw2LFgrq591l+u/1fG+ySR+KQCrS?=
- =?us-ascii?Q?TyRZVMRWQHQe9lcOE13dgJ6V4/cGwTeUzUFrccwbhek2RLj/n3zaOuy6DvjJ?=
- =?us-ascii?Q?er4/LwW0Xw=3D=3D?=
-X-OriginatorOrg: vaisala.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e80c2fef-5ecd-4eae-ee90-08df4709609f
-X-MS-Exchange-CrossTenant-AuthSource: GVXPR06MB9766.eurprd06.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2026 13:22:51.2848
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: FesSqNRmgUFuzVqDgyGSTacStN3PEjbqNMyeFOXpICBzHiJHO51eUwtst5qOci3De7LcmnIi2x/5PfYjKxm2Aw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR06MB7773
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 20 Nov 2026 13:30:08 +0000
+Message-Id: <DN02P6581AAC.6W4V8B9MA0N0@pbarker.dev>
+Subject: Re: [PATCH v3 1/3] archiver.bbclass: archive shallow git sources
+ which have no clone
+From: "Paul Barker" <paul@pbarker.dev>
+To: <ecordonnier@snap.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.22.0
+References: <20261117122457.435864-1-ecordonnier@snap.com>
+ <20261117122457.435864-2-ecordonnier@snap.com>
+In-Reply-To: <20261117122457.435864-2-ecordonnier@snap.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 13:23:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250790
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 13:30:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250791
 
-With ARCHIVER_MODE[diff] =3D "1", do_unpack_and_patch copies S to S.orig
-unconditionally, so a recipe without sources whose S is never created,
-such as systemd-serialgetty or perf, fails:
+On Tue Nov 17, 2026 at 12:24 PM GMT, ecordonnier wrote:
+> From: Etienne Cordonnier <ecordonnier@snap.com>
+>
+> In the original mode, do_ar_original archives a source if the fetcher's
+> localpath is a file, or a directory (which is unpacked and tarred). For g=
+it,
+> localpath was the clone in DL_DIR/git2, which a shallow fetch (BB_GIT_SHA=
+LLOW)
+> does not create when it uses the gitshallow tarball: since bitbake commit
+> 457288b2f ("fetch2/git: Add support for fast initial shallow fetch") this=
+ is
+> what a shallow fetch does by default, and it also happens when the shallo=
+w
+> tarball is fetched from a mirror. The source was then silently skipped an=
+d not
+> archived at all.
+>
+> The git fetcher now returns the shallow tarball as localpath in this case=
+.
+> Copying it would make the archive differ depending on how the source was
+> fetched, so unpack git sources like a clone, which uses the shallow tarba=
+ll.
+>
+> AI-Generated: Claude Sonnet 5.5
+> Signed-off-by: Etienne Cordonnier <ecordonnier@snap.com>
+> ---
+>  meta/classes/archiver.bbclass            |  9 ++++-
+>  meta/lib/oeqa/selftest/cases/archiver.py | 48 ++++++++++++++++++++++++
+>  2 files changed, 55 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclas=
+s
+> index 0400d6e373..d1a8dadec7 100644
+> --- a/meta/classes/archiver.bbclass
+> +++ b/meta/classes/archiver.bbclass
+> @@ -204,10 +204,15 @@ python do_ar_original() {
+>      fetch =3D bb.fetch.Fetch(urls, ld)
+>      tarball_suffix =3D {}
+>      for url in fetch.urls:
+> +        ud =3D fetch.ud[url]
+> +        is_git =3D isinstance(ud.method, bb.fetch.git.Git)
 
-  ERROR: systemd-serialgetty-1.0-r0 do_unpack_and_patch: Error executing a =
-python function in exec_func_python() autogenerated:
-  ...
-  tar: .../systemd-serialgetty/1.0/archiver-work//sources/systemd-serialget=
-ty-1.0: Cannot open: No such file or directory
+Hi Etienne,
 
-do_unpack no longer creates such an S since
-commit b84eec5c4cbf ("base: Switch UNPACKDIR to a subdir of WORKDIR")
-changed its cleandirs from S to UNPACKDIR; perf fills S from the kernel
-only in do_configure.
+These changes are definitely moving in the right direction, but I don't
+think they're quite ready to merge yet.
 
-Skip the copy when S doesn't exist; create_diff_gz() already returns
-early when either directory is missing. A recipe with sources whose S
-is missing is still reported by do_qa_unpack after its own do_unpack.
-Print the "Creating diff gz..." note only when a diff is created.
+Here we are still special casing particular fetchers, which we shouldn't
+need to do.
 
-Tested with ARCHIVER_MODE[src] =3D "original" and ARCHIVER_MODE[diff] =3D
-"1": do_unpack_and_patch of systemd-serialgetty now succeeds on master
-and wrynose, as does that of perf on wrynose, and zlib still gets its
-diff.gz on master.
+I think we just need two cases:
 
-AI-Generated: Uses Claude Code (Claude Opus 5.5)
-Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
----
- meta/classes/archiver.bbclass | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+1) If the path returned by localpath() is a file, copy it.
 
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclass
-index 0400d6e373..792e85445f 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -433,6 +433,8 @@ def create_diff_gz(d, src_orig, src, ar_outdir):
-     if not os.path.isdir(src) or not os.path.isdir(src_orig):
-         return
-=20
-+    bb.note('Creating diff gz...')
-+
-     # The diff --exclude can't exclude the file with path, so we copy
-     # the patched source, and remove the files that we'd like to
-     # exclude.
-@@ -489,7 +491,9 @@ python do_unpack_and_patch() {
-     if d.getVarFlag('ARCHIVER_MODE', 'diff') =3D=3D '1':
-         src =3D d.getVar('S').rstrip('/')
-         src_orig =3D '%s.orig' % src
--        oe.path.copytree(src, src_orig)
-+        # A recipe without sources may have no S
-+        if os.path.isdir(src):
-+            oe.path.copytree(src, src_orig)
-=20
-     if bb.data.inherits_class('dos2unix', d):
-         bb.build.exec_func('do_convert_crlf_to_lf', d)
-@@ -500,7 +504,6 @@ python do_unpack_and_patch() {
-=20
-     # Create the patches
-     if d.getVarFlag('ARCHIVER_MODE', 'diff') =3D=3D '1':
--        bb.note('Creating diff gz...')
-         create_diff_gz(d, src_orig, src, ar_outdir)
-         bb.utils.remove(src_orig, recurse=3DTrue)
- }
+2) Otherwise, call fetch.unpack() into a tmpdir, regardless of whether
+   the path returned by localpath() exists or not. Raise an error if the
+   tmpdir is still empty after the unpack.
+
+Best regards,
+
 --=20
-2.47.3
+Paul Barker
 
