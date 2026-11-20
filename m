@@ -1,36 +1,36 @@
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.527.1795195313704880508
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.528.1795195314744651414
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Nov 2026 09:21:54 -0800
+ Fri, 20 Nov 2026 09:21:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=w5v+2LD9;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=eu23OnUp;
  spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: joaomarcos.costa@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 103514E4168A
-	for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 17:21:52 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id EE4B94E4168C;
+	Fri, 20 Nov 2026 17:21:52 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id DB132601B9;
-	Fri, 20 Nov 2026 17:21:51 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DFF7711BC0581;
-	Fri, 20 Nov 2026 18:21:46 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id C5A71601B9;
+	Fri, 20 Nov 2026 17:21:52 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id A41F111BC04D7;
+	Fri, 20 Nov 2026 18:21:51 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1795195307; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1795195312; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=s2BsdC53q95B8chYcN8nrivJtbamciqGNDKbsIRDhn4=;
-	b=w5v+2LD9JrAU6gz9aIVvd1XQJY1WdZscVXAIrrgQOrZG3r/mGQ8eAJ0GxDyvSUl6jbDWl7
-	C8IUDtvvLJ/apyv5BfKR42BHuVMRnvsnGfJeVMHOO8vhlfA6JXh9rEKeEZFJcuhxmqPmCW
-	Hn19UCFbl8kLLVoJrfP4Y9n18WKxRolvPNtuEuvL+7cWTnardbQMDw5eu04UBA34vVvJNq
-	4GPGJ+EzCNPBDvuIpXNRbx5mvQfQUU3KcdH4sYcC2fBboRG63G7HxuHD7FrDCgVr5P0lLA
-	H+IrgPPR+jSOSQjIiAwQKotkIh2D5k9JhyYszrL1nHbR6kUMF3Ifw+p/xQYmpQ==
+	bh=tKYnYEb1IuQkc1b3IHnl3WYbGGm1SoT4coqhBBg1rUE=;
+	b=eu23OnUpbXgidAhzDesomCiqozvLkQsMetbA0c9vKDZziU2RaBkH+o8Ss8cRiEOA7dOIN5
+	SKWEeBQK8QBIdR7NiDurs2k1y1ldegDQLJGeVan28C583mwAQkmc9qYtjeVjy+ElRXzc5B
+	7gYp8hnaZTvKYh7r8UoR4m8Z1u7/OETPSbTqw1TVTtcB6y99X16SKA8eGy0TjFzaLT1qzc
+	yboLf/sY3ZOyJXIZlqxWoXeUsALJO4na2niWeTPs132TJ+eYEc40CPKAAqJ5I6+IcxdA/1
+	6GXoKlbtJgGnIblgu8KPGjCx2Pz5gxpMeDT5n6mu00ZkBSgIOD9PfgRZZVK9dA==
 From: =?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa=20=28Schneider=20Electric=29?= <joaomarcos.costa@bootlin.com>
 To: openembedded-core@lists.openembedded.org
 Cc: thomas.petazzoni@bootlin.com,
 	yoann.congal@smile.fr,
 	bastien.jauny@smile.fr,
 	=?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa=20=28Schneider=20Electric=29?= <joaomarcos.costa@bootlin.com>
-Subject: [blacksail][PATCH 2/4] curl: fix CVE-2026-92386
-Date: Fri, 20 Nov 2026 18:21:24 +0100
-Message-ID: <20261120172126.3187901-3-joaomarcos.costa@bootlin.com>
+Subject: [blacksail][PATCH 3/4] curl: fix CVE-2026-92391
+Date: Fri, 20 Nov 2026 18:21:25 +0100
+Message-ID: <20261120172126.3187901-4-joaomarcos.costa@bootlin.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261120172126.3187901-1-joaomarcos.costa@bootlin.com>
 References: <20261120172126.3187901-1-joaomarcos.costa@bootlin.com>
@@ -39,78 +39,252 @@ Content-Type: text/plain; charset=UTF-8
 X-Last-TLS-Session-Version: TLSv1.3
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 17:22:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250821
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 17:22:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250822
 
 This vulnerability, marked as High [1], was fixed upstream [2] since
 v8.23.0.
 
 Backport the fix to curl v8.22.0.
 
-[1] https://nvd.nist.gov/vuln/detail/cve-2026-92386
-[2] https://curl.se/docs/CVE-2026-92386.html
+[1] https://nvd.nist.gov/vuln/detail/cve-2026-92391
+[2] https://curl.se/docs/CVE-2026-92391.html
 
 Signed-off-by: Jo=C3=A3o Marcos Costa (Schneider Electric) <joaomarcos.co=
 sta@bootlin.com>
 ---
- .../curl/curl/CVE-2026-92386.patch            | 33 +++++++++++++++++++
- meta/recipes-support/curl/curl_8.22.0.bb      |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-92386.patch
+ .../curl/curl/CVE-2026-92391.patch            | 200 ++++++++++++++++++
+ meta/recipes-support/curl/curl_8.22.0.bb      |   1 +
+ 2 files changed, 201 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-92391.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-92386.patch b/meta/r=
-ecipes-support/curl/curl/CVE-2026-92386.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-92391.patch b/meta/r=
+ecipes-support/curl/curl/CVE-2026-92391.patch
 new file mode 100644
-index 0000000000..3e8f249b69
+index 0000000000..55288d5296
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-92386.patch
-@@ -0,0 +1,33 @@
-+From 58eac7dbcf37290774f48b3464266dcc080fd700 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/curl/curl/CVE-2026-92391.patch
+@@ -0,0 +1,200 @@
++From 8f839f842ec95a897d3f716f7220d1460109e3d0 Mon Sep 17 00:00:00 2001
 +From: Daniel Stenberg <daniel@haxx.se>
-+Date: Wed, 16 Sep 2026 11:09:18 +0200
-+Subject: [PATCH] cookie: accept slightly longer lines in cookie jars
++Date: Sun, 13 Sep 2026 00:06:44 +0200
++Subject: [PATCH] mime: do curl_mime_free() non-recursively
 +MIME-Version: 1.0
 +Content-Type: text/plain; charset=3DUTF-8
 +Content-Transfer-Encoding: 8bit
 +
-+Closes #22964
++Verify with test 3595: deeply nested curl_mime_free()
 +
-+CVE: CVE-2026-92386
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/445aa87e1=
-3f91c94bc742f54343a2eac924e1765]
++Closes #22927
++
++CVE: CVE-2026-92391
++Upstream-Status: Backport [https://github.com/curl/curl/commit/d7546809d=
+5bd548b69ec49fca26565c8f6f0d344]
 +
 +Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
 +---
-+ lib/cookie.c | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
++ lib/mime.c                 | 28 +++++++++++----
++ tests/data/Makefile.am     |  2 +-
++ tests/data/test3595        | 21 ++++++++++++
++ tests/libtest/Makefile.inc |  3 +-
++ tests/libtest/lib3595.c    | 70 ++++++++++++++++++++++++++++++++++++++
++ 5 files changed, 115 insertions(+), 9 deletions(-)
++ create mode 100644 tests/data/test3595
++ create mode 100644 tests/libtest/lib3595.c
 +
-+diff --git a/lib/cookie.c b/lib/cookie.c
-+index 3255668ec7..12aae672dc 100644
-+--- a/lib/cookie.c
-++++ b/lib/cookie.c
-+@@ -1181,7 +1181,9 @@ static CURLcode cookie_load(struct Curl_easy *data=
-, const char *file,
-+   if(fp) {
-+     struct dynbuf buf;
-+     bool eof =3D FALSE;
-+-    curlx_dyn_init(&buf, MAX_COOKIE_LINE);
-++    /* accept a little longer lines so that a full cookie fits and does=
- not
-++       abort the file read */
-++    curlx_dyn_init(&buf, MAX_COOKIE_LINE + 48);
-+     do {
-+       result =3D Curl_get_line(&buf, fp, &eof);
-+       if(!result) {
++diff --git a/lib/mime.c b/lib/mime.c
++index 6004375765..41150dca94 100644
++--- a/lib/mime.c
+++++ b/lib/mime.c
++@@ -1109,20 +1109,36 @@ void Curl_mime_cleanpart(curl_mimepart *part)
++   }
++ }
++=20
++-/* Recursively delete a mime handle and its parts. */
+++/* Non-recursively delete a mime handle and its parts. */
++ void curl_mime_free(curl_mime *mime)
++ {
++   curl_mimepart *part;
++=20
++-  if(mime) {
++-    mime_subparts_unbind(mime);  /* Be sure it is not referenced anymor=
+e. */
++-    while(mime->firstpart) {
++-      part =3D mime->firstpart;
+++  if(!mime)
+++    return;
+++
+++  mime_subparts_unbind(mime);  /* Be sure it is not referenced anymore.=
+ */
+++
+++  while(mime) {
+++    part =3D mime->firstpart;
+++    if(part) {
++       mime->firstpart =3D part->nextpart;
+++      if(part->kind =3D=3D MIMEKIND_MULTIPART && part->arg &&
+++         part->freefunc =3D=3D mime_subparts_free) {
+++        curl_mime *subparts =3D (curl_mime *)part->arg;
+++        part->freefunc =3D NULL;
+++        cleanup_part_content(part);
+++        subparts->parent =3D mime->parent;
+++        mime->parent =3D (curl_mimepart *)subparts;
+++      }
++       Curl_mime_cleanpart(part);
++       curlx_free(part);
++     }
++-    curlx_free(mime);
+++    else {
+++      curl_mime *parent =3D (curl_mime *)mime->parent;
+++      curlx_free(mime);
+++      mime =3D parent;
+++    }
++   }
++ }
++=20
++diff --git a/tests/data/Makefile.am b/tests/data/Makefile.am
++index 4a27927b1c..e0ce23abfb 100644
++--- a/tests/data/Makefile.am
+++++ b/tests/data/Makefile.am
++@@ -2091,7 +2091,7 @@ TESTCASES =3D \
++   test3401 \
++   \
++   test3500 \
++-  \
+++  test3595 \
++   test4000 \
++   test4001 \
++   \
++diff --git a/tests/data/test3595 b/tests/data/test3595
++new file mode 100644
++index 0000000000..b2b1dd26c2
++--- /dev/null
+++++ b/tests/data/test3595
++@@ -0,0 +1,21 @@
+++<?xml version=3D"1.0" encoding=3D"US-ASCII"?>
+++<testcase>
+++<info>
+++<keywords>
+++mime
+++</keywords>
+++</info>
+++
+++# Client-side
+++<client>
+++<tool>
+++lib%TESTNUMBER
+++</tool>
+++<name>
+++curl_mime_free
+++</name>
+++</client>
+++
+++<verify>
+++</verify>
+++</testcase>
++diff --git a/tests/libtest/Makefile.inc b/tests/libtest/Makefile.inc
++index 26c72e5672..9cdc7b2da1 100644
++--- a/tests/libtest/Makefile.inc
+++++ b/tests/libtest/Makefile.inc
++@@ -325,5 +325,4 @@ TESTS_C =3D \
++   lib3105.c \
++   lib3207.c \
++   lib3208.c \
++-  lib5000.c \
++-  lib5004.c
+++  lib3595.c
++diff --git a/tests/libtest/lib3595.c b/tests/libtest/lib3595.c
++new file mode 100644
++index 0000000000..1f343f503e
++--- /dev/null
+++++ b/tests/libtest/lib3595.c
++@@ -0,0 +1,70 @@
+++/**********************************************************************=
+*****
+++ *                                  _   _ ____  _
+++ *  Project                     ___| | | |  _ \| |
+++ *                             / __| | | | |_) | |
+++ *                            | (__| |_| |  _ <| |___
+++ *                             \___|\___/|_| \_\_____|
+++ *
+++ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
+++ *
+++ * This software is licensed as described in the file COPYING, which
+++ * you should have received as part of this distribution. The terms
+++ * are also available at https://curl.se/docs/copyright.html.
+++ *
+++ * You may opt to use, copy, modify, merge, publish, distribute and/or =
+sell
+++ * copies of the Software, and permit persons to whom the Software is
+++ * furnished to do so, under the terms of the COPYING file.
+++ *
+++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY O=
+F ANY
+++ * KIND, either express or implied.
+++ *
+++ * SPDX-License-Identifier: curl
+++ *
+++ **********************************************************************=
+*****/
+++#include "unitcheck.h"
+++
+++static CURLcode test_lib3595(const char *arg)
+++{
+++  UNITTEST_BEGIN_SIMPLE
+++
+++#if !defined(CURL_DISABLE_MIME) &&                                     =
+ \
+++  (!defined(CURL_DISABLE_HTTP) ||                                      =
+ \
+++   !defined(CURL_DISABLE_SMTP) ||                                      =
+ \
+++   !defined(CURL_DISABLE_IMAP))
+++
+++  curl_mime *root =3D NULL;
+++  curl_mime *current =3D NULL;
+++  curl_mime *sub =3D NULL;
+++  curl_mimepart *part =3D NULL;
+++  int i;
+++
+++  if(curl_global_init(CURL_GLOBAL_ALL) !=3D CURLE_OK) {
+++    curl_mfprintf(stderr, "curl_global_init() failed\n");
+++    return TEST_ERR_MAJOR_BAD;
+++  }
+++
+++  /* Create a deeply nested mime structure to verify that non-recursive
+++     curl_mime_free works properly. */
+++  (void)arg;
+++  root =3D curl_mime_init(NULL);
+++  fail_unless(root !=3D NULL, "curl_mime_init root failed");
+++  current =3D root;
+++
+++  for(i =3D 0; i < 50; i++) {
+++    part =3D curl_mime_addpart(current);
+++    fail_unless(part !=3D NULL, "curl_mime_addpart failed");
+++    sub =3D curl_mime_init(NULL);
+++    fail_unless(sub !=3D NULL, "curl_mime_init sub failed");
+++    curl_mime_subparts(part, sub);
+++    current =3D sub;
+++  }
+++
+++  /* Free deep structure */
+++  curl_mime_free(root);
+++  curl_global_cleanup();
+++#else
+++  (void)arg;
+++#endif
+++
+++  UNITTEST_END_SIMPLE
+++}
 diff --git a/meta/recipes-support/curl/curl_8.22.0.bb b/meta/recipes-supp=
 ort/curl/curl_8.22.0.bb
-index 979e416249..4c6a088e62 100644
+index 4c6a088e62..6445aae426 100644
 --- a/meta/recipes-support/curl/curl_8.22.0.bb
 +++ b/meta/recipes-support/curl/curl_8.22.0.bb
-@@ -18,6 +18,7 @@ SRC_URI =3D " \
-     file://CVE-2026-92388-2.patch \
+@@ -19,6 +19,7 @@ SRC_URI =3D " \
      file://CVE-2026-92389.patch \
      file://CVE-2026-87865.patch \
-+    file://CVE-2026-92386.patch \
+     file://CVE-2026-92386.patch \
++    file://CVE-2026-92391.patch \
  "
 =20
  SRC_URI:append:class-nativesdk =3D " \
