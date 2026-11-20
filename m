@@ -1,54 +1,54 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6389.1795182830191692025
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6390.1795182833324185139
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Nov 2026 05:53:50 -0800
+ Fri, 20 Nov 2026 05:53:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=q3z0pOOO;
- spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: stondo@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-49d05d51553so6184635e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 05:53:49 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=N0OwUyLh;
+ spf=pass (domain: gmail.com, ip: 209.85.128.46, mailfrom: stondo@gmail.com)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4bb6886d30aso8332805e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 05:53:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795182828; x=1795787628; darn=lists.openembedded.org;
+        d=gmail.com; s=20260707; t=1795182831; x=1795787631; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=g+nWPS+sYOm8kcYbdd/JaIdRX6YVtZqKdNHWi7mMUy4=;
-        b=q3z0pOOOYWP0JgM2O50qq8EfapPPCMoTdWQdNBFZiJqJCrF3wigenf9zdNfriIJIyM
-         kp53uhVX/2A96buOJFGV1+33o7dYsXWMWaCBaUoeCLMP80uKdaUpfn8/iBuybylzFI4u
-         vhim2iOY7qynblPnpKXProQ/gGup3ZVEhCKJUpavF3isOl/gXZz3RMhU/aH92cZIeNMI
-         QQ3rCYUoOTZhJHMcrSPzdEWejXAmW3zm0sceGVEC9RCNz0AoDFUL74eOLKXSXWMN3fbF
-         W3eEgt0BZPpaFBqiQFzDDHT83uJbdiY2bnVYgMjz72cakviZO0V8VMsawI7R0Ncsv0wH
-         FhFw==
+        bh=c85RqZbOBafUb/rHdfV0pA5S80yvde7LFp49XKEquLY=;
+        b=N0OwUyLhm64r9h3HmSHyd5D599BaNSbRzk2iqGMcyRUddJncDB4G6XrKic0WPuNnwJ
+         hsr+nf7knd2CW/StkdoCSwrJzKDPT//44k+HIQqa0Xs9tn5fF3N32trx5guWbyzPlBV7
+         qeJAOiAm/i6NJ5HSls+zWIKOYujmrr6TIZJtu+4L6Bv7HciTPLChC418aSIFV5KeoNoj
+         6V/orPrJNSYnt7mG4e4U9SvOg36/+ntFNfmFyfqoikCsX762yHsnpj0ZL1zJi/n/lenB
+         4f8u1rb1vxq+QZnLjNaa6BDcs4THctQCR8O4gcvccv9r89F9yk6SIbpCx3PdBqPqMSGv
+         JqaA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795182828; x=1795787628;
+        d=1e100.net; s=20260707; t=1795182831; x=1795787631;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=g+nWPS+sYOm8kcYbdd/JaIdRX6YVtZqKdNHWi7mMUy4=;
-        b=j3MMUGjLb31D3jBP97gphDxe8B51Il53xuBwkn5l7siaR6RBfq0ERiJxs4wadfwHmi
-         5ZYIIu17KB6xtph9ULAflbgzR+05cXgnbY8A/rA8MxrDCLl9fFLvHa2ZvrITLazyQZZA
-         LRdyOURcrYYDmt8zlMrvbxPnZxsIM89jnzIsOQnWaXoz0+ofwTBjuvdAeRJbMRJ3pLC1
-         /npzJuV2uF9l19KH1M9L7sXP/OEK6UXPni3ePN7LqxCbuC4s3ZbDby2m/BErjNq/RyWu
-         rPbggk/7eOhLHzLX0oyVfVOgISWwWTu6MpmPAWZK83OoqgV2VitdG1643/FrpXbuDtus
-         Wnsg==
-X-Gm-Message-State: APuU4Z93T3LZqCv3+DRjeQzKKlW9A81Xhd1fx2iO2dwmKPhNlbawx1NX
-	C62CULHZIF9S0WBkwP3PcbEHOLZJ5HjIAuoWJ1XGdVIUl+kJaynBb12V2v0lWJ1Q
-X-Gm-Gg: AYBFou3bwEj9LHmx0AHfidHPVOhMNfrUKMDKx4uaxsMkaIMBc+sbHvrL/A0Pplr2Hrx
-	CeTA3N3nV/8XI5dHD/CnEfvdpGZBzdHk2oiScF51odedfskOI1PUVl9JFsK9zZkALRFZ9A8j2a4
-	lyOWCQLWJl9a7Vv71V77eMguKUk4yF+Ix88yE1xcEuxc9EIjHQv2nHlz6HU4bITgaFZathLMQ3a
-	x2qHDUj5GZNrOLP7vIJ8Ru1KCKKTVSM/pk5cH6B3fbFOAomnswvKIaFYTj+0+K0sQrnRlGlN3rJ
-	ayUU388ESIcDOBP7Mk/2TInhi96pgWhBK2wJe7xGCVKJYa68QZkHEfGgpQdixdZ8Pe5OXX16BWZ
-	5MIxe6BHOM5ejAqrR6js47/bZPL7jU8A2QqCcFkD5EQAmVbJzWWIVX889SHP9+DGVRW1Qkh64tw
-	jhlNRYkQIm6QiZyGzOlC/fblHeRr0v4Lg1kBgSUQRrPsXAWQq8iMLUcRrnRplsbeiWJy/NhvhDV
-	jqRyyrj1z2Qq+DdZkjvZpfM6UNvdNvm+OKmujSmZ29u66S8idBiBhZv+v0DFo8JsPKXwPZm+KNV
-	wQQg/uuFuBg=
-X-Received: by 2002:a05:600c:3547:b0:4a2:a6e:80f5 with SMTP id 5b1f17b1804b1-4bb888098bfmr67461895e9.11.1795182828415;
-        Fri, 20 Nov 2026 05:53:48 -0800 (PST)
+        bh=c85RqZbOBafUb/rHdfV0pA5S80yvde7LFp49XKEquLY=;
+        b=FGeHptgWVYumee4sr4qNkpTz7tLlblHd8sv0Merqe74hX3j0vJEnHZCunOtkG4hnWf
+         CTz7x0Cq8YnoaxbE4t/Zk3+sdEUSjoxApXM2s8BYLJVqRm+jC3zGxEp7Ihi1dJWfoixt
+         32f/THUrUAF5RQnxVWXIfbUPvU6oXVbPwBkeQ1g9iuHYOVSGzptqrfO4jb7oRq6N/uQQ
+         Ul6f8Q2Bvj00QoMDJHCbGvcBzh3+sp6ab9sfam4hTsimIfx+VYKOW8ErSfVOh8atRPVt
+         uOSL7uh2iZOWewIx3o29uPW5VbJqGltg/Zpd3tOc7v75vx3unNDnuSZtfGURiEiyiHoz
+         acHA==
+X-Gm-Message-State: APuU4Z94yD/GrmK/pQBn3/tEUPJhI3kBW25hfPSQfl4EpFydVlwYiFqc
+	VJB0eDZvCYUcMBFO5Hw5JCLvCz/7tpllckm+w4abwNHxHGNa7dtFBTqgK8CaINPx
+X-Gm-Gg: AYBFou1cfxfKX+xHSwZ4EAhcp1So3AAHR6RsNMr6hJw7mvDTjef8pSXVdUaq55TLcb5
+	IpIG69ru5crcjql1wfxZnCQEq+VmIbskAbqY8cooNTvW0VCPXoUw08F7F/8B1nKmWj7nIHU9eA4
+	eUtYim8uyPpzWKvwZHT3NYavIbtHDQL47WyvdYuYVubbYQ7o2f9NNox5+WDOkTv/u9pcI6Uj1vE
+	YpzoXLTqzIWzjlEaHNRgY+lWOfaT34xzVg4FvdMCQWbxHh/mqWykf3gDHafVImbYRAkS8iO8iDm
+	DVrZpK93aGlj/OEctcAx7M++EaXYJ6Wxeb1FHdPjAs3CBAh/lQ4m61ecfKzhlxabsrU+eyd+ep8
+	uD+/Q24u9Anv6G6ulQAktm3zhz24hmHltFRnB96DhPt3CD3nY+0DeU029zhDYzFI7zrYsmJJdgN
+	pRW6mnbNZQK8zu1gI645LCTq6/wg1X354F/j2ux96pc5UTm3dKfRjRvjHemTuQ82TPggu2SWsum
+	CCIAUjqpsBKpmIguIe2hVmSVyxUUcs0BIXQ2qy/ma25SWrZmz2c0jD7W/Y5r9tcYVfeAmnlV0xb
+	MA9ZTSU4UwQ=
+X-Received: by 2002:a05:600c:64c7:b0:4bb:68b9:f610 with SMTP id 5b1f17b1804b1-4bb887ffee2mr66227375e9.9.1795182831601;
+        Fri, 20 Nov 2026 05:53:51 -0800 (PST)
 Return-Path: <stondo@gmail.com>
 Received: from fedora ([165.225.94.251])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb88f6b6a6sm101009695e9.5.2026.11.20.05.53.47
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb88f6b6a6sm101009695e9.5.2026.11.20.05.53.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 05:53:47 -0800 (PST)
+        Fri, 20 Nov 2026 05:53:48 -0800 (PST)
 From: Stefano Tondo <stondo@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
@@ -56,81 +56,43 @@ Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
 	Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>,
 	Peter Marko <peter.marko@siemens.com>,
 	stefano.tondo.ext@siemens.com
-Subject: [PATCH 04/10] recipetool: create_npm: Remove the "@" of a scope from generated names
-Date: Fri, 20 Nov 2026 14:53:35 +0100
-Message-ID: <20261120135342.2628228-5-stondo@gmail.com>
+Subject: [PATCH 05/10] oeqa/selftest: recipetool: Expect the npm source in UNPACKDIR
+Date: Fri, 20 Nov 2026 14:53:36 +0100
+Message-ID: <20261120135342.2628228-6-stondo@gmail.com>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <20261120135342.2628228-1-stondo@gmail.com>
 References: <20261120135342.2628228-1-stondo@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 13:53:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250797
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 13:54:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250798
 Content-Type: text/plain; charset="utf-8"
 
 From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 
-Since bitbake commit 7c9573cb6, npm_package() keeps the "@" of a
-scoped package. This gives unique download file names. recipetool also
-uses npm_package() for the recipe name and the package names. So it
-creates "@savoirfairelinux-node-server-example_1.0.0.bb", and for a
-scoped dependency it writes overrides that bitbake cannot parse:
-
-  LICENSE:${PN}-@-execute = "MIT"
-
-Remove the "@" from these names. The selftest expects the recipe name
-without it.
+recipetool writes S = "${UNPACKDIR}/npm" for an npm package, because
+the fetcher unpacks into UNPACKDIR. The selftest still expected
+"${WORKDIR}/npm".
 
 Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
 ---
- scripts/lib/recipetool/create_npm.py | 12 +++++++++---
- 1 file changed, 9 insertions(+), 3 deletions(-)
+ meta/lib/oeqa/selftest/cases/recipetool.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/scripts/lib/recipetool/create_npm.py b/scripts/lib/recipetool/create_npm.py
-index 437cb91ad4..50dd45c7d2 100644
---- a/scripts/lib/recipetool/create_npm.py
-+++ b/scripts/lib/recipetool/create_npm.py
-@@ -23,6 +23,12 @@ logger = logging.getLogger('recipetool')
- 
- TINFOIL = None
- 
-+def npm_recipe_name(package):
-+    """Get a recipe or package name from an npm package name"""
-+    # npm_package() keeps the "@" of a scope for unique download file names.
-+    # An override cannot have it.
-+    return npm_package(package).lstrip("@").strip("-")
-+
- def tinfoil_init(instance):
-     """Initialize tinfoil"""
-     global TINFOIL
-@@ -147,7 +153,7 @@ class NpmRecipeHandler(RecipeHandler):
-         # Handle the dependencies
-         def _handle_dependency(name, params, destdir):
-             deptree = destdir.split('node_modules/')
--            suffix = "-".join([npm_package(dep) for dep in deptree])
-+            suffix = "-".join([npm_recipe_name(dep) for dep in deptree])
-             packages["${PN}" + suffix] = destdir
-             _get_package_licenses(destdir, "${PN}" + suffix)
- 
-@@ -171,7 +177,7 @@ class NpmRecipeHandler(RecipeHandler):
-         peer_deps = packages.get("", {}).get("peerDependencies", {})
- 
-         for peer_dep in peer_deps:
--            peer_dep_yocto_name = npm_package(peer_dep)
-+            peer_dep_yocto_name = npm_recipe_name(peer_dep)
-             bb.warn(peer_dep + " is a peer dependencie of the actual package. " +
-             "Please add this peer dependencie to the RDEPENDS variable as %s and generate its recipe with devtool"
-             % peer_dep_yocto_name)
-@@ -195,7 +201,7 @@ class NpmRecipeHandler(RecipeHandler):
-         if "name" not in data or "version" not in data:
-             return False
- 
--        extravalues["PN"] = npm_package(data["name"])
-+        extravalues["PN"] = npm_recipe_name(data["name"])
-         extravalues["PV"] = data["version"]
- 
-         if "description" in data:
+diff --git a/meta/lib/oeqa/selftest/cases/recipetool.py b/meta/lib/oeqa/selftest/cases/recipetool.py
+index c6aa77399f..ba4f674b4c 100644
+--- a/meta/lib/oeqa/selftest/cases/recipetool.py
++++ b/meta/lib/oeqa/selftest/cases/recipetool.py
+@@ -454,7 +454,7 @@ class RecipetoolCreateTests(RecipetoolBase):
+                     '83f1263230afc588123958b73e36bb241f63eaf08119aac5aa2a870bc4de9223')
+         urls.append('npmsw://${THISDIR}/${BPN}/npm-shrinkwrap.json')
+         checkvars['SRC_URI'] = set(urls)
+-        checkvars['S'] = '${WORKDIR}/npm'
++        checkvars['S'] = '${UNPACKDIR}/npm'
+         checkvars['LICENSE:${PN}'] = 'MIT'
+         checkvars['LICENSE:${PN}-base64'] = 'Unknown'
+         checkvars['LICENSE:${PN}-accepts'] = 'MIT'
 -- 
 2.56.1
 
