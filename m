@@ -1,189 +1,135 @@
 Received: from aer-iport-3.cisco.com (aer-iport-3.cisco.com [173.38.203.53])
  by mx.groups.io with SMTP id smtpd.msgproc02-g2.3709.1795172267676421292
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Nov 2026 02:57:49 -0800
+ Fri, 20 Nov 2026 02:57:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=B8P2httm;
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=lAscwBD1;
  spf=pass (domain: cisco.com, ip: 173.38.203.53, mailfrom: asparmar@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=5254; q=dns/txt;
-  s=iport01; t=1795172269; x=1796381869;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Gg+eYYM9j9WGt17QUdTqCc6UntklE3ZS0FjOpq9E2zc=;
-  b=B8P2httmnyLB2EXsusvUMx0Rm6tUFCXEbwc92wvK1dB7U6Psm+gw16m+
-   /ZETgjUoqsR0IxTV4nnAnjuvGgzedavt6SxgQWlKmpemSd4nrhV9rfsqD
-   0ULFZCzwduuTwlOMN96vYGJJeX4NjEQoMSYipt+/ZYImRRUbvE9NhwG9f
-   R+1X9P0VX86Yt/lT8BkmP8NMgbQjZGPJyZOtxPIH0vH1fWgwXuK9tdFm6
-   dvXPI1rRzHAtk4l0nc4DF5tg3slS7Z5cHstV8xXZgWHrUGtAUc+1wJzcN
-   TM4Tk10poQrE2f5rGzs9AU199pmj8nP3xAwsTwKjoqjgyS2Hexm0C7VHI
-   Q==;
-X-CSE-ConnectionGUID: tqDL/hQGTwSkOMkg86r54A==
-X-CSE-MsgGUID: rDiGBzaaSqmcXenwCOKHqA==
-X-IPAS-Result: =?us-ascii?q?A0BHAgDlJgBr/8xK/pBaglmCV3VhQkkDlkgDnimBfg8BA?=
- =?us-ascii?q?QEPRA0EAQGFBQKOIQImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBAQIBB?=
- =?us-ascii?q?wWBDhOGTw2QEgECAQMnCwFGEBwDAQIvKyMIGYMCAYJ0AgERuCwbN4F5M4EBh?=
- =?us-ascii?q?H7bMwEFBhQBBYEzhUKIJF0YAYR9JxsbgXKBFYNqgQWBXAKIJgSCIoEMgVQYB?=
- =?us-ascii?q?ox5AoFPiCZIgR4DWSwBVRMNCgsHBYFoAzUSKhVuMh2BIzsXgQcbBgWBHIEeg?=
- =?us-ascii?q?RKBA12BKyhdASGBCIF2AoJRggACAUlBDgdFUwklQxJHJCIIEgkBExosCoEaN?=
- =?us-ascii?q?TwJJj8VDGcLGgVhCAINDHQ5EDAeJC8FGiY+GwqBDCcfHhsOAh8QBg0YDUgRL?=
- =?us-ascii?q?DcVGQQ+bgeTbIMZgQ4IIwFWgVaTP5AVgiGhEQoog3mMJJU6GjOqcguYfY4Kl?=
- =?us-ascii?q?XQNUIRqgWg8gVlwFYMiUxkPjjmDa85bIzULAy8BAQcCBw4DC4FokAItgU8BA?=
+  d=cisco.com; i=@cisco.com; l=2406; q=dns/txt;
+  s=iport01; t=1795172267; x=1796381867;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=iEss5a7LyyEmOichh/lNgwV+v3hvjKkvUOWGo0Y5DPQ=;
+  b=lAscwBD1lSiqX+Zq98V5o+TC4rGRwTdRdFqkEJ6DxSy5Du5kttDURILn
+   kU6fRIdBb7VUyW6kYJ1Quzc+SWay2lXNsX/Lun9etpjW8Y/1EJw+CG4tD
+   JswF5bKPDveuHH3dMOHRIdqtLfIg1z5Ns6bvciOi+gkP2HidFmT+n9jTQ
+   N8fgR8HcTr1rsoRWUXRpU5akKrwCQCToeMf4TRF7OBkOupnJq6NS1lpZX
+   E9klOAhumOuQi2QFVu2FAemGxIoYRRQVug5lhZKhkbc+ABnX+M2qFtk2P
+   BekVh+ETy7ExaD59AiSwJ5iNecTd5Xacmmz7DBZBYQVW8Ui401T1S0oSg
+   g==;
+X-CSE-ConnectionGUID: RWt3lDu0StKP55JzwSuxTQ==
+X-CSE-MsgGUID: la7r6MUpTq2VEHOvAGsPRQ==
+X-IPAS-Result: =?us-ascii?q?A0BXAwDlJgBr/9NK/pBaglmELUJJlkueLIF+DwEBAQ9RB?=
+ =?us-ascii?q?AEBhQWOIwImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBAQIBBwWBDhOGX?=
+ =?us-ascii?q?JAVNgE0EjBcRIMCgnUCAbkPgiyBAYR+2z8VBYEzhUKIJHaEfScbG4FygRWDa?=
+ =?us-ascii?q?oEFhAuFeQSCIoEMgWyMf4l3SIEeA1ksAVUTDQoLBwWBaAM1EioVbjIdgSM7F?=
+ =?us-ascii?q?4EHGwYFgRyBHoESgQNdgSsoXQEhgQiBdgKCUYIAAgFJQQ4HRVMJJUMSRyQiC?=
+ =?us-ascii?q?BIJARMaLAqBGjU8CSY/FQxnCxoFYQgCDQx0ORAwHiQvBRomPhsKgQwnHx4bD?=
+ =?us-ascii?q?gIfEAYNGA1IESw3FRkEPm4Hk2yCJyVNVjmBPFtApXWhEQoog3mhXhozqnKZC?=
+ =?us-ascii?q?KNtEV2EaoFoPIFZcBWDIlMZD4450kYjNT0BAQcCBw4DC4FokAACJgQDgU8BA?=
  =?us-ascii?q?Q?=
-IronPort-Data: A9a23:1E1/uarGBqMWFNej9LDWoNLyoYleBmJMZBIvgKrLsJaIsI4StFCzt
- garIBnXbK2INGf3f9l1YNuw804D7Zbdx9ViHgtuqX08Rn9H9uPIVI+TRqvS04x+DSFioGZPt
- Zh2hgzodZhsJpPkjk7zdOWn9T8sj/zgqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziLBVOSvV0
- T/Ji5OZYgDNNwJcaDpOtfva8ks25ZwehRtB1rAATaET1LPhvyF94KI3fcmZM3b+S49IKe+2L
- 86r5K255G7Q4yA2AdqjlLvhGmVSKlIFFVHT4pb+c/HKbilq/kTe4I5iXBYvQRs/ZwGyojxE4
- I4lWapc5useFvakdOw1C3G0GszlVEFM0OevzXOX6aR/w6BaGpfh660GMa04AWEX0vpuLUUJ9
- cU3FC82bTemhO3mnqjmFsA506zPLOGzVG8eknht13TdSP0hW52GG/6M7t5D1zB2jcdLdRrcT
- 5NFNXw1MUiGPEEJYA9LYH49tL/Aan3XeiZAoUiQrLAf6GnIxws327/oWDbQUoHbFZkNwRjAz
- o7A137VAz4wJtWW8iOA+UKhgPDkugDbQatHQdVU8dYv2jV/3Fc7DwUbU1a+q/S1hkOyHtlYM
- UE8/is1sbN081SmSNT4VRC0rHOI+BkGVLJt//YS4QyXj66R6AGDCy1cFXhKaccts4k9QjlCO
- kK1ou4FzAdH6NW9IU9xPJ/Pxd9uEUD59VM/WBI=
-IronPort-HdrOrdr: A9a23:iCvk/qE7pO9acN1CpLqEMMeALOsnbusQ8zAXPo5KJiC9Ffbo8P
- xG88576faZslsssTQb6LK90cq7MBfhHOBOgbX5VI3KNGKNhILrFvAG0WKI+VPd8kPFmtK1/J
- 0QFZSWcOeAbmRSvILd/BSyFcomzZ2s9aClgvqb8lJWJDsaEp2JK2xCe32m+oocfng/OaYE
-X-Talos-CUID: 9a23:DwEg6WFY4UVp8TJVqmJ77WIwXcAcXUHC93T3Bky3WThzFeG8HAo=
-X-Talos-MUID: 9a23:oofBOAQX9SbhIRxPRXT2qDBNHtVh6p+3DUs9nJMZkO6nFTVZbmI=
+IronPort-Data: A9a23:xo/t5qhSQ3T1im3Hp0Bv6yQ/X161NBEKZh0ujC45NGQN5FlHY01je
+ htvUW7TbPqDY2XxLtBwPd6z9EMHsMfSn95kTwtl+H9gQyxjpJueD7x1DKtf0wB+jyHnZBg6h
+ ynLQoCYdKjYdleF+FHwdOCn/SMhvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
+ vus5ZeAULOZ82QsaDxNsvjb8UoHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
+ 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
+ Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqUixfosBU1Tr
+ ccECwhQMzKRmNmr0I6CH7wEasQLdKEHPasWt2slyXTSCuwrBMmbBa7L/tRfmjw3g6iiH96HO
+ 5ZfM2czKkucJUcWYz/7C7pm9AusrnDkazRCrVuPjaE2+GPUigd21dABNfKIK4zWHZoIzi50o
+ ErC9jvjXDQnLOCGkwSo0lWyr8DUpRnCDdd6+LqQs6QCbEeo7msLBRsbUFG2rfW0hgu1XMhSA
+ 0gV4TY1668q+UqmS9PwUxG1rDiDpBF0ZjZLO+Q38kSJj6HT+QvcXzBCRT9aY9tgv8gzLdA36
+ mK0cxrSLWQHmNWopbi1rd94cRva1fApEFI/
+IronPort-HdrOrdr: A9a23:VC56zqgoklyiVznEw0OPECsZl3BQXvYji2hC6mlwRA09TyVXra
+ +TdZMgpHrJYVkqOU3I9ersBEDiewK/yXcK2+ks1N6ZNWGM0ldAR7sN0WKN+VHd8gTFh4pgPN
+ 9bAstDIey1K0RmhsDn5wT9OdMhzN6btJ2Mv47lvhBQpcUAUdAY0++/YTzrdHFLeA==
+X-Talos-CUID: =?us-ascii?q?9a23=3ABD3lVGuEDUc1xM6bhUacDxAq6IsfTWGGyFvNe3S?=
+ =?us-ascii?q?kKl40FZ+HVmSN6J9dxp8=3D?=
+X-Talos-MUID: 9a23:wCfkuATbPYiVjPuSRXTojW54auJV+5i3Un4gsbIYkuafDRZJbmI=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,222,1787011200"; 
-   d="scan'208";a="59840760"
-Received: from aer-l-core-03.cisco.com ([144.254.74.204])
+   d="scan'208";a="59840758"
+Received: from aer-l-core-10.cisco.com ([144.254.74.211])
   by aer-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Nov 2026 10:57:45 +0000
 Received: from sjc-ads-20495.cisco.com (sjc-ads-20495.cisco.com [171.70.188.248])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by aer-l-core-03.cisco.com (Postfix) with ESMTPS id 25637180006F7;
+	by aer-l-core-10.cisco.com (Postfix) with ESMTPS id 17E7018000B53;
 	Fri, 20 Nov 2026 10:57:45 +0000 (GMT)
 Received: by sjc-ads-20495.cisco.com (Postfix, from userid 1877012)
-	id CC913CBF223; Fri, 20 Nov 2026 02:57:43 -0800 (PST)
+	id BCF49CC1634; Fri, 20 Nov 2026 02:57:43 -0800 (PST)
 From: "Ashishkumar Parmar X (asparmar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <asparmar@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: xe-linux-external@cisco.com
-Subject: [OE-Core][wrynose][PATCH 4/8] cups: Fix CVE-2026-61702
-Date: Fri, 20 Nov 2026 02:57:16 -0800
-Message-Id: <20261120105720.2197092-5-asparmar@cisco.com>
+Subject: [OE-Core][wrynose][PATCH 0/8] cups: backport eight CVE fixes (2026-11-20)
+Date: Fri, 20 Nov 2026 02:57:12 -0800
+Message-Id: <20261120105720.2197092-1-asparmar@cisco.com>
 X-Mailer: git-send-email 2.35.6
-In-Reply-To: <20261120105720.2197092-1-asparmar@cisco.com>
-References: <20261120105720.2197092-1-asparmar@cisco.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Auto-Response-Suppress: DR, OOF, AutoReply
 X-Outbound-Client-TLS: VERIFIED;sjc-ads-20495.cisco.com [171.70.188.248];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 171.70.188.248, sjc-ads-20495.cisco.com
-X-Outbound-Node: aer-l-core-03.cisco.com
+X-Outbound-Node: aer-l-core-10.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 10:57:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250770
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250764
 Content-Type: text/plain; charset="utf-8"
 
 From: Ashishkumar Parmar <asparmar@cisco.com>
 
-This patch applies the upstream fix referenced in [2], using the commit
-shown in [1].
+This series backports eight upstream CUPS security fixes to the CUPS
+2.4.16 recipe in OE-Core wrynose. The recipe version and source archive
+checksum are unchanged.
 
-[1] https://github.com/OpenPrinting/cups/commit/08a8a277ce2a8948a1af33552247a1ac53b72df3
-[2] https://github.com/OpenPrinting/cups/security/advisories/GHSA-gq9p-4w7m-2f5g
+The fixes address:
 
-Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
+- CVE-2026-55453: control characters in quoted IPP attribute strings.
+- CVE-2026-55467: control characters in fax destination and pre-dial
+  strings.
+- CVE-2026-55480: unsafe temporary PPD creation.
+- CVE-2026-61702: missing attributes-natural-language validation.
+- CVE-2026-107888: held jobs whose destination has disappeared.
+- CVE-2026-107890: unnamed group separators in job creation requests.
+- CVE-2026-107886: dangling class-printer array pointers after freeing.
+- CVE-2026-107885: jobs held open beyond MultipleOperationTimeout.
 
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index 482eb9c85d..dad2ce88ba 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -28,6 +28,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/cups-${PV}-source.tar.gz \
-            file://CVE-2026-55453.patch \
-            file://CVE-2026-55467.patch \
-            file://CVE-2026-55480.patch \
-+           file://CVE-2026-61702.patch \
-            "
- 
- GITHUB_BASE_URI = "https://github.com/OpenPrinting/cups/releases"
-diff --git a/meta/recipes-extended/cups/cups/CVE-2026-61702.patch b/meta/recipes-extended/cups/cups/CVE-2026-61702.patch
-new file mode 100644
-index 0000000000..d2f892f406
---- /dev/null
-+++ b/meta/recipes-extended/cups/cups/CVE-2026-61702.patch
-@@ -0,0 +1,76 @@
-+From 2438c50c72f77c953702f0755f373d8654006f28 Mon Sep 17 00:00:00 2001
-+From: Michael R Sweet <msweet@msweet.org>
-+Date: Tue, 23 Jun 2026 11:00:50 -0400
-+Subject: [PATCH] Validate attributes-natural-language, and normalize the
-+ logging punctuation.
-+
-+CVE: CVE-2026-61702
-+Upstream-Status: Backport [https://github.com/OpenPrinting/cups/commit/08a8a277ce2a8948a1af33552247a1ac53b72df3]
-+
-+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
-+---
-+ scheduler/ipp.c | 30 +++++++++++++++++++-----------
-+ 1 file changed, 19 insertions(+), 11 deletions(-)
-+
-+diff --git a/scheduler/ipp.c b/scheduler/ipp.c
-+index 1c9798cb..0e44ec46 100644
-+--- a/scheduler/ipp.c
-++++ b/scheduler/ipp.c
-+@@ -295,10 +295,19 @@ cupsdProcessIPPRequest(
-+         * Bad character set...
-+ 	*/
-+ 
-+-        cupsdLogMessage(CUPSD_LOG_ERROR, "Unsupported character set \"%s\"",
-+-	                charset->values[0].string.text);
-+-	cupsdAddEvent(CUPSD_EVENT_SERVER_AUDIT, NULL, NULL, "%04X %s Unsupported attributes-charset value \"%s\".", IPP_STATUS_ERROR_CHARSET, con->http->hostname, charset->values[0].string.text);
-+-	send_ipp_status(con, IPP_STATUS_ERROR_CHARSET, _("Unsupported character set \"%s\"."), charset->values[0].string.text);
-++        cupsdLogClient(con, CUPSD_LOG_ERROR, "Unsupported \"attributes-charset\" value '%s'.", charset->values[0].string.text);
-++	cupsdAddEvent(CUPSD_EVENT_SERVER_AUDIT, NULL, NULL, "%04X %s Unsupported \"attributes-charset\" value '%s'.", IPP_STATUS_ERROR_CHARSET, con->http->hostname, charset->values[0].string.text);
-++	send_ipp_status(con, IPP_STATUS_ERROR_CHARSET, _("Unsupported \"attributes-charset\" value '%s'."), charset->values[0].string.text);
-++      }
-++      else if (language && !ippValidateAttribute(language))
-++      {
-++       /*
-++        * Bad natural language...
-++        */
-++
-++        cupsdLogClient(con, CUPSD_LOG_ERROR, "Bad \"attributes-natural-language\" value '%s'.", language->values[0].string.text);
-++	cupsdAddEvent(CUPSD_EVENT_SERVER_AUDIT, NULL, NULL, "%04X %s Bad \"attributes-natural-language\" value '%s'.", IPP_STATUS_ERROR_BAD_REQUEST, con->http->hostname, language->values[0].string.text);
-++	send_ipp_status(con, IPP_STATUS_ERROR_BAD_REQUEST, _("Bad \"attributes-natural-language\" value '%s'."), language->values[0].string.text);
-+       }
-+       else if (!charset || !language ||
-+ 	       (!uri &&
-+@@ -316,24 +325,23 @@ cupsdProcessIPPRequest(
-+ 
-+         if (!charset)
-+ 	{
-+-	  cupsdLogMessage(CUPSD_LOG_ERROR, "Missing attributes-charset attribute.");
-++	  cupsdLogMessage(CUPSD_LOG_ERROR, "Missing \"attributes-charset\" attribute.");
-+ 
-+-	  cupsdAddEvent(CUPSD_EVENT_SERVER_AUDIT, NULL, NULL, "%04X %s Missing attributes-charset attribute.", IPP_STATUS_ERROR_BAD_REQUEST, con->http->hostname);
-++	  cupsdAddEvent(CUPSD_EVENT_SERVER_AUDIT, NULL, NULL, "%04X %s Missing \"attributes-charset\" attribute.", IPP_STATUS_ERROR_BAD_REQUEST, con->http->hostname);
-+         }
-+ 
-+         if (!language)
-+ 	{
-+-	  cupsdLogMessage(CUPSD_LOG_ERROR,
-+-	                  "Missing attributes-natural-language attribute.");
-++	  cupsdLogMessage(CUPSD_LOG_ERROR, "Missing \"attributes-natural-language\" attribute.");
-+ 
-+-	  cupsdAddEvent(CUPSD_EVENT_SERVER_AUDIT, NULL, NULL, "%04X %s Missing attributes-natural-language attribute.", IPP_STATUS_ERROR_BAD_REQUEST, con->http->hostname);
-++	  cupsdAddEvent(CUPSD_EVENT_SERVER_AUDIT, NULL, NULL, "%04X %s Missing \"attributes-natural-language\" attribute.", IPP_STATUS_ERROR_BAD_REQUEST, con->http->hostname);
-+         }
-+ 
-+         if (!uri)
-+ 	{
-+-	  cupsdLogMessage(CUPSD_LOG_ERROR, "Missing printer-uri, job-uri, or ppd-name attribute.");
-++	  cupsdLogMessage(CUPSD_LOG_ERROR, "Missing \"printer-uri\", \"job-uri\", or \"ppd-name\" attribute.");
-+ 
-+-	  cupsdAddEvent(CUPSD_EVENT_SERVER_AUDIT, NULL, NULL, "%04X %s Missing printer-uri, job-uri, or ppd-name attribute.", IPP_STATUS_ERROR_BAD_REQUEST, con->http->hostname);
-++	  cupsdAddEvent(CUPSD_EVENT_SERVER_AUDIT, NULL, NULL, "%04X %s Missing \"printer-uri\", \"job-uri\", or \"ppd-name\" attribute.", IPP_STATUS_ERROR_BAD_REQUEST, con->http->hostname);
-+         }
-+ 
-+ 	cupsdLogMessage(CUPSD_LOG_DEBUG, "Request attributes follow...");
-+-- 
-+2.35.6
-+
+Each fix is carried as a separate source patch and added to SRC_URI in
+cups.inc. The source patches record the corresponding upstream commit
+URLs, CVE identifiers and backport status.
+
+Ashishkumar Parmar (8):
+  cups: Fix CVE-2026-55453
+  cups: Fix CVE-2026-55467
+  cups: Fix CVE-2026-55480
+  cups: Fix CVE-2026-61702
+  cups: Fix CVE-2026-107888
+  cups: Fix CVE-2026-107890
+  cups: Fix CVE-2026-107886
+  cups: Fix CVE-2026-107885
+
+ meta/recipes-extended/cups/cups.inc           |   8 ++
+ .../cups/cups/CVE-2026-107885.patch           | 102 ++++++++++++++++++
+ .../cups/cups/CVE-2026-107886.patch           |  44 ++++++++
+ .../cups/cups/CVE-2026-107888.patch           |  64 +++++++++++
+ .../cups/cups/CVE-2026-107890.patch           |  44 ++++++++
+ .../cups/cups/CVE-2026-55453.patch            |  45 ++++++++
+ .../cups/cups/CVE-2026-55467.patch            |  63 +++++++++++
+ .../cups/cups/CVE-2026-55480.patch            |  32 ++++++
+ .../cups/cups/CVE-2026-61702.patch            |  76 +++++++++++++
+ 9 files changed, 478 insertions(+)
+ create mode 100644 meta/recipes-extended/cups/cups/CVE-2026-107885.patch
+ create mode 100644 meta/recipes-extended/cups/cups/CVE-2026-107886.patch
+ create mode 100644 meta/recipes-extended/cups/cups/CVE-2026-107888.patch
+ create mode 100644 meta/recipes-extended/cups/cups/CVE-2026-107890.patch
+ create mode 100644 meta/recipes-extended/cups/cups/CVE-2026-55453.patch
+ create mode 100644 meta/recipes-extended/cups/cups/CVE-2026-55467.patch
+ create mode 100644 meta/recipes-extended/cups/cups/CVE-2026-55480.patch
+ create mode 100644 meta/recipes-extended/cups/cups/CVE-2026-61702.patch
+
+
+base-commit: ae5a301091f5b0574ea7444aab40b309b6d9f3f2
 -- 
 2.35.6
-
