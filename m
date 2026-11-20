@@ -1,97 +1,100 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7454.1795215946117988033
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7471.1795216090983263922
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Nov 2026 15:05:46 -0800
+ Fri, 20 Nov 2026 15:08:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=XPiKcRoO;
- spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4bb72b44a97so12484025e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 15:05:45 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=Ku6lJOun;
+ spf=pass (domain: smile.fr, ip: 209.85.221.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4a357b1c649so842360f8f.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 15:08:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795215944; x=1795820744; darn=lists.openembedded.org;
-        h=in-reply-to:references:from:subject:to:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=aJyzrq73UjU2axzLyfPAdToEvQGa4VzkhkJsd1A5N9o=;
-        b=XPiKcRoOEl70LeVnwKDcuilZDAlcZgTVj4NHYVr6hx0HC3GPlfX/QQGAhH0nQvV03L
-         3LStmzsIGjVAkW1zg6h8ED08YUIcdzfGqv8+48YhiCt/uCn48RhSKRj8AJ79I6+kmb2M
-         rALrFdEchpPUgF2Pjsnguge1eibeqL0un8M/zb+OF/gW8ZEEAEqVH4f1IQfcicnKK6tM
-         6o/WHH09gty/yvvmAYAjn4UG4TY0gTF5TVKgNH1EtiQZkdVVpDwfl2tOjQkRql0KrDLr
-         lg3KOUuNNPOlK4lSM7SqYylK9qt+DoROBZubwiOI8Fuvu3VDaFaoYF35C+MNz8iNGabA
-         np9A==
+        d=smile.fr; s=google2; t=1795216089; x=1795820889; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=URCkpYBNN0mgpLOQ5lguOnQI/Ty2dWY7WYDviP4RbpM=;
+        b=Ku6lJOun6aNMJVrTpaSg8Uj3Vf28qTB0hQxRtk7AhWZGjAee72/LAdUpQXCMoYJ6BQ
+         kJ03EQINdK3gy9c7UstIdAA13wDE6XMSlx9kuL3bDyD7idEBf5WlZc9TDOEtDSmZwkPu
+         Z0yiVzdww4ZKD0/QdixZALlnF6w6eHsNMXOZ3D901NTvxuAPCnKbhkyauJCpN/Mra4Ik
+         vebrkEfwzwmY87OXXVjAEo2VFqqx5wXCWTCOrXSQUeivDKsjshsnSNn8V0AMMcGhJWnR
+         zn/qoZmwGvvBuUlBVeFAMdtxP4Zh2XQMDSmh4cEwCnR/bl87u9ALXVo9HXVaka+qS0fU
+         i+8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795215944; x=1795820744;
-        h=in-reply-to:references:from:subject:to:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=aJyzrq73UjU2axzLyfPAdToEvQGa4VzkhkJsd1A5N9o=;
-        b=pNH13r3QMrWzi5Z12dk670XLAoooU+CVpPycEPNBr5CCh0IIdSSnHcIBfMy304IBtF
-         CtnaP+XicZlMZBackA9QcdZ7ub0rf3RiDIM/WjL8xGV5bAUGtF8YkE+tdHKSoisepPvS
-         o65SUbvSSjaZfywLNi24qwtOZSlpXQ+bI60yVxkFkOO6kGv7JfDN+JPjOcEpYy9zu+rI
-         ILs6NQcD0BiL06769qY1WMsIvczCTQgyzSo2C+tfj9Da+FWWEtAC2Dooj1t0WlBmui44
-         K+TVFgSQAm6V6XMFvUc6Lz2Vx9dlTN25duy7ke3wiUgxdVi1no3wHZMFCmHuYJRZ7yT7
-         lyYg==
-X-Forwarded-Encrypted: i=1; AL+hErFtkUCSqpF3rK64nSynpmPt3tOQ3WCThJtnBnNBTleBueXI0pFTp+Fcx3kglQ3zz0Q4KjeG04tDNc9enPGXH6xxzA==@lists.openembedded.org
-X-Gm-Message-State: APuU4Z8L4ZC4Hh8tDgLBzI7+sEbrOylc08DIore9sFPqg5T29ocAzx0i
-	E1PnBj7W3QyTdlelJu9hPgI02G7IciNSlLElhJBgGdLvoE0fotXdupazb6rQbhzor90=
-X-Gm-Gg: AYBFou29rJRKMujcP+3Vp3r9Oh6J6PXY97jbzdykN/IO8QOaGfGvYbsFRpF6tC8KY9e
-	rzC7j1hCRy8IrlQvP0yo3CicvzseaAfmgcAarUphy9W3HjxbhITI600S2s0vYf2eU2vIa7mpoSt
-	menE70P3PBgl8P3+M1FA7hiXFjHhnnj4IF3F/vSuTsssFPpmfX4jzNORflHyk42P4gX4Qppfhic
-	LqgftHY5coNPpeD0+cyEQ3i1RTZf647Tg6BsGkFGUN93FH7MvgfXoMNs4eRcUqlf1byTuOBhnPi
-	OeQ5PAh/1T0yFOsLZBaKzrKlh/aji8ZYAsHfzlPMHVkRoYDiBMm+Sw2FVtY8WT4fXiBZfTGvHSL
-	DfDThp3qj9xmo1AEEdXCcFlpN5m/my8b71qyCQ+K6BRzGlJgpGHFralG59qDfLPMs2mlrDc4EMw
-	nxj8IIR8uF2fyfA9te6bqWF7WxWQ1APSprVnW9kvAKR5xCOeNReT+CQ9Li4fSIZppP88lU67bjS
-	gPsNMoEsdwNU5qwI5DliGeH9Fn9Q8XgzXiQNUMt4XBZE5ndBKH0z9mc9lzDhzIcRqTelnyat0My
-	Zk7Qwc7McNeS7dmfOL5hpoN8Me3onrfF3F3DAnaERJxMrRXvnIW+o/BM84TU5J0xHOvykQh5atI
-	ExUxNU7KBZdZ/MHe2
-X-Received: by 2002:a05:600c:5251:b0:4a1:f8cb:7d70 with SMTP id 5b1f17b1804b1-4bb8881e837mr94885335e9.24.1795215944410;
-        Fri, 20 Nov 2026 15:05:44 -0800 (PST)
+        d=1e100.net; s=20260707; t=1795216089; x=1795820889;
+        h=in-reply-to:references:from:subject:to:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=URCkpYBNN0mgpLOQ5lguOnQI/Ty2dWY7WYDviP4RbpM=;
+        b=AIsUgc3xZ2/2zdL6W4BaaY8nygzN95G9igrs18nyv+/mTfDtSPbQxnaRIhzlsJolD7
+         Lcwz9jTL7XZMmQl7J12nrfE+clrxpS6ALRPtZpdCdFH9/70u4pmSigp9AGDC1ObxGeCV
+         95ubL1hXUCvzQOIf42A9WIan9kxLwiIItkuc7R+qz6jGLSetf+bd66Wq4gbONibLJ44x
+         Tqq6rkeqq6hl4Ju5VrjDkbBerOyFhkVBongKuysxPQU45pZf6nV32C7P5YpeEzAAdqNR
+         GdtSGu5FfEPDkNTcrszLdR/mZfVT9kdBkNQ0nCt83h6lmQb5DqBuEc56h4gxC0dzHlxW
+         s9dA==
+X-Forwarded-Encrypted: i=1; AL+hErGC+5muAx5DmepTSYWFoX11kEtt9PmdWNHRz6zkdlaykcdk7n1vhkiVwA1G5uLRl4L5VCuT7RvcUA8bHJPI4cKyqw==@lists.openembedded.org
+X-Gm-Message-State: APuU4Z8tsjjUhHYhXA646AqXZRVtm4A7Vj+DlO/il74ug42giuOY4rPY
+	u7P6hV+qdu01Bk5y+JNw2TaU2YiYUiV1KS1EOyp8kE7vM8ahFTSKTCSMKqmhaad6OHc=
+X-Gm-Gg: AZFdTZep4wjrVUVS0WkymUlI+42pfW4axrBuV7AputT+KXU0Ydd+3b6oqQTFfBQo0Jr
+	suGW7NWN9bvBGRvNq0rFHPyr0YAVMx/BaihNQYrWLJp2GZxd6NzyWW7swBceVz3KESHGRhvpaPP
+	MAVJnuIiKSvBVxbIkiQlz74LEeKhg56188DljVZR0IXi1XLY6HObMCgQZF64INYJh8MXy8oxki5
+	Nlo7klcjxqOAS331JZxv4PI7dhlKGSvjoY9n9xj8I+9aBtUopXPNvxyH1aCkzsGTKMldsOR9M7D
+	3XIMj/nHjtz8TvZL9HcrLovEHkvhuGjSYeKA5F/ipWbksCGptE3N8qhyhl/J+YjCqTwCAhrNDv1
+	KRVE0tUfG7g/y2vtsdIN2GkWTDDUX+JrFV5t3fH10UA/adAOhBRYJ9au1jLCy0hcZfmzJnHqlyo
+	lEY/Hvg/+Vxz5nWLIFADOREe5YpuBvgCxY2khxuAXsrZg5jOINnmXTrXVSUyE4yqxmqL++LlyDs
+	2OwS8yrJE/5SMDePj6K8ntag6D2N15vTPcNO9LVT8CYL8VnZRPTN3BGpCjLuPen4DdNYnfQuV6h
+	lgtCFMFGh75GxJ+N8YUqZBioGh5H3Q6WLTwXGqvf3LL9F4aFeqKCnotH0vDNIEmid7HE+s0lNf1
+	Pi5mTnJvcVYcA3HB/
+X-Received: by 2002:a05:6000:4808:b0:4a9:760f:1843 with SMTP id ffacd0b85a97d-4abb0d51e12mr10265569f8f.27.1795216089197;
+        Fri, 20 Nov 2026 15:08:09 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from localhost (2a01cb001331aa00b03901bd7f693780.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:b039:1bd:7f69:3780])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb906cdcc1sm14667075e9.2.2026.11.20.15.05.43
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6ae2dcf9sm7949238f8f.32.2026.11.20.15.08.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Nov 2026 15:05:43 -0800 (PST)
+        Fri, 20 Nov 2026 15:08:08 -0800 (PST)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sat, 21 Nov 2026 00:05:43 +0100
-Message-Id: <DN0EXVAABCIP.YDZIYTDBHKP0@smile.fr>
-To: <hthakar@cisco.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][scarthgap][PATCH 1/1] openssh: fix CVE-2026-106587
+Date: Sat, 21 Nov 2026 00:08:08 +0100
+Message-Id: <DN0EZPT21YQ7.72UEI7OFXYMK@smile.fr>
+Cc: "xe-linux-external (Internal Group)" <xe-linux-external@cisco.com>
+To: "Yoann Congal" <yoann.congal@smile.fr>, "Hetvi Thakar -X (hthakar - E
+ INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][wrynose][PATCH 01/10] openssh: Fix CVE-2026-106584
 From: "Yoann Congal" <yoann.congal@smile.fr>
 X-Mailer: aerc 0.20.0
-References: <20261016035448.3083867-1-hthakar@cisco.com>
- <20261016035448.3083867-2-hthakar@cisco.com>
-In-Reply-To: <20261016035448.3083867-2-hthakar@cisco.com>
+References: <20261016035236.442896-1-hthakar@cisco.com>
+ <20261016035236.442896-2-hthakar@cisco.com>
+ <DM91CIFZHG6C.1EYHKXIN5ULNT@smile.fr>
+ <PH7PR11MB8598B4AAA920FDDFE1174602AD762@PH7PR11MB8598.namprd11.prod.outlook.com> <DMQR3DP72ES8.3KANJDXOTSO63@smile.fr>
+In-Reply-To: <DMQR3DP72ES8.3KANJDXOTSO63@smile.fr>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 23:05:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250825
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 23:08:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250826
 
-On Fri Oct 16, 2026 at 5:54 AM CEST, Hetvi Thakar -X (hthakar - E INFOCHIPS=
- PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
-> From: Hetvi Thakar <hthakar@cisco.com>
+On Mon Nov 9, 2026 at 3:30 PM CET, Yoann Congal wrote:
+> On Fri Nov 6, 2026 at 12:00 PM CET, Hetvi Thakar -X (hthakar - E INFOCHIP=
+S PRIVATE LIMITED at Cisco) wrote:
+>> Hi Yoann,
 >
-> This patch applies the upstream fix as referenced in [2],
-> using the commit shown in [1]..
+> Hello,
 >
-> [1] https://github.com/openssh/openssh-portable/commit/526fd2771342f36142=
-099bec82c49ce0457c5016
-> [2] https://nvd.nist.gov/vuln/detail/CVE-2026-106587
+>> I have submitted the corresponding OpenSSH backport patches for
+>> blacksail upstream [1] .
+>> Could you please review  the wrynose series when you have a chance?
+>> [1] [blacksail] openssh: Upgrade 10.5p1 -> 10.6p1 -
+>> Patchwork<https://patchwork.yoctoproject.org/project/oe-core/patch/20261=
+105042209.1168511-1-hthakar@cisco.com/>
 >
-> Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
-> ---
->  .../openssh/openssh/CVE-2026-106587.patch     | 76 +++++++++++++++++++
->  .../openssh/openssh_9.6p1.bb                  |  1 +
->  2 files changed, 77 insertions(+)
->  create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-10=
-6587.patch
+> I had to reject this blacksail patch. This mean that I can't
+> review/accept this wrynose series until equivalent fixes are sent to
+> blacksail by backports.
 
 Hello,
 
-This patch is blocked pending a blacksail backport:
-See equivalent wrynose thread from Mon, 09 Nov 2026:
-https://lore.kernel.org/all/DMQR3DP72ES8.3KANJDXOTSO63@smile.fr/
-I will now drop this patch. Please send a new submission if the above
+I will now drop this series. Please send a new submission if the above
 situation changes.
 
 Regards,
