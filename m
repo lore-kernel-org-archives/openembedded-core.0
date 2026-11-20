@@ -1,171 +1,246 @@
-Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4050.1795173844625781072
+Received: from aer-iport-3.cisco.com (aer-iport-3.cisco.com [173.38.203.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4430.1795175801044498308
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Nov 2026 03:24:04 -0800
+ Fri, 20 Nov 2026 03:56:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=LvphKoWv;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=P4+oQOdM;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.157, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id DA0387A035E
-	for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 06:24:03 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Fri, 20 Nov 2026 06:24:03 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-transfer-encoding:content-type:content-type:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1795173843;
-	 x=1795260243; bh=+mc7ZvqUzzLx9GamYLfkz/fceszGxGKvMEkgMMuk8aQ=; b=
-	LvphKoWvKq01sgTNWbeMhP8+6DH51JzJ1iTIkSJqGJHkUYhJII6w8foQXTU0W1WR
-	ElpoxYFKFYggEv0fIk0fS9r0PftinQKUw07CEp/OFRRstlGvo5vAfowasOHpwM7k
-	oHPCa2Pz0jh+nd1uJiYMyZBb+ti4TL6MF9Pq1QKOxwHuvgDHE5vXKNGBOC4EpeNs
-	dQdQNEA7YUTXB5tX316XjlrJCwlcrIvJfzc3Lm7XPnD1b7cbPJUrfaVadJERcike
-	kAxUdjNwLg329kLzdVzBnQYexd+vn3+i/j0VCaOQ2k1bMGZ32diVZvlwkyS0eDRB
-	vkIjj+LpyZ06JtqogR+i5A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1795173843; x=1795260243; bh=+
-	mc7ZvqUzzLx9GamYLfkz/fceszGxGKvMEkgMMuk8aQ=; b=P4+oQOdM6JyffzK9b
-	gYSoScFxJnRkcyWuFZvH04Wm+ruHJ4TO1VrqH0rF33rEiySQhsoY3XrYdDAWqGNl
-	GyFdXY0cwZUPdsvLCy/HJv/9gB182S4/X2HFq3uern/v76kpSrvxRrCiEz2lTqve
-	qlXYLfwtbULYddOXiYJ75YX6aarPFvEsRhcYJknJEfADVDPqBi/6RBW3haqKvV9c
-	JsuB4COyNT+65RnmWKXaOCgMPIGtFg6cl6fzuHKNLz3/2Hxjz9UI7uYPuVfN4ci1
-	O3KpYLGqbL9MQaLmT/BsubZ4YA/OdF0yts1dkOxK1aQp9ENCTPK9sQdskKYebxhI
-	rHgCA==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=pbarker.dev a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1795173843; d=pbarker.dev;
-	mf=PHBhdWxAcGJhcmtlci5kZXY+;
-	rt=PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+;
-	s=fm2:rsa-sha256:phlxZ0Xgv6j3n7qHeTuV0nl3sKQb6hqUvJ6oVqsLpxfOl1g
-	1flmo+eta3ZHGBmLbDeBmgvV3w3tNLIcln75Jr5ChAPV3FgqDwTJrkc8DGx9SJIC
-	phK+UK5Djsi0bNsgWhb6ykmd5pTUP1MwYMC0UZFE5jXJPiO9P+k3GUIyLlcSDgJF
-	4Nmsu5UV0oNmzWApKJ4Wg1rWrmU95tFJyW+iT3ohBxBQcHdv+2lbZyxRiC3uSiXI
-	N3R0N0OYUGFWmcp89L3twoyNkopV1fLvcFBEzfoqg/TTD3QOXTBEkxRenVuUlGTT
-	LjWuagToeCWd8iuSq9lEU9z6UGdWSgRKzu+IeTQ==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=11;
-	hn=content-transfer-encoding,content-type,date,feedback-id,from,
-	in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:N2NDQgqjfxgQ+Y/qJOtlv6bnGbwd4jY3S5EshYlrU1I=:hxFRFE6B4n2/PVkY+/8FQHpPrGlJFdXIJY2jkLj+plU=;
-X-ME-Sender: <xms:0y0Aaw5VWKiWcAITOGo1Ohg8F_kUBkB7JTcEjCNbmOy9j0gc8Fvwcw>
-    <xme:0y0Aa35qgm_WhmVIu3gCENeFUD8f_cT2gmJZLw6gkLc9RAYVU374kgqFV-0j6gWUb
-    xyIbRhNTIE2qn1OI9hXDq4Q4xie23VlPn4KHGaOgPKsehIuODNjUIZi>
-X-ME-Received: <xmr:0y0Aa9GBpUoSUk95XE7ST0l7Rbq8RwbuW_S_vqcPO5xQ9dtfFVOMHHfVFTEHOGZQTNpFkJo-_8E-fvp_NBfgWNjUqPoK>
-X-ME-Proxy-Cause: dmFkZTGHWGcfIu2bL5Oe+5ouzgdfubwp0uf/sda2lBizaWdjUcz2325oRuNlvVeMq13O9l
-    zQy3eijyvGBXqKKhqHiyRNZGRJ8z1Jh1nhJvtScM1ZBWG5+nCA50fPRjn61igvT0ZNwldC
-    JDikxRDN+1ESzk0tntYz51BtSUV319hJ0A5WSrhDeEgQGurxo7ZXdmzGZwPtrb6pzYwnh8
-    AnjuE3CtvOseUFlZJL42AeRQLL83t07XbwkChrEN+aLAMuhfcHX8W/qS+HK2xMZiMBbIGT
-    4nFzvCCdaolg/g6ih4wfGvcvZwm9UvHw7TRWNnuhGYoFM9AMQxuxqD90ZbSu5dlUxZmxtc
-    SQzJ7T1s8wWT9zIQLhshp9S81XhvAIV64PBGbuX7nH8l6rarVdvbs9rLLDPccq1UlsItH0
-    0amFgF9SZuDyXZ3X1EmwmnmeZMsq4tHxOjna/nHySQW7zST0s0GTpiseQARRi5aJzcTzPu
-    VKTGWRZgJxW+rM07iwoOTnEQN7R+1eN4zWwl/okYK/Lt24XEFftlZBvPOuF117dOTuUHSr
-    if0YplO3des4/5Tqn9uJu91Ms5+36Qf6gcSzLJkOPj6uuy6WhdOYByUA6zZc21IC1oFZvt
-    0TDPd7Jm28wwObdl6GPhZh3L/zYbxwzKKZBmpj9bKVDprIWtbBqsJcV145pA
-X-ME-Proxy: <xmx:0y0AawRVoI0UWa_YIN51pImbl0XQ3ck_Y8Zzdgx4sqkIBfyWt0nmnw>
-    <xmx:0y0Aa2tIHBuuigV1tFyBVrSE7xguEW98OhcAdBLno12iGcrhtxrgSA>
-    <xmx:0y0Aa_ziVh5SnK1rmWBNbm-hRx44J7XEGfGXbd5XHa9cFNOJ_zG9dg>
-    <xmx:0y0Aaw7A0Z7OGznKju5d-YiZKrXRrI8s26FmXTkxLRii_5PRf9IsEw>
-    <xmx:0y0AawAoL3AvoDm4YzTzI0bl6-7xPqtDr2ODqqqFUJ6XqTaTbLQPkWrw>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 20 Nov 2026 06:24:02 -0500 (EST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 20 Nov 2026 11:24:01 +0000
-Message-Id: <DN000LWACEB0.1I4HB0QGTWT1X@pbarker.dev>
-Subject: Re: [PATCH] lib/oe/gpg_sign.py: drop unsupported gpg-agent argument
- passing
-From: "Paul Barker" <paul@pbarker.dev>
-To: "Adarsh Jagadish Kamini" <adarsh.jagadish.kamini@est.tech>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.22.0
-References: <20261111140027.69866-1-adarsh.jagadish.kamini@est.tech>
-In-Reply-To: <20261111140027.69866-1-adarsh.jagadish.kamini@est.tech>
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=ESlnNXLN;
+ spf=pass (domain: cisco.com, ip: 173.38.203.53, mailfrom: asparmar@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=6374; q=dns/txt;
+  s=iport01; t=1795175801; x=1796385401;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=QTVr5hzzsqPCjW0sKsJIP6qs/goBNrJEbOrEATVMTr4=;
+  b=ESlnNXLN+CPdItoUdoIK6uTzsKs+A6CGUuXXDYX9Sic61qNwVOSYfvjZ
+   7OacQx8wJ2XAjtGu19C1DwTBWwc+rKxjgcbSrK4eCCSlfd4aQ/Or7tIsB
+   sr0TYDFIjquyBIFFkwDjnXOWzVn/dPovyMHowktVx9+9gnRw5elQyRwsB
+   Qws/tVqqz5kW5Trp5dmxSAVJNJJltjBSuIVAdk+h6yunVTGDtmf97Jyme
+   7lOzaWEOl9T4qwqUZ/3U4LdodNV/Xq6lXDBzwJ/UiHq20+L6lcXZey7JG
+   HxkvzIaKQHgy/a+5QCfXxHEKQU5CSJ6/qoP9sjT8IBwC1e9hnnPz1lgVl
+   g==;
+X-CSE-ConnectionGUID: JdyiB1pATK+H0C7qwgj7xA==
+X-CSE-MsgGUID: LbtutFzcTlSyg2llJeT9Xw==
+X-IPAS-Result: =?us-ascii?q?A0BGAgDfNABr/85K/pBaglmCV3VhQkmVX2yeLIF+DwEBA?=
+ =?us-ascii?q?Q9EDQQBAYQ/Ro4jAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQEKAQEFAQEBAgEHB?=
+ =?us-ascii?q?YEOE4ZPDZASAQIBKgsBGAEtLAMBAlojIYMCAYJ0AgERuReBeTOBAYMpAYFU2?=
+ =?us-ascii?q?zMBCxQBBYEzhUKIJF0YAYR9JxsbgXKBFYE7gi+BBYFcAogmBIIigQyBVIELj?=
+ =?us-ascii?q?AwCgU+IJkiBHgNZLAFVEw0KCwcFgWgDNRIqFW4yHYEjOxeBBxsGBYEcgR6BE?=
+ =?us-ascii?q?oEDXYErKF0BIYEIgXYCglGCAAIBSUEOB0VTCSVDEkckIggSCQETGiwKgRo1P?=
+ =?us-ascii?q?AkmPxUMZwsaBWEIAg0MdDkQMB4kLwUaJj4bCoEMJx8eGw4CHxAGDRgNSBEsN?=
+ =?us-ascii?q?xUZBD5uB5NsgxgBATw+EwEHFBBQQTRbKB4UkyOSBIE1nRiCRAoog3mMJJU6G?=
+ =?us-ascii?q?jOFW6UXC5h9jgqVaRhQhGqBaDyBWXAVgyIJShkPji4BAwcLg2CFZMh3IzUCC?=
+ =?us-ascii?q?TIBAQcCBw4DC4FokAAsgVIBAQ?=
+IronPort-Data: A9a23:Npwwyauw/ozSZjEaN8oAl40NCefnVAJfMUV32f8akzHdYApBsoF/q
+ tZmKT+OOPzeZ2PyKYt0a9y+9kMEusSHydBkHQtvpHs1ECgWgMeUXt7xwmUckM+xwmwvaGo9s
+ q3yv/GZdJhcokf0/0nrb/656ykmiMlkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
+ eja/YuFZzdJ5xYuajhKsvvZ8Eo21BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
+ 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
+ 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIw2OpmAEsX7
+ dUkC3MtNjvcnv25wu2rY7w57igjBJGD0II3s3x6iDWcBvE8TNWbHuPB5MRT23E7gcUm8fT2P
+ pZFL2AyMFKfP1sVYgl/5JEWxI9EglH2aCVRslecv4I84nPYy0p6172F3N/9J43aGJ4Jwh7wS
+ mTu227lHw00JtejzQGU/Siogs3CoXLLR9dHfFG/3rsw6LGJ/UQUEBAQWF6xrPW1h0L7UNVFJ
+ mQQ+zEytu417EGtQ9z3UhG0rXLCuQQTM+e8CMUz5RvIzu/f5ByUQzBZCDVAc9ch8sQxQFTGy
+ 2O0oj8gPhQ32JX9dJ5X3u78Qe+aUcTNEVI/WA==
+IronPort-HdrOrdr: A9a23:zlz0g6sHIkP8yK7FgNtmhIgv7skDWtV00zEX/kB9WHVpmwKj+P
+ xG+85rsCMc5wxxZJhNo7290cq7MBHhHOBOgbX5VI3KNGKNhILCFu9fBOXZrwEIMheOktK1rZ
+ 0QEJRWOZnXEUVwi9r87U2TFtYtx8TCzYWT7N2uqEuEiWpRGthdB8ATMHf8LnFL
+X-Talos-CUID: 9a23:tu0famy6quAKdFIpcpYEBgU2FtEkWCTF5UvzYG/gIjlwV7KXFk+5rfY=
+X-Talos-MUID: =?us-ascii?q?9a23=3AfzBEyA187tqp9bNZppv1dRdpkzUjx66yFVwjg54?=
+ =?us-ascii?q?6v/KVOnZ0PxWQsGWHXdpy?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.27,222,1787011200"; 
+   d="scan'208";a="59853440"
+Received: from aer-l-core-05.cisco.com ([144.254.74.206])
+  by aer-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Nov 2026 11:56:38 +0000
+Received: from sjc-ads-20495.cisco.com (sjc-ads-20495.cisco.com [171.70.188.248])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by aer-l-core-05.cisco.com (Postfix) with ESMTPS id 4A784180003BA;
+	Fri, 20 Nov 2026 11:56:38 +0000 (GMT)
+Received: by sjc-ads-20495.cisco.com (Postfix, from userid 1877012)
+	id EFA69CC1634; Fri, 20 Nov 2026 03:56:36 -0800 (PST)
+From: "Ashishkumar Parmar X (asparmar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <asparmar@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: xe-linux-external@cisco.com,
+	Ashishkumar Parmar <asparmar@cisco.com>
+Subject: [OE-Core][wrynose][PATCH] python3-pytest: Fix CVE-2025-71176
+Date: Fri, 20 Nov 2026 03:56:28 -0800
+Message-Id: <20261120115628.2245283-1-asparmar@cisco.com>
+X-Mailer: git-send-email 2.35.6
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-20495.cisco.com [171.70.188.248];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 171.70.188.248, sjc-ads-20495.cisco.com
+X-Outbound-Node: aer-l-core-05.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 11:24:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250777
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 11:56:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250778
+Content-Type: text/plain; charset="utf-8"
 
-On Wed Nov 11, 2026 at 2:00 PM GMT, Adarsh Jagadish Kamini wrote:
-> Passing auto-expand-secmem through --agent-program relies on GnuPG's
-> unsupported regression test interface. Remove this use and leave agent
-> configuration to the user, since the signing home directory is
-> user-managed and an agent may already be running. Users can enable
-> auto-expand-secmem in gpg-agent.conf to avoid secure-memory exhaustion
-> during parallel signing.
->
-> Tested with oe-selftest -r signing.
->
-> [YOCTO #16480]
->
-> AI-Generated: Uses Kiro (claude-opus-5.5)
-> Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-> ---
->  meta/lib/oe/gpg_sign.py | 9 ++-------
->  1 file changed, 2 insertions(+), 7 deletions(-)
->
-> diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
-> index ede6186c84..fec6fb27ea 100644
-> --- a/meta/lib/oe/gpg_sign.py
-> +++ b/meta/lib/oe/gpg_sign.py
-> @@ -18,12 +18,7 @@ class LocalSigner(object):
->          self.gpg_bin =3D d.getVar('GPG_BIN') or \
->                    bb.utils.which(os.getenv('PATH'), 'gpg')
->          self.gpg_cmd =3D [self.gpg_bin]
-> -        self.gpg_agent_bin =3D bb.utils.which(os.getenv('PATH'), "gpg-ag=
-ent")
-> -        # Without this we see "Cannot allocate memory" errors when runni=
-ng processes in parallel
-> -        # It needs to be set for any gpg command since any agent launche=
-d can stick around in memory
-> -        # and this parameter must be set.
-> -        if self.gpg_agent_bin:
-> -            self.gpg_cmd +=3D ["--agent-program=3D%s|--auto-expand-secme=
-m" % (self.gpg_agent_bin)]
-> +        # Parallel signing may need auto-expand-secmem in gpg-agent.conf=
-.
->          self.gpg_path =3D d.getVar('GPG_PATH')
->          self.rpm_bin =3D bb.utils.which(os.getenv('PATH'), "rpmsign")
->          self.gpg_version =3D self.get_gpg_version()
-> @@ -43,7 +38,7 @@ class LocalSigner(object):
->          """Sign RPM files"""
-> =20
->          cmd =3D self.rpm_bin + " --addsign --define '_gpg_name %s'  " % =
-keyid
-> -        gpg_args =3D '--no-permission-warning --batch --passphrase=3D%s =
---agent-program=3D%s|--auto-expand-secmem' % (passphrase, self.gpg_agent_bi=
-n)
-> +        gpg_args =3D '--no-permission-warning --batch --passphrase=3D%s'=
- % passphrase
->          if self.gpg_version > (2,1,):
->              gpg_args +=3D ' --pinentry-mode=3Dloopback'
->          cmd +=3D "--define '_gpg_sign_cmd_extra_args %s' " % gpg_args
+From: Ashishkumar Parmar <asparmar@cisco.com>
 
-Hi Adarsh,
+This patch applies the upstream fix referenced in [2], using the commit
+shown in [1].
 
-I think we need to consider other ways to handle this. Dropping the
-argument completely and leaving this up to users risks the user seeing
-"Cannot allocate memory" errors without a clear and obvious explanation
-of what to do to fix them.
+[1] https://github.com/pytest-dev/pytest/commit/ddee02a578da30dd43aedc39c1c1f1aaadfcee95
+[2] https://github.com/advisories/GHSA-6w46-j5rx-g56g
 
-Is there any way to detect if the running gpg-agent has the
-auto-expand-secmem option enabled?
+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
+---
+ .../python3-pytest/CVE-2025-71176.patch       | 127 ++++++++++++++++++
+ .../python/python3-pytest_9.0.2.bb            |   2 +
+ 2 files changed, 129 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-pytest/CVE-2025-71176.patch
 
-If we can't make this safe by default, perhaps we need to use a mutex so
-that gpg signing processes run one at a time. If that has a significant
-performance impact, we can provide an option to disable the mutex with
-instructions on what the user needs to do to enable auto-expand-secmem.
-
-I'm also open to other suggestions on how to handle this.
-
-Thanks,
-
---=20
-Paul Barker
+diff --git a/meta/recipes-devtools/python/python3-pytest/CVE-2025-71176.patch b/meta/recipes-devtools/python/python3-pytest/CVE-2025-71176.patch
+new file mode 100644
+index 0000000000..9caf85a9ee
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-pytest/CVE-2025-71176.patch
+@@ -0,0 +1,127 @@
++From 263b38a2172b4171be69ded95e5d46958ecf8766 Mon Sep 17 00:00:00 2001
++From: Ran Benita <ran@unusedvar.com>
++Date: Tue, 7 Apr 2026 17:43:09 +0300
++Subject: [PATCH] Merge pull request #14343 from bluetech/cve-2025-71176-simple
++
++tmpdir: fix insecure temporary directory vulnerability (CVE-2025-71176)
++(cherry picked from commit 95d8423bd24992deea5b9df32555fa1741679e2c)
++
++CVE: CVE-2025-71176
++Upstream-Status: Backport [https://github.com/pytest-dev/pytest/commit/ddee02a578da30dd43aedc39c1c1f1aaadfcee95]
++
++Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
++---
++ changelog/14343.bugfix.rst |  1 +
++ src/_pytest/tmpdir.py      | 26 ++++++++++++++++++++++++--
++ testing/test_tmpdir.py     | 31 +++++++++++++++++++++++++++++++
++ 3 files changed, 56 insertions(+), 2 deletions(-)
++ create mode 100644 changelog/14343.bugfix.rst
++
++diff --git a/changelog/14343.bugfix.rst b/changelog/14343.bugfix.rst
++new file mode 100644
++index 000000000..a52028d9f
++--- /dev/null
+++++ b/changelog/14343.bugfix.rst
++@@ -0,0 +1 @@
+++Fixed use of insecure temporary directory (CVE-2025-71176).
++diff --git a/src/_pytest/tmpdir.py b/src/_pytest/tmpdir.py
++index 855ad273e..66ca9f190 100644
++--- a/src/_pytest/tmpdir.py
+++++ b/src/_pytest/tmpdir.py
++@@ -9,6 +9,7 @@ import os
++ from pathlib import Path
++ import re
++ from shutil import rmtree
+++import stat
++ import tempfile
++ from typing import Any
++ from typing import final
++@@ -170,16 +171,37 @@ class TempPathFactory:
++             # Also, to keep things private, fixup any world-readable temp
++             # rootdir's permissions. Historically 0o755 was used, so we can't
++             # just error out on this, at least for a while.
+++            # Don't follow symlinks, otherwise we're open to symlink-swapping
+++            # TOCTOU vulnerability.
+++            # This check makes us vulnerable to a DoS - a user can `mkdir
+++            # /tmp/pytest-of-otheruser` and then `otheruser` will fail this
+++            # check. For now we don't consider it a real problem. otheruser can
+++            # change their TMPDIR or --basetemp, and maybe give the prankster a
+++            # good scolding.
++             uid = get_user_id()
++             if uid is not None:
++-                rootdir_stat = rootdir.stat()
+++                stat_follow_symlinks = (
+++                    False if os.stat in os.supports_follow_symlinks else True
+++                )
+++                rootdir_stat = rootdir.stat(follow_symlinks=stat_follow_symlinks)
+++                if stat.S_ISLNK(rootdir_stat.st_mode):
+++                    raise OSError(
+++                        f"The temporary directory {rootdir} is a symbolic link. "
+++                        "Fix this and try again."
+++                    )
++                 if rootdir_stat.st_uid != uid:
++                     raise OSError(
++                         f"The temporary directory {rootdir} is not owned by the current user. "
++                         "Fix this and try again."
++                     )
++                 if (rootdir_stat.st_mode & 0o077) != 0:
++-                    os.chmod(rootdir, rootdir_stat.st_mode & ~0o077)
+++                    chmod_follow_symlinks = (
+++                        False if os.chmod in os.supports_follow_symlinks else True
+++                    )
+++                    rootdir.chmod(
+++                        rootdir_stat.st_mode & ~0o077,
+++                        follow_symlinks=chmod_follow_symlinks,
+++                    )
++             keep = self._retention_count
++             if self._retention_policy == "none":
++                 keep = 0
++diff --git a/testing/test_tmpdir.py b/testing/test_tmpdir.py
++index 363172110..789e80051 100644
++--- a/testing/test_tmpdir.py
+++++ b/testing/test_tmpdir.py
++@@ -5,6 +5,7 @@ from collections.abc import Callable
++ import dataclasses
++ import os
++ from pathlib import Path
+++import shutil
++ import stat
++ import sys
++ from typing import cast
++@@ -619,3 +620,33 @@ def test_tmp_path_factory_fixes_up_world_readable_permissions(
++ 
++     # After - fixed.
++     assert (basetemp.parent.stat().st_mode & 0o077) == 0
+++
+++
+++@pytest.mark.skipif(
+++    not hasattr(os, "getuid") or os.stat not in os.supports_follow_symlinks,
+++    reason="checks unix permissions and symlinks",
+++)
+++def test_tmp_path_factory_doesnt_follow_symlinks(
+++    tmp_path: Path, monkeypatch: MonkeyPatch
+++) -> None:
+++    """Verify that if a /tmp/pytest-of-foo directory is a symbolic link,
+++    it is rejected (#13669, CVE-2025-71176)."""
+++    attacker_controlled = tmp_path / "attacker_controlled"
+++    attacker_controlled.mkdir()
+++
+++    # Use the test's tmp_path as the system temproot (/tmp).
+++    monkeypatch.setenv("PYTEST_DEBUG_TEMPROOT", str(tmp_path))
+++
+++    # First just get the pytest-of-user path.
+++    tmp_factory = TempPathFactory(None, 3, "all", lambda *args: None, _ispytest=True)
+++    pytest_of_user = tmp_factory.getbasetemp().parent
+++    # Just for safety in the test, before we nuke it.
+++    assert "pytest-of-" in str(pytest_of_user)
+++    shutil.rmtree(pytest_of_user)
+++
+++    pytest_of_user.symlink_to(attacker_controlled)
+++
+++    # This now tries to use the directory when it's a symlink.
+++    tmp_factory = TempPathFactory(None, 3, "all", lambda *args: None, _ispytest=True)
+++    with pytest.raises(OSError, match=r"temporary directory .* is a symbolic link"):
+++        tmp_factory.getbasetemp()
++-- 
++2.35.6
++
+diff --git a/meta/recipes-devtools/python/python3-pytest_9.0.2.bb b/meta/recipes-devtools/python/python3-pytest_9.0.2.bb
+index 007db2e732..031a63f3d4 100644
+--- a/meta/recipes-devtools/python/python3-pytest_9.0.2.bb
++++ b/meta/recipes-devtools/python/python3-pytest_9.0.2.bb
+@@ -5,6 +5,8 @@ DESCRIPTION = "The pytest framework makes it easy to write small tests, yet scal
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=bd27e41b6550fe0fc45356d1d81ee37c"
+ 
++SRC_URI += "file://CVE-2025-71176.patch"
++
+ SRC_URI[sha256sum] = "75186651a92bd89611d1d9fc20f0b4345fd827c41ccd5c299a868a05d70edf11"
+ 
+ DEPENDS += "python3-setuptools-scm-native"
+-- 
+2.35.6
 
