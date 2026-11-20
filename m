@@ -1,308 +1,138 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.529.1795195319828344900
+Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3553.1795204540186900002
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Nov 2026 09:22:00 -0800
+ Fri, 20 Nov 2026 11:55:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=UrvG2KQo;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: joaomarcos.costa@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 3763A4E4168A;
-	Fri, 20 Nov 2026 17:21:58 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 0C148601B9;
-	Fri, 20 Nov 2026 17:21:58 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 835D811BC066B;
-	Fri, 20 Nov 2026 18:21:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1795195313; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=Qbu7KK4s6s2jrPNFB+FJ45saACXN2WiZrDZB/5U3JI4=;
-	b=UrvG2KQoeD/hYBZwkClB0T46A1isXMwU4gCdy7azfOT9ETTFFmhxkTGLVKwhw29XjH3XXb
-	BGEh7sftJJtalb1u4hvBU4HKwMxKYphddyqxgWQKw4l/vE7zgKM4C93cJGYnt1z4uzxP2B
-	QB1NC6n1TaWH5OmbMgBwrrdIjZl4SiEtcPRhr5fqcXL6VIPs0mfTF7cALScCBYCqfyHa1W
-	KfSCpOgCXXFlhTuR5gQb2RoxZOU+X8BhYxZWcfTSStn2l1fw6ta1vtGNSVPyIFVh8KDQrb
-	fJ0+lTiSbaSHFiVreGylt3bhc4Yz/hNGWkewY4Pd3DEZnh/yRv8Mr354q8YnFg==
-From: =?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa=20=28Schneider=20Electric=29?= <joaomarcos.costa@bootlin.com>
+ dkim=pass header.i=@baylibre.com header.s=google header.b=jQq4u2Aw;
+ spf=pass (domain: baylibre.com, ip: 209.85.219.48, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-921342fae7eso14207466d6.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 11:55:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1795204539; x=1795809339; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=mghSQO7C9CY+Qwk8VMGdy1GtmIkKsFU6jn43McUEoHU=;
+        b=jQq4u2Awbfa+5Ft93jM0WVVXIFyrS8m5S/cW90Ha2AHRTVU1ps6Ui/o4pH2XBa0F8k
+         /1v/b+ppzfrdY8++q7+6vrl3bLzUPye+JhjfEHTRRzRkTdSE7olhfS/zTme7ZV5aK25Y
+         I+SH9MoAbMImY7LAttFXOTPJVQ2cTfL7Yz0g+W1+4J/ExrJOS9vSmNyRJyErb4v1sVTl
+         GdZoicylK57vu3an36Dr8R6n1przsdYc1+2gCT4kCLNUSKqW41rdRRfIWkxMGTZdOc6h
+         ZOKNwZRwgTLdvPBt42OX1UNCpIQ5GcZ68CFOztkky0spAx66q+L9iAOeE0DDxTofybSW
+         3Hhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795204539; x=1795809339;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=mghSQO7C9CY+Qwk8VMGdy1GtmIkKsFU6jn43McUEoHU=;
+        b=QngqLilIA+VznsU7VuXiVhT/dPEkYAEe+CKRnq+PqWGaNPsWbeM783kjYgKGl2tOzo
+         skw5c89w6LOG5TML/OM3sn6THldcUhQgFyr0VWluHH72KPXUdoyjiN0OrCLlX1WZZSTo
+         vdC0D5bkEosOeY3TE/aWJTDWnUaKGFlSjbQJl6IdYn+yEmuomLlmktD/LD/9qaWypPNA
+         RBG4zJKwhYHP7DqYWwGxIQElB0qwR8rlq0GuFaUza8ztgbIorHDyLMs4e0OovP/ivTcE
+         TVvnnsz7A+uOPX2PSdgRpBC/EozlyXD8nYsoxjF8RZZzN3fbQp+dD9gezDfL3KqvJkcA
+         IGMg==
+X-Gm-Message-State: APuU4Z/S0UPBma5OeKMKkYaYU7/Ls6gPBh2J1F9+5r/rMgeGr1NPmvcc
+	IPGqqBVx3v7TSZFmtzX/6uCdBqTruUA37PZm+VCfjj4v05V9s2rWWxA74muCx+8XxNq7+lTyJe2
+	bprPu
+X-Gm-Gg: AZFdTZeVFbKZsDwb+8ir1ihvG2pyO7v5ZbMh8r2wPOr1+Kyfcf5QUPdl1qVNoMGr6SB
+	NzdY7JBY10xwv9Wo3gvqZdMTiCv7oWU7NMakZGnAZXi7WRQWuOgM81bQzgVDd5jp/vXO6UHoXuJ
+	8bTkWzZQpdE2Emy9r+YY8wn0V+Jfeen2nrc/cJ2K96WjW4HRnBmmYtf4k9MO5bVSUgoEVhd7amb
+	dc/7RnZADymNdY92kSph8zQHc+oYyLuJUjgid2IdwGfFmzxYhgmuM8jL2r9H6EeDAoHFxq0N5ja
+	EI9mdBGDHC+ZQCCoTNlZZ4GyWUxn9ft2NhARfyDQA/UwT/vDlsHVINo1RCZyJvr7b3Z7v2ebmZ0
+	xnb2qKF+O5WTQxqdThQbl5XLtYPpT2YV10cMESNX4nxFVshQYtoEQRnnwRVLHbaRE4PiUhbNvyx
+	Y7ZbUgjEUiomgthiuorkpuIhfLTcRS1BQ65w+CC4AsuNpLj6u094sDhQwt+IjfJ3GyN4JYN7ZUl
+	LBRFFuu0ap8fNJvUGTJZ2WukHjsUcgIiB+6VsHJkGe8kn3MSApUSSXa1YfoX/yDB63d7OSdalBv
+	uw3v4/fo1V47erDU7rb6Tb7P0Da2y1CYYaq1cYoXD6ifZTbdoj1gngElslwDYVDKZWaWEV1Uj/j
+	IN2yBRecpNw==
+X-Received: by 2002:a05:6214:763:b0:921:24aa:10c3 with SMTP id 6a1803df08f44-92134a60fa4mr68950576d6.30.1795204538966;
+        Fri, 20 Nov 2026 11:55:38 -0800 (PST)
+Return-Path: <tgamblin@baylibre.com>
+Received: from megalith.oryx-coho.ts.net ([2001:1970:3847:e000:e8bd:ca0f:c232:9f10])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-921349b50besm33975846d6.9.2026.11.20.11.55.37
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Nov 2026 11:55:38 -0800 (PST)
+From: Trevor Gamblin <tgamblin@baylibre.com>
 To: openembedded-core@lists.openembedded.org
-Cc: thomas.petazzoni@bootlin.com,
-	yoann.congal@smile.fr,
-	bastien.jauny@smile.fr,
-	=?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa=20=28Schneider=20Electric=29?= <joaomarcos.costa@bootlin.com>
-Subject: [blacksail][PATCH 4/4] curl: fix CVE-2026-94266
-Date: Fri, 20 Nov 2026 18:21:26 +0100
-Message-ID: <20261120172126.3187901-5-joaomarcos.costa@bootlin.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261120172126.3187901-1-joaomarcos.costa@bootlin.com>
-References: <20261120172126.3187901-1-joaomarcos.costa@bootlin.com>
+Subject: [OE-core][PATCH] python3-numpy: set '--rootdir' in run-ptest
+Date: Fri, 20 Nov 2026 14:55:35 -0500
+Message-ID: <20261120195535.2843075-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.56.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Last-TLS-Session-Version: TLSv1.3
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 17:22:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250823
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 19:55:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250824
+Content-Type: text/plain; charset="utf-8"
 
-This vulnerability, marked as High [1], was fixed upstream [2] since
-v8.23.0.
+pytest looks for a common rootdir between the current working directory
+and the args provided[1], which in our case is /usr/lib:
 
-Backport the fix to curl v8.22.0.
+|platform linux -- Python 3.15.2, pytest-9.2.0, pluggy-1.7.0
+|rootdir: /usr/lib
+|plugins: putao-0.4, hypothesis-6.170.12
+|collected 2741 items
 
-[1] https://nvd.nist.gov/vuln/detail/cve-2026-94266
-[2] https://curl.se/docs/CVE-2026-94266.html
+Specifying '--rootdir=@PYTHON_SITEPACKAGES_DIR@' changes it to the
+actual numpy directory where the test suites live. This significantly
+improves ptest runtime, without changing the test results. Examples:
 
-Signed-off-by: Jo=C3=A3o Marcos Costa (Schneider Electric) <joaomarcos.co=
-sta@bootlin.com>
+qemux86-64 without patch:
+
+|============================================================================
+|Testsuite summary
+|# TOTAL: 48757
+|# PASS: 47548
+|# SKIP: 1176
+|# XFAIL: 31
+|# FAIL: 0
+|# XPASS: 2
+|# ERROR: 0
+|DURATION: 184
+|END: /usr/lib/python3-numpy/ptest
+|2026-11-20T16:54
+|STOP: ptest-runner
+|TOTAL: 1 FAIL: 0
+
+and with patch:
+
+|============================================================================
+|Testsuite summary
+|# TOTAL: 48757
+|# PASS: 47548
+|# SKIP: 1176
+|# XFAIL: 31
+|# FAIL: 0
+|# XPASS: 2
+|# ERROR: 0
+|DURATION: 149
+|END: /usr/lib/python3-numpy/ptest
+|2026-11-20T17:15
+|STOP: ptest-runner
+|TOTAL: 1 FAIL: 0
+
+[1]: https://docs.pytest.org/en/stable/reference/customize.html#finding-the-rootdir
+
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- .../curl/curl/CVE-2026-94266.patch            | 220 ++++++++++++++++++
- meta/recipes-support/curl/curl_8.22.0.bb      |   1 +
- 2 files changed, 221 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-94266.patch
+ meta/recipes-devtools/python/python3-numpy/run-ptest | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-94266.patch b/meta/r=
-ecipes-support/curl/curl/CVE-2026-94266.patch
-new file mode 100644
-index 0000000000..1e85a70190
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-94266.patch
-@@ -0,0 +1,220 @@
-+From 835f55d8f87da137c262af5d16ba209bcd4398de Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Mon, 21 Sep 2026 11:13:13 +0200
-+Subject: [PATCH] getinfo: make sure CURLINFO_EFFECTIVE_URL does not cont=
-ain
-+ creds
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Reported-by: Joshua Rogers
-+
-+Verified in test 1876
-+
-+Closes #23016
-+
-+CVE: CVE-2026-94266
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/7a6bd027d=
-0de2b6857472d35da090ef60cc29f19]
-+
-+Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
-+---
-+ lib/getinfo.c          | 47 +++++++++++++++++++++++++----
-+ lib/transfer.c         |  1 +
-+ lib/url.c              |  1 +
-+ lib/urldata.h          |  1 +
-+ tests/data/Makefile.am |  2 +-
-+ tests/data/test1876    | 67 ++++++++++++++++++++++++++++++++++++++++++
-+ 6 files changed, 113 insertions(+), 6 deletions(-)
-+ create mode 100644 tests/data/test1876
-+
-+diff --git a/lib/getinfo.c b/lib/getinfo.c
-+index 23f1de270c..eda62da515 100644
-+--- a/lib/getinfo.c
-++++ b/lib/getinfo.c
-+@@ -63,6 +63,7 @@ void Curl_initinfo(struct Curl_easy *data)
-+=20
-+   curlx_safefree(info->contenttype);
-+   curlx_safefree(info->wouldredirect);
-++  curlx_safefree(info->effective_url);
-+=20
-+   memset(&info->primary, 0, sizeof(info->primary));
-+   info->retry_after =3D 0;
-+@@ -76,15 +77,51 @@ void Curl_initinfo(struct Curl_easy *data)
-+ #endif
-+ }
-+=20
-++static CURLcode effective_url(struct Curl_easy *data,
-++                              const char **param_charp)
-++{
-++  const char *s =3D Curl_bufref_ptr(&data->state.url);
-++  *param_charp =3D s ? s : "";
-++  if(s) {
-++    char *url =3D NULL;
-++    /* Make a copy of the URL without credentials */
-++    CURLU *u =3D curl_url();
-++    CURLUcode uc;
-++    if(!u)
-++      return CURLE_OUT_OF_MEMORY;
-++
-++    uc =3D curl_url_set(u, CURLUPART_URL, s,
-++                      CURLU_NON_SUPPORT_SCHEME |
-++                      (data->set.path_as_is ? CURLU_PATH_AS_IS : 0));
-++    if(!uc)
-++      uc =3D curl_url_set(u, CURLUPART_USER, NULL, 0);
-++    if(!uc)
-++      uc =3D curl_url_set(u, CURLUPART_PASSWORD, NULL, 0);
-++    if(!uc)
-++      uc =3D curl_url_get(u, CURLUPART_URL, &url, CURLU_GET_EMPTY);
-++
-++    curl_url_cleanup(u);
-++
-++    if(uc || !url)
-++      return CURLE_OUT_OF_MEMORY;
-++    if(strcmp(url, s)) {
-++      /* they are different */
-++      curlx_free(data->info.effective_url);
-++      data->info.effective_url =3D url;
-++      *param_charp =3D url;
-++    }
-++    else
-++      curl_free(url);
-++  }
-++  return CURLE_OK;
-++}
-++
-+ static CURLcode getinfo_char(struct Curl_easy *data, CURLINFO info,
-+                              const char **param_charp)
-+ {
-+   switch(info) {
-+-  case CURLINFO_EFFECTIVE_URL: {
-+-    const char *s =3D Curl_bufref_ptr(&data->state.url);
-+-    *param_charp =3D s ? s : "";
-+-  }
-+-    break;
-++  case CURLINFO_EFFECTIVE_URL:
-++    return effective_url(data, param_charp);
-+   case CURLINFO_EFFECTIVE_METHOD: {
-+     const char *m =3D CURL_EASY_STR(data, STRING_CUSTOMREQUEST);
-+     if(!m) {
-+diff --git a/lib/transfer.c b/lib/transfer.c
-+index 3b6c5c03dd..d940f8dc22 100644
-+--- a/lib/transfer.c
-++++ b/lib/transfer.c
-+@@ -503,6 +503,7 @@ CURLcode Curl_pretransfer(struct Curl_easy *data)
-+   data->state.authhost.want =3D data->set.httpauth;
-+   data->state.authproxy.want =3D data->set.proxyauth;
-+   curlx_safefree(data->info.wouldredirect);
-++  curlx_safefree(data->info.effective_url);
-+   Curl_data_priority_clear_state(data);
-+   if(data->set.http_auto_referer)
-+     Curl_bufref_free(&data->state.referer);
-+diff --git a/lib/url.c b/lib/url.c
-+index 6eeae43d0d..61126a1d29 100644
-+--- a/lib/url.c
-++++ b/lib/url.c
-+@@ -267,6 +267,7 @@ CURLcode Curl_close(struct Curl_easy **datap)
-+   curlx_safefree(data->state.most_recent_ftp_entrypath);
-+   curlx_safefree(data->info.contenttype);
-+   curlx_safefree(data->info.wouldredirect);
-++  curlx_safefree(data->info.effective_url);
-+=20
-+   /* No longer a dirty share, if it exists */
-+   if(Curl_share_easy_unlink(data))
-+diff --git a/lib/urldata.h b/lib/urldata.h
-+index 1c0101847b..fb6df8619e 100644
-+--- a/lib/urldata.h
-++++ b/lib/urldata.h
-+@@ -409,6 +409,7 @@ struct PureInfo {
-+   curl_off_t numconnects; /* how many new connections libcurl created *=
-/
-+   char *contenttype; /* the content type of the object */
-+   char *wouldredirect; /* URL this would have been redirected to if ask=
-ed to */
-++  char *effective_url; /* when needed */
-+   curl_off_t retry_after; /* info from Retry-After: header */
-+   const char *conn_scheme;
-+   int httpcode;  /* Recent HTTP, FTP, RTSP or SMTP response code */
-+diff --git a/tests/data/Makefile.am b/tests/data/Makefile.am
-+index e0ce23abfb..8cdeaf7a0a 100644
-+--- a/tests/data/Makefile.am
-++++ b/tests/data/Makefile.am
-+@@ -1740,7 +1740,7 @@ TESTCASES =3D \
-+   test1849 \
-+   test1850 \
-+   test1851 \
-+-  \
-++  test1876 \
-+   test1900 \
-+   test1901 \
-+   test1902 \
-+diff --git a/tests/data/test1876 b/tests/data/test1876
-+new file mode 100644
-+index 0000000000..4fc3b9fd02
-+--- /dev/null
-++++ b/tests/data/test1876
-+@@ -0,0 +1,67 @@
-++<?xml version=3D"1.0" encoding=3D"US-ASCII"?>
-++<testcase>
-++<info>
-++<keywords>
-++netrc
-++</keywords>
-++</info>
-++
-++# Server-side
-++<reply>
-++<data crlf=3D"headers" nocheck=3D"yes">
-++HTTP/1.1 301 redir
-++Content-Length: 0
-++Content-Type: text/html
-++Location: %TESTNUMBER0002
-++
-++</data>
-++
-++<data2 crlf=3D"headers">
-++HTTP/1.1 200 OK
-++Content-Length: 0
-++Content-Type: text/html
-++
-++</data2>
-++
-++</reply>
-++
-++# Client-side
-++<client>
-++<server>
-++http
-++</server>
-++<name>
-++verify no credentials present in effective URL after redirect
-++</name>
-++<file name=3D"%LOGDIR/netrc">
-++machine %HOSTIP
-++login netrcuser
-++password netrcSECRET123
-++</file>
-++
-++<command option=3D"no-include">
-++http://%HOSTIP:%HTTPPORT/%TESTNUMBER --netrc-optional --netrc-file %LOG=
-DIR/netrc -L -w 'EFFECTIVE_URL=3D%{url_effective}\n'
-++</command>
-++</client>
-++
-++# Verify data after the test has been "shot"
-++<verify>
-++<protocol crlf=3D"headers">
-++GET /%TESTNUMBER HTTP/1.1
-++Host: %HOSTIP:%HTTPPORT
-++Authorization: Basic %b64[netrcuser:netrcSECRET123]b64%
-++User-Agent: curl/%VERSION
-++Accept: */*
-++
-++GET /%TESTNUMBER0002 HTTP/1.1
-++Host: %HOSTIP:%HTTPPORT
-++Authorization: Basic %b64[netrcuser:netrcSECRET123]b64%
-++User-Agent: curl/%VERSION
-++Accept: */*
-++
-++</protocol>
-++<stdout>
-++EFFECTIVE_URL=3Dhttp://%HOSTIP:%HTTPPORT/%TESTNUMBER0002
-++</stdout>
-++</verify>
-++</testcase>
-diff --git a/meta/recipes-support/curl/curl_8.22.0.bb b/meta/recipes-supp=
-ort/curl/curl_8.22.0.bb
-index 6445aae426..64397f1a77 100644
---- a/meta/recipes-support/curl/curl_8.22.0.bb
-+++ b/meta/recipes-support/curl/curl_8.22.0.bb
-@@ -20,6 +20,7 @@ SRC_URI =3D " \
-     file://CVE-2026-87865.patch \
-     file://CVE-2026-92386.patch \
-     file://CVE-2026-92391.patch \
-+    file://CVE-2026-94266.patch \
- "
-=20
- SRC_URI:append:class-nativesdk =3D " \
---=20
-2.55.0
+diff --git a/meta/recipes-devtools/python/python3-numpy/run-ptest b/meta/recipes-devtools/python/python3-numpy/run-ptest
+index b5edc5cf48..6f5073b518 100644
+--- a/meta/recipes-devtools/python/python3-numpy/run-ptest
++++ b/meta/recipes-devtools/python/python3-numpy/run-ptest
+@@ -12,6 +12,9 @@ mkdir -p "$PYTEST_DEBUG_TEMPROOT"
+ # include gcc as a ptest dependency, so skip that. test_big_arrays uses up a
+ # large amount of storage, so skip that too.
+ # remove test_validate_transcendentals if
+-# https://github.com/numpy/numpy/issues/27460 is resolved
+-pytest --automake -m "not slow" -k "not test_mem_policy and not test_big_arrays and not test_validate_transcendentals" @PYTHON_SITEPACKAGES_DIR@/numpy
++# https://github.com/numpy/numpy/issues/27460 is resolved.
++# Set the rootdir explicitly so that pytest doesn't use a common ancestor of the
++# ptest directory and test path for it, which slows down the ptest suite's
++# runtime
++pytest --automake --rootdir=@PYTHON_SITEPACKAGES_DIR@ -m "not slow" -k "not test_mem_policy and not test_big_arrays and not test_validate_transcendentals" @PYTHON_SITEPACKAGES_DIR@/numpy
+ rm -rf "$PYTEST_DEBUG_TEMPROOT"
+-- 
+2.56.0
 
