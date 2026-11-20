@@ -1,198 +1,155 @@
-Received: from relay-r03-hz12.hornetsecurity.com (relay-r03-hz12.hornetsecurity.com [94.100.138.203])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1456.1795160105010739078
+Received: from mx-relay138-hz1-if1.hornetsecurity.com (mx-relay138-hz1-if1.hornetsecurity.com [94.100.128.148])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1662.1795160754057036084
  for <openembedded-core@lists.openembedded.org>;
- Thu, 19 Nov 2026 23:35:05 -0800
+ Thu, 19 Nov 2026 23:45:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@witekio.com header.s=selector1 header.b=rA914K3f;
- spf=permerror, err=parse error for token &{10 18 _spf.eolas-services.com}: parse error for token &{10 18 _spf-paas.eolas-services.com}: too many SPF records (domain: witekio.com, ip: 94.100.138.203, mailfrom: hsimeliere@witekio.com)
-ARC-Authentication-Results: i=2; mx-gate11-hz12.hornetsecurity.com 1;
- spf=pass reason=mailfrom (ip=52.101.84.119, headerfrom=witekio.com)
+ dkim=pass header.i=@witekio.com header.s=selector1 header.b=TZeh+xGN;
+ spf=permerror, err=parse error for token &{10 18 _spf.eolas-services.com}: parse error for token &{10 18 _spf-paas.eolas-services.com}: too many SPF records (domain: witekio.com, ip: 94.100.128.148, mailfrom: hsimeliere@witekio.com)
+ARC-Authentication-Results: i=2; mx-gate138-hz1.hornetsecurity.com 1;
+ spf=pass reason=mailfrom (ip=52.101.84.82, headerfrom=witekio.com)
  smtp.mailfrom=witekio.com
  smtp.helo=db3pr0202cu003.outbound.protection.outlook.com; dkim=pass
  header.d=witekio.com header.s=selector1 header.a=rsa-sha256; dmarc=pass
  header.from=witekio.com orig.disposition=pass
 ARC-Message-Signature: a=rsa-sha256;
- bh=2SBacGF5y6AGXFEXpXlqO8IRUuMYPVsRX8oZSvRIHA4=; c=relaxed/relaxed;
+ bh=ELsGeb6IH7qeX/bm62dnp+Tp/gXnNolLwG0/crO3Z9o=; c=relaxed/relaxed;
  d=hornetsecurity.com; h=from:to:date:subject:mime-version; i=2; s=hse1;
- t=1795160101;
- b=sG8mv4I+w/3r4Qug4fHP/FsykcO0sdz1hHV7shGdINBFWRFWcARDE+J1LMo+I5VZ/Etxe/+v
- o8m+Xq1hHod/4WdBgV0T2vgC+FGzZT4oZPZsWQ+pl2cSjeJHynN9J3HHBOfLUEYRYNPYNBJ0lO/
- U2nbgH1Sk5jicD+su8LgzxPjS33VmqfcCzYNcYPatMbFzxRtvKzmoIhcjcCGIHrPUIO1BQzRSo1
- MtlMWPLLAQcJofIiLDwrTUDsNaQeHj4MJOrQhywJRp0b07yldv9Bxg93LSmToDG+1Cmc/84WJz2
- cVKojteuRQc0Xtpf0pJPwx4gPL03hItxQIafXnrulsAEQ==
+ t=1795160749;
+ b=spMJslrFeYZ5Q9IJSUj81g7MkTH0A88x0thVp+kWNJclGZ3IE+mc7ZQZLXs7VF/Ezr12lLe2
+ uskb318JaX8JaE6mmHSkk1imBHXie9RcrMd4Da8gM3NXCppGhFYBAYo9bYOI4ZvFPRaa6Kir1uK
+ VXJmoMkrUiUb8OzK8KqsIBcyZbyu5sRm80xpHrYEa1th4XTD1i1dxsOsCDaXZRQAtwesat2Yhe7
+ pN1bL7q5+8xr30iVmFi/J9ip1/j1rIjrsjWfOZJCDaRm37FH1MDnDiv31quqmUGMaCSfxwVMxQj
+ Q22fOzFKMSOYWxFbaWsqxOlSsIU8ovv0m21HiPGiwh2/Q==
 ARC-Seal: a=rsa-sha256; cv=pass; d=hornetsecurity.com; i=2; s=hse1;
- t=1795160101;
- b=Wf8n57dBxaHhnhiTnwU2lgFPBi0EeSZzOcnlqbhu1FsIKJ3YYA/++wQJfvZjW5tgTMFix1VY
- qIriKI2ikAozuZ8pM74IWVcdZYDG1mibUkbpuSVI7tWQForI26HZRdRUfZtjrq/wLbGiCbwaFn8
- oZztDjik5PzNiXYrDAlnMSg/T2UZ5gbC0z3Q/xnlH+3gGt9gLHh1cnhYxyfwVxQ4gyr0RkDhV39
- 5/tw4jZOABcgFDQs0h6BQsXBVrjpXjZXcNwGp9PG+aAZS0eD/BCiyUHrmlGD6k69enwEeXwXu4/
- 7VhcRfkjetuyiYT6ZRlVqdhoSPI1qeprN4+04WTwNloqg==
+ t=1795160749;
+ b=i5YBxwk93xbNAiH+zzLM2s4ABCEm5+yU25vZCapdZVeF+ZqstwqO7G6W5+y8HsNf4XGMi6A2
+ tqC7yNndeNkFABaEdh+uEv5ZBhX/YTMftcMIzTuZa83PK2SdSvnCoz5wN0q/ifIFFd86Xrc44TX
+ W2Wj/dWYHWdgvSolLXUhtM6f1/DviCvODc8PbLMT8zUs0uqgEH2MbtAPQ4xjl3V+xC6mN3UErVD
+ bqCIC9CLPVBSZ6B7NKTtzTeyYV4X7crzkgf9iUKez3maZYma3ZGkkU2S1p223DM0rUcnxcU6zEk
+ kYkFtmt6UaMZBw/N69jcDuYSOLOT7Z6+erq4m6rI0Dv4A==
 Return-Path: <hsimeliere@witekio.com>
-Received: from mail-northeuropeazon11020119.outbound.protection.outlook.com ([52.101.84.119]) by mx-gate11-hz12;
- Fri, 20 Nov 2026 08:35:01 +0100
+Received: from mail-northeuropeazon11020082.outbound.protection.outlook.com ([52.101.84.82]) by mx-gate138-hz1;
+ Fri, 20 Nov 2026 08:45:49 +0100
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PXZFvSL8CRl0x2370JYPe7O/yMZ8srN3yUuK/lUU94PXUZZyIpsoH8HqRR7R0D8GQd1scqHjYNZw3DsBJTC3dzmHDtdG6zDp5N1ssbh4m+Qpkm2AYkJAJWMtnGTm7MNssLw/PLFXz/10U/AbIDppFc0yH5yUdVCMtWE/PcJN12CmtztlGV981TXNg8DWwQKke9jNFuC7UcrhE67jmU/VI5YwPoOVMqma2NC2Wb39OfZ1brGUwU7O3MYGpKWqYWH9LQkCV46nS8WLbrxbsCLI+EDwOnrWfTnNxshnNufiFjaDpQQI7Lor2Dou/+lAoXnvHwvHoYc5UjIVC4iAPOtZGQ==
+ b=koN2LcYBnnoSMUqA/C3xc6Cis0I7SulXiieeFgP2D348pwIurhc3RYRuKFJJI3zB2cwCsXFmyFxWbJLiNP0R8Itc6swDdzEhKiZbgbQ/YSTuHGgAHwFFUJbcfhnL9xZSe7PWXKAA0LKP6i8ZOeCQZgtTLKSkifpRDEq5A0LOaUvUfBG6IGnR9bZvftfn59goOdFPL6LiI+XQh+xTTJYau+9WFZV/eZds8EkoiQe76oHov5N63WSCAnghYPEstfcTXUe++96Hs0qwidaP3L+fQoyL1BMtw8+KxCruDHmOKi9iOFK17MARlMY6By82yqmFCBNVqcL1oXsXtAXreaLLoA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2SBacGF5y6AGXFEXpXlqO8IRUuMYPVsRX8oZSvRIHA4=;
- b=h8N6kFvDo9Buc91MtFJl1Dc7V8ZeEieUw2cFQTeeK4CD2mLrvZUUYZleShT9BV659Vnbz0H/WPi7U/BL7Bs317uQHIsRjjYSKt4j7alsOTuW6yMBIvGrMoCaJVeFxJOVCY/N8Pv7TwrJtZn/XcMm7Rx0w+VlvTK87DT5gXFBCOSsawEH7SaT7306DQanjSNhDk24auvS7ivv0QvWDmnTKkUWmbyk5T8gBQCn+P3HZDz4dv5KB7t5llgG6JaBmzkLwXYZ2PV8gntLpWJSy7H+gKHHq92EQigEya6mcCfvggX7+ZurPJfOntRXfQt4FSb9waGh+k9YUAua7g+1/gd6HQ==
+ bh=ELsGeb6IH7qeX/bm62dnp+Tp/gXnNolLwG0/crO3Z9o=;
+ b=luMuaAt20ZN2KtdExAjsncSR5DkMm0Dcw9EWmT+1BdIOFAL1sAMPpX/qOSkcfv10Nu5eBCmNu3PoyQKtc1xPowfakHHgHyoOu+ZmYalVUXD5l76s0p9bQ2u1bXkwBYZ0ThBJzHxbD2i68eFwpzDTCFCY/Ssbk+vhUWTYeECQh9AMNVd9LijolABi6YBz9+GgjtK+QWwJWOwbLOeCLAhp4MlTNYc5y0+B3daWf00H0EAtFgXFULBGQ6ZIpo90dxBiNBzhwErk7BD5f9iZRH0ZxyN0/+04dtGcNM5MyYe5OBCcWScgWedNN0EEePKCCkqV/zjwj8cpUiPj7eYoX87ZuQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=witekio.com; dmarc=pass action=none header.from=witekio.com;
  dkim=pass header.d=witekio.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=witekio.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2SBacGF5y6AGXFEXpXlqO8IRUuMYPVsRX8oZSvRIHA4=;
- b=rA914K3fkLvnVQc5nTvkygdBmvJFwXM60Wcl65YnbphZ23Ak/mVPnXosyGdOAlyWg2ELKdvTe0jaZvOnFBB0mNnxIgVuVuD9PIE2hsKdcGL+T8OHm7lBeD6vGf+TTOhL4ZLh86cKMbPC5ak1OgXP6ql2aCWAuxpywWwoyO8XVp+PpVAe/UfuUM4XD+dn+XXAoydD0lRGSnfJvOlgKI9nDZsE7FMCaBa2KZcNYn/nsFiI+ewzi8Dj1eCF4S58+vpA3xvkSpHDyIxCNBi/xV/+y3pvIj+DATnHK4m9gBSINc+GA0HA3iEJZ4lYRqYaEpnWg62ruRLS998rplX1FZGJhQ==
+ bh=ELsGeb6IH7qeX/bm62dnp+Tp/gXnNolLwG0/crO3Z9o=;
+ b=TZeh+xGNosYdjG2bq73mX5ONIDbTKZdGFyiqLk8AFPKyDYG7PP9a4gj1Bvn+cUbWpJuvESdN63xZVmAjpIAxU/pRbMdGk6xbfJ+8d1jujW/T/04XwQB2aUXbEeQ89O+Vnh3iYh4RE5yBzEVH715SAx9lhAWAynLm8NrVdCz9Mo+T/oZucsXgur2ZCfb1tlrP4z0GS4ukAkV+OPHRRwzlNRihyNyO7ndvD8FZtdtWWJXU8zkZWPyj0YXk3nVhVTvhVDi3te9861KE+f65S1u2KRh4l9n62cQh8JI7eSVLB3noowm9WVqXd5yfQXMY0FOUYn1Y6DMgLBJUCrEcqOqjTw==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=witekio.com;
 Received: from MRWP192MB3504.EURP192.PROD.OUTLOOK.COM (2603:10a6:501:87::6) by
- PA1P192MB2827.EURP192.PROD.OUTLOOK.COM (2603:10a6:102:4e8::11) with Microsoft
+ AM8P192MB2822.EURP192.PROD.OUTLOOK.COM (2603:10a6:20b:6bd::12) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.639.12; Fri, 20 Nov 2026 07:34:53 +0000
+ 15.21.639.12; Fri, 20 Nov 2026 07:45:41 +0000
 Received: from MRWP192MB3504.EURP192.PROD.OUTLOOK.COM
  ([fe80::e437:672a:5abc:a0f4]) by MRWP192MB3504.EURP192.PROD.OUTLOOK.COM
  ([fe80::e437:672a:5abc:a0f4%4]) with mapi id 15.21.0639.011; Fri, 20 Nov 2026
- 07:34:53 +0000
+ 07:45:41 +0000
 From: hsimeliere.opensource@witekio.com
-To: openembedded-core@lists.openembedded.org
-Cc: Alex Kiernan <alex.kiernan@gmail.com>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	"Hugo SIMELIERE (Schneider Electric)" <hsimeliere.opensource@witekio.com>
-Subject: [blacksail][PATCH v2] image_types: keep the rootfs mtimes in ext2/3/4 images
-Date: Fri, 20 Nov 2026 08:34:39 +0100
-Message-ID: <20261120073444.2734478-1-hsimeliere.opensource@witekio.com>
+To: yoann.congal@smile.fr,
+	openembedded-core@lists.openembedded.org
+Cc: alex.kiernan@gmail.com,
+	mathieu.dubois-briand@bootlin.com,
+	richard.purdie@linuxfoundation.org
+Subject: Re: [OE-core] [blacksail][PATCH] image_types: keep the rootfs mtimes in ext2/3/4 images
+Date: Fri, 20 Nov 2026 08:45:28 +0100
+Message-ID: <20261120074528.2738167-1-hsimeliere.opensource@witekio.com>
 X-Mailer: git-send-email 2.56.1
+In-Reply-To: <DMZV3VHOJ2E4.13Q2IBH3IK94@smile.fr>
+References: <DMZV3VHOJ2E4.13Q2IBH3IK94@smile.fr>
 Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: LO6P123CA0032.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:2fe::7) To MRWP192MB3504.EURP192.PROD.OUTLOOK.COM
+X-ClientProxiedBy: LO6P123CA0024.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:313::16) To MRWP192MB3504.EURP192.PROD.OUTLOOK.COM
  (2603:10a6:501:87::6)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MRWP192MB3504:EE_|PA1P192MB2827:EE_
-X-MS-Office365-Filtering-Correlation-Id: ef2a88e4-14ce-44f2-9fb8-08df46d8c45f
+X-MS-TrafficTypeDiagnostic: MRWP192MB3504:EE_|AM8P192MB2822:EE_
+X-MS-Office365-Filtering-Correlation-Id: 47d8bae7-eb6d-4eff-8212-08df46da467a
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|10070799003|1800799024|366016|376014|261026121527099003|261026140227099003|261022075727099003|261022115727099003|261022105027099003|261028144727099003|261021121427099003|261102130727099003|261102123227099003|56012099006|10067099003|260925021311599003|260925021911599003|260925022911599003|261009223027099003|18002099003;
-X-Microsoft-Antispam-Message-Info: ZhmHA9iUe83DLSusJQrGJg1p8vYzXUbSQmvLGqqZw+70ELPuugwSE1y2C1wiFb6zSRiCi/KrExuhnHg7grooDUSpFw79l1rgq931oFhqrb/lZoWWozYrBiqRv1WOK68k6QE8u8KQS5/jh1uulQS+PgqEpzoDTeyyA+hgaZEmSuTHez0cJpSnGk87YigvBPDb65sljWpff14hB/cCGMjqg35WXVye/xwB8zgOHtCMSSuz45y2Cc+WfWrtEqcAnyP+Y+/vwFzykMoM2Mh4ULXgWfQjkWTcvjuwUZcDHdkMwrB9sG51s5qhyXTFQxpaIxdibRyZa6b0p6MDPeKV8Ynp4QrtC9AFB50NH6YpBzQEc4ab7VX1RRxMAexiVBtpMIu6sBqU7vw6RiACWQJh6wxvABLnAOBnniolbEKqVPLdzGObr9xegDAkMQzb5moV8dgQWOMy8+yLtoKz09BwHmedo9b4fTmARLTpcpiTdQoMWV2Y9+QT0kOT/hNDwchMof0lovTrGybBvE+slNZQ2vKw26kDLmzGxLI+K6/UXgeUDBNUZPUNLC/GcTpFzH65gBKTKffmAnKeItGrbTG1uA+bK4JX5cSRTWattx+2uORdZUYQNQ08AtNVNhtEBi00JUW9HPrM90TPixh57JUClubt0g1NAn5IS9d12iiT0XwiSRE=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MRWP192MB3504.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(10070799003)(1800799024)(366016)(376014)(261026121527099003)(261026140227099003)(261022075727099003)(261022115727099003)(261022105027099003)(261028144727099003)(261021121427099003)(261102130727099003)(261102123227099003)(56012099006)(10067099003)(260925021311599003)(260925021911599003)(260925022911599003)(261009223027099003)(18002099003);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|10070799003|366016|1800799024|376014|22082099003|18002099003|56012099006|261026140227099003|261028144727099003|261022105027099003|261009223027099003|10067099003;
+X-Microsoft-Antispam-Message-Info: unWo1KCG29OGS156SL21V8uAaN7hiP2ai/h7E2XgkTvWosvwQOo8ly9aJ04yWbeFsn5kdGA6C0m7OPKOXCbhJ4danj5MDO8SCHdO1O39zKKU/QLGrpsuyBTLQ0C/3t68j9u6r3XF24gDNmtS7vUELi80Uome9o3W4jq9Yy2LVvh15CnCp7FaXeyTW8JdMab6CmneOCiOWNmobDLbrm0wkadu0oys1w7LC/QuBQeG4wPpe72Ij1fP5S1R14/kOJfKRjoTwGS+qZwls0Na+/ALiVk1o0+otqGgbD7SAK5H8bYpY2E3o6XzxQpxslBLbu4Rr3TxsTb7Qy/m4qd7C6ZmoJh8Cqfq0+Omu9085OXvQZ1L5JIhLaqdNYlqoQ7VT5ZQdarShDZIWzg9XSdqWkAwvl8fs3G+9Z6BT0WZiv9VphXVRjbrDKnRi94oYvD19jmmwvgQHqCBCHQrLnkZGZFplMX7YDEMCSuP5KHBdfDfOjpxu4wWJj2DfMGoq0KpnyOxNzBXwT/iwac4xQXpuxwJlb6yfUGNuaj6MxUuwyV8JtujzqNtPDIjna1pqcVJiJA0GcIJYzEwgDsECIa82Wjo7hIyZUH/qW3qx/kKltC7v+s=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MRWP192MB3504.EURP192.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(10070799003)(366016)(1800799024)(376014)(22082099003)(18002099003)(56012099006)(261026140227099003)(261028144727099003)(261022105027099003)(261009223027099003)(10067099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EL/Ta6eyQQDqlOZdhxTRdF58Swz6XLi9hz141rKx8qP4j7BWj8ZKyTn698kR?=
- =?us-ascii?Q?4UAdWk+RR1q+8PUCbS0i/kmYGEPWr+s4I6LVu4DlgM6u8oA7va/ellaA1ClB?=
- =?us-ascii?Q?BT3Se5Nnju86y2aH+ISZW+i6YI2E2ZSaJkxxcopqBG3gHORhPQ/57GiomqxU?=
- =?us-ascii?Q?hG0lk5cDdOki3jDT3kv+Mdx7oXe4qN3KQ/otYE37ol+clWAjdG0z96Y1InZO?=
- =?us-ascii?Q?pSboQV+RmCRskIM3MuQJWTXYbP5W/83aMs70iEi47IWMIH+TVFWKXw4w1h2u?=
- =?us-ascii?Q?h7fhcGSU7v63XcYpXptp8BQXhq3ZcbaMeJYXSDk1Uw4v+qCZ0ltdZZWtIMAZ?=
- =?us-ascii?Q?XQDMnN5YmsCW54sHPz2m/U7ei/Xho/Nv6skUwsGxR1hpruyY2Vb5lH71TmyA?=
- =?us-ascii?Q?ERWwJDzVTvk6Kgk1VSbS9DVRNWVEo8LPMax0g3QUaHltWqe1ekyJJBRl7Ive?=
- =?us-ascii?Q?CRPSRtYMNHux+jsxGNhHKNXYgOMTpFKjLQzQZjE1AfNzX+HHP+LltrIe7Ge2?=
- =?us-ascii?Q?U8lP5ErWuaJVxa7xN5eElt93BX7ZMT/8b5yL/v/wDjVg+A/Jw1+bHN8wCCet?=
- =?us-ascii?Q?64sWf7r1VFM37pM8Sxi16fnsKy7WJJszEZIBfa9KIGjWuZzxMy5xTauZeD+9?=
- =?us-ascii?Q?7nKk2MOwWi2G5THhtUKFeM6JEYFkZYiN+XdMmcpuNso1d+YUi7xGWPEHYMBh?=
- =?us-ascii?Q?w4MMk7oaJz949Z43R8euoQtmVsRJ7vHthveoXF2gAGrd2IXjq3U3t+sGrATo?=
- =?us-ascii?Q?zYIcAHHlHYQNM+MYmZ01YyZ50i3Q26rNNbZHpzms3Bs+/wL5KHXydwdaGtuv?=
- =?us-ascii?Q?+Qrsbnqb+BYqyheqDxjcrgto0ixzgOGNevayJpk2TysogZWqlsgGw7hcI7XQ?=
- =?us-ascii?Q?reFLVmR/cwzViEOgDWXSS6XqbKLLl1zIOQ+9L7c2gyWp8hGF/l2jeTd8FiS9?=
- =?us-ascii?Q?64A56SGjQyPqooZh6r1ZNBlttiKbkfmkco2eq6y2pNYxMfCNtu4vS610JAq4?=
- =?us-ascii?Q?lp1EN86mPbueWzuCyNyPjCpDj2D0T0RBJc15/aUn71FWW2f/KorLJUl5eP3T?=
- =?us-ascii?Q?b0XjkzA5CBRdLXNTHzkUxr+dBGjyvtb9D0xJ0cOrq4ZBR5PqLKAeZCnI17ML?=
- =?us-ascii?Q?Qt6sWDRdXjPkkkIRuYrryiObqWktOgUOB6IngNbppSl/yrIe7l1bVnsfbrXD?=
- =?us-ascii?Q?hy0SkBqZErLY7upKrNoyHMiK+TCaVC6IegsE4uiP1UAoYCgHiyspG4cmLfoj?=
- =?us-ascii?Q?5XVgpuPxwRtV1ci55X9r1lf/RXcgn/I9ydu07wgJmjhpWXVg8NvdkICXWrfp?=
- =?us-ascii?Q?RqIhog7cTjzh87d3WCi7OQq949IAla6f2BWOV+ygvULSv+4s/Iye9hfGYF1/?=
- =?us-ascii?Q?x/g4u774lDkqW06bgRUKVL/wUgJxnahv9bp059sAuh/VbJEpMg5ENYUw3Qmk?=
- =?us-ascii?Q?2TuNCk8Aj5uS1OmHUnPTapD4qAnpaJt11kJb4T58IibqoOs2Viq/gBbKIQ0R?=
- =?us-ascii?Q?P8VQsWEgnP1l4EvVT7wx6Vaj3GdjiEE8aqAJYkgFU+lbGpDQcHy6KuoUpxyz?=
- =?us-ascii?Q?vOhcmAhRj2z0/RrlykBJVI7swXgx1fY3VIylFJXh757WHzwMXaho3zbUPPH4?=
- =?us-ascii?Q?w3Kmxcois4K14J5la/EtxOHYnX99kMVHqYX46Asc9mUuJ1Fuf3h3DSYL9pMz?=
- =?us-ascii?Q?sKSR5nrAeE2CF1KxZMpmXJ4qddHX18x39tcKScWIBUwsbanDm7YYwim7Js2u?=
- =?us-ascii?Q?mMUoqtpv1c7ZRBm546ROKlqqb4LcHw3LmrNmXzngq9aKif6ZRT1FuthKTFv6?=
-X-MS-Exchange-AntiSpam-MessageData-1: 791bmAVoEI7xdA==
-X-Exchange-RoutingPolicyChecked: HdeC5LJVeZP8BstALOfebplZa2riAgcD/DbjuQoPe8mnlS1pdol2bUUToEsEH2E785RgsGJIYJgAPT5nHGwQo0YgReGinNvCMwBpE4J5gOlxKDpG6Hp5D9vcgT100DUUqn/0B1+iMmTtZCevv3nns7SLxxZ9cCoIssvj/hvW1DJyfmJdOTvwys7DY8VXYepM8vmQHKz9Z5ThhxD5iISLkJpPGKCQz9mv2HMtbgiw42NQFniE8CuUSAmEk7FN0xN1c+PSNoWXLMY6KxKvy3rs5UvNmVfdicKNSz99IAGP6mhImxr7SjweKj+t1+d4PqaIBpoYWqAzcNvVbCyNseQLcQ==
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?BlPbEsDB/xo1V/KdsvqFbjBdu3p98RzhzCsLzoSs1TONI7+TtGn+WMDIFVQ/?=
+ =?us-ascii?Q?xO7XIbYRXU0aYgQyrYKGotSJGcLXGkufLJ8j9Uo1O6W2zofjzYjymO7WJNNi?=
+ =?us-ascii?Q?tth+bhP8sIVT90IY3WX25k31LSVo3CjrbfwBrWgRB2i58vkZVjrYT35E3yAU?=
+ =?us-ascii?Q?ZzYjzL1p4Ib0QIlHnUK1G+TXbXwY4Ijm1RqBuHjwbsA4ClOX14lO1tsnrVZf?=
+ =?us-ascii?Q?GuZB/McY++FoTuvsNuzItVLWZshOGFAImjwgzl40axJl626DZJeoLj3TKE4l?=
+ =?us-ascii?Q?3xTwWk1TTTdhiXRo/nQEkxfXkklbhEdvwtAz7v9LdJ99K3KyAjf96b8SZAiW?=
+ =?us-ascii?Q?ugyTJwfohPuKvqR2d98EapnENxjpCqSXdLeZ7pNsAQ/RRhhWfDFUNEM6tqVx?=
+ =?us-ascii?Q?g6jmdQJvjWchMLSdpIvsPYqrBFxT1iviU6jCVG7bJHwlYyVawKhsd6L/Z7/X?=
+ =?us-ascii?Q?KnoPRTAYag1TzHbmKtagghCKC3HFoc0sqdtbx5ZseSv4jESo5OB6CfuqVbve?=
+ =?us-ascii?Q?0VMZ2UdFEiqFEdYvDm+itIqjZhULL+RrZRCjxwkEUvAeMBi25hj5iuhnqPFY?=
+ =?us-ascii?Q?xRVPJP+SYBfmbsWLFw2pJ8kQlLf9c4Jf8o4+8tIlgff6Y0QQGErENhRqGZXH?=
+ =?us-ascii?Q?hXacZ8CIjOCQURqb+C5U0cLOetfhos16iI/fSG9hBrg4kGqfMKBQIJ2BchcM?=
+ =?us-ascii?Q?hAYCFcjl4hsxEuseRutFg3g3R87cE+OgVBzqf8f5WW2QNgBUKzlu7ZqzK9Wj?=
+ =?us-ascii?Q?oJQshpHHj0zvYyyOG9BkpSFYyQ+mDXp6gk3YZHV3CAi4wiVL7vrO9r+YX8Cu?=
+ =?us-ascii?Q?WNY5oX6u+ItFe1GV0qSXn42omxM8qzkTOtdzuqFRKzcqWLu3f8GxjCKLTEaO?=
+ =?us-ascii?Q?3CkbSu95Q1pAoNsOBzhfneHNMxU6Yr+CqrpiRxdd2i/oi68cwyfhGQOIoPfF?=
+ =?us-ascii?Q?64PkgCpoAHa9fNeisSU9M2tvfoTvhNn9ZXJ4JDLdTM/4wJ6BhGYGhU5063AF?=
+ =?us-ascii?Q?3uB9dp6DXrF3iuHIjx7SalGeeGR00wTdiq+JttIavFT8UE8sK3p+aUoivKNK?=
+ =?us-ascii?Q?D2uSLxgBkxZGNG/uVbfxG0Na5YM6Eltrgtts1Sa+xcMOsp6DTEJqImN/fzNz?=
+ =?us-ascii?Q?mUAIZIv3YFTjQXQUepDNVk2xZTFxomnR5KCMn3lIopPC2xBZ8+EtHDDLzVPR?=
+ =?us-ascii?Q?7YYADdaT3TEnZRdpFByq8bvWdvMeyAL+f6tSYwvRiLkstek39fCgre6rCOcb?=
+ =?us-ascii?Q?57uZQFq2sIWYogLgqAEIXhdaFjvpr05Qzq7Z9U3dZePtFRz1rk7MM5zynoTS?=
+ =?us-ascii?Q?L0h639noztUCb0RWsKEyqyHCJGBWwuCXRzdufukdloeA60+Ur8l4sIZ7i2Wj?=
+ =?us-ascii?Q?tVyOKLva71FCUSXOKNUb0hnrkQxRN/vakmj9FRWeg7HUFsN/8qnn4qLuUsXl?=
+ =?us-ascii?Q?3oIINflmD0MDL6YUEKRVYU5y9JdkX0P+2w2qldNLUXhf3N8vJeN+3Gl01yJ8?=
+ =?us-ascii?Q?vCI9hjjn1xtZIZosvEXchEb/euI7A/+cSKNJkBoeVyd3bj9ZlCBvHkqXNcDD?=
+ =?us-ascii?Q?VcPlHEHkEbO8/b0zJaMiwQRBnQOguZbpfJ+lZxATouCJatONPKfq9rmCHptR?=
+ =?us-ascii?Q?h1UnljJiIG/qL5NQVN4yk4rsaatgjrNcTvWAkoCWOh38mQ+0vJe9/l08U6sZ?=
+ =?us-ascii?Q?ma2qssrxoPe0ykli6+BWpkY3mYPAs1kQAEJmAr2XF9E8ZR++eTW5wO0iyLjP?=
+ =?us-ascii?Q?CbC5yaw9wKGlhLeV4idPX0QrnI5YEF4WyzuOZx5b6PwsCmujeU4Fc1/ohnSc?=
+X-MS-Exchange-AntiSpam-MessageData-1: 4BanzSV7YF432w==
+X-Exchange-RoutingPolicyChecked: ZuC+8Z39FJ3Np9BkooUyydV/J1BSBYIOTpAEoOt5STY1j3PgSYWioSc+rOfepQ+mW/d1tU10PC2Fsc88EsFrU2Ahct0Lnbq1iZKZ2vJRauEGLyB6Vt0uNGyQ/U8rQ4KpxefqNewKxr0nc2SeF3m/wh/6xqPLNgc+/9rvLCOyHtix2FdO5umO1iCItpLYadU9eXtEdwz8tOFmImciwjNOO65qSNofhrKSF6TanX6sY2ao1PcFL6vPA/0n6z29uuy1n+VmDxcEdcD7Zry5hIAFxN1wLm1rOJjpWlt+pWPafZ1ZpucZNlBDJddzXlkb+wrcH3GKIbXZAFKIQYV2AZch6Q==
 X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: grFlk0LjH/pTi5wnnBgXVZpRGaLox00p2yPgeWO2egm5Y3XT/pg0RsLAmjIj1EOGA/FcR00l8j7dL+NZHijjEKY7qR3IBdPqlBRmUJLUcTR0qkStoHR7OvvjGVrTbGFVt8mwa7EPYMXM5tUVS97akThDyAUV2B8ahki0+pJZzTtVn+m5ksKsM1PrTTJ+2uqX5CXOgQcFGpFi5cVH9G3WahDTty6HP5IRKmJyf92nAvJ1Od7MY4vtf/WFRP6tiBZbEy4x1Ax6X9vKuXRS/Nqwrl7HIx4T3slVJCSZUvSkTPLbCDD6inBDyStW1wrjKjs7rPCtNsQ2H4z90IDdk9f4x1v6FM+2hkrORl0U+hw/t5oBBYD0P6ErCv2ZKOEQ/ZjXpwIKl7iMFVDvidxhhRk1o0FksBuFXSqHETCuZsr8TU693iruO7IWYiLoVqmKzlUL0st4Gzhm9UVi2/x5Afh956fki3ExVTGTG8ArGqy7VrGeBc6AeSPr+uNK0zRQ9JEviN5tI141ntBS1/UDX2NAtXsNzfphpnRw/w6bQQOwZYHdhydhG9iYHZqQIAtzTbsm1bkvjpPtmIw7lrdS6wFV+/JLOvWSpF4YTAEvgET5E8z53dgmsrKacB8uOYKnwdSv
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: BHtnL7XqcLTNrONmIm+bn7uZo9JtAee9md2c5Go3PrhuuSY5zP37a7Hyzo0qF7bYMH7lIe1OIRT3YjKqRkuakVtwlwj9V5iGvihk+9Elqws6EirIhnqONS+0L4TlXBvoPN5Po3/yQZ4mE8+aj+/vOMzP21VsSdoDrOV1xxKqQzhWJ6WzZQn8IRI/RyD1BdRtpK6GQn4kh7w+Q+zfNGmCtN4V0SQo6rEiqPTdz1Gwz5HKRnFOwi1OFIDukotwY+MiAJcUFBgFIFwT1Rf20OlPP1sxl9FohVwPiNqshhWEL72XW+iGC1U4aiokRsC4qUpDTnBTxx1zxRw82E63CiQkPwiDLR16YAVscnrbDm7D0yUVafvJAOwjC4CbK0EHXUObHWAqtRkpShWSd/rk22DO4Ha7bqivT11J2T+V/RjXqTg3rG8QSPdvkLX9Gz5WXQzmB3+gCPGq9JebdgRqRbtiEJhskyoTPdTDv3tkFH0y14C7ymOcnhSGFjrvSis3LKOTDM4DAIj/HpmgWmIc9v0T0y0zaywUTQVrHypu6IX+NE5NaFeNZKCYW4RO2SfRKQBngDtLVRX+LQy4Fp5vqpXpwIcmUo+cTJm7q0eBvquq0OeLUiM3idL+ukacHwmO8MR8
 X-OriginatorOrg: witekio.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef2a88e4-14ce-44f2-9fb8-08df46d8c45f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 47d8bae7-eb6d-4eff-8212-08df46da467a
 X-MS-Exchange-CrossTenant-AuthSource: MRWP192MB3504.EURP192.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2026 07:34:53.2171
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2026 07:45:41.0518
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 317e086a-301a-49af-9ea4-48a1c458b903
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: A3oDKskY2lWDmpCntSH25BW8KxTCpaof6ylSex1G5aYUYpoQcv4Fl4B1upu5ynD/GC6sAIX9NiFRSFVZaW8oIg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1P192MB2827
+X-MS-Exchange-CrossTenant-UserPrincipalName: LI+89w3o2tk5rx5o1Kd1P012OGOJ83XpV4PYEKZO8i52WV8vmeFGHVCT9qpJgdp9rxUT06Ub2owgH5vgZIiVjg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8P192MB2822
 X-cloud-security-sender: hsimeliere@witekio.com
 X-cloud-security-recipient: openembedded-core@lists.openembedded.org
 X-cloud-security-crypt: load encryption module
 X-cloud-security-Mailarchiv: E-Mail archived for: hsimeliere.opensource@witekio.com
 X-cloud-security-Mailarchivtype: outbound
 X-cloud-security-Virusscan: CLEAN
-X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-gate11-hz12 with 4jW6YX2R7Tz46VT0
-X-cloud-security-connect: mail-northeuropeazon11020119.outbound.protection.outlook.com[52.101.84.119], TLS=1, IP=52.101.84.119
-X-cloud-security-Digest: 55c3c1512d435f2a231695bf809ab5d2
-X-cloud-security: scantime:1.335
+X-cloud-security-disclaimer: This E-Mail was scanned by E-Mailservice on mx-gate138-hz1 with 4jW6nz0vTpz1NGXg
+X-cloud-security-connect: mail-northeuropeazon11020082.outbound.protection.outlook.com[52.101.84.82], TLS=1, IP=52.101.84.82
+X-cloud-security-Digest: ce343ffdd9674f216ebe7847ce057ae8
+X-cloud-security: scantime:1.414
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 07:35:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250744
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 07:45:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250745
 Content-Type: text/plain; charset="utf-8"
 
-From: Alex Kiernan <alex.kiernan@gmail.com>
+On Fri Nov 20, 2026 at 8:33 AM CET, Yoann Congal wrote:
+> Noted. But
+> https://patchwork.yoctoproject.org/project/oe-core/patch/20261120072058.2724815-1-hsimeliere.opensource@witekio.com/
+> is indeed for blacksail, right?
 
-mke2fs reads SOURCE_DATE_EPOCH from the environment and clamps the time
-of every inode it creates to it. bitbake exports the image's
-SOURCE_DATE_EPOCH, which is older than the REPRODUCIBLE_TIMESTAMP_ROOTFS
-that reproducible_final_image_task gives every file, so an ext image
-carries different mtimes from a tar or squashfs image of the same rootfs,
-and anything recorded against the rootfs mtimes, such as the fontconfig
-caches, is wrong in it.
+Yes, that one is for blacksail.
 
-Give mke2fs the rootfs mtime instead, as oe_mksquashfs does for
-mksquashfs. It is just as fixed, so the image stays reproducible.
+I also mistakenly resent it as "[blacksail][PATCH v2]" after my
+"please ignore" mail; it is identical to this v1, so please take
+either one and drop the other.
 
-This changes the times stamped into an ext image. Every inode's atime,
-ctime, mtime and crtime, and the superblock's created, last write and
-last checked times, move from the image's SOURCE_DATE_EPOCH to
-REPRODUCIBLE_TIMESTAMP_ROOTFS. An image recipe has no source of its own,
-so its SOURCE_DATE_EPOCH is SOURCE_DATE_EPOCH_FALLBACK; with the
-bitbake.conf defaults for that and REPRODUCIBLE_TIMESTAMP_ROOTFS, the
-times move from 1302044400 (2011-04-05) to 1520598896 (2018-03-09).
-
-Where a distro sets REPRODUCIBLE_TIMESTAMP_ROOTFS earlier than
-SOURCE_DATE_EPOCH the inode times were not clamped and only the
-superblock times change. The directory hash seed is still derived from
-SOURCE_DATE_EPOCH and does not change. An ext image therefore differs
-from one built before this change.
-
-AI-Generated: Claude Opus 5.5 (Claude Code)
-Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 2096871145c16d3b534a252951b960f1306740c1)
-Signed-off-by: Hugo SIMELIERE (Schneider Electric) <hsimeliere.opensource@witekio.com>
----
- meta/classes-recipe/image_types.bbclass | 6 ++++++
- 1 file changed, 6 insertions(+)
-
-diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recipe/image_types.bbclass
-index c0b3a78013..a5637c2226 100644
---- a/meta/classes-recipe/image_types.bbclass
-+++ b/meta/classes-recipe/image_types.bbclass
-@@ -92,6 +92,12 @@ oe_mkext234fs () {
- 		extra_imagecmd=$@
- 	fi
- 
-+	# mke2fs reads SOURCE_DATE_EPOCH itself and clamps every inode time to it,
-+	# so give it the time the rootfs files carry, as oe_mksquashfs does.
-+	if [ -n "$SOURCE_DATE_EPOCH" ]; then
-+		export SOURCE_DATE_EPOCH=$(stat -c '%Y' ${IMAGE_ROOTFS})
-+	fi
-+
- 	# For reproducible builds, make mke2fs/e2fsck deterministic: a fixed time and
- 	# directory hash seed (the fsck "-D" pass reorders directories using it).
- 	# This mirrors what wic does for its ext4 partitions.
--- 
-2.56.1
-
+Hugo
