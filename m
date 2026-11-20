@@ -1,41 +1,41 @@
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1245.1795158390630922021
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1165.1795158390666771370
  for <openembedded-core@lists.openembedded.org>;
  Thu, 19 Nov 2026 23:06:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=j6ITDJI1;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=tz0crrw7;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a1f7c733cd-0cfceb75-2f28-4f23-8d49-76dae58bcb76-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=SOP1YHdY;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=HKDuZS8d;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101a1f7c733be-cf82fdfc-113a-406f-9c90-300d4a8d5a98-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1795158389;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=6EeyDn+ago7zw4lNQYrtHxfyq73+tbbq7JlseY8+OtA=;
-	b=j6ITDJI1gpk/HXaCGR+AS/2IF5HpxAX2tinDcNnu4WfSM+QW0vDc/bXPuQIwVCGd
-	T8WVZq58zQHkAF0Dt3kdStTRjIw4QPDoQeOnIaAAfFp/NvEfyFnreSA/nPLTF+8QVlK
-	AsYIHzgifhn4+6spFL1vjW/LVbn7Tu/18yWmqhfs=
+	bh=tMtgvtCeoEHtL4v800LhCOoo48OHPFzXKvoMJ7avkUQ=;
+	b=SOP1YHdY1PdUdKNZVN6pAnkrIrvfCO8zRUGa9fjwQRjuVAV4xqLamyTKM7UxSiyi
+	qkIvm0iD5fQXI0ju47NhqQgn0/RPvxt6Tf4kykG1uieQzQwDrOx+ygZBg32O1nY6A2x
+	K1dpspNYz+06oSuopRXJCzU73h6ozPpaJzPNZsqA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1795158389;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=6EeyDn+ago7zw4lNQYrtHxfyq73+tbbq7JlseY8+OtA=;
-	b=tz0crrw7U5+/kP1+MSqd42Y629wdlA6bXStYJZaT8FlWaZKYVAk/JkQ6dgGOlieQ
-	RJTHjVOrWFA3Va5io3rD0Pmq8PB9CTdX48TpiAYYwsSh/TDiEdOKuIDPSL9i3L9ySs2
-	OMWxk4fjrW9fnHlqq7LLEDL16VPXfVLW/u9RmCjw=
-Content-Type: multipart/mixed; boundary="===============1554579173768702196=="
+	bh=tMtgvtCeoEHtL4v800LhCOoo48OHPFzXKvoMJ7avkUQ=;
+	b=HKDuZS8dfh6Zeu6oZYlB3thOUWoSpVBiCVoRn64bsUljUaDb84VpOXR/FwKfQtsk
+	RNoJtgpZpZK9m/vdSWh3G3I7Iuc6Kx/vSnE2gohPjspTUe/V9iX4dthi8CbfORW0IB6
+	RAGEz4vGDrcqjtnPfpJtBRP77C80EZkmtZNlwoDU=
+Content-Type: multipart/mixed; boundary="===============0987175510860123740=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Marta Rybczynska <marta.rybczynska@ygreky.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libconvert-asn1-perl: upgrading to 0.37 SUCCEEDED
-Message-ID: <010101a1f7c733cd-0cfceb75-2f28-4f23-8d49-76dae58bcb76-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-uritools: upgrading to 7.0.1 SUCCEEDED
+Message-ID: <010101a1f7c733be-cf82fdfc-113a-406f-9c90-300d4a8d5a98-000000@us-west-2.amazonses.com>
 Date: Fri, 20 Nov 2026 07:06:29 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.20-54.240.27.31
+X-SES-Outgoing: 2026.11.20-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 07:06:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250732
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250733
 
---===============1554579173768702196==
+--===============0987175510860123740==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -43,10 +43,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libconvert-asn1-perl* to *0.37* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-uritools* to *7.0.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libconvert-asn1-perl-upgrade-0.36-0.37.patch
+    - apply the patch: git am 0001-python3-uritools-upgrade-7.0.0-7.0.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -64,123 +64,141 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 5ad9e898a3fb8b6acb495e93ec8c417b7d923dfc Mon Sep 17 00:00:00 2001
+From 0aec0cf8d8e49920141cf51de5e5a9ea86239057 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 20 Nov 2026 06:07:07 +0000
-Subject: [PATCH] libconvert-asn1-perl: upgrade 0.36 -> 0.37
+Date: Fri, 20 Nov 2026 05:57:38 +0000
+Subject: [PATCH] python3-uritools: upgrade 7.0.0 -> 7.0.1
 
-0.37 -- Thu Nov 19 18:30:00 AST 2026
-Security Fixes
-Bug Fixes
-Incompatible Changes
+v7.0.1 (2026-11-19)
+===================
+
+- Remove percent-encoded dot-segments in ``SplitResult.getpath()``.
+- Minor performance improvements.
+- Update build environment.
+
+- Add URI classification methods and functions.
+  objects from ``SplitResult.gethost()`` instead.
+- Add ``SplitResult.getquerylist()`` and
+  ``SplitResult.getquerydict()``.
 ---
- ...ibconvert-asn1-perl_0.36.bb => libconvert-asn1-perl_0.37.bb} | 2 +-
+ .../{python3-uritools_7.0.0.bb => python3-uritools_7.0.1.bb}    | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/perl/{libconvert-asn1-perl_0.36.bb => libconvert-asn1-perl_0.37.bb} (91%)
+ rename meta/recipes-devtools/python/{python3-uritools_7.0.0.bb => python3-uritools_7.0.1.bb} (79%)
 
-diff --git a/meta/recipes-extended/perl/libconvert-asn1-perl_0.36.bb b/meta/recipes-extended/perl/libconvert-asn1-perl_0.37.bb
-similarity index 91%
-rename from meta/recipes-extended/perl/libconvert-asn1-perl_0.36.bb
-rename to meta/recipes-extended/perl/libconvert-asn1-perl_0.37.bb
-index 6cb3ce9fd9..c628ef6856 100644
---- a/meta/recipes-extended/perl/libconvert-asn1-perl_0.36.bb
-+++ b/meta/recipes-extended/perl/libconvert-asn1-perl_0.37.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://README.md;beginline=91;endline=97;md5=ceff7fd286eb6d8
+diff --git a/meta/recipes-devtools/python/python3-uritools_7.0.0.bb b/meta/recipes-devtools/python/python3-uritools_7.0.1.bb
+similarity index 79%
+rename from meta/recipes-devtools/python/python3-uritools_7.0.0.bb
+rename to meta/recipes-devtools/python/python3-uritools_7.0.1.bb
+index a19949c721..bbec6607a3 100644
+--- a/meta/recipes-devtools/python/python3-uritools_7.0.0.bb
++++ b/meta/recipes-devtools/python/python3-uritools_7.0.1.bb
+@@ -4,7 +4,7 @@ HOMEPAGE = "https://github.com/tkem/uritools/"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=079933dfba36eb60b5e3512ca0ab61ae"
  
- SRC_URI = "${CPAN_MIRROR}/authors/id/T/TI/TIMLEGGE/Convert-ASN1-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "110b773e3f8fbaebcdcbe1377d04e418b1985adf69deeca4ed569f3e328cbf48"
++SRC_URI[sha256sum] = "abf09f899b925fad05407d7f39061318c6be62cce065db727a024daadf96eebf"
  
--SRC_URI[sha256sum] = "50439aedff4b403f24c9373eefd3c25770e33a9190d93a331e7a744f8b4e7cd3"
-+SRC_URI[sha256sum] = "012b90bbb931e049340a114dbc510f845309d9ca76cc6c4fad751d317b4bf0fa"
- 
- S = "${UNPACKDIR}/Convert-ASN1-${PV}"
+ inherit pypi python_setuptools_build_meta ptest-python-pytest
  
 -- 
 2.47.1
 
 
---===============1554579173768702196==
+--===============0987175510860123740==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/libconvert-asn1-perl: PKGV changed from 0.36 [default] to 0.37 [default]
-packages/x86-64-v3-poky-linux/libconvert-asn1-perl: PV changed from "0.36" to "0.37"
-packages/x86-64-v3-poky-linux/libconvert-asn1-perl: SRC_URI changed from "https://cpan.metacpan.org/authors/id/T/TI/TIMLEGGE/Convert-ASN1-0.36.tar.gz file://ptest-perl/run-ptest" to "https://cpan.metacpan.org/authors/id/T/TI/TIMLEGGE/Convert-ASN1-0.37.tar.gz file://ptest-perl/run-ptest"
-packages/x86-64-v3-poky-linux/libconvert-asn1-perl/libconvert-asn1-perl-dbg: PKGV changed from 0.36 [default] to 0.37 [default]
-packages/x86-64-v3-poky-linux/libconvert-asn1-perl/libconvert-asn1-perl-dbg: PV changed from "0.36" to "0.37"
-packages/x86-64-v3-poky-linux/libconvert-asn1-perl/libconvert-asn1-perl-dev: PKGV changed from 0.36 [default] to 0.37 [default]
-packages/x86-64-v3-poky-linux/libconvert-asn1-perl/libconvert-asn1-perl-dev: PV changed from "0.36" to "0.37"
-packages/x86-64-v3-poky-linux/libconvert-asn1-perl/libconvert-asn1-perl-doc: PKGV changed from 0.36 [default] to 0.37 [default]
-packages/x86-64-v3-poky-linux/libconvert-asn1-perl/libconvert-asn1-perl-doc: PV changed from "0.36" to "0.37"
-packages/x86-64-v3-poky-linux/libconvert-asn1-perl/libconvert-asn1-perl-doc: PKGSIZE changed from 16369 to 20507 (+25%)
-packages/x86-64-v3-poky-linux/libconvert-asn1-perl/libconvert-asn1-perl-locale: PKGV changed from 0.36 [default] to 0.37 [default]
-packages/x86-64-v3-poky-linux/libconvert-asn1-perl/libconvert-asn1-perl-locale: PV changed from "0.36" to "0.37"
-packages/x86-64-v3-poky-linux/libconvert-asn1-perl/libconvert-asn1-perl-ptest: PKGV changed from 0.36 [default] to 0.37 [default]
-packages/x86-64-v3-poky-linux/libconvert-asn1-perl/libconvert-asn1-perl-ptest: PV changed from "0.36" to "0.37"
-packages/x86-64-v3-poky-linux/libconvert-asn1-perl/libconvert-asn1-perl-ptest: PKGSIZE changed from 74022 to 97339 (+32%)
-packages/x86-64-v3-poky-linux/libconvert-asn1-perl/libconvert-asn1-perl-ptest: FILELIST: added "/usr/lib/libconvert-asn1-perl/ptest/t/24enc_integer_validate.t /usr/lib/libconvert-asn1-perl/ptest/t/26dec_depth_limit.t /usr/lib/libconvert-asn1-perl/ptest/t/27asn_read_length.t /usr/lib/libconvert-asn1-perl/ptest/t/25dec_bitstring_zero_len.t /usr/lib/libconvert-asn1-perl/ptest/t/23dec_real.t /usr/lib/libconvert-asn1-perl/ptest/t/22asn_recv_truncated.t /usr/lib/libconvert-asn1-perl/ptest/t/28oid_arc_limit.t /usr/lib/libconvert-asn1-perl/ptest/t/20integer_max_len.t"
-packages/x86-64-v3-poky-linux/libconvert-asn1-perl/libconvert-asn1-perl-src: PKGV changed from 0.36 [default] to 0.37 [default]
-packages/x86-64-v3-poky-linux/libconvert-asn1-perl/libconvert-asn1-perl-src: PV changed from "0.36" to "0.37"
-packages/x86-64-v3-poky-linux/libconvert-asn1-perl/libconvert-asn1-perl-staticdev: PKGV changed from 0.36 [default] to 0.37 [default]
-packages/x86-64-v3-poky-linux/libconvert-asn1-perl/libconvert-asn1-perl-staticdev: PV changed from "0.36" to "0.37"
-packages/x86-64-v3-poky-linux/libconvert-asn1-perl/libconvert-asn1-perl: PKGV changed from 0.36 [default] to 0.37 [default]
-packages/x86-64-v3-poky-linux/libconvert-asn1-perl/libconvert-asn1-perl: PV changed from "0.36" to "0.37"
-packages/x86-64-v3-poky-linux/libconvert-asn1-perl/libconvert-asn1-perl: PKGSIZE changed from 83784 to 92211 (+10%)
+packages/x86-64-v3-poky-linux/python3-uritools: SRC_URI changed from "https://files.pythonhosted.org/packages/source/u/uritools/uritools-7.0.0.tar.gz" to "https://files.pythonhosted.org/packages/source/u/uritools/uritools-7.0.1.tar.gz"
+packages/x86-64-v3-poky-linux/python3-uritools: PKGV changed from 7.0.0 [default] to 7.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-uritools: PV changed from "7.0.0" to "7.0.1"
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-dbg: PKGV changed from 7.0.0 [default] to 7.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-dbg: PV changed from "7.0.0" to "7.0.1"
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-dev: PKGV changed from 7.0.0 [default] to 7.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-dev: PV changed from "7.0.0" to "7.0.1"
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-doc: PKGV changed from 7.0.0 [default] to 7.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-doc: PV changed from "7.0.0" to "7.0.1"
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-locale: PKGV changed from 7.0.0 [default] to 7.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-locale: PV changed from "7.0.0" to "7.0.1"
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-ptest: PKGV changed from 7.0.0 [default] to 7.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-ptest: PV changed from "7.0.0" to "7.0.1"
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-ptest: PKGSIZE changed from 58857 to 59293 (+1%)
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-src: PKGV changed from 7.0.0 [default] to 7.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-src: PV changed from "7.0.0" to "7.0.1"
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-staticdev: PKGV changed from 7.0.0 [default] to 7.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools-staticdev: PV changed from "7.0.0" to "7.0.1"
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools: PKGV changed from 7.0.0 [default] to 7.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools: FILELIST: directory renamed /usr/lib/python3.15/site-packages/uritools-7.0.0.dist-info -> /usr/lib/python3.15/site-packages/uritools-7.0.1.dist-info, directory renamed /usr/lib/python3.15/site-packages/uritools-7.0.0.dist-info/licenses -> /usr/lib/python3.15/site-packages/uritools-7.0.1.dist-info/licenses
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools: PV changed from "7.0.0" to "7.0.1"
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools: PKGSIZE changed from 76377 to 79163 (+4%)
+Changes to packages/x86-64-v3-poky-linux/python3-uritools (sysroot):
+  /usr/lib/python3.15/site-packages/uritools-7.0.0.dist-info moved to /usr/lib/python3.15/site-packages/uritools-7.0.1.dist-info
 
---===============1554579173768702196==
+--===============0987175510860123740==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-uritools-upgrade-7.0.0-7.0.1.patch"
+
+RnJvbSAwYWVjMGNmOGQ4ZTQ5OTIwMTQxY2Y1MWRlNWU1YTllYTg2MjM5MDU3IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMjAgTm92IDIwMjYgMDU6NTc6MzggKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXVyaXRvb2xzOiB1cGdyYWRlIDcuMC4wIC0+IDcuMC4xCgp2Ny4wLjEgKDIwMjYtMTEt
+MTkpCj09PT09PT09PT09PT09PT09PT0KCi0gUmVtb3ZlIHBlcmNlbnQtZW5jb2RlZCBkb3Qtc2Vn
+bWVudHMgaW4gYGBTcGxpdFJlc3VsdC5nZXRwYXRoKClgYC4KLSBNaW5vciBwZXJmb3JtYW5jZSBp
+bXByb3ZlbWVudHMuCi0gVXBkYXRlIGJ1aWxkIGVudmlyb25tZW50LgoKLSBBZGQgVVJJIGNsYXNz
+aWZpY2F0aW9uIG1ldGhvZHMgYW5kIGZ1bmN0aW9ucy4KICBvYmplY3RzIGZyb20gYGBTcGxpdFJl
+c3VsdC5nZXRob3N0KClgYCBpbnN0ZWFkLgotIEFkZCBgYFNwbGl0UmVzdWx0LmdldHF1ZXJ5bGlz
+dCgpYGAgYW5kCiAgYGBTcGxpdFJlc3VsdC5nZXRxdWVyeWRpY3QoKWBgLgotLS0KIC4uLi97cHl0
+aG9uMy11cml0b29sc183LjAuMC5iYiA9PiBweXRob24zLXVyaXRvb2xzXzcuMC4xLmJifSAgICB8
+IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
+YW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtdXJpdG9vbHNfNy4wLjAu
+YmIgPT4gcHl0aG9uMy11cml0b29sc183LjAuMS5iYn0gKDc5JSkKCmRpZmYgLS1naXQgYS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXJpdG9vbHNfNy4wLjAuYmIgYi9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXJpdG9vbHNfNy4wLjEuYmIKc2ltaWxh
+cml0eSBpbmRleCA3OSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
+eXRob24zLXVyaXRvb2xzXzcuMC4wLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+cHl0aG9uL3B5dGhvbjMtdXJpdG9vbHNfNy4wLjEuYmIKaW5kZXggYTE5OTQ5YzcyMS4uYmJlYzY2
+MDdhMyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXVy
+aXRvb2xzXzcuMC4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
+My11cml0b29sc183LjAuMS5iYgpAQCAtNCw3ICs0LDcgQEAgSE9NRVBBR0UgPSAiaHR0cHM6Ly9n
+aXRodWIuY29tL3RrZW0vdXJpdG9vbHMvIgogTElDRU5TRSA9ICJNSVQiCiBMSUNfRklMRVNfQ0hL
+U1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT0wNzk5MzNkZmJhMzZlYjYwYjVlMzUxMmNhMGFiNjFh
+ZSIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjExMGI3NzNlM2Y4ZmJhZWJjZGNiZTEzNzdkMDRl
+NDE4YjE5ODVhZGY2OWRlZWNhNGVkNTY5ZjNlMzI4Y2JmNDgiCitTUkNfVVJJW3NoYTI1NnN1bV0g
+PSAiYWJmMDlmODk5YjkyNWZhZDA1NDA3ZDdmMzkwNjEzMThjNmJlNjJjY2UwNjVkYjcyN2EwMjRk
+YWFkZjk2ZWViZiIKIAogaW5oZXJpdCBweXBpIHB5dGhvbl9zZXR1cHRvb2xzX2J1aWxkX21ldGEg
+cHRlc3QtcHl0aG9uLXB5dGVzdAogCi0tIAoyLjQ3LjEKCg==
+
+--===============0987175510860123740==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="libconvert-asn1-perl-changelog.txt"
+Content-Disposition: attachment; filename="python3-uritools-changelog.txt"
 
-0.37 -- Thu Nov 19 18:30:00 AST 2026
-Security Fixes
-Bug Fixes
-Incompatible Changes
+v7.0.1 (2026-11-19)
+===================
 
---===============1554579173768702196==
+- Remove percent-encoded dot-segments in ``SplitResult.getpath()``.
+- Minor performance improvements.
+- Update build environment.
+
+- Add URI classification methods and functions.
+  objects from ``SplitResult.gethost()`` instead.
+- Add ``SplitResult.getquerylist()`` and
+  ``SplitResult.getquerydict()``.
+
+--===============0987175510860123740==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/libconvert-asn1-perl/libconvert-asn1-perl-doc: PKGSIZE changed from 16369 to 20507 (+25%)
-packages/x86-64-v3-poky-linux/libconvert-asn1-perl/libconvert-asn1-perl-ptest: PKGSIZE changed from 74022 to 97339 (+32%)
-packages/x86-64-v3-poky-linux/libconvert-asn1-perl/libconvert-asn1-perl-ptest: FILELIST: added "/usr/lib/libconvert-asn1-perl/ptest/t/20integer_max_len.t /usr/lib/libconvert-asn1-perl/ptest/t/22asn_recv_truncated.t /usr/lib/libconvert-asn1-perl/ptest/t/26dec_depth_limit.t /usr/lib/libconvert-asn1-perl/ptest/t/24enc_integer_validate.t /usr/lib/libconvert-asn1-perl/ptest/t/25dec_bitstring_zero_len.t /usr/lib/libconvert-asn1-perl/ptest/t/27asn_read_length.t /usr/lib/libconvert-asn1-perl/ptest/t/28oid_arc_limit.t /usr/lib/libconvert-asn1-perl/ptest/t/23dec_real.t"
-packages/x86-64-v3-poky-linux/libconvert-asn1-perl/libconvert-asn1-perl: PKGSIZE changed from 83784 to 92211 (+10%)
+packages/x86-64-v3-poky-linux/python3-uritools/python3-uritools: FILELIST: directory renamed /usr/lib/python3.15/site-packages/uritools-7.0.0.dist-info/licenses -> /usr/lib/python3.15/site-packages/uritools-7.0.1.dist-info/licenses, directory renamed /usr/lib/python3.15/site-packages/uritools-7.0.0.dist-info -> /usr/lib/python3.15/site-packages/uritools-7.0.1.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-uritools (sysroot):
+  /usr/lib/python3.15/site-packages/uritools-7.0.0.dist-info moved to /usr/lib/python3.15/site-packages/uritools-7.0.1.dist-info
 
---===============1554579173768702196==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libconvert-asn1-perl-upgrade-0.36-0.37.patch"
-
-RnJvbSA1YWQ5ZTg5OGEzZmI4YjZhY2I0OTVlOTNlYzhjNDE3YjdkOTIzZGZjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMjAgTm92IDIwMjYgMDY6MDc6MDcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJjb252ZXJ0LWFzbjEtcGVybDogdXBncmFkZSAwLjM2IC0+IDAuMzcKCjAuMzcgLS0gVGh1IE5v
-diAxOSAxODozMDowMCBBU1QgMjAyNgpTZWN1cml0eSBGaXhlcwpCdWcgRml4ZXMKSW5jb21wYXRp
-YmxlIENoYW5nZXMKLS0tCiAuLi5pYmNvbnZlcnQtYXNuMS1wZXJsXzAuMzYuYmIgPT4gbGliY29u
-dmVydC1hc24xLXBlcmxfMC4zNy5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
-b24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvcGVybC97
-bGliY29udmVydC1hc24xLXBlcmxfMC4zNi5iYiA9PiBsaWJjb252ZXJ0LWFzbjEtcGVybF8wLjM3
-LmJifSAoOTElKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9wZXJsL2xpYmNv
-bnZlcnQtYXNuMS1wZXJsXzAuMzYuYmIgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvcGVybC9saWJj
-b252ZXJ0LWFzbjEtcGVybF8wLjM3LmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9t
-IG1ldGEvcmVjaXBlcy1leHRlbmRlZC9wZXJsL2xpYmNvbnZlcnQtYXNuMS1wZXJsXzAuMzYuYmIK
-cmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9wZXJsL2xpYmNvbnZlcnQtYXNuMS1wZXJs
-XzAuMzcuYmIKaW5kZXggNmNiM2NlOWZkOS4uYzYyOGVmNjg1NiAxMDA2NDQKLS0tIGEvbWV0YS9y
-ZWNpcGVzLWV4dGVuZGVkL3BlcmwvbGliY29udmVydC1hc24xLXBlcmxfMC4zNi5iYgorKysgYi9t
-ZXRhL3JlY2lwZXMtZXh0ZW5kZWQvcGVybC9saWJjb252ZXJ0LWFzbjEtcGVybF8wLjM3LmJiCkBA
-IC03LDcgKzcsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9SRUFETUUubWQ7YmVnaW5s
-aW5lPTkxO2VuZGxpbmU9OTc7bWQ1PWNlZmY3ZmQyODZlYjZkOAogCiBTUkNfVVJJID0gIiR7Q1BB
-Tl9NSVJST1J9L2F1dGhvcnMvaWQvVC9USS9USU1MRUdHRS9Db252ZXJ0LUFTTjEtJHtQVn0udGFy
-Lmd6IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiNTA0MzlhZWRmZjRiNDAzZjI0YzkzNzNlZWZk
-M2MyNTc3MGUzM2E5MTkwZDkzYTMzMWU3YTc0NGY4YjRlN2NkMyIKK1NSQ19VUklbc2hhMjU2c3Vt
-XSA9ICIwMTJiOTBiYmI5MzFlMDQ5MzQwYTExNGRiYzUxMGY4NDUzMDlkOWNhNzZjYzZjNGZhZDc1
-MWQzMTdiNGJmMGZhIgogCiBTID0gIiR7VU5QQUNLRElSfS9Db252ZXJ0LUFTTjEtJHtQVn0iCiAK
-LS0gCjIuNDcuMQoK
-
---===============1554579173768702196==--
+--===============0987175510860123740==--
