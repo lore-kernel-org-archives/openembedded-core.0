@@ -1,124 +1,121 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7812.1795217362847369319
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8092.1795218448292028970
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Nov 2026 15:29:23 -0800
+ Fri, 20 Nov 2026 15:47:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=N2XctRhI;
- spf=pass (domain: konsulko.com, ip: 209.85.216.43, mailfrom: tim.orling@konsulko.com)
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-3b44bdcea8aso166061a91.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 15:29:22 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=QWRKiq0f;
+ spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a5177d78c7so13734845e9.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 15:47:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1795217362; x=1795822162; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=aJrp/ZP1ztEt/sxKx8wNnzdxjLdy9lvbVbPAbQ6i/XA=;
-        b=N2XctRhIcAEeL4ZQmS4x4gpOpiYNo+ufgbTTCZEIei+UxggKO3vx97tZGCEGDi8q8w
-         xw49FGwtYHI8m9TBfrjLGmkNUcSlRwjBGsvmtqNTr1eHAh3Jq8d/RmVXjvqOG2OAOsEY
-         YHQEToE5sxjJsWWMBRZWUhqZEAiGrI7xkBeNA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795217362; x=1795822162;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=smile.fr; s=google2; t=1795218446; x=1795823246; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=aJrp/ZP1ztEt/sxKx8wNnzdxjLdy9lvbVbPAbQ6i/XA=;
-        b=vepPFM74PtiBJh9i+4s+xg2zPLDHhLVs9+8Zh+ZpsT9caxwBucfFRSDCbxl2ifyHix
-         tCfyG4/QR+PblZr+hSxf5EGis9/9ySuaxicFc/Uj0+0muo/INf+0RvCJ49wFka3zlSvp
-         dV1pg0jOACQACrCmMxR0/7WgVS8taCnm1YjEy66Ed+JfLW2YJ8sT2pflhrSDlRBQpr6K
-         +c2hCBGZ2InEs3kLGJdRn5+t5IYwZ5jnp0zfGl51jUZR1JgRadnrXNNBnZL3SIPo0M7i
-         QsDj11R1Jh7x1sMtxtdLMhJXFWlKclkeEgArSNAQpAiemAnabkGG2KnFBJp9mFg/cVCA
-         9bFw==
-X-Gm-Message-State: APuU4Z/vZE8e5718MotF/8pPuV201Chq1DFL5KeBkksVoaWMu0B+b4D1
-	PpBi4uPccYEw4p1sZJAufE92JcmC2WyQDw4WNnt6qAAV/t7j163NVBbYjmpy8jnHwyUEko97CP3
-	Swadz
-X-Gm-Gg: AZFdTZdO5DFBLkvn1wCl0f7Y4FOuMgVIesCUlxGapqK/r2ZP6qUlD7dWruLZ0vt6yPe
-	I1mniteXyxirP58e1BflJZ+H99nlEtFg05MDVHCa7hdKabf/qW7/R5KORSjxDgYDCA/95EcSIn1
-	QZJ033uFfyaYIt5jFJVcj0YrEtIBl+Szg+rSzliPwySXYpSLMup+Z7IyR/+/+cSHG2xNKQUDA0S
-	3hRqXQ9hVAo9Z7eCsml9t1km3u/+0ZxXhZTQHapDCPuTQygjfPfRwfDmJ2CYcKVFr92n4m3uyRC
-	rTmOB23GbOslAev2+Es79TzQJCjyV7r+zvjhLbNcq2Nyq1czzXh1fvD2Z3QwfSd5qnVftnVpZHt
-	6fZPbWbr6HvSJVZzCgjwTQOdyQyQIlJS7kM/qWvNtU3yNIWorB8L12GG/snutAtua6Dsw8LGb//
-	IQKU3NvabnSxt4oPPCK4LqpImE94pjJ6hZhwHewKakvhcHZPqnJZ7fqkMLg4Yay8UQ3223+3/Mz
-	4HihoN7CQXCeq2VcVW77lMFeyOj9xDZ6E3fcSxyKb5/zkUn9kMWlMNUZFzYAug1XgELe6EZTT8v
-	CSz4FQlTeFtf3EK962NtahLzkqP6r2nF8RuPOfFt6kTBIgWfkSnN1tUUzKGQSngxJy2aoiCjpSk
-	T3OT//Ii6X50mvxul8U9UgXdgnrU=
-X-Received: by 2002:a17:90b:390b:b0:3b1:d40:2c4e with SMTP id 98e67ed59e1d1-3b41c56f34amr3150842a91.0.1795217362014;
-        Fri, 20 Nov 2026 15:29:22 -0800 (PST)
-Return-Path: <tim.orling@konsulko.com>
-Received: from thetis.home.local ([2606:c800:6024:2000:469f:1416:a3fd:1a92])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b44b73b2b3sm620500a91.2.2026.11.20.15.29.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 15:29:21 -0800 (PST)
-From: Tim Orling <tim.orling@konsulko.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH] libconvert-asn1-perl: upgrade 0.36 -> 0.37
-Date: Fri, 20 Nov 2026 15:28:58 -0800
-Message-ID: <20261120232857.2340898-2-tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.47.3
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        bh=2F/M5vW459wemfFbpD+7Pj+47BGZns2ppcGlXcZqflM=;
+        b=QWRKiq0fTm4gkTAzIn5iffVDUJ9Q2X+HNrW9P3ouNkvVd1UURYziUJc0EuBly46HYe
+         A3d1SzXO5aJ8gNdjw6d5/tAue2FeHZ3W49q0dXHAnnut6Mtr3dmBdrkA6RVH1zr87yrq
+         AcxAGWaNgbiCDA3EULg4EM69JVNWR+vvOUCDkOqgLee/uNDwXr/9wPFdOqJwvxyMChat
+         ECYhB31FBH6V8Se3SiH3Qz4eCU61h/nyprX06fqE5/Wr7q0uDUXfnVM61VITRKXXYrzC
+         YHD9TTElngdpFHpAe1wXV1XI7Gascx1AKRdsShcy495tEAUK4WqsGnk2fLKBwscwbxL+
+         oG3w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795218446; x=1795823246;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=2F/M5vW459wemfFbpD+7Pj+47BGZns2ppcGlXcZqflM=;
+        b=apNUcrJ7PM4Ygnvcza1ceEgEsXzMABqxg/gO3Hs9V3NHa1WkNuKHyLnOp6/U0iNXib
+         zyznIzPI2qDbRfZmnmxIjoBS4SeZX+iC2TGKMPr6vuiEjUSjqTAZjpWfDpfEXqmpfOQc
+         iHr4Ubcnw+UKR0ZMSP2TdYMPd1Tv36TW9gRm4ORgmr7JjRlA2ahRYkXCQQCKzwML9xWr
+         zgGuoeVK/qslGpTGHuKsQHzn1b9ciObsJZrvBUE0f6a6WKls7ukcIBLHYkc2Kl6lT3Ym
+         XAdZfk5NfxDVBfjhwrTrX+nlMfnx7SnV+rzmMgzzAFyKgJtSCN1Sexy3YvFi3gI/YzGl
+         8iYg==
+X-Forwarded-Encrypted: i=1; AL+hErHAts14xzbsw0ZGdLr2Lctt1ShT5Zyzs9+FTFJmZdQyRErOzUvE4mKH0zcOyEaQGjqEsp0F6YeLZVhoPfgOgEmadA==@lists.openembedded.org
+X-Gm-Message-State: APuU4Z9gsEdAK+nwkhlMHU9/XMEh35V+r/0kw3t3MER1Hli9mWKF0BOQ
+	itl2ap/q/NBBBuvGiDNAGi11fHwOyv+r9roK/exyMPZ/vBgDhEDJZ9qL7CEqtCl0GwU=
+X-Gm-Gg: AYBFou0NxKTGInikuYDYiuyuzIEFo+zukkA1Vk3Z/tr5pwdwoXWdIBpfFTZTVYZbrkA
+	HEQHkvj8UNtK07Du/tYWHhaHA2XQ/sJFIuvFKuDOhoGlYBD1T1ofPC+E8kE4AmmGT3thtNBLtQs
+	xWYJC2ZRoFbDvAxksaT/rL4qksaTD+GHkwYXV52z+ApDI1nICMw1/Od9buOaMDIVSYVNnUowVcV
+	l+YVaJVjID4rUSf3MuK9WIdhO1GnJVcz+3S7pXTBpqqW/5/bNlP+J1s3W/3u6EHc+II8hjKRIjo
+	lA0kDrHSxtdINZs/nMhm0FSTeBAV8K5xG3ftL0O/8yXbWrIunNjs3lxXpw9t8X3J2UOlpwWoWPX
+	V2i9vOGyT3AH1WS4lF8QinTnYZekGhW6Br/JzLsJhAMbGOeJLt3RzEa9kKOacRuo8eqk4EKw4RG
+	yveLRjorgEPsJ7hqietGag5CDHD+NDw5fYoFU3eipd+kcMI7fdoVrbJL5Y1OhOn9aIYyKC+YWG1
+	NNG7Rp1y7LnE9jNeGT6eRn6Bmc25t9t+FzkWLl65nwmYhawyPkpaSJRpkUpNg7eQlxJdr1IFQOc
+	MTEYXj2hPnY7d35sc9Zxd1NGGFugab+uQKItOMO01jIAiZjxeIe13NHUgRAGZWY0WhIykUfOw2Q
+	PH/B4KhRHzA5J9c3J
+X-Received: by 2002:a05:600c:4f84:b0:4bb:8701:a2df with SMTP id 5b1f17b1804b1-4bb88809950mr108418965e9.17.1795218446311;
+        Fri, 20 Nov 2026 15:47:26 -0800 (PST)
+Return-Path: <yoann.congal@smile.fr>
+Received: from localhost (2a01cb001331aa00b03901bd7f693780.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:b039:1bd:7f69:3780])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884b7515sm174680705e9.13.2026.11.20.15.47.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Nov 2026 15:47:25 -0800 (PST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 21 Nov 2026 00:47:25 +0100
+Message-Id: <DN0FTSP5AZ5C.2IFR6JMARUZDY@smile.fr>
+Subject: Re: [OE-core][wrynose][PATCH 1/3] expat: fix CVE-2026-113351
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <dkelaiya@cisco.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20261105091719.1622520-1-dkelaiya@cisco.com>
+In-Reply-To: <20261105091719.1622520-1-dkelaiya@cisco.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 23:29:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250828
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 23:47:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250829
 
-0.37 is a security release:
+On Thu Nov 5, 2026 at 10:17 AM CET, Darsh Kelaiya -X (dkelaiya - E INFOCHIP=
+S PRIVATE LIMITED at Cisco) via openembedded-core wrote:
+> From: Darsh Kelaiya <dkelaiya@cisco.com>
+>
+> Backport the allocation-tracking reset fix [1] from upstream PR [2],
+> which is referenced by the NVD record [3].
+>
+> Snapshot retained allocations during XML_ParserReset() and exclude
+> those bytes from the next document's allocation-amplification checks.
+> Include the required counter extraction, accounting-settings
+> correction and both upstream regression tests from the same PR.
+>
+> Retain Expat 2.8.3's XmlBigCount counters and adapt the accounting
+> regression to its existing protection-setting APIs. Omit the PR's
+> comment-only encoding-check change because the later check that it
+> explains is absent from this source.
+>
+> [1] https://github.com/libexpat/libexpat/commit/a6cf8a6944b6c6d81e74c4cd9=
+5faa29132e67aa3
+> [2] https://github.com/libexpat/libexpat/pull/1431
+> [3] https://nvd.nist.gov/vuln/detail/CVE-2026-113351
+>
+> Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+> ---
+>  .../expat/expat/CVE-2026-113351_p1.patch      | 39 ++++++++
+>  .../expat/expat/CVE-2026-113351_p2.patch      | 65 +++++++++++++
+>  .../expat/expat/CVE-2026-113351_p3.patch      | 80 ++++++++++++++++
+>  .../expat/expat/CVE-2026-113351_p4.patch      | 95 +++++++++++++++++++
+>  .../expat/expat/CVE-2026-113351_p5.patch      | 70 ++++++++++++++
+>  meta/recipes-core/expat/expat_2.8.3.bb        |  7 +-
+>  6 files changed, 355 insertions(+), 1 deletion(-)
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-113351_p1.patc=
+h
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-113351_p2.patc=
+h
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-113351_p3.patc=
+h
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-113351_p4.patc=
+h
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-113351_p5.patc=
+h
 
-  * CVE-2026-126540: cap INTEGER/ENUMERATED decode size to prevent quadratic cost
-  * CVE-2026-126568: fix asn_recv OOM on truncated header or huge declared length
-  * CVE-2026-126576: bounds-check REAL exponent length; fix long-form mantissa size
-  * CVE-2026-126682: cap INTEGER/ENUMERATED encode size to prevent quadratic cost
-  * CVE-2026-126819: fix zero-length BIT STRING reading past end of buffer
-  * CVE-2026-126956: add configurable decode depth limit to prevent stack exhaustion
-  * CVE-2026-131868: prevent huge allocations in asn_read and asn_get
-  * CVE-2026-131877: limit OBJECT IDENTIFIER arc size to prevent quadratic cost
+Hello,
 
-It also discards invalid datagrams so SOCK_DGRAM sockets do not wedge.
-New default limits reject INTEGER/ENUMERATED values over 1025 bytes,
-nesting deeper than 99 levels and OID arcs over 32 bytes; configure()
-can raise or disable them.
+FYI, I received patches for blacksail for
+CVE-2026-117610 and CVE-2026-118370 (patches 2-3/3) but not for this one
+CVE-2026-113351 (patch 1/3).
 
-https://metacpan.org/dist/Convert-ASN1/changes
-
-The new tests "use lib", so add perl-module-lib to the ptest RDEPENDS.
-Tested with core-image-ptest-libconvert-asn1-perl on qemux86-64.
-
-AI-Generated: Uses Claude Code (Claude Opus 5.5)
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
----
- ...-asn1-perl_0.36.bb => libconvert-asn1-perl_0.37.bb} | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/perl/{libconvert-asn1-perl_0.36.bb => libconvert-asn1-perl_0.37.bb} (76%)
-
-diff --git a/meta/recipes-extended/perl/libconvert-asn1-perl_0.36.bb b/meta/recipes-extended/perl/libconvert-asn1-perl_0.37.bb
-similarity index 76%
-rename from meta/recipes-extended/perl/libconvert-asn1-perl_0.36.bb
-rename to meta/recipes-extended/perl/libconvert-asn1-perl_0.37.bb
-index 6cb3ce9fd9..7ff7263c22 100644
---- a/meta/recipes-extended/perl/libconvert-asn1-perl_0.36.bb
-+++ b/meta/recipes-extended/perl/libconvert-asn1-perl_0.37.bb
-@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://README.md;beginline=91;endline=97;md5=ceff7fd286eb6d8
- 
- SRC_URI = "${CPAN_MIRROR}/authors/id/T/TI/TIMLEGGE/Convert-ASN1-${PV}.tar.gz"
- 
--SRC_URI[sha256sum] = "50439aedff4b403f24c9373eefd3c25770e33a9190d93a331e7a744f8b4e7cd3"
-+SRC_URI[sha256sum] = "012b90bbb931e049340a114dbc510f845309d9ca76cc6c4fad751d317b4bf0fa"
- 
- S = "${UNPACKDIR}/Convert-ASN1-${PV}"
- 
-@@ -17,6 +17,12 @@ EXTRA_PERLFLAGS = "-I ${PERLHOSTLIB}"
- 
- RDEPENDS:${PN} += "perl-module-exporter perl-module-constant perl-module-encode perl-module-encode-encoding perl-module-utf8 \
-                    perl-module-socket perl-module-time-local perl-module-posix perl-module-scalar-util perl-module-test-more"
--RDEPENDS:${PN}-ptest += "perl-module-math-bigint perl-module-io-socket perl-module-data-dumper perl-module-math-bigint-calc"
-+RDEPENDS:${PN}-ptest += "\
-+    perl-module-data-dumper \
-+    perl-module-io-socket \
-+    perl-module-lib \
-+    perl-module-math-bigint \
-+    perl-module-math-bigint-calc \
-+"
- 
- BBCLASSEXTEND = "native"
--- 
-2.47.3
+Regards,
+--=20
+Yoann Congal
+Smile ECS
 
