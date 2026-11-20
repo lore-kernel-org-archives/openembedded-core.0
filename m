@@ -1,138 +1,101 @@
-Received: from mail-qv1-f48.google.com (mail-qv1-f48.google.com [209.85.219.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3553.1795204540186900002
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7454.1795215946117988033
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Nov 2026 11:55:40 -0800
+ Fri, 20 Nov 2026 15:05:46 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre.com header.s=google header.b=jQq4u2Aw;
- spf=pass (domain: baylibre.com, ip: 209.85.219.48, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qv1-f48.google.com with SMTP id 6a1803df08f44-921342fae7eso14207466d6.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 11:55:40 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=XPiKcRoO;
+ spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4bb72b44a97so12484025e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 15:05:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1795204539; x=1795809339; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=mghSQO7C9CY+Qwk8VMGdy1GtmIkKsFU6jn43McUEoHU=;
-        b=jQq4u2Awbfa+5Ft93jM0WVVXIFyrS8m5S/cW90Ha2AHRTVU1ps6Ui/o4pH2XBa0F8k
-         /1v/b+ppzfrdY8++q7+6vrl3bLzUPye+JhjfEHTRRzRkTdSE7olhfS/zTme7ZV5aK25Y
-         I+SH9MoAbMImY7LAttFXOTPJVQ2cTfL7Yz0g+W1+4J/ExrJOS9vSmNyRJyErb4v1sVTl
-         GdZoicylK57vu3an36Dr8R6n1przsdYc1+2gCT4kCLNUSKqW41rdRRfIWkxMGTZdOc6h
-         ZOKNwZRwgTLdvPBt42OX1UNCpIQ5GcZ68CFOztkky0spAx66q+L9iAOeE0DDxTofybSW
-         3Hhw==
+        d=smile.fr; s=google2; t=1795215944; x=1795820744; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=aJyzrq73UjU2axzLyfPAdToEvQGa4VzkhkJsd1A5N9o=;
+        b=XPiKcRoOEl70LeVnwKDcuilZDAlcZgTVj4NHYVr6hx0HC3GPlfX/QQGAhH0nQvV03L
+         3LStmzsIGjVAkW1zg6h8ED08YUIcdzfGqv8+48YhiCt/uCn48RhSKRj8AJ79I6+kmb2M
+         rALrFdEchpPUgF2Pjsnguge1eibeqL0un8M/zb+OF/gW8ZEEAEqVH4f1IQfcicnKK6tM
+         6o/WHH09gty/yvvmAYAjn4UG4TY0gTF5TVKgNH1EtiQZkdVVpDwfl2tOjQkRql0KrDLr
+         lg3KOUuNNPOlK4lSM7SqYylK9qt+DoROBZubwiOI8Fuvu3VDaFaoYF35C+MNz8iNGabA
+         np9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795204539; x=1795809339;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=mghSQO7C9CY+Qwk8VMGdy1GtmIkKsFU6jn43McUEoHU=;
-        b=QngqLilIA+VznsU7VuXiVhT/dPEkYAEe+CKRnq+PqWGaNPsWbeM783kjYgKGl2tOzo
-         skw5c89w6LOG5TML/OM3sn6THldcUhQgFyr0VWluHH72KPXUdoyjiN0OrCLlX1WZZSTo
-         vdC0D5bkEosOeY3TE/aWJTDWnUaKGFlSjbQJl6IdYn+yEmuomLlmktD/LD/9qaWypPNA
-         RBG4zJKwhYHP7DqYWwGxIQElB0qwR8rlq0GuFaUza8ztgbIorHDyLMs4e0OovP/ivTcE
-         TVvnnsz7A+uOPX2PSdgRpBC/EozlyXD8nYsoxjF8RZZzN3fbQp+dD9gezDfL3KqvJkcA
-         IGMg==
-X-Gm-Message-State: APuU4Z/S0UPBma5OeKMKkYaYU7/Ls6gPBh2J1F9+5r/rMgeGr1NPmvcc
-	IPGqqBVx3v7TSZFmtzX/6uCdBqTruUA37PZm+VCfjj4v05V9s2rWWxA74muCx+8XxNq7+lTyJe2
-	bprPu
-X-Gm-Gg: AZFdTZeVFbKZsDwb+8ir1ihvG2pyO7v5ZbMh8r2wPOr1+Kyfcf5QUPdl1qVNoMGr6SB
-	NzdY7JBY10xwv9Wo3gvqZdMTiCv7oWU7NMakZGnAZXi7WRQWuOgM81bQzgVDd5jp/vXO6UHoXuJ
-	8bTkWzZQpdE2Emy9r+YY8wn0V+Jfeen2nrc/cJ2K96WjW4HRnBmmYtf4k9MO5bVSUgoEVhd7amb
-	dc/7RnZADymNdY92kSph8zQHc+oYyLuJUjgid2IdwGfFmzxYhgmuM8jL2r9H6EeDAoHFxq0N5ja
-	EI9mdBGDHC+ZQCCoTNlZZ4GyWUxn9ft2NhARfyDQA/UwT/vDlsHVINo1RCZyJvr7b3Z7v2ebmZ0
-	xnb2qKF+O5WTQxqdThQbl5XLtYPpT2YV10cMESNX4nxFVshQYtoEQRnnwRVLHbaRE4PiUhbNvyx
-	Y7ZbUgjEUiomgthiuorkpuIhfLTcRS1BQ65w+CC4AsuNpLj6u094sDhQwt+IjfJ3GyN4JYN7ZUl
-	LBRFFuu0ap8fNJvUGTJZ2WukHjsUcgIiB+6VsHJkGe8kn3MSApUSSXa1YfoX/yDB63d7OSdalBv
-	uw3v4/fo1V47erDU7rb6Tb7P0Da2y1CYYaq1cYoXD6ifZTbdoj1gngElslwDYVDKZWaWEV1Uj/j
-	IN2yBRecpNw==
-X-Received: by 2002:a05:6214:763:b0:921:24aa:10c3 with SMTP id 6a1803df08f44-92134a60fa4mr68950576d6.30.1795204538966;
-        Fri, 20 Nov 2026 11:55:38 -0800 (PST)
-Return-Path: <tgamblin@baylibre.com>
-Received: from megalith.oryx-coho.ts.net ([2001:1970:3847:e000:e8bd:ca0f:c232:9f10])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-921349b50besm33975846d6.9.2026.11.20.11.55.37
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2026 11:55:38 -0800 (PST)
-From: Trevor Gamblin <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH] python3-numpy: set '--rootdir' in run-ptest
-Date: Fri, 20 Nov 2026 14:55:35 -0500
-Message-ID: <20261120195535.2843075-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.56.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        d=1e100.net; s=20260707; t=1795215944; x=1795820744;
+        h=in-reply-to:references:from:subject:to:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=aJyzrq73UjU2axzLyfPAdToEvQGa4VzkhkJsd1A5N9o=;
+        b=pNH13r3QMrWzi5Z12dk670XLAoooU+CVpPycEPNBr5CCh0IIdSSnHcIBfMy304IBtF
+         CtnaP+XicZlMZBackA9QcdZ7ub0rf3RiDIM/WjL8xGV5bAUGtF8YkE+tdHKSoisepPvS
+         o65SUbvSSjaZfywLNi24qwtOZSlpXQ+bI60yVxkFkOO6kGv7JfDN+JPjOcEpYy9zu+rI
+         ILs6NQcD0BiL06769qY1WMsIvczCTQgyzSo2C+tfj9Da+FWWEtAC2Dooj1t0WlBmui44
+         K+TVFgSQAm6V6XMFvUc6Lz2Vx9dlTN25duy7ke3wiUgxdVi1no3wHZMFCmHuYJRZ7yT7
+         lyYg==
+X-Forwarded-Encrypted: i=1; AL+hErFtkUCSqpF3rK64nSynpmPt3tOQ3WCThJtnBnNBTleBueXI0pFTp+Fcx3kglQ3zz0Q4KjeG04tDNc9enPGXH6xxzA==@lists.openembedded.org
+X-Gm-Message-State: APuU4Z8L4ZC4Hh8tDgLBzI7+sEbrOylc08DIore9sFPqg5T29ocAzx0i
+	E1PnBj7W3QyTdlelJu9hPgI02G7IciNSlLElhJBgGdLvoE0fotXdupazb6rQbhzor90=
+X-Gm-Gg: AYBFou29rJRKMujcP+3Vp3r9Oh6J6PXY97jbzdykN/IO8QOaGfGvYbsFRpF6tC8KY9e
+	rzC7j1hCRy8IrlQvP0yo3CicvzseaAfmgcAarUphy9W3HjxbhITI600S2s0vYf2eU2vIa7mpoSt
+	menE70P3PBgl8P3+M1FA7hiXFjHhnnj4IF3F/vSuTsssFPpmfX4jzNORflHyk42P4gX4Qppfhic
+	LqgftHY5coNPpeD0+cyEQ3i1RTZf647Tg6BsGkFGUN93FH7MvgfXoMNs4eRcUqlf1byTuOBhnPi
+	OeQ5PAh/1T0yFOsLZBaKzrKlh/aji8ZYAsHfzlPMHVkRoYDiBMm+Sw2FVtY8WT4fXiBZfTGvHSL
+	DfDThp3qj9xmo1AEEdXCcFlpN5m/my8b71qyCQ+K6BRzGlJgpGHFralG59qDfLPMs2mlrDc4EMw
+	nxj8IIR8uF2fyfA9te6bqWF7WxWQ1APSprVnW9kvAKR5xCOeNReT+CQ9Li4fSIZppP88lU67bjS
+	gPsNMoEsdwNU5qwI5DliGeH9Fn9Q8XgzXiQNUMt4XBZE5ndBKH0z9mc9lzDhzIcRqTelnyat0My
+	Zk7Qwc7McNeS7dmfOL5hpoN8Me3onrfF3F3DAnaERJxMrRXvnIW+o/BM84TU5J0xHOvykQh5atI
+	ExUxNU7KBZdZ/MHe2
+X-Received: by 2002:a05:600c:5251:b0:4a1:f8cb:7d70 with SMTP id 5b1f17b1804b1-4bb8881e837mr94885335e9.24.1795215944410;
+        Fri, 20 Nov 2026 15:05:44 -0800 (PST)
+Return-Path: <yoann.congal@smile.fr>
+Received: from localhost (2a01cb001331aa00b03901bd7f693780.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:b039:1bd:7f69:3780])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb906cdcc1sm14667075e9.2.2026.11.20.15.05.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 20 Nov 2026 15:05:43 -0800 (PST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 21 Nov 2026 00:05:43 +0100
+Message-Id: <DN0EXVAABCIP.YDZIYTDBHKP0@smile.fr>
+To: <hthakar@cisco.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][scarthgap][PATCH 1/1] openssh: fix CVE-2026-106587
+From: "Yoann Congal" <yoann.congal@smile.fr>
+X-Mailer: aerc 0.20.0
+References: <20261016035448.3083867-1-hthakar@cisco.com>
+ <20261016035448.3083867-2-hthakar@cisco.com>
+In-Reply-To: <20261016035448.3083867-2-hthakar@cisco.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 19:55:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250824
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 23:05:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250825
 
-pytest looks for a common rootdir between the current working directory
-and the args provided[1], which in our case is /usr/lib:
+On Fri Oct 16, 2026 at 5:54 AM CEST, Hetvi Thakar -X (hthakar - E INFOCHIPS=
+ PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
+> From: Hetvi Thakar <hthakar@cisco.com>
+>
+> This patch applies the upstream fix as referenced in [2],
+> using the commit shown in [1]..
+>
+> [1] https://github.com/openssh/openssh-portable/commit/526fd2771342f36142=
+099bec82c49ce0457c5016
+> [2] https://nvd.nist.gov/vuln/detail/CVE-2026-106587
+>
+> Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
+> ---
+>  .../openssh/openssh/CVE-2026-106587.patch     | 76 +++++++++++++++++++
+>  .../openssh/openssh_9.6p1.bb                  |  1 +
+>  2 files changed, 77 insertions(+)
+>  create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-10=
+6587.patch
 
-|platform linux -- Python 3.15.2, pytest-9.2.0, pluggy-1.7.0
-|rootdir: /usr/lib
-|plugins: putao-0.4, hypothesis-6.170.12
-|collected 2741 items
+Hello,
 
-Specifying '--rootdir=@PYTHON_SITEPACKAGES_DIR@' changes it to the
-actual numpy directory where the test suites live. This significantly
-improves ptest runtime, without changing the test results. Examples:
+This patch is blocked pending a blacksail backport:
+See equivalent wrynose thread from Mon, 09 Nov 2026:
+https://lore.kernel.org/all/DMQR3DP72ES8.3KANJDXOTSO63@smile.fr/
+I will now drop this patch. Please send a new submission if the above
+situation changes.
 
-qemux86-64 without patch:
-
-|============================================================================
-|Testsuite summary
-|# TOTAL: 48757
-|# PASS: 47548
-|# SKIP: 1176
-|# XFAIL: 31
-|# FAIL: 0
-|# XPASS: 2
-|# ERROR: 0
-|DURATION: 184
-|END: /usr/lib/python3-numpy/ptest
-|2026-11-20T16:54
-|STOP: ptest-runner
-|TOTAL: 1 FAIL: 0
-
-and with patch:
-
-|============================================================================
-|Testsuite summary
-|# TOTAL: 48757
-|# PASS: 47548
-|# SKIP: 1176
-|# XFAIL: 31
-|# FAIL: 0
-|# XPASS: 2
-|# ERROR: 0
-|DURATION: 149
-|END: /usr/lib/python3-numpy/ptest
-|2026-11-20T17:15
-|STOP: ptest-runner
-|TOTAL: 1 FAIL: 0
-
-[1]: https://docs.pytest.org/en/stable/reference/customize.html#finding-the-rootdir
-
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
- meta/recipes-devtools/python/python3-numpy/run-ptest | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/meta/recipes-devtools/python/python3-numpy/run-ptest b/meta/recipes-devtools/python/python3-numpy/run-ptest
-index b5edc5cf48..6f5073b518 100644
---- a/meta/recipes-devtools/python/python3-numpy/run-ptest
-+++ b/meta/recipes-devtools/python/python3-numpy/run-ptest
-@@ -12,6 +12,9 @@ mkdir -p "$PYTEST_DEBUG_TEMPROOT"
- # include gcc as a ptest dependency, so skip that. test_big_arrays uses up a
- # large amount of storage, so skip that too.
- # remove test_validate_transcendentals if
--# https://github.com/numpy/numpy/issues/27460 is resolved
--pytest --automake -m "not slow" -k "not test_mem_policy and not test_big_arrays and not test_validate_transcendentals" @PYTHON_SITEPACKAGES_DIR@/numpy
-+# https://github.com/numpy/numpy/issues/27460 is resolved.
-+# Set the rootdir explicitly so that pytest doesn't use a common ancestor of the
-+# ptest directory and test path for it, which slows down the ptest suite's
-+# runtime
-+pytest --automake --rootdir=@PYTHON_SITEPACKAGES_DIR@ -m "not slow" -k "not test_mem_policy and not test_big_arrays and not test_validate_transcendentals" @PYTHON_SITEPACKAGES_DIR@/numpy
- rm -rf "$PYTEST_DEBUG_TEMPROOT"
--- 
-2.56.0
+Regards,
+--=20
+Yoann Congal
+Smile ECS
 
