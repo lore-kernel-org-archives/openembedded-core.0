@@ -1,41 +1,41 @@
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12057.1795238989925513003
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12058.1795238992620605017
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Nov 2026 21:29:50 -0800
+ Fri, 20 Nov 2026 21:29:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=DEggrNaN;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=oIvVXI/W;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101a1fc950c2a-4d3075ef-218b-4c1e-804d-96942bce6949-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=agz04/Va;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=XuLibf0V;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a1fc95174b-32be7ef7-c029-4afa-80cf-44286a769ea3-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1795238989;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=58viERBaR4ZtH4oSgeOig7ckIDNQESjjFSM3ISWdRtY=;
-	b=DEggrNaNbLRljEm9kF63HIzft5tf8Ijgd5q/YSw28X0wM7mAdyA9ME8fxMqVpWnz
-	u0b0ENTK2pJ14dccgZqVISuandhUVtfDZaDvqQryelGHHsvB/g8Mh7rIfaFnR/9pNnv
-	T5Z1QEWMUCu7Eh+wEUS10KALWK7wXpojX0OmonyI=
+	t=1795238991;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=d+3UYV2s02l6qZzB3I+yrSbVBv6LME9INKUSRrqpfVI=;
+	b=agz04/VaW/RNe/QGxgFEePOCjjvfEg/zeZdVP8DQ0noG4ZsZ2tWfIoWZK/K1Ak/m
+	oJAs7VQ+PTUSVXiOdRFtHP1OnIjZlEQ+34/i4aVjhkZxY3JjMBZ6hWM/sP0YyYIi1EB
+	MT8XFwGSIHPIcaeTFUHz/fZKl1tSC5fiblfRHiqo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1795238989;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=58viERBaR4ZtH4oSgeOig7ckIDNQESjjFSM3ISWdRtY=;
-	b=oIvVXI/W3EqnMU3ddJdttq4vDsaH7WWcWdmXyatadpoUKlFoNNiVUAAvdtkvWqNv
-	6DSItRJAPcxIt9q9ZntnvJXKFLxm1P0PdHuCh7hwU+bjAoXUOrdfQ4zAW0VWOhIKt1r
-	/YdHly3YVB4T57EUz3rhGDTMn6/V3pvyrk/DYfuo=
-Content-Type: multipart/mixed; boundary="===============7946980940109665978=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1795238991;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=d+3UYV2s02l6qZzB3I+yrSbVBv6LME9INKUSRrqpfVI=;
+	b=XuLibf0VseZemrrzPq7oMCEwqwW6VGjUvcVdtBhcKNxb37KJHJ4NyeWinempNXEy
+	uD8vsL9dl2drp0u47RxpSiPXCBcdnxD8pzU1Xwa+X9dYFUYa5818ja2IjlWD8bteGUI
+	XHoappD/rEHnrElrO044H5qARvGBpVEn+T5Brj+w=
+Content-Type: multipart/mixed; boundary="===============5730479182693052166=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Venkatasainath Ravikanti <venkatasainath.ravikanti@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] flex: upgrading to 2.7.3 FAILED
-Message-ID: <010101a1fc950c2a-4d3075ef-218b-4c1e-804d-96942bce6949-000000@us-west-2.amazonses.com>
-Date: Sat, 21 Nov 2026 05:29:48 +0000
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] puzzles: upgrading to 616da16f25da428ccda805536209095bd062676e
+ SUCCEEDED
+Message-ID: <010101a1fc95174b-32be7ef7-c029-4afa-80cf-44286a769ea3-000000@us-west-2.amazonses.com>
+Date: Sat, 21 Nov 2026 05:29:51 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.21-54.240.27.193
+X-SES-Outgoing: 2026.11.21-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 21 Nov 2026 05:29:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250831
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250832
 
---===============7946980940109665978==
+--===============5730479182693052166==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -43,723 +43,220 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *flex* to *2.7.3* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *puzzles* to *616da16f25da428ccda805536209095bd062676e* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-puzzles-upgrade-to-latest-revision.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe flex failed.
-NOTE: Reconnecting to bitbake server...
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 963 .bb files complete (0 cached, 963 parsed). 2014 targets, 43 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.20.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.1.99+snapshot-40bb14c8363234f7b4e92f104a552633fd7d9335"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:40bb14c8363234f7b4e92f104a552633fd7d9335"
-meta-yocto-bsp       
-meta-poky            = "master:6ee74fbbe3a36dabb7f8f85ee10691eaf8aa3252"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 22 Local 22 Mirrors 0 Missed 0 Current 8 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 964 .bb files complete (0 cached, 964 parsed). 2015 targets, 43 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.20.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.1.99+snapshot-40bb14c8363234f7b4e92f104a552633fd7d9335"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:40bb14c8363234f7b4e92f104a552633fd7d9335"
-meta-yocto-bsp       
-meta-poky            = "master:6ee74fbbe3a36dabb7f8f85ee10691eaf8aa3252"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  24% |########                            | ETA:  0:00:00
-Adding changed files:  49% |#################                   | ETA:  0:00:00
-Adding changed files:  73% |##########################          | ETA:  0:00:00
-Adding changed files:  98% |################################### | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Creating workspace layer in /srv/pokybuild/yocto-worker/auh/build/build/workspace
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://github.com/westes/flex/releases/download/v2.7.3/flex-2.7.3.tar.gz...
-INFO: Rebasing devtool onto 0a105ac4dbf0f1ce58878f6b6094e3427beb3480
-WARNING: Command 'git rebase 0a105ac4dbf0f1ce58878f6b6094e3427beb3480' failed:
-Auto-merging configure.ac
-CONFLICT (content): Merge conflict in configure.ac
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/flex
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/flex/flex_2.7.3.bb
-INFO: Changelog extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/flex.txt
-INFO: Changelog metadata written to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/flex.json
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============7946980940109665978==
+
+-- >8 --
+From 0f85bfa11ad9d02f8ed377c332d60a5827cf5c3f Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sat, 21 Nov 2026 05:19:06 +0000
+Subject: [PATCH] puzzles: upgrade to latest revision
+
+Mines: add a user preference for question marks.
+---
+ meta/recipes-sato/puzzles/puzzles_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/recipes-sato/puzzles/puzzles_git.bb b/meta/recipes-sato/puzzles/puzzles_git.bb
+index d707cdb0c2..b8d1fa4886 100644
+--- a/meta/recipes-sato/puzzles/puzzles_git.bb
++++ b/meta/recipes-sato/puzzles/puzzles_git.bb
+@@ -10,7 +10,7 @@ REQUIRED_DISTRO_FEATURES = "x11"
+ SRC_URI = "git://git.tartarus.org/simon/puzzles.git;branch=main;protocol=https"
+ 
+ UPSTREAM_CHECK_COMMITS = "1"
+-SRCREV = "ea09098d71db949351437eba1920033d3a08f491"
++SRCREV = "616da16f25da428ccda805536209095bd062676e"
+ PE = "2"
+ PV = "0.0+git"
+ 
+-- 
+2.47.1
+
+
+--===============5730479182693052166==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="flex-changelog.txt"
-
-ghcr.io/westes/flex-
-ci@sha256:79746b114f8033cf89f3b06b9eb0b3da52f7f5ee6bc9dcb98e93e9e051a312cf.
-
-ghcr.io/westes/flex-
-ci@sha256:ec845185ff56c0a0ae1e9c83862d3f7bf626f63335b1cc895a7b93aed40fa8d8.
-
-ghcr.io/westes/flex-
-ci@sha256:83a5849088fb651a5cae4958c97c4de4496aeda904279fa445a71e98ad5935f0.
-
-ghcr.io/westes/flex-
-ci@sha256:8fabfd5186659b13b3c769a0b7d4b798862fabee59160c76aa22c0f0124e004b.
-
-ghcr.io/westes/flex-
-ci@sha256:89a63cd98e8c377a3041278518a1043084e0c08509100cfb9c4e651155ca5303.
-
-[github/codeql-action/analyze](https://github.com/github/codeql-action).Updates
-`github/codeql-action/init` from 4.39.1 to 4.39.3 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/9b3254085494b55a0f7c4c
-2b3d2d52cc712ce370...33d7b85da1a04171e211befe2c739303b9a4c066)Updates
-`github/codeql-action/analyze` from 4.39.1 to 4.39.3 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/9b3254085494b55a0f7c4c
-2b3d2d52cc712ce370...33d7b85da1a04171e211befe2c739303b9a4c066)--- updated-
-dependencies: - dependency-name: github/codeql-action/init   dependency-version:
-4.39.3   dependency-type: direct:production   update-type: version-
-update:semver-patch   dependency-group: github-actions - dependency-name:
-github/codeql-action/analyze   dependency-version: 4.39.3   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[github/codeql-action/analyze](https://github.com/github/codeql-action).Updates
-`github/codeql-action/init` from 4.37.4 to 4.39.1 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/f205ea1c3313d32999d8d6
-a48b4f6530d4437b38...9b3254085494b55a0f7c4c2b3d2d52cc712ce370)Updates
-`github/codeql-action/analyze` from 4.37.4 to 4.39.1 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/f205ea1c3313d32999d8d6
-a48b4f6530d4437b38...9b3254085494b55a0f7c4c2b3d2d52cc712ce370)--- updated-
-dependencies: - dependency-name: github/codeql-action/init   dependency-version:
-4.39.1   dependency-type: direct:production   update-type: version-
-update:semver-minor   dependency-group: github-actions - dependency-name:
-github/codeql-action/analyze   dependency-version: 4.39.1   dependency-type:
-direct:production   update-type: version-update:semver-minor   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[github/codeql-action/analyze](https://github.com/github/codeql-action).Updates
-`github/codeql-action/init` from 4.37.3 to 4.37.4 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/e4fba868fa4b1b91e1fdab
-776edc8cfbe6e9fb81...f205ea1c3313d32999d8d6a48b4f6530d4437b38)Updates
-`github/codeql-action/analyze` from 4.37.3 to 4.37.4 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/e4fba868fa4b1b91e1fdab
-776edc8cfbe6e9fb81...f205ea1c3313d32999d8d6a48b4f6530d4437b38)--- updated-
-dependencies: - dependency-name: github/codeql-action/init   dependency-version:
-4.37.4   dependency-type: direct:production   update-type: version-
-update:semver-patch   dependency-group: github-actions - dependency-name:
-github/codeql-action/analyze   dependency-version: 4.37.4   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[github/codeql-action/analyze](https://github.com/github/codeql-action).Updates
-`actions/checkout` from 7.0.0 to 7.0.1 - [Release
-notes](https://github.com/actions/checkout/releases) -
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/9c091bb21b7c1c1d1991bb908d
-89e4e9dddfe3e0...3d3c42e5aac5ba805825da76410c181273ba90b1)Updates
-`github/codeql-action/init` from 4.36.3 to 4.37.3 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/54f647b7e1bb85c95cddab
-cd46b0c578ec92bc1a...e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81)Updates
-`github/codeql-action/analyze` from 4.36.3 to 4.37.3 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/54f647b7e1bb85c95cddab
-cd46b0c578ec92bc1a...e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-version: 7.0.1
-dependency-type: direct:production   update-type: version-update:semver-patch
-dependency-group: github-actions - dependency-name: github/codeql-action/init
-dependency-version: 4.37.3   dependency-type: direct:production   update-type:
-version-update:semver-minor   dependency-group: github-actions - dependency-
-name: github/codeql-action/analyze   dependency-version: 4.37.3   dependency-
-type: direct:production   update-type: version-update:semver-minor   dependency-
-group: github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[github/codeql-action/analyze](https://github.com/github/codeql-action).Updates
-`github/codeql-action/init` from 4.36.2 to 4.36.3 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/8aad20d150bbac5944a9f9
-d289da16a4b0d87c1e...54f647b7e1bb85c95cddabcd46b0c578ec92bc1a)Updates
-`github/codeql-action/analyze` from 4.36.2 to 4.36.3 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/8aad20d150bbac5944a9f9
-d289da16a4b0d87c1e...54f647b7e1bb85c95cddabcd46b0c578ec92bc1a)--- updated-
-dependencies: - dependency-name: github/codeql-action/init   dependency-version:
-4.36.3   dependency-type: direct:production   update-type: version-
-update:semver-patch   dependency-group: github-actions - dependency-name:
-github/codeql-action/analyze   dependency-version: 4.36.3   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/df4cb1c069e1874edd31b4311f
-1884172cec0e10...9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-version: 7.0.0
-dependency-type: direct:production   update-type: version-update:semver-major
-dependency-group: github-actions ...  Signed-off-by: dependabot[bot]
-<support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/87557b9c84dde89fdd9b10
-e88954ac2f4248e463...8aad20d150bbac5944a9f9d289da16a4b0d87c1e)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-version:
-4.36.2   dependency-type: direct:production   update-type: version-
-update:semver-patch   dependency-group: github-actions ...  Signed-off-by:
-dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/de0fac2e4500dabe0009e67214
-ff5f5447ce83dd...df4cb1c069e1874edd31b4311f1884172cec0e10)Updates
-`github/codeql-action` from 4.36.0 to 4.36.1 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/7211b7c8077ea37d8641b6
-271f6a365a22a5fbfa...87557b9c84dde89fdd9b10e88954ac2f4248e463)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-version: 6.0.3
-dependency-type: direct:production   update-type: version-update:semver-patch
-dependency-group: github-actions - dependency-name: github/codeql-action
-dependency-version: 4.36.1   dependency-type: direct:production   update-type:
-version-update:semver-patch   dependency-group: github-actions ...  Signed-off-
-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/9e0d7b8d25671d64c341c1
-9c0152d693099fb5ba...7211b7c8077ea37d8641b6271f6a365a22a5fbfa)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-version:
-4.36.0   dependency-type: direct:production   update-type: version-
-update:semver-minor   dependency-group: github-actions ...  Signed-off-by:
-dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/e46ed2cbd01164d986452f
-91f178727624ae40d7...9e0d7b8d25671d64c341c19c0152d693099fb5ba)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-version:
-4.35.4   dependency-type: direct:production   update-type: version-
-update:semver-patch   dependency-group: github-actions ...  Signed-off-by:
-dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/95e58e9a2cdfd71adc6e03
-53d5c52f41a045d225...e46ed2cbd01164d986452f91f178727624ae40d7)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-version:
-4.35.3   dependency-type: direct:production   update-type: version-
-update:semver-patch   dependency-group: github-actions ...  Signed-off-by:
-dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/c10b8064de6f491fea5242
-54123dbe5e09572f13...95e58e9a2cdfd71adc6e0353d5c52f41a045d225)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-version:
-4.35.2   dependency-type: direct:production   update-type: version-
-update:semver-patch   dependency-group: github-actions ...  Signed-off-by:
-dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/c793b717bc78562f491db7
-b0e93a3a178b099162...c10b8064de6f491fea524254123dbe5e09572f13)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-version:
-4.35.1   dependency-type: direct:production   update-type: version-
-update:semver-minor   dependency-group: github-actions ...  Signed-off-by:
-dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/89a39a4e59826350b863aa
-6b6252a07ad50cf83e...c793b717bc78562f491db7b0e93a3a178b099162)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-version:
-4.32.5   dependency-type: direct:production   update-type: version-
-update:semver-patch   dependency-group: github-actions ...  Signed-off-by:
-dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/08c6903cd8c0fde910a37f8832
-2edcfb5dd907a8...de0fac2e4500dabe0009e67214ff5f5447ce83dd)Updates
-`github/codeql-action` from 3.29.10 to 4.32.4 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/96f518a34f7a8700180577
-16cc4d7a5c014bd61c...89a39a4e59826350b863aa6b6252a07ad50cf83e)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-version: 6.0.2
-dependency-type: direct:production   update-type: version-update:semver-major
-dependency-group: github-actions - dependency-name: github/codeql-action
-dependency-version: 4.32.4   dependency-type: direct:production   update-type:
-version-update:semver-major   dependency-group: github-actions ...  Signed-off-
-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/11bd71901bbe5b1630ceea73d2
-7597364c9af683...08c6903cd8c0fde910a37f88322edcfb5dd907a8)Updates
-`github/codeql-action` from 3.28.18 to 3.29.10 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/ff0a06e83cb2de871e5a09
-832bc6a81e7276941f...96f518a34f7a870018057716cc4d7a5c014bd61c)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-version: 5.0.0
-dependency-type: direct:production   update-type: version-update:semver-major
-dependency-group: github-actions - dependency-name: github/codeql-action
-dependency-version: 3.29.10   dependency-type: direct:production   update-type:
-version-update:semver-minor   dependency-group: github-actions ...  Signed-off-
-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/1b549b9259bda1cb5ddde3
-b41741a82a2d15a841...ff0a06e83cb2de871e5a09832bc6a81e7276941f)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-version:
-3.28.18   dependency-type: direct:production   update-type: version-
-update:semver-patch   dependency-group: github-actions ...  Signed-off-by:
-dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/6bb031afdd8eb862ea3fc1
-848194185e076637e5...1b549b9259bda1cb5ddde3b41741a82a2d15a841)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/b6a472f63d85b9c78a3ac5
-e89422239fc15e9b3c...6bb031afdd8eb862ea3fc1848194185e076637e5)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/48ab28a6f5dbc2a99bf1e0
-131198dd8f1df78169...b6a472f63d85b9c78a3ac5e89422239fc15e9b3c)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/f09c1c0a94de965c15400f
-5634aa42fac8fb8f88...48ab28a6f5dbc2a99bf1e0131198dd8f1df78169)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-minor   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/4f3212b61783c3c68e8309
-a0f18a699764811cda...f09c1c0a94de965c15400f5634aa42fac8fb8f88)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/eef61447b9ff4aafe5dcd4e0bb
-f5d482be7e7871...11bd71901bbe5b1630ceea73d27597364c9af683)Updates
-`github/codeql-action` from 3.26.13 to 3.27.1 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/f779452ac5af1c261dce03
-46a8f964149f49322b...4f3212b61783c3c68e8309a0f18a699764811cda)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-minor   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/d632683dd7b4114ad314bca155
-54477dd762a938...eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871)Updates
-`github/codeql-action` from 3.26.11 to 3.26.13 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/6db8d6351fd0be61f9ed8e
-bd12ccd35dcec51fea...f779452ac5af1c261dce0346a8f964149f49322b)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/e2b3eafc8d227b0241d48b
-e5f425d47c2d750a13...6db8d6351fd0be61f9ed8ebd12ccd35dcec51fea)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/692973e3d937129bcbf40652eb
-9f2f61becf3332...d632683dd7b4114ad314bca15554477dd762a938)Updates
-`github/codeql-action` from 3.26.8 to 3.26.10 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/294a9d92911152fe08befb
-9ec03e240add280cb3...e2b3eafc8d227b0241d48be5f425d47c2d750a13)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-minor   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/8214744c546c1e5c8f03dd
-e8fab3a7353211988d...294a9d92911152fe08befb9ec03e240add280cb3)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/2c779ab0d087cd7fe7b826
-087247c2c81f27bfa6...8214744c546c1e5c8f03dde8fab3a7353211988d)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/429e1977040da7a23b6822
-b13c129cd1ba93dbb2...2c779ab0d087cd7fe7b826087247c2c81f27bfa6)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/eb055d739abdc2e8de2e5f
-4ba1a8b246daa779aa...429e1977040da7a23b6822b13c129cd1ba93dbb2)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/afb54ba388a7dca6ecae48
-f608c4ff05ff4cc77a...eb055d739abdc2e8de2e5f4ba1a8b246daa779aa)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-minor   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/b611370bb5703a7efb587f
-9d136a52ea24c5c38c...afb54ba388a7dca6ecae48f608c4ff05ff4cc77a)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/23acc5c183826b7a8a97bc
-e3cecc52db901f8251...b611370bb5703a7efb587f9d136a52ea24c5c38c)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/a5ac7e51b41094c92402da3b24
-376905380afc29...692973e3d937129bcbf40652eb9f2f61becf3332)Updates
-`github/codeql-action` from 3.25.8 to 3.25.10 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/2e230e8fe0ad3a14a340ad
-0815ddb96d599d2aff...23acc5c183826b7a8a97bce3cecc52db901f8251)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/f079b8493333aace61c814
-88f8bd40919487bd9f...2e230e8fe0ad3a14a340ad0815ddb96d599d2aff)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/9fdb3e49720b44c48891d0
-36bb502feb25684276...f079b8493333aace61c81488f8bd40919487bd9f)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/44c2b7a8a4ea60a981eaca3cf9
-39b5f4305c123b...a5ac7e51b41094c92402da3b24376905380afc29)Updates
-`github/codeql-action` from 3.25.5 to 3.25.6 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/b7cec7526559c32f161647
-6ff32d17ba4c59b2d6...9fdb3e49720b44c48891d036bb502feb25684276)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/0ad4b8fadaa221de15dcec353f
-45205ec38ea70b...44c2b7a8a4ea60a981eaca3cf939b5f4305c123b)Updates
-`github/codeql-action` from 3.25.3 to 3.25.5 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/d39d31e687223d841ef683
-f52467bd88e9b21c14...b7cec7526559c32f1616476ff32d17ba4c59b2d6)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/1d96c772d19495a3b5c517cd2b
-c0cb401ea0529f...0ad4b8fadaa221de15dcec353f45205ec38ea70b)Updates
-`github/codeql-action` from 3.25.1 to 3.25.3 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/c7f9125735019aa87cfc36
-1530512d50ea439c71...d39d31e687223d841ef683f52467bd88e9b21c14)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-https://lists.defectivebydesign.org/archive/html/help-flex/2013-01/msg00000.html
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/9bb56186c3b09b4f86b1c65136
-769dd318469633...1d96c772d19495a3b5c517cd2bc0cb401ea0529f)Updates
-`github/codeql-action` from 3.24.10 to 3.25.1 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/4355270be187e1b672a7a1
-c7c7bae5afdc1ab94a...c7f9125735019aa87cfc361530512d50ea439c71)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-minor   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/1b1aada464948af03b9508
-97e5eb522f92603cc2...4355270be187e1b672a7a1c7c7bae5afdc1ab94a)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/05963f47d870e2cb19a537
-396c1f668a348c7d8f...1b1aada464948af03b950897e5eb522f92603cc2)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/012739e5082ff0c22ca6d6
-ab32e07c36df03c4a4...e5f05b81d5b6ff8cfa111c80c22c5fd02a384118)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-minor   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/407ffafae6a767df3e0230
-c3df91b6443ae8df75...c0d1daa7f7e14667747d73a7dbbe8c074bc8bfe2)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/74483a38d39275f33fcff5
-f35b679b5ca4a26a99...407ffafae6a767df3e0230c3df91b6443ae8df75)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/8ade135a41bc03ea155e62e844
-d188df1ea18608...b4ffde65f46336ab88eb53be808477a3936bae11)Updates
-`github/codeql-action` from 2.22.3 to 2.22.5 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/0116bc2df50751f9724a2e
-35ef1f24d22f90e4e1...74483a38d39275f33fcff5f35b679b5ca4a26a99)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/ddccb873888234080b77e9
-bc2d4764d5ccaaccf9...0116bc2df50751f9724a2e35ef1f24d22f90e4e1)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-minor   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/3df4ab11eba7bda6032a0b82a6
-bb43b11571feac...8ade135a41bc03ea155e62e844d188df1ea18608)Updates
-`github/codeql-action` from 2.21.7 to 2.21.9 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/04daf014b50eaf774287bf
-3f0f1869d4b4c4b913...ddccb873888234080b77e9bc2d4764d5ccaaccf9)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-minor   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/00e563ead9f72a8461b248
-76bee2d0c2e8bd2ee8...04daf014b50eaf774287bf3f0f1869d4b4c4b913)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-<https://lists.gnu.org/archive/html/bug-autoconf/2018-02/msg00005.html>As a
-workaround, let's move comments out of AC_CHECK_FUNCS.  Signed-off-by: Kang-Che
-Sung <explorer09@gmail.com>
-
---===============7946980940109665978==--
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/puzzles/puzzles-dbg: PKGV changed from 0.0+git0+ea09098d71 to 0.0+git0+616da16f25
+packages/x86-64-v3-poky-linux/puzzles/puzzles-dev: RRECOMMENDS: removed "puzzles (['= 2:0.0+git0+ea09098d71-r0'])", added "puzzles (['= 2:0.0+git0+616da16f25-r0'])"
+packages/x86-64-v3-poky-linux/puzzles/puzzles-dev: PKGV changed from 0.0+git0+ea09098d71 to 0.0+git0+616da16f25
+packages/x86-64-v3-poky-linux/puzzles/puzzles-doc: PKGV changed from 0.0+git0+ea09098d71 to 0.0+git0+616da16f25
+packages/x86-64-v3-poky-linux/puzzles/puzzles-locale: PKGV changed from 0.0+git0+ea09098d71 to 0.0+git0+616da16f25
+packages/x86-64-v3-poky-linux/puzzles/puzzles-src: PKGV changed from 0.0+git0+ea09098d71 to 0.0+git0+616da16f25
+packages/x86-64-v3-poky-linux/puzzles/puzzles-staticdev: PKGV changed from 0.0+git0+ea09098d71 to 0.0+git0+616da16f25
+packages/x86-64-v3-poky-linux/puzzles/puzzles-staticdev: RDEPENDS: removed "puzzles-dev (['= 2:0.0+git0+ea09098d71-r0'])", added "puzzles-dev (['= 2:0.0+git0+616da16f25-r0'])"
+packages/x86-64-v3-poky-linux/puzzles/puzzles: PKGV changed from 0.0+git0+ea09098d71 to 0.0+git0+616da16f25
+
+--===============5730479182693052166==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="puzzles-changelog.txt"
+
+Mines: add a user preference for question marks.
+
+--===============5730479182693052166==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/puzzles/puzzles-dbg: PKGSIZE changed from 24208664 to 24210176 (+0%)
+packages/x86-64-v3-poky-linux/puzzles/puzzles-dbg: PKGV changed from 0.0+git0+ea09098d71 to 0.0+git0+616da16f25
+packages/x86-64-v3-poky-linux/puzzles/puzzles-dev: RRECOMMENDS: removed "puzzles (['= 2:0.0+git0+ea09098d71-r0'])", added "puzzles (['= 2:0.0+git0+616da16f25-r0'])"
+packages/x86-64-v3-poky-linux/puzzles/puzzles-dev: PKGV changed from 0.0+git0+ea09098d71 to 0.0+git0+616da16f25
+packages/x86-64-v3-poky-linux/puzzles/puzzles-doc: PKGV changed from 0.0+git0+ea09098d71 to 0.0+git0+616da16f25
+packages/x86-64-v3-poky-linux/puzzles/puzzles-locale: PKGV changed from 0.0+git0+ea09098d71 to 0.0+git0+616da16f25
+packages/x86-64-v3-poky-linux/puzzles/puzzles-src: PKGSIZE changed from 3987240 to 3989741 (+0%)
+packages/x86-64-v3-poky-linux/puzzles/puzzles-src: PKGV changed from 0.0+git0+ea09098d71 to 0.0+git0+616da16f25
+packages/x86-64-v3-poky-linux/puzzles/puzzles-staticdev: RDEPENDS: removed "puzzles-dev (['= 2:0.0+git0+ea09098d71-r0'])", added "puzzles-dev (['= 2:0.0+git0+616da16f25-r0'])"
+packages/x86-64-v3-poky-linux/puzzles/puzzles-staticdev: PKGV changed from 0.0+git0+ea09098d71 to 0.0+git0+616da16f25
+packages/x86-64-v3-poky-linux/puzzles/puzzles: PKGV changed from 0.0+git0+ea09098d71 to 0.0+git0+616da16f25
+
+--===============5730479182693052166==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 963 .bb files complete (0 cached, 963 parsed). 2014 targets, 43 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.20.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.1.99+snapshot-33644fb7ed7a55c4713bb94427a42087818ce6b4"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:33644fb7ed7a55c4713bb94427a42087818ce6b4"
+meta-yocto-bsp       
+meta-poky            = "master:6ee74fbbe3a36dabb7f8f85ee10691eaf8aa3252"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 500 Local 489 Mirrors 0 Missed 11 Current 907 (97% match, 99% complete)
+done.
+Removing 10 stale sstate objects for arch x86-64-v3...done.
+Removing 1 stale sstate objects for arch qemux86_64...done.
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 2955 of 3322 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_fetch)
+NOTE: recipe puzzles-2_0.0+git-r0: task do_fetch: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_fetch: Succeeded
+NOTE: Running task 3304 of 3322 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_unpack)
+NOTE: Running task 3305 of 3322 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_prepare_recipe_sysroot)
+NOTE: recipe puzzles-2_0.0+git-r0: task do_unpack: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: recipe puzzles-2_0.0+git-r0: task do_unpack: Succeeded
+NOTE: Running task 3306 of 3322 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_patch)
+NOTE: recipe puzzles-2_0.0+git-r0: task do_patch: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_patch: Succeeded
+NOTE: Running task 3307 of 3322 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_deploy_source_date_epoch)
+NOTE: Running task 3308 of 3322 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_generate_toolchain_file)
+NOTE: Running task 3309 of 3322 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_lic)
+NOTE: recipe puzzles-2_0.0+git-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_generate_toolchain_file: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_populate_lic: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_generate_toolchain_file: Succeeded
+NOTE: recipe puzzles-2_0.0+git-r0: task do_populate_lic: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_lic unihash changed to f2aa94df4601f692903a172b2aa609d9504a764089411efc4a365613646dde10
+NOTE: recipe puzzles-2_0.0+git-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_deploy_source_date_epoch unihash changed to ec0a8758b6bb7b53d648565d9291e391142b69dd3997d4f0dca088443bf7cef8
+NOTE: Setscene tasks completed
+NOTE: Running task 3310 of 3322 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_configure)
+NOTE: recipe puzzles-2_0.0+git-r0: task do_configure: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_configure: Succeeded
+NOTE: Running task 3311 of 3322 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_compile)
+NOTE: recipe puzzles-2_0.0+git-r0: task do_compile: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_compile: Succeeded
+NOTE: Running task 3312 of 3322 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_install)
+NOTE: recipe puzzles-2_0.0+git-r0: task do_install: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_install: Succeeded
+NOTE: Running task 3313 of 3322 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_package)
+NOTE: Running task 3314 of 3322 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_sysroot)
+NOTE: recipe puzzles-2_0.0+git-r0: task do_package: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_populate_sysroot: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_populate_sysroot: Succeeded
+NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_populate_sysroot unihash changed to 320cb02f04a780e791e49555187db89d107c99f7118cc58a8fcdefe0f7b33590
+NOTE: Setscene tasks completed
+NOTE: recipe puzzles-2_0.0+git-r0: task do_package: Succeeded
+NOTE: Running task 3315 of 3322 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_packagedata)
+NOTE: recipe puzzles-2_0.0+git-r0: task do_packagedata: Started
+NOTE: recipe puzzles-2_0.0+git-r0: task do_packagedata: Failed
+NOTE: Tasks Summary: Attempted 3315 tasks of which 3302 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20261121051740.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20261121051740.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_packagedata
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/puzzles/0.0+git/temp/log.do_packagedata.859462
+Summary: There were 8 ERROR messages, returning a non-zero exit code.
+ERROR: puzzles-2_0.0+git-r0 do_packagedata: QA Issue: Package version for package puzzles-src went backwards which would break package feeds (from 2:0.0+git0+ea09098d71-r0 to 2:0.0+git0+616da16f25-r0) [version-going-backwards]
+ERROR: puzzles-2_0.0+git-r0 do_packagedata: QA Issue: Package version for package puzzles-dbg went backwards which would break package feeds (from 2:0.0+git0+ea09098d71-r0 to 2:0.0+git0+616da16f25-r0) [version-going-backwards]
+ERROR: puzzles-2_0.0+git-r0 do_packagedata: QA Issue: Package version for package puzzles-staticdev went backwards which would break package feeds (from 2:0.0+git0+ea09098d71-r0 to 2:0.0+git0+616da16f25-r0) [version-going-backwards]
+ERROR: puzzles-2_0.0+git-r0 do_packagedata: QA Issue: Package version for package puzzles-dev went backwards which would break package feeds (from 2:0.0+git0+ea09098d71-r0 to 2:0.0+git0+616da16f25-r0) [version-going-backwards]
+ERROR: puzzles-2_0.0+git-r0 do_packagedata: QA Issue: Package version for package puzzles-doc went backwards which would break package feeds (from 2:0.0+git0+ea09098d71-r0 to 2:0.0+git0+616da16f25-r0) [version-going-backwards]
+ERROR: puzzles-2_0.0+git-r0 do_packagedata: QA Issue: Package version for package puzzles-locale went backwards which would break package feeds (from 2:0.0+git0+ea09098d71-r0 to 2:0.0+git0+616da16f25-r0) [version-going-backwards]
+ERROR: puzzles-2_0.0+git-r0 do_packagedata: QA Issue: Package version for package puzzles went backwards which would break package feeds (from 2:0.0+git0+ea09098d71-r0 to 2:0.0+git0+616da16f25-r0) [version-going-backwards]
+ERROR: puzzles-2_0.0+git-r0 do_packagedata: Fatal QA errors were found, failing task.
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/puzzles/0.0+git/temp/log.do_packagedata.859462
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/puzzles/puzzles_git.bb:do_packagedata) failed with exit code '1'
+
+--===============5730479182693052166==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-puzzles-upgrade-to-latest-revision.patch"
+
+RnJvbSAwZjg1YmZhMTFhZDlkMDJmOGVkMzc3YzMzMmQ2MGE1ODI3Y2Y1YzNmIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMjEgTm92IDIwMjYgMDU6MTk6MDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+dXp6bGVzOiB1cGdyYWRlIHRvIGxhdGVzdCByZXZpc2lvbgoKTWluZXM6IGFkZCBhIHVzZXIgcHJl
+ZmVyZW5jZSBmb3IgcXVlc3Rpb24gbWFya3MuCi0tLQogbWV0YS9yZWNpcGVzLXNhdG8vcHV6emxl
+cy9wdXp6bGVzX2dpdC5iYiB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwg
+MSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zYXRvL3B1enpsZXMvcHV6
+emxlc19naXQuYmIgYi9tZXRhL3JlY2lwZXMtc2F0by9wdXp6bGVzL3B1enpsZXNfZ2l0LmJiCmlu
+ZGV4IGQ3MDdjZGIwYzIuLmI4ZDFmYTQ4ODYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1zYXRv
+L3B1enpsZXMvcHV6emxlc19naXQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXNhdG8vcHV6emxlcy9w
+dXp6bGVzX2dpdC5iYgpAQCAtMTAsNyArMTAsNyBAQCBSRVFVSVJFRF9ESVNUUk9fRkVBVFVSRVMg
+PSAieDExIgogU1JDX1VSSSA9ICJnaXQ6Ly9naXQudGFydGFydXMub3JnL3NpbW9uL3B1enpsZXMu
+Z2l0O2JyYW5jaD1tYWluO3Byb3RvY29sPWh0dHBzIgogCiBVUFNUUkVBTV9DSEVDS19DT01NSVRT
+ID0gIjEiCi1TUkNSRVYgPSAiZWEwOTA5OGQ3MWRiOTQ5MzUxNDM3ZWJhMTkyMDAzM2QzYTA4ZjQ5
+MSIKK1NSQ1JFViA9ICI2MTZkYTE2ZjI1ZGE0MjhjY2RhODA1NTM2MjA5MDk1YmQwNjI2NzZlIgog
+UEUgPSAiMiIKIFBWID0gIjAuMCtnaXQiCiAKLS0gCjIuNDcuMQoK
+
+--===============5730479182693052166==--
