@@ -1,41 +1,41 @@
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12031.1795238992781609420
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12032.1795238993079552940
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Nov 2026 21:29:52 -0800
+ Fri, 20 Nov 2026 21:29:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=aDm4buE2;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=qnAuhKrJ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a1fc951888-6df49f4c-030a-4be1-acac-55024f9a87ed-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=aMs8DtnI;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=zkvOF+8J;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101a1fc951904-c738a3d0-8a74-4195-9032-da165fa07bb1-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1795238992;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=FX2j4SCG6+sD/lw5q+XWnT4IfaAuLgdhr8CAVVsJcB0=;
-	b=aDm4buE27y9iw1aCUG4IT5s/O7PSAsxJ+D+EYZQ6uzSDEODXJX9z+5efwsfQouWo
-	Fd1Ttna30wx5PDs0lXMYPSxti83diZoEO/6Q1w791qtQcKEBfb4Lb1ztr6aYhTgLk3l
-	oNycVxWQm3g1EDzJZIbsL+JEZqeMzXxWrtaFgdb0=
+	bh=mk9GbGi8Ec3Srxzvy7q2IrBHpTxAqQGf67h4yuFrNHk=;
+	b=aMs8DtnIDlAh86GuQf3qBRAIsLmaRGGe70U1+po/44u2WQeHD6BFdPAObylmH5aA
+	AlEFiqesdPetLYsPchfuaavHACKr/Mne/0IyGHUyOB1/HzGw3/JajEmbeR8BUYRB1n1
+	CUS8jFMKlbyuSAh6lZcflb7g77jOI5HLh0uLXRKo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1795238992;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=FX2j4SCG6+sD/lw5q+XWnT4IfaAuLgdhr8CAVVsJcB0=;
-	b=qnAuhKrJShCA9lGzq4u0SuNRVxMrKvq5dOOzCxyvzsE+XveG8Etb0M7HiUlZ4lh5
-	fEJp0ah1+n0pOe08MQqWq4JisWHnadKAh/h0A7sZAxj6Q1P0n1IzuXTccVRFYErq3wf
-	PqUYWTW+vjKpj1QlYqoldNGdMduSuvsxHlG6rP+0=
-Content-Type: multipart/mixed; boundary="===============2260682067863003290=="
+	bh=mk9GbGi8Ec3Srxzvy7q2IrBHpTxAqQGf67h4yuFrNHk=;
+	b=zkvOF+8J4FcbsTXISwTsiEjGEJmNVgpR49f73pPrisFLjDAyP2f4mGa0Zeolv9oF
+	7h0V/uC13uWh3ZsVnn1Iryi5Zk6nHZaokaOA9zYP3wT6tpMgdSZIU5BqOI7CzHTBoe9
+	Oq1mgzv35kaSPE9EPjOLhbj+xmjVnTAJh+jrGcH4=
+Content-Type: multipart/mixed; boundary="===============8624794721534153820=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: =?utf-8?q?Simone_Wei=C3=9F_=3Csimone=2Ep=2Eweiss=40posteo=2Enet=3E?=@yoctoproject.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pyyaml: upgrading to 6.0.4 SUCCEEDED
-Message-ID: <010101a1fc951888-6df49f4c-030a-4be1-acac-55024f9a87ed-000000@us-west-2.amazonses.com>
+Subject: [AUH] libseccomp: upgrading to 2.6.2 SUCCEEDED
+Message-ID: <010101a1fc951904-c738a3d0-8a74-4195-9032-da165fa07bb1-000000@us-west-2.amazonses.com>
 Date: Sat, 21 Nov 2026 05:29:52 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.21-54.240.27.31
+X-SES-Outgoing: 2026.11.21-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 21 Nov 2026 05:29:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250835
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250836
 
---===============2260682067863003290==
+--===============8624794721534153820==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -43,10 +43,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-pyyaml* to *6.0.4* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libseccomp* to *2.6.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pyyaml-upgrade-6.0.3-6.0.4.patch
+    - apply the patch: git am 0001-libseccomp-upgrade-2.6.1-2.6.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -64,121 +64,123 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 1d614484a139e1afdd59299473f65ec8b320ad2a Mon Sep 17 00:00:00 2001
+From 4cb1f04c65488540d212378f6bf9151a62b692d9 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 21 Nov 2026 05:15:25 +0000
-Subject: [PATCH] python3-pyyaml: upgrade 6.0.3 -> 6.0.4
+Date: Sat, 21 Nov 2026 05:29:45 +0000
+Subject: [PATCH] libseccomp: upgrade 2.6.1 -> 2.6.2
 
-6.0.4 (2026-11-20)
 ---
- .../python/{python3-pyyaml_6.0.3.bb => python3-pyyaml_6.0.4.bb} | 2 +-
+ .../libseccomp/{libseccomp_2.6.1.bb => libseccomp_2.6.2.bb}     | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pyyaml_6.0.3.bb => python3-pyyaml_6.0.4.bb} (88%)
+ rename meta/recipes-support/libseccomp/{libseccomp_2.6.1.bb => libseccomp_2.6.2.bb} (97%)
 
-diff --git a/meta/recipes-devtools/python/python3-pyyaml_6.0.3.bb b/meta/recipes-devtools/python/python3-pyyaml_6.0.4.bb
-similarity index 88%
-rename from meta/recipes-devtools/python/python3-pyyaml_6.0.3.bb
-rename to meta/recipes-devtools/python/python3-pyyaml_6.0.4.bb
-index 849e2c9cc8..a61f8e2279 100644
---- a/meta/recipes-devtools/python/python3-pyyaml_6.0.3.bb
-+++ b/meta/recipes-devtools/python/python3-pyyaml_6.0.4.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://pyyaml.org/"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=6d8242660a8371add5fe547adf083079"
+diff --git a/meta/recipes-support/libseccomp/libseccomp_2.6.1.bb b/meta/recipes-support/libseccomp/libseccomp_2.6.2.bb
+similarity index 97%
+rename from meta/recipes-support/libseccomp/libseccomp_2.6.1.bb
+rename to meta/recipes-support/libseccomp/libseccomp_2.6.2.bb
+index 5db0381ae9..c1758b96f9 100644
+--- a/meta/recipes-support/libseccomp/libseccomp_2.6.1.bb
++++ b/meta/recipes-support/libseccomp/libseccomp_2.6.2.bb
+@@ -7,7 +7,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=7c13b3376cea0ce68d2d2da0a1b3a72c"
  
--SRC_URI[sha256sum] = "d76623373421df22fb4cf8817020cbb7ef15c725b9d5e45f17e189bfc384190f"
-+SRC_URI[sha256sum] = "e24bf71af8a432d7808fabff134d38dfe16d3cbb41f2873bb4b1e42422de0a1a"
+ DEPENDS += "gperf-native"
  
- SRC_URI += "\
-     https://raw.githubusercontent.com/yaml/pyyaml/a98fd6088e81d7aca571220c966bbfe2ac43c335/tests/test_dump_load.py;name=test \
+-SRCREV = "a81cc2de8ee7a33633defc88bb8a2d986b421613"
++SRCREV = "72d90906ebcc6a2706868d58404e10a3086ed142"
+ 
+ SRC_URI = "git://github.com/seccomp/libseccomp.git;branch=release-2.6;protocol=https;tag=v${PV} \
+            file://run-ptest \
 -- 
 2.47.1
 
 
---===============2260682067863003290==
+--===============8624794721534153820==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/python3-pyyaml/python3-pyyaml-ptest: FILELIST: added "/usr/lib/python3-pyyaml/ptest/tests/test_libyaml_recursion_control.py /usr/lib/python3-pyyaml/ptest/tests/test_merge.py"
-packages/x86-64-v3-poky-linux/python3-pyyaml/python3-pyyaml: FILELIST: directory renamed /usr/lib/python3.15/site-packages/pyyaml-6.0.3.dist-info -> /usr/lib/python3.15/site-packages/pyyaml-6.0.4.dist-info, directory renamed /usr/lib/python3.15/site-packages/pyyaml-6.0.3.dist-info/licenses -> /usr/lib/python3.15/site-packages/pyyaml-6.0.4.dist-info/licenses
-Changes to packages/x86-64-v3-poky-linux/python3-pyyaml (sysroot):
-  /usr/lib/python3.15/site-packages/pyyaml-6.0.3.dist-info moved to /usr/lib/python3.15/site-packages/pyyaml-6.0.4.dist-info
+packages/x86-64-v3-poky-linux/libseccomp/libseccomp-ptest: FILELIST: added "/usr/lib/libseccomp/ptest/tests/66-sim-acc_reload.tests /usr/lib/libseccomp/ptest/tests/67-sim-arch_syscall_load /usr/lib/libseccomp/ptest/tests/66-sim-acc_reload /usr/lib/libseccomp/ptest/tests/65-sim-db_tree_args /usr/lib/libseccomp/ptest/tests/65-sim-db_tree_args.py /usr/lib/libseccomp/ptest/tests/67-sim-arch_syscall_load.py /usr/lib/libseccomp/ptest/tests/65-sim-db_tree_args.tests /usr/lib/libseccomp/ptest/tests/67-sim-arch_syscall_load.tests"
+packages/x86-64-v3-poky-linux/libseccomp/libseccomp: FILELIST: removed "/usr/lib/libseccomp.so.2.6.1", added "/usr/lib/libseccomp.so.2.6.2"
+Changes to packages/x86-64-v3-poky-linux/libseccomp (sysroot):
+  /usr/lib/libseccomp.so.2 changed symlink target from libseccomp.so.2.6.1 to libseccomp.so.2.6.2
+  /usr/lib/libseccomp.so changed symlink target from libseccomp.so.2.6.1 to libseccomp.so.2.6.2
+  /usr/lib/libseccomp.so.2.6.1 moved to /usr/lib/libseccomp.so.2.6.2
 
---===============2260682067863003290==
-Content-Type: text/plain; charset="us-ascii"
+--===============8624794721534153820==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="python3-pyyaml-changelog.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-libseccomp-upgrade-2.6.1-2.6.2.patch"
 
-6.0.4 (2026-11-20)
+RnJvbSA0Y2IxZjA0YzY1NDg4NTQwZDIxMjM3OGY2YmY5MTUxYTYyYjY5MmQ5IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMjEgTm92IDIwMjYgMDU6Mjk6NDUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
+aWJzZWNjb21wOiB1cGdyYWRlIDIuNi4xIC0+IDIuNi4yCgotLS0KIC4uLi9saWJzZWNjb21wL3ts
+aWJzZWNjb21wXzIuNi4xLmJiID0+IGxpYnNlY2NvbXBfMi42LjIuYmJ9ICAgICB8IDIgKy0KIDEg
+ZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEv
+cmVjaXBlcy1zdXBwb3J0L2xpYnNlY2NvbXAve2xpYnNlY2NvbXBfMi42LjEuYmIgPT4gbGlic2Vj
+Y29tcF8yLjYuMi5iYn0gKDk3JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9s
+aWJzZWNjb21wL2xpYnNlY2NvbXBfMi42LjEuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJz
+ZWNjb21wL2xpYnNlY2NvbXBfMi42LjIuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZy
+b20gbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlic2VjY29tcC9saWJzZWNjb21wXzIuNi4xLmJiCnJl
+bmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJzZWNjb21wL2xpYnNlY2NvbXBfMi42LjIu
+YmIKaW5kZXggNWRiMDM4MWFlOS4uYzE3NThiOTZmOSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LXN1cHBvcnQvbGlic2VjY29tcC9saWJzZWNjb21wXzIuNi4xLmJiCisrKyBiL21ldGEvcmVjaXBl
+cy1zdXBwb3J0L2xpYnNlY2NvbXAvbGlic2VjY29tcF8yLjYuMi5iYgpAQCAtNyw3ICs3LDcgQEAg
+TElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9N2MxM2IzMzc2Y2VhMGNlNjhk
+MmQyZGEwYTFiM2E3MmMiCiAKIERFUEVORFMgKz0gImdwZXJmLW5hdGl2ZSIKIAotU1JDUkVWID0g
+ImE4MWNjMmRlOGVlN2EzMzYzM2RlZmM4OGJiOGEyZDk4NmI0MjE2MTMiCitTUkNSRVYgPSAiNzJk
+OTA5MDZlYmNjNmEyNzA2ODY4ZDU4NDA0ZTEwYTMwODZlZDE0MiIKIAogU1JDX1VSSSA9ICJnaXQ6
+Ly9naXRodWIuY29tL3NlY2NvbXAvbGlic2VjY29tcC5naXQ7YnJhbmNoPXJlbGVhc2UtMi42O3By
+b3RvY29sPWh0dHBzO3RhZz12JHtQVn0gXAogICAgICAgICAgICBmaWxlOi8vcnVuLXB0ZXN0IFwK
+LS0gCjIuNDcuMQoK
 
---===============2260682067863003290==
+--===============8624794721534153820==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-pyyaml: PV changed from "6.0.3" to "6.0.4"
-packages/x86-64-v3-poky-linux/python3-pyyaml: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pyyaml/pyyaml-6.0.3.tar.gz https://raw.githubusercontent.com/yaml/pyyaml/a98fd6088e81d7aca571220c966bbfe2ac43c335/tests/test_dump_load.py;name=test" to "https://files.pythonhosted.org/packages/source/p/pyyaml/pyyaml-6.0.4.tar.gz https://raw.githubusercontent.com/yaml/pyyaml/a98fd6088e81d7aca571220c966bbfe2ac43c335/tests/test_dump_load.py;name=test"
-packages/x86-64-v3-poky-linux/python3-pyyaml: PKGV changed from 6.0.3 [default] to 6.0.4 [default]
-packages/x86-64-v3-poky-linux/python3-pyyaml/python3-pyyaml-dbg: PV changed from "6.0.3" to "6.0.4"
-packages/x86-64-v3-poky-linux/python3-pyyaml/python3-pyyaml-dbg: PKGSIZE changed from 1337176 to 1360472 (+2%)
-packages/x86-64-v3-poky-linux/python3-pyyaml/python3-pyyaml-dbg: PKGV changed from 6.0.3 [default] to 6.0.4 [default]
-packages/x86-64-v3-poky-linux/python3-pyyaml/python3-pyyaml-dev: PV changed from "6.0.3" to "6.0.4"
-packages/x86-64-v3-poky-linux/python3-pyyaml/python3-pyyaml-dev: PKGV changed from 6.0.3 [default] to 6.0.4 [default]
-packages/x86-64-v3-poky-linux/python3-pyyaml/python3-pyyaml-doc: PV changed from "6.0.3" to "6.0.4"
-packages/x86-64-v3-poky-linux/python3-pyyaml/python3-pyyaml-doc: PKGV changed from 6.0.3 [default] to 6.0.4 [default]
-packages/x86-64-v3-poky-linux/python3-pyyaml/python3-pyyaml-locale: PV changed from "6.0.3" to "6.0.4"
-packages/x86-64-v3-poky-linux/python3-pyyaml/python3-pyyaml-locale: PKGV changed from 6.0.3 [default] to 6.0.4 [default]
-packages/x86-64-v3-poky-linux/python3-pyyaml/python3-pyyaml-ptest: PV changed from "6.0.3" to "6.0.4"
-packages/x86-64-v3-poky-linux/python3-pyyaml/python3-pyyaml-ptest: PKGSIZE changed from 231214 to 236083 (+2%)
-packages/x86-64-v3-poky-linux/python3-pyyaml/python3-pyyaml-ptest: FILELIST: added "/usr/lib/python3-pyyaml/ptest/tests/test_libyaml_recursion_control.py /usr/lib/python3-pyyaml/ptest/tests/test_merge.py"
-packages/x86-64-v3-poky-linux/python3-pyyaml/python3-pyyaml-ptest: PKGV changed from 6.0.3 [default] to 6.0.4 [default]
-packages/x86-64-v3-poky-linux/python3-pyyaml/python3-pyyaml-src: PV changed from "6.0.3" to "6.0.4"
-packages/x86-64-v3-poky-linux/python3-pyyaml/python3-pyyaml-src: PKGSIZE changed from 1381557 to 1423352 (+3%)
-packages/x86-64-v3-poky-linux/python3-pyyaml/python3-pyyaml-src: FILELIST: directory renamed /usr/src/debug/python3-pyyaml/6.0.3/yaml -> /usr/src/debug/python3-pyyaml/6.0.4/yaml
-packages/x86-64-v3-poky-linux/python3-pyyaml/python3-pyyaml-src: PKGV changed from 6.0.3 [default] to 6.0.4 [default]
-packages/x86-64-v3-poky-linux/python3-pyyaml/python3-pyyaml-staticdev: PV changed from "6.0.3" to "6.0.4"
-packages/x86-64-v3-poky-linux/python3-pyyaml/python3-pyyaml-staticdev: PKGV changed from 6.0.3 [default] to 6.0.4 [default]
-packages/x86-64-v3-poky-linux/python3-pyyaml/python3-pyyaml: PV changed from "6.0.3" to "6.0.4"
-packages/x86-64-v3-poky-linux/python3-pyyaml/python3-pyyaml: PKGSIZE changed from 749747 to 755321 (+1%)
-packages/x86-64-v3-poky-linux/python3-pyyaml/python3-pyyaml: FILELIST: directory renamed /usr/lib/python3.15/site-packages/pyyaml-6.0.3.dist-info -> /usr/lib/python3.15/site-packages/pyyaml-6.0.4.dist-info, directory renamed /usr/lib/python3.15/site-packages/pyyaml-6.0.3.dist-info/licenses -> /usr/lib/python3.15/site-packages/pyyaml-6.0.4.dist-info/licenses
-packages/x86-64-v3-poky-linux/python3-pyyaml/python3-pyyaml: PKGV changed from 6.0.3 [default] to 6.0.4 [default]
-Changes to packages/x86-64-v3-poky-linux/python3-pyyaml (sysroot):
-  /usr/lib/python3.15/site-packages/pyyaml-6.0.3.dist-info moved to /usr/lib/python3.15/site-packages/pyyaml-6.0.4.dist-info
+packages/x86-64-v3-poky-linux/libseccomp: PV changed from "2.6.1" to "2.6.2"
+packages/x86-64-v3-poky-linux/libseccomp: PKGV changed from 2.6.1 [default] to 2.6.2 [default]
+packages/x86-64-v3-poky-linux/libseccomp: SRC_URI changed from "git://github.com/seccomp/libseccomp.git;branch=release-2.6;protocol=https;tag=v2.6.1 file://run-ptest" to "git://github.com/seccomp/libseccomp.git;branch=release-2.6;protocol=https;tag=v2.6.2 file://run-ptest"
+packages/x86-64-v3-poky-linux/libseccomp/libseccomp-dbg: PV changed from "2.6.1" to "2.6.2"
+packages/x86-64-v3-poky-linux/libseccomp/libseccomp-dbg: FILELIST: removed "/usr/lib/.debug/libseccomp.so.2.6.1", added "/usr/lib/libseccomp/ptest/tests/.debug/67-sim-arch_syscall_load /usr/lib/libseccomp/ptest/tests/.debug/66-sim-acc_reload /usr/lib/libseccomp/ptest/tests/.debug/65-sim-db_tree_args /usr/lib/.debug/libseccomp.so.2.6.2"
+packages/x86-64-v3-poky-linux/libseccomp/libseccomp-dbg: PKGV changed from 2.6.1 [default] to 2.6.2 [default]
+packages/x86-64-v3-poky-linux/libseccomp/libseccomp-dbg: PKGSIZE changed from 26604528 to 28115792 (+6%)
+packages/x86-64-v3-poky-linux/libseccomp/libseccomp-dev: PV changed from "2.6.1" to "2.6.2"
+packages/x86-64-v3-poky-linux/libseccomp/libseccomp-dev: PKGV changed from 2.6.1 [default] to 2.6.2 [default]
+packages/x86-64-v3-poky-linux/libseccomp/libseccomp-doc: PV changed from "2.6.1" to "2.6.2"
+packages/x86-64-v3-poky-linux/libseccomp/libseccomp-doc: PKGV changed from 2.6.1 [default] to 2.6.2 [default]
+packages/x86-64-v3-poky-linux/libseccomp/libseccomp-locale: PV changed from "2.6.1" to "2.6.2"
+packages/x86-64-v3-poky-linux/libseccomp/libseccomp-locale: PKGV changed from 2.6.1 [default] to 2.6.2 [default]
+packages/x86-64-v3-poky-linux/libseccomp/libseccomp-ptest: PV changed from "2.6.1" to "2.6.2"
+packages/x86-64-v3-poky-linux/libseccomp/libseccomp-ptest: FILELIST: added "/usr/lib/libseccomp/ptest/tests/65-sim-db_tree_args.py /usr/lib/libseccomp/ptest/tests/65-sim-db_tree_args.tests /usr/lib/libseccomp/ptest/tests/66-sim-acc_reload.tests /usr/lib/libseccomp/ptest/tests/67-sim-arch_syscall_load.tests /usr/lib/libseccomp/ptest/tests/67-sim-arch_syscall_load /usr/lib/libseccomp/ptest/tests/65-sim-db_tree_args /usr/lib/libseccomp/ptest/tests/66-sim-acc_reload /usr/lib/libseccomp/ptest/tests/67-sim-arch_syscall_load.py"
+packages/x86-64-v3-poky-linux/libseccomp/libseccomp-ptest: PKGV changed from 2.6.1 [default] to 2.6.2 [default]
+packages/x86-64-v3-poky-linux/libseccomp/libseccomp-ptest: PKGSIZE changed from 11393984 to 12012503 (+5%)
+packages/x86-64-v3-poky-linux/libseccomp/libseccomp-src: PV changed from "2.6.1" to "2.6.2"
+packages/x86-64-v3-poky-linux/libseccomp/libseccomp-src: FILELIST: directory renamed /usr/src/debug/libseccomp/2.6.1/include -> /usr/src/debug/libseccomp/2.6.2/include, directory renamed /usr/src/debug/libseccomp/2.6.1/tools -> /usr/src/debug/libseccomp/2.6.2/tools, directory renamed /usr/src/debug/libseccomp/2.6.1/src -> /usr/src/debug/libseccomp/2.6.2/src, removed "/usr/src/debug/libseccomp/2.6.1/tests/15-basic-resolver.c /usr/src/debug/libseccomp/2.6.1/tests/24-live-arg_allow.c /usr/src/debug/libseccomp/2.6.1/tests/05-sim-long_jumps.c /usr/src/debug/libseccomp/2.6.1/tests/util.c /usr/src/debug/libseccomp/2.6.1/tests/53-sim-binary_tree.c /usr/src/debug/libseccomp/2.6.1/tests/23-sim-arch_all_le_basic.c /usr/src/debug/libseccomp/2.6.1/tests/26-sim-arch_all_be_basic.c /usr/src/debug/libseccomp/2.6.1/tests/30-sim-socket_syscalls.c /usr/src/debug/libseccomp/2.6.1/tests/42-sim-adv_chains.c /usr/src/debug/libseccomp/2.6.1/tests/44-live-a2_order.c /usr/src/debug/libseccomp/2.6.1/tests/57-b
+ asic-rawsysrc.c /usr/src/debug/libseccomp/2.6.1/tests/06-sim-actions.c /usr/src/debug/libseccomp/2.6.1/tests/55-basic-pfc_binary_tree.c /usr/src/debug/libseccomp/2.6.1/tests/58-live-tsync_notify.c /usr/src/debug/libseccomp/2.6.1/tests/util.h /usr/src/debug/libseccomp/2.6.1/tests/07-sim-db_bug_looping.c /usr/src/debug/libseccomp/2.6.1/tests/14-sim-reset.c /usr/src/debug/libseccomp/2.6.1/tests/miniseq.c /usr/src/debug/libseccomp/2.6.1/tests/02-sim-basic.c /usr/src/debug/libseccomp/2.6.1/tests/50-sim-hash_collision.c /usr/src/debug/libseccomp/2.6.1/tests/46-sim-kill_process.c /usr/src/debug/libseccomp/2.6.1/tests/12-sim-basic_masked_ops.c /usr/src/debug/libseccomp/2.6.1/tests/34-sim-basic_denylist.c /usr/src/debug/libseccomp/2.6.1/tests/54-live-binary_tree.c /usr/src/debug/libseccomp/2.6.1/tests/37-sim-ipc_syscalls_be.c /usr/src/debug/libseccomp/2.6.1/tests/40-sim-log.c /usr/src/debug/libseccomp/2.6.1/tests/27-sim-bpf_blk_state.c /usr/src/debug/libseccomp/2.6.1/tests/36-sim-ipc_syscall
+ s.c /usr/src/debug/libseccomp/2.6.1/tests/41-sim-syscall_priority_arch.c /usr/src/debug/libseccomp/2.6.1/tests/60-sim-precompute.c /usr/src/debug/libseccomp/2.6.1/tests/18-sim-basic_allowlist.c /usr/src/debug/libseccomp/2.6.1/tests/59-basic-empty_binary_tree.c /usr/src/debug/libseccomp/2.6.1/tests/33-sim-socket_syscalls_be.c /usr/src/debug/libseccomp/2.6.1/tests/08-sim-subtree_checks.c /usr/src/debug/libseccomp/2.6.1/tests/28-sim-arch_x86.c /usr/src/debug/libseccomp/2.6.1/tests/51-live-user_notification.c /usr/src/debug/libseccomp/2.6.1/tests/52-basic-load.c /usr/src/debug/libseccomp/2.6.1/tests/31-basic-version_check.c /usr/src/debug/libseccomp/2.6.1/tests/47-live-kill_process.c /usr/src/debug/libseccomp/2.6.1/tests/10-sim-syscall_priority_post.c /usr/src/debug/libseccomp/2.6.1/tests/25-sim-multilevel_chains_adv.c /usr/src/debug/libseccomp/2.6.1/tests/09-sim-syscall_priority_pre.c /usr/src/debug/libseccomp/2.6.1/tests/39-basic-api_level.c /usr/src/debug/libseccomp/2.6.1/tests/13-ba
+ sic-attrs.c /usr/src/debug/libseccomp/2.6.1/tests/35-sim-negative_one.c /usr/src/debug/libseccomp/2.6.1/tests/20-live-basic_die.c /usr/src/debug/libseccomp/2.6.1/tests/03-sim-basic_chains.c /usr/src/debug/libseccomp/2.6.1/tests/49-sim-64b_comparisons.c /usr/src/debug/libseccomp/2.6.1/tests/62-sim-arch_transactions.c /usr/src/debug/libseccomp/2.6.1/tests/56-basic-iterate_syscalls.c /usr/src/debug/libseccomp/2.6.1/tests/16-sim-arch_basic.c /usr/src/debug/libseccomp/2.6.1/tests/04-sim-multilevel_chains.c /usr/src/debug/libseccomp/2.6.1/tests/17-sim-arch_merge.c /usr/src/debug/libseccomp/2.6.1/tests/19-sim-missing_syscalls.c /usr/src/debug/libseccomp/2.6.1/tests/43-sim-a2_order.c /usr/src/debug/libseccomp/2.6.1/tests/45-sim-chain_code_coverage.c /usr/src/debug/libseccomp/2.6.1/tests/48-sim-32b_args.c /usr/src/debug/libseccomp/2.6.1/tests/61-sim-transactions.c /usr/src/debug/libseccomp/2.6.1/tests/01-sim-allow.c /usr/src/debug/libseccomp/2.6.1/tests/29-sim-pseudo_syscall.c /usr/src/debug
+ /libseccomp/2.6.1/tests/21-live-basic_allow.c /usr/src/debug/libseccomp/2.6.1/tests/38-basic-pfc_coverage.c /usr/src/debug/libseccomp/2.6.1/tests/32-live-tsync_allow.c /usr/src/debug/libseccomp/2.6.1/tests/11-basic-basic_errors.c /usr/src/debug/libseccomp/2.6.1/tests/22-sim-basic_chains_array.c", added "/usr/src/debug/libseccomp/2.6.2/tests/15-basic-resolver.c /usr/src/debug/libseccomp/2.6.2/tests/24-live-arg_allow.c /usr/src/debug/libseccomp/2.6.2/tests/05-sim-long_jumps.c /usr/src/debug/libseccomp/2.6.2/tests/util.c /usr/src/debug/libseccomp/2.6.2/tests/53-sim-binary_tree.c /usr/src/debug/libseccomp/2.6.2/tests/65-sim-db_tree_args.c /usr/src/debug/libseccomp/2.6.2/tests/23-sim-arch_all_le_basic.c /usr/src/debug/libseccomp/2.6.2/tests/26-sim-arch_all_be_basic.c /usr/src/debug/libseccomp/2.6.2/tests/30-sim-socket_syscalls.c /usr/src/debug/libseccomp/2.6.2/tests/42-sim-adv_chains.c /usr/src/debug/libseccomp/2.6.2/tests/44-live-a2_order.c /usr/src/debug/libseccomp/2.6.2/tests/57-basic
+ -rawsysrc.c /usr/src/debug/libseccomp/2.6.2/tests/06-sim-actions.c /usr/src/debug/libseccomp/2.6.2/tests/55-basic-pfc_binary_tree.c /usr/src/debug/libseccomp/2.6.2/tests/58-live-tsync_notify.c /usr/src/debug/libseccomp/2.6.2/tests/66-sim-acc_reload.c /usr/src/debug/libseccomp/2.6.2/tests/util.h /usr/src/debug/libseccomp/2.6.2/tests/07-sim-db_bug_looping.c /usr/src/debug/libseccomp/2.6.2/tests/14-sim-reset.c /usr/src/debug/libseccomp/2.6.2/tests/miniseq.c /usr/src/debug/libseccomp/2.6.2/tests/02-sim-basic.c /usr/src/debug/libseccomp/2.6.2/tests/50-sim-hash_collision.c /usr/src/debug/libseccomp/2.6.2/tests/46-sim-kill_process.c /usr/src/debug/libseccomp/2.6.2/tests/12-sim-basic_masked_ops.c /usr/src/debug/libseccomp/2.6.2/tests/34-sim-basic_denylist.c /usr/src/debug/libseccomp/2.6.2/tests/54-live-binary_tree.c /usr/src/debug/libseccomp/2.6.2/tests/37-sim-ipc_syscalls_be.c /usr/src/debug/libseccomp/2.6.2/tests/40-sim-log.c /usr/src/debug/libseccomp/2.6.2/tests/27-sim-bpf_blk_state.c /u
+ sr/src/debug/libseccomp/2.6.2/tests/36-sim-ipc_syscalls.c /usr/src/debug/libseccomp/2.6.2/tests/41-sim-syscall_priority_arch.c /usr/src/debug/libseccomp/2.6.2/tests/60-sim-precompute.c /usr/src/debug/libseccomp/2.6.2/tests/18-sim-basic_allowlist.c /usr/src/debug/libseccomp/2.6.2/tests/59-basic-empty_binary_tree.c /usr/src/debug/libseccomp/2.6.2/tests/33-sim-socket_syscalls_be.c /usr/src/debug/libseccomp/2.6.2/tests/08-sim-subtree_checks.c /usr/src/debug/libseccomp/2.6.2/tests/67-sim-arch_syscall_load.c /usr/src/debug/libseccomp/2.6.2/tests/28-sim-arch_x86.c /usr/src/debug/libseccomp/2.6.2/tests/51-live-user_notification.c /usr/src/debug/libseccomp/2.6.2/tests/52-basic-load.c /usr/src/debug/libseccomp/2.6.2/tests/31-basic-version_check.c /usr/src/debug/libseccomp/2.6.2/tests/47-live-kill_process.c /usr/src/debug/libseccomp/2.6.2/tests/10-sim-syscall_priority_post.c /usr/src/debug/libseccomp/2.6.2/tests/25-sim-multilevel_chains_adv.c /usr/src/debug/libseccomp/2.6.2/tests/09-sim-syscal
+ l_priority_pre.c /usr/src/debug/libseccomp/2.6.2/tests/39-basic-api_level.c /usr/src/debug/libseccomp/2.6.2/tests/13-basic-attrs.c /usr/src/debug/libseccomp/2.6.2/tests/35-sim-negative_one.c /usr/src/debug/libseccomp/2.6.2/tests/20-live-basic_die.c /usr/src/debug/libseccomp/2.6.2/tests/03-sim-basic_chains.c /usr/src/debug/libseccomp/2.6.2/tests/49-sim-64b_comparisons.c /usr/src/debug/libseccomp/2.6.2/tests/62-sim-arch_transactions.c /usr/src/debug/libseccomp/2.6.2/tests/56-basic-iterate_syscalls.c /usr/src/debug/libseccomp/2.6.2/tests/16-sim-arch_basic.c /usr/src/debug/libseccomp/2.6.2/tests/04-sim-multilevel_chains.c /usr/src/debug/libseccomp/2.6.2/tests/17-sim-arch_merge.c /usr/src/debug/libseccomp/2.6.2/tests/19-sim-missing_syscalls.c /usr/src/debug/libseccomp/2.6.2/tests/43-sim-a2_order.c /usr/src/debug/libseccomp/2.6.2/tests/45-sim-chain_code_coverage.c /usr/src/debug/libseccomp/2.6.2/tests/48-sim-32b_args.c /usr/src/debug/libseccomp/2.6.2/tests/61-sim-transactions.c /usr/src/d
+ ebug/libseccomp/2.6.2/tests/01-sim-allow.c /usr/src/debug/libseccomp/2.6.2/tests/29-sim-pseudo_syscall.c /usr/src/debug/libseccomp/2.6.2/tests/21-live-basic_allow.c /usr/src/debug/libseccomp/2.6.2/tests/38-basic-pfc_coverage.c /usr/src/debug/libseccomp/2.6.2/tests/32-live-tsync_allow.c /usr/src/debug/libseccomp/2.6.2/tests/11-basic-basic_errors.c /usr/src/debug/libseccomp/2.6.2/tests/22-sim-basic_chains_array.c"
+packages/x86-64-v3-poky-linux/libseccomp/libseccomp-src: PKGV changed from 2.6.1 [default] to 2.6.2 [default]
+packages/x86-64-v3-poky-linux/libseccomp/libseccomp-src: PKGSIZE changed from 1048204 to 1060756 (+1%)
+packages/x86-64-v3-poky-linux/libseccomp/libseccomp-staticdev: PV changed from "2.6.1" to "2.6.2"
+packages/x86-64-v3-poky-linux/libseccomp/libseccomp-staticdev: PKGV changed from 2.6.1 [default] to 2.6.2 [default]
+packages/x86-64-v3-poky-linux/libseccomp/libseccomp-staticdev: PKGSIZE changed from 749172 to 755700 (+1%)
+packages/x86-64-v3-poky-linux/libseccomp/libseccomp: PV changed from "2.6.1" to "2.6.2"
+packages/x86-64-v3-poky-linux/libseccomp/libseccomp: FILELIST: removed "/usr/lib/libseccomp.so.2.6.1", added "/usr/lib/libseccomp.so.2.6.2"
+packages/x86-64-v3-poky-linux/libseccomp/libseccomp: PKGV changed from 2.6.1 [default] to 2.6.2 [default]
+Changes to packages/x86-64-v3-poky-linux/libseccomp (sysroot):
+  /usr/lib/libseccomp.so.2 changed symlink target from libseccomp.so.2.6.1 to libseccomp.so.2.6.2
+  /usr/lib/libseccomp.so changed symlink target from libseccomp.so.2.6.1 to libseccomp.so.2.6.2
+  /usr/lib/libseccomp.so.2.6.1 moved to /usr/lib/libseccomp.so.2.6.2
 
---===============2260682067863003290==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-pyyaml-upgrade-6.0.3-6.0.4.patch"
-
-RnJvbSAxZDYxNDQ4NGExMzllMWFmZGQ1OTI5OTQ3M2Y2NWVjOGIzMjBhZDJhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMjEgTm92IDIwMjYgMDU6MTU6MjUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXB5eWFtbDogdXBncmFkZSA2LjAuMyAtPiA2LjAuNAoKNi4wLjQgKDIwMjYtMTEtMjAp
-Ci0tLQogLi4uL3B5dGhvbi97cHl0aG9uMy1weXlhbWxfNi4wLjMuYmIgPT4gcHl0aG9uMy1weXlh
-bWxfNi4wLjQuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRl
-bGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy1w
-eXlhbWxfNi4wLjMuYmIgPT4gcHl0aG9uMy1weXlhbWxfNi4wLjQuYmJ9ICg4OCUpCgpkaWZmIC0t
-Z2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5eWFtbF82LjAuMy5i
-YiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weXlhbWxfNi4wLjQuYmIK
-c2ltaWxhcml0eSBpbmRleCA4OCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLXB5eWFtbF82LjAuMy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3B5dGhvbi9weXRob24zLXB5eWFtbF82LjAuNC5iYgppbmRleCA4NDllMmM5Y2M4Li5hNjFm
-OGUyMjc5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMt
-cHl5YW1sXzYuMC4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
-My1weXlhbWxfNi4wLjQuYmIKQEAgLTQsNyArNCw3IEBAIEhPTUVQQUdFID0gImh0dHBzOi8vcHl5
-YW1sLm9yZy8iCiBMSUNFTlNFID0gIk1JVCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJ
-Q0VOU0U7bWQ1PTZkODI0MjY2MGE4MzcxYWRkNWZlNTQ3YWRmMDgzMDc5IgogCi1TUkNfVVJJW3No
-YTI1NnN1bV0gPSAiZDc2NjIzMzczNDIxZGYyMmZiNGNmODgxNzAyMGNiYjdlZjE1YzcyNWI5ZDVl
-NDVmMTdlMTg5YmZjMzg0MTkwZiIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICJlMjRiZjcxYWY4YTQz
-MmQ3ODA4ZmFiZmYxMzRkMzhkZmUxNmQzY2JiNDFmMjg3M2JiNGIxZTQyNDIyZGUwYTFhIgogCiBT
-UkNfVVJJICs9ICJcCiAgICAgaHR0cHM6Ly9yYXcuZ2l0aHVidXNlcmNvbnRlbnQuY29tL3lhbWwv
-cHl5YW1sL2E5OGZkNjA4OGU4MWQ3YWNhNTcxMjIwYzk2NmJiZmUyYWM0M2MzMzUvdGVzdHMvdGVz
-dF9kdW1wX2xvYWQucHk7bmFtZT10ZXN0IFwKLS0gCjIuNDcuMQoK
-
---===============2260682067863003290==--
+--===============8624794721534153820==--
