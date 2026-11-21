@@ -1,106 +1,106 @@
-Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.21639.1795285845246367802
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.21703.1795286024757600983
  for <openembedded-core@lists.openembedded.org>;
- Sat, 21 Nov 2026 10:30:45 -0800
+ Sat, 21 Nov 2026 10:33:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=vua0u4UG;
- spf=pass (domain: gmail.com, ip: 74.125.82.51, mailfrom: raj.khem@gmail.com)
-Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-1b3acec6677so2844791c88.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 21 Nov 2026 10:30:45 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=O0/xSQIL;
+ spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a35ac4475dso14739275e9.2
+        for <openembedded-core@lists.openembedded.org>; Sat, 21 Nov 2026 10:33:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795285844; x=1795890644; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=eGhV3w6VGm89MLWSKLmVLx4eIxX9WEem7+7EGoxdqTw=;
-        b=vua0u4UG8YZMd6SZSBPLA2BhBvzEPr86xEvX/THRNCnMSwIeBY8PsJMgIRVvAWS6Uo
-         VMcSrPN9nRJSU2gRaRwPeLtju9xU4CaJwCwA4kCxZDgQav0YDUQHKF+5/l9qsfdaaaXz
-         7WWIGnZlVjxwgFEiEt23RvZy8SoI4nHA0BSJ1A+Gmvq0J9x+eu4+cjmOhDi1Vpv1XBVI
-         epGEHZdCFKGQEXIIc8+Z7JXvJXCgTTbiHOlZ9aE72zXxtPDvySQdRyOLSgfIquBTcmVi
-         GgCSHRQKQteqNZqvA60AhynbTKK4HvUn+3xl+7BbW5EwrftkJbJC2YCYUIfJMyNbrsuA
-         iXiQ==
+        d=smile.fr; s=google2; t=1795286023; x=1795890823; darn=lists.openembedded.org;
+        h=in-reply-to:references:cc:from:subject:to:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=QHNpoapUrWUljVflxUuWXwOo0+llaHKYLYtNq+7tImc=;
+        b=O0/xSQILD+zVhzismSslfdcpKIfucAWaXEcr4alsDYXbdIj12zhvK5SWtNa+lGXE0y
+         vNqTzSTIB60TJIAokx6efO4rbeep4h2krg9GxY7NH5/MIbWbVOuuO+a3hQDe3XbQ415G
+         T7JPvhBfp5Nvx43Qu1kRhLrm3U/SU9ZtTb4f2gETn6OC8/bKfe/vMDsWgrxmp4l6PjBF
+         i2okSrfiVeTaDvlaMpuW004Ng3nrl0cTyva+53rZgJJ7fLW2e/n0Gz4HZZncJ8MBtgha
+         0d+88kXT68e7AxjFtUTq+jFASmaubgUi0sSFDZJ3jHJRaV6VmX1NXZ4Hq1U/Z/elB3Cf
+         Q6QQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795285844; x=1795890644;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=eGhV3w6VGm89MLWSKLmVLx4eIxX9WEem7+7EGoxdqTw=;
-        b=XHML5lx4k6u8t3S6QQnPo7r8qDUSOxvN2von4cOutBkyR5ECVU8j2YXrRKSdPGzZn4
-         rMgnO4kDMcS9I+o8E7Qb9mf9QWXmvsqGXWxaJyROxY9O82Ferx4/6dtkvOCfnTqDF8zt
-         g4mS3NG8Sh5NCowMlG6oRXL3LbOet5tz4CW3XwHqo3snO3DU9FlVtcHHNHrhQc05vRT9
-         phLJ7Y+TLUpGJRD54p1zbrnY4T8J/LoPjADJzUgsDn9gRFtoL0p42N72PQyXG8kIIKXD
-         zzFWMueY/McMqeG0guwd0Z7mZUHfKN38Nsnx6z+CZ2njFDCcfp8p3GM5go9RlIHxx2/M
-         5w8w==
-X-Gm-Message-State: APuU4Z8nHH3mIqJCOhah2xtm18hmyc1DmlHqLnvlTmFuO0dx45+RXtPq
-	JAsAeUuhE4gyaFJgnj5CfjRlMzesGXfInm6cQSxbM82DkO+zI8YqkFPMeS5AlrWd
-X-Gm-Gg: AZFdTZd9PuhoAHJ+RHa8EE7m8h0RkbXpGeGQqBLkulZoehniIUhXYDUBH6CZGuGFsgF
-	Jn3vlucl7OiRTrtA5T0a6/0T9CwrkJHDKD0kKJKe0FGEG2DWSQy0oAMKHc0Fjihb/VOuSonut+U
-	qidW4M1sJkXv/kjhjlnsOWz9yO4g6sOGVaIawwW5wiGCYiqwdPoQQeWgToS+3tAdlwHKlBvT4oF
-	aV0vEKJBdT1w3CO9pw8DH+SFbaEhbg9CJr60lZ6/NCOrDcazEeu+JPJbPJouf2ucplbkiZLbHPh
-	uX0jvVuWKh5G+OXtrVkZ/fQNvxiuRWCxswFhlXKSIFI4fqiNXr9JB5/JabrKztmbajpoyxCJdKL
-	2keHGNap8+foyncMqjzvQ37LjCF/UU4cOr1YhWKI0j63lg296XSnBoC1eTJuICnmSZa4WJMBw/j
-	JkMPTjKSoiA/Rc6PefHtxWqpiDpXahBdsP8CA58DxzXTMr6TpDIVMBCxcd6tvavJ6MEHQl9GIDR
-	wfN3tQ6ln50vTbtIusPLJ9agMeD2oWs9ZF+wsdUZzbzuRU+HWV/PSXqb0scGfPTy59N0st5nm+g
-	z5Jp4qKO1p6IzzbSCf6XoOFQKxMoPPNnLlXQZ2ZPuSn1ZQ7OgEF+IacpyGsKRnb9jf+uKmWEM9U
-	OzgIhD19FHTLwZsk4EGBa7Zsw4OqhJi4B+MdMhhHpIH7fyz5AZ8BuHfjaD+Kz/FdoCRJRe9B5r1
-	Dxcbva4/d9qn6cUEDph+ubffkVj8S2XNo7/dR1YRw/8HkhaO3071TYHnIDbHfLhgpw+abaWkIlD
-	Bkf5vMU7fETZhhH0eRb03CfPNcsBZM3VmGsOjwx8GjaVKuqty3GjLU596jfL3mVUFZjY8sDL51E
-	oQeWobwlLJUHHmGFWGRz8gSE2w==
-X-Received: by 2002:a05:7300:8807:b0:369:5583:bf4c with SMTP id 5a478bee46e88-3856ff5bb62mr6984466eec.28.1795285844188;
-        Sat, 21 Nov 2026 10:30:44 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385672ce402sm18439671eec.16.2026.11.21.10.30.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 21 Nov 2026 10:30:43 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <khem.raj@oss.qualcomm.com>
-Subject: [PATCH] musl: Upgrade to latest master
-Date: Sat, 21 Nov 2026 10:30:41 -0800
-Message-ID: <20261121183041.1446195-1-khem.raj@oss.qualcomm.com>
-X-Mailer: git-send-email 2.56.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        d=1e100.net; s=20260707; t=1795286023; x=1795890823;
+        h=in-reply-to:references:cc:from:subject:to:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=QHNpoapUrWUljVflxUuWXwOo0+llaHKYLYtNq+7tImc=;
+        b=p9F+jcnQRgBxc2J+0ArNAO82lNjMsbKPA0kDptZOaYiFvSlIv+yngdrz4b7Z632Wwq
+         L5mUmMn6DcAKv0jT6qSrcWuoucIZ50H5nA1FyBvJsKMcel6tCBtG7rhpSiLy749MubEF
+         ECIBMing5KRbidEVCqNmAkI11iwzxRy0gMSRdoSR/93751utVFOgnW4nx8vAzKI+8VA6
+         J7LBTUenucC7QDh79ItncUP1cHInYIFezhkKp4jdSB+OWu48+Mv/Nx3pmmJEsL6J3KWH
+         Tw4cUl6al71JMkA5s+z5tXcAFtOcoESYDl37TEde3Z5om4O0ok/DDGuaElhsZZMQVctV
+         EQvw==
+X-Forwarded-Encrypted: i=1; AL+hErHODR97h9ct7W7MHGTxSblR/eVioWbhIMVQjbocXKPFMdMI7tw1jFPJaiQzRBcICWgmk/hKTC1+ajlGhSTpY/U5Kw==@lists.openembedded.org
+X-Gm-Message-State: APuU4Z/tmXl8SJgyl5pLx758M24reuyxbrmq0ahs2/JncwN9+Yl6fooO
+	cy8cSD5Nzjmkf4iCefbb0sIAzTh7XVRFxxTCzr5U6KR6qPBgbSaigwGSw4FaWLGz8gM=
+X-Gm-Gg: AZFdTZeQr1JWJnEVqW/xqWY8JJrn0JDSnWVJcYP6L/3y+9Aj4O9CYZPU0+xWeNVRPX5
+	He60Pag1dJ+fOiEgzsnnUgigSxbJRvAL7/Eqdt+HBh+71WPE0cpHnAiyjavcv+RwKShwHq0hNHh
+	AA7r39R9fgw2YuD0D4C2hVkZAlN4xpoa7kplq+IAbFL7uyGD/x4tYsc79HWv6q1dOhRc+cYewks
+	uXjUZ7gK83eVKlicT0BPYpfw00E/uA+W525UdkRUOaVdpnaiNr/KAq7E7mefiBXbO780TyJpIqo
+	nedaJ4Vza7U/WYys/uekhWjWdBTJfpfUXdzgUqwHUpo3CZ3ZpvA3/C3wejhMAr1Akui0JgYrxdx
+	3+aG2SKYitHAh8C+Hm+2kvlCCkt7RbyD/3YwKDlHBGaI3sDDOiitKsL2YhOWImdXQs5OQSCZrni
+	6hmyGf/VO2p+TN+4cGuZp80NIijfY94ibyhtWdO2j8v4Mkwy6dX2PqpHwBe5oH+Fq3o8sbS2DNf
+	mKEg0Dd1roSujW6XTXLcuGztBaEU0KxTsDFXQShLFkUyMpqEb8eN45KqRQmhcZQB1A0PEk5S5d+
+	lCHIRc+obtu9zNr3MoxV73e1VY44eAXwRSWUksCroaw5KIiG05PhJOvP175n/cav9Fb3VP2Juto
+	RTo6Y4GJ8CyOebRJH5A==
+X-Received: by 2002:a05:600c:a086:b0:4a7:6425:c274 with SMTP id 5b1f17b1804b1-4bb887c34bcmr157514045e9.2.1795286022828;
+        Sat, 21 Nov 2026 10:33:42 -0800 (PST)
+Return-Path: <yoann.congal@smile.fr>
+Received: from localhost (2a01cb001331aa0009d38a8173e0a09d.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:9d3:8a81:73e0:a09d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb8538b09bsm377851415e9.4.2026.11.21.10.33.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 21 Nov 2026 10:33:42 -0800 (PST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sat, 21 Nov 2026 19:33:42 +0100
+Message-Id: <DN13S4TY0UFW.2VLT7G2WN9AQR@smile.fr>
+To: <arpitpa@cisco.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][scarthgap][PATCH 02/10] sqlite3: fix CVE-2026-119373
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: <xe-linux-external@cisco.com>
+X-Mailer: aerc 0.20.0
+References: <20261106085405.3517095-1-arpitpa@cisco.com>
+ <20261106085405.3517095-2-arpitpa@cisco.com>
+In-Reply-To: <20261106085405.3517095-2-arpitpa@cisco.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 21 Nov 2026 18:30:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250853
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 21 Nov 2026 18:33:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250854
 
-Brings in these changes from c4e1bb3994c1..7813e9119eb5:
+On Fri Nov 6, 2026 at 9:53 AM CET, Arpit Patel via openembedded-core wrote:
+> This patch applies the upstream fix [1], which prevents a buffer
+> overflow when merging FTS5 detail=3Dnone prefix lists with negative
+> docids. The GitHub mirror commit [1] corresponds to the SQLite Fossil
+> check-in shown in [2].
+>
+> [1] https://github.com/sqlite/sqlite/commit/e1c9934f9f11a499029abb020ea71=
+5a08970da80
+> [2] https://sqlite.org/src/info/a7f8c92f62
+>
+> Reference:
+> https://nvd.nist.gov/vuln/detail/CVE-2026-119373
+>
+> Signed-off-by: Arpit Patel <arpitpa@cisco.com>
+> ---
+>  .../sqlite/sqlite3/CVE-2026-119373.patch      | 56 +++++++++++++++++++
+>  meta/recipes-support/sqlite/sqlite3_3.45.3.bb |  1 +
+>  2 files changed, 57 insertions(+)
+>  create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119373.p=
+atch
 
-- floatscan: fix an out-of-bounds store at index -1 in the mantissa
-  buffer on wrap (seen with 80-bit and quad long double archs)
-- strtod: fix the underflow detection logic so ERANGE is reported for
-  every inexact denormal result
-- regex: avoid int overflows in regcomp
-- fnmatch: fix bracket ranges with a multibyte endpoint, stop matching
-  reversed ranges such as [z-a], and stop treating an invalid byte as
-  end-of-string, which caused false matches
-- newlocale: use C locale values for categories not in the mask when
-  the base is (locale_t)0
-- wcwidth: fix an off-by-one for the last character of the tag and
-  variation selector ranges
-- swprintf: set errno to EOVERFLOW when output is truncated
-- SIGEV_THREAD timers: fix a deadlock when the timer_create syscall
-  fails
-- fcntl.h: add the new fallocate operation flags from Linux 7.2
+Hello,
 
-Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
----
- meta/recipes-core/musl/musl_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+FYI, from this series I removed 2,3,5/10: those CVE fixes were sent a
+day earlier by Jo=C3=A3o:
+https://lore.kernel.org/all/20261105141827.2142719-1-joaomarcos.costa@bootl=
+in.com/
 
-diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
-index 59364b1f91..cbdb7178f9 100644
---- a/meta/recipes-core/musl/musl_git.bb
-+++ b/meta/recipes-core/musl/musl_git.bb
-@@ -4,7 +4,7 @@
- require musl.inc
- inherit linuxloader multilib_header
- 
--SRCREV = "c4e1bb3994c14ed5112c894d15a451bf00f0d501"
-+SRCREV = "7813e9119eb5fe681b6750b8a033a0490bca0941"
- 
- BASEVER = "1.2.6"
- 
+Please help review them, during the review cycle.
+
+Regards,
+--=20
+Yoann Congal
+Smile ECS
+
