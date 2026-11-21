@@ -1,132 +1,106 @@
-Received: from mailout02.t-online.de (mailout02.t-online.de [194.25.134.17])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19403.1795278181322634034
+Received: from mail-dl1-f51.google.com (mail-dl1-f51.google.com [74.125.82.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.21639.1795285845246367802
  for <openembedded-core@lists.openembedded.org>;
- Sat, 21 Nov 2026 08:23:01 -0800
+ Sat, 21 Nov 2026 10:30:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=f_l_k@t-online.de header.s=20260216 header.b=n63LemOS;
- spf=pass (domain: t-online.de, ip: 194.25.134.17, mailfrom: f_l_k@t-online.de)
-Received: from fwd80.aul.t-online.de (fwd80.aul.t-online.de [10.223.144.106])
-	by mailout02.t-online.de (Postfix) with SMTP id 9C93FE609
-	for <openembedded-core@lists.openembedded.org>; Sat, 21 Nov 2026 17:22:17 +0100 (CET)
-Received: from localhost.localdomain ([84.154.170.58]) by fwd80.t-online.de
-	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1xUnqy-2ZMwO90; Sat, 21 Nov 2026 17:22:16 +0100
-From: Markus Volk <f_l_k@t-online.de>
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=vua0u4UG;
+ spf=pass (domain: gmail.com, ip: 74.125.82.51, mailfrom: raj.khem@gmail.com)
+Received: by mail-dl1-f51.google.com with SMTP id a92af1059eb24-1b3acec6677so2844791c88.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 21 Nov 2026 10:30:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795285844; x=1795890644; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=eGhV3w6VGm89MLWSKLmVLx4eIxX9WEem7+7EGoxdqTw=;
+        b=vua0u4UG8YZMd6SZSBPLA2BhBvzEPr86xEvX/THRNCnMSwIeBY8PsJMgIRVvAWS6Uo
+         VMcSrPN9nRJSU2gRaRwPeLtju9xU4CaJwCwA4kCxZDgQav0YDUQHKF+5/l9qsfdaaaXz
+         7WWIGnZlVjxwgFEiEt23RvZy8SoI4nHA0BSJ1A+Gmvq0J9x+eu4+cjmOhDi1Vpv1XBVI
+         epGEHZdCFKGQEXIIc8+Z7JXvJXCgTTbiHOlZ9aE72zXxtPDvySQdRyOLSgfIquBTcmVi
+         GgCSHRQKQteqNZqvA60AhynbTKK4HvUn+3xl+7BbW5EwrftkJbJC2YCYUIfJMyNbrsuA
+         iXiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795285844; x=1795890644;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=eGhV3w6VGm89MLWSKLmVLx4eIxX9WEem7+7EGoxdqTw=;
+        b=XHML5lx4k6u8t3S6QQnPo7r8qDUSOxvN2von4cOutBkyR5ECVU8j2YXrRKSdPGzZn4
+         rMgnO4kDMcS9I+o8E7Qb9mf9QWXmvsqGXWxaJyROxY9O82Ferx4/6dtkvOCfnTqDF8zt
+         g4mS3NG8Sh5NCowMlG6oRXL3LbOet5tz4CW3XwHqo3snO3DU9FlVtcHHNHrhQc05vRT9
+         phLJ7Y+TLUpGJRD54p1zbrnY4T8J/LoPjADJzUgsDn9gRFtoL0p42N72PQyXG8kIIKXD
+         zzFWMueY/McMqeG0guwd0Z7mZUHfKN38Nsnx6z+CZ2njFDCcfp8p3GM5go9RlIHxx2/M
+         5w8w==
+X-Gm-Message-State: APuU4Z8nHH3mIqJCOhah2xtm18hmyc1DmlHqLnvlTmFuO0dx45+RXtPq
+	JAsAeUuhE4gyaFJgnj5CfjRlMzesGXfInm6cQSxbM82DkO+zI8YqkFPMeS5AlrWd
+X-Gm-Gg: AZFdTZd9PuhoAHJ+RHa8EE7m8h0RkbXpGeGQqBLkulZoehniIUhXYDUBH6CZGuGFsgF
+	Jn3vlucl7OiRTrtA5T0a6/0T9CwrkJHDKD0kKJKe0FGEG2DWSQy0oAMKHc0Fjihb/VOuSonut+U
+	qidW4M1sJkXv/kjhjlnsOWz9yO4g6sOGVaIawwW5wiGCYiqwdPoQQeWgToS+3tAdlwHKlBvT4oF
+	aV0vEKJBdT1w3CO9pw8DH+SFbaEhbg9CJr60lZ6/NCOrDcazEeu+JPJbPJouf2ucplbkiZLbHPh
+	uX0jvVuWKh5G+OXtrVkZ/fQNvxiuRWCxswFhlXKSIFI4fqiNXr9JB5/JabrKztmbajpoyxCJdKL
+	2keHGNap8+foyncMqjzvQ37LjCF/UU4cOr1YhWKI0j63lg296XSnBoC1eTJuICnmSZa4WJMBw/j
+	JkMPTjKSoiA/Rc6PefHtxWqpiDpXahBdsP8CA58DxzXTMr6TpDIVMBCxcd6tvavJ6MEHQl9GIDR
+	wfN3tQ6ln50vTbtIusPLJ9agMeD2oWs9ZF+wsdUZzbzuRU+HWV/PSXqb0scGfPTy59N0st5nm+g
+	z5Jp4qKO1p6IzzbSCf6XoOFQKxMoPPNnLlXQZ2ZPuSn1ZQ7OgEF+IacpyGsKRnb9jf+uKmWEM9U
+	OzgIhD19FHTLwZsk4EGBa7Zsw4OqhJi4B+MdMhhHpIH7fyz5AZ8BuHfjaD+Kz/FdoCRJRe9B5r1
+	Dxcbva4/d9qn6cUEDph+ubffkVj8S2XNo7/dR1YRw/8HkhaO3071TYHnIDbHfLhgpw+abaWkIlD
+	Bkf5vMU7fETZhhH0eRb03CfPNcsBZM3VmGsOjwx8GjaVKuqty3GjLU596jfL3mVUFZjY8sDL51E
+	oQeWobwlLJUHHmGFWGRz8gSE2w==
+X-Received: by 2002:a05:7300:8807:b0:369:5583:bf4c with SMTP id 5a478bee46e88-3856ff5bb62mr6984466eec.28.1795285844188;
+        Sat, 21 Nov 2026 10:30:44 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385672ce402sm18439671eec.16.2026.11.21.10.30.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Nov 2026 10:30:43 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCHv2] cups: fix temporary queues for discovered printers
-Date: Sat, 21 Nov 2026 17:22:03 +0100
-Message-ID: <20261121162210.2347337-2-f_l_k@t-online.de>
+Cc: Khem Raj <khem.raj@oss.qualcomm.com>
+Subject: [PATCH] musl: Upgrade to latest master
+Date: Sat, 21 Nov 2026 10:30:41 -0800
+Message-ID: <20261121183041.1446195-1-khem.raj@oss.qualcomm.com>
 X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261121162210.2347337-1-f_l_k@t-online.de>
-References: <20261121162210.2347337-1-f_l_k@t-online.de>
 MIME-Version: 1.0
-X-TOI-EXPURGATEID: 150726::1795278136-50FD69F7-EDCB07C8/0/0 CLEAN NORMAL
-X-TOI-MSGID: b763ee8f-5071-46f8-a2db-8d406be93c3b
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=t-online.de;
-	s=20260216; t=1795278137; i=f_l_k@t-online.de;
-	bh=nC3IxZt4rLuiWdx752EUsGC0fswHbk6sidvs5rBHy6s=;
-	h=From:To:Subject:Date:In-Reply-To:References;
-	b=n63LemOSmJwzRwSzY559KX8hE1WOu3wvHm2J7TVP1XP6aDK8Fi056Cerkri7eTDvj
-	 cz8cqiUklzvhoFNi4mloc4VJ1MyEhQV3FEcrBreNQvCtJqzfhZcfW3Bptf4IqFidKk
-	 tPSJgnSGiXjTByUheeJd5W2PzbVTzy1irbvW39HlBOSTi0MZdq8+kEXQ+FIFdhOs99
-	 yN6XwxZeG72qn1fjx3Ug3IjPFFbqR8MJficN4Fe6qgRfopRu4jUw6w5Z656zGcH8L8
-	 252dJcvYv+BqJiZ2hGsJwkWgVN5Srhpt58g66gQYLjDDyVAjzDXAJQdnJ8bXaYvn3q
-	 lmRqMVvzECQ0A==
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 21 Nov 2026 16:23:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250852
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 21 Nov 2026 18:30:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250853
 Content-Type: text/plain; charset="utf-8"
 
-Since 2.4.20 cupsd stores the device URI "://" for every temporary
-queue: create_local_printer() reads the URI into device_uri_ptr but
-still splits and stores the former printer-name pointer. Discovered
-IPP Everywhere printers without a configured queue can no longer be
-used. Backport the two upstream fixes from the 2.4.x branch.
+Brings in these changes from c4e1bb3994c1..7813e9119eb5:
 
-Tested by printing to a discovered IPP Everywhere printer without a
-configured queue.
+- floatscan: fix an out-of-bounds store at index -1 in the mantissa
+  buffer on wrap (seen with 80-bit and quad long double archs)
+- strtod: fix the underflow detection logic so ERANGE is reported for
+  every inexact denormal result
+- regex: avoid int overflows in regcomp
+- fnmatch: fix bracket ranges with a multibyte endpoint, stop matching
+  reversed ranges such as [z-a], and stop treating an invalid byte as
+  end-of-string, which caused false matches
+- newlocale: use C locale values for categories not in the mask when
+  the base is (locale_t)0
+- wcwidth: fix an off-by-one for the last character of the tag and
+  variation selector ranges
+- swprintf: set errno to EOVERFLOW when output is truncated
+- SIGEV_THREAD timers: fix a deadlock when the timer_create syscall
+  fails
+- fcntl.h: add the new fallocate operation flags from Linux 7.2
 
-AI-Generated: Uses Claude Code (Claude Opus 5.5)
-Signed-off-by: Markus Volk <f_l_k@t-online.de>
+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
 ---
- meta/recipes-extended/cups/cups.inc           |  1 +
- ...Fix-regression-with-temporary-queues.patch | 43 +++++++++++++++++++
- 2 files changed, 44 insertions(+)
- create mode 100644 meta/recipes-extended/cups/cups/0005-Fix-regression-w=
-ith-temporary-queues.patch
+ meta/recipes-core/musl/musl_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/=
-cups/cups.inc
-index f82fc0a1aa..b7579ff70a 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -13,6 +13,7 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/cups-${=
-PV}-source.tar.gz \
-            file://0002-don-t-try-to-run-generated-binaries.patch \
-            file://libexecdir.patch \
-            file://0004-cups-fix-multilib-install-file-conflicts.patch \
-+           file://0005-Fix-regression-with-temporary-queues.patch \
-            file://volatiles.99_cups \
-            file://cups-volatiles.conf \
-            "
-diff --git a/meta/recipes-extended/cups/cups/0005-Fix-regression-with-tem=
-porary-queues.patch b/meta/recipes-extended/cups/cups/0005-Fix-regression=
--with-temporary-queues.patch
-new file mode 100644
-index 0000000000..67586dd3d8
---- /dev/null
-+++ b/meta/recipes-extended/cups/cups/0005-Fix-regression-with-temporary-=
-queues.patch
-@@ -0,0 +1,43 @@
-+From 67dcee9f60a2a1410993510ab00c7203af5c5804 Mon Sep 17 00:00:00 2001
-+From: Michael R Sweet <msweet@msweet.org>
-+Date: Fri, 9 Oct 2026 12:01:20 -0400
-+Subject: [PATCH] Fix regression with temporary queues (Issue #1751)
-+
-+create_local_printer() took the device URI into device_uri_ptr, but stil=
-l
-+split and stored the former printer-name pointer, so every temporary que=
-ue
-+got the device URI "://" and failed.
-+
-+Combines the upstream commits 67dcee9f60 and e11ff1a9e8 on the 2.4.x
-+branch, without the CHANGES.md entry.
-+
-+Upstream-Status: Backport [https://github.com/OpenPrinting/cups/commit/6=
-7dcee9f60a2a1410993510ab00c7203af5c5804, https://github.com/OpenPrinting/=
-cups/commit/e11ff1a9e8c6ec71edbaac5d5e5590d11aff64ef]
-+Signed-off-by: Markus Volk <f_l_k@t-online.de>
-+---
-+diff --git a/scheduler/ipp.c b/scheduler/ipp.c
-+index af8cf12..96364f4 100644
-+--- a/scheduler/ipp.c
-++++ b/scheduler/ipp.c
-+@@ -5796,11 +5796,11 @@ create_local_printer(
-+=20
-+   if (nameptr)
-+   {
-+-    size_t host_len,
-+-        server_name_len;
-++    size_t	host_len,		/* Length of hostname */
-++		server_name_len;	/* Length of server name */
-+=20
-+     /* Get host name of device URI */
-+-    httpSeparateURI(HTTP_URI_CODING_ALL, ptr,
-++    httpSeparateURI(HTTP_URI_CODING_ALL, device_uri_ptr,
-+ 		    scheme, sizeof(scheme), userpass, sizeof(userpass), host,
-+ 		    sizeof(host), &port, resource, sizeof(resource));
-+=20
-+@@ -5832,7 +5832,7 @@ create_local_printer(
-+     cupsdSetDeviceURI(printer, uri);
-+   }
-+   else
-+-    cupsdSetDeviceURI(printer, ptr);
-++    cupsdSetDeviceURI(printer, device_uri_ptr);
-+=20
-+   if (printer_geo_location)
-+     cupsdSetString(&printer->geo_location, ippGetString(printer_geo_loc=
-ation, 0, NULL));
---=20
-2.56.1
-
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index 59364b1f91..cbdb7178f9 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -4,7 +4,7 @@
+ require musl.inc
+ inherit linuxloader multilib_header
+ 
+-SRCREV = "c4e1bb3994c14ed5112c894d15a451bf00f0d501"
++SRCREV = "7813e9119eb5fe681b6750b8a033a0490bca0941"
+ 
+ BASEVER = "1.2.6"
+ 
