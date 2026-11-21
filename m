@@ -1,41 +1,42 @@
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.19110.1795277787533889545
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19286.1795277788338606997
  for <openembedded-core@lists.openembedded.org>;
- Sat, 21 Nov 2026 08:16:27 -0800
+ Sat, 21 Nov 2026 08:16:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Q1hY9Qk0;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=rrrsGjrh;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101a1fee50e22-7e4a4ece-263e-495c-8358-c812f219c28f-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=S0QLsga3;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=qzmO+Pnc;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101a1fee51108-b821f053-2c5b-4d70-ae1b-49acba2826ea-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1795277786; i=@automation.yoctoproject.org;
+	t=1795277787; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=La+X5NYWPVq2sYFTFyk04x29cXnkQxwmMtqAkLNRKZE=;
-	b=Q1hY9Qk0fdVsKiDhFRfMLNSPYG8LVoT/3nKHOQDYsEd2jWE1bpgiIw1xKYLMsChn
-	kEft43bFwSk49/LtQLqOp29qQP+P4mjP4kMvss8Lz+CqyYCyV1gHuZhofw11PizNgkA
-	WPS038Fo6nFfsAnUWy4JALOJLPcL3o3uTaz7K5rQ=
+	bh=IrgmR5FspWFErmW23NpZK4glLqlG/8uhTUYYqIwv6tc=;
+	b=S0QLsga3b/Cd33KJatd0DCWAD33dqaSihegY+hLDnfG2QZH01qSdnketfAjjm8rv
+	MBfNVEc/gn6taedbs8CF8eMBphiDj/jqNpztztbfZArjpWkN5IHZaAvjZ1O7mX21gFD
+	5MHqlCGkY29E1Y7MyA29Js3h2ic9WOdSRLgzYmIU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1795277786;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1795277787;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=La+X5NYWPVq2sYFTFyk04x29cXnkQxwmMtqAkLNRKZE=;
-	b=rrrsGjrhU2ou4A+tHGrOISjJeShwFAgEIArugqy+tfutTxDXt0kZG1e+iWMQVqxV
-	Mtk4mFwk8bgUpYyPWvZSSvxoj7aPXCxwqjLMd8cfuXbOhzF0pOH+9bPIimjto9g/zid
-	KWQN8GISc2Veg79Hcw2HsJDRTAxZ1Zb9fn+bAdo0=
+	bh=IrgmR5FspWFErmW23NpZK4glLqlG/8uhTUYYqIwv6tc=;
+	b=qzmO+Pnc/369F4hlT6zsOKRtZbmuKDBKE14IEgULxmgs1SpNVqvPq7EpUee8GPI9
+	MwLvxB/MP+5LoqS1wMVYSVxyXpZ+xdBWKnJR6oh/fsvUCF1Av51KZV2BvS51NyuyT8C
+	GFwNPWKViURf8r1I2Kt2y0/yBFKxSQDTTtrQcGSw=
 From: patchtest@automation.yoctoproject.org
 To: Markus Volk <f_l_k@t-online.de>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [oe-core][PATCH] cups: fix temporary queues for discovered printers
-In-Reply-To: <20261121160050.1531479-2-f_l_k@t-online.de>
-References: <20261121160050.1531479-2-f_l_k@t-online.de>
+Subject: Patchtest results for [oe-core][PATCH] python3: backport the fix for _Py_STDC_VERSION in
+ pyport.h
+In-Reply-To: <20261121160050.1531479-1-f_l_k@t-online.de>
+References: <20261121160050.1531479-1-f_l_k@t-online.de>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a1fee50e22-7e4a4ece-263e-495c-8358-c812f219c28f-000000@us-west-2.amazonses.com>
-Date: Sat, 21 Nov 2026 16:16:26 +0000
+Message-ID: <010101a1fee51108-b821f053-2c5b-4d70-ae1b-49acba2826ea-000000@us-west-2.amazonses.com>
+Date: Sat, 21 Nov 2026 16:16:27 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.21-54.240.27.192
+X-SES-Outgoing: 2026.11.21-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 21 Nov 2026 16:16:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250849
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 21 Nov 2026 16:16:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250850
 
 --NextPart
 Content-Type: text/plain
@@ -45,10 +46,12 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/cups-fix-temporary-queues-for-discovered-printers.patch
+Testing patch /home/patchtest/share/mboxes/python3-backport-the-fix-for-_Py_STDC_VERSION-in-pyport.h.patch
 
-FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: '0005-Fix-regression-with-temporary-queues.patch' (test_patch.TestPatch.test_signed_off_by_presence)
+FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: '0001-3.15-gh-154643-Only-use-_Py_STDC_VERSION-when-defined.patch' (test_patch.TestPatch.test_signed_off_by_presence)
 
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
 PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
 PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
 PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
@@ -56,23 +59,21 @@ PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelo
 PASS: test author valid (test_mbox.TestMbox.test_author_valid)
 PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
 PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
 PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
 PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
 PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
 PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
 PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
 SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
 SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
 SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
 SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
 SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping test (test_metadata.TestMetadata.test_src_uri_left_files)
 SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
 
 ---
