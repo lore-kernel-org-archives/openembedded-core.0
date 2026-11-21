@@ -1,121 +1,169 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8092.1795218448292028970
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12030.1795238990061556772
  for <openembedded-core@lists.openembedded.org>;
- Fri, 20 Nov 2026 15:47:28 -0800
+ Fri, 20 Nov 2026 21:29:50 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=QWRKiq0f;
- spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a5177d78c7so13734845e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 15:47:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795218446; x=1795823246; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=2F/M5vW459wemfFbpD+7Pj+47BGZns2ppcGlXcZqflM=;
-        b=QWRKiq0fTm4gkTAzIn5iffVDUJ9Q2X+HNrW9P3ouNkvVd1UURYziUJc0EuBly46HYe
-         A3d1SzXO5aJ8gNdjw6d5/tAue2FeHZ3W49q0dXHAnnut6Mtr3dmBdrkA6RVH1zr87yrq
-         AcxAGWaNgbiCDA3EULg4EM69JVNWR+vvOUCDkOqgLee/uNDwXr/9wPFdOqJwvxyMChat
-         ECYhB31FBH6V8Se3SiH3Qz4eCU61h/nyprX06fqE5/Wr7q0uDUXfnVM61VITRKXXYrzC
-         YHD9TTElngdpFHpAe1wXV1XI7Gascx1AKRdsShcy495tEAUK4WqsGnk2fLKBwscwbxL+
-         oG3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795218446; x=1795823246;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=2F/M5vW459wemfFbpD+7Pj+47BGZns2ppcGlXcZqflM=;
-        b=apNUcrJ7PM4Ygnvcza1ceEgEsXzMABqxg/gO3Hs9V3NHa1WkNuKHyLnOp6/U0iNXib
-         zyznIzPI2qDbRfZmnmxIjoBS4SeZX+iC2TGKMPr6vuiEjUSjqTAZjpWfDpfEXqmpfOQc
-         iHr4Ubcnw+UKR0ZMSP2TdYMPd1Tv36TW9gRm4ORgmr7JjRlA2ahRYkXCQQCKzwML9xWr
-         zgGuoeVK/qslGpTGHuKsQHzn1b9ciObsJZrvBUE0f6a6WKls7ukcIBLHYkc2Kl6lT3Ym
-         XAdZfk5NfxDVBfjhwrTrX+nlMfnx7SnV+rzmMgzzAFyKgJtSCN1Sexy3YvFi3gI/YzGl
-         8iYg==
-X-Forwarded-Encrypted: i=1; AL+hErHAts14xzbsw0ZGdLr2Lctt1ShT5Zyzs9+FTFJmZdQyRErOzUvE4mKH0zcOyEaQGjqEsp0F6YeLZVhoPfgOgEmadA==@lists.openembedded.org
-X-Gm-Message-State: APuU4Z9gsEdAK+nwkhlMHU9/XMEh35V+r/0kw3t3MER1Hli9mWKF0BOQ
-	itl2ap/q/NBBBuvGiDNAGi11fHwOyv+r9roK/exyMPZ/vBgDhEDJZ9qL7CEqtCl0GwU=
-X-Gm-Gg: AYBFou0NxKTGInikuYDYiuyuzIEFo+zukkA1Vk3Z/tr5pwdwoXWdIBpfFTZTVYZbrkA
-	HEQHkvj8UNtK07Du/tYWHhaHA2XQ/sJFIuvFKuDOhoGlYBD1T1ofPC+E8kE4AmmGT3thtNBLtQs
-	xWYJC2ZRoFbDvAxksaT/rL4qksaTD+GHkwYXV52z+ApDI1nICMw1/Od9buOaMDIVSYVNnUowVcV
-	l+YVaJVjID4rUSf3MuK9WIdhO1GnJVcz+3S7pXTBpqqW/5/bNlP+J1s3W/3u6EHc+II8hjKRIjo
-	lA0kDrHSxtdINZs/nMhm0FSTeBAV8K5xG3ftL0O/8yXbWrIunNjs3lxXpw9t8X3J2UOlpwWoWPX
-	V2i9vOGyT3AH1WS4lF8QinTnYZekGhW6Br/JzLsJhAMbGOeJLt3RzEa9kKOacRuo8eqk4EKw4RG
-	yveLRjorgEPsJ7hqietGag5CDHD+NDw5fYoFU3eipd+kcMI7fdoVrbJL5Y1OhOn9aIYyKC+YWG1
-	NNG7Rp1y7LnE9jNeGT6eRn6Bmc25t9t+FzkWLl65nwmYhawyPkpaSJRpkUpNg7eQlxJdr1IFQOc
-	MTEYXj2hPnY7d35sc9Zxd1NGGFugab+uQKItOMO01jIAiZjxeIe13NHUgRAGZWY0WhIykUfOw2Q
-	PH/B4KhRHzA5J9c3J
-X-Received: by 2002:a05:600c:4f84:b0:4bb:8701:a2df with SMTP id 5b1f17b1804b1-4bb88809950mr108418965e9.17.1795218446311;
-        Fri, 20 Nov 2026 15:47:26 -0800 (PST)
-Return-Path: <yoann.congal@smile.fr>
-Received: from localhost (2a01cb001331aa00b03901bd7f693780.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:b039:1bd:7f69:3780])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884b7515sm174680705e9.13.2026.11.20.15.47.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Nov 2026 15:47:25 -0800 (PST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 21 Nov 2026 00:47:25 +0100
-Message-Id: <DN0FTSP5AZ5C.2IFR6JMARUZDY@smile.fr>
-Subject: Re: [OE-core][wrynose][PATCH 1/3] expat: fix CVE-2026-113351
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <dkelaiya@cisco.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20261105091719.1622520-1-dkelaiya@cisco.com>
-In-Reply-To: <20261105091719.1622520-1-dkelaiya@cisco.com>
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=UbxCg3OY;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ZFApmbqw;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a1fc950cff-5d74188d-dbb0-4b00-bb44-8bfb18ee37ef-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1795238989;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=okaNSCUJsLCdN2r1gXq/2Td76FM0gBcV9UJlv8NB6dA=;
+	b=UbxCg3OYLlHXHHEpnKyr1Yh8ZXpCcX6jzvBqlVCOf8QkoGDJ817zjqn7cp1zO68P
+	kr/HQ8s9/XBk8Lo4V5Q+lcBX51HIXf5KLBxp4Afb/0vJKhiLxKHxfk4xqR/q4ATw6ba
+	+NON7bK3cyAneWceEofTCl7p+8j1QB3lRErfTl2M=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1795238989;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=okaNSCUJsLCdN2r1gXq/2Td76FM0gBcV9UJlv8NB6dA=;
+	b=ZFApmbqwEFoU128f1U7BcGvlvgxHpkyelxxe+dDFXwhYZIMG6qLuoxomRwA+yWVo
+	Xvd+RfZtwc8n0UHnGgbLIXK3ZFKVciy02KZspT7rwc6iEgCg6rfcys5aBwgDQk72GAa
+	CX3lNXeXsIXnN+o4vD8rVUoDYrt9QCX+2mEsb7aA=
+Content-Type: multipart/mixed; boundary="===============0540597804355271724=="
+MIME-Version: 1.0
+From: auh@yoctoproject.org
+To: Tim Orling <tim.orling@konsulko.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-certifi: upgrading to 2026.11.20 SUCCEEDED
+Message-ID: <010101a1fc950cff-5d74188d-dbb0-4b00-bb44-8bfb18ee37ef-000000@us-west-2.amazonses.com>
+Date: Sat, 21 Nov 2026 05:29:49 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.11.21-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 20 Nov 2026 23:47:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250829
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 21 Nov 2026 05:29:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250830
 
-On Thu Nov 5, 2026 at 10:17 AM CET, Darsh Kelaiya -X (dkelaiya - E INFOCHIP=
-S PRIVATE LIMITED at Cisco) via openembedded-core wrote:
-> From: Darsh Kelaiya <dkelaiya@cisco.com>
->
-> Backport the allocation-tracking reset fix [1] from upstream PR [2],
-> which is referenced by the NVD record [3].
->
-> Snapshot retained allocations during XML_ParserReset() and exclude
-> those bytes from the next document's allocation-amplification checks.
-> Include the required counter extraction, accounting-settings
-> correction and both upstream regression tests from the same PR.
->
-> Retain Expat 2.8.3's XmlBigCount counters and adapt the accounting
-> regression to its existing protection-setting APIs. Omit the PR's
-> comment-only encoding-check change because the later check that it
-> explains is absent from this source.
->
-> [1] https://github.com/libexpat/libexpat/commit/a6cf8a6944b6c6d81e74c4cd9=
-5faa29132e67aa3
-> [2] https://github.com/libexpat/libexpat/pull/1431
-> [3] https://nvd.nist.gov/vuln/detail/CVE-2026-113351
->
-> Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-> ---
->  .../expat/expat/CVE-2026-113351_p1.patch      | 39 ++++++++
->  .../expat/expat/CVE-2026-113351_p2.patch      | 65 +++++++++++++
->  .../expat/expat/CVE-2026-113351_p3.patch      | 80 ++++++++++++++++
->  .../expat/expat/CVE-2026-113351_p4.patch      | 95 +++++++++++++++++++
->  .../expat/expat/CVE-2026-113351_p5.patch      | 70 ++++++++++++++
->  meta/recipes-core/expat/expat_2.8.3.bb        |  7 +-
->  6 files changed, 355 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-113351_p1.patc=
-h
->  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-113351_p2.patc=
-h
->  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-113351_p3.patc=
-h
->  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-113351_p4.patc=
-h
->  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-113351_p5.patc=
-h
+--===============0540597804355271724==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
 Hello,
 
-FYI, I received patches for blacksail for
-CVE-2026-117610 and CVE-2026-118370 (patches 2-3/3) but not for this one
-CVE-2026-113351 (patch 1/3).
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *python3-certifi* to *2026.11.20* has Succeeded.
+
+Next steps:
+    - apply the patch: git am 0001-python3-certifi-upgrade-2026.10.23-2026.11.20.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
---=20
-Yoann Congal
-Smile ECS
+The Upgrade Helper
 
+-- >8 --
+From a14736635cf8e494d3188fa79638ab89383b7464 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Sat, 21 Nov 2026 05:07:56 +0000
+Subject: [PATCH] python3-certifi: upgrade 2026.10.23 -> 2026.11.20
+
+---
+ ...hon3-certifi_2026.10.23.bb => python3-certifi_2026.11.20.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-certifi_2026.10.23.bb => python3-certifi_2026.11.20.bb} (88%)
+
+diff --git a/meta/recipes-devtools/python/python3-certifi_2026.10.23.bb b/meta/recipes-devtools/python/python3-certifi_2026.11.20.bb
+similarity index 88%
+rename from meta/recipes-devtools/python/python3-certifi_2026.10.23.bb
+rename to meta/recipes-devtools/python/python3-certifi_2026.11.20.bb
+index 29e213ef22..8b2449fb1b 100644
+--- a/meta/recipes-devtools/python/python3-certifi_2026.10.23.bb
++++ b/meta/recipes-devtools/python/python3-certifi_2026.11.20.bb
+@@ -7,7 +7,7 @@ HOMEPAGE = "http://certifi.io/"
+ LICENSE = "MPL-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=11618cb6a975948679286b1211bd573c"
+ 
+-SRC_URI[sha256sum] = "a9895e6e2758b371e0545e321a3a8fd1fcfd9829ada8824a936dfb16aaaf36cd"
++SRC_URI[sha256sum] = "af1cb240a8133f105aa52684a3a3258339d7f2fd0bd4e2812698ff5cf5588c4e"
+ 
+ inherit pypi python_setuptools_build_meta ptest-python-pytest
+ 
+-- 
+2.47.1
+
+
+--===============0540597804355271724==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi: FILELIST: directory renamed /usr/lib/python3.15/site-packages/certifi-2026.10.23.dist-info/licenses -> /usr/lib/python3.15/site-packages/certifi-2026.11.20.dist-info/licenses, directory renamed /usr/lib/python3.15/site-packages/certifi-2026.10.23.dist-info -> /usr/lib/python3.15/site-packages/certifi-2026.11.20.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-certifi (sysroot):
+  /usr/lib/python3.15/site-packages/certifi-2026.10.23.dist-info moved to /usr/lib/python3.15/site-packages/certifi-2026.11.20.dist-info
+
+--===============0540597804355271724==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-certifi-upgrade-2026.10.23-2026.11.20.patch"
+
+RnJvbSBhMTQ3MzY2MzVjZjhlNDk0ZDMxODhmYTc5NjM4YWI4OTM4M2I3NDY0IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFNhdCwgMjEgTm92IDIwMjYgMDU6MDc6NTYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWNlcnRpZmk6IHVwZ3JhZGUgMjAyNi4xMC4yMyAtPiAyMDI2LjExLjIwCgotLS0KIC4u
+LmhvbjMtY2VydGlmaV8yMDI2LjEwLjIzLmJiID0+IHB5dGhvbjMtY2VydGlmaV8yMDI2LjExLjIw
+LmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigt
+KQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtY2VydGlmaV8y
+MDI2LjEwLjIzLmJiID0+IHB5dGhvbjMtY2VydGlmaV8yMDI2LjExLjIwLmJifSAoODglKQoKZGlm
+ZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jZXJ0aWZpXzIw
+MjYuMTAuMjMuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2VydGlm
+aV8yMDI2LjExLjIwLmJiCnNpbWlsYXJpdHkgaW5kZXggODglCnJlbmFtZSBmcm9tIG1ldGEvcmVj
+aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jZXJ0aWZpXzIwMjYuMTAuMjMuYmIKcmVuYW1l
+IHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jZXJ0aWZpXzIwMjYuMTEu
+MjAuYmIKaW5kZXggMjllMjEzZWYyMi4uOGIyNDQ5ZmIxYiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNlcnRpZmlfMjAyNi4xMC4yMy5iYgorKysgYi9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY2VydGlmaV8yMDI2LjExLjIwLmJi
+CkBAIC03LDcgKzcsNyBAQCBIT01FUEFHRSA9ICJodHRwOi8vY2VydGlmaS5pby8iCiBMSUNFTlNF
+ID0gIk1QTC0yLjAiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21kNT0xMTYx
+OGNiNmE5NzU5NDg2NzkyODZiMTIxMWJkNTczYyIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImE5
+ODk1ZTZlMjc1OGIzNzFlMDU0NWUzMjFhM2E4ZmQxZmNmZDk4MjlhZGE4ODI0YTkzNmRmYjE2YWFh
+ZjM2Y2QiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYWYxY2IyNDBhODEzM2YxMDVhYTUyNjg0YTNh
+MzI1ODMzOWQ3ZjJmZDBiZDRlMjgxMjY5OGZmNWNmNTU4OGM0ZSIKIAogaW5oZXJpdCBweXBpIHB5
+dGhvbl9zZXR1cHRvb2xzX2J1aWxkX21ldGEgcHRlc3QtcHl0aG9uLXB5dGVzdAogCi0tIAoyLjQ3
+LjEKCg==
+
+--===============0540597804355271724==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/python3-certifi: SRC_URI changed from "https://files.pythonhosted.org/packages/source/c/certifi/certifi-2026.10.23.tar.gz" to "https://files.pythonhosted.org/packages/source/c/certifi/certifi-2026.11.20.tar.gz"
+packages/x86-64-v3-poky-linux/python3-certifi: PKGV changed from 2026.10.23 [default] to 2026.11.20 [default]
+packages/x86-64-v3-poky-linux/python3-certifi: PV changed from "2026.10.23" to "2026.11.20"
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-dbg: PKGV changed from 2026.10.23 [default] to 2026.11.20 [default]
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-dbg: PV changed from "2026.10.23" to "2026.11.20"
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-dev: PKGV changed from 2026.10.23 [default] to 2026.11.20 [default]
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-dev: PV changed from "2026.10.23" to "2026.11.20"
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-doc: PKGV changed from 2026.10.23 [default] to 2026.11.20 [default]
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-doc: PV changed from "2026.10.23" to "2026.11.20"
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-locale: PKGV changed from 2026.10.23 [default] to 2026.11.20 [default]
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-locale: PV changed from "2026.10.23" to "2026.11.20"
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-ptest: PKGV changed from 2026.10.23 [default] to 2026.11.20 [default]
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-ptest: PV changed from "2026.10.23" to "2026.11.20"
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-src: PKGV changed from 2026.10.23 [default] to 2026.11.20 [default]
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-src: PV changed from "2026.10.23" to "2026.11.20"
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-staticdev: PKGV changed from 2026.10.23 [default] to 2026.11.20 [default]
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi-staticdev: PV changed from "2026.10.23" to "2026.11.20"
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi: PKGV changed from 2026.10.23 [default] to 2026.11.20 [default]
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi: FILELIST: directory renamed /usr/lib/python3.15/site-packages/certifi-2026.10.23.dist-info -> /usr/lib/python3.15/site-packages/certifi-2026.11.20.dist-info, directory renamed /usr/lib/python3.15/site-packages/certifi-2026.10.23.dist-info/licenses -> /usr/lib/python3.15/site-packages/certifi-2026.11.20.dist-info/licenses
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi: PKGSIZE changed from 249718 to 237501 (-5%)
+packages/x86-64-v3-poky-linux/python3-certifi/python3-certifi: PV changed from "2026.10.23" to "2026.11.20"
+Changes to packages/x86-64-v3-poky-linux/python3-certifi (sysroot):
+  /usr/lib/python3.15/site-packages/certifi-2026.10.23.dist-info moved to /usr/lib/python3.15/site-packages/certifi-2026.11.20.dist-info
+
+--===============0540597804355271724==--
