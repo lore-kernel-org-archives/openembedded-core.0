@@ -1,41 +1,41 @@
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.29470.1795324411020056123
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.29473.1795324413856085159
  for <openembedded-core@lists.openembedded.org>;
- Sat, 21 Nov 2026 21:13:31 -0800
+ Sat, 21 Nov 2026 21:13:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=J8Qx/leZ;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=z1xVkbrX;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101a201ac78bf-52a6f46a-7ca3-4e66-971f-39b15610aa50-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=AWV6S5rR;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ynfwRQDp;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101a201ac837e-0c2d86db-0a87-4b8e-bd85-102f63590e73-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1795324410;
+	t=1795324413;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=gH+WFm2SucXJ64EUxrr29erVOyyXloifeRoKYuiZX30=;
-	b=J8Qx/leZ+T3007oeHGn1lbfchd6abIg1MFq1q30adPXR/ev58Gx+b9DGXA/8uK6R
-	/YBVYMkk0wbA+zLhbCO9QsCdfHnXsVBqJRCUowwHzx1aDYFZfF69gh0XP4qkX304nmI
-	SHVO5xAYC/nPNrkYZtxBK7PqkJIdGGVGaqI3fZS0=
+	bh=67aHdCgivCV5Bl2OfW46HH/9az6Z7EGjefSXlyO/c9Y=;
+	b=AWV6S5rRNcZEXbjK3XWCS6UkjqjYyOYk61Qc615vO15a6+Eb99uKFZiEm2P7XKxp
+	ZPitFJj/6MsYyo1BVHtf9OEvLw+H9JS5lkG/bJOxvnWm42altBlh9bLIC/Ec0r5BM3H
+	qZFGRUcNV8h7697kY4UnpJbY1clnCraN6/0k+hPw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1795324410;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1795324413;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=gH+WFm2SucXJ64EUxrr29erVOyyXloifeRoKYuiZX30=;
-	b=z1xVkbrXRmRt8k5JO9qAVnBzQwfbAkoadlef2cZzVViHc3YqjD7fg34Ske23Rurx
-	3468xUB8hZgqmEUOX/eZsHDU67oqcNZTxd6CkleG2bMysQVUHAIuQiP5pDOWqjERc1y
-	35hZXrkbT1/meV0xoWZF5qMb/N3Dw5PfjKBLDVic=
-Content-Type: multipart/mixed; boundary="===============0466483637788655224=="
+	bh=67aHdCgivCV5Bl2OfW46HH/9az6Z7EGjefSXlyO/c9Y=;
+	b=ynfwRQDp0Z/WqVHfvLErMB2NUr74IIw4OZtRTwy8cu22X7ZcfGaSUDibrpon7Qiw
+	8D1ffpRFMQ2h6eKxzW+h3N6sERj6H2Mw0MVuLYWtvTSuhvyNvOW1ifLmjVmtRiTAjjf
+	4VShlG+e9skUq+nLBdsaYVGtzdaucQDprwPOW0/c=
+Content-Type: multipart/mixed; boundary="===============5030616301915567736=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Sumanth Gavini <sumanth.gavini@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-wcwidth: upgrading to 0.9.5 SUCCEEDED
-Message-ID: <010101a201ac78bf-52a6f46a-7ca3-4e66-971f-39b15610aa50-000000@us-west-2.amazonses.com>
-Date: Sun, 22 Nov 2026 05:13:30 +0000
+Subject: [AUH] rpm: upgrading to 6.1.0 FAILED
+Message-ID: <010101a201ac837e-0c2d86db-0a87-4b8e-bd85-102f63590e73-000000@us-west-2.amazonses.com>
+Date: Sun, 22 Nov 2026 05:13:32 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.22-54.240.27.45
+X-SES-Outgoing: 2026.11.22-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 22 Nov 2026 05:13:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250863
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250864
 
---===============0466483637788655224==
+--===============5030616301915567736==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -43,305 +43,375 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-wcwidth* to *0.9.5* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *rpm* to *6.1.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-python3-wcwidth-upgrade-0.9.4-0.9.5.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe rpm failed.
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 963 .bb files complete (0 cached, 963 parsed). 2014 targets, 43 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.20.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.1.99+snapshot-9e4b8e75b78301b1c52bb744f127d995fb149667"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:9e4b8e75b78301b1c52bb744f127d995fb149667"
+meta-yocto-bsp       
+meta-poky            = "master:6ee74fbbe3a36dabb7f8f85ee10691eaf8aa3252"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 14 Local 14 Mirrors 0 Missed 0 Current 16 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Rebasing devtool onto f832c7e69945248dd5bcfcacfd10c176ee300fa2
+WARNING: Command 'git rebase f832c7e69945248dd5bcfcacfd10c176ee300fa2' failed:
+Auto-merging CMakeLists.txt
+CONFLICT (content): Merge conflict in CMakeLists.txt
+Auto-merging tests/pinned/rpmsigdig.txt
+CONFLICT (content): Merge conflict in tests/pinned/rpmsigdig.txt
+Auto-merging tests/pinned/rpmsigdig6.txt
+CONFLICT (content): Merge conflict in tests/pinned/rpmsigdig6.txt
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/rpm
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/rpm/rpm_6.1.0.bb
+INFO: Changelog extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/rpm.txt
+INFO: Changelog metadata written to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/rpm.json
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 6046167421485c87a1315b95ead65e190e546acf Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 22 Nov 2026 05:09:12 +0000
-Subject: [PATCH] python3-wcwidth: upgrade 0.9.4 -> 0.9.5
-
-0.9.5 *unreleased*
----
- .../{python3-wcwidth_0.9.4.bb => python3-wcwidth_0.9.5.bb}      | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-wcwidth_0.9.4.bb => python3-wcwidth_0.9.5.bb} (88%)
-
-diff --git a/meta/recipes-devtools/python/python3-wcwidth_0.9.4.bb b/meta/recipes-devtools/python/python3-wcwidth_0.9.5.bb
-similarity index 88%
-rename from meta/recipes-devtools/python/python3-wcwidth_0.9.4.bb
-rename to meta/recipes-devtools/python/python3-wcwidth_0.9.5.bb
-index 6deefa0467..78a20373df 100644
---- a/meta/recipes-devtools/python/python3-wcwidth_0.9.4.bb
-+++ b/meta/recipes-devtools/python/python3-wcwidth_0.9.5.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://github.com/jquast/wcwidth"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=b15979c39a2543892fca8cd86b4b52cb"
- 
--SRC_URI[sha256sum] = "fd8d57d3cdfe570e3265c8fab1885c24e34ef40889c0759c0c304a19e9835954"
-+SRC_URI[sha256sum] = "713534e2ecb16e0fc39f19e0a5dda997da76d010953e9e8f803e7971f8accd80"
- 
- inherit pypi python_hatchling ptest-python-pytest
- 
--- 
-2.47.1
-
-
---===============0466483637788655224==
+--===============5030616301915567736==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="rpm-changelog.txt"
 
-packages/x86-64-v3-poky-linux/python3-wcwidth: PKGV changed from 0.9.4 [default] to 0.9.5 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth: SRC_URI changed from "https://files.pythonhosted.org/packages/source/w/wcwidth/wcwidth-0.9.4.tar.gz" to "https://files.pythonhosted.org/packages/source/w/wcwidth/wcwidth-0.9.5.tar.gz"
-packages/x86-64-v3-poky-linux/python3-wcwidth: PV changed from "0.9.4" to "0.9.5"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dbg: PKGV changed from 0.9.4 [default] to 0.9.5 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dbg: PKGSIZE changed from 1656792 to 1661200 (+0%)
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dbg: PV changed from "0.9.4" to "0.9.5"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dev: PKGV changed from 0.9.4 [default] to 0.9.5 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dev: PV changed from "0.9.4" to "0.9.5"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-doc: PKGV changed from 0.9.4 [default] to 0.9.5 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-doc: PV changed from "0.9.4" to "0.9.5"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-locale: PKGV changed from 0.9.4 [default] to 0.9.5 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-locale: PV changed from "0.9.4" to "0.9.5"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-ptest: FILELIST: added "/usr/lib/python3-wcwidth/ptest/libwcwidth/src/wcwidth_assert.h /usr/lib/python3-wcwidth/ptest/libwcwidth/src/wcwidth_assert.c /usr/lib/python3-wcwidth/ptest/libwcwidth/src/linebreak.c /usr/lib/python3-wcwidth/ptest/libwcwidth/tests/test_terminal_override.c /usr/lib/python3-wcwidth/ptest/libwcwidth/include/wcwidth/linebreak.h /usr/lib/python3-wcwidth/ptest/libwcwidth/src/tables/table_linebreak.c /usr/lib/python3-wcwidth/ptest/libwcwidth/tests/test_linebreak.c /usr/lib/python3-wcwidth/ptest/tests/test_linebreak.py /usr/lib/python3-wcwidth/ptest/libwcwidth/tests/test_oom.c"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-ptest: PKGV changed from 0.9.4 [default] to 0.9.5 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-ptest: PKGSIZE changed from 4025045 to 4306227 (+7%)
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-ptest: PV changed from "0.9.4" to "0.9.5"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-src: FILELIST: directory renamed /usr/src/debug/python3-wcwidth/0.9.4/wcwidth -> /usr/src/debug/python3-wcwidth/0.9.5/wcwidth, removed "/usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/src/tables/bitset_tables.c /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/src/tables/table_mc.c /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/include/wcwidth/bitset_tables.h /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/src/sgr.c /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/src/tables/table_vs16.c /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/src/text_sizing.c /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/src/align.c /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/include/wcwidth/sgr.h /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/include/wcwidth/wcwidth.h /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/include/wcwidth/align.h /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/src/width.c /usr/src/debug/python3-wcwidth/0.9.4/libwcw
- idth/include/wcwidth/table_types.h /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/include/wcwidth/unicode.h /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/src/tables/table_zero.c /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/include/wcwidth/grapheme.h /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/src/tables/table_vs15.c /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/include/wcwidth/terminal_override.h /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/src/grapheme.c /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/src/wcswidth.c /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/include/wcwidth/textwrap.h /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/src/tables/table_gcb_class.c /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/src/escape.c /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/include/wcwidth/utf8.h /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/src/bisearch.c /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/src/tables/table_ambiguous.c /usr/src/debug/python3-wcwidth/0.9.
- 4/libwcwidth/include/wcwidth/tables.h /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/include/wcwidth/width.h /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/src/tables/table_grapheme.c /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/src/clip.c /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/src/tables/table_terminal_overrides.c /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/src/utf8.c /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/src/wcstwidth.c /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/src/terminal_override.c /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/include/wcwidth/escape.h /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/src/textwrap.c /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/src/tables/table_wide.c /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/include/wcwidth/text_sizing.h /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/src/wcwidth.c /usr/src/debug/python3-wcwidth/0.9.4/libwcwidth/src/tables/table_term_programs.c /usr/src/debug/python3-wcwidth/0.9.4/libwc
- width/include/wcwidth/clip.h", added "/usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/src/tables/bitset_tables.c /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/src/tables/table_mc.c /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/include/wcwidth/bitset_tables.h /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/src/sgr.c /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/src/tables/table_vs16.c /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/src/text_sizing.c /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/include/wcwidth/linebreak.h /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/src/align.c /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/src/linebreak.c /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/include/wcwidth/sgr.h /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/include/wcwidth/wcwidth.h /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/include/wcwidth/align.h /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/src/width.c /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/include/wcwidt
- h/table_types.h /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/include/wcwidth/unicode.h /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/src/tables/table_zero.c /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/include/wcwidth/grapheme.h /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/src/tables/table_vs15.c /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/include/wcwidth/terminal_override.h /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/src/grapheme.c /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/src/wcswidth.c /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/include/wcwidth/textwrap.h /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/src/tables/table_gcb_class.c /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/src/escape.c /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/include/wcwidth/utf8.h /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/src/bisearch.c /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/src/tables/table_ambiguous.c /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/includ
- e/wcwidth/tables.h /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/src/tables/table_linebreak.c /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/include/wcwidth/width.h /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/src/tables/table_grapheme.c /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/src/clip.c /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/src/tables/table_terminal_overrides.c /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/src/utf8.c /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/src/wcstwidth.c /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/src/terminal_override.c /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/include/wcwidth/escape.h /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/src/textwrap.c /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/src/tables/table_wide.c /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/include/wcwidth/text_sizing.h /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/src/wcwidth.c /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/src/tables/table_
- term_programs.c /usr/src/debug/python3-wcwidth/0.9.5/libwcwidth/include/wcwidth/clip.h"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-src: PKGV changed from 0.9.4 [default] to 0.9.5 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-src: PKGSIZE changed from 3723431 to 3911116 (+5%)
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-src: PV changed from "0.9.4" to "0.9.5"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-staticdev: PKGV changed from 0.9.4 [default] to 0.9.5 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-staticdev: PV changed from "0.9.4" to "0.9.5"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth: FILELIST: directory renamed /usr/lib/python3.15/site-packages/wcwidth-0.9.4.dist-info -> /usr/lib/python3.15/site-packages/wcwidth-0.9.5.dist-info, directory renamed /usr/lib/python3.15/site-packages/wcwidth-0.9.4.dist-info/licenses -> /usr/lib/python3.15/site-packages/wcwidth-0.9.5.dist-info/licenses, removed "/usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_3a1895d5.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_cf02297d.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_336a71a1.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_a5880eeb.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_b6d33cf4.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_fb5fd79b.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_8c2ae14
- d.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_fb5fd79b.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_e18ac6a7.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_2148ff29.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_c57c295b.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_e18ac6a7.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_058c7585.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_336a71a1.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_65c6beb5.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_a5880eeb.cpython-315.pyc /usr/lib/python3.1
- 5/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_fdc99132.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_59180a0d.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_3a1895d5.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_59180a0d.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_b6d33cf4.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_fdc99132.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_65c6beb5.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_cf02297d.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_97904ece.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_c57c295b.py /usr/lib/python3.15/site-packages/wcwidth/table_graphem
- e_overrides/_known_33ac73f2.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_33ac73f2.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_8c2ae14d.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_2148ff29.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_97904ece.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_058c7585.py", added "/usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_e49e5a83.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_0460e7c9.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_e6aa9aa1.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_df39fd07.py /usr/lib/python3.15/site-packages/wcwidth/__pycache__/linebreak.cpython-315.pyc /usr/lib/python3.15/site-pac
- kages/wcwidth/__pycache__/table_linebreak.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_a6ed02ec.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_2d39712a.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_88d642c4.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_dc5c5d4b.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_dfff5112.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_c298be52.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_88d642c4.py /usr/lib/python3.15/site-packages/wcwidth/linebreak.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_f2715990.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__py
- cache__/_known_f3849ab9.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_307dff55.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_5a296381.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_0460e7c9.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_linebreak.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_9e152b0f.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_d9127156.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_2d39712a.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_963e665b.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_df39fd07.cpython-315.pyc /usr/lib/python3.15/site-packages
- /wcwidth/table_grapheme_overrides/_known_d9127156.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_a6ed02ec.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_dfff5112.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_42203bb5.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_dc5c5d4b.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_963e665b.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_e6aa9aa1.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_5a296381.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_42203bb5.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_307dff55.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_9e152b0f.py /usr/lib/
- python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_e49e5a83.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_c298be52.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_f2715990.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_f3849ab9.py"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth: PKGV changed from 0.9.4 [default] to 0.9.5 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth: PKGSIZE changed from 5392392 to 5614678 (+4%)
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth: PV changed from "0.9.4" to "0.9.5"
-Changes to packages/x86-64-v3-poky-linux/python3-wcwidth (sysroot):
-  /usr/lib/python3.15/site-packages/wcwidth-0.9.4.dist-info moved to /usr/lib/python3.15/site-packages/wcwidth-0.9.5.dist-info
-  /usr/lib/python3.15/site-packages/wcwidth/linebreak.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/__pycache__/linebreak.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/__pycache__/table_linebreak.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_0460e7c9.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_2d39712a.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_307dff55.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_42203bb5.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_5a296381.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_88d642c4.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_963e665b.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_9e152b0f.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_a6ed02ec.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_c298be52.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_d9127156.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_dc5c5d4b.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_df39fd07.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_dfff5112.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_e49e5a83.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_e6aa9aa1.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_f2715990.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_f3849ab9.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_0460e7c9.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_2d39712a.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_307dff55.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_42203bb5.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_5a296381.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_88d642c4.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_963e665b.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_9e152b0f.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_a6ed02ec.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_c298be52.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_d9127156.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_dc5c5d4b.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_df39fd07.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_dfff5112.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_e49e5a83.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_e6aa9aa1.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_f2715990.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_f3849ab9.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_linebreak.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_058c7585.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_2148ff29.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_336a71a1.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_33ac73f2.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_3a1895d5.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_59180a0d.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_65c6beb5.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_8c2ae14d.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_97904ece.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_a5880eeb.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_b6d33cf4.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_c57c295b.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_cf02297d.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_e18ac6a7.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_fb5fd79b.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_fdc99132.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_058c7585.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_2148ff29.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_336a71a1.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_33ac73f2.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_3a1895d5.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_59180a0d.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_65c6beb5.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_8c2ae14d.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_97904ece.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_a5880eeb.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_b6d33cf4.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_c57c295b.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_cf02297d.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_e18ac6a7.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_fb5fd79b.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_fdc99132.cpython-315.pyc was removed
+Preparing for 6.1.0 release
+tests: Update tests to work with PQC-capable rpm-sequoia
+Preparing for 6.1.0 rc2
+Harden the ndb implementation against integer overflows
+Add a test for CVE-2026-44605
+rpmsign: handle _file_sign_key_id values greater than i32::MAX
+Use rpm's own allocator instead of malloc() almost everywhere
+Fix a dumb regression from introducing %define options
+Fix typo in add_sysuser ternary
+Add a test for the manual "%add_sysuser m" use
+Fix rubygem extract regression from b8b54f92c65bca7bfdd80c3ecf717d5c48b02e91
+Add a test for Ruby gem extraction
+Prevent command injection in rpmuncompress(1)
+Workaround a broken %_passwd_path (and group) override in nss-altfiles
+Fix installation of 7zip in Dockerfile
+Revert file trigger STL refactoring for further investigation
+Preparing for 6.1.0 rc1
+Bump CI to Fedora 44
+Add compat links for rpmuncompress and rpm-setup-autosign
+Bump rpm-sequoia requirement to >= 1.10.2
+Implement -e(xpand) and -g(lobal) options to %define
+Fix regression when parsing macro define with an empty body
+Fix regression running Lua scripts from non-rpm generated packages
+Prevent buffer overruns in findPreambleTag() for language string
+rpmsign: enable signing files with PKCS11 tokens
+Implement a separate lock for the keystore
+Refactor rpmtxn lock initialization a bit to make it more generic
+Test actual regular user query instead of lock file presence
+Refactor rpmdb rebuild test to separate RPMTEST_CHECK cases for clarity
+Add some tests for rpm access from scriptlets
+Emit a specific error on modifiers incompatible with parametric macros
+Implement one-shot macro modifier <o>
+Clarify the macro stack behavior in the manual
+Render macro modifiers in --showrc output
+Fix signature alignment in --info output
+Only execute psm_pre and psm_post for the main package operation
+Add + use an internal macro for determining script-only install goals
+Fix rpmkeys result wrapping around, potentially returning 0 on fail
+Use a sane identity string for syslog
+Fix wrong operation names used in the syslog plugin
+Document rpmkeys output and the overall verify policy in some detail
+Use our central system.h include for Lua posix extension too
+Remove upper bound on locale filename length
+Move rpmuncompress to the standard binary directory
+Move rpm-setup-autosign to a standard path
+Use close_range() to set close-on-exec on all fds
+Fix missing TOOLCHAIN ARG in second image stage
+Take advantage of literal modifier in our query format related macros
+Support defining literal macros via new <l> modifier syntax
+Use C++ string primitives for macro option parsing
+Refactor macro definition parsing to utilize C++ strings a bit
+Minimally adjust doDefine() to take a C++ string as the string to parse
+Refactor doArgvDefine() to use a C++ string for formatting the args
+Add a test for the "name { body }" macro syntax.
+Revert AI submissions
+Fix rpm --undefine and Lua rpm.undefine() bypassing sanity checks
+Add rpmUndefineMacro() for %undefine API counterpart
+Fix/clarify rpmDefineMacro() documentation
+docs: document repeated -f option for %files
+docs: add SHA3-256 header digest to signatures_digests
+docs: document %end marker for spec file sections
+Fix some wording in sysusers man page
+Fix section reference in sysusers man page
+Add a man page for rpm sysusers integration
+docs: fix SHA256 tag value from 272 to 273
+Fix user argument placeholder notation in rpm-lua(7) manual
+rpmuncompress: Add support for CAR files
+Validate the IO engine specified in Fdopen() mode string
+tests: Adjust policy for current sequoia
+tests: Add test case with unknown key type and signatures
+tests: Add MLDSA87 key and signed RPM
+tests: Test case with untrusted signature type
+tests: Pull new rpm-sequoia to build image
+tests; Use quay containere registry
+Enable -Werror in the dev-clang preset
+Eliminate variable length array (VLA) use in spec %files parsing
+Eliminate variable length array (VLA) use in spec file addition
+Eliminate variable length array (VLA) use in %files lang parsing
+Eliminate variable length array (VLA) use in rpmuncompress gem handling
+Eliminate variable length array (VLA) use in cpio strntoul()
+Eliminate variable length array (VLA) use in cli query filter parsing
+Eliminate variable length array (VLA) use in rpmdb label parsing
+Eliminate variable length array (VLA) use in rpmtriggers
+Eliminate variable length array (VLA) use in headerFormat()
+Eliminate variable length array (VLA) use in various temp buffers
+Eliminate variable length array (VLA) use in rpmvercmp()
+Eliminate variable length array (VLA) uses in the macro engine
+Extend rpmdb query test to cover tag=value mire patterns
+Eliminate a pointless variable length array from cpio name reading
+Eliminate an academic variable length array from cpio payload write
+Fix an ancient & vs && issue lurking in selinux policy parsing
+Help Clang recognize a compile-time static value
+Silence a Clang warning about unused return value in fsm
+Fix leftover enum type mismatch in xml-formatting switch-case
+Add a cmake preset for Clang and enable it in CI
+Add a cmake preset for GCC
+Parametrize the toolchain in mktree
+Add a rudimentary cmake-presets(7) file
+ifdef out unused static inline functions in ndb
+Fix ndb-related double definition warnings from clang
+Fix delete_key_compat() friend definition
+Refactor file download out of the big install loop
+Rework the rpm cli install and download routine for sanity
+Drop redundant relocations member from rpmEIU struct
+Refactor argument globbing out of rpmInstall()
+Add some tests for installations from remote urls
+Reflect pgpPubKeyLint() error code in rpmtxnImportPubkey() return
+Add a test for rpmtsImportPubkey() return codes
+COPYING: Add SPDX identifier clarification
+Add GitLeaks whitelist for our test-suite keys
+Fix broken link to rpm-dependency-generators.7 man page
+Add back support for NSS based user/group lookups
+Fix regression in group name lookup
+Update tests for user/group lookup via NSS
+Honor alternate root in system user/group provides
+Fix "package X does not verify: (null)" output in some configurations
+Fix "No patch/source number X" not returning an error code regression
+Add tests for missing patch/source errors in %prep
+Allow tag extensions to be used in db pattern matching
+Add more database iterator pattern match tests
+Eliminate the now redundant rpmtriggers wrapper struct
+Convert file trigger structures minimally to an STL set
+Document that overriding declarative sections is possible and dangerous
+Fix transaction verification output as well
+Move signature lints output to post-verification where we know the result
+Introduce yet another variant of rpmKeyringVerifySig() for returning lints
+Split some tests to individual RPMTEST_CHECK cases for readability
+Drop NOTFOUNDs output for items that are disabled in rpm config
+Fix bogus verify output in some order dependent cases
+Split <corrupted signed> 4 test to separate CHECK cases for readability
+Add tests for non-verbose rpmkeys operation with multiple signatures
+Verify all types in transaction verify again
+Add tests for user/group lookup via NSS
+Fix RPM self-destruction in Dockerfile
+Print shortened ftype in package color listing
+Refactor the package color check
+Print outlier files not matching package color
+Show NEVRA in package color mismatch log message
+Move package color checks to rpmfc module
+Add tests for rpmbuild package color checks
+Add generic program name handlers
+Add portability wrappers for program name handling
+Standardize on stdin/stdout/stderr use in manuals
+Add entry about %caps to spec manual
+Let the system runtime environment provide users and groups
+Document that rpmtsOrder() output depends on package addition order
+AIX: Fix compilation error due to __errno_location
+Fix up RPMVSF_ entries in man page
+Add some missing RPMVSF_ values to the manual and Python bindings
+Fix file triggers running twice from add/remove elements on upgrade
+Lift the transfiletrigger skip logic to a helper function
+Add tests for %transfiletriggerun as well, missing since 2017. Uff.
+Reproducer tests for #4030
+Drop percent sign from mkbuilddir script name
+Add BUILD PROCESS section to rpmbuild(1)
+Add remaining tunables to rpmbuild-config(5)
+Fix some typos in rpmbuild-config(5)
+Fix a typo/thinko in verify element sorting per algorithms
+Don't assume all digests we look for can be found during signing
+Fix typo in tsort doc
+Ignore NOTTRUSTED returns in verification
+Explicitly require at least one success and no failures for verify pass
+Add test cases for multi signature verification with disabled algos
+Refactor some install verify tests to separate RPMTEST_CHECK blocks
+Dump the build environment info at beginning of a build
+Export build script environment information to a well known location
+Emit warning instead of error on failed key read
+Improve error handling on keystore load
+Bump CI to Fedora 43
+Honor rpmtsSetScriptFd() in Lua scriptlets
+Add an internal API for (temporarily) overriding Lua output stream
+Add a testcase for scriptlet output redirection
+Add a switch for redirecting script output to prpm.py
+docs/man: codespell fixes (all simple typos)
+manual: codespell judgement calls
+Codespell fixes in docs/manual/
+manual: '32 bit' / '64 bit' => '32-bit' / '64-bit'
+Convert + rename philosophy.md to rpm-design(7) man page
+Add extra tests to ensure all file-related arrays are the same size
+Fix FILEDEPENDSX size regression in 6.0
+Add support for %check as a specific build stage in rpmbuild (-bk/-tk/-rk)
+Fix -bf --short-circuit to not execute %generate_buildrequires
+Add --short-circuit variants to the spec stepping test
+Work around misleading indentation in if-block (cosmetic)
+Fix CMake 3.31 normalized path warning
+Point obsolete rpm operation aliases to the right direction
+Add a BUGS section to rpm-common(8), noting some exceptions
+Honor rpm-common(8) options in rpmuncompress
+Use a friend function in delete_key()
+Fix rpmkeys --delete regression for short keyids
+Obtain fingerprint from rpmPubkey directly
+Fix a relocation related crash in fingerprinting
+Update rpmdeps(1) to use the documented <operation> style
+Document use of <operation> in the man template
+Add a man page for elfdeps(1)
+Document our testing and documentation requirements
+Chainsaw the coding bits out of CONTRIBUTING.md
+Don't run CI on any documentation update
+Refactor path lists in YAML files
+Drop -Wno-sign-compare from rpmio/ too while at it
+Fix a bunch of signed/unsigned issues in string pool
+Drop -Wno-sign-compare from sign/ as well
+Drop -Wno-sign-compare from tools/ as well
+Drop -Wno-sign-compare from librpmbuild build options
+Add + use a helper function to make ptr distance strlen() compatible
+Use unsigned integers for number of files, part II
+Fix mixed signedness comparisons in generateBuildIDs()
+Trivial signed/unsigned type fixups for Fread()/Fwrite() return
+Use unsigned int for the for-loop index
+Use unsigned integer for number of files
+Drop a redundant .resize() on vector before .insert()
+Move -Wno-sign-compare to individual target_compile_options()
+Fix wrong macro in rpmsign(1) example
+Make EXAMPLE sections in man pages more consistent
+Use proper man page references
+Pull manual.rb plugin when building site
+Fix a trivial documentation mistake
+Fix a trivial documentation mistake
+Fix missing link to dependency generator documentation
+Remove dot from docs
+Make rpm-plugins(8) more discoverable and drop outdated note from it
+Fix URL in rpm-queryformat(7)
+Fix doubled words in man pages
+Fix man page index filtering
+Update scriptlet terminology in rpm-queryformat(7)
+Use preferred terms as per man-pages(7)
+Fix layout field in man page redirects
+Fix broken redirects to man pages, volume II
+Add an rpm-scriptlets(7) man page for all our scriptlet types
+Add man page linter workflow file
+Don't run CI on docs-only changes
+Fix broken redirects to man pages
+Document that --rmsource does not affect NoSource and NoPatch
+Add API docs for pgpDigParamsSalt()
+Fix build regression on WITH_SEQUOIA=OFF
+rpmio/lposix.cc: remove LUALIB_API in luaopen_posix() definition
+Add a man page for RPM dependency generators
+Add support for "singlefile" depgen protocol name
+Add lower version boundary to man template
+Rename _find_debuginfo_extra_opts to _find_debuginfo_vendor_opts
+Add the ability for other macro files to pass options to the find_debuginfo
+script via a new variable: _find_debuginfo_extra_opts
+Drop the lone, leftover comment about rpm 3.0.2 built packages
+Refactor rpmds rich dependency parsing to use C++ strings internally
+Refactor rpmds to store DNEVR strings as C++ strings internally
+Refactor rpmdsNewDNEVR() to operate on an STL string internally
+Simplify rpmdsFilterTi() a bit, no functional changes
+Refactor rpmds N, EVR and Flags arrays to STL vectors
+Refactor rpmds trigger indices to an STL vector
+Refactor rpmds Color array to an STL vector.
+Fix typos in man pages
+Fix typo in rpmsign man page
+Update po module again for the latest translations
+`rpmfcFileDep::operator<` should be `const`
+Remove duplicated include
+Updating rpmbuild(1) man page to the new style
+Fix rpmds segfault(s) + memleaks on incomplete header data
+Fix rpmdsTag*() to behave as per documentation on invalid values
+Fix rpmdsTi() invalid value confusion
+Fix rpmds trigger index to be optional as originally intended
+Add Python binding for rpmdsTi() and a test
+Add Python API tests for rpmds colors
+Specify overridden member functions as `override`
+Add a man page for rpmuncompress(1)
+Ignore legacy signature tags in v6 packages
+Add hdrblobIsEntry() for testing tag presence from hdrblob level
+Refactor header blob entry finding to a helper function
+Add test-cases for v3 signatures in v6 packages
+Update rpmgraph(1) man page to the new style
+Update rpmdeps(1) man page to the new style, enchancing it a bit as well
+Drop outdated --nodirtokens from rpmbuild
+Match rpm2archive man page to what it really does
+Use `std::any_of` instead of a raw loop
+Use .cpio suffix for cpio output files
+Add one space per line to --info format
+Fix the randomly failing dependency generator tests
+Close file on all paths to prevent resource leak
+Remember to update the po commit point on rpm side too
+Add test cases for rpmgraph
+rpmgraph: Use our own argv code
+rpmgraph: Drop unnecessary variable and fix error message
+rpmgraph: Prevent memory leaks in error handling
+Fix segfault in rpmgraph
+Add --hash, --precent and --test for rpm --restore
+Update gendiff(1) to the new man page style
+Minor tweaks to rpm2cpio(1) to better align with rpm2archive.
+Convert rpm2archive man page to the new style + many other refinements
+Add a bunch of examples to the rpm(8) man page.
+Make the #3890 %buildsubdir issue reproducer more realistic
+Build the website manually, with native Jekyll
+Refactor WITH_WEBSITE and PODMAN handlers
+Fetch website template from rpm-web, don't bundle
+Split the earlier --restore test in two to test for the result code too
+Fix "--restore --all" regression when the rpmdb contains gpg-pubkey headers
+Add a rpm-version(7) man page for the rpm versioning system
+Elaborate a bit on our contribution acceptance criteria
+Fix missing delimiter in tags page
+Create transaction lock file after rebuilddb
+rpmrc: Drop left over free()
+Ignore macrofiles directives in rpmrc
+Add E2K architecture support
+rpmrc.in: Move 'arch_compat: loongarch64' closer to similar lines
+Don't use heredoc in Dockerfile
+Bump version to 6.0.90 to begin the 6.1 devel cycle
+Add a test-case for %buildsubdir in Buildsystem, expected to fail now
 
---===============0466483637788655224==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-wcwidth-upgrade-0.9.4-0.9.5.patch"
-
-RnJvbSA2MDQ2MTY3NDIxNDg1Yzg3YTEzMTViOTVlYWQ2NWUxOTBlNTQ2YWNmIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMjIgTm92IDIwMjYgMDU6MDk6MTIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXdjd2lkdGg6IHVwZ3JhZGUgMC45LjQgLT4gMC45LjUKCjAuOS41ICp1bnJlbGVhc2Vk
-KgotLS0KIC4uLi97cHl0aG9uMy13Y3dpZHRoXzAuOS40LmJiID0+IHB5dGhvbjMtd2N3aWR0aF8w
-LjkuNS5iYn0gICAgICB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBk
-ZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMt
-d2N3aWR0aF8wLjkuNC5iYiA9PiBweXRob24zLXdjd2lkdGhfMC45LjUuYmJ9ICg4OCUpCgpkaWZm
-IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXdjd2lkdGhfMC45
-LjQuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtd2N3aWR0aF8wLjku
-NS5iYgpzaW1pbGFyaXR5IGluZGV4IDg4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcHl0aG9uL3B5dGhvbjMtd2N3aWR0aF8wLjkuNC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3B5dGhvbi9weXRob24zLXdjd2lkdGhfMC45LjUuYmIKaW5kZXggNmRlZWZhMDQ2
-Ny4uNzhhMjAzNzNkZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
-eXRob24zLXdjd2lkdGhfMC45LjQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
-bi9weXRob24zLXdjd2lkdGhfMC45LjUuYmIKQEAgLTQsNyArNCw3IEBAIEhPTUVQQUdFID0gImh0
-dHBzOi8vZ2l0aHViLmNvbS9qcXVhc3Qvd2N3aWR0aCIKIExJQ0VOU0UgPSAiTUlUIgogTElDX0ZJ
-TEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9YjE1OTc5YzM5YTI1NDM4OTJmY2E4Y2Q4
-NmI0YjUyY2IiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJmZDhkNTdkM2NkZmU1NzBlMzI2NWM4
-ZmFiMTg4NWMyNGUzNGVmNDA4ODljMDc1OWMwYzMwNGExOWU5ODM1OTU0IgorU1JDX1VSSVtzaGEy
-NTZzdW1dID0gIjcxMzUzNGUyZWNiMTZlMGZjMzlmMTllMGE1ZGRhOTk3ZGE3NmQwMTA5NTNlOWU4
-ZjgwM2U3OTcxZjhhY2NkODAiCiAKIGluaGVyaXQgcHlwaSBweXRob25faGF0Y2hsaW5nIHB0ZXN0
-LXB5dGhvbi1weXRlc3QKIAotLSAKMi40Ny4xCgo=
-
---===============0466483637788655224==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-ptest: FILELIST: added "/usr/lib/python3-wcwidth/ptest/tests/test_linebreak.py /usr/lib/python3-wcwidth/ptest/libwcwidth/tests/test_terminal_override.c /usr/lib/python3-wcwidth/ptest/libwcwidth/include/wcwidth/linebreak.h /usr/lib/python3-wcwidth/ptest/libwcwidth/tests/test_linebreak.c /usr/lib/python3-wcwidth/ptest/libwcwidth/src/wcwidth_assert.c /usr/lib/python3-wcwidth/ptest/libwcwidth/src/linebreak.c /usr/lib/python3-wcwidth/ptest/libwcwidth/src/wcwidth_assert.h /usr/lib/python3-wcwidth/ptest/libwcwidth/src/tables/table_linebreak.c /usr/lib/python3-wcwidth/ptest/libwcwidth/tests/test_oom.c"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth: FILELIST: directory renamed /usr/lib/python3.15/site-packages/wcwidth-0.9.4.dist-info/licenses -> /usr/lib/python3.15/site-packages/wcwidth-0.9.5.dist-info/licenses, directory renamed /usr/lib/python3.15/site-packages/wcwidth-0.9.4.dist-info -> /usr/lib/python3.15/site-packages/wcwidth-0.9.5.dist-info, removed "/usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_336a71a1.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_b6d33cf4.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_59180a0d.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_3a1895d5.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_058c7585.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_a5880eeb.py /usr/lib/python3.15/site-packag
- es/wcwidth/table_grapheme_overrides/__pycache__/_known_b6d33cf4.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_33ac73f2.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_fb5fd79b.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_336a71a1.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_cf02297d.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_fb5fd79b.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_97904ece.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_97904ece.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_a5880eeb.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_058c7585.cpython-315.pyc /usr/lib/python3.1
- 5/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_e18ac6a7.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_c57c295b.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_8c2ae14d.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_cf02297d.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_2148ff29.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_59180a0d.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_2148ff29.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_65c6beb5.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_fdc99132.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_33ac73f2.cpython-315.pyc /usr/
- lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_c57c295b.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_fdc99132.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_8c2ae14d.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_3a1895d5.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_e18ac6a7.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_65c6beb5.py", added "/usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_0460e7c9.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_df39fd07.py /usr/lib/python3.15/site-packages/wcwidth/table_linebreak.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_d9127156.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_kno
- wn_9e152b0f.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_dfff5112.py /usr/lib/python3.15/site-packages/wcwidth/__pycache__/table_linebreak.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/linebreak.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_88d642c4.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_f3849ab9.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_dc5c5d4b.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_dc5c5d4b.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_e6aa9aa1.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_c298be52.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_f2715990.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_e49e
- 5a83.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_f3849ab9.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_c298be52.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_a6ed02ec.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_5a296381.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_f2715990.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_307dff55.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_2d39712a.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_963e665b.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_df39fd07.cpython-315.pyc /u
- sr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_a6ed02ec.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_dfff5112.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_307dff55.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_88d642c4.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_d9127156.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_e6aa9aa1.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_963e665b.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_9e152b0f.py /usr/lib/python3.15/site-packages/wcwidth/__pycache__/linebreak.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_2d39712a.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_e49e5a83.py /usr/lib/
- python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_42203bb5.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_0460e7c9.py /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_5a296381.cpython-315.pyc /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_42203bb5.py"
-Changes to packages/x86-64-v3-poky-linux/python3-wcwidth (sysroot):
-  /usr/lib/python3.15/site-packages/wcwidth-0.9.4.dist-info moved to /usr/lib/python3.15/site-packages/wcwidth-0.9.5.dist-info
-  /usr/lib/python3.15/site-packages/wcwidth/linebreak.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/__pycache__/linebreak.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/__pycache__/table_linebreak.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_0460e7c9.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_2d39712a.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_307dff55.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_42203bb5.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_5a296381.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_88d642c4.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_963e665b.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_9e152b0f.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_a6ed02ec.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_c298be52.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_d9127156.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_dc5c5d4b.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_df39fd07.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_dfff5112.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_e49e5a83.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_e6aa9aa1.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_f2715990.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_f3849ab9.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_0460e7c9.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_2d39712a.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_307dff55.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_42203bb5.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_5a296381.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_88d642c4.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_963e665b.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_9e152b0f.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_a6ed02ec.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_c298be52.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_d9127156.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_dc5c5d4b.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_df39fd07.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_dfff5112.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_e49e5a83.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_e6aa9aa1.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_f2715990.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_f3849ab9.cpython-315.pyc was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_linebreak.py was added
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_058c7585.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_2148ff29.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_336a71a1.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_33ac73f2.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_3a1895d5.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_59180a0d.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_65c6beb5.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_8c2ae14d.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_97904ece.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_a5880eeb.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_b6d33cf4.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_c57c295b.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_cf02297d.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_e18ac6a7.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_fb5fd79b.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/_known_fdc99132.py was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_058c7585.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_2148ff29.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_336a71a1.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_33ac73f2.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_3a1895d5.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_59180a0d.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_65c6beb5.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_8c2ae14d.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_97904ece.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_a5880eeb.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_b6d33cf4.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_c57c295b.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_cf02297d.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_e18ac6a7.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_fb5fd79b.cpython-315.pyc was removed
-  /usr/lib/python3.15/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_fdc99132.cpython-315.pyc was removed
-
---===============0466483637788655224==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="python3-wcwidth-changelog.txt"
-
-0.9.5 *unreleased*
-
---===============0466483637788655224==--
+--===============5030616301915567736==--
