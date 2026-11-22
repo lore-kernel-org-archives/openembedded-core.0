@@ -1,41 +1,41 @@
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.29472.1795324413778069744
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.29471.1795324411099223215
  for <openembedded-core@lists.openembedded.org>;
- Sat, 21 Nov 2026 21:13:34 -0800
+ Sat, 21 Nov 2026 21:13:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Jd83ixQc;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=0ahISeE+;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101a201ac8381-cde3660e-4ddb-4b82-9375-11c4685be065-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=MjzdWeng;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=KqOWA8d2;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101a201ac78f1-391dc5f4-bddb-4607-a136-abda940d6b4a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1795324412;
+	t=1795324410;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=PsBKbw1TLppKIezxz6BgUts/PBfHePdHA4jtIvFm7q8=;
-	b=Jd83ixQchGIuIWoaJ5dzwEOFRcmv2dTWX5fVEgPJAlcYsg2fZb2gKQfC5f2HkjEm
-	pVXMF3oveWdvznCQ5QkFy5KPvwdPeFsvhDKqk6jFtuDJI+uA6SlmyUXCqvxAz/pP+lh
-	9Bk6cxMUODm4XnJbuh6vxu7G2CsRVPB8NYsYtk8M=
+	bh=7KHvuSY1d3lNahWAIXHTZ0nb8IaqTCkC5JM9OOEE94w=;
+	b=MjzdWeng5eiip9shb4MIM3DLD7SmtASszfS2I/F6OfTo/RAPQmzWanJ8hkymffSe
+	CJqbfbW0EB8TDcsK6YUhd9RX1WTtXu/YRaHwMCYjK70ZF9Qu/g1GX7JNjAswzeSufYp
+	Ezq0QdrpxXkEb+hbBok6pYNJtDga06guoCka11B4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1795324412;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1795324410;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=PsBKbw1TLppKIezxz6BgUts/PBfHePdHA4jtIvFm7q8=;
-	b=0ahISeE+ZOJmPNi6se3y8qR2a64RWYWZaWf8yBfm0D386TbtvM+zPcWj7ZOYyink
-	Qm4GhWM3kEiauipA5Qt+octgtK+v24fyyi+FZ56pljqQzjgrcNTrK6hNEeSWMzOkNSO
-	pWidsl9j1M7RgdY+pP9azz4jnZHCaJV7+KPdvzo8=
-Content-Type: multipart/mixed; boundary="===============0884579817984758462=="
+	bh=7KHvuSY1d3lNahWAIXHTZ0nb8IaqTCkC5JM9OOEE94w=;
+	b=KqOWA8d2T/ou+ViZmduvWCyhRlKxP7/g+3By4/HbgD6Xngo86L3ndUaP+6XoYEFd
+	wWFZ5tGKdl7BquR21oPdVDijs53YE7HAwWeEJNufIP84ZZc9Y29bjrKmbpYg2XVM51c
+	MTQdW5Dt1HNgKSnGUPVphTbiOUPfvRk7mKfYmhMk=
+Content-Type: multipart/mixed; boundary="===============7188534788554011218=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Markus Volk <f_l_k@t-online.de>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] libconfig: upgrading to 1.8.3 SUCCEEDED
-Message-ID: <010101a201ac8381-cde3660e-4ddb-4b82-9375-11c4685be065-000000@us-west-2.amazonses.com>
-Date: Sun, 22 Nov 2026 05:13:32 +0000
+Subject: [AUH] fastfloat: upgrading to 8.4.0 SUCCEEDED
+Message-ID: <010101a201ac78f1-391dc5f4-bddb-4607-a136-abda940d6b4a-000000@us-west-2.amazonses.com>
+Date: Sun, 22 Nov 2026 05:13:30 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.22-54.240.27.33
+X-SES-Outgoing: 2026.11.22-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 22 Nov 2026 05:13:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250866
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 22 Nov 2026 05:13:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250862
 
---===============0884579817984758462==
+--===============7188534788554011218==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -43,10 +43,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libconfig* to *1.8.3* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *fastfloat* to *8.4.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libconfig-upgrade-1.8.2-1.8.3.patch
+    - apply the patch: git am 0001-fastfloat-upgrade-8.3.2-8.4.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -64,135 +64,153 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From deb398c3e063f41775225f9e49e6931a41c58ae9 Mon Sep 17 00:00:00 2001
+From 6c2687a2c4e18245e17b68929c748af76294dbf4 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 22 Nov 2026 05:13:26 +0000
-Subject: [PATCH] libconfig: upgrade 1.8.2 -> 1.8.3
+Date: Sun, 22 Nov 2026 05:05:57 +0000
+Subject: [PATCH] fastfloat: upgrade 8.3.2 -> 8.4.0
 
------ version 1.8.3 ------
+Version 8.4.0
+Merge pull request #440 from fastfloat/indeterminate-bigint
+CI: run the Alpine workflow on ubuntu-24.04
+Avoid zero-filling bigint buffers in the slow path (C++26 [[indeterminate]])
+Merge pull request #433 from fastfloat/benchmark-rounds-to-nearest
+Benchmark fast_float with and without FASTFLOAT_ROUNDS_TO_NEAREST
+Merge pull request #432 from fastfloat/rounds-to-nearest-macro
+Add FASTFLOAT_ROUNDS_TO_NEAREST to skip the rounding-mode check
+Version 8.3.3
+Merge pull request #430 from CODER-7777/fix-427-unlikely-cxx20-ext-warning
+Merge pull request #431 from aikhanjum/codex/fastfloat-correctness
+Reject integer_times_pow10 arguments wider than 64 bits
+Silence -Wc++20-extensions at the remaining [[unlikely]] sites (fixes #427)
+Run clang-format
+Merge pull request #426 from sahvx655-wq/power-negative-shift
+Avoid right-shifting a negative value in detail::power()
+Merge pull request #425 from fastfloat/fix-424-fixed-width-invalid
+Leave std::float32_t/std::float64_t unmodified on invalid input (fixes #424)
+Merge pull request #423 from sahvx655-wq/fuzz-coverage
+extend fuzzer to wide char types, integer parsing and all formats
 ---
- .../libconfig/{libconfig_1.8.2.bb => libconfig_1.8.3.bb}        | 2 +-
+ .../fastfloat/{fastfloat_8.3.2.bb => fastfloat_8.4.0.bb}        | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/libconfig/{libconfig_1.8.2.bb => libconfig_1.8.3.bb} (95%)
+ rename meta/recipes-devtools/fastfloat/{fastfloat_8.3.2.bb => fastfloat_8.4.0.bb} (90%)
 
-diff --git a/meta/recipes-extended/libconfig/libconfig_1.8.2.bb b/meta/recipes-extended/libconfig/libconfig_1.8.3.bb
-similarity index 95%
-rename from meta/recipes-extended/libconfig/libconfig_1.8.2.bb
-rename to meta/recipes-extended/libconfig/libconfig_1.8.3.bb
-index c3582828f7..e6086dee1f 100644
---- a/meta/recipes-extended/libconfig/libconfig_1.8.2.bb
-+++ b/meta/recipes-extended/libconfig/libconfig_1.8.3.bb
-@@ -11,7 +11,7 @@ SRC_URI = " \
-     git://github.com/hyperrealm/libconfig.git;protocol=https;branch=master;tag=v${PV} \
-     file://run-ptest \
- "
--SRCREV = "a42cb47c1526a4f2ed025fcbb2289863375bc898"
-+SRCREV = "a211339ea575bb1253e3e24eee47089249f6bda1"
+diff --git a/meta/recipes-devtools/fastfloat/fastfloat_8.3.2.bb b/meta/recipes-devtools/fastfloat/fastfloat_8.4.0.bb
+similarity index 90%
+rename from meta/recipes-devtools/fastfloat/fastfloat_8.3.2.bb
+rename to meta/recipes-devtools/fastfloat/fastfloat_8.4.0.bb
+index db4312bfd9..11fc4889e0 100644
+--- a/meta/recipes-devtools/fastfloat/fastfloat_8.3.2.bb
++++ b/meta/recipes-devtools/fastfloat/fastfloat_8.4.0.bb
+@@ -9,6 +9,6 @@ LIC_FILES_CHKSUM = " \
  
- # needed when we modify grammar.y with patches
- DEPENDS += "bison-native flex-native"
+ SRC_URI = "git://github.com/fastfloat/fast_float.git;protocol=https;branch=main;tag=v${PV}"
+ 
+-SRCREV = "42f254836ee416ffcf2f4e6576260003ac33d48c"
++SRCREV = "517e6b8e008341fc4ebf80cc709d8b51610a888e"
+ 
+ inherit cmake
 -- 
 2.47.1
 
 
---===============0884579817984758462==
+--===============7188534788554011218==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/libconfig: PV changed from "1.8.2" to "1.8.3"
-packages/x86-64-v3-poky-linux/libconfig: SRC_URI changed from "git://github.com/hyperrealm/libconfig.git;protocol=https;branch=master;tag=v1.8.2 file://run-ptest" to "git://github.com/hyperrealm/libconfig.git;protocol=https;branch=master;tag=v1.8.3 file://run-ptest"
-packages/x86-64-v3-poky-linux/libconfig: PKGV changed from 1.8.2 [default] to 1.8.3 [default]
-packages/x86-64-v3-poky-linux/libconfig/libconfig++: FILELIST: removed "/usr/lib/libconfig++.so.15.0.0", added "/usr/lib/libconfig++.so.15.0.1"
-packages/x86-64-v3-poky-linux/libconfig/libconfig++: PV changed from "1.8.2" to "1.8.3"
-packages/x86-64-v3-poky-linux/libconfig/libconfig++: PKGSIZE changed from 116837 to 120933 (+4%)
-packages/x86-64-v3-poky-linux/libconfig/libconfig++: PKGV changed from 1.8.2 [default] to 1.8.3 [default]
-packages/x86-64-v3-poky-linux/libconfig/libconfig-dbg: FILELIST: removed "/usr/lib/.debug/libconfig.so.15.0.0 /usr/lib/.debug/libconfig++.so.15.0.0", added "/usr/lib/.debug/libconfig.so.15.0.1 /usr/lib/.debug/libconfig++.so.15.0.1"
-packages/x86-64-v3-poky-linux/libconfig/libconfig-dbg: PV changed from "1.8.2" to "1.8.3"
-packages/x86-64-v3-poky-linux/libconfig/libconfig-dbg: PKGSIZE changed from 641776 to 673664 (+5%)
-packages/x86-64-v3-poky-linux/libconfig/libconfig-dbg: PKGV changed from 1.8.2 [default] to 1.8.3 [default]
-packages/x86-64-v3-poky-linux/libconfig/libconfig-dev: PV changed from "1.8.2" to "1.8.3"
-packages/x86-64-v3-poky-linux/libconfig/libconfig-dev: PKGV changed from 1.8.2 [default] to 1.8.3 [default]
-packages/x86-64-v3-poky-linux/libconfig/libconfig-doc: PV changed from "1.8.2" to "1.8.3"
-packages/x86-64-v3-poky-linux/libconfig/libconfig-doc: PKGV changed from 1.8.2 [default] to 1.8.3 [default]
-packages/x86-64-v3-poky-linux/libconfig/libconfig-locale: PV changed from "1.8.2" to "1.8.3"
-packages/x86-64-v3-poky-linux/libconfig/libconfig-locale: PKGV changed from 1.8.2 [default] to 1.8.3 [default]
-packages/x86-64-v3-poky-linux/libconfig/libconfig-ptest: FILELIST: added "/usr/lib/libconfig/ptest/tests/testdata/int64-suffix.cfg /usr/lib/libconfig/ptest/tests/testdata/int64-suffix.txt"
-packages/x86-64-v3-poky-linux/libconfig/libconfig-ptest: PV changed from "1.8.2" to "1.8.3"
-packages/x86-64-v3-poky-linux/libconfig/libconfig-ptest: PKGSIZE changed from 40772 to 53235 (+31%)
-packages/x86-64-v3-poky-linux/libconfig/libconfig-ptest: PKGV changed from 1.8.2 [default] to 1.8.3 [default]
-packages/x86-64-v3-poky-linux/libconfig/libconfig-src: FILELIST: directory renamed /usr/src/debug/libconfig/1.8.2/lib -> /usr/src/debug/libconfig/1.8.3/lib, directory renamed /usr/src/debug/libconfig/1.8.2/tinytest -> /usr/src/debug/libconfig/1.8.3/tinytest, directory renamed /usr/src/debug/libconfig/1.8.2/tests -> /usr/src/debug/libconfig/1.8.3/tests
-packages/x86-64-v3-poky-linux/libconfig/libconfig-src: PV changed from "1.8.2" to "1.8.3"
-packages/x86-64-v3-poky-linux/libconfig/libconfig-src: PKGSIZE changed from 388300 to 403774 (+4%)
-packages/x86-64-v3-poky-linux/libconfig/libconfig-src: PKGV changed from 1.8.2 [default] to 1.8.3 [default]
-packages/x86-64-v3-poky-linux/libconfig/libconfig-staticdev: PV changed from "1.8.2" to "1.8.3"
-packages/x86-64-v3-poky-linux/libconfig/libconfig-staticdev: PKGV changed from 1.8.2 [default] to 1.8.3 [default]
-packages/x86-64-v3-poky-linux/libconfig/libconfig: FILELIST: removed "/usr/lib/libconfig.so.15.0.0", added "/usr/lib/libconfig.so.15.0.1"
-packages/x86-64-v3-poky-linux/libconfig/libconfig: PV changed from "1.8.2" to "1.8.3"
-packages/x86-64-v3-poky-linux/libconfig/libconfig: PKGV changed from 1.8.2 [default] to 1.8.3 [default]
-Changes to packages/x86-64-v3-poky-linux/libconfig (sysroot):
-  /usr/lib/libconfig++.so.15 changed symlink target from libconfig++.so.15.0.0 to libconfig++.so.15.0.1
-  /usr/lib/libconfig.so.15 changed symlink target from libconfig.so.15.0.0 to libconfig.so.15.0.1
-  /usr/lib/libconfig++.so changed symlink target from libconfig++.so.15.0.0 to libconfig++.so.15.0.1
-  /usr/lib/libconfig.so changed symlink target from libconfig.so.15.0.0 to libconfig.so.15.0.1
-  /usr/lib/libconfig++.so.15.0.0 moved to /usr/lib/libconfig++.so.15.0.1
-  /usr/lib/libconfig.so.15.0.0 moved to /usr/lib/libconfig.so.15.0.1
+packages/x86-64-v3-poky-linux/fastfloat/fastfloat-dbg: PV changed from "8.3.2" to "8.4.0"
+packages/x86-64-v3-poky-linux/fastfloat/fastfloat-dbg: PKGV changed from 8.3.2 [default] to 8.4.0 [default]
+packages/x86-64-v3-poky-linux/fastfloat/fastfloat-dev: PV changed from "8.3.2" to "8.4.0"
+packages/x86-64-v3-poky-linux/fastfloat/fastfloat-dev: PKGSIZE changed from 191509 to 194371 (+1%)
+packages/x86-64-v3-poky-linux/fastfloat/fastfloat-dev: PKGV changed from 8.3.2 [default] to 8.4.0 [default]
+packages/x86-64-v3-poky-linux/fastfloat/fastfloat-doc: PV changed from "8.3.2" to "8.4.0"
+packages/x86-64-v3-poky-linux/fastfloat/fastfloat-doc: PKGV changed from 8.3.2 [default] to 8.4.0 [default]
+packages/x86-64-v3-poky-linux/fastfloat/fastfloat-locale: PV changed from "8.3.2" to "8.4.0"
+packages/x86-64-v3-poky-linux/fastfloat/fastfloat-locale: PKGV changed from 8.3.2 [default] to 8.4.0 [default]
+packages/x86-64-v3-poky-linux/fastfloat/fastfloat-src: PV changed from "8.3.2" to "8.4.0"
+packages/x86-64-v3-poky-linux/fastfloat/fastfloat-src: PKGV changed from 8.3.2 [default] to 8.4.0 [default]
+packages/x86-64-v3-poky-linux/fastfloat/fastfloat-staticdev: PV changed from "8.3.2" to "8.4.0"
+packages/x86-64-v3-poky-linux/fastfloat/fastfloat-staticdev: PKGV changed from 8.3.2 [default] to 8.4.0 [default]
+packages/x86-64-v3-poky-linux/fastfloat/fastfloat: PV changed from "8.3.2" to "8.4.0"
+packages/x86-64-v3-poky-linux/fastfloat/fastfloat: PKGV changed from 8.3.2 [default] to 8.4.0 [default]
+packages/x86-64-v3-poky-linux/fastfloat: SRC_URI changed from "git://github.com/fastfloat/fast_float.git;protocol=https;branch=main;tag=v8.3.2" to "git://github.com/fastfloat/fast_float.git;protocol=https;branch=main;tag=v8.4.0"
+packages/x86-64-v3-poky-linux/fastfloat: PV changed from "8.3.2" to "8.4.0"
+packages/x86-64-v3-poky-linux/fastfloat: PKGV changed from 8.3.2 [default] to 8.4.0 [default]
 
---===============0884579817984758462==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="libconfig-changelog.txt"
-
------ version 1.8.3 ------
-
---===============0884579817984758462==
+--===============7188534788554011218==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libconfig-upgrade-1.8.2-1.8.3.patch"
+ filename="0001-fastfloat-upgrade-8.3.2-8.4.0.patch"
 
-RnJvbSBkZWIzOThjM2UwNjNmNDE3NzUyMjVmOWU0OWU2OTMxYTQxYzU4YWU5IE1vbiBTZXAgMTcg
+RnJvbSA2YzI2ODdhMmM0ZTE4MjQ1ZTE3YjY4OTI5Yzc0OGFmNzYyOTRkYmY0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMjIgTm92IDIwMjYgMDU6MTM6MjYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJjb25maWc6IHVwZ3JhZGUgMS44LjIgLT4gMS44LjMKCi0tLS0tIHZlcnNpb24gMS44LjMgLS0t
-LS0tCi0tLQogLi4uL2xpYmNvbmZpZy97bGliY29uZmlnXzEuOC4yLmJiID0+IGxpYmNvbmZpZ18x
-LjguMy5iYn0gICAgICAgIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAx
-IGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xpYmNvbmZpZy97bGli
-Y29uZmlnXzEuOC4yLmJiID0+IGxpYmNvbmZpZ18xLjguMy5iYn0gKDk1JSkKCmRpZmYgLS1naXQg
-YS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGliY29uZmlnL2xpYmNvbmZpZ18xLjguMi5iYiBiL21l
-dGEvcmVjaXBlcy1leHRlbmRlZC9saWJjb25maWcvbGliY29uZmlnXzEuOC4zLmJiCnNpbWlsYXJp
-dHkgaW5kZXggOTUlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9saWJjb25maWcv
-bGliY29uZmlnXzEuOC4yLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGliY29u
-ZmlnL2xpYmNvbmZpZ18xLjguMy5iYgppbmRleCBjMzU4MjgyOGY3Li5lNjA4NmRlZTFmIDEwMDY0
-NAotLS0gYS9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGliY29uZmlnL2xpYmNvbmZpZ18xLjguMi5i
-YgorKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGliY29uZmlnL2xpYmNvbmZpZ18xLjguMy5i
-YgpAQCAtMTEsNyArMTEsNyBAQCBTUkNfVVJJID0gIiBcCiAgICAgZ2l0Oi8vZ2l0aHViLmNvbS9o
-eXBlcnJlYWxtL2xpYmNvbmZpZy5naXQ7cHJvdG9jb2w9aHR0cHM7YnJhbmNoPW1hc3Rlcjt0YWc9
-diR7UFZ9IFwKICAgICBmaWxlOi8vcnVuLXB0ZXN0IFwKICIKLVNSQ1JFViA9ICJhNDJjYjQ3YzE1
-MjZhNGYyZWQwMjVmY2JiMjI4OTg2MzM3NWJjODk4IgorU1JDUkVWID0gImEyMTEzMzllYTU3NWJi
-MTI1M2UzZTI0ZWVlNDcwODkyNDlmNmJkYTEiCiAKICMgbmVlZGVkIHdoZW4gd2UgbW9kaWZ5IGdy
-YW1tYXIueSB3aXRoIHBhdGNoZXMKIERFUEVORFMgKz0gImJpc29uLW5hdGl2ZSBmbGV4LW5hdGl2
-ZSIKLS0gCjIuNDcuMQoK
+CkRhdGU6IFN1biwgMjIgTm92IDIwMjYgMDU6MDU6NTcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBm
+YXN0ZmxvYXQ6IHVwZ3JhZGUgOC4zLjIgLT4gOC40LjAKClZlcnNpb24gOC40LjAKTWVyZ2UgcHVs
+bCByZXF1ZXN0ICM0NDAgZnJvbSBmYXN0ZmxvYXQvaW5kZXRlcm1pbmF0ZS1iaWdpbnQKQ0k6IHJ1
+biB0aGUgQWxwaW5lIHdvcmtmbG93IG9uIHVidW50dS0yNC4wNApBdm9pZCB6ZXJvLWZpbGxpbmcg
+YmlnaW50IGJ1ZmZlcnMgaW4gdGhlIHNsb3cgcGF0aCAoQysrMjYgW1tpbmRldGVybWluYXRlXV0p
+Ck1lcmdlIHB1bGwgcmVxdWVzdCAjNDMzIGZyb20gZmFzdGZsb2F0L2JlbmNobWFyay1yb3VuZHMt
+dG8tbmVhcmVzdApCZW5jaG1hcmsgZmFzdF9mbG9hdCB3aXRoIGFuZCB3aXRob3V0IEZBU1RGTE9B
+VF9ST1VORFNfVE9fTkVBUkVTVApNZXJnZSBwdWxsIHJlcXVlc3QgIzQzMiBmcm9tIGZhc3RmbG9h
+dC9yb3VuZHMtdG8tbmVhcmVzdC1tYWNybwpBZGQgRkFTVEZMT0FUX1JPVU5EU19UT19ORUFSRVNU
+IHRvIHNraXAgdGhlIHJvdW5kaW5nLW1vZGUgY2hlY2sKVmVyc2lvbiA4LjMuMwpNZXJnZSBwdWxs
+IHJlcXVlc3QgIzQzMCBmcm9tIENPREVSLTc3NzcvZml4LTQyNy11bmxpa2VseS1jeHgyMC1leHQt
+d2FybmluZwpNZXJnZSBwdWxsIHJlcXVlc3QgIzQzMSBmcm9tIGFpa2hhbmp1bS9jb2RleC9mYXN0
+ZmxvYXQtY29ycmVjdG5lc3MKUmVqZWN0IGludGVnZXJfdGltZXNfcG93MTAgYXJndW1lbnRzIHdp
+ZGVyIHRoYW4gNjQgYml0cwpTaWxlbmNlIC1XYysrMjAtZXh0ZW5zaW9ucyBhdCB0aGUgcmVtYWlu
+aW5nIFtbdW5saWtlbHldXSBzaXRlcyAoZml4ZXMgIzQyNykKUnVuIGNsYW5nLWZvcm1hdApNZXJn
+ZSBwdWxsIHJlcXVlc3QgIzQyNiBmcm9tIHNhaHZ4NjU1LXdxL3Bvd2VyLW5lZ2F0aXZlLXNoaWZ0
+CkF2b2lkIHJpZ2h0LXNoaWZ0aW5nIGEgbmVnYXRpdmUgdmFsdWUgaW4gZGV0YWlsOjpwb3dlcigp
+Ck1lcmdlIHB1bGwgcmVxdWVzdCAjNDI1IGZyb20gZmFzdGZsb2F0L2ZpeC00MjQtZml4ZWQtd2lk
+dGgtaW52YWxpZApMZWF2ZSBzdGQ6OmZsb2F0MzJfdC9zdGQ6OmZsb2F0NjRfdCB1bm1vZGlmaWVk
+IG9uIGludmFsaWQgaW5wdXQgKGZpeGVzICM0MjQpCk1lcmdlIHB1bGwgcmVxdWVzdCAjNDIzIGZy
+b20gc2Fodng2NTUtd3EvZnV6ei1jb3ZlcmFnZQpleHRlbmQgZnV6emVyIHRvIHdpZGUgY2hhciB0
+eXBlcywgaW50ZWdlciBwYXJzaW5nIGFuZCBhbGwgZm9ybWF0cwotLS0KIC4uLi9mYXN0ZmxvYXQv
+e2Zhc3RmbG9hdF84LjMuMi5iYiA9PiBmYXN0ZmxvYXRfOC40LjAuYmJ9ICAgICAgICB8IDIgKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1kZXZ0b29scy9mYXN0ZmxvYXQve2Zhc3RmbG9hdF84LjMuMi5iYiA9PiBmYXN0
+ZmxvYXRfOC40LjAuYmJ9ICg5MCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L2Zhc3RmbG9hdC9mYXN0ZmxvYXRfOC4zLjIuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvZmFz
+dGZsb2F0L2Zhc3RmbG9hdF84LjQuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDkwJQpyZW5hbWUgZnJv
+bSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZmFzdGZsb2F0L2Zhc3RmbG9hdF84LjMuMi5iYgpyZW5h
+bWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Zhc3RmbG9hdC9mYXN0ZmxvYXRfOC40LjAuYmIK
+aW5kZXggZGI0MzEyYmZkOS4uMTFmYzQ4ODllMCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL2Zhc3RmbG9hdC9mYXN0ZmxvYXRfOC4zLjIuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRl
+dnRvb2xzL2Zhc3RmbG9hdC9mYXN0ZmxvYXRfOC40LjAuYmIKQEAgLTksNiArOSw2IEBAIExJQ19G
+SUxFU19DSEtTVU0gPSAiIFwKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL2Zhc3RmbG9h
+dC9mYXN0X2Zsb2F0LmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9bWFpbjt0YWc9diR7UFZ9Igog
+Ci1TUkNSRVYgPSAiNDJmMjU0ODM2ZWU0MTZmZmNmMmY0ZTY1NzYyNjAwMDNhYzMzZDQ4YyIKK1NS
+Q1JFViA9ICI1MTdlNmI4ZTAwODM0MWZjNGViZjgwY2M3MDlkOGI1MTYxMGE4ODhlIgogCiBpbmhl
+cml0IGNtYWtlCi0tIAoyLjQ3LjEKCg==
 
---===============0884579817984758462==
+--===============7188534788554011218==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Disposition: attachment; filename="fastfloat-changelog.txt"
 
-packages/x86-64-v3-poky-linux/libconfig/libconfig++: FILELIST: removed "/usr/lib/libconfig++.so.15.0.0", added "/usr/lib/libconfig++.so.15.0.1"
-packages/x86-64-v3-poky-linux/libconfig/libconfig-ptest: PKGSIZE changed from 40772 to 53235 (+31%)
-packages/x86-64-v3-poky-linux/libconfig/libconfig-ptest: FILELIST: added "/usr/lib/libconfig/ptest/tests/testdata/int64-suffix.cfg /usr/lib/libconfig/ptest/tests/testdata/int64-suffix.txt"
-packages/x86-64-v3-poky-linux/libconfig/libconfig: FILELIST: removed "/usr/lib/libconfig.so.15.0.0", added "/usr/lib/libconfig.so.15.0.1"
-Changes to packages/x86-64-v3-poky-linux/libconfig (sysroot):
-  /usr/lib/libconfig++.so.15 changed symlink target from libconfig++.so.15.0.0 to libconfig++.so.15.0.1
-  /usr/lib/libconfig.so.15 changed symlink target from libconfig.so.15.0.0 to libconfig.so.15.0.1
-  /usr/lib/libconfig++.so changed symlink target from libconfig++.so.15.0.0 to libconfig++.so.15.0.1
-  /usr/lib/libconfig.so changed symlink target from libconfig.so.15.0.0 to libconfig.so.15.0.1
-  /usr/lib/libconfig++.so.15.0.0 moved to /usr/lib/libconfig++.so.15.0.1
-  /usr/lib/libconfig.so.15.0.0 moved to /usr/lib/libconfig.so.15.0.1
+Version 8.4.0
+Merge pull request #440 from fastfloat/indeterminate-bigint
+CI: run the Alpine workflow on ubuntu-24.04
+Avoid zero-filling bigint buffers in the slow path (C++26 [[indeterminate]])
+Merge pull request #433 from fastfloat/benchmark-rounds-to-nearest
+Benchmark fast_float with and without FASTFLOAT_ROUNDS_TO_NEAREST
+Merge pull request #432 from fastfloat/rounds-to-nearest-macro
+Add FASTFLOAT_ROUNDS_TO_NEAREST to skip the rounding-mode check
+Version 8.3.3
+Merge pull request #430 from CODER-7777/fix-427-unlikely-cxx20-ext-warning
+Merge pull request #431 from aikhanjum/codex/fastfloat-correctness
+Reject integer_times_pow10 arguments wider than 64 bits
+Silence -Wc++20-extensions at the remaining [[unlikely]] sites (fixes #427)
+Run clang-format
+Merge pull request #426 from sahvx655-wq/power-negative-shift
+Avoid right-shifting a negative value in detail::power()
+Merge pull request #425 from fastfloat/fix-424-fixed-width-invalid
+Leave std::float32_t/std::float64_t unmodified on invalid input (fixes #424)
+Merge pull request #423 from sahvx655-wq/fuzz-coverage
+extend fuzzer to wide char types, integer parsing and all formats
 
---===============0884579817984758462==--
+--===============7188534788554011218==--
