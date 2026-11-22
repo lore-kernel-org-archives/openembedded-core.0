@@ -1,92 +1,129 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.33339.1795350820710204686
+Received: from delivery.antispam.mailspamprotection.com (delivery.antispam.mailspamprotection.com [185.56.87.7])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.34316.1795355988131167125
  for <openembedded-core@lists.openembedded.org>;
- Sun, 22 Nov 2026 04:33:41 -0800
+ Sun, 22 Nov 2026 05:59:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=tTCnzd2J;
- spf=pass (domain: gmail.com, ip: 209.85.128.47, mailfrom: saeednourian82@gmail.com)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4a2000d5fb1so12562215e9.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 22 Nov 2026 04:33:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795350819; x=1795955619; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DOCti7/PYy8JUCWiWl4lGnQitP+T/HP09C/rsBmjDR4=;
-        b=tTCnzd2JR4FmjLRkYiiEaEJDItWgxjWDemFdCDra7/p+iysq8kaC9ABL/pCfhYvdXw
-         I3fvcIuWRo09exX2t4KPdwjH9fuUj8XY1p7B1fl/y/Vssvkupcd1tY6VDNHBvKrskGXz
-         EAic9lb78YloRgGg0GcMFQc+MuKTSYekWUcglyLX6Vfi1Jwm5i6NqYtslzTUo4aez9qY
-         zsrSPCWVNxKXZQV+8BlnuCC0ExlozFAzoFHFgYigBn3ZLFknjJgEWIoflCTc8DbVYIvv
-         OR7iZaNC60SWA8AG2qy3Q8nfq16v9ctpMk3vsxSvLlhhFbUKk3Sa2dHkxe+tFuUwHfFJ
-         4uQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795350819; x=1795955619;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=DOCti7/PYy8JUCWiWl4lGnQitP+T/HP09C/rsBmjDR4=;
-        b=eBJJIffzzex2dewkV71UFsd7Xa1IFd+prnLfKO9Fdc65YBz7+LV2nldt1RnY1FWDEr
-         oS1aEoO8R/wAjfJpm4ZLx9HsUYE4pp5I03tLTkmoTvlOGIgC/E1RBCsKsdIh4JISgF/F
-         oVC61eGBOFOf2Uo5kjOpFnWCCL9j5kF2yUXxGfshmDLjJoEWiZLI7MkNbA0Rzp7wwlx2
-         iSheWCUnAhfsnnmSdHwpIA5cgKULWu1PzLuK9gTrgNGNYMm+VEwTMxKGqm+qFRLRlSrx
-         R315jEToFDyhjhC2aFak+iYdkgD2dwt25gGM9anuPLoHpZL4Y4tT5N25ChdloJpriSLf
-         1oAA==
-X-Gm-Message-State: APuU4Z9fG456cuRwanyYJSrEa+J8tSq/grLyK8AM7EshZ4rbPWsmVBIJ
-	igrxavvwacB2Z9p8Hu3vnrMZLnKsf9O26GJnQG1tRB1O7TrV3Obo2xIc78sgtCeO0B61NA==
-X-Gm-Gg: AZFdTZdPjTDRyw7PMtI4moE/6VqQHhteavEwxjwHz30HgWZPczCbixmkq518WSz7A/d
-	93kgm7WXYUFjgDFhQid02iQFvvodDwJOPKKWpNb9FV/AEv//Ez1cJS25XQTP4Y571acDsvhaLTX
-	IhSl3yWTWRtIktxCkTqc/WsSgDoMwUpb0icruwwgHLmKAcZ1Yt6BQNKO+0yXfClRsvmEivcI47q
-	O+MU+nFqWLfmys2BDfXwN664k4NXVj0lopk0IDkFwkGee05Fq3T3e7Odqh2aLvJY8+OLBdGJPxS
-	U6YVu2Ci5zOsdDfML16MOgMjFUMWYxG3LaVw6FZnNIfdQ1DAbNPJjO+V1ULgtoxT5lxtZmTg843
-	sDXkSYF/fq3WkVhXBiom3SpDrimFeGu2YLWrygFNfyvSb3TusYOXrDhQp3rIisEn6Y4VeuLwtRF
-	EGNF6QLHbWzrRF5yMo6d3YRDkImNDZRLET6/O3aIhDOpeK8VqVLXCMmR7GRYV6O6xsr75q12P9N
-	ACzZisXtNZZxE6P0A16VxZ/03DF+WbH5SEvZ74K0Xp6qUiAUcDi4zHZM95oME1k8C1Ea7M88sDV
-	gog+oVKhId1g+LTi5GF0MdTag3akVVdLOdpQ7Fw7iPwtp8IWzJVj07i58AXli4mqf9ZpH36hfIG
-	rABwuvZxVe6Ek5Exz9Ic=
-X-Received: by 2002:a05:600c:5249:b0:4bb:665c:a078 with SMTP id 5b1f17b1804b1-4bb8893a89bmr179759325e9.28.1795350818806;
-        Sun, 22 Nov 2026 04:33:38 -0800 (PST)
-Return-Path: <saeednourian82@gmail.com>
-Received: from saeedvft-ubuntu.tail2d4112.ts.net ([46.100.16.26])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb9067846esm123540645e9.4.2026.11.22.04.33.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 22 Nov 2026 04:33:37 -0800 (PST)
-From: Saeed Nourian <saeednourian82@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: francesco@valla.it,
-	mathieu.dubois-briand@bootlin.com,
-	Saeed Nourian <saeednourian82@gmail.com>
-Subject: [PATCH] image-fitimage: fix typo in FIT_LOADABLE_COMPRESSION example
-Date: Sun, 22 Nov 2026 16:03:24 +0330
-Message-ID: <20261122123324.585452-1-saeednourian82@gmail.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@antispam.mailspamprotection.com header.s=default header.b=XpWElT0W;
+ dkim=pass header.i=@valla.it header.s=default header.b=egAaxre9;
+ spf=pass (domain: valla.it, ip: 185.56.87.7, mailfrom: francesco@valla.it)
+ARC-Seal: i=1; cv=none; a=rsa-sha256; d=outgoing.instance-europe-west4-lgmz.prod.antispam.mailspamprotection.com; s=arckey; t=1795355988;
+	 b=mPluR6S3ZmWYwE3dblmSzJ2eSY9rOs9iImGFh6B8vl2B8qaWjf3XL7cv3jUdCJILP6b38vM5ra
+	  Ni0XR7ZOyK659GDr8GZuwT5cKLTiuCSANKuEgC8gQiXEmCghOkCRnHOJmOcWRYvn8kTZhEMOWK
+	  xXhFNuQojCsAAEpYMAlgREiQgU3P6jRCnLQZNbLlguUJoh/q6/PcNzUgw8kB+uuzFGG4zxgtvW
+	  QOxzuW5cM8N2KdUybRdBWnqNLoEE5wugToGFj48RyLhsC+TKCH3y1D4+3ILiTvi2aBRjrTh1Q6
+	  AKugVQZOKRyS74aNFQ0Gt4ESiJvQhYML4RD3gcVgVG/waA==;
+ARC-Authentication-Results: i=1; outgoing.instance-europe-west4-lgmz.prod.antispam.mailspamprotection.com; smtp.remote-ip=35.214.173.214;
+	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
+	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
+	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
+	arc=none
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed; d=outgoing.instance-europe-west4-lgmz.prod.antispam.mailspamprotection.com; s=arckey; t=1795355988;
+	bh=aG8653TcXSqIzpFZI1Xom8TAD9xaNSrimnbaQeFHsYU=;
+	h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:
+	  From:Date:DKIM-Signature:DKIM-Signature;
+	b=iPd/D/pneO6jn1dvecSayKfxcT5xK8ex2HoMuuiDMh1zl7dL0uF0rq8w5fiwEm5wosAz3QeI3E
+	  2JhOKTODr4X3AThdCev3FlnKAHwxT1OnytP2pI17cUEfs9dVx4O/ef6SD5qvFEzaw+Et1pTqP5
+	  7txNIi+4UOYsqxIQrvXuhPpwiS8Px7PapRVgZ9j4voeG2s7p2u1Ad+kVsM4Xla70FXqTbjTfSR
+	  hXY6Ii1RYlbZxOiwY9sU5tHMzGt1FnhSIFpQSSWK9VKB/4hHPs8cigFjym8wFaADE5DM0CLPWW
+	  0//701CwZG1pPeePbDt7H4gcj304fCpCoyVXPnHvIRcLVw==;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=antispam.mailspamprotection.com; s=default; h=CFBL-Feedback-ID:CFBL-Address
+	:Content-Type:MIME-Version:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	List-Unsubscribe:Content-Transfer-Encoding;
+	bh=+LVWG7Gai9K2JDodo9Gy49kZ05GhDMzCUAaRMRRskLc=; b=XpWElT0W9HIpV9c5pzWO0+zT9t
+	Dg1HuKjdPSQiAUqG6vJqLfEiBIkOmvu9eNXzVHx0W44GJBu39HWVnTJJxsvMMotzXR5ErfjN9wxqh
+	m3SXXsYNYPQSR8OCKKFUixfQknHkznBfUM6bHlXEmSSNt6JW0V35i56wQoXvLyT7cSSY=;
+Received: from 214.173.214.35.bc.googleusercontent.com ([35.214.173.214] helo=esm19.siteground.biz)
+	by instance-europe-west4-lgmz.prod.antispam.mailspamprotection.com with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <francesco@valla.it>)
+	id 1xV86b-00000003Pn8-3VrC
+	for openembedded-core@lists.openembedded.org;
+	Sun, 22 Nov 2026 13:59:46 +0000
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=valla.it;
+	s=default; h=Subject:Cc:To:From:Date:list-help:list-unsubscribe:
+	list-subscribe:list-post:list-owner:list-archive;
+	bh=+LVWG7Gai9K2JDodo9Gy49kZ05GhDMzCUAaRMRRskLc=; b=egAaxre9vN1Tiu4i4h+UOYEg1P
+	SvN/J4TLYyX5J3GWba12m/f99XpaGF0gzVZQPFlokXq13DsrxX0lE/zTOBhIH3AXA4pDoElJyXWrm
+	+vsWfIqod+AEf1MGwwAlTYWYu0BzvNHlvCI28lTvFIi7v6IIeY0vMA6Nldizz9iGl6Yw=;
+Received: from [95.251.96.187] (port=59176 helo=bywater)
+	by esm19.siteground.biz with essmtpa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.100.1)
+	(envelope-from <francesco@valla.it>)
+	id 1xV86X-00000000IkU-0OWR;
+	Sun, 22 Nov 2026 13:59:41 +0000
+Date: Sun, 22 Nov 2026 14:59:39 +0100
+From: Francesco Valla <francesco@valla.it>
+To: Saeed Nourian <saeednourian82@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	mathieu.dubois-briand@bootlin.com
+Subject: Re: [PATCH] image-fitimage: fix typo in FIT_LOADABLE_COMPRESSION
+ example
+Message-ID: <awL0yFwLXZKpndOn@bywater>
+References: <20261122123324.585452-1-saeednourian82@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20261122123324.585452-1-saeednourian82@gmail.com>
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - esm19.siteground.biz
+X-AntiAbuse: Original Domain - lists.openembedded.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - valla.it
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-SGantispam-id: e19f619815d654596cd965058ffad1e3
+X-AntiAbuse: ID - e19f619815d654596cd965058ffad1e3
+AntiSpam-DLS: false
+AntiSpam-DLSP: 
+AntiSpam-DLSRS: 
+AntiSpam-TS: 1.0
+CFBL-Address: feedback@antispam.mailspamprotection.com; report=arf
+CFBL-Feedback-ID: 1xV86b-00000003Pn8-3VrC-feedback@antispam.mailspamprotection.com
+Authentication-Results: outgoing.instance-europe-west4-lgmz.prod.antispam.mailspamprotection.com;
+	iprev=pass (214.173.214.35.bc.googleusercontent.com) smtp.remote-ip=35.214.173.214;
+	auth=pass (LOGIN) smtp.auth=esm19.siteground.biz;
+	dkim=pass header.d=valla.it header.s=default header.a=rsa-sha256;
+	arc=none
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 22 Nov 2026 12:33:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250868
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sun, 22 Nov 2026 13:59:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250869
 
-The example sets FIT_LOADABLE_COMPRESSSION[atf], but
-kernel-fit-image.bbclass reads FIT_LOADABLE_COMPRESSION, so the
-setting would be ignored if the example were copied as is.
+Hi Saeed,
 
-Signed-off-by: Saeed Nourian <saeednourian82@gmail.com>
----
- meta/conf/image-fitimage.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Sun, Nov 22, 2026 at 04:03:24PM +0330, Saeed Nourian wrote:
+> The example sets FIT_LOADABLE_COMPRESSSION[atf], but
+> kernel-fit-image.bbclass reads FIT_LOADABLE_COMPRESSION, so the
+> setting would be ignored if the example were copied as is.
+> 
 
-diff --git a/meta/conf/image-fitimage.conf b/meta/conf/image-fitimage.conf
-index a06d30e494..eaf9120bbb 100644
---- a/meta/conf/image-fitimage.conf
-+++ b/meta/conf/image-fitimage.conf
-@@ -91,7 +91,7 @@ FIT_UBOOT_ENV ?= ""
- # Example:
- #   FIT_LOADABLES = "atf"
- #   FIT_LOADABLE_FILENAME[atf] = "bl31.bin"
--#   FIT_LOADABLE_COMPRESSSION[atf] = "none"
-+#   FIT_LOADABLE_COMPRESSION[atf] = "none"
- #   FIT_LOADABLE_DESCRIPTION[atf] = "TF-A firmware image"
- #   FIT_LOADABLE_TYPE[atf] = "tfa-bl31"
- #   FIT_LOADABLE_ARCH[atf] = "arm64"
--- 
-2.43.0
+Oops, my bad, thanks for spotting it and sending this fix.
+
+> Signed-off-by: Saeed Nourian <saeednourian82@gmail.com>
+> ---
+>  meta/conf/image-fitimage.conf | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/conf/image-fitimage.conf b/meta/conf/image-fitimage.conf
+> index a06d30e494..eaf9120bbb 100644
+> --- a/meta/conf/image-fitimage.conf
+> +++ b/meta/conf/image-fitimage.conf
+> @@ -91,7 +91,7 @@ FIT_UBOOT_ENV ?= ""
+>  # Example:
+>  #   FIT_LOADABLES = "atf"
+>  #   FIT_LOADABLE_FILENAME[atf] = "bl31.bin"
+> -#   FIT_LOADABLE_COMPRESSSION[atf] = "none"
+> +#   FIT_LOADABLE_COMPRESSION[atf] = "none"
+>  #   FIT_LOADABLE_DESCRIPTION[atf] = "TF-A firmware image"
+>  #   FIT_LOADABLE_TYPE[atf] = "tfa-bl31"
+>  #   FIT_LOADABLE_ARCH[atf] = "arm64"
+> -- 
+> 2.43.0
+> 
+
+Reviewed-by: Francesco Valla <francesco@valla.it>
+
+Regards,
+Francesco
 
