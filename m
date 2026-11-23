@@ -1,151 +1,199 @@
-Received: from mx1.emlix.com (mx1.emlix.com [178.63.209.131])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.52341.1795435709955903057
+Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.64])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.52711.1795436311693035881
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Nov 2026 04:08:30 -0800
+ Mon, 23 Nov 2026 04:18:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@emlix.com header.s=20250930 header.b=W1Z8aIFQ;
- spf=pass (domain: emlix.com, ip: 178.63.209.131, mailfrom: joerg.vehlow@emlix.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emlix.com;
-	s=20250930; t=1795435707;
-	bh=Pg7USrhcz/oDfNRxDDJQQCG/eCRykAp+H5/nQoolA2A=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=W1Z8aIFQM/iZVq8eOixVmqQG8Bt/yoBEawSZxCIz0FK5gWog5tj3yqObcp4h24WRq
-	 zSIpVTW1B01FCzioSbrZdIQ0XhLsD4Od+caeJznHkfNJUpe22Pl5ecBbFPHqinUw4W
-	 U47lMP6l2tiKb0I+ElVfMhJJJ1486TB/V+Y+RtJzF4E7uMuGCNYUypGjeUoFsb8gmk
-	 ZQ9gkU83fSh4KsPthogkaGJkYo8R7Qz9qhdvbaE2WZHWIEJmS3Qk9cxU14M43eqUCO
-	 YJ9qC3lGovEhBCFBx8K8t8LkgQg8QEHJzwXn4NviHjrT5zXIyevoa1ESogE+gAw3eG
-	 1LoWg/TP5w4gg==
-Received: from mailer.emlix.com (p5098be52.dip0.t-ipconnect.de [80.152.190.82])
-	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by mx1.emlix.com (Postfix) with ESMTPS id 7C1345F7AC;
-	Mon, 23 Nov 2026 13:08:27 +0100 (CET)
-Message-ID: <75f4cab0-7f18-4a44-8ea6-3ec4bffbc38f@emlix.com>
-Date: Mon, 23 Nov 2026 13:08:26 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] staging: allow special handling of
- initial-recipes also for native
-To: Richard Purdie <richard.purdie@linuxfoundation.org>,
- openembedded-core@lists.openembedded.org
-References: <20261119055929.3286725-1-joerg.vehlow@emlix.com>
- <a16193f4de16a23bd5f89ec3ece8ee96de8a8ffa.camel@linuxfoundation.org>
- <dc59b7a4-34c2-43e8-a22a-21737b3eade4@emlix.com>
- <31494e4081f6b926ca92176156c33d1ac36f62b0.camel@linuxfoundation.org>
+ dkim=pass header.i=@est.tech header.s=selector1 header.b=YmcH3rkI;
+ spf=pass (domain: est.tech, ip: 40.107.162.64, mailfrom: adarsh.jagadish.kamini@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rjq1wLkteFOoOrlfaqmzB+rFuT+0PKX4r/80xpWKnUujsXWWKVYdvC0ZRzAiSgdfSNa1kl0rYiJxBsjzH1vKPE4WCGeTjm6ug249g/aans3NJB3w552Au6d3QvpnhyEjlOl30YKhR9FAKjvn/RWVL8jpEIp2t0579/on1yubf9E1Ic0OPK+1HFSbLPWsKDMZBW4cRPkvcwORC+Q6ywlVooHpgKNWUbX8yokxCaambofdZHTStMW82NLwaXNgMMdadTdfmsRSxLfnFq2Ze2ZL4qNpEh3OoQmnd+jGPA9hl0Gcfcwh/bbjNL3xh3RwpOEjtkXcAtQH9U9xcpXBiCqeug==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=poCEHguF8T2i/0EVDpu5KGLBZsxLO0elNI366jSGJTU=;
+ b=of9sC3zz+gafHxSvDytId+iPGJS2rgoNUBum3nAFoEs7Bnpr2yS7ok8bMKthY0R10A0eYLPyXrkU6YjT7JilpxUIN1lZ5XSWRRtoK5wUTwaDYcU3KobgEWwaaB4ZprsowAX89UgYlcU10XV/ogvtVUYKmJm7VhurKMU5sH4dg6ksgcisdv0ONDEcEmyz4on7pbTcYKQObxDbWxVPJ39yxpuqiCAeo6ymZfoMC327/CZ5WNQCUcLHTYJ2cGKJ46AKNOA/S85cZTLNyL/hh9P1Aux45RPXy97kAdppBhbkrXtfDFNWAaGxBus3v8YvVGz/OZ/U1rUi2+NJ9O/vYtIsnQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=poCEHguF8T2i/0EVDpu5KGLBZsxLO0elNI366jSGJTU=;
+ b=YmcH3rkIM4vuIdu12I1w2yqHQAGpMLJpQXOu9Dm42RxJqu5vhzLw4UqEiINY6h5aBvkBlsiGnpenJdAhw2cdIb3O0gV62NJDnWkItle9XEN0esAzMCvcta/xpXS4q8RjSyPMkS75KmfwEz+AeMNkdnQBe7ytPDZUynPTdgOtxyniG7QB/sOBpjJ95WOSaRb3upMpcSQen1QRyMkt/tYp3VsuwrUAZSxjP3q8m8cRFLtESF9JlD4PTAN2liRr5T6e9LcAyoAyBwt42jYoYnueDYNricaW96NIl0oeGlSH86AD9p2DRHg3x7rpUV/L18v5nv1nF6jdZzJwhxhnvhc8eg==
+Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:396::9)
+ by VI0P189MB2685.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:215::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.13; Mon, 23 Nov
+ 2026 12:18:26 +0000
+Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
+ ([fe80::f147:85e5:34de:eeff]) by AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
+ ([fe80::f147:85e5:34de:eeff%5]) with mapi id 15.21.0639.012; Mon, 23 Nov 2026
+ 12:18:26 +0000
+From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+To: Paul Barker <paul@pbarker.dev>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] lib/oe/gpg_sign.py: drop unsupported gpg-agent argument
+ passing
+Thread-Topic: [PATCH] lib/oe/gpg_sign.py: drop unsupported gpg-agent argument
+ passing
+Thread-Index: AQHdceUCKkAfj4Hw60ugFkgBBEgmCbc2336AgATFipE=
+Date: Mon, 23 Nov 2026 12:18:26 +0000
+Message-ID: <AS8P189MB1672130AB40C51FD4046B1B1B3452@AS8P189MB1672.EURP189.PROD.OUTLOOK.COM>
+References: <20261111140027.69866-1-adarsh.jagadish.kamini@est.tech>
+ <DN000LWACEB0.1I4HB0QGTWT1X@pbarker.dev>
+In-Reply-To: <DN000LWACEB0.1I4HB0QGTWT1X@pbarker.dev>
+Accept-Language: en-US
 Content-Language: en-US
-From: =?UTF-8?Q?J=C3=B6rg_Vehlow?= <joerg.vehlow@emlix.com>
-In-Reply-To: <31494e4081f6b926ca92176156c33d1ac36f62b0.camel@linuxfoundation.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-Virus-Scanned: clamav-milter 1.4.6 at mx1.emlix.com
-X-Virus-Status: Clean
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS8P189MB1672:EE_|VI0P189MB2685:EE_
+x-ms-office365-filtering-correlation-id: 5926dbf5-0bc8-4ffd-3222-08df495be055
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|23010399003|366016|38070700021|10067099003|56012099006|11063799006|4143699003|261026121527099003|261026140227099003|261028144727099003|261022105027099003|261022075727099003|261021123027099003|261021121427099003|261102123227099003|261009223027099003|18002099003|22082099003|6133799003|3023799007;
+x-microsoft-antispam-message-info: 8mOmKrhVfSwsSALgPtoPilt4IXBQ7heFxTEp2fky/Xiw7DJAyTpr3ejBe/D84RFL2q+cPM7eDwp5l17gMLsFqHiDx7SAPB/mQgE4PgKrAG+1mjOcUrpuqScKIWMwnS08SqqbY1EFHuaR7/dL19G8w59XWNMLRu0HF6a3nkQ7Flw0KMXJk7/9jm4Not+qHwxZsolx61imgMD8PuUJyyChOfPFbi0CDW89/M0jG9nwcu1LoZtWsd3dS85Pmxz2NARYPdjMMQJhltOX6uf0DyGnKYCH57ogb3w4yP8NIVNtdCsRqqUatp+OOY3Be2yiKr5fwqsFW9NkVnW30YHIIciJo+bT5YK76KafMzzRXUUeHBggB4lBrUQKdwaGNExhztPaFOUHW9c07OFUIC6uqtxeQf2kJuN85b9hCaCtDtA1KV22U7ECpjMbpHvFvQygAgUgj+qHNtm/CrUHhKDCaet0XmLIr3hO+9k98Fby9pAVHIjHpPSXdryj05m8s9ZuO25pTT2heyWhoetU5wzvi4oIGhzyAOzOsbYROLGzb0MVrW7OzVC48cjQhmKeVJfj08AqRh3kmxFam0wrSjeQ2NMd6/sYHe1YSV2McK3fCu7OgiZVha8v6pIXijczPJ/GQidDGkDEXer1n0d7Veri/p8Grd+O19fxbqkeMn/1YPGLPXUPwjbSofKelT5MuvRdhriBxTATXCNARLyvYRIr5Nu2xQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P189MB1672.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(366016)(38070700021)(10067099003)(56012099006)(11063799006)(4143699003)(261026121527099003)(261026140227099003)(261028144727099003)(261022105027099003)(261022075727099003)(261021123027099003)(261021121427099003)(261102123227099003)(261009223027099003)(18002099003)(22082099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?DDE6ih5WFq9wjXT8bocvkNOzMMOGXWmWjHAcBaQoGaI+And5uUtOcUW2OZfx?=
+ =?us-ascii?Q?5io5RTqP1hxKPw80n7wneLVQSs8/u9f6gTMZiDkGtaw0EHNYdG3a5gzmywzL?=
+ =?us-ascii?Q?/1j9kwNxLwsqHOTIdbkIOaQbu1kEpf7Oa2Tqyt0hKv0f6reKcP+gmvVP/AnV?=
+ =?us-ascii?Q?LkQ2rZObA8wSUhYclk/iy6MyO9w66vKcE9Yxf9KV3hYBavMJJVzX3tvaAIhI?=
+ =?us-ascii?Q?f5jSwS08uPij4Ls6nrju3ehf9qkn4VDt1XK1+HZjphj9kTaPLoMZAH1oAhAi?=
+ =?us-ascii?Q?oYMDdKE8cy9OaB7R3V9q+a6EY+vRCXYQikK61twnBLTPkrZH3Owxa08QF+Ie?=
+ =?us-ascii?Q?78+f9VeF81veNkho3T/xi7JN8p3BwjX4NWy+wyhz9qWGqFW4o6gvaQJzzqX4?=
+ =?us-ascii?Q?WZPoRJqFv8WzZDampPPr+Qd42U2W2vI3OnRbps6AveZuP0eYHBhoNZ2Clu2s?=
+ =?us-ascii?Q?8hajl4nRgeqnb6m0blZzzqFh6CJc8eIYl2ZuLwHhroFLXC4iH5BGv1swYshz?=
+ =?us-ascii?Q?/9ORR+utLOCuhdCP/WcnqIeJ8yrSEwCRDuHvRoDyj371NP2iCYpwhjLxMIF0?=
+ =?us-ascii?Q?/rZCQjtDAMPjET3EWfa8HVIXIn8U9wHqA6ORpd648dig+Uii+UrwGB/OXUfL?=
+ =?us-ascii?Q?Kvso3SZJ+XvL5IzDE0cJO7odTzULDE8rCRy8HgKYllUuKWCIq0/jrsXQtoVK?=
+ =?us-ascii?Q?Qq/xlDniAhT7Z6hbL5j9S671jnNXTwVygDdsV4PyRhx3tLKmzoQE8LsnRd6r?=
+ =?us-ascii?Q?3xsYmJoWqw2ZR+wuK3OCFoU9Bome92YVWudEj6gVYU8yqcVLK8VrrEfkAvs3?=
+ =?us-ascii?Q?l0AObE99HTy6V3wDeEnL75Wvet1Gg780iGHIcnm4FJiHduUPuFZ2mHSEwwOs?=
+ =?us-ascii?Q?9iQSMKvHsKaAX7dALeE5Xzh1JYMdT3zeA9WgG0SgHqil0u/kSMSN8C0rFoVm?=
+ =?us-ascii?Q?Zy50nvw3et387tWBpQmYf+dPRkMGlVsC1D5iRoSbrJst+SFgERhZBrYZQl+N?=
+ =?us-ascii?Q?GPeSL6ysPT0wOzss9kmkMjpT8kS4NkfXaFX0ugfxJHblGe367eIjCQOdFlrG?=
+ =?us-ascii?Q?7ceCflBEpFs8OS0PPC/vc8wIzHJGi5ezwzPmZxLN9nQtmSL9eO7CxRFuCSgT?=
+ =?us-ascii?Q?+yeR2qVxsq85FVCae9SS5xTm5XbYAZp2Xh8D0nYTa4IH4DrTkRpW9RMb03xo?=
+ =?us-ascii?Q?ENjZvAfmgRaG4wqtsTucrAakKDsvwPtg21Wnqd4mapj1wh8aEJncS2BtcYY1?=
+ =?us-ascii?Q?rfyfrRj+Yd1wn5pXEJ/Q57+zie/xnoKbi5kJmkWr6N1Hb78CxBhQkJ2/YBoB?=
+ =?us-ascii?Q?nOC0vEGCNYbyMRcoYlJmCTO51m6nSKnLfm/VhcWxeO+J72uTsuyCoVYrTTvf?=
+ =?us-ascii?Q?emKzalMqn89DIuUPmSnqNkcM0YBFZgbxEmv5yhXLgMJLVjia/gf0zJKHTsGB?=
+ =?us-ascii?Q?n8DsnFQqqhxaxX5rA7MiwTJ8SaudZWlnhZ8vdSzTBwJ7KqkfQ3LlFKrYaw/q?=
+ =?us-ascii?Q?0gaIBtjhdzvV7/kOU/BB3xSGYSbbBaQaehEm5Fd0c9sjzp6wMqp7ILXGCVJn?=
+ =?us-ascii?Q?3wZdwjoYfLAnaYT/DivAnp4Bf4Kx6edfYhTqDOT/NiGxzKLJekiwWL2i/rOO?=
+ =?us-ascii?Q?1x8poSdrJi8sCQruHlfk1AoraALR1Xeu47CIMjDK+9dFJ6FFimCghnrml/HY?=
+ =?us-ascii?Q?Q97OawShXoTEOooGOxKHLZ4QktKeC5+/+yAFgte21V6mbIaFaEZj5DvELvdZ?=
+ =?us-ascii?Q?NB1Zfox3uQ=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5926dbf5-0bc8-4ffd-3222-08df495be055
+X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Nov 2026 12:18:26.4359
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 3ae/0/hW5oX5HMgKY4Zau9Eco7uRDuFUeHeIFXAwFdPyw9ZzSrxWS9n2Ms+yUvRAYd9P3v3EOPnrzDwcdPfSAUm/ndsFtRxJl/RklO1QJzs=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0P189MB2685
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 12:08:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250908
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 12:18:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250909
 
+Hi,
+Thanks for the feedback Paul, I am measuring the performance impact with us=
+ing mutex for gpg signing process. I also plan to evaluate the alternatives=
+. I will get back when I have an answer.
 
+Thanks!
+Adarsh
 
-On 23.11.2026 12:52, Richard Purdie wrote:
-> On Mon, 2026-11-23 at 12:46 +0100, J=C3=B6rg Vehlow wrote:
->> On 23.11.2026 12:39, Richard Purdie wrote:
->>> On Thu, 2026-11-19 at 06:59 +0100, Joerg Vehlow via openembedded-core=
- wrote:
->>>> Sometimes a native recipe also needs bootstrapping (e.g. for ada,
->>>> rust or go)
->>>> -inital-native recipes are already handled different in bitbake.conf
->>>> (both suffixes are stripped).
->>>> During staging for the esdk these packages should also not be staged
->>>> in the sysroot as they might conflict like libgcc-initial does.
->>>
->>> initial recipes are target/nativesdk only as far as I know. Where are
->>> you seeing these -initial-native recipes? Our rust build process
->>> doesn't have them, nor does go as far as I can tell?
->>
->> You are right, there is no recipe that currently produces initial-nati=
-ve
->> packages. But we implemented ada and gprbuild support, which is a bit
->> tricky, because like go and rust it uses ada and gprbuild to bootstrap=
+________________________________________
+From: Paul Barker <paul@pbarker.dev>
+Sent: Friday, November 20, 2026 12:24
+To: Adarsh Jagadish Kamini; openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] lib/oe/gpg_sign.py: drop unsupported gpg-agent argumen=
+t passing
+
+On Wed Nov 11, 2026 at 2:00 PM GMT, Adarsh Jagadish Kamini wrote:
+> Passing auto-expand-secmem through --agent-program relies on GnuPG's
+> unsupported regression test interface. Remove this use and leave agent
+> configuration to the user, since the signing home directory is
+> user-managed and an agent may already be running. Users can enable
+> auto-expand-secmem in gpg-agent.conf to avoid secure-memory exhaustion
+> during parallel signing.
+>
+> Tested with oe-selftest -r signing.
+>
+> [YOCTO #16480]
+>
+> AI-Generated: Uses Kiro (claude-opus-5.5)
+> Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+> ---
+>  meta/lib/oe/gpg_sign.py | 9 ++-------
+>  1 file changed, 2 insertions(+), 7 deletions(-)
+>
+> diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
+> index ede6186c84..fec6fb27ea 100644
+> --- a/meta/lib/oe/gpg_sign.py
+> +++ b/meta/lib/oe/gpg_sign.py
+> @@ -18,12 +18,7 @@ class LocalSigner(object):
+>          self.gpg_bin =3D d.getVar('GPG_BIN') or \
+>                    bb.utils.which(os.getenv('PATH'), 'gpg')
+>          self.gpg_cmd =3D [self.gpg_bin]
+> -        self.gpg_agent_bin =3D bb.utils.which(os.getenv('PATH'), "gpg-ag=
+ent")
+> -        # Without this we see "Cannot allocate memory" errors when runni=
+ng processes in parallel
+> -        # It needs to be set for any gpg command since any agent launche=
+d can stick around in memory
+> -        # and this parameter must be set.
+> -        if self.gpg_agent_bin:
+> -            self.gpg_cmd +=3D ["--agent-program=3D%s|--auto-expand-secme=
+m" % (self.gpg_agent_bin)]
+> +        # Parallel signing may need auto-expand-secmem in gpg-agent.conf=
 .
->> Ada is even more tricky, because it is not possible (at least not
->> simple) to build a cross gcc with ada support using a different gcc
->> version as the host compiler.
->> For that reason we have a recipe, that fetches a prebuilt gcc with ada
->> support (from alire) and uses that to build gcc-cross. By definition t=
-he
->> recipe that fetches the prebuilt gcc is a native package, but also an
->> inital package, hence initial-native.
->> Fro gprbuild something similar applies, an initial version is build
->> using the prebuilt gcc and that initial version then build the real
->> gprbuild used for cross compilation. So we also have a
->> gprbuild-initial-native recipe.
->>
->> For the esdk these native packages are not required and shouldn't be
->> staged, just like other initial-packages.
->>
->> I hope that clarifies the use case, even if it does not apply to what
->> openembedded is currently delivering.
->=20
-> Can you fix the commit message please and perhaps put more of this
-> detail in there?
->=20
-> It is a bit of a red flag when the commit message doesn't really match
-> what the code does, it also can cause problems in the future when
-> people look back at why something was done.
-I totally agree with you here, but fail to see where the mismatch is.
-The commit message states that the special handling for initial is also=20
-applied to initial-native. (ok maybe the verb allow is not the right one)
+>          self.gpg_path =3D d.getVar('GPG_PATH')
+>          self.rpm_bin =3D bb.utils.which(os.getenv('PATH'), "rpmsign")
+>          self.gpg_version =3D self.get_gpg_version()
+> @@ -43,7 +38,7 @@ class LocalSigner(object):
+>          """Sign RPM files"""
+>
+>          cmd =3D self.rpm_bin + " --addsign --define '_gpg_name %s'  " % =
+keyid
+> -        gpg_args =3D '--no-permission-warning --batch --passphrase=3D%s =
+--agent-program=3D%s|--auto-expand-secmem' % (passphrase, self.gpg_agent_bi=
+n)
+> +        gpg_args =3D '--no-permission-warning --batch --passphrase=3D%s'=
+ % passphrase
+>          if self.gpg_version > (2,1,):
+>              gpg_args +=3D ' --pinentry-mode=3Dloopback'
+>          cmd +=3D "--define '_gpg_sign_cmd_extra_args %s' " % gpg_args
 
->=20
-> The other question this leads to, is whether this is a complete fix or
-> are there other changes needed to make "initial" support work better?
-This is the only fix that was required to oe-core that was required to=20
-make bitbake exclude these initial packages from the esdk.>
-> I really want to see the complete picture of how this is working before
-> we commit to supporting it.
-I get that, but currently I cannot provide the recipes, they are loosely=20
-based in meta-adacore, but instead of using a prebuilt gprbuild they=20
-build gprbuild in a two step process. Maybe that is what we can focus on=20
-and I could try to upload a version of meta-adacore with these recipes=20
-for you if you'd like to understand the use case.
+Hi Adarsh,
 
-But essentially: gprbuild is built in a two step process, first it is=20
-build using gnat only (gprbuild-initial-native) and then it is built=20
-again using the first version as the build tool. Since gprbuild is a=20
-build tool (comparable to cmake), it must be a native recipe. The=20
-nativesdk variant and the target variant can then be built from the=20
-"normal" gprbuild-native.
-But gprbuild-initial-native is never needed in the esdk and it uses the=20
-same paths as gprbuild-native (just for simplicity) and so it has=20
-collisions, if both are installed at the same time.
-Similar collisions would happen, if libgcc-initial and libgcc were=20
-installed at the same time - I guess that is the reason why the initial=20
-recipes were excluded from the esdk.
-Since the mechanism already exists and is simply not applied for=20
-initial-native, I figured this is a "bug" in oe, that could be fixed=20
-without too much background or explaining:
+I think we need to consider other ways to handle this. Dropping the
+argument completely and leaving this up to users risks the user seeing
+"Cannot allocate memory" errors without a clear and obvious explanation
+of what to do to fix them.
 
-Currently target and nativesdk packages, that end in -initial are not=20
-installed into the esdk, but native packages are, that feels like an=20
-inconsistency, that is fixed by this patch. There is not really a lot=20
-more to it.
+Is there any way to detect if the running gpg-agent has the
+auto-expand-secmem option enabled?
 
+If we can't make this safe by default, perhaps we need to use a mutex so
+that gpg signing processes run one at a time. If that has a significant
+performance impact, we can provide an option to disable the mutex with
+instructions on what the user needs to do to enable auto-expand-secmem.
 
->=20
-> Cheers,
->=20
-> Richard
+I'm also open to other suggestions on how to handle this.
 
---=20
-emlix GmbH
-Headquarters: Berliner Str. 12, 37073 G=C3=B6ttingen, Germany
-Phone +49 (0)551 30664-0, e-mail info@emlix.com
-District Court of G=C3=B6ttingen, Registry Number HR B 3160
-Managing Directors: Heike Jordan, Dr. Uwe Kracke
-VAT ID No. DE 205 198 055
-Office Berlin: Panoramastr. 1, 10178 Berlin, Germany
-Office Bonn: Bachstr. 6, 53115 Bonn, Germany
-Office M=C3=BCnchen: Am Knie 16, 81241 M=C3=BCnchen, Germany
-http://www.emlix.com
+Thanks,
 
-emlix - your embedded Linux partner
+--
+Paul Barker
 
