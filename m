@@ -1,132 +1,133 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.54721.1795443365823713297
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.55124.1795444539956020015
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Nov 2026 06:16:06 -0800
+ Mon, 23 Nov 2026 06:35:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=oBFrrSw0;
- spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-49d05d51553so24078275e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 06:16:05 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=gwvjXwBP;
+ spf=pass (domain: smile.fr, ip: 209.85.221.52, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-4a42b34e930so2964738f8f.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 06:35:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795443364; x=1796048164; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=yQN/h08TfEZADulDJ4UIDnbvg2dqMjjIgzsGuaeQXQI=;
-        b=oBFrrSw0dwfo1esjK2nyNHC1husxW3dz81em2/dTFmW3FRWNRGVNOB8Rc2PG6Gibdu
-         2byma+xrPhaPhF+6Rau2J2O3P4KuVxoF23kjqVU5X48jWfoog5rouzpaJAB1dJ9ylmqy
-         cqOauZC0bZM2ZVXJYNTlFVd0zIovF+fP8X1dwlH0Ld4Iy7ivsZH+kE5x4VRVFaxGDgQj
-         yp3gxiuGZWhJWd1xnm/M1IiT6M6W+Uy1g7wgSvkh525tu9dj/mooAD42Kvo5u64+/gag
-         lhHLts6ip1b9uIjXDyBZTcA+eS7+1BWnnCL/q5tmIzTdSLwJPVchzsLRjp8NS/awlSRe
-         gHxg==
+        d=smile.fr; s=google2; t=1795444538; x=1796049338; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=GKEQ/bVg0tExvBBQzH3RCMblAhpvzoYi0flzpZKFx70=;
+        b=gwvjXwBP8uyagKBkGRG/73KusEpe/40t9kEY7iAExaZwSaDkamUb9CXiqTQ4P4BICb
+         QXWjCid8E1w9Jqe4Te++gKZI5Obii3I0/O7IU9zslDOw5USeFWjXOWNmJawxDZiAr8tp
+         X+65u0mKdGMVettloGbHKFAX4MkXbT6pJ72150rmoAcMDV5pJlgDby1QTbNHIqaa2dtm
+         gujUES7SpMdWpNUaqFNuwPLW/NUCwE6Ti9RJ8PxH++sKX6zl9rJ0mt859I3xSa36FYlp
+         WvPXNFYSxyN5d6rBanvOEor+HCZNU2H1jBZJoL0EbSOhUz6QtRI95n5XqozsGtPRv+S7
+         1y3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795443364; x=1796048164;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=yQN/h08TfEZADulDJ4UIDnbvg2dqMjjIgzsGuaeQXQI=;
-        b=wevKYud6oR6d2N7e/c72nfqTxogY4N1B6SIZUwDmQbZn9/eOm3NRynb5OwimdMCWWB
-         8ADTDzjazj4VllhQOtYlO3Vhxa0VC/2VVYtAQDh+fGBtp5KLqCANYmtDF84uVUv0uq9X
-         Ny4PiUcRRoxNRPcWUIlv2fbECaC1NopSywzptLf+hbp7U+2Dz+/2GaiyKCDVNFNDuCM1
-         M+DxGkCa+cGKaiCHgNBo/jniS4LTLjUVw01BqiW3LSaFB2SYx7JyaDIDalSqGgiXmwgS
-         iNafM2Sl2TzEgXLDUQ1odjv8WZc/LXHapQUUwNNYargYMOtrZakHILe3CItePA88dH1t
-         tBxg==
-X-Forwarded-Encrypted: i=1; AL+hErEE57g2rmPziv+e4RfI92KuKKizDC3OS9aB92TLeX13z5e64W3LNheIaH+/OUZf7WnetmqZRTMkzfHR/tLjDGeGJQ==@lists.openembedded.org
-X-Gm-Message-State: APuU4Z/diO/0GVpM6OvDIM0h4sb/l3d6pU02wuR5tryZJ3xO3mS2ExhM
-	yVqn7nwakS3TY+xmOkatusZFfhZPItqnSrnoNqyddaPyPxkFkeZwxThIGTAyp7vPD8w=
-X-Gm-Gg: AZFdTZfxU/jHNw1UUtSuwbvvQ8vMDDTEhsaHtdN1dHsszWD3ZrMZFZAktoNvdVJROjl
-	cSv2ltUNvT2LGyXJoLZUJShl7DPaNlL0AB6eOsYv080A/WpzoKVwKVhiGUbti55u5n6lcigufMQ
-	Wl3UtB43bV0UOP9LTmYp1nENS7vAfpK8z6IiHE7/FmqZSeU1NWiQqGn2FQHDyJ5WmWtlw2BBGHz
-	CoB4EpqSNGWa6WM0409rDqXI2EMfp4FPr1bx3+hUaJBtaBNA+GVxoVvvMnR7eqe3jqfrbJBPwxd
-	XT2N38iociIm2bMJjHelleVU8PfeE37mhsv/iz3DGp0F/PAcYCN6Z2IF7w0LvPcvejKPHGBVAf0
-	aaLMC2OTY4QlIoCLutxH81tZoAanBOgDXdoip41NZ8HEpzTWh1EzdxVt1PkPpAUkXpSg1zncxMr
-	QwG7ZkHiOW62LoiRHIYCPtjm4tJCA5VPPeSwbhA0VIgq1FWsaiOSo4eWf6R5MHJCGjfgk8ByuUe
-	w34yuoB7HLzcVd4q//sktS5XJZZ25mMt5pQP/hzkfAex0BCCU+a0CkCE+wt9CduAZHNApgfNZnT
-	y7VOzhO9BYteCz4TLD1JzADd9wUwd2sdoFfE0YD/Y56VCNdvfRri1XZpW6W5fFa/xF9SiNqKwJl
-	EKfI3W7q3OngC2njwy+XlPEqik6E7wV6ZCjXD
-X-Received: by 2002:a05:600c:1d09:b0:4bb:73d5:ab33 with SMTP id 5b1f17b1804b1-4bb88816acemr258254505e9.22.1795443363799;
-        Mon, 23 Nov 2026 06:16:03 -0800 (PST)
+        d=1e100.net; s=20260707; t=1795444538; x=1796049338;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=GKEQ/bVg0tExvBBQzH3RCMblAhpvzoYi0flzpZKFx70=;
+        b=aLN0Yr+GbHU0lYzIKarYESreZJLV4Wamjq278QMgh8bVNRM+yEsj0V1U6lvkCaoI8N
+         hZtP/nZMMoxWFoA0evHvqWlYHG0uN+UubbNcUU/tEO1I/kJQmY2i9ZaVxNsgiW8nDuwt
+         2elffZcLBsJk7AvasmAym2CQc698NQXk/ZGV+dHTzEUoRfYnBi3Z+bFCEoxYSXPZ1rze
+         /mI6YrQoRL/aickALKE0BsWm62X3CoXcemLohLM2/EXgwZNhCTEVYHY1eKXdVNuiboLs
+         FNjCJZIivEbUIx4VihL1tqc0D+QmzqtL3apMpB4TdbqD0lX4OEC7au/xVlxl2S5d7b9O
+         ValQ==
+X-Forwarded-Encrypted: i=1; AL+hErHUk5S3WaMKwjO8aRli2K7vc2iPkwxi8ce0a65fy3vzOPbkCRexUGp1zMdM1N5VMFtyChU3DuLdEXCQh1rQ5a2+xQ==@lists.openembedded.org
+X-Gm-Message-State: APuU4Z8Lv2TnpwyQBDcIPbpoi1UExRWIGzKZt0mDGYyldGUCzoE9GHBk
+	SYl2uQ4h4dYVlmGoRnXRAvjLE8TOuKRj7EPM4+4qDl6bmL1jpPA8wo2HgpaOIMmyGvlbs6spxho
+	ZpMy92zg=
+X-Gm-Gg: AZFdTZcMZTinVvN0IAJSOl0FSU2LWIP6mQV45b3trHH9lICbFnfk/L/tlrsrRRW5hXW
+	fa4XhXAY4Cmd6llze0M2/1tGuA/uTIEp2DJTrRGuQVUDuJO2/q+8x2hnXMUqu/ubSbAOWzahOnn
+	+yU0nQpgJTk8MtG7+tnjfw0Bm1E9H92xSQSLEF/fkesg1s5z994Xl/EE83/rGWJn79/GirxOuvE
+	ysl9NZYBYO3ehw96u0el+39DESgmRtX3J/BO0v49IaEOoT/vnnqB5LR6fA23RME5ktFAr7Qbetv
+	uEFBo3YohgTgJ/dbbrq/byK17EIaCHDSXnd8/cWH7NWLHpx8EyVQ9MQZSzio4MtQvDpStEoxS0/
+	PUB3b/ONUqhKL2AaYMjHQ3VGjW5Jlp2gFvOg6Fibaz+QKvrMN1vJCojlI32qPsS7Aunj8T7tGN+
+	k7iaszOS0e20mOst9KVYoCiJCTAnVXaAaGq/oJipNUAIfcfczE8nuKuN29IAPJ5tGSgUmjKTMW6
+	Xvffijn4elxqsB6Y7qXBHmbB10bslALFm/kTwmwPoL/yp5MSinB7Wgohbei9XgGvV1sHUqSVgu6
+	VFfMefDffFdi1jsaWdGYTPL+Mrbd0Kyq/e25rNqut8AiX39j5nhl6Nv145OZWhA/52MMEO6ryt0
+	XqDPyWtyyl7mqTg==
+X-Received: by 2002:a05:6000:298d:10b0:492:9630:6a7f with SMTP id ffacd0b85a97d-4abb5db7829mr15953844f8f.55.1795444538072;
+        Mon, 23 Nov 2026 06:35:38 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab69bf62f7sm24376737f8f.13.2026.11.23.06.16.03
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4b34e9c3ffesm6250825f8f.19.2026.11.23.06.35.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Nov 2026 06:16:03 -0800 (PST)
+        Mon, 23 Nov 2026 06:35:37 -0800 (PST)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 23 Nov 2026 15:16:03 +0100
-Message-Id: <DN2NJYBRINEC.1DFZUD8E4B7GN@smile.fr>
-Subject: Re: [OE-core] [blacksail][PATCH] alsa-lib: patch CVE-2026-96674 and
- CVE-2026-96675
+Date: Mon, 23 Nov 2026 15:35:37 +0100
+Message-Id: <DN2NYXS7DWXP.6I9DV9LMCYLU@smile.fr>
+Subject: Re: [scarthgap][PATCH 2/3] sqlite3: fix CVE-2026-119374
 From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <peter.marko@siemens.com>, <openembedded-core@lists.openembedded.org>
+Cc: <thomas.petazzoni@bootlin.com>
+To: =?utf-8?b?Sm/Do28gTWFyY29zIENvc3RhIChTY2huZWlkZXIgRWxlY3RyaWMp?=
+ <joaomarcos.costa@bootlin.com>, <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
-References: <20261104224816.2433428-1-peter.marko@siemens.com>
-In-Reply-To: <20261104224816.2433428-1-peter.marko@siemens.com>
+References: <20261105141827.2142719-1-joaomarcos.costa@bootlin.com>
+ <20261105141827.2142719-3-joaomarcos.costa@bootlin.com>
+In-Reply-To: <20261105141827.2142719-3-joaomarcos.costa@bootlin.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 14:16:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250921
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 14:35:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250922
 
-On Wed Nov 4, 2026 at 11:48 PM CET, Peter Marko via openembedded-core wrote=
-:
-> From: Prasanth R <ragaprasanth@gmail.com>
+On Thu Nov 5, 2026 at 3:18 PM CET, Jo=C3=A3o Marcos Costa (Schneider Electr=
+ic) wrote:
+> This vulnerability, marked as High [1], was fixed upstream [2] since
+> 3.54.0.
 >
-> Backport the two upstream fixes:
-> - CVE-2026-96674 & CVE-2026-96675
+> Backport the fix to sqlite v3.45.3.
 >
-> Signed-off-by: Prasanth R <prasanth.r@lineo.co.jp>
-> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (From OE-Core rev: fbe75cba76c36924d7569bafc5f2d4f037c429c4)
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> Some function/macro definitions are required to compile the backported
+> code, and they are provided in the *-pre.patch.
+>
+> [1] https://nvd.nist.gov/vuln/detail/cve-2026-119374
+> [2] https://github.com/sqlite/sqlite/commit/d9de6eedbe918c074c7556400fa21=
+df5960704d9
+>
+> Signed-off-by: Jo=C3=A3o Marcos Costa (Schneider Electric) <joaomarcos.co=
+sta@bootlin.com>
 > ---
->  .../alsa/alsa-lib/CVE-2026-96674.patch        | 68 +++++++++++++++++++
->  .../alsa/alsa-lib/CVE-2026-96675.patch        | 45 ++++++++++++
->  .../alsa/alsa-lib_1.2.16.1.bb                 |  2 +
->  3 files changed, 115 insertions(+)
->  create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96674.=
-patch
->  create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96675.=
-patch
+>  .../sqlite/sqlite3/CVE-2026-119374-pre.patch  | 73 +++++++++++++++++++
+>  .../sqlite/sqlite3/CVE-2026-119374.patch      | 67 +++++++++++++++++
+>  meta/recipes-support/sqlite/sqlite3_3.45.3.bb |  2 +
+>  3 files changed, 142 insertions(+)
+>  create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119374-p=
+re.patch
+>  create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119374.p=
+atch
 >
-> diff --git a/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96674.patch b=
-/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96674.patch
+> diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2026-119374-pre.patc=
+h b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119374-pre.patch
 > new file mode 100644
-> index 0000000000..1060723bf9
+> index 0000000000..1192cef006
 > --- /dev/null
-> +++ b/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-96674.patch
-> @@ -0,0 +1,68 @@
-> +From f8253a68baf9a5f57cdff1cd178920d13e5beb2b Mon Sep 17 00:00:00 2001
-> +From: Harsh Raj Singhania <raj.harshraut@gmail.com>
-> +Date: Thu, 1 Oct 2026 00:28:15 +0530
-> +Subject: [PATCH] topology: fix uint32_t overflow in control decoder size
-> + checks
+> +++ b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119374-pre.patch
+> @@ -0,0 +1,73 @@
+> +From 315df7b9dc2ac2abc55c3636439fd532e3090ef6 Mon Sep 17 00:00:00 2001
+> +From: =3D?UTF-8?q?Jo=3DC3=3DA3o=3D20Marcos=3D20Costa?=3D <joaomarcos.cos=
+ta@bootlin.com>
+> +Date: Thu, 5 Nov 2026 11:48:59 +0100
+> +Subject: [PATCH] sqlite3.c: add fts5IndexCorrupt* and FTS5_CORRUPT_* hel=
+pers
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=3DUTF-8
+> +Content-Transfer-Encoding: 8bit
 > +
-> +size2 =3D x->size + x->priv.size was computed in 32-bit arithmetic and c=
-ould
-> +wrap on a 64-bit host, bypassing the subsequent bounds check. Pre-check
-> +for overflow then cast to size_t. Affects tplg_decode_control_mixer,
-> +tplg_decode_control_enum, and tplg_decode_control_bytes.
+> +These functions/macros come from multiple upstream commits, and are requ=
+ired by
+> +the backport for CVE-2026-119374.
 > +
-> +Closes: https://github.com/alsa-project/alsa-lib/pull/527
-> +Signed-off-by: Harsh Raj Singhania <raj.harshraut@gmail.com>
-> +Signed-off-by: Takashi Iwai <tiwai@suse.de>
-> +
-> +CVE: CVE-2026-96674
-> +Upstream-Status: Backport [https://github.com/alsa-project/alsa-lib/comm=
-it/f8253a68baf9a5f57cdff1cd178920d13e5beb2b]
-> +Signed-off-by: Prasanth R <prasanth.r@lineo.co.jp>
 
 Hello,
 
-Traceability is not easy on this one:
-https://nvd.nist.gov/vuln/detail/cve-2026-96674 references
-https://github.com/alsa-project/alsa-lib/pull/527 but this returns 404.
+> +Upstream-Status: Backport [multiple changes from v3.54.1]
 
-Commit on the branch reference pull/527 but those 2 are not the only
-ones...
+That is not precise enough. I check that the submitted patches match the
+upstream commit and here I don't have enough info to do it.
 
-Can you help clarify?
+Ideally, backport each commit you need as pre1, pre2, ... with each
+having a "Backport[URL to commit]".
 
 Thanks!
 --=20
