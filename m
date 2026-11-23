@@ -1,122 +1,120 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.52892.1795438138286596825
+Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.53228.1795438552870487204
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Nov 2026 04:48:59 -0800
+ Mon, 23 Nov 2026 04:55:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=AMoDbn4+;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: joaomarcos.costa@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 0141A4E41634
-	for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 12:48:56 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id CAABC601E1;
-	Mon, 23 Nov 2026 12:48:55 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7422011E68F49;
-	Mon, 23 Nov 2026 13:48:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1795438135; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=f21HwshSBQTqKfUqPLLLg2ZTy/hUa2wmY5eTR9HP5Og=;
-	b=AMoDbn4+PawlWv1C77oxvjOb7G+ANFah4vSf2121ZCni1tBPlxS2pdSa+HvuLdxglav5yy
-	tny25YUpUKrIEvzVGmoB46q8/y7I7dOxg9L+NymZ9pFH7L+yhTvjgBSzkHx2og0G/Ggn7a
-	x3OZRFN75XVylBEdoI92dAgkhdS2yszWZrnCHTKRZO7ZMnVBQSVTPfrw/4Fe/EtTfu7qcv
-	WuTJiqeKNUiP0untTDnLMteTJkwVfkJBxF5YWijJyVfHQaU6DkCSSHKjaWiwbnqDv6N2eT
-	LchVYS/3JpwNiC0N2H+Gm1/iUsOgDm+jmlbJBQbFO3akUXKwY3J15I9V+GHQ5g==
-Message-ID: <26a1abae-94e5-4a17-ae9b-127a4ad0b924@bootlin.com>
-Date: Mon, 23 Nov 2026 13:48:52 +0100
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=P7lSwCKw;
+ spf=pass (domain: gmail.com, ip: 209.85.160.175, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-55d30c054dfso37007781cf.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 04:55:52 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795438552; cv=none;
+        d=google.com; s=arc-20260327;
+        b=nW9RORl5zn/QLJnjyUjO3rwajiryJc7IlKYT1A38cx/dtA0zWxO5AvxLi4kG0TP8i4
+         RDEKCWbfrqM+3va6pqn1AChtW4A/Okm51V0d7UFjqiZXzRpCrDJ0PmeA8u6VNjjCexY2
+         orKxbEtw2f4iVW0tAJ+i4bB1z5FU28Yiac0FFN87/SLIHExzxDJ9tj7Rr8CYfpfg+M+C
+         Lb/wD9SXZjzHAJORGfat9p33+e5XhFoE1cLhqOFbLPEfdVTsWYR2qgsvYs3Td+Slfov9
+         bbM28TMTSNOJKxY/Tgm/RSO6ekl+yoB0pJGlqOXapaPtWGj7rLKFF0V43/NNc0j+J1X7
+         /lHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=uOH/RI/hHf2lyHGRMdaDD+pSiQhYykPpSyUcoezAgT4=;
+        fh=26GJkEC7ayR3YlFPXCirp3vLx0oygFdGWmeUc8lCxKI=;
+        b=PhIlh3bnfBrvKYle6dhNYEVSyHdjOuqY/Kpbd83Q4h9wK8lQXN+i+APELf+RVZFqNZ
+         fApK3qImeGUHliOb1yAZ6zDnGjxPKhn1wDlsWHFqm6bVt5+/xgfTYBORASdCOcbpXiv/
+         2MW/x9RamYCE8g5vMrv8x/7eUOWtgWvCBkH0jYgdzIUA+WKsa1zx32RPflPF5LzPfQeH
+         X9rp4xeago6HcVqoDmeCLzFqgIdi94nLArb1NyaQP8Ge7LolNshJBJbL+uqRO0wcOS74
+         /vaXsIT/+OglPGquV8+0DxZmZpCEiXVDdFRClfCS+bPs+lYNjB1Np88BW/fO+AnkgVM5
+         ST5A==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795438552; x=1796043352; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=uOH/RI/hHf2lyHGRMdaDD+pSiQhYykPpSyUcoezAgT4=;
+        b=P7lSwCKw7Yf5OxKLoJDiOhMt092ddljRl9agSuDIRfGzU4Ce4L3ugy4O11uXN/Mkgl
+         +asbfcs4P0KRFoYIYW2zKUtEW0S3NTnufLaa2ijMouT4XuFVcaob55Vf5rSC/PASd2Dk
+         96sLInUXIcdAF2GLOrJcJwgpnXB6HWB67abspx6bYYaGWMI9PiV99qx391Pe2JJKTvzR
+         GVapYA1CEX4+iXgC05aN3Vs49DtD+vQ37JB+bIyUIkbe/GxOe9yfOx4VVI62vjP5VCGF
+         y7IF4mIajCeaWqv3xhHvukl6tk6neBnw4QKbyPvRF44I6ubeGoGFyN6j/iQZx7lBwXy7
+         6nLA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795438552; x=1796043352;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=uOH/RI/hHf2lyHGRMdaDD+pSiQhYykPpSyUcoezAgT4=;
+        b=w9SAE889dfg1KsD1VNdmiasQkId7muRN6XgGx3EEUNNydL0TiqFu+nDKw/PTD/7mKC
+         Dista1TZ22PRa6EXQVlbErAW4G/CWF6/qryyYLDfpM55bM3TDPzTdjT+/pAymWnm7caV
+         Ln/6rrw1y85OEE3uoGPSi0+5hdTat4suS+q1dxzJO2oq/ymnMyOOi+9TXmaHAn0vEvYW
+         MiHnksdRbKQ04MnjJFAZWkEBEUdBeUx39ilyI0bkh/KD4a9Sg+zbyjacYss6QEL+tlND
+         Quw3VfHcJbzQf//TZcQAvbrCnWpnxU5gxg7ZsqHRpB85rjZEkE9BGFdnq13E2FM4JoKB
+         1ukw==
+X-Forwarded-Encrypted: i=1; AL+hErH07xxxIs1JBhj4z9OMV/BgfETG8t8Gony0Bqfd/zoXa2srJUIyoDR+shOJOSGRQ+ab/3u4bEz6ZYWZ0io1/alXrQ==@lists.openembedded.org
+X-Gm-Message-State: APuU4Z/4uXDNa5RL85fwLaGEW3id/ks3TGimx0ILvNOMPcIlmDPdqzMs
+	8VdQOnfDfNs3GuXLD6af7bdwVQdMGbygijceePIMYyLSQLfz6K6JRaX43Elyx3MwmsGJ2z25Faf
+	X/izVYnX57Tb3WA4N6kz+YbT+235XGSQ=
+X-Gm-Gg: AZFdTZdXBz3jiKpfd2JLC+M3eTSCncJ6DpVosW3SNpTbILy91ecjFmPFaci+DvCakGh
+	kNWDE/dkK9uZkILBeQIjiC89vbt1XR2qFVedUJ8cp3UEHAbrI6ObCqgw6iPkwsMTe/k8cpQ7Vbv
+	2mn2sCjojyQuXzYCDNpGG3HnTaBM2744XCv/Mo8W4oZjXK75n5rFi35nrq+6x9cjUgVrMKMmmzm
+	LCAQ4i4NTGORbZic2RlcRSLHS4fgZtWcj7Rie3tDIyuRZbdiSIHgAjQW9RC9z0/2zo4bj3aK6aK
+	lUpCuQFxndDFVe/CbinSXYQlGCp7Ae2lvIMoicvAbcQC6HCkYlvcOSedpK5bqKb0XvwkCGj/hFZ
+	oEnoOa60SN44dZGTR3XdjaA5QbweOTDCOF7rNhSLu0bE4yYPKkoyG40HvOnMsK8Lb95fPZJY=
+X-Received: by 2002:a05:622a:5a1b:b0:55d:2d18:cea9 with SMTP id
+ d75a77b69052e-55d769e11d1mr195652001cf.17.1795438551798; Mon, 23 Nov 2026
+ 04:55:51 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][wrynose][PATCH 3/3] expat: fix CVE-2026-118370
-To: Yoann Congal <yoann.congal@smile.fr>, dkelaiya@cisco.com,
- openembedded-core@lists.openembedded.org
-References: <20261105091719.1622520-1-dkelaiya@cisco.com>
- <20261105091719.1622520-3-dkelaiya@cisco.com>
- <DN2K9NVN0739.1ZT0ITGNS0QQG@smile.fr>
-Content-Language: en-US, fr
-From: Joao Marcos Costa <joaomarcos.costa@bootlin.com>
-Organization: Bootlin
-In-Reply-To: <DN2K9NVN0739.1ZT0ITGNS0QQG@smile.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-Last-TLS-Session-Version: TLSv1.3
-Content-Transfer-Encoding: quoted-printable
+References: <20261117120155.3986876-1-sean@geanix.com> <20261117120155.3986876-3-sean@geanix.com>
+ <DB5PR02MB102130D7248FCFE07318026E7EF7B2@DB5PR02MB10213.eurprd02.prod.outlook.com>
+ <8E72F94E-03F6-432E-B1AB-C4B7B42FD4A3@geanix.com> <DB5PR02MB10213B63F5917CAD5A8070AB4EF7B2@DB5PR02MB10213.eurprd02.prod.outlook.com>
+ <46D00DCD-2239-4A77-B776-EC59838FD31E@geanix.com> <7d835c61-abbc-49b8-82b0-6e1ea9a67f6b@emlix.com>
+ <18990849-B4AB-4C55-A1E9-31602F973614@geanix.com>
+In-Reply-To: <18990849-B4AB-4C55-A1E9-31602F973614@geanix.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Mon, 23 Nov 2026 13:55:39 +0100
+X-Gm-Features: Aa3M54pwJvi0J4PqV8pZaVlrn0iQ64eSq2vFN-hO60WxauKL52Ux75cRckMlCec
+Message-ID: <CANNYZj8ucHDHgjxvxBW_gFnfcRcZqUqDz8r593cpcPRAubWoag@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v2 2/3] license_image: don't apply
+ INCOMPATIBLE_LICENSE to SDK host tools
+To: Sean Nyekjaer <sean@geanix.com>
+Cc: =?UTF-8?B?SsO2cmcgVmVobG93?= <joerg.vehlow@emlix.com>, 
+	peter.kjellerstedt@axis.com, 
+	"openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="00000000000018a3220660f11dfc"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 12:49:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250911
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 12:55:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250912
 
-Hello, all
+--00000000000018a3220660f11dfc
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 11/23/26 12:41 PM, Yoann Congal wrote:
-> On Thu Nov 5, 2026 at 10:17 AM CET, Darsh Kelaiya -X (dkelaiya - E INFO=
-CHIPS PRIVATE LIMITED at Cisco) via openembedded-core wrote:
->> From: Darsh Kelaiya <dkelaiya@cisco.com>
->>
->> Backport the upstream prefix and attribute-index fixes [1,2]
->> identified by the release announcement [3]. Use size_t for storeAtts
->> bookkeeping and reject values that cannot be represented by the
->> existing public int attribute-count interfaces.
->>
->> Include the related tokenizer-count correction [4] so XmlGetAttributes
->> and getAtts do not overflow a signed count or narrow the available
->> attribute capacity before the storeAtts checks. This closes the same
->> large-attribute data path; it corrects a pre-existing issue rather tha=
-n
->> a regression introduced by the first two fixes. Preserve Expat 2.8.3's
->> PTRCALL annotations on the tokenizer callback and implementation.
->>
->> Validated with the full native unit suite, inline undefined-behavior
->> traps and an arithmetic boundary model. A multi-gigabyte attribute
->> payload and BitBake were not run.
->>
->> [1] https://github.com/libexpat/libexpat/commit/621cb2c78b253ee023a86b=
-c91d6ddb048481c04c
->> [2] https://github.com/libexpat/libexpat/commit/1bac53c4fc460a03cd9860=
-f39501c7979f6750ae
->> [3] https://www.openwall.com/lists/oss-security/2026/11/02/6
->> [4] https://github.com/libexpat/libexpat/commit/c67cbc6185d1b494f521f2=
-f46280d5982f50f2cf
->>
->> Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-(...)
+On Mon, 23 Nov 2026 at 11:07, Sean Nyekjaer <sean@geanix.com> wrote:
 
-While I'm not familiar with expat's sources, I get the point of=20
-backporting this extra commit to make sure that getAtts and setAtts will=20
-"agree" upon using the same size_t type.
+> That seems to do what I=E2=80=99m after, cool :)
+>
+> Should we add a note in the documentation?
 
-I don't see, however, any clear statements (e.g., from libexpat=20
-maintainers, NVD, Debian's security tracker, Debian's bug tracker) that=20
-this 3rd patch is directly related to PR#1450 or to CVE-2026-118370.
 
->=20
-> Hello,
->=20
-> If I'm not mistaken, this _p3 never was submitted for master &
-> blacksail. Specifically, it was not part of Jo=C3=A3o's patch:
-> https://patchwork.yoctoproject.org/project/oe-core/patch/20261118103042=
-.1825679-2-joaomarcos.costa@bootlin.com/
-> Note that I've taken this patch in my review branch.
->=20
-> Please submit this _p3 for master/blacksail so I can take this one here=
-.
->=20
-> Jo=C3=A3o (CC'd), do we need this for blacksail?
->=20
-> Thanks,
+Yes please. Can you make a patch?
 
-@Yoan: as per my comment above, I'm not sure p3 is actually mandatory,=20
-and the PR#1463 [1] introducing doesn't mention this CVE or PR#1450 in=20
-any way. There's only a 'enhancement' tag (whatever that means), as=20
-opposed to 'bug' and 'security' at PR#1450.
+Alex
 
-To summarize my POV: not mandatory, but nice to have.
+--00000000000018a3220660f11dfc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-That said, will we apply this same reasoning for all the other CVE fix=20
-backports, or stick with the directly-related patches only?
+<div dir=3D"ltr"><div dir=3D"ltr">On Mon, 23 Nov 2026 at 11:07, Sean Nyekja=
+er &lt;<a href=3D"mailto:sean@geanix.com">sean@geanix.com</a>&gt; wrote:</d=
+iv><div class=3D"gmail_quote gmail_quote_container"><blockquote class=3D"gm=
+ail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,=
+204,204);padding-left:1ex">That seems to do what I=E2=80=99m after, cool :)=
+<br>
+<br>
+Should we add a note in the documentation?</blockquote><div><br></div><div>=
+Yes please. Can you make a patch?</div><div><br></div><div>Alex=C2=A0</div>=
+</div></div>
 
-Please let me know in case that wasn't clear (or helpful!) enough.
-
-[1] https://github.com/libexpat/libexpat/pull/1463
-
---=20
-Best regards,
-Jo=C3=A3o Marcos Costa
-
+--00000000000018a3220660f11dfc--
