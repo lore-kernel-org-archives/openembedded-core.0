@@ -1,141 +1,112 @@
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.11])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.810.1795457344327406928
+Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.840.1795457342842861562
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Nov 2026 10:09:05 -0800
+ Mon, 23 Nov 2026 10:09:02 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=pdoWbeVD;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=pdoWbeVD;
- spf=pass (domain: arm.com, ip: 40.107.130.11, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=FAg87GodP1rZva9bjZNecVyyvzwVJnnAsvPOz5HqKgR40W+HOkVlBU3NwJ7zm6S3Ni7TztJGOyyLnxICR5nizJY9j+bt+k1lizYUrL7N/7NHBbzaHCNcSYyWVw0sGGblJ+7Rx0RFHfGYcV13uwcTVxWPdmWOKxsCQMy49tjnp8WwDz0XmvuSy//PuL4QZaF60wWlw2Amqxg3giRAIVHb8kOXqzgpb4o/I/kglfspIA75KAuOXPy7S67f8RJ1d4V42HhbB8VwGYY6Cq+UQgkK5ecjDFrRv3Qg8qhpkS7tITmvxn8A24Q0mDne42YUwLHzE34iof4NvxFEZcNwagL0hg==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z18xHkPXofpwuDmJdNjA/MLNwWqqSMMLBieUKSj0rkQ=;
- b=OvbgIqiKdpNKQuzbQwTMDYdIb6R5B+3fFyF3EtaTyMnCyb1B8CC7rGt8BVHDohy8i6XNjU6dYcGb3wpvYSrCxEvkdJZFTdMB4Gxg+pMDpqqtV+2/pWkw1BCa3my0FdIMqTLZuFVQ/NiqCgW/iRMZqVcV6G7I48a8d9RKBOIqn5ev+I1VTbYCXHigcg1M55zXc1cHUlink0HYEXY9NL7Giqb6bCAsSvhjkm7SH1iHxHHCYHsMCVcARUyKG64zlLZqCxrp+DGL+lz0U6dfMfhXNgWO5vviOshX0BuB8T+y09hwkz2UoOkdsMwtkQASM5YpcXH+kzbB8YFfFhgIZBaLOg==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=gmail.com smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z18xHkPXofpwuDmJdNjA/MLNwWqqSMMLBieUKSj0rkQ=;
- b=pdoWbeVDUJImZn8BDDj3Jlsrq/hE85q/CmNE3TPkrkghG7EgZUC0pAoqjxiclr9SUrzv0dw+S8U5XSOkOtHFWJVp1CnOiBN6NfW9NW4eajq3F3bHoEWqXctxgaKCb0QjObHEXC0jDxy+YyUU6d9EfEhjt9tqz37mUflKUbCf2xQ=
-Received: from PA7P264CA0139.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:377::15)
- by PR3PR08MB5851.eurprd08.prod.outlook.com (2603:10a6:102:85::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.13; Mon, 23 Nov
- 2026 18:08:58 +0000
-Received: from ZR1PEPF0000E463.eurprd04.prod.outlook.com
- (2603:10a6:102:377::4) by PA7P264CA0139.outlook.office365.com
- (2603:10a6:102:377::15) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.639.14 via Frontend Transport; Mon,
- 23 Nov 2026 18:08:58 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 4.158.2.129) smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- ZR1PEPF0000E463.mail.protection.outlook.com (10.167.241.56) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.639.5
- via Frontend Transport; Mon, 23 Nov 2026 18:08:58 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=sG9Mi4f9Zwzt/MpA0qzZjdherDX+1lpcJbxhvn8/9lI3hkx5r9qOfMmGd5zbPIMz43VUf8M9jfuFYzkGCl896yz/MRKy4aFe22SOxErwfYsUGE1GbGGvWYIDk/0IiAjvWQnbm5X1eaO7ySIgc1dl4gmuv2jhYWBi37WtZnX9uZUmKD+ogmBTekvL3iDAQWrEDYNlWhtBBoeOli2W49bP5zxNQChuL6bYkGKXnXaD2N5MBAEbtDzmaxDE2pGBHJxRcMGIWNbhTGIMPn/plZuOvfjDUYM7+gyoSlLn9YIC8y4PdyRT0AOaMNcKKTEw1NNk8i2XG7nFLkJVQez8ebhYJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=z18xHkPXofpwuDmJdNjA/MLNwWqqSMMLBieUKSj0rkQ=;
- b=rQarO5cNMxkSz/aTwAqkbpX1yW6HJU6n/iwevPIpA50Qd6Y027VzqHCqe4RxUXM1nF0dh6uACBS4eChwsabXTSwjVG3MnWSjdkkJF4vYgBbycDkFhXVAK49wU13oIvWjsLTbVG+rr8Eqzup272YRd7jk+7NY0eVh/HQUCAYzgBElvZJED6FdirD+Pbim0zR+DWxAoMc4g39JzBpgi7442I5D9llKHPaVME5QKmKIMMYTZHKBivwNSUgETCJF5mhM417503zF4lL6W6Om4JB5WiFhoHgHbEGOxYtylr9+8a+1L7SRBIANbAvkJwDKiuCzX7d/7i9xgffno7Riif67vw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=z18xHkPXofpwuDmJdNjA/MLNwWqqSMMLBieUKSj0rkQ=;
- b=pdoWbeVDUJImZn8BDDj3Jlsrq/hE85q/CmNE3TPkrkghG7EgZUC0pAoqjxiclr9SUrzv0dw+S8U5XSOkOtHFWJVp1CnOiBN6NfW9NW4eajq3F3bHoEWqXctxgaKCb0QjObHEXC0jDxy+YyUU6d9EfEhjt9tqz37mUflKUbCf2xQ=
-Received: from AS8PR08MB9410.eurprd08.prod.outlook.com (2603:10a6:20b:5a9::13)
- by AS1PR08MB238936.eurprd08.prod.outlook.com (2603:10a6:20b:6e0::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.14; Mon, 23 Nov
- 2026 18:08:25 +0000
-Received: from AS8PR08MB9410.eurprd08.prod.outlook.com
- ([fe80::1f2c:bae7:a4d3:fefb]) by AS8PR08MB9410.eurprd08.prod.outlook.com
- ([fe80::1f2c:bae7:a4d3:fefb%5]) with mapi id 15.21.0639.011; Mon, 23 Nov 2026
- 18:08:25 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "raj.khem@gmail.com" <raj.khem@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 1/5] libtasn1: Enable linker version script
- explicitly
-Thread-Topic: [OE-core] [PATCH 1/5] libtasn1: Enable linker version script
- explicitly
-Thread-Index: AQHdd2zS3GjB5K1SuE2uelJZ95vTJLc7/F0A
-Date: Mon, 23 Nov 2026 18:08:25 +0000
-Message-ID: <3A5D79A8-C1BD-46AC-A9CB-6ED307184E9E@arm.com>
-References: <20261118145502.3243739-1-khem.raj@oss.qualcomm.com>
-In-Reply-To: <20261118145502.3243739-1-khem.raj@oss.qualcomm.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3901.200.71.1.16)
-Authentication-Results-Original: mx.microsoft.com 1; dkim=none (message not
- signed) header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: AS8PR08MB9410:EE_|AS1PR08MB238936:EE_|ZR1PEPF0000E463:EE_|PR3PR08MB5851:EE_
-X-MS-Office365-Filtering-Correlation-Id: 26268af4-b791-440a-b176-08df498cd835
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|38070700021|10067099003|56012099006|11063799006|261026140227099003|261028144727099003|261022105027099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info-Original: eVq8JGqczuqtZ5RmLsqoqWMOzqpojY2K7NBzgt8L1xEZi7v+VW0xnTXeRR3qZln5STAXPfXlBMJVFRr3BEs0esxj+vn0DqZ0+9HW+c3IhyanUS6VO6+/XAOjojNNKyW++j96/C9jf2BEJRJqQtY3ONjMJIgp8EeKKq1/6Qo1PxOOuOVk4MxphYxsaVDUVifo1mJOCTpQok48j8WXQqX37ItX/XExs1ZeStYjwoQ50zN4lWP8RCNVguAFke9nhbTYLoV5Nz4ONRNEbrxZr/E3dFxEwCz6N8e7yQO/NSuow9jb8HFpushQx/qbMmhh9c0E3KxQEGnJXarI49KIWzKoggVkC/DcievoOPPalGa7nwHJDUWrhBntDBoPxvh9v1nJ+wQHqoHDCQbAm8sM7hQNNbeIVE413VKS23+H498uDxUfQthrazz6JhuyRFEOoNJElnvZVuIPk+wADyq1FnrAV6E4Eg00xfiQqRlUKRQJRkNlos8IsmwSU3ACSrq8j7kj6hQH2AWjzyTOQ1QdUmjudHB02/S1S6SVppK9ItvEn3hpS5fwT1qIjePpMne9eeWeeUWn6V9F/tMsrXJRvJkzMPwnH79FXkukOafHsHJwUHFRmjJvglzU2U/tqHqexWJHCei/h0fP6rXqPBwXbYfniti3cwt2yIzCwkbmBYJCy2zxJewZx1gCMyxJM4hwn+Om1AZWXg/A9oS4AuMZCGZdEg==
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR08MB9410.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(38070700021)(10067099003)(56012099006)(11063799006)(261026140227099003)(261028144727099003)(261022105027099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <E99B57A124DA244EBC8A9EFDDD6730FD@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@konsulko.com header.s=google header.b=Fbm1JPVD;
+ spf=pass (domain: konsulko.com, ip: 209.85.210.176, mailfrom: tim.orling@konsulko.com)
+Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-8a594d313a3so2467208b3a.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 10:09:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google; t=1795457342; x=1796062142; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=wWD5nWF7/V3DbI5cO2uFbGQsPU9hrAONSDDETU7bf4M=;
+        b=Fbm1JPVD+L7JwOqsZLt3uooA0OOw2O/prKT7Rpxkd8S+ONFK2vv5Ls72k2N0Y3nQ0y
+         BeHZFq3CzoPY/NXabcDYNFLeXxqSTEr6UIn6wSHwWZHQYXz5tk+OAJl2PGn4nfE7une+
+         TiM1koBbk4C7VcPP/MYg+cSU+/omTRLq69OuU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795457342; x=1796062142;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=wWD5nWF7/V3DbI5cO2uFbGQsPU9hrAONSDDETU7bf4M=;
+        b=yBlwkncqzY7/wTWtyap1gq4swisWGeVAmFhSUFVuM85re5kGIfLXrn4To73vPaE3Y4
+         CCwbKkNJ4v5naGRhOz34QNURCCc1Yh6wIH1TBbeq1gEP7EOZuv29M8a0DUFQ43MVb/E2
+         uBlTvPAJpPUpHXjF0hZZGdtF62lxVvvB7I9EMYoFgIONL24ZBC3FanlUpEOHq3iXL+VZ
+         +0wHK//ShYaT1hBccRXZZb6KvCIE8TZdsVxGkOudiaRR7ayZ8M8o2InbNr2oaULPWOV9
+         MkX3wrRypPaQ+plpza+RZ3foeEaTMDYPmIweZ3chxuzR+9gcYaPZl+Jmw43QbgOEzxCJ
+         9EWg==
+X-Gm-Message-State: APuU4Z+mt9783Y6wDsztTClKpMkKHu+m30u+14/jdDKG8BOH5h2p39kR
+	flqLUoTmOTgauqbL2yM78z6ts9EwGbkVUnAncoXL0UxOSOnH6a7frrhRj24o9UDuYVz1mmVxv3M
+	Tm4GH
+X-Gm-Gg: AZFdTZfDWXw+PIq/qrJrL19noou/jhO65xxh3956KGC/OWFkykPCQ5mblN+OqFon1A/
+	qPgnmpe+PD9W1vfDRiEzcC/h2YnbmAl7HDARhvXZnZJCAAsWBP8hKcyRDOcTHWLPZW0eNq8aFk7
+	cWOHEJpXpndBOEMmS2YjAyGUtpu7BFR38w6StkVhLDnXCT1wy+Bd0bpeckVgnEF0iUqKy8O2A07
+	wjdvSS9z+FtZS5NTa2VV0oLaLDd/cFYZkORG7CqkJpZH+NQmG1poOT2Xpr8t28qbEu9DD6UGOqS
+	Fsy97tgHK8pyJXQVuLXhHWapc0SEFm6dqcKcelphB5DfGzxLvFywKZbKFEaGgvOTcHdu+LAiZzl
+	3ByhmtlWoq5fCtEFOxrXUKcaKiqbjaWWbLlbI3+zKyUZn3CutF8vu8Sfa/grWvuj1gfPL+A5FyW
+	eFFfa10vUxVuIiGj7TLm52R0uNTriO+PTFztuBS9xnEcq5DnI+Yfc4ogvkpxyrlOpT6ds6PjWuz
+	B1qyipRkFBUzeHoj+SeWUeG0Al3oOibxEthMsLmNFf8QkGuMgNFUaLqa+vH5f9FHNzoxE67O7Au
+	6V72SVKuIEFBcYVZxj8iUVzrar+WoeeNJagdu/U2XhHrSgauTO+V+oy2ZFSdk/tZ7e1iBFdgxyd
+	N61K1/ogsAvsazpgaaIhI5Kco3a0=
+X-Received: by 2002:a05:6a00:1d88:b0:8a0:3483:51ec with SMTP id d2e1a72fcca58-8c87daf425dmr10854128b3a.58.1795457342069;
+        Mon, 23 Nov 2026 10:09:02 -0800 (PST)
+Return-Path: <tim.orling@konsulko.com>
+Received: from thetis.home.local ([2606:c800:6024:2000:33b6:497f:d678:ac85])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8cdfbe269b9sm470365b3a.20.2026.11.23.10.09.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2026 10:09:01 -0800 (PST)
+From: Tim Orling <tim.orling@konsulko.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tim Orling <tim.orling@konsulko.com>
+Subject: [PATCH] at-spi2-core: upgrade 2.62.1 -> 2.62.2
+Date: Mon, 23 Nov 2026 10:08:34 -0800
+Message-ID: <20261123180833.3218582-2-tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: BU1DJx8ggBbN2x1/WTEfQRy2fx8fOr8qRjNqydtGHqnsOBN5qA07UyNVS2ZjHmiHSJsxNf7sMRIr+BG97g0eeurxtXFyTRCNUablfn/etZM8QR5a/2ToU/u7FOFybUVxpSk9j2nSaNGvEBWRZLTnbcZ7A68zl120g4p6hlv+Yqnm1aT6Z1rKnqnprMuaYfhOZdqgqAsOQMa3hASA7D1whHKho5wHGY2RWbU+pr8nUU70HP188mDHJVOwSdVCrIw6fWUPINeQ6wqWMqeLKX9dbjFWbxODpjyFafhpkJ0xcQ7PqyW5Rf9HupArJ1tmsKAbBKEWHYOr6XpDK0h4ZI+cNA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR08MB238936
-Return-Path: Ross.Burton@arm.com
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: ZR1PEPF0000E463.eurprd04.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: d94406c9-db06-457f-e7c6-08df498cc4a4
-X-Microsoft-Antispam: BCL:0;ARA:13230040|35042699022|376014|1800799024|23010399003|14060799003|36860700016|82310400026|56012099006|11063799006|10067099003|261022105027099003|261028144727099003|261026140227099003|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: nXnt59fOCcXwmJr0CT7QjZaNdjT3HwT79mIeBnULJZpdGrdC35Gs5bemFnTgDdepLBEae1WsGlLeI0ph0EAuNOIwZf20m1rQOKZvpM/isF3BRS3dFy5/mkpj8V3RNVUme5T4MT6qoqeDzQc4i7++NG9H+NUSp4czxfjaA3Yk7PUM9OFTQ2akey3/Y+p4YrTP/+SWCedR+xhi60w8iN1TPbNKz61Wc5Nd0AdRNtrZkbKAEeTnTN7BlS478OOsn+HU2tALn7UB0iw0D1rC1AXNPnD0N7cYK/ruxUb5JIqBA/VRq8j0gpI4zUZ8bUSQRlHgMGfZCaoYbS2W2yHcTwlAcCBIXp1M/2r0SoN2XJYivHURBpbHVBDAh1CCBne2Y4BE6/QjM/AXBO3b5LBTqA3U3zJv7JZHtMFJDVxXcQl85rz2nopsoUX+mOUHL12PUyTtz/jqWhYkljABtfIF+1rFaCdp/XM4PoUIGBfTzGZnZfKnyh8xawVYqZ8E9/agy7Awp+8aVkL98DbI87b8uEDFvqhBy7t/Prm+ton08og8U70E/LvXR8lLpt4j677/5UDk/vdiYg+Wp6DOHGbJSmWGOkDr0IKot1GBUoS2Osm13ltLyIBNHbWidW8Xd6wvSESdvhUBRnvnBdoOT06yx0LKt56milgJNxxZRxCK/a7/x28M00tA8y1Pp68+r4Votb89YeKOqUy7cHkO9zFs14RZ8g==
-X-Forefront-Antispam-Report: CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(35042699022)(376014)(1800799024)(23010399003)(14060799003)(36860700016)(82310400026)(56012099006)(11063799006)(10067099003)(261022105027099003)(261028144727099003)(261026140227099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: JPOESBQbOBvXw3KBhoU39vqb9gbiM4LzZ7hbFxmQl/Gi2ycSIjr5y5cC5liUNo5EuPQHrhGe7eSkAcWYgvUSutZRHvz++TUyWwmKNXTSGFYswGhtYEOoIJMo9kbW8j4JqEu249l9Ry+v8K2/PLoI9WQt5mijns3CTbSg2IsLV+dePqoSY9NfBBTvpXgKkVcxZHITCJwVyF1ZiHh3Ujdfqijw7GdreCd15UBPFvBLmnua4leR66wlrRwC0ZE7x03bilgdyeeQN/NLQpZqcCVAOYwjdtKKOJjSS9m5YaRCUMCeD6k6S3c1W9EkGeCH3QxEyNIE4XsVqLRaRclt0iT7iSnTgUWpSYv9ZfeJ8fDURr+G1HCDBujLP1M8eydmJgN424bGKDwQsyYSEdVh0h6ZYaQH30iHugqsqvftZoplBa9xLEu3gnlx0ljC+fSS2C03
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2026 18:08:58.0676
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 26268af4-b791-440a-b176-08df498cd835
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: ZR1PEPF0000E463.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR08MB5851
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 18:09:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250930
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250929
+Content-Type: text/plain; charset="utf-8"
 
-On 18 Nov 2026, at 14:54, Khem Raj via openembedded-core <raj.khem=3Dgmail.=
-com@lists.openembedded.org> wrote:
->=20
-> configure's linker version script check links an empty program with a
-> script that assigns versions to an undefined symbol 'sym'. lld defaults t=
-o
-> --no-undefined-version and rejects it, so with ld-is-lld configure
-> decides version scripts are unsupported and the library is built without
-> any symbol versions, silently changing its ABI. Consumers linked earlier
-> against the versioned library then fail file-rdeps QA, e.g. openldap:
+What's new in at-spi2-core 2.62.2:
 
-This is part of gnulib, would you be able to file a bug with them?
+* libatspi: Don't crash when a direct connection fails before the root
+  is known.
+* libatspi: Notify when an AtspiEventListener's callback is no longer
+  valid.
+* bus: Send SIGTERM only to the launcher when the unit stops
+  (KillMode=mixed in at-spi-dbus-bus.service).
+* device-x11: Report each key once while using the raw key fallback.
+* device-x11: Don't crash in finalize when the display couldn't be
+  opened.
+* device-x11: resume keyboard input after handling a synchronous key
+  grab.
 
-Ross=
+Upstream release notes:
+https://gitlab.gnome.org/GNOME/at-spi2-core/-/blob/2.62.2/NEWS
+
+For a full comparison of changes, see:
+https://github.com/GNOME/at-spi2-core/compare/2.62.1...2.62.2
+
+Tested with core-image-minimal (with at-spi2-core) and core-image-sato
+testimage on qemux86-64.
+
+AI-Generated: Uses Claude Code (Claude Opus 5.5)
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+---
+ .../atk/{at-spi2-core_2.62.1.bb => at-spi2-core_2.62.2.bb}      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/atk/{at-spi2-core_2.62.1.bb => at-spi2-core_2.62.2.bb} (94%)
+
+diff --git a/meta/recipes-support/atk/at-spi2-core_2.62.1.bb b/meta/recipes-support/atk/at-spi2-core_2.62.2.bb
+similarity index 94%
+rename from meta/recipes-support/atk/at-spi2-core_2.62.1.bb
+rename to meta/recipes-support/atk/at-spi2-core_2.62.2.bb
+index 44b0f7e7cf..bc9c8fa0c2 100644
+--- a/meta/recipes-support/atk/at-spi2-core_2.62.1.bb
++++ b/meta/recipes-support/atk/at-spi2-core_2.62.2.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
+ 
+ CVE_PRODUCT += "at-spi2-atk"
+ 
+-SRC_URI[archive.sha256sum] = "cca6b6a86e4389d89b370288761ce2385ddeceb10c4412da78689bc30c88af2d"
++SRC_URI[archive.sha256sum] = "7ce81820ddf873b8d930177e0790f730f60d22d8e0acee9ba8f75d8202598de3"
+ 
+ DEPENDS = " \
+ 	dbus \
+-- 
+2.47.3
+
