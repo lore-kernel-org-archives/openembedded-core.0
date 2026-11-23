@@ -1,183 +1,264 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.49784.1795421547603227076
+Received: from fhigh-b1-smtp.messagingengine.com (fhigh-b1-smtp.messagingengine.com [202.12.124.152])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.50528.1795425904424148648
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Nov 2026 00:12:28 -0800
+ Mon, 23 Nov 2026 01:25:04 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=RSLpHf/T;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4bb702a7548so22191575e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 00:12:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795421546; x=1796026346; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=/pZeyaH2OzZKNo3vgOl1zBe7nV7lzHGuMZmVCIAc5p0=;
-        b=RSLpHf/Ti6Ckvd0JpXvnWsd1lWHDW6B1m2H5uC/OJ0r4NEjCXdXgg+rVefrS9WrwkX
-         ZTQMrpQlUc6jktsZXOkCVpK8HjYVGXv8M5PtCXiSEWJzD3qvl44qKDtYGKevP9zQy9/i
-         3IVjlPGa5Jcu1OVwCdYYXu27QfgRxl8XdLVp16TgPEfNWJliPSIMPLsj++SqQO7StEou
-         mh9dTyE4uppneAKOjqCZ0Jod1WZY6FSYkgMX/8QPjBhChiVXgpwbyicdeN3a4S/jaeiM
-         Ey9KXK6KkLNpr5KXDGU6ods20UL5h1Q9Avw/PpJ/nLVO+gTZ9Fh6Jg7FBdCWJ5ZMMp5M
-         K8aw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795421546; x=1796026346;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/pZeyaH2OzZKNo3vgOl1zBe7nV7lzHGuMZmVCIAc5p0=;
-        b=E4gJPssZLnrOHeBIlOHKigtxRTXyCLZZUkt4RvZhHGV3Oira2UmnqdWuwewB13PXV7
-         MK1fbyTVCjsU++PgPfWP6m13qqNu6N2yNbqgnEOGbcyltkku8bZuYNAr3Q2ieWr/CLun
-         qD2wgF0iEeXGzWuiQY+8aEs8g7At+tOMOd1tZoWMXhKwXvDGKkVstiaOIJrnpRKZ/3Pz
-         ZrtYR1bLFx2W477dw1gph/0xj3EFDEKNnzk+92+OIYc8YFxQDqxfApO/1ExJfBPkr1s0
-         xzV5GOeCpU3LgLgzHg12hWYFWMyW/Rde4jTEbfRySmWHQ+txO4mR8aG4iXXnjA16KzwH
-         SzRQ==
-X-Forwarded-Encrypted: i=1; AL+hErF5Q0caAqxzAfP2jiGP+77ECY/AQKgKWPGSj9n60vpmsmChcKnIaDHw9te2MwAzjMYoHMTo8x5t4so3cw2ytbLJHg==@lists.openembedded.org
-X-Gm-Message-State: APuU4Z/QT2Fiv0BwKzYkBPWgriEra/lN8NjsobhYY/6H/anrQTaMtuF5
-	OAFYSQGjqiZiKrwWS0xsdWehZodgGCJMEBYchmKxi/EGJ+JjV2cdG6Wv6EbzzmZ2Tpk=
-X-Gm-Gg: AZFdTZeIlgqIuUR6a4ZgnpQV0tiPLJFXeTCVMHOEwVzLXt0srkJ34cSqWwBZYLERMuP
-	1FMSYodHtb9neXs5EOqE+n3ENpKJ59FZU8cInUTTqZLqbtikoMwqrtMfICZR6SBQ4bZc5SYUKks
-	vpRmuEZAhw+NVU+PjmOh4iBfvuqLvN5MYvZt/GL8QTTaq8vcy4iMU7PE+M4msDmJcNWdAimlTY/
-	ZiYoQBvc5EwwzDOrQIOYochLdyCuuUqP/8c8MyQU5Cq6zqO/oYPhtaFz7kJvNADtZUQ//l26fd4
-	LdPN3cEqkybn1f22Z31IseMb5HNJc4DhOZzl3bRQnothHxCBGwF1QepyJ+F+tvXWjxpbW1MYr0h
-	ZIWJJsWvh4rg90xUDsKCCrqGhFKnUSfO24R2p0txIAtOXBmYSpFGIiZnov3X92242ccisg9JN5N
-	TQ96/8Futii5OI1DbDuMVXJlCNUqLPsLvaLbiJO6KUHJ7Q3kVKwLfWHl2xNyRo+2tZQcyonxnGR
-	NfYWsJ5ALYpDqLFE+BhtnSZioU22cGHrveSB2O3Logmt+H7hGftSFnTO8KRIk1X3MhV98l5OyIh
-	M+lS3mYCBERPHjoPADvlacQQl7kR0y5e8zyPy0FXsckBk3823zox/ofHOS2WFD93FDTYcrmnoN1
-	7fSru8isGdpWSqfz0
-X-Received: by 2002:a05:600c:468b:b0:4ab:cc03:7f60 with SMTP id 5b1f17b1804b1-4bb8881b511mr220872785e9.18.1795421545708;
-        Mon, 23 Nov 2026 00:12:25 -0800 (PST)
-Return-Path: <yoann.congal@smile.fr>
-Received: from localhost (2a02-8440-2602-e6f2-7643-3c6b-a6f8-41ff.rev.sfr.net. [2a02:8440:2602:e6f2:7643:3c6b:a6f8:41ff])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb906cdcc1sm151238975e9.2.2026.11.23.00.12.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Nov 2026 00:12:25 -0800 (PST)
+ dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=EXzvbk+8;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=4dPM7ta/;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.152, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id BACD67A061F
+	for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 04:25:03 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-06.internal (MEProxy); Mon, 23 Nov 2026 04:25:03 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1795425903;
+	 x=1795512303; bh=X2D0mtIJC2pjMZ/u9NR5owxBSdwo64+xGbJv0205iLg=; b=
+	EXzvbk+8SHfUZcbMBXaZBCNqa3oOuR9N9Ng24XdGhzgKI8kTZ0GbFpMpSAdRupTB
+	+QgdFSTJ6hVl7fURBuFotP9M+MxrPckVKtPIDblH2J+lMxj0u7T/cqk627eGsgl/
+	OVPnel+ok65Bs2xV4cYkYEIqszwB70lcJk1ItMgn4KqCTf/ukg0MVAmJa+csCUSE
+	rxZPl4IoBveL4NYbareqMh19xlkFlGayvi5ynt0G6y7NWTA27guPbaxHtYRJRAwm
+	71UbTtKTQimhH0QOy9i6CPFmTIqp8s3MfyPh4NYeIEWof7/rJC6s2k6xrYxvgiFM
+	pzl6BLNIJRs6a4zMuDoOwg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795425903; x=
+	1795512303; bh=X2D0mtIJC2pjMZ/u9NR5owxBSdwo64+xGbJv0205iLg=; b=4
+	dPM7ta/R1aJxRBLaLk8QAyU5YsvnA4Obk2cunmf/VUinGHzz1Nta5FjuC0uDlvWb
+	tHOlJTwLJuukCXtZco+/g06ctPZj9rixmXEtYkX4kNdplZNKLdKBiubcR+Hdf9GB
+	dS9wznNOwosk05DCNA6AGxN+SUtOEkwiaD2+Hn8zF2KCyqexIrI1jy3uMtjFAUnK
+	w8vQAk283chOTMJ8L8BZP+TihXOS4aYnZyQRgZdYHXK/p2hWtq2p3fMSkYngRyER
+	WTXwIBhfVjD/tebMIhmC48xWSvKJcF6NoB2Ju70jDB6Z5nJEfzdLVS2o+rtCe25G
+	Bo5wUhqFt+q9KzgUnwXsg==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=pbarker.dev a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1795425903; d=pbarker.dev;
+	mf=PHBhdWxAcGJhcmtlci5kZXY+;
+	rt=PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+;
+	s=fm2:rsa-sha256:CxdS0tGTrBoSiaM8mOLwqKYhNejaUyA41kx/6fDGkZrf3J0
+	vwpHHQjRjA6nyyHjHbd60dRWBtIW/0W/gyljD6XJqV//tu99jNSwpqVmy0wZtOIy
+	O0/5q+kh3QKuO06KPxCmYJBknWcwgwCSO39V2aC0tCV4MZ1ki0JaWE38DNLaCoqI
+	HkECfmzeKghVonGqDheSTZNGc9VxYLBmykqAbdZ5T3eO2dFnMAc5Hs5hB4jv2TXr
+	knvCjxv/2gwtIQptRKBZ9mTXNGWJUI6akixxOr4cEXVgMeLfFh5WSmrE+iKi8MvF
+	++a3mRCv9kMSg2elC/F5f5BdSO2ZmZkkdq1GA1g==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:bT9Cj2vDxcTxiXwn95Lwhz0h8p/QoPDSRxWUNOkpTeU=:BoHsIUHnUNR6EPBmftlZYNNpu9WIQK6fvbCMz2Y8oAA=;
+X-ME-Sender: <xms:bwYEa89ick0M8iniZYuN2-ff6Awf76t5wJBzwJvg5tjawYc9L7gBnw>
+    <xme:bwYEa8IDIAl2Ic5bKdYsZKqqoA8HRUuiDGdQRKdwoFEToEdIxjHXCpI7Ss-jSklll
+    7deAIsgKiNUudYbZUEexMP10zkCoGXWfA3xl0LRUrIWM-uuwsCgqEI>
+X-ME-Received: <xmr:bwYEa_btV40kk6y-8khirpclCbXuCDniCQgLCbYIxrG8Zw4irzHx5I5iOq6Um9WcHo06s5uxN1E9gnrt4Y4DA0CMIvQE>
+X-ME-Proxy-Cause: dmFkZTGGZkQxyLLDdW7hvlW5BO0AXT/v6FnosbSvbNrfOY/SzPTxY3+4fiu9lZHawUNs7j
+    ra1IV7/1fm6ajXCyHxSssmRFvXgy0KtVeFQnXAmVRz5Qx9mTuIjz8IqCU7IUU00BxTbb3j
+    RYqmdx48+pc+3hDcUqLvlhh/vzGSYTs8bRgUd6pKQe97slOmgFM1h6+QNHCMlqSwJpsQBA
+    1EwmCfB4wrYs3JXBbGUSUd8ItYMacX5ZlolKC6GPr2fEN7lydz73DK2tFrBIR537qYpjlc
+    gswW9GzkKwAMPT82T8O6CYhaHaRM/zsYE0cIWk4qQderGJBAif8JHwhCb4RJ8y+yLYG4Cx
+    REydlsR+BLSgrVrq8Hzs6/TXW3MVA4y/SaZYUDxyX8ftgGPXvPmgFTza2YDHGDxU8wuHX4
+    fGxIkTPsdoLmdJrt5Yid+V64xl7ExNDt1Yej6/91szY+bCPps1X28Sr3LDUBzMwd2sMIU3
+    e+A2w+P6I5wsBr0DCa+sex1AfH/UAbrWlVuMLHgLE/QEOr0wH+VYp1zLFhLt6hUyFTAnl6
+    OHF1VcI1WCmjelO7xJZk6gLPUW3fgH4qrZwJN5d4eQIQm37li7sxZ4VUoKNYJZTnYNNNT4
+    LlYEzfHZ/zPwARPpUtGg7YsnWSUH+IxB6HT5VMTKyzNpxpHAw5NltZCaPa0A
+X-ME-Proxy: <xmx:bwYEa2LZzcla41emGhr5Nng8pCsmOKa-knRmIiq_VRe0xMiECeXiWg>
+    <xmx:bwYEa1AWraqEa4vt1bA6EoyIjefFBAZp7I-NWpyDpTYtWOQfhu199w>
+    <xmx:bwYEazrhDypQTxEp1s-4wPmiU3kxu4s5l47vSEFQAh3GAOPlaFaMfA>
+    <xmx:bwYEa4gLaIhVH9ZlMrCYSY7yhyusavv76dCqXUSO7Syvmxtqm98-eA>
+    <xmx:bwYEa4GpV2rZ6CnP5JG2emvfM264f5eWrHu7DQ4cEjmtQLZwquPDW9Eb>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 23 Nov 2026 04:25:02 -0500 (EST)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 23 Nov 2026 09:12:24 +0100
-Message-Id: <DN2FTIX5C6YZ.1S2ABPBCQPBGV@smile.fr>
-Subject: Re: [OE-core] [scarthgap][PATCH v2] curl: backport HTTP/2 and
- HTTP/3 error propagation fixes
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: "Jackson James" <Jackson.James@bmwtechworks.in>
-To: <UpStream_IP-JJ@bmwtechworks.in>,
+Date: Mon, 23 Nov 2026 09:25:00 +0000
+Message-Id: <DN2HD431V6TX.3GQ0CXC17IQLQ@pbarker.dev>
+Subject: Re: [PATCH] oe-init-build-env: fix unbound variable errors under
+ 'set -u'
+From: "Paul Barker" <paul@pbarker.dev>
+To: "Babanpreet Singh" <bbnpreetsingh@gmail.com>,
  <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20261118115531.17374-1-UpStream_IP-JJ@bmwtechworks.in>
-In-Reply-To: <20261118115531.17374-1-UpStream_IP-JJ@bmwtechworks.in>
+Cc: "Ross Burton" <ross.burton@arm.com>
+X-Mailer: aerc 0.22.0
+References: <20261111195604.7-1-bbnpreetsingh@gmail.com>
+In-Reply-To: <20261111195604.7-1-bbnpreetsingh@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 08:12:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250889
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 09:25:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250890
 
-On Wed Nov 18, 2026 at 12:55 PM CET, Jackson James via openembedded-core wr=
-ote:
-> From: Jackson James <Jackson.James@bmwtechworks.in>
+On Wed Nov 11, 2026 at 7:56 PM GMT, Babanpreet Singh wrote:
+> Sourcing oe-init-build-env from a shell running with 'set -u' fails:
 >
-> Backport upstream commits:
-> https://github.com/curl/curl/commit/8dd81bd5db6d087c1d0f1b0332a5e8d0ad50d=
-634
-> https://github.com/curl/curl/commit/5c59f91427c6e14036070d4e1426360393458=
-b25
+>   ./oe-init-build-env: line 29: BBSERVER: unbound variable
 >
-> These fixes correct handling of transfer write errors in HTTP/2 and HTTP/=
-3 (ngtcp2)
-> during parallel transfers. In curl 8.7.1, write callback errors were not =
-properly
-> propagated, leading to incorrect exit codes and improper stream cancellat=
-ion.
+> Give the variables that may be unset an explicit empty default, here
+> and in oe-buildenv-internal.
 >
-> Tests:
-> - curl ptest in qemux86-64: passed
-> - curl HTTP pytest (tests/http) in qemux86-64, with curl built with
->   HTTP/2 (nghttp2) and HTTP/3 (ngtcp2 + nghttp3): test_02_14_not_found
->   and test_02_15_fail_not_found passed for both h2 and h3 (4 passed)
+> [YOCTO #15469]
 >
-> Signed-off-by: Jackson James <Jackson.James@bmwtechworks.in>
+> Signed-off-by: Babanpreet Singh <bbnpreetsingh@gmail.com>
 > ---
->  ...-pass-CURLcode-errors-from-callbacks.patch |  332 ++++
->  .../lib-add-Curl_xfer_write_resp_hd.patch     | 1746 +++++++++++++++++
->  meta/recipes-support/curl/curl_8.7.1.bb       |    2 +
->  3 files changed, 2080 insertions(+)
->  create mode 100644 meta/recipes-support/curl/curl/http2-ngtcp2-pass-CURL=
-code-errors-from-callbacks.patch
->  create mode 100644 meta/recipes-support/curl/curl/lib-add-Curl_xfer_writ=
-e_resp_hd.patch
+>  oe-init-build-env            | 14 +++++++-------
+>  scripts/oe-buildenv-internal | 22 +++++++++++-----------
+>  2 files changed, 18 insertions(+), 18 deletions(-)
+>
+> diff --git a/oe-init-build-env b/oe-init-build-env
+> index 5a2bd0f4d9..660c6ad02e 100755
+> --- a/oe-init-build-env
+> +++ b/oe-init-build-env
+> @@ -14,9 +14,9 @@
+>  # when being sourced.  To workaround the shell limitation use "set <buil=
+ddir>"
+>  # prior to sourcing this script.
+>  #
+> -if [ -n "$BASH_SOURCE" ]; then
+> +if [ -n "${BASH_SOURCE:-}" ]; then
+>      THIS_SCRIPT=3D$BASH_SOURCE
+> -elif [ -n "$ZSH_NAME" ]; then
+> +elif [ -n "${ZSH_NAME:-}" ]; then
+>      THIS_SCRIPT=3D$0
+>  else
+>      THIS_SCRIPT=3D"$(pwd)/oe-init-build-env"
+> @@ -26,16 +26,16 @@ else
+>          exit 1
+>      fi
+>  fi
+> -if [ -n "$BBSERVER" ]; then
+> +if [ -n "${BBSERVER:-}" ]; then
+>      unset BBSERVER
+>  fi
+> =20
+> -if [ -z "$ZSH_NAME" ] && [ "$0" =3D "$THIS_SCRIPT" ]; then
+> +if [ -z "${ZSH_NAME:-}" ] && [ "$0" =3D "$THIS_SCRIPT" ]; then
+>      echo "Error: This script needs to be sourced. Please run as '. $THIS=
+_SCRIPT'" >&2
+>      exit 1
+>  fi
+> =20
+> -if [ -z "$OEROOT" ]; then
+> +if [ -z "${OEROOT:-}" ]; then
+>      OEROOT=3D$(dirname "$THIS_SCRIPT")
+>      OEROOT=3D$(readlink -f "$OEROOT")
+>  fi
+> @@ -43,12 +43,12 @@ unset THIS_SCRIPT
+> =20
+>  export OEROOT
+>  . "$OEROOT"/scripts/oe-buildenv-internal &&
+> -    TEMPLATECONF=3D"$TEMPLATECONF" "$OEROOT"/scripts/oe-setup-builddir |=
+| {
+> +    TEMPLATECONF=3D"${TEMPLATECONF:-}" "$OEROOT"/scripts/oe-setup-buildd=
+ir || {
+>      unset OEROOT
+>      return 1
+>  }
+> =20
+>  unset OEROOT
+> =20
+> -[ -z "$BUILDDIR" ] || cd "$BUILDDIR"
+> +[ -z "${BUILDDIR:-}" ] || cd "$BUILDDIR"
+> =20
+> diff --git a/scripts/oe-buildenv-internal b/scripts/oe-buildenv-internal
+> index 2fdb19565a..6b2e4ea518 100755
+> --- a/scripts/oe-buildenv-internal
+> +++ b/scripts/oe-buildenv-internal
+> @@ -19,12 +19,12 @@ if ! $(return >/dev/null 2>&1) ; then
+>  fi
+> =20
+>  # It is assumed OEROOT is already defined when this is called
+> -if [ -z "$OEROOT" ]; then
+> +if [ -z "${OEROOT:-}" ]; then
+>      echo >&2 "Error: OEROOT is not defined!"
+>      return 1
+>  fi
+> =20
+> -if [ -z "$OE_SKIP_SDK_CHECK" ] && [ -n "$OECORE_SDK_VERSION" ]; then
+> +if [ -z "${OE_SKIP_SDK_CHECK:-}" ] && [ -n "${OECORE_SDK_VERSION:-}" ]; =
+then
+>      echo >&2 "Error: The OE SDK/ADT was detected as already being presen=
+t in this shell environment. Please use a clean shell when sourcing this en=
+vironment script."
+>      return 1
+>  fi
+> @@ -39,8 +39,8 @@ if [ "$py_v38_check" !=3D "True" ]; then
+>  fi
+>  unset py_v38_check
+> =20
+> -if [ -z "$BDIR" ]; then
+> -    if [ -z "$1" ]; then
+> +if [ -z "${BDIR:-}" ]; then
+> +    if [ -z "${1:-}" ]; then
+>          BDIR=3D"build"
+>      else
+>          BDIR=3D"$1"
+> @@ -61,7 +61,7 @@ if [ -z "$BDIR" ]; then
+>              return 1
+>          fi
+>      fi
+> -    if [ -n "$2" ]; then
+> +    if [ -n "${2:-}" ]; then
+>          BITBAKEDIR=3D"$2"
+>      fi
+>  fi
+> @@ -72,9 +72,9 @@ else
+>  fi
+>  unset BDIR
+> =20
+> -if [ -z "$BITBAKEDIR" ]; then
+> -    BITBAKEDIR=3D"$OEROOT/bitbake$BBEXTRA"
+> -    test -d "$BITBAKEDIR" || BITBAKEDIR=3D"$OEROOT/../bitbake$BBEXTRA"
+> +if [ -z "${BITBAKEDIR:-}" ]; then
+> +    BITBAKEDIR=3D"$OEROOT/bitbake${BBEXTRA:-}"
+> +    test -d "$BITBAKEDIR" || BITBAKEDIR=3D"$OEROOT/../bitbake${BBEXTRA:-=
+}"
+>  fi
+> =20
+>  BITBAKEDIR=3D$(readlink -f "$BITBAKEDIR")
+> @@ -89,11 +89,11 @@ if [ ! -d "$BITBAKEDIR" ]; then
+>  fi
+> =20
+>  # Add BitBake's library to PYTHONPATH
+> -PYTHONPATH=3D$BITBAKEDIR/lib:$PYTHONPATH
+> +PYTHONPATH=3D$BITBAKEDIR/lib:${PYTHONPATH:-}
+>  export PYTHONPATH
+> =20
+>  # Remove any paths added by sourcing this script before
+> -[ -n "$OE_ADDED_PATHS" ] && PATH=3D$(echo $PATH | sed -e "s#$OE_ADDED_PA=
+THS##") ||
+> +[ -n "${OE_ADDED_PATHS:-}" ] && PATH=3D$(echo $PATH | sed -e "s#$OE_ADDE=
+D_PATHS##") ||
+>      PATH=3D$(echo $PATH | sed -e "s#$OEROOT/scripts:$BITBAKEDIR/bin:##")
+> =20
+>  # Make sure our paths are at the beginning of $PATH
+> @@ -114,6 +114,6 @@ SDKMACHINE BB_NUMBER_THREADS BB_NO_NETWORK PARALLEL_M=
+AKE GIT_PROXY_COMMAND \
+>  SOCKS5_PASSWD SOCKS5_USER SCREENDIR STAMPS_DIR BBPATH_EXTRA BB_SETSCENE_=
+ENFORCE \
+>  BB_LOGCONFIG"
+> =20
+> -BB_ENV_PASSTHROUGH_ADDITIONS=3D"$(echo $BB_ENV_PASSTHROUGH_ADDITIONS $BB=
+_ENV_PASSTHROUGH_ADDITIONS_OE | tr ' ' '\n' | LC_ALL=3DC sort --unique | tr=
+ '\n' ' ')"
+> +BB_ENV_PASSTHROUGH_ADDITIONS=3D"$(echo ${BB_ENV_PASSTHROUGH_ADDITIONS:-}=
+ $BB_ENV_PASSTHROUGH_ADDITIONS_OE | tr ' ' '\n' | LC_ALL=3DC sort --unique =
+| tr '\n' ' ')"
+> =20
+>  export BB_ENV_PASSTHROUGH_ADDITIONS
 
-Hello,
+Hi,
 
-This is a big refactor: 1700+ line patch. But the bug it is trying to fix
-is unclear to me. As of now, it does not seem critical enough to me to just=
-ify
-merging this and take the risks of regression and highten maintenance
-work.
+This change looks good to me, but it does suggest we need a test case
+here for sourcing oe-init-build-env in a script using `set -u`. Are you
+able to write a test case?
 
-Can you explain a bit more:
-* What this is fixing?
-* Why is this the best way to fix this?
+Best regards,
 
-> diff --git a/meta/recipes-support/curl/curl/http2-ngtcp2-pass-CURLcode-er=
-rors-from-callbacks.patch b/meta/recipes-support/curl/curl/http2-ngtcp2-pas=
-s-CURLcode-errors-from-callbacks.patch
-> new file mode 100644
-> index 0000000000..c44322fb63
-> --- /dev/null
-> +++ b/meta/recipes-support/curl/curl/http2-ngtcp2-pass-CURLcode-errors-fr=
-om-callbacks.patch
-> @@ -0,0 +1,332 @@
-> +From 5c59f91427c6e14036070d4e1426360393458b25 Mon Sep 17 00:00:00 2001
-> +From: Stefan Eissing <stefan@eissing.org>
-> +Date: Thu, 18 Apr 2024 23:24:34 +0200
-> +Subject: [PATCH] http2 + ngtcp2: pass CURLcode errors from callbacks
-> +
-> +- errors returned by Curl_xfer_write_resp() and the header variant are
-> +  not errors in the protocol. The result needs to be returned on the
-> +  next recv() from the protocol filter.
-> +
-> +- make xfer write errors for response data cause the stream to be
-> +  cancelled
-> +
-> +- added pytest test_02_14 and test_02_15 to verify that also for
-> +  parallel processing
-> +
-> +Reported-by: Laramie Leavitt
-> +Fixes #13411
-> +Closes #13424
-> +
-> +Upstream-Status: Backport [https://github.com/curl/curl/commit/5c59f9142=
-7c6e14036070d4e1426360393458b25]
-> +Comment: Hunks are refreshed; CURL_PRId64 replaced with PRId64 (not defi=
-ned in 8.7.1)
-> +
-> +Signed-off-by: Jackson James <Jackson.James@bmwtechworks.in>
-> +---=20
-> + lib/http2.c                    | 64 +++++++++++++++++++++--------
-> + lib/vquic/curl_ngtcp2.c        | 73 +++++++++++++++++++++++-----------
-> + tests/http/test_02_download.py | 28 +++++++++++++
-> + 3 files changed, 125 insertions(+), 40 deletions(-)
-> +
-> +diff --git a/lib/http2.c b/lib/http2.c
-> +index 1ee57a4320ac..50dd878bb02e 100644
-> +--- a/lib/http2.c
-> ++++ b/lib/http2.c
-> +@@ -955,7 +955,6 @@ static CURLcode on_stream_frame(struct C
-> +   struct cf_h2_ctx *ctx =3D cf->ctx;
-> +   struct h2_stream_ctx *stream =3D H2_STREAM_CTX(data);
-> +   int32_t stream_id =3D frame->hd.stream_id;
-> +-  CURLcode result;
-> +   int rv;
-> +
-   ^ Also, this patch is not properly formatted, e.g. it lacks a space
-   here indicating a context line. (There are other lines like this).
-   To help you clean this, here is the script I use to check patch
-   format: https://gist.github.com/ycongal-smile/3692790a48269e59d602e5be1d=
-667982
-
-Finally, this patch conflicts with another patch from the review series.
-You will have to rebase once the next series merges.
-
-Thanks!
 --=20
-Yoann Congal
-Smile ECS
+Paul Barker
 
