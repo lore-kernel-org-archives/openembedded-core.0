@@ -1,136 +1,148 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.55124.1795444539956020015
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.55783.1795447056698419551
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Nov 2026 06:35:40 -0800
+ Mon, 23 Nov 2026 07:17:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=gwvjXwBP;
- spf=pass (domain: smile.fr, ip: 209.85.221.52, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-4a42b34e930so2964738f8f.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 06:35:39 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dbO/SIun;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4bb70074ab2so35619975e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 07:17:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795444538; x=1796049338; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
+        d=linuxfoundation.org; s=google; t=1795447055; x=1796051855; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=GKEQ/bVg0tExvBBQzH3RCMblAhpvzoYi0flzpZKFx70=;
-        b=gwvjXwBP8uyagKBkGRG/73KusEpe/40t9kEY7iAExaZwSaDkamUb9CXiqTQ4P4BICb
-         QXWjCid8E1w9Jqe4Te++gKZI5Obii3I0/O7IU9zslDOw5USeFWjXOWNmJawxDZiAr8tp
-         X+65u0mKdGMVettloGbHKFAX4MkXbT6pJ72150rmoAcMDV5pJlgDby1QTbNHIqaa2dtm
-         gujUES7SpMdWpNUaqFNuwPLW/NUCwE6Ti9RJ8PxH++sKX6zl9rJ0mt859I3xSa36FYlp
-         WvPXNFYSxyN5d6rBanvOEor+HCZNU2H1jBZJoL0EbSOhUz6QtRI95n5XqozsGtPRv+S7
-         1y3Q==
+        bh=Hu6ItnStNHWHg3QyFlfWzx8raKoBL+EU8zYZQAgZsLQ=;
+        b=dbO/SIunq8LdTk8n8jkTN/NHJMbxI5N2wArFTbarSQeAVSjAVvAeQ93IiRCtS4xlv8
+         TkBhvHIpbP8KeL4mVuh/q4Tkw6S69vPrW0/OLsYXCT4hW2HTHzJrLRDqBXY9atcDweP0
+         vqDcCbpUwC7Crl9gLjDBAtaK3HaFNnr77S4lg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795444538; x=1796049338;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1795447055; x=1796051855;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=GKEQ/bVg0tExvBBQzH3RCMblAhpvzoYi0flzpZKFx70=;
-        b=aLN0Yr+GbHU0lYzIKarYESreZJLV4Wamjq278QMgh8bVNRM+yEsj0V1U6lvkCaoI8N
-         hZtP/nZMMoxWFoA0evHvqWlYHG0uN+UubbNcUU/tEO1I/kJQmY2i9ZaVxNsgiW8nDuwt
-         2elffZcLBsJk7AvasmAym2CQc698NQXk/ZGV+dHTzEUoRfYnBi3Z+bFCEoxYSXPZ1rze
-         /mI6YrQoRL/aickALKE0BsWm62X3CoXcemLohLM2/EXgwZNhCTEVYHY1eKXdVNuiboLs
-         FNjCJZIivEbUIx4VihL1tqc0D+QmzqtL3apMpB4TdbqD0lX4OEC7au/xVlxl2S5d7b9O
-         ValQ==
-X-Forwarded-Encrypted: i=1; AL+hErHUk5S3WaMKwjO8aRli2K7vc2iPkwxi8ce0a65fy3vzOPbkCRexUGp1zMdM1N5VMFtyChU3DuLdEXCQh1rQ5a2+xQ==@lists.openembedded.org
-X-Gm-Message-State: APuU4Z8Lv2TnpwyQBDcIPbpoi1UExRWIGzKZt0mDGYyldGUCzoE9GHBk
-	SYl2uQ4h4dYVlmGoRnXRAvjLE8TOuKRj7EPM4+4qDl6bmL1jpPA8wo2HgpaOIMmyGvlbs6spxho
-	ZpMy92zg=
-X-Gm-Gg: AZFdTZcMZTinVvN0IAJSOl0FSU2LWIP6mQV45b3trHH9lICbFnfk/L/tlrsrRRW5hXW
-	fa4XhXAY4Cmd6llze0M2/1tGuA/uTIEp2DJTrRGuQVUDuJO2/q+8x2hnXMUqu/ubSbAOWzahOnn
-	+yU0nQpgJTk8MtG7+tnjfw0Bm1E9H92xSQSLEF/fkesg1s5z994Xl/EE83/rGWJn79/GirxOuvE
-	ysl9NZYBYO3ehw96u0el+39DESgmRtX3J/BO0v49IaEOoT/vnnqB5LR6fA23RME5ktFAr7Qbetv
-	uEFBo3YohgTgJ/dbbrq/byK17EIaCHDSXnd8/cWH7NWLHpx8EyVQ9MQZSzio4MtQvDpStEoxS0/
-	PUB3b/ONUqhKL2AaYMjHQ3VGjW5Jlp2gFvOg6Fibaz+QKvrMN1vJCojlI32qPsS7Aunj8T7tGN+
-	k7iaszOS0e20mOst9KVYoCiJCTAnVXaAaGq/oJipNUAIfcfczE8nuKuN29IAPJ5tGSgUmjKTMW6
-	Xvffijn4elxqsB6Y7qXBHmbB10bslALFm/kTwmwPoL/yp5MSinB7Wgohbei9XgGvV1sHUqSVgu6
-	VFfMefDffFdi1jsaWdGYTPL+Mrbd0Kyq/e25rNqut8AiX39j5nhl6Nv145OZWhA/52MMEO6ryt0
-	XqDPyWtyyl7mqTg==
-X-Received: by 2002:a05:6000:298d:10b0:492:9630:6a7f with SMTP id ffacd0b85a97d-4abb5db7829mr15953844f8f.55.1795444538072;
-        Mon, 23 Nov 2026 06:35:38 -0800 (PST)
-Return-Path: <yoann.congal@smile.fr>
-Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4b34e9c3ffesm6250825f8f.19.2026.11.23.06.35.37
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Nov 2026 06:35:37 -0800 (PST)
-Mime-Version: 1.0
+        bh=Hu6ItnStNHWHg3QyFlfWzx8raKoBL+EU8zYZQAgZsLQ=;
+        b=KJa9d+JqXNDK6rO+ylMvymT8ns5+13daTTdwVblTdoPXvCRbu2UAj+ThmOtjM3qzF4
+         u5iUhmpP2+0OTz4oXmX4Iem9hgNpm4xK8pjgusMQefEISyrNtP54TyeeS+SZD6XH5jGq
+         ONEIQxJz94Kdg59c+R5y1IuK/nqtVAfcZiwr3reftLiYxR+XSpPYecXaulxs0x6hl18S
+         005rKE1GBSUhC/wle+4cm0udxN5ZRE+xewz4fKBMpSDfePBHx9pRMZAo7DscoQIGHxpW
+         UocT885viV8XquE8okUIcjVpu3nV11SXHvEDXavpKo6RGEnSU7/w8iZw/OyqMSdERxNr
+         UamA==
+X-Forwarded-Encrypted: i=1; AL+hErHj02k0FXCGGhSriSbI9T8HdefhfsGBP79iO62dnZLmYsAbyFEeSZMUhWNbbjLPPEKuElJggY2WibEg8qZW2jiF3A==@lists.openembedded.org
+X-Gm-Message-State: APuU4Z9agwurFmMKmDmEYZlV0honD/te23sse37DISfwaLUxjeQ/7SXg
+	3+/h+E06VZHaeGKDQGvchu8eDY8jIyHFoiADCyrImBZ3OXerEtY9Mk+28sWgcL13CJI=
+X-Gm-Gg: AZFdTZciIhONc+Lx3RGG+wov5BnCI7NinptT/7IiixULJMESLKqYFtlPcgCnSBro51U
+	B8DWgnJECxjooqyI4ClRhzLxuwCu1xvTxLHRj00p5rgFKpVTzFxnKeJxL3s0KIgbWaQV5do1J0N
+	8oDwfKj+JC2to+gpDSQAthGdOFe6ut6r3iBfT7H31D3d732ShoyPGNvM1We9NN3LPC3Fbo+pPzh
+	BNufSIRI7D40EP+4394BNLc11+azi7ldxK73s2uuJQaCYSDz8lUIfILGOUiG23EKg5+OnLngpL5
+	OPcO6duMfb5jQGuF8QGmsa33OrVVFcJTutelDA4RJVgIIb/dgllXTIsh6/R+RjOqj3qCfYlV9j0
+	D7rOYJ86LfTBdSXz802/V5SZxTBx+grq88OmVu+2Kvjpq19RdIYaYSi2+AFXB72zkeFEpezdZHg
+	xfPaHFz/PyOxKA86m9ky6ZC5BrLKdLMPzb2ayg7Y0e/IdERrXFtf8QlcjnTVt2axfuffNyUStEo
+	dhtSaLi5BY7E8uigne8JiwOHL4VckZCbm25DibYq39A1nyq6AarZvnZ0Ezj3gJ8EWZVvwpRTxBD
+	OyGCBQvKasMtGjPxGbK12c/+dsQKm7/UkZG4T1Z2dK0FcJiRZP+88lyoIcI+pmCCWw3exfxhwJd
+	mQSFSFyTMuJoGSWdCRw==
+X-Received: by 2002:a05:600c:674b:b0:4bb:6847:791f with SMTP id 5b1f17b1804b1-4bb8880f267mr236574695e9.7.1795447054686;
+        Mon, 23 Nov 2026 07:17:34 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:dfb4:14bb:eea0:b8da? ([2001:8b0:aba:5f3c:dfb4:14bb:eea0:b8da])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884ab091sm513439915e9.11.2026.11.23.07.17.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2026 07:17:33 -0800 (PST)
+Message-ID: <aff6acd72c8b1091f168c50e258e46492418012f.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] staging: allow special handling of
+ initial-recipes also for native
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: =?ISO-8859-1?Q?J=F6rg?= Vehlow <joerg.vehlow@emlix.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 23 Nov 2026 15:17:33 +0000
+In-Reply-To: <75f4cab0-7f18-4a44-8ea6-3ec4bffbc38f@emlix.com>
+References: <20261119055929.3286725-1-joerg.vehlow@emlix.com>
+	 <a16193f4de16a23bd5f89ec3ece8ee96de8a8ffa.camel@linuxfoundation.org>
+	 <dc59b7a4-34c2-43e8-a22a-21737b3eade4@emlix.com>
+	 <31494e4081f6b926ca92176156c33d1ac36f62b0.camel@linuxfoundation.org>
+	 <75f4cab0-7f18-4a44-8ea6-3ec4bffbc38f@emlix.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 23 Nov 2026 15:35:37 +0100
-Message-Id: <DN2NYXS7DWXP.6I9DV9LMCYLU@smile.fr>
-Subject: Re: [scarthgap][PATCH 2/3] sqlite3: fix CVE-2026-119374
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <thomas.petazzoni@bootlin.com>
-To: =?utf-8?b?Sm/Do28gTWFyY29zIENvc3RhIChTY2huZWlkZXIgRWxlY3RyaWMp?=
- <joaomarcos.costa@bootlin.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20261105141827.2142719-1-joaomarcos.costa@bootlin.com>
- <20261105141827.2142719-3-joaomarcos.costa@bootlin.com>
-In-Reply-To: <20261105141827.2142719-3-joaomarcos.costa@bootlin.com>
+User-Agent: Evolution 3.56.2-10build1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 14:35:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250922
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 15:17:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250923
 
-On Thu Nov 5, 2026 at 3:18 PM CET, Jo=C3=A3o Marcos Costa (Schneider Electr=
-ic) wrote:
-> This vulnerability, marked as High [1], was fixed upstream [2] since
-> 3.54.0.
->
-> Backport the fix to sqlite v3.45.3.
->
-> Some function/macro definitions are required to compile the backported
-> code, and they are provided in the *-pre.patch.
->
-> [1] https://nvd.nist.gov/vuln/detail/cve-2026-119374
-> [2] https://github.com/sqlite/sqlite/commit/d9de6eedbe918c074c7556400fa21=
-df5960704d9
->
-> Signed-off-by: Jo=C3=A3o Marcos Costa (Schneider Electric) <joaomarcos.co=
-sta@bootlin.com>
-> ---
->  .../sqlite/sqlite3/CVE-2026-119374-pre.patch  | 73 +++++++++++++++++++
->  .../sqlite/sqlite3/CVE-2026-119374.patch      | 67 +++++++++++++++++
->  meta/recipes-support/sqlite/sqlite3_3.45.3.bb |  2 +
->  3 files changed, 142 insertions(+)
->  create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119374-p=
-re.patch
->  create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119374.p=
-atch
->
-> diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2026-119374-pre.patc=
-h b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119374-pre.patch
-> new file mode 100644
-> index 0000000000..1192cef006
-> --- /dev/null
-> +++ b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119374-pre.patch
-> @@ -0,0 +1,73 @@
-> +From 315df7b9dc2ac2abc55c3636439fd532e3090ef6 Mon Sep 17 00:00:00 2001
-> +From: =3D?UTF-8?q?Jo=3DC3=3DA3o=3D20Marcos=3D20Costa?=3D <joaomarcos.cos=
-ta@bootlin.com>
-> +Date: Thu, 5 Nov 2026 11:48:59 +0100
-> +Subject: [PATCH] sqlite3.c: add fts5IndexCorrupt* and FTS5_CORRUPT_* hel=
-pers
-> +MIME-Version: 1.0
-> +Content-Type: text/plain; charset=3DUTF-8
-> +Content-Transfer-Encoding: 8bit
-> +
-> +These functions/macros come from multiple upstream commits, and are requ=
-ired by
-> +the backport for CVE-2026-119374.
-> +
+On Mon, 2026-11-23 at 13:08 +0100, J=C3=B6rg Vehlow wrote:
+> On 23.11.2026 12:52, Richard Purdie wrote:
+> > Can you fix the commit message please and perhaps put more of this
+> > detail in there?
+> >=20
+> > It is a bit of a red flag when the commit message doesn't really match
+> > what the code does, it also can cause problems in the future when
+> > people look back at why something was done.
+> I totally agree with you here, but fail to see where the mismatch is.
+> The commit message states that the special handling for initial is also=
+=20
+> applied to initial-native. (ok maybe the verb allow is not the right one)
 
-Hello,
+Firstly, remove the go and rust mentions as those are in core and don't
+need this.
 
-> +Upstream-Status: Backport [multiple changes from v3.54.1]
+Secondly, mention you have an external ada implementation and that
+needs a native initial. Saying what is unique about ada to need this
+might also help.
 
-That is not precise enough. I check that the submitted patches match the
-upstream commit and here I don't have enough info to do it.
+I don't need to have seen it, I just want it clear this is something
+external to core and relatively unavoidable.
 
-Ideally, backport each commit you need as pre1, pre2, ... with each
-having a "Backport[URL to commit]".
+> > The other question this leads to, is whether this is a complete fix or
+> > are there other changes needed to make "initial" support work better?
+> This is the only fix that was required to oe-core that was required to=
+=20
+> make bitbake exclude these initial packages from the esdk.
+
+Ok, you could also mention that in the commit message since it stop me
+worrying there were more patches coming once this was accepted.
+
+> > I really want to see the complete picture of how this is working before
+> > we commit to supporting it.
+>
+> I get that, but currently I cannot provide the recipes, they are loosely=
+=20
+> based in meta-adacore, but instead of using a prebuilt gprbuild they=20
+> build gprbuild in a two step process. Maybe that is what we can focus on=
+=20
+> and I could try to upload a version of meta-adacore with these recipes=
+=20
+> for you if you'd like to understand the use case.
+>=20
+> But essentially: gprbuild is built in a two step process, first it is
+> build using gnat only (gprbuild-initial-native) and then it is built=20
+> again using the first version as the build tool. Since gprbuild is a=20
+> build tool (comparable to cmake), it must be a native recipe. The=20
+> nativesdk variant and the target variant can then be built from the=20
+> "normal" gprbuild-native.
+> But gprbuild-initial-native is never needed in the esdk and it uses the=
+=20
+> same paths as gprbuild-native (just for simplicity) and so it has=20
+> collisions, if both are installed at the same time.
+> Similar collisions would happen, if libgcc-initial and libgcc were=20
+> installed at the same time - I guess that is the reason why the initial=
+=20
+> recipes were excluded from the esdk.
+> Since the mechanism already exists and is simply not applied for=20
+> initial-native, I figured this is a "bug" in oe, that could be fixed=20
+> without too much background or explaining:
+>=20
+> Currently target and nativesdk packages, that end in -initial are not
+> installed into the esdk, but native packages are, that feels like an=20
+> inconsistency, that is fixed by this patch. There is not really a lot
+> more to it.
+
+That is fine, by "complete picture", I really just need to know if
+there are more changes needed and rough idea of why we've not needed
+this anywhere else.
 
 Thanks!
---=20
-Yoann Congal
-Smile ECS
 
+Cheers,
+
+Richard
