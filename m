@@ -1,84 +1,159 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.52258.1795433984042812654
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.52283.1795434095863498568
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Nov 2026 03:39:44 -0800
+ Mon, 23 Nov 2026 03:41:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dnQhKgEf;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4a32576da88so1807190f8f.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 03:39:43 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=Kc33/YmK;
+ spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-4a34ffd3e39so1700832f8f.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 03:41:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1795433982; x=1796038782; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+        d=smile.fr; s=google2; t=1795434094; x=1796038894; darn=lists.openembedded.org;
+        h=in-reply-to:references:cc:from:subject:to:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=p1HIRjQ/VX4G49C55tcs4r1A/8djQo6CwN9mtnhYuM4=;
-        b=dnQhKgEf+1w+jlGR8tDImi4mf+pNsoXV4KyXsO5yXoRTmcLA95yNSlgrto0O+aZMLC
-         NExyCL/R4KDL5pWCgGt03IMCJYEAGZ1MpSifY/2OR/7eimbfNMOBMOcTi1sEsPxuKpXt
-         D1SQ1l1cEGe2jQ2aVhmS/mB/ttZFPZ5Xq9wno=
+        bh=q4oF97HR9YJ8mdBQcNrUTA+3LQuQ1WMVqqGtXCc1ctY=;
+        b=Kc33/YmKPq1lIXzcrjgu68AKZuSqkqzuyUDpu9zeuxIvm5n4Rz++hP9boy84xdQBuG
+         AssieXcn5KnMRHrCf/g2boY1AK+iQlAhaQXRFIXKKVP1+137fs6OCZN6WsIv/QsGq2xo
+         4aZfTaSsKE2IvVC7nWbW4aVbL8hnxWjTQyOC3KV0yvy5C+1UjFo4CaX4t+WvThmeNbCj
+         kAjg3flErzS5eWCMQ8Xb/J9oribzrBu6Ufzj9Ll8hLnnvVb+M1VQh7zg+utA4C9UW+j6
+         txEi0bqJMvkiifEq/XflSKyQNxj5UNAci5icaJeVniB9FMrhSCenuqKzn7AGtEY+1l2s
+         weog==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795433982; x=1796038782;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
+        d=1e100.net; s=20260707; t=1795434094; x=1796038894;
+        h=in-reply-to:references:cc:from:subject:to:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=p1HIRjQ/VX4G49C55tcs4r1A/8djQo6CwN9mtnhYuM4=;
-        b=vSbkVRBjHjevS//KXMhP3FZHwCgpTIdidpZhDTi4+pqRP36/HX2KQ2g2BpuMsakvED
-         MJs8fT4lwRUSsBUahNicKVCBAYqsF5HvI+k+F/6C26lc5Vyyug2uiENW7lTQE6a3lDoQ
-         1NZcPinv+vfN3PqTT4frld9ffcWh7gG5nN8KzkKrg5xciRhuWaM8JhgAmz0iQOMbWx8m
-         qitTfOxj4uMaZnIx4t9TK+cb54mbCTQxqPqgVpnJftjOkGjiqqRpMrDKvdXQ2lqsv4Wx
-         vPDHEh8WXzIs3k9+/mNCHmYWmOotGEZx6WcdDv0SYU/f19yxaS6iLXkHZ0VSRVURXQY+
-         hvHQ==
-X-Forwarded-Encrypted: i=1; AL+hErGlWM1EjNsW6GSEQ9EThGYlWCikAPgIyt+h0eGNszc5qXRjYNqhziAneo8k/YmUcDr+/WPasL1di6z4huKf34z8pA==@lists.openembedded.org
-X-Gm-Message-State: APuU4Z/uleptxNbtlcMIxuNrtgYvsNkQYuXhY8P469JaDjKKNgRvyBqo
-	++xCSdwlQXLQDvGc2HS0QILOXy0pIfVs7wBVQvaIiobKT8DOjf6mAdCA89TQR8GPcpyVSS1/6iB
-	u1Lx6nP8=
-X-Gm-Gg: AZFdTZesudLEqoMW9NQgPIJAlXaYyYTM7U+cGqjdSPlnuc8+RRXXCR3rjidP3INQsH2
-	wg0VK3H3rdcecClmDDj+DWsq+iJK9B58wRHL9XAjP34ZXz4xogxFVwq+HWLYZiN93twBbUBuwDO
-	bM445H9+f4sPEL/nh+QoKN/zzL1Y4pgYGVwNQVNC3LeB7dS049j5fI6UmXwOXbwpzaxgKSzu7Ql
-	rmy5Xo0Mnyphnjt/L/sgK4RG2mJ4cjqMU7IUla0ewUngyAN7OpoXQsHZzG6z8e0ZKRC+Hk5x6Xt
-	hLIlnn5IS16zNMRGSI7OeV2bfBY4bnjPudYta9lJ9aJQrWNnEfZsWdxg2h9xpsFZGKGayzK0lko
-	l+v5LzpFX7jSxcEfkm5+lzao7MTA5IS0CMOXuz5ZJnqrL8HVDybzwmNSwX1OBaEuJMAHfSLhzW4
-	XiNqni5/WL1t3r8oqCZDiSRdykfdhB3ylknJBAfQrqdxFt+evGP7NKnPsGwpXa0hba3Uv8d+4Y6
-	ARjtEnbrS7GAJYpx6dNr1qSgauvV5Nx9us3uZr+EWiDphGRPj7CbtRpKRmBqUmpuNoxPZibmnff
-	EgkUa06RTMbTcovB+FK04Az900oTxs8496pMrQgpfYpP37bsEE0T/bVjY7b7Rk+QI4lqlBAEZM+
-	/OyBRZfw/KHUBffMf/Q==
-X-Received: by 2002:a05:600c:6092:b0:4a1:d537:1c8d with SMTP id 5b1f17b1804b1-4bb8892bb67mr214030625e9.19.1795433982201;
-        Mon, 23 Nov 2026 03:39:42 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:dfb4:14bb:eea0:b8da? ([2001:8b0:aba:5f3c:dfb4:14bb:eea0:b8da])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6c340df4sm24931877f8f.55.2026.11.23.03.39.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 03:39:41 -0800 (PST)
-Message-ID: <a16193f4de16a23bd5f89ec3ece8ee96de8a8ffa.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] staging: allow special handling of
- initial-recipes also for native
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: joerg.vehlow@emlix.com, openembedded-core@lists.openembedded.org
-Date: Mon, 23 Nov 2026 11:39:40 +0000
-In-Reply-To: <20261119055929.3286725-1-joerg.vehlow@emlix.com>
-References: <20261119055929.3286725-1-joerg.vehlow@emlix.com>
-Content-Type: text/plain; charset="UTF-8"
+        bh=q4oF97HR9YJ8mdBQcNrUTA+3LQuQ1WMVqqGtXCc1ctY=;
+        b=GWnIymHC4gFcW+dOGFhocUKTImi480oUzlNsDzvMv0iNv5dgPJlgHYu9ueZNg/SUQ2
+         +JjqA3TcbpFNqvTDMycR3dXMxg7S+S70WEt8AVfkjz5Wa55hUFR6EpoqxiBiDssmNXe5
+         stAi5gKqUpRPzf96dFRMbonb5KFq9ZunSWMSGzQU4d5G2Z/tzTc8ZtDvfS9OZS/UzYiu
+         ZSdS36tFCVYnWScesu3HSr/8ON/K2bylKh+M1vjsWiFU9T6QWMDOVS36ieJ7vEsNONVd
+         f5s4ZGDAR/NNW2MA9ApIbkPoOmRZoyEp2/NfeuiHONCwnRrB0M+TR2DFFoiTBy2xGHB5
+         U/qw==
+X-Forwarded-Encrypted: i=1; AL+hErHk1CMbHVIPBY+FIYfFVFKIFK+cnI5A3LWpwmf00LOyTzMt/KHzg0li5GAqNey4CLh5+ANeNX+/GztgWsqlG2qmsw==@lists.openembedded.org
+X-Gm-Message-State: APuU4Z/eOyL9I12ccgBm1zErDFZFBWySf8DtJwYt5EG94LqnWkCcyPL0
+	3djrmS40CEad5I2ewJQ7SLXvilCTHZYK5b0mkLmmhqLTc2TEk+nFnBAQjSi4M9pYgQs=
+X-Gm-Gg: AZFdTZcH+fCHb4npgYMHai9GY11AChgbqLwb56UpyIZ3xNHZyUqUdLuXa5VeW0hQ/fi
+	yLHgak5pJzuhekVBhPd4L5EUzEPJ/4hwrvNcQsFtHnePasI+5KKuy3kHTjTxRHQmjhRozSa1wPP
+	zEfznKfMCNB2WDa6u8/ckKmJyqr4limAWiQdXxgZVHzF4v9KJWlFveTHYa2l9MuJjGWaWWkJxxl
+	N1xwdFKJygA2MtpFZsVKFRu7r0mZu1vS8keXxg1Xrvxvsi8hlUuUG5omkI1zIZO3Jv1omfZnHgV
+	wu8SXvx4yZy2tbm1YDczuK7ECpIFEjM9UdSNy8I2+DRA7/omlTjv6MiGDat78aomhGGBQ3PxUbM
+	i1AAg6F1EUYEKo6Kbmr2FvCHrvdva9BJqcrng+F72/McJYqOmtPW2h0RJTCY89JD8p02z7Dk68g
+	6oot3ok5nMNwuVsA/Cws0/FEkUZLe6iqfsGZsUmeJQ7T9zcEG/YqkEvJ+6oI1Yvr7S8AONaoUe/
+	wst02+/szhiro3quDc+4aWe+cJw0ut9j8w98iXpY8BU0SUzRyfeCT9ouZ7vbfckO+5FQRA7XJ46
+	Gf+UEWqRkJbJqSqGsYlsaEiAeHpqLH5GI0FzhukTgOSF2j+vaNzSFISFAr+RBXBGPNKbP4h6op9
+	sd3SHnq2HG/0cJQ==
+X-Received: by 2002:a05:6000:4812:b0:491:a219:8506 with SMTP id ffacd0b85a97d-4abb55183dbmr21640745f8f.48.1795434094018;
+        Mon, 23 Nov 2026 03:41:34 -0800 (PST)
+Return-Path: <yoann.congal@smile.fr>
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6a67fec7sm20387400f8f.26.2026.11.23.03.41.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 23 Nov 2026 03:41:33 -0800 (PST)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-10build1 
-MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 23 Nov 2026 12:41:33 +0100
+Message-Id: <DN2K9NVN0739.1ZT0ITGNS0QQG@smile.fr>
+To: <dkelaiya@cisco.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][wrynose][PATCH 3/3] expat: fix CVE-2026-118370
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: =?utf-8?q?Jo=C3=A3o_Marcos_Costa?= <joaomarcos.costa@bootlin.com>
+X-Mailer: aerc 0.20.0
+References: <20261105091719.1622520-1-dkelaiya@cisco.com>
+ <20261105091719.1622520-3-dkelaiya@cisco.com>
+In-Reply-To: <20261105091719.1622520-3-dkelaiya@cisco.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 11:39:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250903
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 11:41:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250904
 
-On Thu, 2026-11-19 at 06:59 +0100, Joerg Vehlow via openembedded-core wrote=
-:
-> Sometimes a native recipe also needs bootstrapping (e.g. for ada,
-> rust or go)
-> -inital-native recipes are already handled different in bitbake.conf
-> (both suffixes are stripped).
-> During staging for the esdk these packages should also not be staged
-> in the sysroot as they might conflict like libgcc-initial does.
+On Thu Nov 5, 2026 at 10:17 AM CET, Darsh Kelaiya -X (dkelaiya - E INFOCHIP=
+S PRIVATE LIMITED at Cisco) via openembedded-core wrote:
+> From: Darsh Kelaiya <dkelaiya@cisco.com>
+>
+> Backport the upstream prefix and attribute-index fixes [1,2]
+> identified by the release announcement [3]. Use size_t for storeAtts
+> bookkeeping and reject values that cannot be represented by the
+> existing public int attribute-count interfaces.
+>
+> Include the related tokenizer-count correction [4] so XmlGetAttributes
+> and getAtts do not overflow a signed count or narrow the available
+> attribute capacity before the storeAtts checks. This closes the same
+> large-attribute data path; it corrects a pre-existing issue rather than
+> a regression introduced by the first two fixes. Preserve Expat 2.8.3's
+> PTRCALL annotations on the tokenizer callback and implementation.
+>
+> Validated with the full native unit suite, inline undefined-behavior
+> traps and an arithmetic boundary model. A multi-gigabyte attribute
+> payload and BitBake were not run.
+>
+> [1] https://github.com/libexpat/libexpat/commit/621cb2c78b253ee023a86bc91=
+d6ddb048481c04c
+> [2] https://github.com/libexpat/libexpat/commit/1bac53c4fc460a03cd9860f39=
+501c7979f6750ae
+> [3] https://www.openwall.com/lists/oss-security/2026/11/02/6
+> [4] https://github.com/libexpat/libexpat/commit/c67cbc6185d1b494f521f2f46=
+280d5982f50f2cf
+>
+> Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+> ---
+>  .../expat/expat/CVE-2026-118370_p1.patch      | 29 +++++++
+>  .../expat/expat/CVE-2026-118370_p2.patch      | 58 ++++++++++++++
+>  .../expat/expat/CVE-2026-118370_p3.patch      | 77 +++++++++++++++++++
+>  meta/recipes-core/expat/expat_2.8.3.bb        |  3 +
+>  4 files changed, 167 insertions(+)
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-118370_p1.patc=
+h
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-118370_p2.patc=
+h
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-118370_p3.patc=
+h
+>
+> diff --git a/meta/recipes-core/expat/expat/CVE-2026-118370_p3.patch b/met=
+a/recipes-core/expat/expat/CVE-2026-118370_p3.patch
+> new file mode 100644
+> index 0000000000..2ad72abee6
+> --- /dev/null
+> +++ b/meta/recipes-core/expat/expat/CVE-2026-118370_p3.patch
+> @@ -0,0 +1,77 @@
+> +From c67cbc6185d1b494f521f2f46280d5982f50f2cf Mon Sep 17 00:00:00 2001
+> +From: Sebastian Pipping <sebastian@pipping.org>
+> +Date: Fri, 30 Oct 2026 18:37:11 +0100
+> +Subject: [PATCH] lib: Fix integer truncation in `XmlGetAttributes`/`getA=
+tts`
+> +
+> +CVE: CVE-2026-118370
+> +Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/c=
+67cbc6185d1b494f521f2f46280d5982f50f2cf]
+> +
+> +Backport Changes:
+> +- Retain PTRCALL on the getAtts callback and implementation for Expat
+> +  2.8.3 calling-convention compatibility, and align the callback
+> +  continuation with the retained annotation.
+> +
+> +Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+> +---
+> + lib/xmlparse.c    | 5 ++---
+> + lib/xmltok.h      | 4 ++--
+> + lib/xmltok_impl.c | 6 +++---
+> + 3 files changed, 7 insertions(+), 8 deletions(-)
 
-initial recipes are target/nativesdk only as far as I know. Where are
-you seeing these -initial-native recipes? Our rust build process
-doesn't have them, nor does go as far as I can tell?
+Hello,
 
-Cheers,
+If I'm not mistaken, this _p3 never was submitted for master &
+blacksail. Specifically, it was not part of Jo=C3=A3o's patch:
+https://patchwork.yoctoproject.org/project/oe-core/patch/20261118103042.182=
+5679-2-joaomarcos.costa@bootlin.com/
+Note that I've taken this patch in my review branch.
 
-Richard
+Please submit this _p3 for master/blacksail so I can take this one here.
+
+Jo=C3=A3o (CC'd), do we need this for blacksail?
+
+Thanks,
+--=20
+Yoann Congal
+Smile ECS
+
