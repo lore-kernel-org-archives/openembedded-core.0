@@ -1,199 +1,145 @@
-Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.64])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.52711.1795436311693035881
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.52933.1795437271543899270
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Nov 2026 04:18:32 -0800
+ Mon, 23 Nov 2026 04:34:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@est.tech header.s=selector1 header.b=YmcH3rkI;
- spf=pass (domain: est.tech, ip: 40.107.162.64, mailfrom: adarsh.jagadish.kamini@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=uMQnfKDu;
+ spf=pass (domain: est.tech, ip: 52.101.66.48, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rjq1wLkteFOoOrlfaqmzB+rFuT+0PKX4r/80xpWKnUujsXWWKVYdvC0ZRzAiSgdfSNa1kl0rYiJxBsjzH1vKPE4WCGeTjm6ug249g/aans3NJB3w552Au6d3QvpnhyEjlOl30YKhR9FAKjvn/RWVL8jpEIp2t0579/on1yubf9E1Ic0OPK+1HFSbLPWsKDMZBW4cRPkvcwORC+Q6ywlVooHpgKNWUbX8yokxCaambofdZHTStMW82NLwaXNgMMdadTdfmsRSxLfnFq2Ze2ZL4qNpEh3OoQmnd+jGPA9hl0Gcfcwh/bbjNL3xh3RwpOEjtkXcAtQH9U9xcpXBiCqeug==
+ b=Z4Es9lkvNh03v9kd1ZzGvzlqVa1O58q2htilKXqnRvZhk6rkhlNbY4IoFlilL32q0cahr3tj78z4O8uxgn8X47pl4a22kfSyg0IdrrSC9zeMR3O20Dr8aJBI25Nd20oHE3XYkFH+GJnjrWWSB0V7ImTYnp7mZ8mBERZZ84eVnqZ5fmvyL1lDdk6Xg5f7/ORz+R5pfjkBm2oO5aswvoc8VDe34BDrRbWnLNmTz9MrQqg/6LA1nPIu5hkLH1rAngsrqO/pmVcnyNeOieaT2Gdfalea7hDbNfzfoDF0r6rmY1LzJd+QFSARF+4gc54T9/dBCnQr1S9zHm6UbpHEPaR8pg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=poCEHguF8T2i/0EVDpu5KGLBZsxLO0elNI366jSGJTU=;
- b=of9sC3zz+gafHxSvDytId+iPGJS2rgoNUBum3nAFoEs7Bnpr2yS7ok8bMKthY0R10A0eYLPyXrkU6YjT7JilpxUIN1lZ5XSWRRtoK5wUTwaDYcU3KobgEWwaaB4ZprsowAX89UgYlcU10XV/ogvtVUYKmJm7VhurKMU5sH4dg6ksgcisdv0ONDEcEmyz4on7pbTcYKQObxDbWxVPJ39yxpuqiCAeo6ymZfoMC327/CZ5WNQCUcLHTYJ2cGKJ46AKNOA/S85cZTLNyL/hh9P1Aux45RPXy97kAdppBhbkrXtfDFNWAaGxBus3v8YvVGz/OZ/U1rUi2+NJ9O/vYtIsnQ==
+ bh=pFNOesnnl+HariBVbeT5niQ0EMW2M+DUp5/nCcqUbnk=;
+ b=bjEgWc8oiLvQ2xHY7g2Tmwxv4J4X1hroN0KcwmCmrbRqk9DeBGVMEH5aW+GY/BCdo49v9lLlr2apPeszCSoaxBCStrOUsStwTxAdrNrUOFu9H4UM9LAQOAD0PHOUO3lL5F6o92SiYlUAgZLRIrXiYxb+0S6Moiq7wr2e3rIp4VidgF6OP61zG5OL+yDhJakVaC/nR05yNx54lkeSvjWxDBdYfinNuwaq32z4X58d/hvZO7Q9hiWjj2rCTJ2YJwcDWK1koZ6t7ZZZCgcKiSYWNbljX3ixMKBYrqfn0pl4L/VwqtAL/WTlJjhG7Z4X5hvytVrJaG0t9y5yZWdFoCt6KQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=poCEHguF8T2i/0EVDpu5KGLBZsxLO0elNI366jSGJTU=;
- b=YmcH3rkIM4vuIdu12I1w2yqHQAGpMLJpQXOu9Dm42RxJqu5vhzLw4UqEiINY6h5aBvkBlsiGnpenJdAhw2cdIb3O0gV62NJDnWkItle9XEN0esAzMCvcta/xpXS4q8RjSyPMkS75KmfwEz+AeMNkdnQBe7ytPDZUynPTdgOtxyniG7QB/sOBpjJ95WOSaRb3upMpcSQen1QRyMkt/tYp3VsuwrUAZSxjP3q8m8cRFLtESF9JlD4PTAN2liRr5T6e9LcAyoAyBwt42jYoYnueDYNricaW96NIl0oeGlSH86AD9p2DRHg3x7rpUV/L18v5nv1nF6jdZzJwhxhnvhc8eg==
-Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:396::9)
- by VI0P189MB2685.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:215::5) with
+ bh=pFNOesnnl+HariBVbeT5niQ0EMW2M+DUp5/nCcqUbnk=;
+ b=uMQnfKDuaPFiLBRJgpFAaG+PmIronGFyRkMAPMXv7E5aKGgDygk1qY3DsGbrYS28P74PvShIRcxahoJdM7dtjlGg2ohBFSjwl0JQFXcvF67ih6ZWDyo1c5OK+VsfWQ8VLMeYtzvr9xYWvqJXABgvgg0RDdIbxohyRMb/VW/+/HpRHma3j/0gfWK2exWKcprLz/q2mPzcLjtxiDss0QphbRf7F/SV1HqZERA7y/MhNJegSqmx9IQT24RR+ORQegsF9wDpW7ZU9dkHCdFmI/RHZTaBLPsIRn73sbwTyVmB1LluLJvZUj63zXz8/xPRkR2o8yWst7ZJso4To2YKCR8vZw==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
+ by PR3P189MB1129.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4b::19) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.13; Mon, 23 Nov
- 2026 12:18:26 +0000
-Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- ([fe80::f147:85e5:34de:eeff]) by AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- ([fe80::f147:85e5:34de:eeff%5]) with mapi id 15.21.0639.012; Mon, 23 Nov 2026
- 12:18:26 +0000
-From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-To: Paul Barker <paul@pbarker.dev>, "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [PATCH] lib/oe/gpg_sign.py: drop unsupported gpg-agent argument
- passing
-Thread-Topic: [PATCH] lib/oe/gpg_sign.py: drop unsupported gpg-agent argument
- passing
-Thread-Index: AQHdceUCKkAfj4Hw60ugFkgBBEgmCbc2336AgATFipE=
-Date: Mon, 23 Nov 2026 12:18:26 +0000
-Message-ID: <AS8P189MB1672130AB40C51FD4046B1B1B3452@AS8P189MB1672.EURP189.PROD.OUTLOOK.COM>
-References: <20261111140027.69866-1-adarsh.jagadish.kamini@est.tech>
- <DN000LWACEB0.1I4HB0QGTWT1X@pbarker.dev>
-In-Reply-To: <DN000LWACEB0.1I4HB0QGTWT1X@pbarker.dev>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS8P189MB1672:EE_|VI0P189MB2685:EE_
-x-ms-office365-filtering-correlation-id: 5926dbf5-0bc8-4ffd-3222-08df495be055
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|23010399003|366016|38070700021|10067099003|56012099006|11063799006|4143699003|261026121527099003|261026140227099003|261028144727099003|261022105027099003|261022075727099003|261021123027099003|261021121427099003|261102123227099003|261009223027099003|18002099003|22082099003|6133799003|3023799007;
-x-microsoft-antispam-message-info: 8mOmKrhVfSwsSALgPtoPilt4IXBQ7heFxTEp2fky/Xiw7DJAyTpr3ejBe/D84RFL2q+cPM7eDwp5l17gMLsFqHiDx7SAPB/mQgE4PgKrAG+1mjOcUrpuqScKIWMwnS08SqqbY1EFHuaR7/dL19G8w59XWNMLRu0HF6a3nkQ7Flw0KMXJk7/9jm4Not+qHwxZsolx61imgMD8PuUJyyChOfPFbi0CDW89/M0jG9nwcu1LoZtWsd3dS85Pmxz2NARYPdjMMQJhltOX6uf0DyGnKYCH57ogb3w4yP8NIVNtdCsRqqUatp+OOY3Be2yiKr5fwqsFW9NkVnW30YHIIciJo+bT5YK76KafMzzRXUUeHBggB4lBrUQKdwaGNExhztPaFOUHW9c07OFUIC6uqtxeQf2kJuN85b9hCaCtDtA1KV22U7ECpjMbpHvFvQygAgUgj+qHNtm/CrUHhKDCaet0XmLIr3hO+9k98Fby9pAVHIjHpPSXdryj05m8s9ZuO25pTT2heyWhoetU5wzvi4oIGhzyAOzOsbYROLGzb0MVrW7OzVC48cjQhmKeVJfj08AqRh3kmxFam0wrSjeQ2NMd6/sYHe1YSV2McK3fCu7OgiZVha8v6pIXijczPJ/GQidDGkDEXer1n0d7Veri/p8Grd+O19fxbqkeMn/1YPGLPXUPwjbSofKelT5MuvRdhriBxTATXCNARLyvYRIr5Nu2xQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P189MB1672.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(366016)(38070700021)(10067099003)(56012099006)(11063799006)(4143699003)(261026121527099003)(261026140227099003)(261028144727099003)(261022105027099003)(261022075727099003)(261021123027099003)(261021121427099003)(261102123227099003)(261009223027099003)(18002099003)(22082099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?DDE6ih5WFq9wjXT8bocvkNOzMMOGXWmWjHAcBaQoGaI+And5uUtOcUW2OZfx?=
- =?us-ascii?Q?5io5RTqP1hxKPw80n7wneLVQSs8/u9f6gTMZiDkGtaw0EHNYdG3a5gzmywzL?=
- =?us-ascii?Q?/1j9kwNxLwsqHOTIdbkIOaQbu1kEpf7Oa2Tqyt0hKv0f6reKcP+gmvVP/AnV?=
- =?us-ascii?Q?LkQ2rZObA8wSUhYclk/iy6MyO9w66vKcE9Yxf9KV3hYBavMJJVzX3tvaAIhI?=
- =?us-ascii?Q?f5jSwS08uPij4Ls6nrju3ehf9qkn4VDt1XK1+HZjphj9kTaPLoMZAH1oAhAi?=
- =?us-ascii?Q?oYMDdKE8cy9OaB7R3V9q+a6EY+vRCXYQikK61twnBLTPkrZH3Owxa08QF+Ie?=
- =?us-ascii?Q?78+f9VeF81veNkho3T/xi7JN8p3BwjX4NWy+wyhz9qWGqFW4o6gvaQJzzqX4?=
- =?us-ascii?Q?WZPoRJqFv8WzZDampPPr+Qd42U2W2vI3OnRbps6AveZuP0eYHBhoNZ2Clu2s?=
- =?us-ascii?Q?8hajl4nRgeqnb6m0blZzzqFh6CJc8eIYl2ZuLwHhroFLXC4iH5BGv1swYshz?=
- =?us-ascii?Q?/9ORR+utLOCuhdCP/WcnqIeJ8yrSEwCRDuHvRoDyj371NP2iCYpwhjLxMIF0?=
- =?us-ascii?Q?/rZCQjtDAMPjET3EWfa8HVIXIn8U9wHqA6ORpd648dig+Uii+UrwGB/OXUfL?=
- =?us-ascii?Q?Kvso3SZJ+XvL5IzDE0cJO7odTzULDE8rCRy8HgKYllUuKWCIq0/jrsXQtoVK?=
- =?us-ascii?Q?Qq/xlDniAhT7Z6hbL5j9S671jnNXTwVygDdsV4PyRhx3tLKmzoQE8LsnRd6r?=
- =?us-ascii?Q?3xsYmJoWqw2ZR+wuK3OCFoU9Bome92YVWudEj6gVYU8yqcVLK8VrrEfkAvs3?=
- =?us-ascii?Q?l0AObE99HTy6V3wDeEnL75Wvet1Gg780iGHIcnm4FJiHduUPuFZ2mHSEwwOs?=
- =?us-ascii?Q?9iQSMKvHsKaAX7dALeE5Xzh1JYMdT3zeA9WgG0SgHqil0u/kSMSN8C0rFoVm?=
- =?us-ascii?Q?Zy50nvw3et387tWBpQmYf+dPRkMGlVsC1D5iRoSbrJst+SFgERhZBrYZQl+N?=
- =?us-ascii?Q?GPeSL6ysPT0wOzss9kmkMjpT8kS4NkfXaFX0ugfxJHblGe367eIjCQOdFlrG?=
- =?us-ascii?Q?7ceCflBEpFs8OS0PPC/vc8wIzHJGi5ezwzPmZxLN9nQtmSL9eO7CxRFuCSgT?=
- =?us-ascii?Q?+yeR2qVxsq85FVCae9SS5xTm5XbYAZp2Xh8D0nYTa4IH4DrTkRpW9RMb03xo?=
- =?us-ascii?Q?ENjZvAfmgRaG4wqtsTucrAakKDsvwPtg21Wnqd4mapj1wh8aEJncS2BtcYY1?=
- =?us-ascii?Q?rfyfrRj+Yd1wn5pXEJ/Q57+zie/xnoKbi5kJmkWr6N1Hb78CxBhQkJ2/YBoB?=
- =?us-ascii?Q?nOC0vEGCNYbyMRcoYlJmCTO51m6nSKnLfm/VhcWxeO+J72uTsuyCoVYrTTvf?=
- =?us-ascii?Q?emKzalMqn89DIuUPmSnqNkcM0YBFZgbxEmv5yhXLgMJLVjia/gf0zJKHTsGB?=
- =?us-ascii?Q?n8DsnFQqqhxaxX5rA7MiwTJ8SaudZWlnhZ8vdSzTBwJ7KqkfQ3LlFKrYaw/q?=
- =?us-ascii?Q?0gaIBtjhdzvV7/kOU/BB3xSGYSbbBaQaehEm5Fd0c9sjzp6wMqp7ILXGCVJn?=
- =?us-ascii?Q?3wZdwjoYfLAnaYT/DivAnp4Bf4Kx6edfYhTqDOT/NiGxzKLJekiwWL2i/rOO?=
- =?us-ascii?Q?1x8poSdrJi8sCQruHlfk1AoraALR1Xeu47CIMjDK+9dFJ6FFimCghnrml/HY?=
- =?us-ascii?Q?Q97OawShXoTEOooGOxKHLZ4QktKeC5+/+yAFgte21V6mbIaFaEZj5DvELvdZ?=
- =?us-ascii?Q?NB1Zfox3uQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
+ 2026 12:34:27 +0000
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0639.012; Mon, 23 Nov 2026
+ 12:34:26 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] rpm-sequoia: skip flaky policy::tests::signature ptest
+Date: Mon, 23 Nov 2026 13:34:24 +0100
+Message-ID: <20261123123424.61533-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: AS9PR06CA0594.eurprd06.prod.outlook.com
+ (2603:10a6:20b:486::30) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:6c0::19)
+Return-Path: jaipaul.cheernam@est.tech
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|PR3P189MB1129:EE_
+X-MS-Office365-Filtering-Correlation-Id: cc69c0f4-adf9-49a6-0019-08df495e1c86
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|10067099003|56012099006|11063799006|261028144727099003|261026140227099003|261102123227099003|261026121527099003|261022105027099003|261021121427099003|261009223027099003|18002099003|6133799003|13003099007;
+X-Microsoft-Antispam-Message-Info: GxpTZgMUsA0zEor5gLDK5oblFZ9DuUMx8uc4Mv9PB94DVuPP/xHIGjwWpgVPG6tbuzugX8y6788PPt+yfj2IwqRcBuL7Bdx5N1E5eci8GJ0HrYGLEC9HURR4KVqTV3S7DQBxCFfK9ZQLk+cxEDIVrD6aVNkzZCur3UJ6W+vOatzGKGw2m576GJtlgSEpTVH7dAog86/x44pJrEcSjGAJ6V6FFaU3QLeP5XomMl9ySjy3fIWLOsxOiUCKwIQYKRUVDPaY/jdQX8nEaUsdxS1oMSKp+/ibp7UL9V/sVXhFkjBCU4PZNLl4bOCO7Qpn12YTg7ZsGyfSAkURjoUddM5BTnQzipBqLRRpQQozrQS8jtExcW80559S15qr9edeZWnrkI+Ff2pnldgK2cKWWZ0K+NtM8ZDnjk3496Yh1MleKXOQVqSwZxa8/cs0evY7bjQrakW5dDDP9Ou6AGNts3WET6UvLNX7RwsL/YhBJsT6LaRc4/G/T1T3N+42YlTH+72cvdnD3dJAmKuuCbDP+DnDexYXIsF6OsjxtUKs94JEJEncB5RejRuU13I1VQPqla/9BM43ak4eFYmBUK0gGg6VoJ2V22TffAhfJOsn+27Gtwb4NQfZUoNSKCVQ63XBUyex6BIvRCT51qm84BmlbMvd20Ar6hJ6RxI5+w3K2Y4/aWw=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(10067099003)(56012099006)(11063799006)(261028144727099003)(261026140227099003)(261102123227099003)(261026121527099003)(261022105027099003)(261021121427099003)(261009223027099003)(18002099003)(6133799003)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?/Q8eLPL0ZfCNlxNyvG6qNlLnKlC+BSfqjtRqvYcnvX9M9EdlDT0da0Mq6TnV?=
+ =?us-ascii?Q?dP5Ijkrr62W8huHiVqwiff1xa0vIi/Ck2vD2hAxVYEaB2Tl3rcBdNTKv9kvx?=
+ =?us-ascii?Q?3VZLkjZ1dCEs4jaBOZ9GH6wtUhk8FesZqkIafvqpF/R1+tI71XKBAAA/Sbok?=
+ =?us-ascii?Q?5YArVpUhQAYkvNN4gEB+DuNhWGO+rKk7JVzy0lU5gkkWjwLH/666w593lWya?=
+ =?us-ascii?Q?8qImxcoW6obJfYGPHPJURQwbmKfUXMLFj4ywhO8E4kjIQquieIcYHxD5iYOv?=
+ =?us-ascii?Q?7bDXEK081AXjZXtMz2TFCDdcxrk4OB0vJ+I76fD/mc1Tol71eAdm+HJw6ueB?=
+ =?us-ascii?Q?adj7QHvEWDbJzeMxqx6Qm/20dqWKEFSla5repcf4DY/i+/L1oNFHm8e34NXa?=
+ =?us-ascii?Q?xwAf1JOgsUhoCbnS3i2hoJL1QuTF4MfzpEUfXvXhx1XXocYYNtAyNYMecZC7?=
+ =?us-ascii?Q?F66/CGiGuBcqB18uYuXYvyMYGsX/MvYXHHhMUHPH9DZRXbs+wBDzPM/wThhq?=
+ =?us-ascii?Q?njHjL494lQu6NkDXWVN2mMshLia/AUFXGW47SZRrFPS30LMDTqAUpUVr5vPs?=
+ =?us-ascii?Q?7sk8KUc840ZIYwlAtBtVi5399Oml8ICXAP5+R1O0tD85jBkFlJK36qoH0dy5?=
+ =?us-ascii?Q?1uJVxmGeE9rzOofJ8zU/mQMamzuHIlJmckU9WEO3rp0RgmEdz1lauLxmed2J?=
+ =?us-ascii?Q?veQJbA4H+ChP0/+moFbwdbGA+LfT4WjVkqMxVuBTUbm9RUoqukiLI4Drd52E?=
+ =?us-ascii?Q?Ga2EWkOJTlUthBLJxQmNoJkEisJttlMIcU1pBZgvajWdjnK8gPDbycv/kQTE?=
+ =?us-ascii?Q?eAE9v91dWVNDOeLsXwiXvKGqNGvbpmmp4vZNQ7l/2oL1TNqM7wvKyK1RjOSr?=
+ =?us-ascii?Q?sB/DIhXfJX6KzN+kmFKGGwVTcMxnSk2UGGM/ALc7TbJLat1GPuGXwT/pZ8/e?=
+ =?us-ascii?Q?XHs3vUUU+90KvIxBJkAh8favctowGxnfRFM8yYFlVEBHFAl6U9odNCPr9Tqu?=
+ =?us-ascii?Q?3mmanV7Iqr0oB9F56xS67hl52fYd3D4qspG5Zda3pmW5xPgdVnLrWc5eaEco?=
+ =?us-ascii?Q?dLOWFfUeTYRV5iGWre7jvukjGIm52z5iRFkA2dKU99Bvd1hk7FOhDx/SGuWL?=
+ =?us-ascii?Q?fxWVHRan1hVK6gTfmuxsuR5tBEVwnfTbte8IpucZi36VN9Am5xJUpGdvhz9X?=
+ =?us-ascii?Q?WdsbgjEEnXFloWnkAE5Jg1E2L3wccTd1+x/D+3AWOVa5NfVwFbqJWrfHbAj1?=
+ =?us-ascii?Q?Gc3vzo4wKHOdU6V/iHbbyxyMQspLTJ3qTB3aeQWBhOzZcvsQiuz8QZ/QPCPF?=
+ =?us-ascii?Q?IkcChOeOup4x+IqQ/RzEsu/cnzypZsltwHzs6rlDQsnrf3ZTr7yLCfu1j/MI?=
+ =?us-ascii?Q?4ZSNSllgMuA0On8xKTjMlazLvqCUsYD/Hu8txgxDJiWcIunVhAO5ZpumcW/z?=
+ =?us-ascii?Q?gF7963waWZtN7vctae4jU9JHII7hf+fkW3CJ60SI9D8oI+0GFsJBN1819F6r?=
+ =?us-ascii?Q?2Leya9dhoG9EvZoISdKh/pyEJkpFQ6o3+zpGtIWJ1HtChhVyaTjawmtfD9p0?=
+ =?us-ascii?Q?1iCGCvm0g9mQe0v2m+Fuv5ISvPYz5Z+zTa8CjuAHb12MNIU9vdekZbH3DmRi?=
+ =?us-ascii?Q?EQbKrkhpTwhE6ZfkkfEcNv2WglG6Eg3XnrkKQjBQyF5oxk/bpb+zHTIpT1YH?=
+ =?us-ascii?Q?uov6C9g0UuxF6xd7HE2Q6rj48fSPvq1pAZcIc+hxrNJPYhRwt/HbpUqNypXg?=
+ =?us-ascii?Q?3yz/PX7/Pg=3D=3D?=
 X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: cc69c0f4-adf9-49a6-0019-08df495e1c86
+X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5926dbf5-0bc8-4ffd-3222-08df495be055
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Nov 2026 12:18:26.4359
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Nov 2026 12:34:26.7255
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 3ae/0/hW5oX5HMgKY4Zau9Eco7uRDuFUeHeIFXAwFdPyw9ZzSrxWS9n2Ms+yUvRAYd9P3v3EOPnrzDwcdPfSAUm/ndsFtRxJl/RklO1QJzs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0P189MB2685
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: wGGZfgz8bNQckHM0DlpLeIdrqj9FHmW9TrL/8c5xB+DYs4QBy5BjnMzw2EhyaVCR/zOdzolSyCdu8KuDlFHklT8wWRIV4SyBFR8ieLw6QPk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3P189MB1129
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 12:18:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250909
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 12:34:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250910
+Content-Type: text/plain; charset="utf-8"
 
-Hi,
-Thanks for the feedback Paul, I am measuring the performance impact with us=
-ing mutex for gpg signing process. I also plan to evaluate the alternatives=
-. I will get back when I have an answer.
+policy::tests::signature fails randomly and reported
+upstream as rpm-sequoia issue #119. [1] and updated Yocto test logs
 
-Thanks!
-Adarsh
+[1] https://github.com/rpm-software-management/rpm-sequoia/issues/119
 
-________________________________________
-From: Paul Barker <paul@pbarker.dev>
-Sent: Friday, November 20, 2026 12:24
-To: Adarsh Jagadish Kamini; openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH] lib/oe/gpg_sign.py: drop unsupported gpg-agent argumen=
-t passing
+ptest logs after skip:
+  ## starting to run rust tests ##
 
-On Wed Nov 11, 2026 at 2:00 PM GMT, Adarsh Jagadish Kamini wrote:
-> Passing auto-expand-secmem through --agent-program relies on GnuPG's
-> unsupported regression test interface. Remove this use and leave agent
-> configuration to the user, since the signing home directory is
-> user-managed and an agent may already be running. Users can enable
-> auto-expand-secmem in gpg-agent.conf to avoid secure-memory exhaustion
-> during parallel signing.
->
-> Tested with oe-selftest -r signing.
->
-> [YOCTO #16480]
->
-> AI-Generated: Uses Kiro (claude-opus-5.5)
-> Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-> ---
->  meta/lib/oe/gpg_sign.py | 9 ++-------
->  1 file changed, 2 insertions(+), 7 deletions(-)
->
-> diff --git a/meta/lib/oe/gpg_sign.py b/meta/lib/oe/gpg_sign.py
-> index ede6186c84..fec6fb27ea 100644
-> --- a/meta/lib/oe/gpg_sign.py
-> +++ b/meta/lib/oe/gpg_sign.py
-> @@ -18,12 +18,7 @@ class LocalSigner(object):
->          self.gpg_bin =3D d.getVar('GPG_BIN') or \
->                    bb.utils.which(os.getenv('PATH'), 'gpg')
->          self.gpg_cmd =3D [self.gpg_bin]
-> -        self.gpg_agent_bin =3D bb.utils.which(os.getenv('PATH'), "gpg-ag=
-ent")
-> -        # Without this we see "Cannot allocate memory" errors when runni=
-ng processes in parallel
-> -        # It needs to be set for any gpg command since any agent launche=
-d can stick around in memory
-> -        # and this parameter must be set.
-> -        if self.gpg_agent_bin:
-> -            self.gpg_cmd +=3D ["--agent-program=3D%s|--auto-expand-secme=
-m" % (self.gpg_agent_bin)]
-> +        # Parallel signing may need auto-expand-secmem in gpg-agent.conf=
-.
->          self.gpg_path =3D d.getVar('GPG_PATH')
->          self.rpm_bin =3D bb.utils.which(os.getenv('PATH'), "rpmsign")
->          self.gpg_version =3D self.get_gpg_version()
-> @@ -43,7 +38,7 @@ class LocalSigner(object):
->          """Sign RPM files"""
->
->          cmd =3D self.rpm_bin + " --addsign --define '_gpg_name %s'  " % =
-keyid
-> -        gpg_args =3D '--no-permission-warning --batch --passphrase=3D%s =
---agent-program=3D%s|--auto-expand-secmem' % (passphrase, self.gpg_agent_bi=
-n)
-> +        gpg_args =3D '--no-permission-warning --batch --passphrase=3D%s'=
- % passphrase
->          if self.gpg_version > (2,1,):
->              gpg_args +=3D ' --pinentry-mode=3Dloopback'
->          cmd +=3D "--define '_gpg_sign_cmd_extra_args %s' " % gpg_args
+  running 1 test
+  test symbols ... ok
 
-Hi Adarsh,
+  test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered ou=
+t; finished in 0.01s
 
-I think we need to consider other ways to handle this. Dropping the
-argument completely and leaving this up to users risks the user seeing
-"Cannot allocate memory" errors without a clear and obvious explanation
-of what to do to fix them.
+  PASS: /usr/lib/rpm-sequoia/ptest/symbols-478593ba8da2eb3f
 
-Is there any way to detect if the running gpg-agent has the
-auto-expand-secmem option enabled?
+  running 2 tests
+  test tests::merge_certs_mismatch ... ok
+  test tests::merge_certs ... ok
 
-If we can't make this safe by default, perhaps we need to use a mutex so
-that gpg signing processes run one at a time. If that has a significant
-performance impact, we can provide an option to disable the mutex with
-instructions on what the user needs to do to enable auto-expand-secmem.
+  test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 1 filtered ou=
+t; finished in 0.01s
 
-I'm also open to other suggestions on how to handle this.
+[YOCTO #16532]
 
-Thanks,
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+---
+ meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.10.3.bb | 4 ++++
+ 1 file changed, 4 insertions(+)
 
---
-Paul Barker
-
+diff --git a/meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.10.3.bb b/meta=
+/recipes-devtools/rpm-sequoia/rpm-sequoia_1.10.3.bb
+index a91a952f261..f63a5a04027 100644
+--- a/meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.10.3.bb
++++ b/meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.10.3.bb
+@@ -23,6 +23,10 @@ SRCREV =3D "8e0b76e1e75c83d7d8e6f38976b0c83b52ebe7ee"
+=20
+ require ${BPN}-crates.inc
+=20
++# policy::tests::signature is flaky in 1.10.3
++# https://github.com/rpm-software-management/rpm-sequoia/issues/119
++RUST_TEST_ARGS =3D "--skip policy::tests::signature"
++
+ CARGO_BUILD_FLAGS +=3D "--no-default-features --features crypto-openssl"
+ CARGO_INSTALL_LIBRARIES =3D "1"
+=20
