@@ -1,42 +1,41 @@
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.48125.1795412251178118538
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.48128.1795412254318360272
  for <openembedded-core@lists.openembedded.org>;
- Sun, 22 Nov 2026 21:37:31 -0800
+ Sun, 22 Nov 2026 21:37:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=KwJDWsEy;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=FMxkhAW2;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101a206e8ce44-8b5f54da-0a56-46e6-8330-af647906188a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=etg5o/p6;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=TP5fUTFZ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101a206e8db4a-aef63d48-9b78-46bf-adf9-359c8d8d843b-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1795412250;
+	t=1795412253;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=usVsj1I4lBBdW5ta8weF9Fh25FT5KapngbjN920Kd5U=;
-	b=KwJDWsEyY9wXqgnTrqmKvqyueoc6dg3b5WtfouUz8Bsdij7ACMEGuVohU1H/miqi
-	rMWDzVKOKXpsrYRIHLDO6PZ0/zu0ATsi8HARhsqIJxsLPRiocEfrQteozoLG5Inf8E6
-	MTe90npds+wFytxDsDrAsmV6OOI1ebjT5gLvnZ3g=
+	bh=pUrkdldo/AnhJTqybDSncuHLmp54CGvML+FcCQmpCNQ=;
+	b=etg5o/p6BApkwZA6jaeU2lv2hCweuhPEH0TAihJdZbhWIFlN7PzGhV2CI8NPq72n
+	q2yLwJXAIjm0nZpPVDa8qLgvbeNTE905bOW3I5I0BtRjyrRQ5YNADDMt/5Rp5t/Jfux
+	kIzjQAwmA6r8nplPikMzbj4U7B7r4F9mK510NdkY=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1795412250;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1795412253;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=usVsj1I4lBBdW5ta8weF9Fh25FT5KapngbjN920Kd5U=;
-	b=FMxkhAW2ciQEnRCAJ2/96xP6zDGoWUVBPQCv2o2W4DFtRIH6YNbF8yFsFK9SFB00
-	t/3kuo5nxfisrdmlWihvXHXI0FZVpZCqRLOxXleejVG9ztQBr3Pj1fDheo4Qe/d+24a
-	u3DWq1Ab3zMbho5wI++ccUbRNfkV++4qgv4APJVk=
-Content-Type: multipart/mixed; boundary="===============2918807310327118059=="
+	bh=pUrkdldo/AnhJTqybDSncuHLmp54CGvML+FcCQmpCNQ=;
+	b=TP5fUTFZM7CGSc5LccEfzznaeo747pN24oOBYpG90Ra8p2sBYhoWoKsPYxGVmJF5
+	9Uv5wQ7hR7YaqZrquQitu9bk5j4xUUEnJXjuHhtFTUcKE/I/wK5tK1fNUkqGuLX2CJE
+	ADHewv2PkzJPkFt9NzEmvgY0enj4YV+9+FD1Fghc=
+Content-Type: multipart/mixed; boundary="===============2309562332188901403=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Joshua Watt <JPEWhacker@gmail.com>, Joshua Watt <JPEWhacker@gmail.com>
+To: Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pycryptodome,python3-pycryptodomex: upgrading to
- 4.6.0,3.24.2 FAILED
-Message-ID: <010101a206e8ce44-8b5f54da-0a56-46e6-8330-af647906188a-000000@us-west-2.amazonses.com>
-Date: Mon, 23 Nov 2026 05:37:30 +0000
+Subject: [AUH] at-spi2-core: upgrading to 2.62.2 SUCCEEDED
+Message-ID: <010101a206e8db4a-aef63d48-9b78-46bf-adf9-359c8d8d843b-000000@us-west-2.amazonses.com>
+Date: Mon, 23 Nov 2026 05:37:33 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.23-54.240.27.33
+X-SES-Outgoing: 2026.11.23-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 05:37:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250882
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250886
 
---===============2918807310327118059==
+--===============2309562332188901403==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -44,16 +43,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-pycryptodome,python3-pycryptodomex* to *4.6.0,3.24.2* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *at-spi2-core* to *2.62.2* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pycryptodome-python3-pycryptodomex-upgrade-3.patch
+    - apply the patch: git am 0001-at-spi2-core-upgrade-2.62.1-2.62.2.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,632 +64,343 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From dff6499fa2a862b4e4a3211afa06b0a9c407c205 Mon Sep 17 00:00:00 2001
+From e6896f8142d301fdb2c5423cb637500f1c5e0e37 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 23 Nov 2026 05:07:27 +0000
-Subject: [PATCH] python3-pycryptodome,python3-pycryptodomex: upgrade 3.24.1 ->
- 4.6.0,3.24.1 -> 3.24.2
+Date: Mon, 23 Nov 2026 05:37:27 +0000
+Subject: [PATCH] at-spi2-core: upgrade 2.62.1 -> 2.62.2
 
-4.6.0 (22 November 2026)
+What's new in at-spi2-core 2.62.2:
 
-New features
-------------
+    libatspi: Don't crash when a direct connection fails before the root is
+    known.
 
-Breaking changes
-----------------
-
-Resolved issues
----------------
-
-4.5.0 (15 November 2026)
-
-New features
-------------
-
-Breaking changes
-----------------
-
-Resolved issues
----------------
-
-4.4.0 (7 November 2026)
-
-New features
-------------
-
-Resolved issues
----------------
-
-4.3.0 (2 November 2026)
-
-New features
-------------
-
-Other changes
--------------
-
-Resolved issues
----------------
-
-4.2.0 (24 October 2026)
-
-New features
-------------
-
-4.1.0 (19 October 2026)
-
-New features
-------------
-
-Resolved issues
----------------
-
-4.0.1 (17 October 2026)
-
-New features
-------------
-
-4.0.0 (14 October 2026)
-
-Breaking changes
-----------------
-
-Deprecations
-------------
-
-Resolved issues
----------------
-
-New features
-------------
-
-3.24.2 (5 November 2026)
-This release is only for ``pycryptodomex``.
-
-Resolved issues
----------------
-
-Other changes
--------------
-
-3.24.2 (5 November 2026)
-This release is only for ``pycryptodomex``.
-
-Resolved issues
----------------
-
-Other changes
--------------
+    libatspi: Notify when an AtspiEventListener's callback is no longer valid.
+    device-x11: Report each key once while using the raw key fallback.
 ---
- .../python/python3-pycryptodome_3.24.1.bb     |  6 ---
- .../python/python3-pycryptodome_4.6.0.bb      | 47 +++++++++++++++++++
- ...4.1.bb => python3-pycryptodomex_3.24.2.bb} |  2 +-
- 3 files changed, 48 insertions(+), 7 deletions(-)
- delete mode 100644 meta/recipes-devtools/python/python3-pycryptodome_3.24.1.bb
- create mode 100644 meta/recipes-devtools/python/python3-pycryptodome_4.6.0.bb
- rename meta/recipes-devtools/python/{python3-pycryptodomex_3.24.1.bb => python3-pycryptodomex_3.24.2.bb} (76%)
+ .../atk/{at-spi2-core_2.62.1.bb => at-spi2-core_2.62.2.bb}      | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/atk/{at-spi2-core_2.62.1.bb => at-spi2-core_2.62.2.bb} (94%)
 
-diff --git a/meta/recipes-devtools/python/python3-pycryptodome_3.24.1.bb b/meta/recipes-devtools/python/python3-pycryptodome_3.24.1.bb
-deleted file mode 100644
-index 0aa53559d6..0000000000
---- a/meta/recipes-devtools/python/python3-pycryptodome_3.24.1.bb
-+++ /dev/null
-@@ -1,6 +0,0 @@
--require python-pycryptodome.inc
--inherit python_setuptools_build_meta
--
--SRC_URI[sha256sum] = "3f9e74444c0ecbec7af232a95d282c74b114d53212ce075ed17b7fd7dca32bb3"
--
--CVE_PRODUCT = "pycryptodome:pycryptodome"
-diff --git a/meta/recipes-devtools/python/python3-pycryptodome_4.6.0.bb b/meta/recipes-devtools/python/python3-pycryptodome_4.6.0.bb
-new file mode 100644
-index 0000000000..8650225140
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-pycryptodome_4.6.0.bb
-@@ -0,0 +1,47 @@
-+# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
-+# The following is the difference between the old and the new license text.
-+# Please update the LICENSE value if needed, and summarize the changes in
-+# the commit message via 'License-Update:' tag.
-+# (example: 'License-Update: copyright years updated.')
-+#
-+# The changes:
-+#
-+# --- LICENSE.rst
-+# +++ LICENSE.rst
-+# @@ -3,6 +3,10 @@
-+#  
-+#  In either case, there are minimal if no restrictions on the redistribution,
-+#  modification and usage of the software.
-+# +
-+# +Files that do not include the license text refer to it with an SPDX tag:
-+# +``SPDX-License-Identifier: BSD-2-Clause`` for the BSD license below
-+# +(``SPDX-FileCopyrightText`` gives the copyright notice).
-+#  
-+#  Public domain
-+#  =============
-+# @@ -59,3 +63,16 @@
-+#  CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-+#  OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-+#  OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-+# +
-+# +Third-party code
-+# +================
-+# +
-+# +The directory ``src/mldsa-native`` contains code from mldsa-native
-+# +(https://github.com/pq-code-package/mldsa-native), available under
-+# +the Apache-2.0 license OR the ISC license OR the MIT license.
-+# +See ``src/mldsa-native/LICENSE`` for the full text of the licenses.
-+# +
-+# +The directory ``src/mlkem-native`` contains code from mlkem-native
-+# +(https://github.com/pq-code-package/mlkem-native), available under
-+# +the Apache-2.0 license OR the ISC license OR the MIT license.
-+# +See ``src/mlkem-native/LICENSE`` for the full text of the licenses.
-+# 
-+#
-+
-+require python-pycryptodome.inc
-+inherit python_setuptools_build_meta
-+
-+SRC_URI[sha256sum] = "b1c813476d8977edc91a57f5e9ef7611367d5c5361054fe2de152e3e47dd423d"
-+
-+CVE_PRODUCT = "pycryptodome:pycryptodome"
-diff --git a/meta/recipes-devtools/python/python3-pycryptodomex_3.24.1.bb b/meta/recipes-devtools/python/python3-pycryptodomex_3.24.2.bb
-similarity index 76%
-rename from meta/recipes-devtools/python/python3-pycryptodomex_3.24.1.bb
-rename to meta/recipes-devtools/python/python3-pycryptodomex_3.24.2.bb
-index b24e047a19..29e3d600a5 100644
---- a/meta/recipes-devtools/python/python3-pycryptodomex_3.24.1.bb
-+++ b/meta/recipes-devtools/python/python3-pycryptodomex_3.24.2.bb
-@@ -1,7 +1,7 @@
- require python-pycryptodome.inc
- inherit python_setuptools_build_meta
+diff --git a/meta/recipes-support/atk/at-spi2-core_2.62.1.bb b/meta/recipes-support/atk/at-spi2-core_2.62.2.bb
+similarity index 94%
+rename from meta/recipes-support/atk/at-spi2-core_2.62.1.bb
+rename to meta/recipes-support/atk/at-spi2-core_2.62.2.bb
+index 44b0f7e7cf..bc9c8fa0c2 100644
+--- a/meta/recipes-support/atk/at-spi2-core_2.62.1.bb
++++ b/meta/recipes-support/atk/at-spi2-core_2.62.2.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=4fbd65380cdd255951079008b364516c"
  
--SRC_URI[sha256sum] = "09081666ffc599976c0b8b29caf2cf82212c0f05bed233c8f8ed53e4f6e1d356"
-+SRC_URI[sha256sum] = "e4dbc29e2575365d15e272f769329106277649aea081e2119cf43d66950f8f8f"
+ CVE_PRODUCT += "at-spi2-atk"
  
- CVE_PRODUCT = "pycryptodome:pycryptodome pycryptodome:pycryptodomex"
+-SRC_URI[archive.sha256sum] = "cca6b6a86e4389d89b370288761ce2385ddeceb10c4412da78689bc30c88af2d"
++SRC_URI[archive.sha256sum] = "7ce81820ddf873b8d930177e0790f730f60d22d8e0acee9ba8f75d8202598de3"
  
+ DEPENDS = " \
+ 	dbus \
 -- 
 2.47.1
 
 
---===============2918807310327118059==
+--===============2309562332188901403==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="python3-pycryptodomex-changelog.txt"
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-3.24.2 (5 November 2026)
-This release is only for ``pycryptodomex``.
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core: FILELIST: removed "/usr/lib/libatk-1.0.so.0.26210.1", added "/usr/lib/libatk-1.0.so.0.26211.1"
+packages/x86-64-v3-poky-linux/at-spi2-core: PACKAGES: added "at-spi2-core-locale-mi"
+Changes to packages/x86-64-v3-poky-linux/at-spi2-core (sysroot):
+  /usr/lib/libatk-1.0.so.0 changed symlink target from libatk-1.0.so.0.26210.1 to libatk-1.0.so.0.26211.1
+  /usr/lib/libatk-1.0.so.0.26210.1 moved to /usr/lib/libatk-1.0.so.0.26211.1
 
-Resolved issues
----------------
-
-Other changes
--------------
-
---===============2918807310327118059==
+--===============2309562332188901403==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 963 .bb files complete (0 cached, 963 parsed). 2014 targets, 43 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-dbg: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-dbg: FILELIST: removed "/usr/lib/.debug/libatk-1.0.so.0.26210.1", added "/usr/lib/.debug/libatk-1.0.so.0.26211.1"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-dbg: PKGSIZE changed from 2508136 to 2508960 (+0%)
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-dbg: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-dev: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-dev: PKGSIZE changed from 2204589 to 2204590 (+0%)
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-dev: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-doc: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-doc: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ab: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ab: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-af: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-af: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-am: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-am: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-an: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-an: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ar: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ar: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-as: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-as: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ast: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ast: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-az: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-az: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-be+latin: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-be+latin: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-be: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-be: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-bg: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-bg: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-bn-in: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-bn-in: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-bn: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-bn: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-bs: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-bs: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ca+valencia: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ca+valencia: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ca: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ca: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ckb: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ckb: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-cs: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-cs: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-cy: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-cy: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-da: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-da: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-de: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-de: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-dz: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-dz: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-el: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-el: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-en+shaw: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-en+shaw: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-en-ca: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-en-ca: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-en-gb: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-en-gb: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-eo: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-eo: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-es: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-es: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-et: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-et: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-eu: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-eu: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-fa: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-fa: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-fi: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-fi: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-fr: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-fr: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-fur: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-fur: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ga: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ga: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-gd: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-gd: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-gl: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-gl: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-gu: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-gu: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-he: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-he: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-hi: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-hi: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-hr: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-hr: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-hu: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-hu: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-hy: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-hy: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-id: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-id: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-is: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-is: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-it: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-it: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ja: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ja: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ka: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ka: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-kab: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-kab: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-kk: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-kk: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-km: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-km: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-kn: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-kn: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ko: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ko: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ku: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ku: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-li: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-li: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-lt: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-lt: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-lv: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-lv: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-mai: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-mai: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-mk: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-mk: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ml: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ml: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-mn: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-mn: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-mr: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-mr: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ms: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ms: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-nb: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-nb: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ne: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ne: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-nl: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-nl: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-nn: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-nn: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-oc: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-oc: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-or: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-or: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-pa: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-pa: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-pl: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-pl: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ps: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ps: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-pt-br: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-pt-br: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-pt: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-pt: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ro: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ro: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ru: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ru: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-rw: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-rw: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-si: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-si: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-sk: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-sk: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-sl: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-sl: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-sq: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-sq: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-sr+ije: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-sr+ije: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-sr+latin: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-sr+latin: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-sr: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-sr: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-sv: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-sv: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ta: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ta: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-te: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-te: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-tg: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-tg: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-th: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-th: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-tk: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-tk: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-tr: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-tr: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-tt: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-tt: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ug: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-ug: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-uk: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-uk: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-uz+cyrillic: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-uz+cyrillic: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-uz: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-uz: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-vi: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-vi: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-wa: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-wa: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-xh: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-xh: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-yi: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-yi: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-zh-cn: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-zh-cn: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-zh-hk: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-zh-hk: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-zh-tw: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-zh-tw: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-zu: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-locale-zu: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-src: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-src: FILELIST: directory renamed /usr/src/debug/at-spi2-core/2.62.1/atk-adaptor/gtk-2.0 -> /usr/src/debug/at-spi2-core/2.62.2/atk-adaptor/gtk-2.0, directory renamed /usr/src/debug/at-spi2-core/2.62.1/dbind -> /usr/src/debug/at-spi2-core/2.62.2/dbind, directory renamed /usr/src/debug/at-spi2-core/2.62.1/droute -> /usr/src/debug/at-spi2-core/2.62.2/droute, directory renamed /usr/src/debug/at-spi2-core/2.62.1/atk-adaptor -> /usr/src/debug/at-spi2-core/2.62.2/atk-adaptor, directory renamed /usr/src/debug/at-spi2-core/2.62.1/atspi -> /usr/src/debug/at-spi2-core/2.62.2/atspi, directory renamed /usr/src/debug/at-spi2-core/2.62.1/atk -> /usr/src/debug/at-spi2-core/2.62.2/atk, directory renamed /usr/src/debug/at-spi2-core/2.62.1/atk-adaptor/adaptors -> /usr/src/debug/at-spi2-core/2.62.2/atk-adaptor/adaptors, directory renamed /usr/src/debug/at-spi2-core/2.62.1/bus -> /usr/src/debug/at-spi2-core/2.62.2/bus, directory renamed /usr/src/debu
+ g/at-spi2-core/2.62.1/xml -> /usr/src/debug/at-spi2-core/2.62.2/xml, directory renamed /usr/src/debug/at-spi2-core/2.62.1/registryd -> /usr/src/debug/at-spi2-core/2.62.2/registryd
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-src: PKGSIZE changed from 2135364 to 2136818 (+0%)
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-src: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-staticdev: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core-staticdev: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core: FILELIST: removed "/usr/lib/libatk-1.0.so.0.26210.1", added "/usr/lib/libatk-1.0.so.0.26211.1"
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core: PKGSIZE changed from 1012123 to 1012137 (+0%)
+packages/x86-64-v3-poky-linux/at-spi2-core/at-spi2-core: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core: PV changed from "2.62.1" to "2.62.2"
+packages/x86-64-v3-poky-linux/at-spi2-core: SRC_URI changed from "https://download.gnome.org/sources//at-spi2-core/2.62/at-spi2-core-2.62.1.tar.xz;name=archive" to "https://download.gnome.org/sources//at-spi2-core/2.62/at-spi2-core-2.62.2.tar.xz;name=archive"
+packages/x86-64-v3-poky-linux/at-spi2-core: PKGV changed from 2.62.1 [default] to 2.62.2 [default]
+packages/x86-64-v3-poky-linux/at-spi2-core: PACKAGES: added "at-spi2-core-locale-mi"
+Changes to packages/x86-64-v3-poky-linux/at-spi2-core (sysroot):
+  /usr/lib/libatk-1.0.so.0 changed symlink target from libatk-1.0.so.0.26210.1 to libatk-1.0.so.0.26211.1
+  /usr/lib/libatk-1.0.so.0.26210.1 moved to /usr/lib/libatk-1.0.so.0.26211.1
 
-Build Configuration:
-BB_VERSION           = "2.20.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.1.99+snapshot-40bb14c8363234f7b4e92f104a552633fd7d9335"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:40bb14c8363234f7b4e92f104a552633fd7d9335"
-meta-yocto-bsp       
-meta-poky            = "master:6ee74fbbe3a36dabb7f8f85ee10691eaf8aa3252"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 398 Local 372 Mirrors 0 Missed 26 Current 350 (93% match, 96% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 667 of 748 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_16.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 684 of 748 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools_84.2.1.bb:do_populate_sysroot_setscene)
-NOTE: Running task 413 of 1919 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycryptodomex_3.24.2.bb:do_recipe_qa)
-NOTE: Running task 414 of 1919 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycryptodome_4.6.0.bb:do_recipe_qa)
-NOTE: Running task 490 of 1919 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycryptodomex_3.24.2.bb:do_create_recipe_spdx)
-NOTE: Running task 491 of 1919 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycryptodome_4.6.0.bb:do_create_recipe_spdx)
-NOTE: recipe gcc-cross-x86_64-16.2.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-pycryptodomex-3.24.2-r0: task do_recipe_qa: Started
-NOTE: recipe python3-pycryptodome-4.6.0-r0: task do_recipe_qa: Started
-NOTE: recipe python3-pycryptodomex-3.24.2-r0: task do_create_recipe_spdx: Started
-NOTE: recipe python3-pycryptodome-4.6.0-r0: task do_create_recipe_spdx: Started
-NOTE: recipe python3-setuptools-native-84.2.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-setuptools-native-84.2.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 692 of 748 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-build_1.6.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 694 of 748 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-setuptools_84.2.1.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-pycryptodome-4.6.0-r0: task do_create_recipe_spdx: Succeeded
-NOTE: recipe python3-pycryptodomex-3.24.2-r0: task do_recipe_qa: Succeeded
-NOTE: recipe python3-pycryptodome-4.6.0-r0: task do_recipe_qa: Succeeded
-NOTE: recipe python3-pycryptodomex-3.24.2-r0: task do_create_recipe_spdx: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycryptodomex_3.24.2.bb:do_recipe_qa unihash changed to 33b7db1bb4fe6583665b776f489b7b818fdb63bec25cce50f38caf7c58f97f92
-NOTE: Running task 492 of 1919 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycryptodomex_3.24.2.bb:do_fetch)
-NOTE: Running task 493 of 1919 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycryptodome_4.6.0.bb:do_fetch)
-NOTE: recipe python3-build-native-1.6.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-setuptools-native-84.2.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-setuptools-native-84.2.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-pycryptodomex-3.24.2-r0: task do_fetch: Started
-NOTE: recipe python3-pycryptodome-4.6.0-r0: task do_fetch: Started
-NOTE: recipe python3-pycryptodomex-3.24.2-r0: task do_fetch: Succeeded
-NOTE: recipe python3-pycryptodome-4.6.0-r0: task do_fetch: Succeeded
-NOTE: Running task 497 of 1919 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycryptodomex_3.24.2.bb:do_unpack)
-NOTE: Running task 498 of 1919 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycryptodome_4.6.0.bb:do_unpack)
-NOTE: recipe python3-build-native-1.6.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 695 of 748 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pyproject-hooks_1.3.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 696 of 748 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-packaging_26.3.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 698 of 748 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-build_1.6.1.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-pycryptodomex-3.24.2-r0: task do_unpack: Started
-NOTE: recipe python3-pycryptodome-4.6.0-r0: task do_unpack: Started
-NOTE: recipe python3-pyproject-hooks-native-1.3.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-packaging-native-26.3-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-build-native-1.6.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-pycryptodome-4.6.0-r0: task do_unpack: Succeeded
-NOTE: recipe python3-pycryptodomex-3.24.2-r0: task do_unpack: Succeeded
-NOTE: recipe python3-build-native-1.6.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-pyproject-hooks-native-1.3.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 700 of 748 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pyproject-hooks_1.3.3.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-packaging-native-26.3-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 702 of 748 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-packaging_26.3.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 703 of 748 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-installer_1.1.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe python3-pyproject-hooks-native-1.3.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-installer-native-1.1.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-packaging-native-26.3-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-pyproject-hooks-native-1.3.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-packaging-native-26.3-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-installer-native-1.1.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 705 of 748 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-installer_1.1.0.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 706 of 748 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-flit-core_3.12.0.bb:do_populate_sysroot_setscene)
-NOTE: recipe gcc-cross-x86_64-16.2.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 709 of 748 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmpc/libmpc_1.4.1.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 710 of 748 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_16.2.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 711 of 748 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/binutils/binutils-cross_2.47.bb:do_populate_sysroot_setscene)
-NOTE: recipe python3-installer-native-1.1.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe python3-flit-core-native-3.12.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-x86_64-16.2.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.47-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-installer-native-1.1.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libmpc-native-1.4.1-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gcc-cross-x86_64-16.2.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe python3-flit-core-native-3.12.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 714 of 748 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/unzip/unzip_6.0.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 715 of 748 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-flit-core_3.12.0.bb:do_recipe_qa_setscene)
-NOTE: recipe libmpc-native-1.4.1-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 717 of 748 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/mpfr/mpfr_4.2.2.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 718 of 748 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libmpc/libmpc_1.4.1.bb:do_recipe_qa_setscene)
-NOTE: recipe unzip-native-1_6.0-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe python3-flit-core-native-3.12.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.47-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 723 of 748 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/flex/flex_2.6.4.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 727 of 748 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/binutils/binutils-cross_2.47.bb:do_recipe_qa_setscene)
-NOTE: recipe python3-flit-core-native-3.12.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe libmpc-native-1.4.1-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe mpfr-native-4.2.2-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.47-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe unzip-native-1_6.0-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: recipe libmpc-native-1.4.1-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Running setscene task 729 of 748 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/unzip/unzip_6.0.bb:do_recipe_qa_setscene)
-NOTE: recipe flex-native-2.6.4-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe binutils-cross-x86_64-2.47-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe mpfr-native-4.2.2-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 731 of 748 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/mpfr/mpfr_4.2.2.bb:do_recipe_qa_setscene)
-NOTE: recipe unzip-native-1_6.0-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe unzip-native-1_6.0-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe flex-native-2.6.4-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 736 of 748 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/flex/flex_2.6.4.bb:do_recipe_qa_setscene)
-NOTE: Running setscene task 738 of 748 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/m4/m4-native_1.4.21.bb:do_populate_sysroot_setscene)
-NOTE: recipe mpfr-native-4.2.2-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe m4-native-1.4.21-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe mpfr-native-4.2.2-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe flex-native-2.6.4-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe flex-native-2.6.4-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe m4-native-1.4.21-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 741 of 748 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gnu-config/gnu-config_git.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 743 of 748 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/m4/m4-native_1.4.21.bb:do_recipe_qa_setscene)
-NOTE: recipe m4-native-1.4.21-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gnu-config-native-20260629+git-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe m4-native-1.4.21-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe gnu-config-native-20260629+git-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 745 of 748 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/quilt/quilt-native_0.69.bb:do_populate_sysroot_setscene)
-NOTE: Running setscene task 746 of 748 (virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gnu-config/gnu-config_git.bb:do_recipe_qa_setscene)
-NOTE: recipe quilt-native-0.69-r0: task do_populate_sysroot_setscene: Started
-NOTE: recipe gnu-config-native-20260629+git-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe gnu-config-native-20260629+git-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: recipe quilt-native-0.69-r0: task do_populate_sysroot_setscene: Succeeded
-NOTE: Running setscene task 748 of 748 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/quilt/quilt-native_0.69.bb:do_recipe_qa_setscene)
-NOTE: recipe quilt-native-0.69-r0: task do_recipe_qa_setscene: Started
-NOTE: recipe quilt-native-0.69-r0: task do_recipe_qa_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1622 of 1919 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycryptodomex_3.24.2.bb:do_patch)
-NOTE: Running task 1623 of 1919 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycryptodome_4.6.0.bb:do_patch)
-NOTE: Running task 1679 of 1919 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycryptodomex_3.24.2.bb:do_prepare_recipe_sysroot)
-NOTE: Running task 1680 of 1919 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycryptodome_4.6.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe python3-pycryptodomex-3.24.2-r0: task do_patch: Started
-NOTE: recipe python3-pycryptodome-4.6.0-r0: task do_patch: Started
-NOTE: recipe python3-pycryptodomex-3.24.2-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-pycryptodome-4.6.0-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe python3-pycryptodome-4.6.0-r0: task do_patch: Succeeded
-NOTE: recipe python3-pycryptodomex-3.24.2-r0: task do_patch: Succeeded
-NOTE: Running task 1890 of 1919 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycryptodome_4.6.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1891 of 1919 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycryptodomex_3.24.2.bb:do_deploy_source_date_epoch)
-NOTE: Running task 1892 of 1919 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycryptodomex_3.24.2.bb:do_populate_lic)
-NOTE: Running task 1893 of 1919 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycryptodome_4.6.0.bb:do_populate_lic)
-NOTE: recipe python3-pycryptodome-4.6.0-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-pycryptodomex-3.24.2-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe python3-pycryptodomex-3.24.2-r0: task do_populate_lic: Started
-NOTE: recipe python3-pycryptodome-4.6.0-r0: task do_populate_lic: Started
-NOTE: recipe python3-pycryptodomex-3.24.2-r0: task do_populate_lic: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycryptodomex_3.24.2.bb:do_populate_lic unihash changed to 38ae46b028853c3022d46b5e3f2b0aa53cae8094182f5ba15cb4ebf45190669a
-NOTE: recipe python3-pycryptodome-4.6.0-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: recipe python3-pycryptodomex-3.24.2-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycryptodomex_3.24.2.bb:do_deploy_source_date_epoch unihash changed to 55513496629af1f922f738888267fbe4ec6231d75cde74d5599d7873f858b9bc
-NOTE: recipe python3-pycryptodome-4.6.0-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe python3-pycryptodomex-3.24.2-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1894 of 1919 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycryptodome_4.6.0.bb:do_configure)
-NOTE: Setscene tasks completed
-NOTE: Running task 1895 of 1919 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycryptodomex_3.24.2.bb:do_configure)
-NOTE: recipe python3-pycryptodome-4.6.0-r0: task do_configure: Started
-NOTE: recipe python3-pycryptodomex-3.24.2-r0: task do_configure: Started
-NOTE: recipe python3-pycryptodome-4.6.0-r0: task do_configure: Succeeded
-NOTE: Running task 1896 of 1919 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycryptodome_4.6.0.bb:do_compile)
-NOTE: recipe python3-pycryptodomex-3.24.2-r0: task do_configure: Succeeded
-NOTE: Running task 1897 of 1919 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycryptodomex_3.24.2.bb:do_compile)
-NOTE: recipe python3-pycryptodome-4.6.0-r0: task do_compile: Started
-NOTE: recipe python3-pycryptodomex-3.24.2-r0: task do_compile: Started
-NOTE: recipe python3-pycryptodome-4.6.0-r0: task do_populate_lic: Failed
-NOTE: recipe python3-pycryptodomex-3.24.2-r0: task do_compile: Succeeded
-NOTE: recipe python3-pycryptodome-4.6.0-r0: task do_compile: Succeeded
-NOTE: Tasks Summary: Attempted 1897 tasks of which 1877 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20261123050639.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20261123050639.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
-
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycryptodome_4.6.0.bb:do_populate_lic
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-pycryptodome/4.6.0/temp/log.do_populate_lic.2398137
-Summary: There were 2 ERROR messages, returning a non-zero exit code.
-ERROR: python3-pycryptodome-4.6.0-r0 do_populate_lic: QA Issue: python3-pycryptodome: The LIC_FILES_CHKSUM does not match for file://LICENSE.rst;md5=29242a70410a4eeff488a28164e7ab93
-python3-pycryptodome: The new md5 checksum is a514b4a7ad24677ae50f3becb03404e3
-python3-pycryptodome: Here is the selected license text:
-vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
-The source code in PyCryptodome is partially in the public domain
-and partially released under the BSD 2-Clause license.
-
-In either case, there are minimal if no restrictions on the redistribution,
-modification and usage of the software.
-
-Files that do not include the license text refer to it with an SPDX tag:
-``SPDX-License-Identifier: BSD-2-Clause`` for the BSD license below
-(``SPDX-FileCopyrightText`` gives the copyright notice).
-
-...
-
-The directory ``src/mldsa-native`` contains code from mldsa-native
-(https://github.com/pq-code-package/mldsa-native), available under
-the Apache-2.0 license OR the ISC license OR the MIT license.
-See ``src/mldsa-native/LICENSE`` for the full text of the licenses.
-
-The directory ``src/mlkem-native`` contains code from mlkem-native
-(https://github.com/pq-code-package/mlkem-native), available under
-the Apache-2.0 license OR the ISC license OR the MIT license.
-See ``src/mlkem-native/LICENSE`` for the full text of the licenses.
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-python3-pycryptodome: Check if the license information has changed in /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-pycryptodome/4.6.0/sources/pycryptodome-4.6.0/LICENSE.rst to verify that the LICENSE value "BSD-2-Clause AND Unlicense" remains valid [license-checksum]
-ERROR: python3-pycryptodome-4.6.0-r0 do_populate_lic: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/python3-pycryptodome/4.6.0/temp/log.do_populate_lic.2398137
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3-pycryptodome_4.6.0.bb:do_populate_lic) failed with exit code '1'
-
---===============2918807310327118059==
+--===============2309562332188901403==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-pycryptodome-python3-pycryptodomex-upgrade-3.patch"
+ filename="0001-at-spi2-core-upgrade-2.62.1-2.62.2.patch"
 
-RnJvbSBkZmY2NDk5ZmEyYTg2MmI0ZTRhMzIxMWFmYTA2YjBhOWM0MDdjMjA1IE1vbiBTZXAgMTcg
+RnJvbSBlNjg5NmY4MTQyZDMwMWZkYjJjNTQyM2NiNjM3NTAwZjFjNWUwZTM3IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMjMgTm92IDIwMjYgMDU6MDc6MjcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXB5Y3J5cHRvZG9tZSxweXRob24zLXB5Y3J5cHRvZG9tZXg6IHVwZ3JhZGUgMy4yNC4x
-IC0+CiA0LjYuMCwzLjI0LjEgLT4gMy4yNC4yCgo0LjYuMCAoMjIgTm92ZW1iZXIgMjAyNikKCk5l
-dyBmZWF0dXJlcwotLS0tLS0tLS0tLS0KCkJyZWFraW5nIGNoYW5nZXMKLS0tLS0tLS0tLS0tLS0t
-LQoKUmVzb2x2ZWQgaXNzdWVzCi0tLS0tLS0tLS0tLS0tLQoKNC41LjAgKDE1IE5vdmVtYmVyIDIw
-MjYpCgpOZXcgZmVhdHVyZXMKLS0tLS0tLS0tLS0tCgpCcmVha2luZyBjaGFuZ2VzCi0tLS0tLS0t
-LS0tLS0tLS0KClJlc29sdmVkIGlzc3VlcwotLS0tLS0tLS0tLS0tLS0KCjQuNC4wICg3IE5vdmVt
-YmVyIDIwMjYpCgpOZXcgZmVhdHVyZXMKLS0tLS0tLS0tLS0tCgpSZXNvbHZlZCBpc3N1ZXMKLS0t
-LS0tLS0tLS0tLS0tCgo0LjMuMCAoMiBOb3ZlbWJlciAyMDI2KQoKTmV3IGZlYXR1cmVzCi0tLS0t
-LS0tLS0tLQoKT3RoZXIgY2hhbmdlcwotLS0tLS0tLS0tLS0tCgpSZXNvbHZlZCBpc3N1ZXMKLS0t
-LS0tLS0tLS0tLS0tCgo0LjIuMCAoMjQgT2N0b2JlciAyMDI2KQoKTmV3IGZlYXR1cmVzCi0tLS0t
-LS0tLS0tLQoKNC4xLjAgKDE5IE9jdG9iZXIgMjAyNikKCk5ldyBmZWF0dXJlcwotLS0tLS0tLS0t
-LS0KClJlc29sdmVkIGlzc3VlcwotLS0tLS0tLS0tLS0tLS0KCjQuMC4xICgxNyBPY3RvYmVyIDIw
-MjYpCgpOZXcgZmVhdHVyZXMKLS0tLS0tLS0tLS0tCgo0LjAuMCAoMTQgT2N0b2JlciAyMDI2KQoK
-QnJlYWtpbmcgY2hhbmdlcwotLS0tLS0tLS0tLS0tLS0tCgpEZXByZWNhdGlvbnMKLS0tLS0tLS0t
-LS0tCgpSZXNvbHZlZCBpc3N1ZXMKLS0tLS0tLS0tLS0tLS0tCgpOZXcgZmVhdHVyZXMKLS0tLS0t
-LS0tLS0tCgozLjI0LjIgKDUgTm92ZW1iZXIgMjAyNikKVGhpcyByZWxlYXNlIGlzIG9ubHkgZm9y
-IGBgcHljcnlwdG9kb21leGBgLgoKUmVzb2x2ZWQgaXNzdWVzCi0tLS0tLS0tLS0tLS0tLQoKT3Ro
-ZXIgY2hhbmdlcwotLS0tLS0tLS0tLS0tCgozLjI0LjIgKDUgTm92ZW1iZXIgMjAyNikKVGhpcyBy
-ZWxlYXNlIGlzIG9ubHkgZm9yIGBgcHljcnlwdG9kb21leGBgLgoKUmVzb2x2ZWQgaXNzdWVzCi0t
-LS0tLS0tLS0tLS0tLQoKT3RoZXIgY2hhbmdlcwotLS0tLS0tLS0tLS0tCi0tLQogLi4uL3B5dGhv
-bi9weXRob24zLXB5Y3J5cHRvZG9tZV8zLjI0LjEuYmIgICAgIHwgIDYgLS0tCiAuLi4vcHl0aG9u
-L3B5dGhvbjMtcHljcnlwdG9kb21lXzQuNi4wLmJiICAgICAgfCA0NyArKysrKysrKysrKysrKysr
-KysrCiAuLi40LjEuYmIgPT4gcHl0aG9uMy1weWNyeXB0b2RvbWV4XzMuMjQuMi5iYn0gfCAgMiAr
-LQogMyBmaWxlcyBjaGFuZ2VkLCA0OCBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQogZGVs
-ZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weWNy
-eXB0b2RvbWVfMy4yNC4xLmJiCiBjcmVhdGUgbW9kZSAxMDA2NDQgbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3B5dGhvbi9weXRob24zLXB5Y3J5cHRvZG9tZV80LjYuMC5iYgogcmVuYW1lIG1ldGEvcmVj
-aXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcHljcnlwdG9kb21leF8zLjI0LjEuYmIgPT4g
-cHl0aG9uMy1weWNyeXB0b2RvbWV4XzMuMjQuMi5iYn0gKDc2JSkKCmRpZmYgLS1naXQgYS9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHljcnlwdG9kb21lXzMuMjQuMS5iYiBi
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weWNyeXB0b2RvbWVfMy4yNC4x
-LmJiCmRlbGV0ZWQgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAwYWE1MzU1OWQ2Li4wMDAwMDAwMDAw
-Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weWNyeXB0b2RvbWVf
-My4yNC4xLmJiCisrKyAvZGV2L251bGwKQEAgLTEsNiArMCwwIEBACi1yZXF1aXJlIHB5dGhvbi1w
-eWNyeXB0b2RvbWUuaW5jCi1pbmhlcml0IHB5dGhvbl9zZXR1cHRvb2xzX2J1aWxkX21ldGEKLQot
-U1JDX1VSSVtzaGEyNTZzdW1dID0gIjNmOWU3NDQ0NGMwZWNiZWM3YWYyMzJhOTVkMjgyYzc0YjEx
-NGQ1MzIxMmNlMDc1ZWQxN2I3ZmQ3ZGNhMzJiYjMiCi0KLUNWRV9QUk9EVUNUID0gInB5Y3J5cHRv
-ZG9tZTpweWNyeXB0b2RvbWUiCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0
-aG9uL3B5dGhvbjMtcHljcnlwdG9kb21lXzQuNi4wLmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
-L3B5dGhvbi9weXRob24zLXB5Y3J5cHRvZG9tZV80LjYuMC5iYgpuZXcgZmlsZSBtb2RlIDEwMDY0
-NAppbmRleCAwMDAwMDAwMDAwLi44NjUwMjI1MTQwCi0tLSAvZGV2L251bGwKKysrIGIvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5Y3J5cHRvZG9tZV80LjYuMC5iYgpAQCAt
-MCwwICsxLDQ3IEBACisjIEZJWE1FOiB0aGUgTElDX0ZJTEVTX0NIS1NVTSB2YWx1ZXMgaGF2ZSBi
-ZWVuIHVwZGF0ZWQgYnkgJ2RldnRvb2wgdXBncmFkZScuCisjIFRoZSBmb2xsb3dpbmcgaXMgdGhl
-IGRpZmZlcmVuY2UgYmV0d2VlbiB0aGUgb2xkIGFuZCB0aGUgbmV3IGxpY2Vuc2UgdGV4dC4KKyMg
-UGxlYXNlIHVwZGF0ZSB0aGUgTElDRU5TRSB2YWx1ZSBpZiBuZWVkZWQsIGFuZCBzdW1tYXJpemUg
-dGhlIGNoYW5nZXMgaW4KKyMgdGhlIGNvbW1pdCBtZXNzYWdlIHZpYSAnTGljZW5zZS1VcGRhdGU6
-JyB0YWcuCisjIChleGFtcGxlOiAnTGljZW5zZS1VcGRhdGU6IGNvcHlyaWdodCB5ZWFycyB1cGRh
-dGVkLicpCisjCisjIFRoZSBjaGFuZ2VzOgorIworIyAtLS0gTElDRU5TRS5yc3QKKyMgKysrIExJ
-Q0VOU0UucnN0CisjIEBAIC0zLDYgKzMsMTAgQEAKKyMgIAorIyAgSW4gZWl0aGVyIGNhc2UsIHRo
-ZXJlIGFyZSBtaW5pbWFsIGlmIG5vIHJlc3RyaWN0aW9ucyBvbiB0aGUgcmVkaXN0cmlidXRpb24s
-CisjICBtb2RpZmljYXRpb24gYW5kIHVzYWdlIG9mIHRoZSBzb2Z0d2FyZS4KKyMgKworIyArRmls
-ZXMgdGhhdCBkbyBub3QgaW5jbHVkZSB0aGUgbGljZW5zZSB0ZXh0IHJlZmVyIHRvIGl0IHdpdGgg
-YW4gU1BEWCB0YWc6CisjICtgYFNQRFgtTGljZW5zZS1JZGVudGlmaWVyOiBCU0QtMi1DbGF1c2Vg
-YCBmb3IgdGhlIEJTRCBsaWNlbnNlIGJlbG93CisjICsoYGBTUERYLUZpbGVDb3B5cmlnaHRUZXh0
-YGAgZ2l2ZXMgdGhlIGNvcHlyaWdodCBub3RpY2UpLgorIyAgCisjICBQdWJsaWMgZG9tYWluCisj
-ICA9PT09PT09PT09PT09CisjIEBAIC01OSwzICs2MywxNiBAQAorIyAgQ0FVU0VEIEFORCBPTiBB
-TlkgVEhFT1JZIE9GIExJQUJJTElUWSwgV0hFVEhFUiBJTiBDT05UUkFDVCwgU1RSSUNUIExJQUJJ
-TElUWSwKKyMgIE9SIFRPUlQgKElOQ0xVRElORyBORUdMSUdFTkNFIE9SIE9USEVSV0lTRSkgQVJJ
-U0lORyBJTiBBTlkgV0FZIE9VVCBPRiBUSEUgVVNFCisjICBPRiBUSElTIFNPRlRXQVJFLCBFVkVO
-IElGIEFEVklTRUQgT0YgVEhFIFBPU1NJQklMSVRZIE9GIFNVQ0ggREFNQUdFLgorIyArCisjICtU
-aGlyZC1wYXJ0eSBjb2RlCisjICs9PT09PT09PT09PT09PT09CisjICsKKyMgK1RoZSBkaXJlY3Rv
-cnkgYGBzcmMvbWxkc2EtbmF0aXZlYGAgY29udGFpbnMgY29kZSBmcm9tIG1sZHNhLW5hdGl2ZQor
-IyArKGh0dHBzOi8vZ2l0aHViLmNvbS9wcS1jb2RlLXBhY2thZ2UvbWxkc2EtbmF0aXZlKSwgYXZh
-aWxhYmxlIHVuZGVyCisjICt0aGUgQXBhY2hlLTIuMCBsaWNlbnNlIE9SIHRoZSBJU0MgbGljZW5z
-ZSBPUiB0aGUgTUlUIGxpY2Vuc2UuCisjICtTZWUgYGBzcmMvbWxkc2EtbmF0aXZlL0xJQ0VOU0Vg
-YCBmb3IgdGhlIGZ1bGwgdGV4dCBvZiB0aGUgbGljZW5zZXMuCisjICsKKyMgK1RoZSBkaXJlY3Rv
-cnkgYGBzcmMvbWxrZW0tbmF0aXZlYGAgY29udGFpbnMgY29kZSBmcm9tIG1sa2VtLW5hdGl2ZQor
-IyArKGh0dHBzOi8vZ2l0aHViLmNvbS9wcS1jb2RlLXBhY2thZ2UvbWxrZW0tbmF0aXZlKSwgYXZh
-aWxhYmxlIHVuZGVyCisjICt0aGUgQXBhY2hlLTIuMCBsaWNlbnNlIE9SIHRoZSBJU0MgbGljZW5z
-ZSBPUiB0aGUgTUlUIGxpY2Vuc2UuCisjICtTZWUgYGBzcmMvbWxrZW0tbmF0aXZlL0xJQ0VOU0Vg
-YCBmb3IgdGhlIGZ1bGwgdGV4dCBvZiB0aGUgbGljZW5zZXMuCisjIAorIworCityZXF1aXJlIHB5
-dGhvbi1weWNyeXB0b2RvbWUuaW5jCitpbmhlcml0IHB5dGhvbl9zZXR1cHRvb2xzX2J1aWxkX21l
-dGEKKworU1JDX1VSSVtzaGEyNTZzdW1dID0gImIxYzgxMzQ3NmQ4OTc3ZWRjOTFhNTdmNWU5ZWY3
-NjExMzY3ZDVjNTM2MTA1NGZlMmRlMTUyZTNlNDdkZDQyM2QiCisKK0NWRV9QUk9EVUNUID0gInB5
-Y3J5cHRvZG9tZTpweWNyeXB0b2RvbWUiCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcHl0aG9uL3B5dGhvbjMtcHljcnlwdG9kb21leF8zLjI0LjEuYmIgYi9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHljcnlwdG9kb21leF8zLjI0LjIuYmIKc2ltaWxhcml0
-eSBpbmRleCA3NiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRo
-b24zLXB5Y3J5cHRvZG9tZXhfMy4yNC4xLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcHl0aG9uL3B5dGhvbjMtcHljcnlwdG9kb21leF8zLjI0LjIuYmIKaW5kZXggYjI0ZTA0N2Ex
-OS4uMjllM2Q2MDBhNSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9w
-eXRob24zLXB5Y3J5cHRvZG9tZXhfMy4yNC4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9weXRob24vcHl0aG9uMy1weWNyeXB0b2RvbWV4XzMuMjQuMi5iYgpAQCAtMSw3ICsxLDcgQEAK
-IHJlcXVpcmUgcHl0aG9uLXB5Y3J5cHRvZG9tZS5pbmMKIGluaGVyaXQgcHl0aG9uX3NldHVwdG9v
-bHNfYnVpbGRfbWV0YQogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMDkwODE2NjZmZmM1OTk5NzZj
-MGI4YjI5Y2FmMmNmODIyMTJjMGYwNWJlZDIzM2M4ZjhlZDUzZTRmNmUxZDM1NiIKK1NSQ19VUklb
-c2hhMjU2c3VtXSA9ICJlNGRiYzI5ZTI1NzUzNjVkMTVlMjcyZjc2OTMyOTEwNjI3NzY0OWFlYTA4
-MWUyMTE5Y2Y0M2Q2Njk1MGY4ZjhmIgogCiBDVkVfUFJPRFVDVCA9ICJweWNyeXB0b2RvbWU6cHlj
-cnlwdG9kb21lIHB5Y3J5cHRvZG9tZTpweWNyeXB0b2RvbWV4IgogCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IE1vbiwgMjMgTm92IDIwMjYgMDU6Mzc6MjcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBh
+dC1zcGkyLWNvcmU6IHVwZ3JhZGUgMi42Mi4xIC0+IDIuNjIuMgoKV2hhdCdzIG5ldyBpbiBhdC1z
+cGkyLWNvcmUgMi42Mi4yOgoKICAgIGxpYmF0c3BpOiBEb24ndCBjcmFzaCB3aGVuIGEgZGlyZWN0
+IGNvbm5lY3Rpb24gZmFpbHMgYmVmb3JlIHRoZSByb290IGlzCiAgICBrbm93bi4KCiAgICBsaWJh
+dHNwaTogTm90aWZ5IHdoZW4gYW4gQXRzcGlFdmVudExpc3RlbmVyJ3MgY2FsbGJhY2sgaXMgbm8g
+bG9uZ2VyIHZhbGlkLgogICAgZGV2aWNlLXgxMTogUmVwb3J0IGVhY2gga2V5IG9uY2Ugd2hpbGUg
+dXNpbmcgdGhlIHJhdyBrZXkgZmFsbGJhY2suCi0tLQogLi4uL2F0ay97YXQtc3BpMi1jb3JlXzIu
+NjIuMS5iYiA9PiBhdC1zcGkyLWNvcmVfMi42Mi4yLmJifSAgICAgIHwgMiArLQogMSBmaWxlIGNo
+YW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVz
+LXN1cHBvcnQvYXRrL3thdC1zcGkyLWNvcmVfMi42Mi4xLmJiID0+IGF0LXNwaTItY29yZV8yLjYy
+LjIuYmJ9ICg5NCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXRrL2F0LXNw
+aTItY29yZV8yLjYyLjEuYmIgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9hdGsvYXQtc3BpMi1jb3Jl
+XzIuNjIuMi5iYgpzaW1pbGFyaXR5IGluZGV4IDk0JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMt
+c3VwcG9ydC9hdGsvYXQtc3BpMi1jb3JlXzIuNjIuMS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
+LXN1cHBvcnQvYXRrL2F0LXNwaTItY29yZV8yLjYyLjIuYmIKaW5kZXggNDRiMGY3ZTdjZi4uYmM5
+YzhmYTBjMiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXRrL2F0LXNwaTItY29y
+ZV8yLjYyLjEuYmIKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvYXRrL2F0LXNwaTItY29yZV8y
+LjYyLjIuYmIKQEAgLTksNyArOSw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NPUFlJ
+Tkc7bWQ1PTRmYmQ2NTM4MGNkZDI1NTk1MTA3OTAwOGIzNjQ1MTZjIgogCiBDVkVfUFJPRFVDVCAr
+PSAiYXQtc3BpMi1hdGsiCiAKLVNSQ19VUklbYXJjaGl2ZS5zaGEyNTZzdW1dID0gImNjYTZiNmE4
+NmU0Mzg5ZDg5YjM3MDI4ODc2MWNlMjM4NWRkZWNlYjEwYzQ0MTJkYTc4Njg5YmMzMGM4OGFmMmQi
+CitTUkNfVVJJW2FyY2hpdmUuc2hhMjU2c3VtXSA9ICI3Y2U4MTgyMGRkZjg3M2I4ZDkzMDE3N2Uw
+NzkwZjczMGY2MGQyMmQ4ZTBhY2VlOWJhOGY3NWQ4MjAyNTk4ZGUzIgogCiBERVBFTkRTID0gIiBc
+CiAJZGJ1cyBcCi0tIAoyLjQ3LjEKCg==
 
---===============2918807310327118059==
+--===============2309562332188901403==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="python3-pycryptodome-changelog.txt"
+Content-Disposition: attachment; filename="at-spi2-core-changelog.txt"
 
-4.6.0 (22 November 2026)
+What's new in at-spi2-core 2.62.2:
 
-New features
-------------
+    libatspi: Don't crash when a direct connection fails before the root is
+    known.
 
-Breaking changes
-----------------
+    libatspi: Notify when an AtspiEventListener's callback is no longer valid.
+    device-x11: Report each key once while using the raw key fallback.
 
-Resolved issues
----------------
-
-4.5.0 (15 November 2026)
-
-New features
-------------
-
-Breaking changes
-----------------
-
-Resolved issues
----------------
-
-4.4.0 (7 November 2026)
-
-New features
-------------
-
-Resolved issues
----------------
-
-4.3.0 (2 November 2026)
-
-New features
-------------
-
-Other changes
--------------
-
-Resolved issues
----------------
-
-4.2.0 (24 October 2026)
-
-New features
-------------
-
-4.1.0 (19 October 2026)
-
-New features
-------------
-
-Resolved issues
----------------
-
-4.0.1 (17 October 2026)
-
-New features
-------------
-
-4.0.0 (14 October 2026)
-
-Breaking changes
-----------------
-
-Deprecations
-------------
-
-Resolved issues
----------------
-
-New features
-------------
-
-3.24.2 (5 November 2026)
-This release is only for ``pycryptodomex``.
-
-Resolved issues
----------------
-
-Other changes
--------------
-
---===============2918807310327118059==--
+--===============2309562332188901403==--
