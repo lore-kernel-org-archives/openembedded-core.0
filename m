@@ -1,159 +1,160 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.58228.1795452963243669892
+Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.58342.1795453300302081827
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Nov 2026 08:56:03 -0800
+ Mon, 23 Nov 2026 09:01:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=fIRnzCBB;
- spf=pass (domain: smile.fr, ip: 209.85.221.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-490c3ae81d3so2212561f8f.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 08:56:02 -0800 (PST)
+ dkim=pass header.i=@baylibre.com header.s=google header.b=Qfvy0rC8;
+ spf=pass (domain: baylibre.com, ip: 209.85.210.49, mailfrom: tgamblin@baylibre.com)
+Received: by mail-ot1-f49.google.com with SMTP id 46e09a7af769-85c1135c286so2895116a34.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 09:01:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795452961; x=1796057761; darn=lists.openembedded.org;
-        h=in-reply-to:references:subject:to:from:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=eS1R3PqCxhzZgDjLL5QtrfpX3bSp4P7trXwACtGOmT0=;
-        b=fIRnzCBBth9aQNFqLtaSv8KLpjHQRSjzw5lobvk3GXuIhOTstYoK2ohZg1cWiY4oE5
-         nMRXpFsx26ZPJqwkQCIWV8ji5PW02G4V3znE9Q2/OUzbWzS3iLBTSIBcsgZ0WqpV+oMH
-         4jxwDbsV/vdD7kbXR2lJs0K3IHC+vV4Ud3sDPvSV2stEMWjNm4u8MfEx0Egf+Y01eLex
-         /Ynr98SR+6RJPChI5umhUo60FZuDr9bTeo9vsyuPaqsYbb71V4Y3gPVZBZFsqjYBnnZb
-         Oh6aUMlwO9a9GnqZzBGlya9eXOyYC3RpuX2u76QjdeiLSNbZu62rWrsFj0rnS6rX6j8U
-         u5eg==
+        d=baylibre.com; s=google; t=1795453299; x=1796058099; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LAwaWltstvgwPpWGY4rUiti4PBNa30+rspzCzYmZDLU=;
+        b=Qfvy0rC8DrEPYnRIVm9auBRFf/1yFUw902W67TPhbAKgFzvksfNSp+nLTouw4bSp2h
+         Rym3a6vn7wAIjF2Da5vxECJ/vR5R6bBvoZgdV8BNqRVTjpaTBHvb64zFLuYZUF976gMX
+         bVH2U+nlumOwPpzGiMDhOx6HzBMgd2+RBwJQTqbS/JXw7bH+N81CUYg/L6gCe3G4Zh/Q
+         qLX0tcnFQbEoFnx5Tn2fmtxLqpxuXQ3LTmlzkvCfKUgM9pkHmdccjWdX12Wqy7uiPNmv
+         6xhXMMg4DaCavgeDjnsNzVsa1ABtt+tNFkyegz1SpVBEwDaiM3mbRW7NRze8gT1ChEht
+         FXjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795452961; x=1796057761;
-        h=in-reply-to:references:subject:to:from:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=eS1R3PqCxhzZgDjLL5QtrfpX3bSp4P7trXwACtGOmT0=;
-        b=I7QgqEz/58GlA7jnwPBMeFCJIAI2t98uuxI9Hz921OeCTFpxiRQXwRaNcMBBdRVwu8
-         rOSUSxK2n4DCDV9vypYDe4Q+XUrCulqMKQzkY2s/7MISw5Jgo/VRzOkcCACxPPlRZpwj
-         T2yPTDCcc5rm+OaFGN1DQEmbZX4ho0Tp35QSXpn4r4aG2WsgF2ijRTu4Eptd+FeXi5vR
-         uhgrsfauMslTzEjEjOC3WdD6SFVtRSYpkSAMz85aK1Z8nMiVXW7RfbtlLFoNU+FSxdxt
-         lDgGRs77J9r1Oz2lcpQTTMzGJh9dRVairn7qula4PiNTpNN+zxpDzg/8qzRM7LSmre9k
-         mzyA==
-X-Forwarded-Encrypted: i=1; AL+hErHv21aBst+6gn/MLOv19VFWKRDV/TdPvmUW7blIL2x2uhq3a8mfpyJYk7sDwUB+VrcInOZPQKYjUPGmPOCoF19JVA==@lists.openembedded.org
-X-Gm-Message-State: APuU4Z+GuJhpqIZPbTJ0qzCeV6IqLiSJaPZKt0oSEHSrsich7o1CjvbZ
-	qm5psYLFUAEPOQUK8o8mX/Aa3CPpwW3Eb0KiPHzvhD3Jk+ZkPYCuXPIuTF4OzmQDqn0=
-X-Gm-Gg: AZFdTZeKXC2WBYyuxGLcVak8fhu2EG8OpF1ZaSi7VXejjKu4VRrtMGFPkv0a+b4V+we
-	jqe3zjJ2pa9+2TLdRnawivlMuEHHvgcxuatrKvdi1sP0E12IkSTkKgJeFIT8tRICVKQMq0b6bev
-	yrZibUJQKdtW48sEIUJEnjx5kZIHFMCA0lF3zZbCj6kUixLoVFZnqsEPIMExEBL2IzUiA0igh6k
-	h2szBZtR5Yft5rj0I0PjVq+agcTWei3/w7qWfBCaTMcsPQbGsbQbLBD4ry94QCHmVJ1XirQEA3m
-	kzKR5RWTJmyxp6LFr9SDkLRlqHtN8Ss7mytAfAHFiy4z8mXYswyFvLmmqLFytwt8u8zsgAQQXSx
-	Vpvbis6NDPlUB0c8Eddrgx/gRLZaKDi4kIiXr6bt7QaMlfYVG3DFmCtFkaTQRG1fpP+IpgB2yd5
-	UY0jLS0Zmt3irjb36jvK8bMfvNkAi/jRGYjaoUkPjND2ib1WZ5FgklxtF5uiVp04nc8tPAvqXlX
-	iojDM0OjVmB8YNkVo0EDywWgC+2mQWbUq8/DPOO3wbxV5VKQ6cJawxsJMbdz0Tf55Zyeoj4UG52
-	TFwjj1NXVCPOyJiQm6Vb9YNLJGaNrHaauYEcIItCkUAsNjNVt8Nm4aCvCCwcjMpf5GM4Aab2Sgv
-	6ZifFTWsRaVIjGQ==
-X-Received: by 2002:a05:6000:2997:10b0:4a4:d03b:ef34 with SMTP id ffacd0b85a97d-4abb0e46a3bmr18543187f8f.17.1795452961310;
-        Mon, 23 Nov 2026 08:56:01 -0800 (PST)
-Return-Path: <yoann.congal@smile.fr>
-Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6ae2dcf9sm23035043f8f.32.2026.11.23.08.56.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Nov 2026 08:56:00 -0800 (PST)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 23 Nov 2026 17:56:00 +0100
-Message-Id: <DN2QYF5QP61I.3PF69TBZP70OB@smile.fr>
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <dkelaiya@cisco.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][wrynose][PATCH 10/12] curl: fix CVE-2026-87865
-X-Mailer: aerc 0.20.0
-References: <20261104073627.302002-1-dkelaiya@cisco.com>
- <20261104073627.302002-11-dkelaiya@cisco.com>
-In-Reply-To: <20261104073627.302002-11-dkelaiya@cisco.com>
+        d=1e100.net; s=20260707; t=1795453299; x=1796058099;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=LAwaWltstvgwPpWGY4rUiti4PBNa30+rspzCzYmZDLU=;
+        b=LrI27KCCVDse5YkkbzWvhCpaA+k1unUot0cUQz9Q9AHgyf8N/fYuhlACfLvOmu983N
+         9cOcCvHK029oWExI2Sf2R+PhhUbd+rWDhpkWUP3yZzZa79aiOyLsyZcv4HC6vZzxhWDq
+         eG59Rj9Amusmm+MYobjtKfEslJ7nINYYX7UqwzKORKIt1ozkOzIJmDo2uGSoVbRpIQqH
+         gJA4YTgAu/Z3ts4gYfzIwpLcsdrQI2iIP7dazWYQax3etMddkLg1rb2fZkZtauqN024+
+         YFWJ771T72eMptbIi1+Oci6S9fjAusZOWl0A/PUP5BcQs2A0hrz376lVNCP/pHqRAH6o
+         f6Jw==
+X-Gm-Message-State: APuU4Z8DQq5UiTqlMSFjcdCp/Ry/EWRSYN6LZmH/+MFPcLoHTexdFbWF
+	qPizU4d9my4nPOYXxx6kll2M7RNOMTcBD5WjHJ36In7t/pI1zS88VFhsOrxLTZHWozDiPPDHsrs
+	r2a5U
+X-Gm-Gg: AZFdTZcOx+1D42IDTtzvVB0ZV2sdrSra+GPhrxPvpn/qfL9CCr7schY8yBBKxjNRLr9
+	L42Z2uDOvDH4WNUmvtG4wRKDJsP2shgbf1RqROVqJm5xTok/OwVCshzuT3jv1nuL5MmECo+82rl
+	MeXChAbVc+baJVYBXMkXHL0mI+PaBk+2232JKImnJy2F6INTx23gOkJQnCJ2qi4kHTf/ZFKoHy8
+	1ahr+8X6wJGfgX9Y5tpquc21QataA83JGUH0US5MA6i/OBa40e0dNcyaWewLfaCew+ghFVlYLxI
+	pRymgByTlcm5MjV/V0ToNsJL62BZyuYReaB9vcDm+MH+fyC0iWaTHB1OlMc69o4pyGbgbiL4+/P
+	mStvvbfwWRaVxy8IvTUL/i/QrsCUlHEJDagN03V19UunH4gUoGI7aIpdw7PJbuq2+NoE4KjTePe
+	L8TqXG0ETSP9isLFIUBM1nqChBq4KfVF21JVsEZuj7NUMRHa/g2m8CAnVqWhEKDg4DZbZeX4zb3
+	y+4h3OgyY3xX6jOAk6myHSOtg1Cwb0tXKkVdj8fkUacz4DJpJVPVmJY5BLnIQwEwQRzrRGFxjGG
+	ChFRFfAq1/8FI0Fj5pooTMsJYcSRZmahHntuPLG1hVaXf8SIqBAJMxBASJDtUD3okhueD2FeX40
+	xXECwvoxpCVK7J1L90QXtQ2n/gA==
+X-Received: by 2002:ac8:59d5:0:b0:55d:6cfa:3e85 with SMTP id d75a77b69052e-55d76a15e9amr235162381cf.16.1795453288734;
+        Mon, 23 Nov 2026 09:01:28 -0800 (PST)
+Return-Path: <tgamblin@baylibre.com>
+Received: from megalith.cgocable.net ([2001:1970:3847:e000:e8bd:ca0f:c232:9f10])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-55d788ae02fsm101985591cf.29.2026.11.23.09.01.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2026 09:01:27 -0800 (PST)
+From: Trevor Gamblin <tgamblin@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Cc: richard.purdie@linuxfoundation.org
+Subject: [OE-core][PATCH] meta/lib/oe/sanity.py: error on very long package archs
+Date: Mon, 23 Nov 2026 12:01:25 -0500
+Message-ID: <20261123170125.328630-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.56.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 16:56:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250925
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 17:01:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250926
+Content-Type: text/plain; charset="utf-8"
 
-On Wed Nov 4, 2026 at 8:36 AM CET, Darsh Kelaiya -X (dkelaiya - E INFOCHIPS=
- PRIVATE LIMITED at Cisco) via openembedded-core wrote:
-> From: Darsh Kelaiya <dkelaiya@cisco.com>
->
-> This patch applies the upstream fix as referenced in [2],
-> using the commit shown in [1].
->
-> Match hashed known_hosts entries against the requested host before
-> selecting the host-key algorithm. Adapt the connection fields and
-> SSH test fixture to curl 8.19.0.
->
-> Include the upstream follow-up [3] to cache key types already absent
-> for this host, avoiding repeated full-file scans introduced by [1].
-> Keep both upstream commits in separate patches and retain test3500.
->
-> Install test3500.pl into ptest so the hashed-host regression can run
-> from the target package.
->
-> [1] https://github.com/curl/curl/commit/323c184b6bdf5b1988a10c0a61560666e=
-1588149
-> [2] https://curl.se/docs/CVE-2026-87865.html
-> [3] https://github.com/curl/curl/commit/dc055e8a9eefe65cf63cb0396668a37c0=
-b7c474a
->
-> Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-> ---
->  .../curl/curl/CVE-2026-87865_p1.patch         | 225 ++++++++++++++++++
->  .../curl/curl/CVE-2026-87865_p2.patch         |  89 +++++++
->  meta/recipes-support/curl/curl_8.19.0.bb      |   4 +
->  3 files changed, 318 insertions(+)
->  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-87865_p1.patc=
-h
->  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-87865_p2.patc=
-h
->
-> diff --git a/meta/recipes-support/curl/curl/CVE-2026-87865_p2.patch b/met=
-a/recipes-support/curl/curl/CVE-2026-87865_p2.patch
-> new file mode 100644
-> index 00000000000..0bf7cfea3c6
-> --- /dev/null
-> +++ b/meta/recipes-support/curl/curl/CVE-2026-87865_p2.patch
-> @@ -0,0 +1,89 @@
-> +From dc055e8a9eefe65cf63cb0396668a37c0b7c474a Mon Sep 17 00:00:00 2001
-> +From: Bobbeh Rhino <bobbeh@rhino.Rhino>
-> +Date: Tue, 8 Sep 2026 20:24:35 -0400
-> +Subject: [PATCH] libssh2: skip repeat checkp() for already-absent hashed=
- key
-> + types
-> +
-> +ssh_force_knownhost_key_type() called libssh2_knownhost_checkp() once
-> +per hashed known_hosts entry, and each call itself rescans the whole
-> +known_hosts set. Cache key types already confirmed absent for the
-> +connecting host so repeat entries of the same type do not each trigger
-> +another full scan. checkp() NOTFOUND for a given (host, port, type) is
-> +independent of the key bytes passed in, so this is safe.
-> +
-> +Behavior for MATCH is unchanged, and only store->typemask is read
-> +after a match, which is identical for any entry of the same type.
-> +
-> +Tests: runtests.pl 3500 1459 600, full SFTP/SCP keyword set (58/58),
-> +checksrc.pl.
-> +
-> +Closes #22905
-> +
-> +CVE: CVE-2026-87865
-> +Upstream-Status: Backport [https://github.com/curl/curl/commit/dc055e8a9=
-eefe65cf63cb0396668a37c0b7c474a]
-> +
-> +Backport Changes:
-> +- Use curl 8.19.0's conn->host.name and conn->remote_port instead of
-> +  conn->origin->hostname and conn->origin->port. The older connection
-> +  has no origin pointer; preserve the -1 lookup port for port 22.
-> +
-> +(cherry picked from commit dc055e8a9eefe65cf63cb0396668a37c0b7c474a)
-> +Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+RISC-V tunes that don't set RISCVPKGARCH:tune-<name> fall back to
+TUNE_RISCV_PKGARCH, which grows with every extension enabled. This can
+easily exceed allowable maximums for build and sstate paths, so it
+should be a fatal error when this tuning string becomes too long to
+build.
 
-Hello,
+Add a generic check in sanity.py so that sanity.bbclass throws an error
+if TUNE_PKGARCH is too long for any architecture. This gives plenty of
+headroom for basic RISC-V tunings and profiles, and it should be
+adequate for other platforms as well. Update the selftest in
+riscvtunes.py to make sure we do a parse and check the sanity output for
+the new message.
 
-This _p2 has not been submitted for blacksail. Also, it's a perf
-optimisation not a security/bug fix. So, I can't accept it (Unless the
-perf issue creates a bug).
+AI-Generated: Uses Claude Opus 5.5
+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+---
+ meta/conf/machine/include/riscv/README     |  5 +++--
+ meta/lib/oe/sanity.py                      |  9 +++++++++
+ meta/lib/oeqa/selftest/cases/riscvtunes.py | 12 +++++++-----
+ 3 files changed, 19 insertions(+), 7 deletions(-)
 
-I suggest to resend this patch with p1 only. Beware, I plan to merge
-some patches of this series.
-
-Regards,
---=20
-Yoann Congal
-Smile ECS
+diff --git a/meta/conf/machine/include/riscv/README b/meta/conf/machine/include/riscv/README
+index 278da51ba9..2b84688cb9 100644
+--- a/meta/conf/machine/include/riscv/README
++++ b/meta/conf/machine/include/riscv/README
+@@ -92,8 +92,9 @@ TUNE_RISCV_PKGARCH - This is the PKGARCH value generated from TUNE_FEATURES.
+ RISCVPKGARCH - This is the package arch actually used.  As with ARMPKGARCH
+                on arm, each tune sets it as a literal in
+                RISCVPKGARCH:tune-<name>, so that it only changes when
+-               deliberately changed.  Tunes that don't set it fall back to
+-               TUNE_RISCV_PKGARCH.
++               deliberately changed. Tunes that don't set it fall back to
++               TUNE_RISCV_PKGARCH. The sanity check errors if the package
++               arch is longer than 64 characters.
+ 
+ The standard variables are defined as:
+ 
+diff --git a/meta/lib/oe/sanity.py b/meta/lib/oe/sanity.py
+index c9149ec974..139a2ef314 100644
+--- a/meta/lib/oe/sanity.py
++++ b/meta/lib/oe/sanity.py
+@@ -279,6 +279,15 @@ def check_sanity_validmachine(sanity_data):
+     if tunefound == False:
+         messages = messages + "Error, the PACKAGE_ARCHS variable (%s) for DEFAULTTUNE (%s) does not contain TUNE_PKGARCH (%s)." % (pkgarchs, defaulttune, tunepkg)
+ 
++    # Very long package archs (e.g. RISC-V tunes falling back to the full ISA
++    # string) can exceed allowable lengths for build and sstate paths, so alert
++    # the user if this is the case.
++    if len(tunepkg) > 64:
++        messages = messages + ("Error, TUNE_PKGARCH (%s) for DEFAULTTUNE (%s) is "
++                               "longer than 64 characters. Set a shorter package "
++                               "arch for the tune (e.g. RISCVPKGARCH:tune-%s on "
++                               "RISC-V).\n" % (tunepkg, defaulttune, defaulttune))
++
+     return messages
+ 
+ # Patch before 2.7 can't handle all the features in git-style diffs.  Some
+diff --git a/meta/lib/oeqa/selftest/cases/riscvtunes.py b/meta/lib/oeqa/selftest/cases/riscvtunes.py
+index b2ff2cc739..7e30e50a75 100644
+--- a/meta/lib/oeqa/selftest/cases/riscvtunes.py
++++ b/meta/lib/oeqa/selftest/cases/riscvtunes.py
+@@ -93,22 +93,24 @@ class RiscvTunesTests(OESelftestTestCase):
+     def test_riscv_pkgarch_fallback(self):
+         """
+         Check that custom tunes which don't set RISCVPKGARCH:tune-<name> get
+-        TUNE_RISCV_PKGARCH as their package arch, and that it's an error if
+-        that is too long.
++        TUNE_RISCV_PKGARCH as their package arch, and that the sanity checks
++        reject it if that is too long.
+         """
+         def config(tune, features):
+             return self._machine_config() + \
+                    'AVAILTUNES += "%s"\n' \
+                    'TUNE_FEATURES:tune-%s = "%s"\n' \
+-                   'DEFAULTTUNE = "%s"\n' % (tune, tune, features, tune)
++                   'PACKAGE_EXTRA_ARCHS:tune-%s = "${RISCVPKGARCH}"\n' \
++                   'DEFAULTTUNE = "%s"\n' % (tune, tune, features, tune, tune)
+ 
+         self.write_config(config('rv64imac-zicond', riscv_isa_to_tune('rv64imac_zicond')))
+         self.assertEqual(get_bb_var('TUNE_PKGARCH'), 'riscv64imac_zicond')
+ 
++        # Use 'bitbake -p' to parse, so that sanity checks are triggered
+         self.write_config(config('rva22-zicond', riscv_isa_to_tune('rva22u64') + ' zicond'))
+-        result = bitbake('-e', ignore_status=True)
++        result = bitbake('-p', ignore_status=True)
+         self.assertNotEqual(result.status, 0)
+-        self.assertIn('Set RISCVPKGARCH:tune-rva22-zicond to a shorter name', result.output)
++        self.assertIn('for DEFAULTTUNE (rva22-zicond) is longer than 64 characters', result.output)
+ 
+     def test_riscv_unusual_tunes(self):
+         """
+-- 
+2.56.1
 
