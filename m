@@ -1,148 +1,102 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.55783.1795447056698419551
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.57343.1795450901536643820
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Nov 2026 07:17:37 -0800
+ Mon, 23 Nov 2026 08:21:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dbO/SIun;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4bb70074ab2so35619975e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 07:17:36 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=xJ29qerc;
+ spf=pass (domain: gmail.com, ip: 209.85.222.178, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-9496400270fso331189885a.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 08:21:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1795447055; x=1796051855; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=Hu6ItnStNHWHg3QyFlfWzx8raKoBL+EU8zYZQAgZsLQ=;
-        b=dbO/SIunq8LdTk8n8jkTN/NHJMbxI5N2wArFTbarSQeAVSjAVvAeQ93IiRCtS4xlv8
-         TkBhvHIpbP8KeL4mVuh/q4Tkw6S69vPrW0/OLsYXCT4hW2HTHzJrLRDqBXY9atcDweP0
-         vqDcCbpUwC7Crl9gLjDBAtaK3HaFNnr77S4lg=
+        d=gmail.com; s=20260707; t=1795450900; x=1796055700; darn=lists.openembedded.org;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:subject:cc:to:from:date:message-id:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=EgdcxwrlBuvWEOxib77CTqJ/QW+9fTnkwRdAGPIdjCo=;
+        b=xJ29qerc7dICl1Jkiujr4kt/T0aPV7QNdU8m0HDWynMN9JIWb17LI29Ub2YHYhj/6s
+         10wVV0n5bTtAHWWnPhxtPS6VJH419SfsavA8X2f0IlF5qATMguyum8M+/9thuBqrM99C
+         6EFWugfdeWm7Hcq3eWyV+w192bRbrsaETUHLDIQZkb6mbnbMwCJyN2T1uZijeDkAJhWF
+         XzJsYuJqO6E+RDTgMwFBFZZuMTTdtyDd0bvNrmL83mw18AdxOy/Qpd50Y1r5R7AG+YxX
+         frnJKJI3WmaV7gOQ0mPFOuPFb3iygHCuxJN+tC/EvOFFkXwNHE4oSlrPL3HgEO1EodpX
+         9TmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795447055; x=1796051855;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
+        d=1e100.net; s=20260707; t=1795450900; x=1796055700;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:subject:cc:to:from:date:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Hu6ItnStNHWHg3QyFlfWzx8raKoBL+EU8zYZQAgZsLQ=;
-        b=KJa9d+JqXNDK6rO+ylMvymT8ns5+13daTTdwVblTdoPXvCRbu2UAj+ThmOtjM3qzF4
-         u5iUhmpP2+0OTz4oXmX4Iem9hgNpm4xK8pjgusMQefEISyrNtP54TyeeS+SZD6XH5jGq
-         ONEIQxJz94Kdg59c+R5y1IuK/nqtVAfcZiwr3reftLiYxR+XSpPYecXaulxs0x6hl18S
-         005rKE1GBSUhC/wle+4cm0udxN5ZRE+xewz4fKBMpSDfePBHx9pRMZAo7DscoQIGHxpW
-         UocT885viV8XquE8okUIcjVpu3nV11SXHvEDXavpKo6RGEnSU7/w8iZw/OyqMSdERxNr
-         UamA==
-X-Forwarded-Encrypted: i=1; AL+hErHj02k0FXCGGhSriSbI9T8HdefhfsGBP79iO62dnZLmYsAbyFEeSZMUhWNbbjLPPEKuElJggY2WibEg8qZW2jiF3A==@lists.openembedded.org
-X-Gm-Message-State: APuU4Z9agwurFmMKmDmEYZlV0honD/te23sse37DISfwaLUxjeQ/7SXg
-	3+/h+E06VZHaeGKDQGvchu8eDY8jIyHFoiADCyrImBZ3OXerEtY9Mk+28sWgcL13CJI=
-X-Gm-Gg: AZFdTZciIhONc+Lx3RGG+wov5BnCI7NinptT/7IiixULJMESLKqYFtlPcgCnSBro51U
-	B8DWgnJECxjooqyI4ClRhzLxuwCu1xvTxLHRj00p5rgFKpVTzFxnKeJxL3s0KIgbWaQV5do1J0N
-	8oDwfKj+JC2to+gpDSQAthGdOFe6ut6r3iBfT7H31D3d732ShoyPGNvM1We9NN3LPC3Fbo+pPzh
-	BNufSIRI7D40EP+4394BNLc11+azi7ldxK73s2uuJQaCYSDz8lUIfILGOUiG23EKg5+OnLngpL5
-	OPcO6duMfb5jQGuF8QGmsa33OrVVFcJTutelDA4RJVgIIb/dgllXTIsh6/R+RjOqj3qCfYlV9j0
-	D7rOYJ86LfTBdSXz802/V5SZxTBx+grq88OmVu+2Kvjpq19RdIYaYSi2+AFXB72zkeFEpezdZHg
-	xfPaHFz/PyOxKA86m9ky6ZC5BrLKdLMPzb2ayg7Y0e/IdERrXFtf8QlcjnTVt2axfuffNyUStEo
-	dhtSaLi5BY7E8uigne8JiwOHL4VckZCbm25DibYq39A1nyq6AarZvnZ0Ezj3gJ8EWZVvwpRTxBD
-	OyGCBQvKasMtGjPxGbK12c/+dsQKm7/UkZG4T1Z2dK0FcJiRZP+88lyoIcI+pmCCWw3exfxhwJd
-	mQSFSFyTMuJoGSWdCRw==
-X-Received: by 2002:a05:600c:674b:b0:4bb:6847:791f with SMTP id 5b1f17b1804b1-4bb8880f267mr236574695e9.7.1795447054686;
-        Mon, 23 Nov 2026 07:17:34 -0800 (PST)
-Return-Path: <richard.purdie@linuxfoundation.org>
-Received: from ?IPv6:2001:8b0:aba:5f3c:dfb4:14bb:eea0:b8da? ([2001:8b0:aba:5f3c:dfb4:14bb:eea0:b8da])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884ab091sm513439915e9.11.2026.11.23.07.17.33
+        bh=EgdcxwrlBuvWEOxib77CTqJ/QW+9fTnkwRdAGPIdjCo=;
+        b=hRBrKU+pboRtcCH5zg3esKBezxRYJxF7AJWjWfC+prje5qJG91qFrotnQx0AOUjBkP
+         LEThYVOV1oiYlMzAWDmGpg7RhFWIHFf7XJUozQ071z1nFwll+y7eavsP+Pew7jNw3yKc
+         NnU4UpTLm45V45r3YRr07GprX7Ct5vPgW6SBQENsI9lJbE9J2HPtLxRYXhxBSRZWcf0H
+         K2KjzBNmpkVWj4eSWr02MYbrX3jQGC2KdO2ZS7dhQ+yr4CQp4oPryIc30zBtB2lOfdrJ
+         KzIVtaSGGzLdj6dvqpnqER0gJz/qak14dfnv5TUPh+TYhxDK77Ww3H4F9KxBmRQdskg+
+         /pAA==
+X-Gm-Message-State: APuU4Z+vj3JbwfJ+JsK6ojczxWEec09Vw2LYrSROhI95Bvn+OwbtX1E/
+	AtTnmadC7CqK9PiR7XVJudsU0hnuhwb2K2dsrho49e1o1vy2lRuXPmiE
+X-Gm-Gg: AZFdTZcd8Qe0yv6paQS6OxwXrEDHw4JjqSzhcMATZUSqOOgVzD0QJI2TjEUpkscIs2/
+	7jz69fZU6JovTUTLffW68fhhJSFhvF4CwNDevtkgBfF3qXobR4xDJyVd/YrMaDQjifzALYPw85Q
+	/SEGu88n2L79ajnqV2CfYaPfNMZCZ5Ux3sDWWkRIo80/qHCn36a9stOcrgSGDwtR3kYvxUQAroI
+	C4pJl83NYLFQsausPqE51NWK8boOydonn+N2I0XuhSb5VQGl0L2B1v833zGBtgd0qDCGhXZru5k
+	RzzHjFCWeOOyqdyklu+ry3WT1uNruVO7GELcb/0cWPcDV6qSat6/Akdl5W2OaLpXPBlcYK/xkQD
+	FZGK1dQfUAdg7t+5NhdoRoS1JJss7nE7jIZ+7HgNH8hJzW1ASQ27rlizM4UIYzsjyMDXQJKhiRH
+	C+DUUKt605HbnQoc/Dppwi0f73qOAZAIXLAT1TmLBEdKMbLCAXbKfjZ7lucjxy0HO9UYlc9SoHy
+	OJUrQxm53RdHRuW5BMHJ0vWzVexqe0C+/fa09IX/yIOcNHage25tr1+W4Vx3Ep7HxjrNaMEWgj4
+	/OJY/yqCTENBAonbhdCM/qOw7u5xchZurgw1p1tPLY8cRwToB1sCQ39pkmirlQDtqEzrqUGLvcC
+	C5z4Fe2R4qrcGzcBzlAy+u1MEVzT9yK2z3seQrczYg6z+gbqVmg==
+X-Received: by 2002:a05:620a:2690:b0:949:5e8a:313a with SMTP id af79cd13be357-949ba9b3966mr1914318885a.13.1795450900194;
+        Mon, 23 Nov 2026 08:21:40 -0800 (PST)
+Return-Path: <bruce.ashfield@gmail.com>
+Received: from [127.0.1.1] (pool-174-112-34-35.cpe.net.cable.rogers.com. [174.112.34.35])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-949bb0315f4sm831826285a.3.2026.11.23.08.21.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 07:17:33 -0800 (PST)
-Message-ID: <aff6acd72c8b1091f168c50e258e46492418012f.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] staging: allow special handling of
- initial-recipes also for native
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: =?ISO-8859-1?Q?J=F6rg?= Vehlow <joerg.vehlow@emlix.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 23 Nov 2026 15:17:33 +0000
-In-Reply-To: <75f4cab0-7f18-4a44-8ea6-3ec4bffbc38f@emlix.com>
-References: <20261119055929.3286725-1-joerg.vehlow@emlix.com>
-	 <a16193f4de16a23bd5f89ec3ece8ee96de8a8ffa.camel@linuxfoundation.org>
-	 <dc59b7a4-34c2-43e8-a22a-21737b3eade4@emlix.com>
-	 <31494e4081f6b926ca92176156c33d1ac36f62b0.camel@linuxfoundation.org>
-	 <75f4cab0-7f18-4a44-8ea6-3ec4bffbc38f@emlix.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-10build1 
+        Mon, 23 Nov 2026 08:21:39 -0800 (PST)
+Message-ID: <6b046813.f3e70d7f.2d799.38cb@mx.google.com>
+Date: Mon, 23 Nov 2026 08:21:39 -0800 (PST)
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Mikko Rapeli <mikko.rapeli@linaro.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v2] kernel-yocto.bbclass: capture stderr from
+ subprocess.check_output()
+In-Reply-To: <20261113125300.1188997-1-mikko.rapeli@linaro.org>
+References: <20261113125300.1188997-1-mikko.rapeli@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 15:17:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250923
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 16:21:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250924
 
-On Mon, 2026-11-23 at 13:08 +0100, J=C3=B6rg Vehlow wrote:
-> On 23.11.2026 12:52, Richard Purdie wrote:
-> > Can you fix the commit message please and perhaps put more of this
-> > detail in there?
-> >=20
-> > It is a bit of a red flag when the commit message doesn't really match
-> > what the code does, it also can cause problems in the future when
-> > people look back at why something was done.
-> I totally agree with you here, but fail to see where the mismatch is.
-> The commit message states that the special handling for initial is also=
-=20
-> applied to initial-native. (ok maybe the verb allow is not the right one)
-
-Firstly, remove the go and rust mentions as those are in core and don't
-need this.
-
-Secondly, mention you have an external ada implementation and that
-needs a native initial. Saying what is unique about ada to need this
-might also help.
-
-I don't need to have seen it, I just want it clear this is something
-external to core and relatively unavoidable.
-
-> > The other question this leads to, is whether this is a complete fix or
-> > are there other changes needed to make "initial" support work better?
-> This is the only fix that was required to oe-core that was required to=
-=20
-> make bitbake exclude these initial packages from the esdk.
-
-Ok, you could also mention that in the commit message since it stop me
-worrying there were more patches coming once this was accepted.
-
-> > I really want to see the complete picture of how this is working before
-> > we commit to supporting it.
+On Fri, Nov 13, 2026 at 7:53 AM Mikko Rapeli via openembedded-core
+<mikko.rapeli=linaro.org@lists.openembedded.org> wrote:
 >
-> I get that, but currently I cannot provide the recipes, they are loosely=
-=20
-> based in meta-adacore, but instead of using a prebuilt gprbuild they=20
-> build gprbuild in a two step process. Maybe that is what we can focus on=
-=20
-> and I could try to upload a version of meta-adacore with these recipes=
-=20
-> for you if you'd like to understand the use case.
->=20
-> But essentially: gprbuild is built in a two step process, first it is
-> build using gnat only (gprbuild-initial-native) and then it is built=20
-> again using the first version as the build tool. Since gprbuild is a=20
-> build tool (comparable to cmake), it must be a native recipe. The=20
-> nativesdk variant and the target variant can then be built from the=20
-> "normal" gprbuild-native.
-> But gprbuild-initial-native is never needed in the esdk and it uses the=
-=20
-> same paths as gprbuild-native (just for simplicity) and so it has=20
-> collisions, if both are installed at the same time.
-> Similar collisions would happen, if libgcc-initial and libgcc were=20
-> installed at the same time - I guess that is the reason why the initial=
-=20
-> recipes were excluded from the esdk.
-> Since the mechanism already exists and is simply not applied for=20
-> initial-native, I figured this is a "bug" in oe, that could be fixed=20
-> without too much background or explaining:
->=20
-> Currently target and nativesdk packages, that end in -initial are not
-> installed into the esdk, but native packages are, that feels like an=20
-> inconsistency, that is fixed by this patch. There is not really a lot
-> more to it.
+> Hard to debug failures without stderr in output.
 
-That is fine, by "complete picture", I really just need to know if
-there are more changes needed and rough idea of why we've not needed
-this anywhere else.
+I went and looked at what the tools actually send to stderr, to see
+how much this would help.
 
-Thanks!
+Not a lot, as it turns out .. symbol_why.py and scc report their
+errors on stdout (with a non-zero exit), which the existing exception
+handling already prints. kgit --meta always exits 0, so that new
+try/except won't ever trigger. Where this does help is a python
+traceback out of symbol_why.py (Kconfig parse errors, etc), and
+previously that was only in the task log, so it is still an
+improvement (which is what bit Mikko).
 
-Cheers,
+One minor thing: with stderr=subprocess.PIPE, anything written to
+stderr on a successful run is now captured and dropped, where before
+it ended up in the task log. Nothing important goes there today, so
+I'm not worried about it, but if you do a v3 for any other reason,
+it might be worth logging it on success.
 
-Richard
+To be clear, I'm actually working on modernizing symbol_why (I wrote a
+lot of that code fairly early in my python hacking career). So there's
+an opportunity to make it throw exceptions, fix exit codes and better
+separate stderr/sdout.
+
+As a first step I'll look at having the tools send their errors to
+stderr, so this gets more useful over time.
+
+Acked-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+
+Bruce
