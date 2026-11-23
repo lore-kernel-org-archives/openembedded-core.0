@@ -1,122 +1,113 @@
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2431.1795462099406484745
+Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com [209.85.218.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2453.1795462144917046427
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Nov 2026 11:28:19 -0800
+ Mon, 23 Nov 2026 11:29:05 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@9elements.com header.s=google header.b=MgrrWEUD;
- spf=pass (domain: 9elements.com, ip: 209.85.208.49, mailfrom: tan.siewert@9elements.com)
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6ba12b00c76so3822342a12.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 11:28:19 -0800 (PST)
+ dkim=pass header.i=@9elements.com header.s=google header.b=WhGFL7XN;
+ spf=pass (domain: 9elements.com, ip: 209.85.218.43, mailfrom: tan.siewert@9elements.com)
+Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-c4d5b2db4bbso756546466b.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 11:29:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=9elements.com; s=google; t=1795462097; x=1796066897; darn=lists.openembedded.org;
+        d=9elements.com; s=google; t=1795462143; x=1796066943; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=oZF2A4QUYZwOT0EhKIst7I1/2TSfqyypakCY4VsRYmY=;
-        b=MgrrWEUDtXuADQi76qswMeNzYWF3kuCcP2t642QFT22P3ppWvpc4QKwdzKSiZH4ir4
-         evHpY/GIY9Dt5RhkJhdNCv7OsVDRkveM+7Wlkbg/9AbdlfEOke19JropUdsPNNpa6X6N
-         EiBvjgH0e1PN9s823ggzsEiRpofWzuUP4bG7cqFBi/Y0ByACitCVAil88ou9bSS+T7Z4
-         r/ZTB1/4Itig7UvLJKrsIw7N01gbX4WsbtcaK2Q7uD922TryERoAMk7Cy/Bnp0MRkjc/
-         pGnH4zoEiSBuhL+3dZDRrrESXidmVP5rMe4ybizTlN+4LafdZeoMq5XzBWqafL0YoQ3u
-         9qJg==
+        bh=dFHixTfi79nj/CTbQjOamlXo+wvV/DQhjouhGy25ieo=;
+        b=WhGFL7XNMzJCqy9sCie9eBXMlXbizAfK7UfDnL1HY607rc7MnueM4o+utufdA7fCwa
+         FBRKuIKesKdnzuisgmdG5nKT3XCDiUQNT6vE2xmiMxJinXcXRZjz+t9gzvfJqn9vw7Ye
+         UWf3G8RxLAcyZ6uZMjteFMInUU8n9bN+R0nAq3Zouz+a0ITMXxU5tL9ZsVZhTPkUIKly
+         dR3VhOx9s7P9sJMqp6rrY9s8Iz9iErxIWTbpongswle1ec77WFzRRXGoQ7CQwI4T5tcH
+         CDerA1Nj5ZRKLvP6DEXRsCu6ZvIClmoVN8c/otGu0b3HAL9UT8csQuzHkpv23N+irmkq
+         7e6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795462097; x=1796066897;
+        d=1e100.net; s=20260707; t=1795462143; x=1796066943;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=oZF2A4QUYZwOT0EhKIst7I1/2TSfqyypakCY4VsRYmY=;
-        b=L7nKgp+9aLSHmd1cgp+7L76Y1aQfyij9thzZdm5ynyqch7hx47tXU24G4egSsm+Jxa
-         PaW9UHt9qYtuv9Vt6uTiCWdkJhmTFmCs897j6DQ2fUWQzA8sIgZxmuLlB6JlTkdCZScQ
-         8PnBGV//O+FZUi0Z6Rfy9Zl/IB7oWWPUst10wmM3KP+y+UQkw1RD2jCiaJIrTcRcRhvZ
-         DXyyElW2Gs3xhA+EaqOKL6YZzQRx+erB+HC8uDmlTW1WNDjwLXSFvKUYMv4W0HkwThqR
-         MhriTFTZ65eFmCEddGCVtBOFvJtXaDC4zYPMx9fIGsP/ajNPGV+WbS6Fq2QArBoKIxIl
-         fSjw==
-X-Gm-Message-State: APuU4Z8raCA42PAscqEMNX/czvEBmDgPQn3s4+VdnycSq8DixpfjO5JA
-	npcZvA//ojS36G2kZurZNovkYlqVI5zgHJz0pzt/w3yO34sV1+uV2PzSqUnrPAoBgQz9HUZmvBx
-	ZzHHxNtpKdQ==
-X-Gm-Gg: AZFdTZdGHZZEdc14NBQc2GoJuzbtMFb6L1z1JFqiNMeaLX5TGFbX/c9jc20OZlJDqlt
-	HAmFVQ1KFKLjQFt0hi28lmhKehqj10/Hz6YR6baI7gs1GacmeW9zku/P0n8a6ye/qguTq51QsJS
-	nRxQMglyagfv7e6numqC7CFuxIaHuywsWjCLPVO4DOuBF3fDaBrVAPb+nRcNkPUXWc49aToqKBb
-	Z/OeQsq4qYj9GRsdIpouAQveDEZucvAPOYqClkzoLHVLuAS4RcSen51NxaFe36JDfF1+r8Y8wKv
-	qBwPtgn2J/vDOShAdw30GPH7iGJ4Kr71Vn9teBmLoLDQxlDE8EC56WzoUnLNnS6dYTFjhYudDrg
-	ha3KGoPnTF+PbcVv9g0Zm83dAIDTmsUvfWYGdOouX4gbIzxe7E1MSI2O/gSg5xaT0mfVN/WVwS4
-	xJ9nTUAGuTbOQdBw8ilLHgdXF+0L5pfip3zj2nso/1lkp7goQuo1dLc6RLWx5Cf9n2AMfSzth8I
-	1qFELaG94gz6rSXkjXf1uyIwVpafrnSem+JurNhESFqiSkuA7X5DEP6Z4bJ9N72tRi4btiy5Git
-	3QyuwTMlutG6K7BdbrCT34i+jKdkLC6WDGnkKk5Y12jlSZHI/wEyI6sFCsH1n6S58PRsvwSOXBu
-	Ih57Fvov6OnFsQBEEiGEOyPiyIUeRkCrr
-X-Received: by 2002:a05:600c:4e0b:b0:49f:e772:6ddf with SMTP id 5b1f17b1804b1-4bb8881ae90mr269038645e9.32.1795461778705;
-        Mon, 23 Nov 2026 11:22:58 -0800 (PST)
+        bh=dFHixTfi79nj/CTbQjOamlXo+wvV/DQhjouhGy25ieo=;
+        b=iTJx0dK8/EjthU1/Z+KfOOPF0rNfaA+zQnUblKK+4kYsquImI7MCI112OkZxLZ653b
+         fb+EPtkSXVWGePOVMyXBu2vsYMtXrR+P+bfb9liAioJc4buJmTSCLBppC2hUFSCFHrf5
+         caGId20r8kpmrFAmCDK37FrQuueIY0grCwji1i3WMw+ZxXgFPC7feOfxccxL/sq8bIdS
+         qUb+L8NvfbCdA1nRNnrTmJXwCpkYVdvafMIoOX+yQ3SQU2Wpp2hKQPKONvkQaOYtXNO3
+         D4fGM78v4EeUMOx49wm32IVNLr/nW4OceeFS/K5FcF5COesNCw2RvVpQNb5rpglNdvGb
+         phfg==
+X-Gm-Message-State: APuU4Z8WuaOkiVVi2d9mJ7bHoZYetAQ2ALzDzESUPR+Fk61XEZ9zJtde
+	l2JdKsFL+hdfdhQ8qp9oRxdCzh4FPCTRk7WBMEYNq0pJ4LJImQp/WVCEk2sporqV2anZ6JVA6JG
+	WWVlXkm5fMQ==
+X-Gm-Gg: AZFdTZeBmVVyP9glm0Tv9iZrp0rE33oA27Mfab5Ir2XYJqwB3sIvLeuokYjaY0zlaEV
+	b7cfiEOUVaVgtj04B+xlekf/IzZmK0rt2BDZaT+TO9Jyk+HSPKG3hmvzCfiEvDmPzCFN55xKHLz
+	c253ICQtXrpEqLspe3qHGVoB+j0oPZ4M7RzgmpNzh9VnFhH9O/2M78u5y2x9xl/oMTwTmLgh9r/
+	nVMjSjH2u21gX84bo/sa6TlhZNbVrKt4Z+thyY/ktDp2uUdi9s+a/DgoyN+CQqZiiSf2mBDlb/0
+	eyusE3LQLvyuZ4muPqVFhrt97rUIw/QaQ9rPiKeujPPKheN38N4TPbnNyFWEbmY8LsH0QZpHJZS
+	RCA+GRoY6O3/H7xRxI9uLXfSMRGfrQOyoJVLN2NPqEO9q2n5iHCfbWpCG3At9of997G3pQ/agTe
+	PE2JOaDV36ZaN2q3ooirwnSOFTeHOz3r21H0H3UFi69ikaLu58nPDb1kvO7AxmR6OcWlrdsuVG5
+	w389OoPaaT4zt/jPuGeE4FwWEA2HS9msxSMRanucIXxh19S3hh59sfvwZ6ZnCRIfKQdlDz+JKH7
+	4P15m3ABi2lpqG+EPgJigQoQraxuunrG/NOxGTMCU4UBTOMnykiQFZhSXAdR5OcQgK3no/yC5lB
+	9JJgSRTjZ72eC+1jCaA+BYJksOIDQTNe0
+X-Received: by 2002:a05:600c:828e:b0:4a2:526b:d40f with SMTP id 5b1f17b1804b1-4bb88785898mr267750815e9.0.1795461777773;
+        Mon, 23 Nov 2026 11:22:57 -0800 (PST)
 Return-Path: <tan.siewert@9elements.com>
 Received: from white-mocha.local (p200300e66714e500bfe47b00fa11e276.dip0.t-ipconnect.de. [2003:e6:6714:e500:bfe4:7b00:fa11:e276])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb90660cb4sm299291305e9.2.2026.11.23.11.22.58
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb90660cb4sm299291305e9.2.2026.11.23.11.22.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 11:22:58 -0800 (PST)
+        Mon, 23 Nov 2026 11:22:57 -0800 (PST)
 From: Tan Siewert <tan.siewert@9elements.com>
-Date: Mon, 23 Nov 2026 20:22:43 +0100
-Subject: [PATCH v2 3/4] systemd: add hwdb packageconfig
+Date: Mon, 23 Nov 2026 20:22:41 +0100
+Subject: [PATCH v2 1/4] systemd: add ukify packageconfig
 MIME-Version: 1.0
-Message-Id: <20261123-systemd-optimisations-v2-3-0ecd5965985c@9elements.com>
+Message-Id: <20261123-systemd-optimisations-v2-1-0ecd5965985c@9elements.com>
 References: <20261123-systemd-optimisations-v2-0-0ecd5965985c@9elements.com>
 In-Reply-To: <20261123-systemd-optimisations-v2-0-0ecd5965985c@9elements.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Sai Sireesha T <saisireesha.t@windriver.com>, 
  Tan Siewert <tan.siewert@9elements.com>
 X-Mailer: b4 0.17-dev
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795461768; l=1823;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795461768; l=1629;
  i=tan.siewert@9elements.com; s=20260527; h=from:subject:message-id;
- bh=e5dxgp961F868z/JWBcaaldHp09K+vpyDzo2f8X/AtE=;
- b=0fRkWnDNjJu/T7DrMKSvIdTpGPyBD3Pzo7T4mULXVVXVOCWVA90U1f1y7CxWp98nQxdRmD0xr
- OiivPNvDjudBsY+ZM9lu0l/jU3Fk2XxXjBdt0FSLuOqaPlhoSiLKAzb
+ bh=drmKczLZtf1Mg2Aloj3rDpHKXH67QPQKB1a/Fzhk5D8=;
+ b=zAqRu0tp4xvnSCo4eRBxLlSODy/DxFQc5T/t4ZZJ1LU0ZQM8FtEpnL7lccmOKo2yV742Nz4Hx
+ pvDR+Qn/mlfC6vHWYb/EKYnImcP2X01exnWVS9sDYtwt290q4l0UA0G
 X-Developer-Key: i=tan.siewert@9elements.com; a=ed25519;
  pk=ORQd/zQf+LsAvJGXP1CjQwVO6t6iEOGq/eGUsmRVTG4=
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 20:15:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250933
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250934
 
-The hwdb is not that useful on embedded devices which may never see HID
-or PCI devices, and it uses a fair amount of storage.
+systemd gates ukify via allowed(), so it is built and installed unless
+explicitly disabled.
 
-Add a packageconfig option which is enabled by default and only
-recommends udev-hwdb when it is enabled. usbutils and similar only
-RRECOMMEND it, so disabling it does not break them.
+Add a packageconfig option that is enabled by default when the efi
+DISTRO_FEATURE is set. It can still be removed if wanted, which may be
+useful when using meta-tpm, which may include ukify implicitly.
 
 Signed-off-by: Tan Siewert <tan.siewert@9elements.com>
 ---
- meta/recipes-core/systemd/systemd_262.2.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-core/systemd/systemd_262.2.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/meta/recipes-core/systemd/systemd_262.2.bb b/meta/recipes-core/systemd/systemd_262.2.bb
-index 899df09fa2..5841ee3322 100644
+index 7223a4d192..eaa4b900e0 100644
 --- a/meta/recipes-core/systemd/systemd_262.2.bb
 +++ b/meta/recipes-core/systemd/systemd_262.2.bb
-@@ -59,6 +59,7 @@ PACKAGECONFIG ??= " \
-     gshadow \
-     hibernate \
-     hostnamed \
-+    hwdb \
-     idn \
-     ima \
-     kmod \
-@@ -137,6 +138,7 @@ PACKAGECONFIG[homed] = "-Dhomed=enabled,-Dhomed=disabled"
- PACKAGECONFIG[gshadow] = "-Dgshadow=true,-Dgshadow=false"
- PACKAGECONFIG[hibernate] = "-Dhibernate=true,-Dhibernate=false"
- PACKAGECONFIG[hostnamed] = "-Dhostnamed=true,-Dhostnamed=false"
-+PACKAGECONFIG[hwdb] = "-Dhwdb=true,-Dhwdb=false"
- PACKAGECONFIG[idn] = "-Didn=true,-Didn=false"
- PACKAGECONFIG[ima] = "-Dima=true,-Dima=false"
- # importd requires journal-upload/xz/zlib/bzip2/gcrypt
-@@ -759,7 +761,7 @@ RDEPENDS:${PN} += "systemd-serialgetty"
- RDEPENDS:${PN} += "volatile-binds"
- 
- RRECOMMENDS:${PN} += "${PN}-extra-utils \
--                      udev-hwdb \
-+                      ${@bb.utils.contains('PACKAGECONFIG', 'hwdb', 'udev-hwdb', '', d)} \
-                       e2fsprogs-e2fsck \
-                       kernel-module-autofs4 kernel-module-unix kernel-module-ipv6 kernel-module-sch-fq-codel \
-                       os-release \
+@@ -51,6 +51,7 @@ PACKAGECONFIG ??= " \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'minidebuginfo', 'coredump elfutils', '', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'wifi', 'rfkill', '', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'xkbcommon', '', d)} \
++    ${@bb.utils.contains('DISTRO_FEATURES', 'efi', 'ukify', '', d)} \
+     link-udev-shared \
+     backlight \
+     binfmt \
+@@ -196,6 +197,7 @@ PACKAGECONFIG[set-time-epoch] = "${@build_epoch(d)},-Dtime-epoch=0"
+ PACKAGECONFIG[timedated] = "-Dtimedated=true,-Dtimedated=false"
+ PACKAGECONFIG[timesyncd] = "-Dtimesyncd=true,-Dtimesyncd=false"
+ PACKAGECONFIG[sbinmerge] = "-Dsplit-bin=false,-Dsplit-bin=true"
++PACKAGECONFIG[ukify] = "-Dukify=enabled,-Dukify=disabled"
+ PACKAGECONFIG[userdb] = "-Duserdb=true,-Duserdb=false"
+ PACKAGECONFIG[utmp] = "-Dutmp=true,-Dutmp=false"
+ PACKAGECONFIG[valgrind] = "-DVALGRIND=1,,valgrind"
 
 -- 
 2.56.0
