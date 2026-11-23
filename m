@@ -1,132 +1,130 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.51251.1795428166491164978
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.50932.1795428203863651971
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Nov 2026 02:02:46 -0800
+ Mon, 23 Nov 2026 02:03:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=gUOEWuEn;
- spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4bb702a7548so23218735e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 02:02:46 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=ABeeRG7w;
+ spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49d05d51553so21529765e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 02:03:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795428165; x=1796032965; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=zTDp1org7WtPh67fy1SVCbORSGJjFlfsLUPae+bztfs=;
-        b=gUOEWuEnR7+AMKtH2D/qg+N2v8SbtbyfTx3pxHgMyAGRK5qDGS+y39heoK0rWf1bVo
-         aqjcWlRnkjTrlcZDEmuwyTnq2DjVVfRsdFiRmdcHm/thgRzH/pqgzqOFg/GVyf+69OzM
-         tjln+antnVWRXZozJtqbkqykJi+MJqD6/0mGpVC7jG0Y1vgRXu6cCv4qfhsojMAei1+M
-         PL84F6vGiDGbgDUN4tVSmKnsv1hDXMqHusjnOI2iXYjPL196qpj6KEBUAfL3Q1A/iKJi
-         1WRAv46GBSjj+N0cs/suhdC0CMTUbkf6K7nODXVG19BJ79umHO/yGpgWN0kbY/xEnsaP
-         YkdQ==
+        d=smile.fr; s=google2; t=1795428202; x=1796033002; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=9W7L0uMuOdv72cJ1XLyIIG9vHtLH7hu3yqQFS202SmI=;
+        b=ABeeRG7wv+YTmOvnLUTMHTIlI1bC7U03dO+PNtG3DyUo9AtjUzkIzHZe3ywhI4Vhra
+         cS4oFqz0Pf8ovRmIwRwwLhq9rPH8EJudOpqbCec8x1fkpJIaACLzXV7lYJpsKE3s+sOI
+         ARnAYABwctHyuoTkGcU3w2NJKX10HnwEV7soCyua+xJM/VsNry+81iCgjlenjou8cGoD
+         GiVn5V6uw1ffbh0SLT3Od3/g/Uln+GwEbr7p11lV3IwIWqzarwjLcUatmu/ok9m6cq2x
+         K01TTFvBzPe+fU9GN7Z7fcM8fSvHSgtt0SN57qVjPXqPNpP31Ru19Je5hBf8VOWNkKRi
+         wPjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795428165; x=1796032965;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=zTDp1org7WtPh67fy1SVCbORSGJjFlfsLUPae+bztfs=;
-        b=gze22R84aPT8cKoGPRyg7O3HOH29SKzJ8T+UtHvd4M7z8oDADtGse2Vu3tbv91tAQs
-         o3b0bzsqX1mzYwSlp4o9NsYMoFzx7iu69PuSY7pz3aEkTkt4V8LxCCxIv+axPzE3U8oD
-         xElI2aHFqQdtYZtz175RUbHjolmVYCVAshWvPgm5dQX4ZRhNLFTlZoegPHmFH6bswXYS
-         EiXh3GQ8lPaGd9sT4vXR6L/3IHpFXQyX4dfhKji4E0CkSgzdwWPKaA88HkW56B+butVl
-         JMeSFq8cli9lO+PjhDMozfFzdxyocd5y+zVDzJ3Zj3ugKvJECSZk9NdzEzPjrO0OV1yr
-         7MjA==
-X-Gm-Message-State: APuU4Z+C1x7z+VhdIoQfQ63izMIF6nPHZQbgaEUIk/DLKUqg0RX9Z/1c
-	Xo4AGNYsxW3hWVCJCvpf1UgyZJSfS+IZiG57rZEQmc2Am40NpY/U1mQ4PHVoLcN841M=
-X-Gm-Gg: AZFdTZfHktC0MoYojttBqyfngX/wKQ7DMdn/y2l//DbUElUt27LyXSnjkVLkIrZrKb6
-	wf248m9qcAdSMnTir8cBI2Ihlev2SNEL0VcUPSue0PPfPLQucBKq1JNzp5L2QLhM5aWcahV8Far
-	vh6r5Om5EVyBSUF+HfjB6NQMDAxw+CArvQjezVyAzCDXpFZAfOPqQ0D4Z9QZhwiMTJMosL7iBvt
-	IHTxShnTn/yvZaC3kCAbNGRCWRps/vNTWJYQ6flBjfzykp/70QKYNlPVx5ytNfYWx7JkHTEi3Lc
-	4uZ7KiT9xZsIHE86kz/hM4LBvlS9tX1GuB+elv4lZAGxfzeX46cbMncyxjvg86675iwqC67NfD7
-	Jcz3NpEum2wG5wT82DhSPCCbFktgRAXw4Af05s+Y0wh80zpPOo1nWI00iw7WERjekUAhkmcjUFv
-	3IVKoXiI03zNXhFY8m+vzUlMPnQd15/1sLd42EdyT9DjH3mb/p1REcRRVkEDfJZVb5E9xy1xfEG
-	ZdTJLIVh4R6ywLdhR5LDYcpb510jtvhm2AZ/MVyDMN1oYGdB23um9ugHF0C8t9ipjIbAO4EKfW8
-	/8vjaCQS89V56cF9c9t0QAxai6uNxQkTQcslC2FCiWWf2YosP5VZ5n/kvQ4weyzLT+UhqhEEl3u
-	9Xdo0SPlqWPG6KA==
-X-Received: by 2002:a05:600c:800e:b0:4bb:7757:fe58 with SMTP id 5b1f17b1804b1-4bb8881b9d7mr227014965e9.19.1795428164649;
-        Mon, 23 Nov 2026 02:02:44 -0800 (PST)
+        d=1e100.net; s=20260707; t=1795428202; x=1796033002;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=9W7L0uMuOdv72cJ1XLyIIG9vHtLH7hu3yqQFS202SmI=;
+        b=xFBOq+Li+v7gC3XiilV18Wk2F8yd1pLDBcnLaiogt/cbQ0stW1pKyHVif9QIaxrbJW
+         J4G9Gg0DpDPqmz7ZvlD1fxdFrK/U+TDO4ngmewk4V2mzYC2NjZLQH1a+K4Nw8nqfOWJ2
+         cnP3xgLjfkYmQIh/SufV4UsLYs6QG9wW5qMakrd9Ttlp0fwnIbL9FOq80Iaiyvr1j64t
+         CV1n7JkTto98BnHlsgH1D5VurdmjRs2vhfrYsC96xPViVRYcPD0qtGXMCxvt5pkU/PoY
+         XwiOuS/d8MBpfveAd0f36CS/71TKjAJjba9113DQqwq7il4lqqEGAU4m3Z0LwDLSFi2Z
+         egTQ==
+X-Forwarded-Encrypted: i=1; AL+hErEpjshiEv8IOauitdMfhQeTr5PPE6UVs728qEk+XMgXFzp64v13qene9gXx9E97jUZPiKWPveAdrshjoHFmzmxT+A==@lists.openembedded.org
+X-Gm-Message-State: APuU4Z9tPuDWujE7HFq1vlxFxaZRZVPvj2szG3B/ArBuEuFQ4waL0hf0
+	pBnKQA1FzSxynvTnq+wcteV8FH0m8M2pmahwawZsZTOrD/n3jnC6toXXmnwKQcPGJMLQX4GrhLi
+	GnZ+kLA8=
+X-Gm-Gg: AZFdTZddMzIWJrkO+tM/THl+NdNTGn1v01Wy4VhqSvfZqofDHUG4GhC1X2WpEBY8IWg
+	rblPhNKC4WLklf1fZqT0VTkyo11ztgnB9bRw1WYrfI530PYeB5mvT5/Or4VvitOLWTog6/BA5L7
+	49FYjNS/e2pUO7EE6dJDSPfIxRpKPXxkWr48Hip0UVqKpwPdOmKbMHcoypcotfiQTJZM+sbp2gi
+	mNF4VU8sz5LuI0/HRf9EqZaLh6J/nTyOu4b7rjae5XNDSBrUIHETZPamo19aXYkF9ud6uXdhPcO
+	iCHieVBQpO4L/PMyDYzuPnW6fwKQXNwLxOjRibRRVeyYGpfubisJzzFS7r9vEZUvHSGmND6nGz4
+	l2+WIuKRkHdqnUw2D0QvmHdKOtjgHuxU4/VEhXbUbkpV9kqp3FdhvvflNrL8efmiqGCSkftwJsr
+	47Ab9v8EaTMpisIv5A0b05gM9oTDysqzXAG2JzX1yxN6q+rsOyzf7u3HWUgXJrWYtd7MLW+NV1r
+	INx4ClgTySfDkmZVBilIHitMK4gLetW/q/Gs1he1AhL8gZQs9UMsy5K0rLf6rgGZOLwe+1zNPzE
+	/nOiG4NeYtYmVBzAR0SotgVAoZsw9bDsySekjeegGBQDmMQUPDG44p0Fk3U48pH209ssTowTQGg
+	tgFGw7L0r82YXCA==
+X-Received: by 2002:a05:600c:45d4:b0:4a2:84c:52f3 with SMTP id 5b1f17b1804b1-4bb8880988cmr238148605e9.6.1795428201877;
+        Mon, 23 Nov 2026 02:03:21 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884c3063sm345706045e9.15.2026.11.23.02.02.44
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb9066f6e6sm131268975e9.3.2026.11.23.02.03.21
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Nov 2026 02:02:44 -0800 (PST)
+        Mon, 23 Nov 2026 02:03:21 -0800 (PST)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 23 Nov 2026 11:02:44 +0100
-Message-Id: <DN2I5ZXYZ4IH.1I13EZR3SLYI7@smile.fr>
-Subject: Re: [OE-core][scarthgap][patch] systemd: rate-limit tail timestamp
- refresh during iteration
+Date: Mon, 23 Nov 2026 11:03:21 +0100
+Message-Id: <DN2I6H0KND4Z.302IVF6X8C89G@smile.fr>
+Subject: Re: [OE-core] [wrynose][PATCH 1/2] curl: fix CVE-2026-87864
 From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <openembedded-core@lists.openembedded.org>
-To: "Vijay Anusuri" <vanusuri@mvista.com>
+To: <dkelaiya@cisco.com>, <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
-References: <20261116145033.2369325-1-vanusuri@mvista.com>
- <DN18ROW5HVTW.25YP9YGBIMAZQ@smile.fr>
- <CANQUz188XSj5Wi78APFy0H9WG+oOvbkV3anvpki+1ibgJ4vopA@mail.gmail.com>
-In-Reply-To: <CANQUz188XSj5Wi78APFy0H9WG+oOvbkV3anvpki+1ibgJ4vopA@mail.gmail.com>
+References: <20261030085350.13089-1-adarsh.jagadish.kamini@est.tech>
+ <105529.1793873653631988994@lists.openembedded.org>
+In-Reply-To: <105529.1793873653631988994@lists.openembedded.org>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 10:02:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250893
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 10:03:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250894
 
-On Mon Nov 23, 2026 at 10:57 AM CET, Vijay Anusuri wrote:
-> Hi Yoann,
+On Thu Nov 5, 2026 at 11:14 AM CET, Darsh Kelaiya -X (dkelaiya - E INFOCHIP=
+S PRIVATE LIMITED at Cisco) via openembedded-core wrote:
+> Hello Yoann, Adarsh,
 >
-> I have applied Jaipaul's systemd 259.10 upgrade series on Wrynose and
-> completed the build and runtime testing.
+> I submitted the five-patch curl v2 series on October 23 [1] and
+> the twelve-patch series on November 4 [2]. I have also prepared
+> nine further patches on top, forming a consolidated Wrynose stack
+> addressing 26 additional CVEs.
 >
-> https://patchwork.yoctoproject.org/project/oe-core/list/?series=3D53480
+> These comprise 25 source fixes and a conditional CVE_STATUS change
+> for CVE-2026-19931. The stack builds on Jaipaul's already accepted
+> CVE-2026-80230 fix.
 >
-> The build completed successfully, and the OEQA runtime tests on QEMU
-> (qemux86-64) produced the following results:
+> I noticed that Adarsh has submitted fixes for CVE-2026-87864,
+> CVE-2026-92388 and CVE-2026-92389. My twelve-patch submission
+> includes 87864 and 92389, while the additional nine include 92388.
 >
-> RESULTS:
-> RESULTS - ping.PingTest.test_ping: PASSED (0.04s)
-> RESULTS - ssh.SSHTest.test_ssh: PASSED (0.78s)
-> RESULTS - systemd.SystemdBasicTests.test_systemd_basic: PASSED (0.59s)
-> RESULTS - systemd.SystemdBasicTests.test_systemd_failed: PASSED (1.20s)
-> RESULTS - systemd.SystemdBasicTests.test_systemd_list: PASSED (1.10s)
-> RESULTS - systemd.SystemdJournalTests.test_systemd_boot_time: PASSED (0.6=
-0s)
-> RESULTS - systemd.SystemdJournalTests.test_systemd_journal: PASSED (0.77s=
-)
-> RESULTS - systemd.SystemdServiceTests.test_systemd_coredump_minidebuginfo=
-:
-> SKIPPED (0.00s)
-> RESULTS - systemd.SystemdServiceTests.test_systemd_disable_enable: SKIPPE=
-D
-> (0.00s)
-> RESULTS - systemd.SystemdServiceTests.test_systemd_disable_enable_ro:
-> SKIPPED (0.00s)
-> RESULTS - systemd.SystemdServiceTests.test_systemd_status: SKIPPED (0.00s=
-)
-> RESULTS - systemd.SystemdServiceTests.test_systemd_stop_start: SKIPPED
-> (0.00s)
-> SUMMARY:
-> core-image-minimal () - Ran 12 tests in 5.091s
-> core-image-minimal - OK - All required tests passed (successes=3D7,
-> skipped=3D5, failures=3D0, errors=3D0)
-> NOTE: Tasks Summary: Attempted 1341 tasks of which 1339 didn't need to be
-> rerun and all succeeded.
->
-> I didn't observe any failures during the build or runtime testing. The
-> patch series looks ok to me.
->
-> Thanks to Jaipaul for the patch series.
->
-> Thanks & Regards,
->
-> Vijay
+> Could we coordinate which versions to retain for these three CVEs?
 
-Please answer that to Jaipaul's thread with your "Reviewed-by:" or
-"Tested-by:" (whichever applies): That will be easier for me to track.
+Hello,
 
-FYI, I'm working on the scarthgap release now, I don't think I'll
-include these systemd change in it. They will be considered for the next
-cycles though.
+In this case, I took all 3 from Adarsh.
+My general rule of thumb for choosing between similar fixes:
+* I review first the one I received earlier
+* If I have to decline it, I'll review the one received after
+* Rarely, I'll take a later patch if it is easier (e.g. a focused series
+  instead of a large one with rejected patches in it)
 
-Thanks!
+We have yet to define a method to avoid duplicating work. But, in the
+meantime, I suggest to monitor the mailing-list so check if someone sent
+the fixes you are working on.
+
+Regards,
+
+>
+> [1] https://lists.openembedded.org/g/openembedded-core/message/248493
+> [2] https://lists.openembedded.org/g/openembedded-core/message/249332
+>
+> Thanks,
+> Darsh
+>
+> On Fri, Oct 30, 2026 at 02:23 PM, Adarsh Jagadish Kamini wrote:
+>
+>>=20
+>> Backport patch to fix CVE-2026-87864.
+>>=20
+>> References:
+>> https://nvd.nist.gov/vuln/detail/CVE-2026-87864
+>>=20
+>> Upstream fix:
+>> https://github.com/curl/curl/commit/3b547de301342b347fb3c6ea6ae797
+>>=20
+>> Tested with ptest:
+>> Before: PASSED: 1006, FAILED: 0, SKIPPED: 0, ABORTED: 0
+>> After: PASSED: 1006, FAILED: 0, SKIPPED: 0, ABORTED: 0
+>>=20
+>> Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
 --=20
 Yoann Congal
 Smile ECS
