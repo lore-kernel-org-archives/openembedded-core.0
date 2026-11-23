@@ -1,103 +1,170 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.53071.1795438879196741593
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.53480.1795439280808450598
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Nov 2026 05:01:19 -0800
+ Mon, 23 Nov 2026 05:08:01 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=EWtaUBd1;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: joaomarcos.costa@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id CE8234E41648
-	for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 13:01:16 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id A4978601E1;
-	Mon, 23 Nov 2026 13:01:16 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 001A111E68355;
-	Mon, 23 Nov 2026 14:01:14 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1795438876; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=vLzLahWVLwz6Hp8+GYsLjKUdy5WDbFRwom5KZY0DKTM=;
-	b=EWtaUBd10HTtUjr/8C4eTGdAgi0ZYK+hhFOlF/bL9RDk3Pj3LviB432M1qPf22LjAO6tFE
-	ZEil/HIlZ3eydeHBRDQdxADCyjIt2WIsCyiDFO37ID/8/gDWHSQR3WOkZhOe32iZmsZQ5a
-	Yo4nuCv/VY+JsSz6tAlNxJtkcBnE/bHtU5OA969frBgdRcQyEZisNXLwtKaqtuH07RMbTf
-	7fluA0x9mw0xQtk6GGRj1vWGWpxUBFCRaesEBs59FKRSc+omaV1hBxSp9fBZb/7CdeeFeJ
-	oIWI+NmQ4S4RcqDdY0DG8pTHK5IOU8fKjY+DEKxvPUQWXBURr/yS73Igq+BUyg==
-Message-ID: <4e328f5d-191f-45e7-a487-1a9b14ef557f@bootlin.com>
-Date: Mon, 23 Nov 2026 14:01:14 +0100
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FxMKyK9b;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-497614c95f0so1806256f8f.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 05:08:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1795439279; x=1796044079; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=BGSG4BFtZELx3zfAYGDq4Fi7JMbTRTSPgXyxkMA1SoY=;
+        b=FxMKyK9bbuz+9vdCQuIWRbL/m+WfKv4EYuHZTVB++QIxg9211mg/Li3CTpjISvA6dH
+         EpFkYUd8bdjQwfAXhbX8UjlbRov8ofM9IFmd0eNmoAPguYOh/0LM5L3paFHIw7NXOhX6
+         kiQm3J5JJQItwh2TAz3+dhmsskrPOC1kkbnII=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795439279; x=1796044079;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=BGSG4BFtZELx3zfAYGDq4Fi7JMbTRTSPgXyxkMA1SoY=;
+        b=1RhbJX6/Mp99V2mcPBjwaqGopMOhQB5wv7qZOryp6mPOH5pQ7WOT/cqRaJs/ik7FnC
+         zyZkzckfwijA1EbGT2lFhqBuXc6mTcEFhpVvSf0/egnw3u18RnrsbETkT50LgO+DbM7+
+         ZXMCKUlsJ6VxbYWrME+ODmzluVmMaW3RId3g066HFTunvvxD7APsh1MN+BD9QxBemIGv
+         FxFTReIlU2o3F7LNm/NX+PZq9VnMRN7SYIOhkXvNMxmK7flhcgvN+IU/NfQbG0QcDyTl
+         Gzk3UyxtSkka+hFywtQfR3ZvIE0iG8RY2Yj4I3llvHx6ntAu7VEuIcM+Kj1jxFhqPgEd
+         kyIw==
+X-Forwarded-Encrypted: i=1; AL+hErHDL44s4zxZ6RM81lKWJZGU/vGBgHsrZrwIU+O7eegj2B2EvJNYcKAfdvS2uJLa7xZwO9uY/h0DwCWJaq18ydUJvg==@lists.openembedded.org
+X-Gm-Message-State: APuU4Z9yfg4iN4yA2YPJP9QZ3eEZPAxZd+uIz4+f6xb3iVVwpHXIDiZT
+	pJ/ypVjXFUfOovfwfO+iXZmAC7vOYJRbrjj+kXu0pbtUn+n0aPioH4Z1/Z3cJXHLciQ=
+X-Gm-Gg: AZFdTZdAyq+BPKYVGrYvY4OPBnwMudFr3jKGk0+af60s4kTb1hViOVRAYkfOc791Abm
+	ZimlJMEYuxmyOIK8jWLmFR6M5Sl08eLnrW5hSiStvruGP1YUJPaPio0gDdWCe/6X2ksFNU6BbtQ
+	picPRlLfNEQnbDUCkrIv1k7HtGFpfSNRETIYkLEm+q8frPZ/j6m6hwePrHdRregL0isquxoOmL9
+	JbPEf2MQ/ic7VTWZjPRAWe7pknuHJADXT4RvFs9T16W8d/B6u9ZYGNk0PaLayU5so23R1smq/SE
+	pUmb1rmEPtuwU01p5AHsFGXNa8wrjDAEmT1fW65P5jfqPbR/yn/FqvCM/dgaqsURYtckzNiQmgp
+	yBEUQ6M+C/Mu6UT77azELUBTQTDv1AxS10xPnhXLfQSlSUHQ6RGeStEHQP1VuSKLr7DIYYJ0/Rz
+	6H9RcLCcNG/bOceCiZwhkOTvGWFlGBGoQyZtQn6mW8seovEVuAtgf4yDixN0uL/Xj0+aNSAi6i0
+	u3hXY8aTXAl3pLf+T+kdozgr28y7HDVELox0r4WULzVrNYSkFwVLpbLdFoHHDlLBvBjuKw2BnOA
+	x+VFpZvL6M6E46gqbnDJLzO4QsYxb2CzG/vUf1nAAN8nPaWU/tTzquv5BYBzatMyUOACfZyoV/k
+	MfQmXru1hCeAyVirE71+bHaIiHwvjDylWL+KcwQ8J
+X-Received: by 2002:a05:600c:4514:b0:4bb:6823:3d3c with SMTP id 5b1f17b1804b1-4bb888169d0mr250114365e9.20.1795439278703;
+        Mon, 23 Nov 2026 05:07:58 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from ?IPv6:2001:8b0:aba:5f3c:dfb4:14bb:eea0:b8da? ([2001:8b0:aba:5f3c:dfb4:14bb:eea0:b8da])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb8538b3a7sm399363495e9.3.2026.11.23.05.07.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2026 05:07:57 -0800 (PST)
+Message-ID: <cb28164cf6716229211bb7f5513ae56e14244074.camel@linuxfoundation.org>
+Subject: Re: [PATCH] oeqa/selftest/gcc: Introduce SSH multiplexing for
+ parallel tests
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Harish.Sadineni@windriver.com, openembedded-core@lists.openembedded.org
+Cc: Randy.MacLeod@windriver.com, Sundeep.Kokkonda@windriver.com
+Date: Mon, 23 Nov 2026 13:07:57 +0000
+In-Reply-To: <20261112073756.1119386-1-Harish.Sadineni@windriver.com>
+References: <20261112073756.1119386-1-Harish.Sadineni@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: base64
+User-Agent: Evolution 3.56.2-10build1 
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] rpm-sequoia: skip flaky
- policy::tests::signature ptest
-To: Jaipaul Cheernam <jaipaul.cheernam@est.tech>,
- openembedded-core@lists.openembedded.org
-References: <20261123123424.61533-1-jaipaul.cheernam@est.tech>
-Content-Language: en-US, fr
-From: Joao Marcos Costa <joaomarcos.costa@bootlin.com>
-Organization: Bootlin
-In-Reply-To: <20261123123424.61533-1-jaipaul.cheernam@est.tech>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-X-Last-TLS-Session-Version: TLSv1.3
-Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 13:01:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250914
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 13:08:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250915
 
-Hello, Jaipaul
-
-On 11/23/26 1:34 PM, Jaipaul Cheernam wrote:
-> policy::tests::signature fails randomly and reported
-> upstream as rpm-sequoia issue #119. [1] and updated Yocto test logs
->=20
-> [1] https://github.com/rpm-software-management/rpm-sequoia/issues/119
->=20
-> ptest logs after skip:
->    ## starting to run rust tests ##
->=20
->    running 1 test
->    test symbols ... ok
->=20
->    test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filter=
-ed out; finished in 0.01s
->=20
->    PASS: /usr/lib/rpm-sequoia/ptest/symbols-478593ba8da2eb3f
->=20
->    running 2 tests
->    test tests::merge_certs_mismatch ... ok
->    test tests::merge_certs ... ok
->=20
->    test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 1 filter=
-ed out; finished in 0.01s
->=20
-> [YOCTO #16532]
->=20
-> Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-> ---
->   meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.10.3.bb | 4 ++++
->   1 file changed, 4 insertions(+)
->=20
-> diff --git a/meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.10.3.bb b/=
-meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.10.3.bb
-> index a91a952f261..f63a5a04027 100644
-> --- a/meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.10.3.bb
-> +++ b/meta/recipes-devtools/rpm-sequoia/rpm-sequoia_1.10.3.bb
-> @@ -23,6 +23,10 @@ SRCREV =3D "8e0b76e1e75c83d7d8e6f38976b0c83b52ebe7ee=
-"
->  =20
->   require ${BPN}-crates.inc
->  =20
-> +# policy::tests::signature is flaky in 1.10.3
-> +# https://github.com/rpm-software-management/rpm-sequoia/issues/119
-> +RUST_TEST_ARGS =3D "--skip policy::tests::signature"
-> +
->   CARGO_BUILD_FLAGS +=3D "--no-default-features --features crypto-opens=
-sl"
->   CARGO_INSTALL_LIBRARIES =3D "1"
-
-Thanks for the patch.
-
-Reviewed-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
-
---=20
-Best regards,
-Jo=C3=A3o Marcos Costa
+VGhhbmtzIGZvciB0aGlzIEhhcmlzaCwgaXQgd2lsbCBiZSBnb29kIHRvIGdldCB0aGlzIGZpeGVk
+LiBPbmUgY29tbWVudApiZWxvdy4KCk9uIFdlZCwgMjAyNi0xMS0xMSBhdCAyMzozNyAtMDgwMCwg
+SGFyaXNoLlNhZGluZW5pQHdpbmRyaXZlci5jb20gd3JvdGU6Cj4gRnJvbTogSGFyaXNoIFNhZGlu
+ZW5pIDxIYXJpc2guU2FkaW5lbmlAd2luZHJpdmVyLmNvbT4KPiAKPiBUaGUgcmVtb3ZhbCBvZiBp
+bml0LXN5c3RlbS1oZWxwZXJzLXNlcnZpY2UgZnJvbSBpbml0c2NyaXB0cyBpbgo+IGNvbW1pdCA2
+NzQzNTU3NTlmZGJbMV0gY2F1c2VkIHRoZSBzZXJ2aWNlIGNvbW1hbmQgdG8gYmVjb21lCj4gdW5h
+dmFpbGFibGUuIEFzIGEgcmVzdWx0LCByZXN0YXJ0aW5nIHNzaGQgZmFpbGVkLCBhbmQgdGhlCj4g
+Y29uZmlndXJlZCBNYXhTdGFydHVwcyBzZXR0aW5nIHdhcyBub3QgYXBwbGllZC4gVGhpcyBjYXVz
+ZWQKPiBzeXN0ZW0tZW11bGF0ZWQgR0NDIHRlc3RzIHRvIGZhaWwgd2l0aCBVTlJFU09MVkVEIHJl
+c3VsdHMuCj4gCj4gQWx0aG91Z2ggdGhpcyBpc3N1ZSB3YXMgYWRkcmVzc2VkLCBpbnRlcm1pdHRl
+bnQgU1NIIGNvbm5lY3Rpb24KPiBmYWlsdXJlcyB3ZXJlIHN0aWxsIG9ic2VydmVkIHdoZW4gcnVu
+bmluZyB0ZXN0cyBpbiBwYXJhbGxlbAo+IGFjcm9zcyBidWlsZHMgd2hpY2ggaXMgYWRkcmVzZWQg
+Ynkgc3NoIGNvbm5lY3Rpb24gbXVsdGlwbGV4aW5nLgo+IAo+IEludHJvZHVjZWQgU1NIIGNvbm5l
+Y3Rpb24gbXVsdGlwbGV4aW5nIHRvIGFsbG93IHBhcmFsbGVsIEdDQwo+IHRlc3Qgc2hhcmRzIHRv
+IHNoYXJlIGEgbWFzdGVyIFNTSCBjb25uZWN0aW9uLCByZWR1Y2luZwo+IGNvbm5lY3Rpb24gb3Zl
+cmhlYWQgYW5kIGF2b2lkaW5nIGNvbm5lY3Rpb24gc3RhcnR1cCByYWNlcwo+IGJldHdlZW4gc3No
+IGFuZCBzY3AuCj4gCj4gSW5jcmVhc2Ugc3NoZCBNYXhTZXNzaW9ucyB0byBzdXBwb3J0IHRoZSBw
+YXJhbGxlbCBzZXNzaW9ucwo+IHJlcXVpcmVkIGJ5IEdDQyB0ZXN0cy4gVXNlIGEgcGVyLWJ1aWxk
+IENvbnRyb2xQYXRoIHRvIGF2b2lkCj4gY29uZmxpY3RzIGJldHdlZW4gYnVpbGRzIGFuZCBjbGVh
+biB1cCBzdGFsZSBjb250cm9sIHNvY2tldHMKPiBiZWZvcmUgc3RhcnRpbmcgYSBuZXcgdGVzdCBy
+dW4uCj4gCj4gV2l0aCBTU0ggbXVsdGlwbGV4aW5nLCB0aGUgR0NDIHRlc3QgYnVpbGQgdGltZSB3
+YXMgcmVkdWNlZAo+IGZyb20gYXBwcm94aW1hdGVseSA4IGhvdXJzIHRvIDMuNSBob3VycyBvbiBh
+IGxvY2FsIG1hY2hpbmUuCj4gCj4gVGVzdCByZXN1bHRzOgo+ICstLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLSstLS0tLS0tLS0rLS0tLS0tLS0tKy0tLS0tLS0tLSsKPiA+IE1ldHJpY8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8wqAgQmVmb3Jl
+IHzCoMKgIEFmdGVyIHzCoMKgIERpZmbCoCB8Cj4gKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tKy0tLS0tLS0tLSstLS0tLS0tLS0rLS0tLS0tLS0tKwo+ID4gIyBvZiBleHBlY3RlZCBw
+YXNzZXPCoMKgwqDCoMKgwqDCoMKgwqDCoCB8IDE4MTQ1OMKgIHwgMjEwNTU1wqAgfCArMjkwOTfC
+oCB8Cj4gPiAjIG9mIHVuZXhwZWN0ZWQgZmFpbHVyZXPCoMKgwqDCoMKgwqAgfMKgwqAgMzc3McKg
+IHzCoMKgwqDCoCA1NsKgIHzCoCAtMzcxNcKgIHwKPiA+ICMgb2YgdW5leHBlY3RlZCBzdWNjZXNz
+ZXPCoMKgwqDCoMKgIHzCoMKgwqDCoMKgIDLCoCB8wqDCoMKgwqDCoCAywqAgfMKgwqDCoMKgwqAg
+MMKgIHwKPiA+ICMgb2YgZXhwZWN0ZWQgZmFpbHVyZXPCoMKgwqDCoMKgwqDCoMKgIHzCoMKgIDE1
+MTLCoCB8wqDCoCAxNTUwwqAgfMKgwqDCoCArMzjCoCB8Cj4gPiAjIG9mIHVucmVzb2x2ZWQgdGVz
+dGNhc2VzwqDCoMKgwqDCoCB8wqAgMjE1MDHCoCB8wqDCoMKgwqDCoCAwwqAgfCAtMjE1MDHCoCB8
+Cj4gPiAjIG9mIHVuc3VwcG9ydGVkIHRlc3RzwqDCoMKgwqDCoMKgwqDCoCB8wqDCoCA0MTAywqAg
+fMKgwqAgMzMxN8KgIHzCoMKgIC03ODXCoCB8Cj4gKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+LS0tLS0tKy0tLS0tLS0tLSstLS0tLS0tLS0rLS0tLS0tLS0tKwo+IAo+IEF1dG9idWlsZGVyIHJl
+c3VsdHMgY29tcGFyaXNvbiB3aXRoIHJhbmRvbSBvbGQgYnVpbGQgYW5kCj4gbmV3IGJ1aWxkIHdp
+dGggc3NoIG11bHRpcGxleGluZyBjaGFuZ2UuCj4gKy0tLS0tLS0tLS0tLS0tLS0rLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLS0tLS0rLS0tLS0tLS0tLSsKPiA+IFRlc3TC
+oMKgwqDCoMKgwqDCoMKgwqDCoCB8IHcvbyBTU0ggbXVsdGlwbGV4aW5nIHwgdy8gU1NIIG11bHRp
+cGxleGluZyB8IERpZmbCoMKgwqDCoCB8Cj4gKy0tLS0tLS0tLS0tLS0tLS0rLS0tLS0tLS0tLS0t
+LS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLS0tLS0rLS0tLS0tLS0tLSsKPiA+IHRlc3RfY3Jv
+c3NfZ2NjIHwgNDBtIDEzc8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwgMjFtIDA3c8KgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCB8IC0xOW0gMDZzIHwKPiA+IHRlc3RfbGlic3RkY3h4IHwgMzBt
+IDM4c8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwgMjhtIDMyc8KgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCB8IC0ybSAwNnPCoCB8Cj4gPiB0ZXN0X2Nyb3NzX2d4eCB8IDIwbSA0OXPCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoCB8IDEzbSAyNHPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCAt
+N20gMjVzwqAgfAo+ID4gdGVzdF9saWJnb21wwqDCoCB8IDMybSAzNnPCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCB8IDltIDA5c8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwgLTIzbSAyN3Mg
+fAo+ID4gdGVzdF9saWJhdG9taWMgfCA2bSA1MnPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+IHwgNm0gMzZzwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCAtMTZzwqDCoMKgwqAgfAo+ID4g
+dGVzdF9saWJpdG3CoMKgwqAgfCA2bSAwNHPCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwg
+Nm0gMjlzwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCArMjVzwqDCoMKgwqAgfAo+ICstLS0t
+LS0tLS0tLS0tLS0tKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rLS0tLS0tLS0tLS0tLS0tLS0tLS0t
+Ky0tLS0tLS0tLS0rCj4gPiBjdW11bGF0aXZlIGdjYyB8IH4yaCAxN23CoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCB8IH4xaCAyNW3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCAtNTJtwqDCoMKg
+wqAgfAo+ICstLS0tLS0tLS0tLS0tLS0tKy0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rLS0tLS0tLS0t
+LS0tLS0tLS0tLS0tKy0tLS0tLS0tLS0rCj4gCj4gWzFdIGh0dHBzOi8vZ2l0Lm9wZW5lbWJlZGRl
+ZC5vcmcvb3BlbmVtYmVkZGVkLWNvcmUvY29tbWl0Lz9pZD02NzQzNTU3NTlmZGIwN2YzZDE3YTA1
+M2RlMThjZGRiN2NlNzU4YzYyCj4gCj4gU2lnbmVkLW9mZi1ieTogSGFyaXNoIFNhZGluZW5pIDxI
+YXJpc2guU2FkaW5lbmlAd2luZHJpdmVyLmNvbT4KPiAtLS0KPiDCoG1ldGEvbGliL29lcWEvc2Vs
+ZnRlc3QvY2FzZXMvZ2NjLnB5wqDCoMKgwqDCoMKgwqDCoCB8IDIyICsrKysrKysrKysrKysrKysr
+Ky0tLQo+IMKgbWV0YS9yZWNpcGVzLWRldnRvb2xzL2djYy9nY2MtdGVzdHN1aXRlLmluYyB8IDE2
+ICsrKysrKysrKysrKystLQo+IMKgMiBmaWxlcyBjaGFuZ2VkLCAzMyBpbnNlcnRpb25zKCspLCA1
+IGRlbGV0aW9ucygtKQo+IAo+IGRpZmYgLS1naXQgYS9tZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nh
+c2VzL2djYy5weSBiL21ldGEvbGliL29lcWEvc2VsZnRlc3QvY2FzZXMvZ2NjLnB5Cj4gaW5kZXgg
+ZDAxYTc5MWNiNS4uZWZhZTViZWRmNCAxMDA2NDQKPiAtLS0gYS9tZXRhL2xpYi9vZXFhL3NlbGZ0
+ZXN0L2Nhc2VzL2djYy5weQo+ICsrKyBiL21ldGEvbGliL29lcWEvc2VsZnRlc3QvY2FzZXMvZ2Nj
+LnB5Cj4gQEAgLTMsNiArMyw4IEBACj4gwqAjCj4gwqAjIFNQRFgtTGljZW5zZS1JZGVudGlmaWVy
+OiBNSVQKPiDCoCMKPiAraW1wb3J0IGhhc2hsaWIKPiAraW1wb3J0IHN1YnByb2Nlc3MKPiDCoGlt
+cG9ydCBvcwo+IMKgaW1wb3J0IHRpbWUKPiDCoGZyb20gb2VxYS5jb3JlLmRlY29yYXRvciBpbXBv
+cnQgT0VUZXN0VGFnCj4gQEAgLTg0LDEwICs4NiwyNCBAQCBjbGFzcyBHY2NTZWxmVGVzdEJhc2Uo
+T0VTZWxmdGVzdFRlc3RDYXNlLCBPRVBUZXN0UmVzdWx0VGVzdENhc2UpOgo+IMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCAjIHZhbGlkYXRlIHRoYXQgU1NIIGlzIHdvcmtpbmcKPiDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgc3RhdHVzLCBfID0gcWVtdS5ydW4oInVuYW1lIikKPiDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqAgc2VsZi5hc3NlcnRFcXVhbChzdGF0dXMsIDApCj4gLcKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgcWVtdS5ydW4oJ2VjaG8gIk1heFN0YXJ0dXBzIDc1OjMwOjEwMCIgPj4gL2V0
+Yy9zc2gvc3NoZF9jb25maWcnKQo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHFlbXUucnVuKCdz
+ZXJ2aWNlIHNzaGQgcmVzdGFydCcpCj4gwqAKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCByZXR1
+cm4gc2VsZi5ydW5fY2hlY2soKmFyZ3MsIHNzaD1xZW11LmlwLCAqKmt3YXJncykKPiArwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoCAjIEluY3JlYXNlIE1heFNlc3Npb25zIHRvIGFjY29tbW9kYXRlIGNv
+bmN1cnJlbnQgR0NDIHRlc3Qgc2hhcmRzIHNoYXJpbmcKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCAjIHRoZSBTU0ggbWFzdGVyIGNvbm5lY3Rpb24uCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
+cWVtdS5ydW4oJ2VjaG8gIk1heFNlc3Npb25zIDIwMCIgPj4gL2V0Yy9zc2gvc3NoZF9jb25maWcn
+KQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHN0YXR1cywgb3V0cHV0ID0gcWVtdS5ydW4oJ1sg
+ISAtZiAvdmFyL3J1bi9zc2hkLnBpZCBdIHx8IGtpbGwgLUhVUCAkKGNhdCAvdmFyL3J1bi9zc2hk
+LnBpZCknKQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIHN0YXR1cyAhPSAwOgo+ICvCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgcmFpc2UgRXhjZXB0aW9uKGYic3NoZCByZWxvYWQg
+ZmFpbGVkIChyYz17c3RhdHVzfSk6IHtvdXRwdXR9IikKPiArCj4gK8KgwqDCoMKgwqDCoMKgwqDC
+oMKgwqAgIyBXaXRoIENvbnRyb2xQZXJzaXN0PXllcywgbmV2ZXIgdGltZXMgb3V0IG9uIGl0cyBv
+d24sIHNvIGNsb3NlIGl0Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgIyBleHBsaWNpdGx5IG9u
+Y2UgYWxsIHRlc3Qgc2hhcmRzIGhhdmUgZmluaXNoZWQuCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgY29udHJvbHBhdGggPSAiL3RtcC9vZS1nY2Mtc3NoLSIgKyBoYXNobGliLnNoYTEoZ2V0X2Ji
+X3ZhcigiQiIsICJnY2MtcnVudGltZSIpLmVuY29kZSgpKS5oZXhkaWdlc3QoKVs6MTJdCgpQZXJo
+YXBzIHdlIHNob3VsZCBwdXQgdGhpcyBpbnRvIGEgdmFyaWFibGUgaW4gdGhlIHJlY2lwZSwgdGhl
+biB0aGUKc2VsZnRlc3QgY2FuIGdldCB0aGUgcmVjaXBlIGFuZCB3ZSBkb24ndCBoYXZlIHRoaXMg
+cGllY2Ugb2YgaW5mbwplbmNvZGVkIGludG8gdHdvIGRpZmZlcmVudCBwbGFjZXMgd2UgaGF2ZSB0
+byBlbnN1cmUgbWF0Y2g/CgpEZXBlbmRpbmcgb24gdGhlIHJldmlldyBjYWxsLCB3ZSBtYXkgc3Rp
+bGwgbWVyZ2UgdGhpcyBhbmQgdGhhbiBjYW4gYmUKZG9uZSBhcyBhIGZvbGxvdyB1cC4uLgoKCkNo
+ZWVycywKClJpY2hhcmQK
 
