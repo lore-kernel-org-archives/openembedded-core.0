@@ -1,140 +1,209 @@
 Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.26])
  by mx.groups.io with SMTP id smtpd.msgproc02-g2.24291.1795540694721029803
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2026 09:18:16 -0800
+ Tue, 24 Nov 2026 09:18:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=D6syD8i+;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=0u1iZRCD;
  spf=pass (domain: est.tech, ip: 52.101.72.26, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gpBs1Qq5GDtkfdSlYpbKBbJ1DEOvwiwb5o1mLXx1c2hu0lheh7HhCS0E1+hX6UOsUQOU5mBosnqrnpPIxdbfFpqHlc/N4IguQ2rl85z3d0geygTjativp0rkJFCl2ypflZkLYKWxCFUhM2mCFhluoez0gCzOvtI6YFvgueyD3pUl4zfi9VPr2X5i8+2Woh+ur5P/o/mnM0NWtylWWy/+x46AqLkG4d6Z4JtkRV7EStsjrUfmJ2FdLG8zSNkA+oX4GT2LIu8lXsSwobivLbm2oIC5nni50DfTXL75mQ3w+Q47fMPTn0xrNz9fh+mRSzpWIRtpX0x3emRhch2PYWD0Hg==
+ b=iM+VlGuDLXneAsWzs4uUFOT4U9xNuYlbHJPSkhEiO3Qg+Dt240kChxAmHgY6C5psASRsGl1Tc9FqmSA5JdSyErQxqzeWq4nCgekcsgC4Ztu14v4Dy/iZAB1E25FSWBzgVL9VyT/D0AL2gmdaV5QvSfNFE1Lh7y1lCDKMMwuFGVBbc4KH3uh+m6XROnUfx0XhctXBOyVgOk9/YauA99UrCeeA8BQ28NiuFMMMT3QMgzKmg9DZVE+MZFFYHjcjsf0JH4/ZQV582ac7b1vkZK/VAm9GN734WiVU6PM2Q19JcZODEbBQXXuTfCq84h1Vf4nLbj1zuSLsLscadp7OYutBPA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=i4PNSTMzwg4W3LrFbFFit9EjftbZVx5r6jFcsfPzOoI=;
- b=LSGF4cOOLEU/+ShpLACw8IK6qxDPILk3VD4jDohbszcRFdvyZn/pk9CWTTDEdQCtKBji96SrB8zJkmNb+fIarzksYVBlIyqxYDmc6s7uRQtd+YEiERLYX7yQh5eNsA/2OVJtc6j3glJyzRb/j6pjIKn3XnfeKXSxGvpdc9ekUmPM9fpJ6HJWUnidsYf3cVT7E6Kuq03WLwLgkifjynPw/1ry6yDTIBdESBBCCquyTLQcomjOLTd/0geCE9DUHjN8sGZTKuMMUKD4UrTeG9DuB+zsDTxEQfZwFNIcM7DRAYHwPUCsl+bezXN65g7bj5rPmzQ4mmASWV3fEz1oTqI1dQ==
+ bh=+J0es7taJag9xToe8pfSgVS3qNJxJveblR6Lb74tGqI=;
+ b=wOmqLMKD15IpBmJ/hu/UpTVOqtV/lX3Yc76afCr+2xHy7fFz3rW2OJoUwrV+GBvGpKzU0gi6TtIAeZv1HP42dZv1ll1UDX1d8GlrffBldH/hHCmM7JkIwp3SgsI4TmoREmgeMbyZNKZnb/KLUR/mV/pX9LW4p1hzLOgkgdnueBkYvTkeC133pBuln2No5cx6vasqlXEo7FGcQyLrYP/Tq/JMFKC5a48Jd4Jz0b9CrJ2+GraYG3i1SDIDdWHrsOtR1EGTjX+X5bvNl6Gr4CBxQfB3fEWfmLVIFhCjp+/e+lBZpmgzOULddsOyAkkLVsYJKwXELqanDJhXpfs+Y0Q52g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i4PNSTMzwg4W3LrFbFFit9EjftbZVx5r6jFcsfPzOoI=;
- b=D6syD8i+IS35zi4VgOIZ22QOtko/zwU+zMEZLM/HXYF0ZGMHcUtQVKQtwEEjF7WrTcMCw9GPF01ljT4e4PHKhRmhXubcIGgspfikophRammHmoQeMgQDtMCmnZa0p/k1VNc+cmTPZLCP/PKaorbHcxp6sZaE+4mx/NFQgis/Ap8/cVmnVg5XvdiH3bqLPTaNqtGuml+1MH+P+/U9FErUNtBdTsvQpSmPh2BPa1MLXRoGPpfucAOHDFe/tBExk8/SK3kEPLUksp8I8eto8t/HYPq+LxgvhKmhDlTBXRFVTZ7B1qW8wz/naPYvyqwA7EtBqR5sz2rD7ELO0D5d42/EZQ==
+ bh=+J0es7taJag9xToe8pfSgVS3qNJxJveblR6Lb74tGqI=;
+ b=0u1iZRCDUweZdLBXvcCRH+VOGwuy5bedXMwvciX7LCXj0ZEuBCSbsTnaXQHv1X5R9ok+sfAGDoZQXe2i+vpHw0XTJudXDz0V+CnDVVBfI+PMnx5k/QgznWB6b1nVENw4g2Oa0WLkxryGC+XhnkgmGl5jU+RS5IR1ijsGnK+F0avk5y22uD1jEU+5qPyA3Tg8KdMQJi59ic6VNslvPT/aVdylDGjRXkvDlezAsCPSc6qlG6q+rn28UpPZS2Wfcy8GgNLihQSaIK0EfWVE/O5hTrt7YhA88aOflXep+2fMdiw3HwP+4Fx1nS1Fss5sz0x0VA7wrFC6ReZWOS9P5FXMug==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
  by AM4P189MB3668.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6e2::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.14; Tue, 24 Nov
- 2026 17:18:13 +0000
+ 2026 17:18:15 +0000
 Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0639.012; Tue, 24 Nov 2026
- 17:18:13 +0000
+ 17:18:15 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 02/11] libconfig: upgrade 1.8.2 -> 1.8.3
-Date: Tue, 24 Nov 2026 18:17:58 +0100
-Message-ID: <20261124171807.74394-3-jaipaul.cheernam@est.tech>
+Subject: [PATCH 03/11] gtk4: upgrade 4.24.1 -> 4.24.2
+Date: Tue, 24 Nov 2026 18:17:59 +0100
+Message-ID: <20261124171807.74394-4-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20261124171807.74394-1-jaipaul.cheernam@est.tech>
 References: <20261124171807.74394-1-jaipaul.cheernam@est.tech>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: LO4P265CA0169.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:312::6) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: LO4P123CA0671.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:351::11) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:20b:6c0::19)
 Return-Path: jaipaul.cheernam@est.tech
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|AM4P189MB3668:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1489259b-cf8c-484a-48c1-08df4a4eeb97
+X-MS-Office365-Filtering-Correlation-Id: dd5e69cb-b761-40d5-5c4f-08df4a4eecba
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|23010399003|1800799024|18002099003|22082099003|3023799007|56012099006|260925022911599003|11063799006|260925021911599003|260925021311599003|261009223027099003|261102123227099003|261026140227099003|261021123027099003|261022075727099003|261026121527099003|261022105027099003|261028144727099003|261021121427099003|10067099003;
-X-Microsoft-Antispam-Message-Info: aG+2c1QdCjx2w7WS4gvBaialcIpX/0YAhjeorZHP1RYiTegGh5LiFHqWPoZC9GeZ1230vIQ8YWECTvzmwoi+d19lXAz2wfFnoQ2cTqnWRXvb+3XMq4Ek87DLszX4Gw08m80C+O5+1MX5NhWGgoNwNtG4Og1J8Gh4pNpdVXYZ9eOzjVwP0D94y/G0I5NjBaLpeCKoFoHTDtsVrtCUU/cWE8Wg0Iu8TMWgGOOOy5aUSX4SKqO9Lynr1bWF/X3stD7ucVlnDPUFcygWymfE/eCUjOnatidk5QvU/lgY3c0QnO7egg9DJT5B25RaTxLnssVKboWmwDBEIYWgvXVHiW1lwoTU7aGy8xKPx5iBEChXc39M3K0nmYra57m+kJA256ovRKVvd9H9Hvo5FNBmOGL8fKAKwkQKMFIEbCFypHtkoM9gwy9obVuESGdGvgDL4YiV4x3bkg/pkrOEyBxjsO77yXjpMZY1CPsOEnnMn7e+KUcDyrfsjbb+qZBXRK417k8cp2VLLR2VIAV+JmKlnYtmozSTrRnCWd+eg6q3D3FGWZ3KLYICItTSrRvctv81I3uVbrmhAXf1FHsP9zlZ5sUoGSukzUTCWY0ulDKfcxpPtACCkJ5J9aoP/4SPsxnQgSy4tkkcgSojWespMrvDvkv2jwKXJsgb0XI4bd2jd9dLmmc=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(1800799024)(18002099003)(22082099003)(3023799007)(56012099006)(260925022911599003)(11063799006)(260925021911599003)(260925021311599003)(261009223027099003)(261102123227099003)(261026140227099003)(261021123027099003)(261022075727099003)(261026121527099003)(261022105027099003)(261028144727099003)(261021121427099003)(10067099003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|23010399003|1800799024|18002099003|22082099003|6133799003|3023799007|56012099006|11063799006|261009223027099003|261102123227099003|261026140227099003|261021123027099003|261022115727099003|261026121527099003|261022105027099003|261028144727099003|261021121427099003|10067099003;
+X-Microsoft-Antispam-Message-Info: PrZ5jduj/6xL7Iui8zQoMrScffXLYI6gStvaFJpqEWc48kZSlJQkLsS7M5EFFROfkGgp/zp8ShWHImnSHCq9s8X8jWLXwhGLw7U+ZJtaT8dBnoceQmzivYjbr0g6qN2TByHL99jWZ4v+dEoQq78T+xylsliMRJbYbtHyE5DwOU8BpQXMZ6By55xaDSwB1EB/vaxV5h/0NB1OnghbITDzaWz+R0P1bckPT/GOlLWOIq6KuXqIrC1AnuC17t10PzHGwMZchRgho8NuyMadF3N54ZJemB2r/hZ6Uc5E1HFZDNkUwePd1Z5dSbZ9CR/F4gylnjipsEcRKoBbpLB4Q8M5Pkbx0oiTxFmX1irL9BfzUMq+oMkv0xBaITvijCDfwFFQVL8jmW/lZlUBCWUohyVWeoI5pPS+pYkTFAWYD7UUb0atXpzj76ynVvONMPXo4kySHk91/sCBqqTIUjhKh+ur5qwHFeaWiz+SHMt1YPrUPf7WDc552Hb5w0UL0ZB36gaMC/sjqiO7ARcORIWkDmwTeV+K6hEJhKJw4Q4yJqmz4uKWCZTfMZbNIl47OtkHcFD+oSFu8gBxSdFr5V6cnHsQHvidQWxO4wdTlU5g4ibz0i/ug3DWoqWCRYLOMA7pI3Cj
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(23010399003)(1800799024)(18002099003)(22082099003)(6133799003)(3023799007)(56012099006)(11063799006)(261009223027099003)(261102123227099003)(261026140227099003)(261021123027099003)(261022115727099003)(261026121527099003)(261022105027099003)(261028144727099003)(261021121427099003)(10067099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?kfkKrx97CT2B2FdI6aN7iu+oIcw7dBM+bQtj+MJZAKJ3Q8ps9FO8ZjEKnU7P?=
- =?us-ascii?Q?S83LOf1nl8ipANvOtNpDb+yin9fjICftNSAG2P9IbaC8QWZ9lclcW5rP0cm5?=
- =?us-ascii?Q?WNxlRCkWZyo4AkI7qGT68MxYMDBdDwER4xcYlLaWyuOB/72MJOZk4ggfAkd/?=
- =?us-ascii?Q?W9uQZ8q7jVcM1p4ibXf0AOnhQIDqwHRdsYH0KR+9P5m9ZFP2LS8C4ko4/gsp?=
- =?us-ascii?Q?F6VVQGKIVNoWo3jh5Un1LazvLNl9QGTAGohGowrbh2WH5E570PrjCQ2soQUt?=
- =?us-ascii?Q?h7B0CjC47QOvnIAC1eJPDPyYEJCA+F5nsbXIGSBLYQ7UUNPjZ+2UKJFuslDP?=
- =?us-ascii?Q?QqjZC7a2uKXJNzfSWGumC4li3mGtWlIVHAQXZJMIfp1tz75pqYZmyKXndY/x?=
- =?us-ascii?Q?IAQmwbCkrL7CNXD3sjNNF216sBN01S1bTofVJv2ITAlw1XWGnIS2DroBYaV4?=
- =?us-ascii?Q?GpaOuZ6881cwogZaQ+LvCrblslcNkic7tNgJF9H4IH+wwnvPl4ZLxK/jS6s8?=
- =?us-ascii?Q?A6jBxQsrOpHgB8delrC1M1C1CNZGVFqorE/cC1m+l5bogVPRxi61gj4n+1EJ?=
- =?us-ascii?Q?k4RJ6CLCygCq7F8+CBcAy8OMd3na/yr8rqLitLj1RO9LlSijxizqWTGs3ETu?=
- =?us-ascii?Q?8gwgYJW0KGlIqu4EUwMpUdb0FhV6AS2tEm3oqF/RgcarIFMTTEeBmWmzZVCu?=
- =?us-ascii?Q?BdtGAKqoKHbZ3rj2+BthjBEZXPOitQw5yc51KbdLWa/ynk8V67LuGMISG5qX?=
- =?us-ascii?Q?OZKHfuQLEpmdt86Y+WiHDNitqU/4noc+UGhvD6oBFalboMeA1FAFuHI5Gyop?=
- =?us-ascii?Q?6azXR00tCaJrSbYXsMJXANYEZ2hHAGjXo5AkK2EBrqS4VraeNOW9EbwJT77j?=
- =?us-ascii?Q?pc0bmi2D0sBm4CFGHPRKN226JzEW5JNeIF8+oB89oOUG+xAcgUS1SxsXjaHx?=
- =?us-ascii?Q?loiae0a+TvOhwOiljE0kQm7VcGVJg4iirpSrZz+5Lt9bJUjmeE3lWNAbaIeZ?=
- =?us-ascii?Q?tnrU+XaZSLH2+9eVxWQATT26s3RC4x5/6Rhnw1YTPXkHqE3i3dg80e3TJLhJ?=
- =?us-ascii?Q?JlG8Eh/aoZNo/iY92kIiwNL29MGc+HCBF1Nb3i/RonssygfAIkGO+xhx9iEy?=
- =?us-ascii?Q?eyxRsUB+t+wMLiBAxBwNioVKoaRLJuf+JJrRoP8eTJmw8OkNFkUZ+JPFUkeq?=
- =?us-ascii?Q?RW/4+5RPuZDwc1CjsMUcA1P2MsCn0f2C37I//+n1kgnUaP3Uj4usnHkN2+gJ?=
- =?us-ascii?Q?8Ni/x+SMWjAyna6dOR/9FlGOF4NpEsgmkFmcX9DR+/xEdakwqdr7lXVelArR?=
- =?us-ascii?Q?e38OOUYfmwHzKhQOHayZoxMCu/QChAC5CHoCo6y5icsREMZRi5lIf0aF/Z2N?=
- =?us-ascii?Q?6tUHu1gydsMDZgcjglV1X5KuQGtr2ciL4wTpw8LImFM+GVORtmet0wvwsU9X?=
- =?us-ascii?Q?6bpLM6gIhVQEBKQ6rW+/btWxlqbiRX7Y6xztXS/9pxoczLAXghlpAMLPsOnO?=
- =?us-ascii?Q?6WzFzXK+FYTe8WeHMDsZWTdPj4d5NT1VAekpmfoYNlKFNim1njYJLXlyCeGR?=
- =?us-ascii?Q?L1Isil+0QQzmxE4B7Ku8JiLcJKlUZp2qcCcL4UJWSbkk72vH7CWX+dCRzDsK?=
- =?us-ascii?Q?Sx+3pGoMmt6aq/c8r467ReWZMWTZcMSSZ/fOgOTjAiBYKiwjIqP6ojOQMCm9?=
- =?us-ascii?Q?KXfJoHsw2/wUR3NhtnH+bQChTXYZFoVMTeDZVpd3NL/XgLblKwvgmaBuenha?=
- =?us-ascii?Q?fzCZs1fC9Q=3D=3D?=
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?lIrC93S4meVs7zw9hvG7OFegGff2OxZ+t1qLbyuttjSye8GHSRwrYkz3cHNh?=
+ =?us-ascii?Q?gx965kNo8JO6wjPFlEgAxb7jlvcIGq+5XvCaiE7lLExZ0ws8KyeWqjYV+O3C?=
+ =?us-ascii?Q?ZGI+SkneorHtnu1CPjWTN+e4D3MSBp0vT/aAAuCS0UKapCiBFbQnPTsp6gcQ?=
+ =?us-ascii?Q?o+IZ61Ln9C7zpoZcLZ9uAddcqfydg6vmMvoYZsQJzYAPKKy6NMBBugHdWyjo?=
+ =?us-ascii?Q?1cpxDf1e2QEo62Q+pSJ/Dj/eRsoArLFZITFxRir/h9SThCwy9cTEO9qo1oP/?=
+ =?us-ascii?Q?FdihphURoIiHNR4WlPmygXN82kO9hkshhXqBXnGIgmKWaZMr0VDODFkFDpLn?=
+ =?us-ascii?Q?lntBOiVvSR2DGc2q8XROmdPfjMk44rRoZK8Us4uOoFtg1YlDJ3Kte/Js1xg/?=
+ =?us-ascii?Q?jYlOEBB8fUi0OY3W1hUkrHjEO8w6liQZm0c8zPMLlbyOYO/2MIFg/QxO3Z4y?=
+ =?us-ascii?Q?74rPqR2951RLrl+125bXO/JyNdHeV7iTf4RcJJQOGIHqf2+3jKYJcu2IycJE?=
+ =?us-ascii?Q?lsv1+O0pVhowZM07xfE7yVHWCbUZcM50Ga2Xyui96EDHODPVKO5GPW6ffh31?=
+ =?us-ascii?Q?5DAbgczC7CkuMGSXIxo+svF/ZTaErBJJef0d+97dau0F/80jQKjTp/0TliaJ?=
+ =?us-ascii?Q?hx4K7zG+y8YC3a3UK6uvPdwTusYyrWO2FS2xJexWGFNaX86JEseTjp8JhYT7?=
+ =?us-ascii?Q?XBrEWGzXsMFgH8A1ReVTizJgJSUwLqp1MySD3JXVJ6enN4q8xgy+OKYdexkk?=
+ =?us-ascii?Q?7iRyp1cUqqeNEVmuDJL7//Vq8IiY1MMLnuWjzCyPcxlDNHeezfqT43zhy9z+?=
+ =?us-ascii?Q?9VNxkUdHG4X8VfYNZ24lCmEYX4BlTntiphl+K2WsCsGnC3IH1alHOtThnmea?=
+ =?us-ascii?Q?307f0d0F0T/iaoKuS1EqAXyviU9/tiL9U7dVj6ntRyXa3zn82klcWDNBLpZ0?=
+ =?us-ascii?Q?LpTBAS29gHPczM8I+F3CLpWud2LUcnUo7tqEPE7QmO7Hxpi8PFfUKPWeN3ji?=
+ =?us-ascii?Q?l17Vy/4iSnMdd9Alk3/gegATf8c+53c91GBhPnJTAWNW6xI7IFJCSAo0iPNT?=
+ =?us-ascii?Q?wka2DJSmk8EdoilLZUPKsYbtC2kDrC5+DJEohNh2zTrVOilCvXiv/1Svr0HY?=
+ =?us-ascii?Q?cZ/qwqW5zQ0cJuVwTgvFT25RDItrBtfMJHlQOwQkEVb9GAGBFHpgVctE3i3s?=
+ =?us-ascii?Q?4skB/1FWFD38yFIOrkiMYDDzu7RqTnOgYMVcT86b/BoFgUYWi8eRJG9f/5yI?=
+ =?us-ascii?Q?Jk1BQMNg4/tgqg+cwldFMJGDCekb2G1ZftX+2SVUWwiFT0xSy2wqt57F4whX?=
+ =?us-ascii?Q?KFv9J8gT7bpf4dOD/XtaP2dSHlx0DvO5QbnKEYr+YWrR3+ddaBhwvqGnjdHS?=
+ =?us-ascii?Q?vZArwUK+zU/BzwpIaOifB8su2s5BpsiW8N45CPKu6OzevMyq7D75VcjTvqFq?=
+ =?us-ascii?Q?VQS+LDso3S5Kg2EiA+pAkwRGgp71WUaONhQK2kU73jbQ48FWQ5E5mL+fWM8H?=
+ =?us-ascii?Q?VIv6wUVchJId1hmccOV7lv4ovVWXr2d+oJrCihF9TTdIzhmglN0vaua3pEEO?=
+ =?us-ascii?Q?3oF9y6/eNSnZHyWnZp28t8QysV/CFpo4ldtUXjQbhEubu+UtoxbmloGfGhzA?=
+ =?us-ascii?Q?Cvj4+MGtBk1mG4MffQ5Uo5heajfJEbXZt84hyXv0CFP0Sd35nc6IgBncZ9Ru?=
+ =?us-ascii?Q?h4ZgemOuZd7MPNWbXOFIXH/mh/fC97O3ZO1BnHoZmLNU4kAWisxyAtVjOhq2?=
+ =?us-ascii?Q?TZxmwmAljg=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1489259b-cf8c-484a-48c1-08df4a4eeb97
+X-MS-Exchange-CrossTenant-Network-Message-Id: dd5e69cb-b761-40d5-5c4f-08df4a4eecba
 X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2026 17:18:13.2476
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2026 17:18:15.0968
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wLlARy+z/Enu29iQ9mR2rrMcAw912GE0W4QYsLWABgO4J5ICdt2F5ZdoxUHDBKYMndDR1Wq1RiSZFySdLYLM/Y1hf4liKoRST+Xx2/s+NqI=
+X-MS-Exchange-CrossTenant-UserPrincipalName: M3Gxg1JLFMoWhPsAi9PbcXW3bPmQ78cvtLq6Z4Wlx6cb6NrHnhGRM1d5YpgmfYss5b01d19yzPGqCthUsJWQgX48Ntucx0tJ29ImA78mgzg=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM4P189MB3668
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 17:18:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251054
-Content-Type: text/plain; charset="utf-8"
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251055
 
-Release Notes: https://github.com/hyperrealm/libconfig/releases/tag/v1.8.3
+NEWS: https://gitlab.gnome.org/GNOME/gtk/-/blob/4.24.2/NEWS
 
------ version 1.8.3 ------
+Changes in 4.24.2, 22-11-2026
+-----------------------------
 
-	* Use checked size arithmetic for internal container growth
-	* Preserve 32-bit width when writing negative binary integers
-	* Preserve explicit 64-bit suffixes when parsing nondecimal integers
-	* Preserve double precision when auto-converting integer assignments
-	* Added missing files to distribution tarball
-	* Handle memory allocation errors from strdup()
-	* Improve handling of file read errors in the lexer
-	* Various documentation updates
-	* Various build file cleanups
+* Bugs fixed:
+  - GNOME/gtksourceview#433 macOS: Number key in the press-and-hold accent =
+menu
+    inserts the digit instead of selecting the accent (Jo=C3=A3o Sacramento=
+)
+  - GNOME/nautilus#3614 Double clicking a file that's slightly off screen
+    doesn't open it (Jing Wang)
+  - #6719 segfaults when using wintab (Alexia Death)
+  - #8455 GTK crashes on launch with floating point exception when wl_outpu=
+t
+    with refresh=3D0 is encountered (Matthias Clasen)
+  - #8456 Wayland: freeing a GtkMediaFile makes GStreamer eglTerminate() GD=
+K's
+    EGLDisplay (4.24.1 regression) (Benjamin Otte)
+  - #8463 Critical when loading SVG (Matthias Clasen)
+  - #8537 macOS: Press-and-hold accent menu inserts the accented letter wit=
+hout
+    replacing the original one (Jo=C3=A3o Sacramento)
+  - #8563 CSS parsing: use-after-free in gtk_css_parser_end_block_prelude()=
+ and
+    three more memory-safety bugs (Matthias Clasen)
+  - !10432 Fix the testsuite and stroke bounds (Benjamin Otte)
+  - !10433 Fix the testsuite and stroke bounds (Benjamin Otte)
+  - !10444 Update Slovenian translation
+  - !10445 Fix various issues (Benjamin Otte)
+  - !10446 Fix various issues (Benjamin Otte)
+  - !10447 Update Chinese (China) translation
+  - !10448 Update Chinese (China) translation
+  - !10459 Update Serbian translation
+  - !10460 Update Serbian (Latin) translation
+  - !10462 Update Georgian translation
+  - !10464 Update Persian translation (Danial Behzadi)
+  - !10466 Update Ukrainian translation
+  - !10469 Update Czech translation (Daniel Rusek)
+  - !10474 Update Belarusian translation (Vasil Pupkin)
+  - !10475 Update Catalan translation (Xavi Ivars)
+  - !10477 Update Norwegian Bokm=C3=A5l translation (Kjartan Maraas)
+  - !10478 Update Norwegian Nynorsk translation (Roy-Magne Mo)
+  - !10484 Update Turkish translation (Emin Tufan =C3=87etin)
+  - !10486 Update Lithuanian translation (Aurimas =C4=8Cernius)
+  - !10487 Declare sysprof counters as G_GNUC_UNUSED (Benjamin Otte)
+  - !10500 nodeparser: Don't crash when someone puts text inside a fill/str=
+oke
+    (Benjamin Otte)
+  - !10502 Update Portuguese translation
+  - !10503 Update Portuguese translation
+  - !10505 nodeparser: Don't crash when someone puts text inside a fill/str=
+oke
+    (Benjamin Otte)
+  - !10524 Update French translation
+  - !10525 Update French translation
+  - !10529 Update Bulgarian translation
+  - !10572 Update Russian translation
+  - !10582 Assorted backports for 4.24 (Zeth (wearing a Fedora), Jing Wang,
+    Felix H=C3=A4cker, Alexander Davydzik, Martin Fischer, Alexia Death, Se=
+rgey
+    Bugaev, Eugenio Depalo, Luk=C3=A1=C5=A1 Tyrychtr, Dimitriy Ryazantcev, =
+Benjamin Otte,
+    Matthias Clasen, Ignacio Casal Quinteiro)
+  - !10650 Update Kazakh translation
+  - !10680 Update Basque translation
+  - !10683 Update Hebrew translation
+  - !10700 backport gsk(opacity): use original value if opaque region hasn'=
+t
+    changed (Arjan Molenaar)
+  - !10707 Update Indonesian translation
+  - !10719 Update Azerbaijani translation
+  - !10721 Update Brazilian Portuguese translation
+  - !10736 backport store-callback-4-24 (Merlijn Sebrechts)
+  - !10743 Update Swedish translation
+  - !10745 Update Galician translation
+  - !10746 macos: Backport input method fixes to gtk-4-24 (Jo=C3=A3o Sacram=
+ento)
+  - !10751 gsk: skip unnecessary copy/paste replay (Christian Hergert)
+  - !10758 testsuite: Drop the repeat-snap compare test (Matthias Clasen)
+  - !10760 Backports of assorted css memeory fixes (Matthias Clasen)
 
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- .../libconfig/{libconfig_1.8.2.bb =3D> libconfig_1.8.3.bb}        | 2 +-
+ meta/recipes-gnome/gtk+/{gtk4_4.24.1.bb =3D> gtk4_4.24.2.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/libconfig/{libconfig_1.8.2.bb =3D> libconfig_=
-1.8.3.bb} (95%)
+ rename meta/recipes-gnome/gtk+/{gtk4_4.24.1.bb =3D> gtk4_4.24.2.bb} (98%)
 
-diff --git a/meta/recipes-extended/libconfig/libconfig_1.8.2.bb b/meta/reci=
-pes-extended/libconfig/libconfig_1.8.3.bb
-similarity index 95%
-rename from meta/recipes-extended/libconfig/libconfig_1.8.2.bb
-rename to meta/recipes-extended/libconfig/libconfig_1.8.3.bb
-index c3582828f7..e6086dee1f 100644
---- a/meta/recipes-extended/libconfig/libconfig_1.8.2.bb
-+++ b/meta/recipes-extended/libconfig/libconfig_1.8.3.bb
-@@ -11,7 +11,7 @@ SRC_URI =3D " \
-     git://github.com/hyperrealm/libconfig.git;protocol=3Dhttps;branch=3Dma=
-ster;tag=3Dv${PV} \
-     file://run-ptest \
+diff --git a/meta/recipes-gnome/gtk+/gtk4_4.24.1.bb b/meta/recipes-gnome/gt=
+k+/gtk4_4.24.2.bb
+similarity index 98%
+rename from meta/recipes-gnome/gtk+/gtk4_4.24.1.bb
+rename to meta/recipes-gnome/gtk+/gtk4_4.24.2.bb
+index 5a18c4bdf9..17e1633b4f 100644
+--- a/meta/recipes-gnome/gtk+/gtk4_4.24.1.bb
++++ b/meta/recipes-gnome/gtk+/gtk4_4.24.2.bb
+@@ -33,7 +33,7 @@ LIC_FILES_CHKSUM =3D " \
+     file://tests/testgtk.c;endline=3D25;md5=3D49d06770681b8322466b52ed19d2=
+9fb2 \
  "
--SRCREV =3D "a42cb47c1526a4f2ed025fcbb2289863375bc898"
-+SRCREV =3D "a211339ea575bb1253e3e24eee47089249f6bda1"
 =20
- # needed when we modify grammar.y with patches
- DEPENDS +=3D "bison-native flex-native"
+-SRC_URI[archive.sha256sum] =3D "e98abe720e16129c8c0f50761dee0a2e9ae2478055=
+e31018f6cf977fcf6513e9"
++SRC_URI[archive.sha256sum] =3D "05561abc25d1b1400136bf79ab68830cb4b053d192=
+2ae97e551b3f19755bf3cb"
+=20
+ S =3D "${UNPACKDIR}/${GNOMEBN}-${PV}"
+=20
