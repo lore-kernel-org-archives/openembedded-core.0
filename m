@@ -1,1107 +1,136 @@
-Received: from aer-iport-6.cisco.com (aer-iport-6.cisco.com [173.38.203.68])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15068.1795515623442926992
+Received: from aer-iport-7.cisco.com (aer-iport-7.cisco.com [173.38.203.69])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15087.1795515794197497008
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2026 02:20:24 -0800
+ Tue, 24 Nov 2026 02:23:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=TmIB4nf4;
- spf=pass (domain: cisco.com, ip: 173.38.203.68, mailfrom: dkelaiya@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Yl7OJyeR;
+ spf=pass (domain: cisco.com, ip: 173.38.203.69, mailfrom: dkelaiya@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=37891; q=dns/txt;
-  s=iport01; t=1795515623; x=1796725223;
+  d=cisco.com; i=@cisco.com; l=2195; q=dns/txt;
+  s=iport01; t=1795515794; x=1796725394;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=rWqgMa1nqVBV+W7Wk4JgoILkbDEr0h3k9oHUPLpREAU=;
-  b=TmIB4nf4V6o86N6u9UHvkc+w5lLnH5M6AEJHTcf1sRUl1xYUmpGjkYlm
-   Y1vx5pLO0jBtDzk8vSItNi1Q34ErTW2QdQ+YvC0eKYCpQXHe56ZJE9YVD
-   5VR5R26Zs6GZjQT1IygVWt+HB1b0NIxaQKk/WSb91+QbrG/9Gvo2qEM+7
-   YLqlwOs0g8pUqU88C9r/0UqRhleyUtU9rZn4XQGcS2gO9EYFauNJz9qMa
-   rsHLK3deV//GnwTUy+HVyF+7Z/y/3uZ67phbe4bBju2QIVG8YGc6JtK5v
-   +c+xZCx15k9njrmviEInYpF3pEr60NrDIygUyrxR73Hvlf6F2qbWaZaFl
-   A==;
-X-CSE-ConnectionGUID: jsOXw02iSBuKekDSKSfOiA==
-X-CSE-MsgGUID: loN30mtMQnCn5PUzxc/d6w==
-X-IPAS-Result: =?us-ascii?q?A0BIAgAeZAVr/8xK/pBaglmCV3VgQ0mWS4EWnRYUgWoPA?=
- =?us-ascii?q?QEBD0QNBAEBghKCc44kAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQEKAQEFAQEBA?=
- =?us-ascii?q?gEHBYEOE4ZPDZASAQIBHQEMCwEYAS0sAQIBAlodBiGDAgGCdAMRukyBeTOBA?=
- =?us-ascii?q?YMKHwE/AkNQ2zMBCxQBgTiFQogkXRgBhH0nGxuBcoEVgnR2gQWBXAEBgSMEh?=
- =?us-ascii?q?n8EgiKBDIFUGAZtjAwCgU+ISUiBHgNZLAFVEw0KCwcFgWgDNRIqFW4yHYEjO?=
- =?us-ascii?q?xeBBxsGBYEcgR6BEoEDXYErKF0BIYEIgXYCglGCAAIBSUEOB0VTCSVDEkckI?=
- =?us-ascii?q?ggSCQETGiwKgRo1PAkmPxUMZwsaBWEIAg0MdDkQMB4kLwUaJj4bCoEMJx8eG?=
- =?us-ascii?q?w4CHxAGFiELGxgNSBEsNxUZBD5uB5QUgig9IwsHAQ4eBAw+CQoBBwMhUDUbD?=
- =?us-ascii?q?x4ECR4QNSkUkk0TBwECBzmPXIIhgTWfXAoog3mMJJU6GjOEBJQakS6BJguYf?=
- =?us-ascii?q?YJZgT+JcpVpC12EaoFoPIFHCwdwFYMiCUoZD44rAwsLg2CBf4ZLxhEmMgIJM?=
- =?us-ascii?q?gEBBwIHDgMLgWiQAIEeYAEB?=
-IronPort-Data: A9a23:nqgNYavKHxUMBFXBVIiEWI6dpOfnVAJfMUV32f8akzHdYApBsoF/q
- tZmKTuPP/+CZmDzco0ia42/8E8GvsfXzd9kSgpk+Sk1ECsWgMeUXt7xwmUckM+xwmwvaGo9s
- q3yv/GZdJhcokf0/0nrb/656ykmiMlkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
- eja/YuFZzdJ5xYuajhKsvvZ80s11BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
- 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
- 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIw+P1QMX4Wr
- /0jAi0uYxOvvMGNzpW6Y7w57igjBJGD0II3s3x6iDWcBvE8TNWbGOPB5MRT23E7gcUm8fT2P
- pZFL2AyMFKfP1sVYgt/5JEWxI9EglHzcDBcoVOErII84nPYy0p6172F3N/9JITSHJwMxh7wS
- mTu+2PfWUkfKPmmzxGDr0qRlP/E2i+lR9dHfFG/3rsw6LGJ/UQUEBAQWF6xrPW1h0L7UNVFJ
- mQQ+zEytu417EGtQ9z3UhG0rXLCuQQTM+e8CMUz5RvIzu/f5ByUQzBfCDVAc9ch8sQxQFTGy
- 2O0oj8gPhQ32JX9dJ5X3u78Qe+aUcTNEVI/WA==
-IronPort-HdrOrdr: A9a23:h1xj2q4ay++ZUCXx+QPXwP7XdLJyesId70hD6qm+c3Nom6uj5q
- WTdZsgtCMc5Ax9ZJhCo6HjBED/exPhHPdOiOF7V4tKNzOJhILHFu1fBPPZsl7dMhy70PJB3q
- F9dKU7ItjxAV9myfve2mCDYrIdKB3tytHPuQ8YpE0dKj1XVw==
-X-Talos-CUID: =?us-ascii?q?9a23=3Axy1CsGkqvRFwkB80h6xByHqPx3fXOX/G60fPexW?=
- =?us-ascii?q?5Mkx0a7CWZWSzw61DkuM7zg=3D=3D?=
-X-Talos-MUID: =?us-ascii?q?9a23=3A/+CS7A4vKh1e50lGJobEvaKgxoxs5IL1UEURtKw?=
- =?us-ascii?q?AkM/ZDRFiKzzagGqoF9o=3D?=
+  bh=ef1qWbamnENwc9VbpJSKVGKRr0Jj5oeVyf0p/a4o98Q=;
+  b=Yl7OJyeRydHWAiby1S1TxUwj7iOdvo1rriczom4yYyhE6Zv0IE0AyBcg
+   EfekRCgrN0dvN9LvVnvI4/hU7RT9XQhHhkVWp7wQLkc6yALyf0MEw7DNh
+   2HloSBpQgHooC27qWeUqTCmSP+LjMys/i9wJQgCVTa+g16FLWHRdGp1u7
+   B56EvXbOR+HSE5lbcrQ1sTgSj+bW1PAcKUS1FJ+IRsUHpqcqkkDRKuAX4
+   53jYLbM/zS+cdP0Ks8/vNvcTk0CseIQfZn0ECLjDv8fSHcKLgvpPDF7gL
+   RXtY/ZkAL9bgxszFdEW+qrLjoJ4ClyxdZ2C5b+BTcVnWwZ/MnRuvi+kux
+   w==;
+X-CSE-ConnectionGUID: RNhDex0YRdqetB7j/kz7Wg==
+X-CSE-MsgGUID: F7kMFu50TlyWBw9OQwdS9Q==
+X-IPAS-Result: =?us-ascii?q?A0BCAgDAYwVr/8tK/pBaglmCV3VgQ0mTWgGhHIF+DwEBA?=
+ =?us-ascii?q?Q83GgQBAYUFjiQCJjQJDgECBAMCAwEBAQEBAQEBAQEBAQoBAQUBAQECAQcFg?=
+ =?us-ascii?q?Q4Thk8NkBU2ARgBKAUwXESDAgGCdAO6X4IsgQGDKQGBVNszAQsUAYE4hUKIJ?=
+ =?us-ascii?q?IVzJxsbgXKEf4QrZYV5BIINFYEMgXJtgheJdYFRiElIgR4DWSwBVRMNCgsHB?=
+ =?us-ascii?q?YFoAzUSKhVuMh2BIzsXgQcbBgWBHIEegRKBA12BKyhdASGBCIF2AoJRggACA?=
+ =?us-ascii?q?UlBDgdFUwklQxJHJCIIEgkBExosCoEaNTwJJj8VDGcLGgVhCAINDHQ5EDAeJ?=
+ =?us-ascii?q?C8FGiY+GwqBDCcfHhsOAh8QBhYhCxsYDUgRLDcVGQQ+bgeUFIMaWTWCZwKjQ?=
+ =?us-ascii?q?4IhoREKKIN5jCSVOhozhVulF5kIo3NohGqBaDyBWXAVgyIJShkPlU6DJsgLJ?=
+ =?us-ascii?q?jICPQcCBw8Ck3EBAQ?=
+IronPort-Data: A9a23:tY659qzotgjab6snjJF6t+djxyrEfRIJ4+MujC+fZmUNrF6WrkVRz
+ TZLDWyHaf/famqkeIt2Porgo0oFuMDXn4JmHAY5pFhgHilAwSbn6Xt1DatR0we6dJCroJdPt
+ p1GAjX4BJlqCCKa/lH9aOWJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
+ 4yaT/H3Ygf/hWctaDlMscpvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
+ evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
+ zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJHsQPaEV6r5GO21X+
+ OAydzJKbQLcuO3jldpXSsE07igiBMDmJsYb/3pn1zycVaxgSpHYSKKM7thdtNsyrpkSQbCEO
+ pZfNmYpNkybC/FMEg9/5JYWkOSlgnD+YjRwo1OOrq1x6G/WpOB0+Oa2bIeFJI3aLSlTtmjHp
+ Ufo4jmhPhULC/aAmB287X6X19aayEsXX6pXTtVU7MVCh0WewGEWAhAaWVa35PK+kEOWX9NEN
+ 1dS/TIjq6U3/kGnQtTxGRqirxa5UgU0UtdKVul/4waXx++MuUCSB3MPSXhKb9lOWNIKeAHGH
+ 2Shx7vBbQGDepXMIZ5B3t94dQ+PBBU=
+IronPort-HdrOrdr: A9a23:eUDgJ6F8zlSPwkI3pLqE3seALOsnbusQ8zAXPo5KJiC9Ffbo8v
+ xG88576faZslsssRIb6LK90de7IU80nKQdieJ6AV7IZmfbUQWTQL2KlbGSoAHIKmnZ6vNX07
+ tmfuxVDd39CkU/sOPBiTPId+rJBLK8gcaVbSC09QYLcT1X
+X-Talos-CUID: 9a23:kuOB9myafm2KwZ9cekP0BgUuPMAJf22F/U3cOkKkIzlrD76HFmCfrfY=
+X-Talos-MUID: =?us-ascii?q?9a23=3AjpQRYA5S/sMbATfp/6anM1D5xoxGvKeLJl1Qyak?=
+ =?us-ascii?q?CqvauKn1XAiiRt2WOF9o=3D?=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,229,1787011200"; 
-   d="scan'208";a="60011100"
-Received: from aer-l-core-03.cisco.com ([144.254.74.204])
-  by aer-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 24 Nov 2026 10:20:19 +0000
+   d="scan'208";a="63458698"
+Received: from aer-l-core-02.cisco.com ([144.254.74.203])
+  by aer-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 24 Nov 2026 10:23:12 +0000
 Received: from sjc-ads-5675.cisco.com (sjc-ads-5675.cisco.com [10.28.88.189])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by aer-l-core-03.cisco.com (Postfix) with ESMTPS id 9F9C1180006C6;
-	Tue, 24 Nov 2026 10:20:18 +0000 (GMT)
+	by aer-l-core-02.cisco.com (Postfix) with ESMTPS id B627B18000145;
+	Tue, 24 Nov 2026 10:23:11 +0000 (GMT)
 Received: by sjc-ads-5675.cisco.com (Postfix, from userid 1887444)
-	id 440EFCC1611; Tue, 24 Nov 2026 02:20:17 -0800 (PST)
+	id 68665CC1611; Tue, 24 Nov 2026 02:23:10 -0800 (PST)
 From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Darsh Kelaiya <dkelaiya@cisco.com>
-Subject: [OE-core][blacksail][PATCH] sudo: fix CVE-2026-82474
-Date: Tue, 24 Nov 2026 02:20:13 -0800
-Message-Id: <20261124102013.846922-1-dkelaiya@cisco.com>
+Subject: [OE-core][PATCH] curl: build and install unit tests for ptest
+Date: Tue, 24 Nov 2026 02:23:05 -0800
+Message-Id: <20261124102305.1094501-1-dkelaiya@cisco.com>
 X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5675.cisco.com [10.28.88.189];TLSv1.3;TLS_AES_256_GCM_SHA384;256
 X-Outbound-SMTP-Client: 10.28.88.189, sjc-ads-5675.cisco.com
-X-Outbound-Node: aer-l-core-03.cisco.com
+X-Outbound-Node: aer-l-core-02.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 10:20:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251001
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 10:23:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251002
 Content-Type: text/plain; charset="utf-8"
 
 From: Darsh Kelaiya <dkelaiya@cisco.com>
 
-This patch applies the upstream fix as referenced in [2],
-using the commit shown in [1].
+curl disables unit tests when cross-compiling with shared libcurl, and
+ptest does not install their runner. Configure a separate static build
+for the private unit-test library and runner, and install the runner so
+test1304 and the other library unit tests can execute. Keep production
+libcurl's configuration unchanged.
 
-The recipe enables Linux intercept support. Check execveat commands
-and log subcommands instead of allowing this syscall unconditionally.
-Resolve directory file descriptors and AT_EMPTY_PATH to paths for
-sudoers policy checks. 
-
-Apply prerequisites [3] and [4] for proc_read_link() and fexecve paths.
-Include follow-ups [5] and [6] to reject failed pathname rewrites and
-correct relative-path moves. Keep the upstream source changes intact.
-
-Also include [7] so a failed intercepted execve/execveat returns
-its errno to the caller instead of triggering verification failure.
-Include [8] to provide the return-value helper on i686 and s390x.
-
-[1] https://github.com/sudo-project/sudo/commit/71fbe42dcd5a1c8f799540583a2dfb2ae6221edf
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-82474
-[3] https://github.com/sudo-project/sudo/commit/1a312af6348594df371e6088aeed99685977f575
-[4] https://github.com/sudo-project/sudo/commit/e822b729da31baf9154946329a9d6ef569f0d182
-[5] https://github.com/sudo-project/sudo/commit/d1121181a87b2b47b4dfbb2af42399fcc5f1e3cd
-[6] https://github.com/sudo-project/sudo/commit/02b14c043825b52be6cd537b7f11bd5e7e10512e
-[7] https://github.com/sudo-project/sudo/commit/3b1617ff2f17b962bdd1d1074bdccca030a9dbf6
-[8] https://github.com/sudo-project/sudo/commit/1815241c464259564541cc6306e12f2763691d92
+Checked an isolated cross build and staged unit-test execution using an
+existing OE toolchain/sysroot.
 
 Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 ---
- .../sudo/files/CVE-2026-82474-dependent_p1.patch   |  93 ++++
- .../sudo/files/CVE-2026-82474-dependent_p2.patch   |  33 ++
- .../sudo/files/CVE-2026-82474-regression_p1.patch  |  38 ++
- .../sudo/files/CVE-2026-82474-regression_p2.patch  |  32 ++
- .../sudo/files/CVE-2026-82474-regression_p3.patch  |  72 +++
- .../sudo/files/CVE-2026-82474-regression_p4.patch  |  34 ++
- .../sudo/files/CVE-2026-82474.patch                | 616 +++++++++++++++++++++
- meta/recipes-extended/sudo/sudo_1.9.17p2.bb        |   7 +
- 8 files changed, 925 insertions(+)
- create mode 100644 meta/recipes-extended/sudo/files/CVE-2026-82474-dependent_p1.patch
- create mode 100644 meta/recipes-extended/sudo/files/CVE-2026-82474-dependent_p2.patch
- create mode 100644 meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p1.patch
- create mode 100644 meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p2.patch
- create mode 100644 meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p3.patch
- create mode 100644 meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p4.patch
- create mode 100644 meta/recipes-extended/sudo/files/CVE-2026-82474.patch
+ meta/recipes-support/curl/curl_8.23.0.bb | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
 
-diff --git a/meta/recipes-extended/sudo/files/CVE-2026-82474-dependent_p1.patch b/meta/recipes-extended/sudo/files/CVE-2026-82474-dependent_p1.patch
-new file mode 100644
-index 00000000000..cf0a7edb4c4
---- /dev/null
-+++ b/meta/recipes-extended/sudo/files/CVE-2026-82474-dependent_p1.patch
-@@ -0,0 +1,93 @@
-+From 1a312af6348594df371e6088aeed99685977f575 Mon Sep 17 00:00:00 2001
-+From: "Todd C. Miller" <Todd.Miller@sudo.ws>
-+Date: Thu, 19 Mar 2026 13:57:53 -0600
-+Subject: [PATCH] get_execve_info: read /proc/self/fd/N link for pathname
-+
-+When fexecve(3) is used to execute a command and the kernel doesn't
-+support execveat(2), glibc will use /proc/self/fd/N for the execve(2)
-+pathname.  We need to resolve this link to the actual pathname used
-+for intercept and log_subcmds.
-+
-+CVE: CVE-2026-82474
-+Upstream-Status: Backport [https://github.com/sudo-project/sudo/commit/1a312af6348594df371e6088aeed99685977f575]
-+
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ src/exec_ptrace.c | 31 +++++++++++++++++++++++--------
-+ 1 file changed, 23 insertions(+), 8 deletions(-)
-+
-+diff --git a/src/exec_ptrace.c b/src/exec_ptrace.c
-+index e780dfd..5b901a7 100644
-+--- a/src/exec_ptrace.c
-++++ b/src/exec_ptrace.c
-+@@ -951,9 +951,10 @@ ptrace_write_vec(pid_t pid, struct sudo_ptrace_regs *regs, char **vec,
-+ /*
-+  * Read a link from /proc/PID and store the result in buf.
-+  * Used to read the cwd and exe links in /proc/PID.
-+- * Returns true on success, else false.
-++ * Returns the number of bytes written to buf on success, else -1.
-++ * Note: name and buf _may_ overlap.
-+  */
-+-static bool
-++static ssize_t
-+ proc_read_link(pid_t pid, const char *name, char *buf, size_t bufsize)
-+ {
-+     ssize_t len;
-+@@ -962,14 +963,14 @@ proc_read_link(pid_t pid, const char *name, char *buf, size_t bufsize)
-+ 
-+     len = snprintf(path, sizeof(path), "/proc/%d/%s", (int)pid, name);
-+     if (len > 0 && len < ssizeof(path)) {
-+-	len = readlink(path, buf, bufsize - 1);
-+-	if (len != -1) {
-++	len = readlink(path, buf, bufsize);
-++	if (len != -1 && (size_t)len != bufsize) {
-+ 	    /* readlink(2) does not add the NUL for us. */
-+ 	    buf[len] = '\0';
-+-	    debug_return_bool(true);
-++	    debug_return_ssize_t(len + 1);
-+ 	}
-+     }
-+-    debug_return_bool(false);
-++    debug_return_ssize_t(-1);
-+ }
-+ 
-+ /*
-+@@ -1011,6 +1012,20 @@ get_execve_info(pid_t pid, struct sudo_ptrace_regs *regs, char **pathname_out,
-+ 		"unable to read execve pathname for process %d", (int)pid);
-+ 	    goto bad;
-+ 	}
-++
-++	/* For fexecve() the path may be in the form /proc/self/fd/N */
-++	if (strncmp(argbuf, "/proc/self/fd/", 14) == 0) {
-++	    const char *errstr;
-++	    const char *fdstr = argbuf + 14;
-++	    (void)sudo_strtonum(fdstr, 0, INT_MAX, &errstr);
-++	    if (errstr == NULL) {
-++		/* Rewrite argbuf with link target (if it is one). */
-++		ssize_t len = proc_read_link(pid, fdstr, argbuf, bufsize);
-++		if (len != -1)
-++		    nread = len;
-++	    }
-++	}
-++
-+ 	/* Defer setting pathname until after all reallocations are done. */
-+ 	off = (size_t)nread;
-+     }
-+@@ -1626,7 +1641,7 @@ ptrace_verify_post_exec(pid_t pid, struct sudo_ptrace_regs *regs,
-+     }
-+ 
-+     /* Get the executable path. */
-+-    if (!proc_read_link(pid, "exe", pathname, sizeof(pathname))) {
-++    if (proc_read_link(pid, "exe", pathname, sizeof(pathname)) == -1) {
-+ 	/* Missing /proc file system is not a fatal error. */
-+ 	sudo_debug_printf(SUDO_DEBUG_ERROR, "%s: unable to read /proc/%d/exe",
-+ 	    __func__, (int)pid);
-+@@ -1768,7 +1783,7 @@ ptrace_intercept_execve(pid_t pid, struct intercept_closure *closure)
-+     }
-+ 
-+     /* Get the current working directory and execve info. */
-+-    if (!proc_read_link(pid, "cwd", cwd, sizeof(cwd)))
-++    if (proc_read_link(pid, "cwd", cwd, sizeof(cwd)) == -1)
-+ 	(void)strlcpy(cwd, "unknown", sizeof(cwd));
-+     buf = get_execve_info(pid, &regs, &pathname, &argc, &argv,
-+ 	&envc, &envp);
-diff --git a/meta/recipes-extended/sudo/files/CVE-2026-82474-dependent_p2.patch b/meta/recipes-extended/sudo/files/CVE-2026-82474-dependent_p2.patch
-new file mode 100644
-index 00000000000..62bd7c44b19
---- /dev/null
-+++ b/meta/recipes-extended/sudo/files/CVE-2026-82474-dependent_p2.patch
-@@ -0,0 +1,33 @@
-+From e822b729da31baf9154946329a9d6ef569f0d182 Mon Sep 17 00:00:00 2001
-+From: "Todd C. Miller" <Todd.Miller@sudo.ws>
-+Date: Fri, 20 Mar 2026 05:50:47 -0600
-+Subject: [PATCH] get_execve_info: pass correct name to proc_read_link()
-+
-+CVE: CVE-2026-82474
-+Upstream-Status: Backport [https://github.com/sudo-project/sudo/commit/e822b729da31baf9154946329a9d6ef569f0d182]
-+
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ src/exec_ptrace.c | 5 +++--
-+ 1 file changed, 3 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/exec_ptrace.c b/src/exec_ptrace.c
-+index 5b901a7..5b78702 100644
-+--- a/src/exec_ptrace.c
-++++ b/src/exec_ptrace.c
-+@@ -1015,12 +1015,13 @@ get_execve_info(pid_t pid, struct sudo_ptrace_regs *regs, char **pathname_out,
-+ 
-+ 	/* For fexecve() the path may be in the form /proc/self/fd/N */
-+ 	if (strncmp(argbuf, "/proc/self/fd/", 14) == 0) {
-+-	    const char *errstr;
-+ 	    const char *fdstr = argbuf + 14;
-++	    const char *name = argbuf + 11;
-++	    const char *errstr;
-+ 	    (void)sudo_strtonum(fdstr, 0, INT_MAX, &errstr);
-+ 	    if (errstr == NULL) {
-+ 		/* Rewrite argbuf with link target (if it is one). */
-+-		ssize_t len = proc_read_link(pid, fdstr, argbuf, bufsize);
-++		ssize_t len = proc_read_link(pid, name, argbuf, bufsize);
-+ 		if (len != -1)
-+ 		    nread = len;
-+ 	    }
-diff --git a/meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p1.patch b/meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p1.patch
-new file mode 100644
-index 00000000000..f9b830e9b71
---- /dev/null
-+++ b/meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p1.patch
-@@ -0,0 +1,38 @@
-+From d1121181a87b2b47b4dfbb2af42399fcc5f1e3cd Mon Sep 17 00:00:00 2001
-+From: "Todd C. Miller" <Todd.Miller@sudo.ws>
-+Date: Thu, 23 Apr 2026 09:39:35 -0600
-+Subject: [PATCH] get_exec_info: error out if we run out of space rewriting
-+ pathname
-+
-+Since proc_read_link() is destructive on error we could end up with
-+missing NUL terminator in the rewritten pathname.
-+Coverity CID 560390.
-+
-+CVE: CVE-2026-82474
-+Upstream-Status: Backport [https://github.com/sudo-project/sudo/commit/d1121181a87b2b47b4dfbb2af42399fcc5f1e3cd]
-+
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ src/exec_ptrace.c | 9 +++++++--
-+ 1 file changed, 7 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/exec_ptrace.c b/src/exec_ptrace.c
-+index 82a5947..90d6a48 100644
-+--- a/src/exec_ptrace.c
-++++ b/src/exec_ptrace.c
-+@@ -1120,8 +1120,13 @@ get_exec_info(pid_t pid, bool is_execveat, struct sudo_ptrace_regs *regs,
-+ 	    if (errstr == NULL) {
-+ 		/* Rewrite argbuf with link target (if it is one). */
-+ 		ssize_t len = proc_read_link(pid, name, argbuf, bufsize);
-+-		if (len != -1)
-+-		    nread = len + 1;
-++		if (len == -1) {
-++		    sudo_debug_printf(
-++			SUDO_DEBUG_ERROR|SUDO_DEBUG_LINENO|SUDO_DEBUG_ERRNO,
-++			"unable to rewrite pathname for process %d", (int)pid);
-++		    goto bad;
-++		}
-++		nread = len + 1;
-+ 	    }
-+ 	}
-+ 
-diff --git a/meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p2.patch b/meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p2.patch
-new file mode 100644
-index 00000000000..8dfadfc187d
---- /dev/null
-+++ b/meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p2.patch
-@@ -0,0 +1,32 @@
-+From 02b14c043825b52be6cd537b7f11bd5e7e10512e Mon Sep 17 00:00:00 2001
-+From: "Todd C. Miller" <Todd.Miller@sudo.ws>
-+Date: Sat, 25 Apr 2026 12:05:23 -0600
-+Subject: [PATCH] Fix handling of relative paths in the execveat(2) intercept
-+ support.
-+
-+The code to prepend the directory when fully-qualifying a relative
-+path used the wrong length the memmove(3) call.
-+
-+Reported by and fix from Marius Momeu
-+
-+CVE: CVE-2026-82474
-+Upstream-Status: Backport [https://github.com/sudo-project/sudo/commit/02b14c043825b52be6cd537b7f11bd5e7e10512e]
-+
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ src/exec_ptrace.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/exec_ptrace.c b/src/exec_ptrace.c
-+index 90d6a48..9521f18 100644
-+--- a/src/exec_ptrace.c
-++++ b/src/exec_ptrace.c
-+@@ -1100,7 +1100,7 @@ get_exec_info(pid_t pid, bool is_execveat, struct sudo_ptrace_regs *regs,
-+ 		    goto bad;
-+ 		}
-+ 		/* Prepend directory to relative pathname.  */
-+-		memmove(argbuf + len + 1, argbuf, len + 1);
-++		memmove(argbuf + len + 1, argbuf, nread);
-+ 		memcpy(argbuf, dir, len);
-+ 		argbuf[len] = '/';
-+ 		nread += len + 1;
-diff --git a/meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p3.patch b/meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p3.patch
-new file mode 100644
-index 00000000000..4fdeeccdce3
---- /dev/null
-+++ b/meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p3.patch
-@@ -0,0 +1,72 @@
-+From 3b1617ff2f17b962bdd1d1074bdccca030a9dbf6 Mon Sep 17 00:00:00 2001
-+From: "Todd C. Miller" <Todd.Miller@sudo.ws>
-+Date: Fri, 7 Aug 2026 13:35:23 -0600
-+Subject: [PATCH] ptrace_verify_post_exec: if execve/execveat fails just
-+ continue
-+
-+If the execve(2) or execveat(2) system calls fail, the process
-+status will be SIGTRAP without PTRACE_EVENT_EXEC being set.  In
-+this case, we can just continue and allow the program calling
-+execve/execveat to handle the error.
-+
-+CVE: CVE-2026-82474
-+Upstream-Status: Backport [https://github.com/sudo-project/sudo/commit/3b1617ff2f17b962bdd1d1074bdccca030a9dbf6]
-+
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ src/exec_ptrace.c | 28 ++++++++++++++++++++++++++--
-+ 1 file changed, 26 insertions(+), 2 deletions(-)
-+
-+diff --git a/src/exec_ptrace.c b/src/exec_ptrace.c
-+index 8cb5996..2ee3dea 100644
-+--- a/src/exec_ptrace.c
-++++ b/src/exec_ptrace.c
-+@@ -83,6 +83,16 @@ get_stack_pointer(struct sudo_ptrace_regs *regs)
-+     }
-+ }
-+ 
-++static inline int
-++get_sc_retval(struct sudo_ptrace_regs *regs)
-++{
-++    if (regs->compat) {
-++	return compat_reg_retval(regs->u.compat);
-++    } else {
-++	return reg_retval(regs->u.native);
-++    }
-++}
-++
-+ static inline void
-+ set_sc_retval(struct sudo_ptrace_regs *regs, int retval)
-+ {
-+@@ -1723,7 +1733,7 @@ verify_execve_args(pid_t pid, struct sudo_ptrace_regs *regs,
-+ 
-+ /*
-+  * Verify that the command executed matches the arguments we checked.
-+- * Returns true on success and false on error.
-++ * Returns true on success (or execve failure) and false on error.
-+  */
-+ static bool
-+ ptrace_verify_post_exec(pid_t pid, struct sudo_ptrace_regs *regs,
-+@@ -1758,7 +1768,21 @@ ptrace_verify_post_exec(pid_t pid, struct sudo_ptrace_regs *regs,
-+ 	goto done;
-+     }
-+     if (status >> 8 != (SIGTRAP | (PTRACE_EVENT_EXEC << 8))) {
-+-	sudo_warnx(U_("process %d unexpected status 0x%x"), (int)pid, status);
-++	/* No PTRACE_EVENT_EXEC, did execve(2) fail? */
-++	struct sudo_ptrace_regs newregs;
-++	memset(&newregs, 0, sizeof(newregs));
-++	if (!ptrace_getregs(pid, &newregs, regs->compat)) {
-++	    sudo_warn(U_("unable to get registers for process %d"), (int)pid);
-++	    goto done;
-++	}
-++	if (get_sc_retval(&newregs) != 0) {
-++	    /* execve(2) failure, nothing to verify. */
-++	    ret = true;
-++	} else {
-++	    /* should not happen */
-++	    sudo_warnx(U_("process %d unexpected status 0x%x"), (int)pid,
-++		status);
-++	}
-+ 	goto done;
-+     }
-+ 
-diff --git a/meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p4.patch b/meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p4.patch
-new file mode 100644
-index 00000000000..88fca069ad6
---- /dev/null
-+++ b/meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p4.patch
-@@ -0,0 +1,34 @@
-+From 1815241c464259564541cc6306e12f2763691d92 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Alejandro=20L=C3=B3pez?= <allopez@redhat.com>
-+Date: Wed, 16 Sep 2026 11:26:02 +0200
-+Subject: [PATCH] Fix build on i686 and s390x
-+
-+In exec_ptrace.c the function get_sc_retval() is defined when
-+SECCOMP_AUDIT_ARCH_COMPAT is declared, but not in its #else branch.
-+Build fails on architectures falling in this branch.
-+
-+CVE: CVE-2026-82474
-+Upstream-Status: Backport [https://github.com/sudo-project/sudo/commit/1815241c464259564541cc6306e12f2763691d92]
-+
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ src/exec_ptrace.c | 6 ++++++
-+ 1 file changed, 6 insertions(+)
-+
-+diff --git a/src/exec_ptrace.c b/src/exec_ptrace.c
-+index 2ee3dea..b8743c9 100644
-+--- a/src/exec_ptrace.c
-++++ b/src/exec_ptrace.c
-+@@ -235,6 +235,12 @@ get_stack_pointer(struct sudo_ptrace_regs *regs)
-+     return reg_sp(regs->u.native);
-+ }
-+ 
-++static inline int
-++get_sc_retval(struct sudo_ptrace_regs *regs)
-++{
-++    return reg_retval(regs->u.native);
-++}
-++
-+ static inline void
-+ set_sc_retval(struct sudo_ptrace_regs *regs, int retval)
-+ {
-diff --git a/meta/recipes-extended/sudo/files/CVE-2026-82474.patch b/meta/recipes-extended/sudo/files/CVE-2026-82474.patch
-new file mode 100644
-index 00000000000..e6c3277440d
---- /dev/null
-+++ b/meta/recipes-extended/sudo/files/CVE-2026-82474.patch
-@@ -0,0 +1,616 @@
-+From 71fbe42dcd5a1c8f799540583a2dfb2ae6221edf Mon Sep 17 00:00:00 2001
-+From: "Todd C. Miller" <Todd.Miller@sudo.ws>
-+Date: Fri, 20 Mar 2026 06:48:32 -0600
-+Subject: [PATCH] Add intercept and log_subcmds support for execveat(2).
-+
-+Previously, sudo would always allow execveat(2) in intercept mode
-+to support sudo's own use of fexecve(3) for the "fdexec" setting.
-+Since sudoers is path-based, we must use /proc to resolve the file
-+descriptor in execveat(2) to a path.
-+
-+Credit:
-+ - XlabAI Team of Tencent Xuanwu Lab (xlabai@tencent.com)
-+ - Atuin Automated Vulnerability Discovery Engine
-+ - Guannan Wang, Zhanpeng Liu, Guancheng Li
-+
-+Also reported by:
-+ - Nofil Qasim
-+ - Quentin Chalabi
-+
-+CVE: CVE-2026-82474
-+Upstream-Status: Backport [https://github.com/sudo-project/sudo/commit/71fbe42dcd5a1c8f799540583a2dfb2ae6221edf]
-+
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ src/exec_ptrace.c | 188 ++++++++++++++++++++++++++++++++++++----------
-+ src/exec_ptrace.h |  54 ++++++++++---
-+ 2 files changed, 192 insertions(+), 50 deletions(-)
-+
-+diff --git a/src/exec_ptrace.c b/src/exec_ptrace.c
-+index 5b78702..92e8082 100644
-+--- a/src/exec_ptrace.c
-++++ b/src/exec_ptrace.c
-+@@ -1,5 +1,5 @@
-+ /*
-+- * Copyright (c) 2022 Todd C. Miller <Todd.Miller@sudo.ws>
-++ * Copyright (c) 2022, 2026 Todd C. Miller <Todd.Miller@sudo.ws>
-+  *
-+  * Permission to use, copy, modify, and distribute this software for any
-+  * purpose with or without fee is hereby granted, provided that the above
-+@@ -115,7 +115,7 @@ set_syscallno(pid_t pid, struct sudo_ptrace_regs *regs, int syscallno)
-+ }
-+ 
-+ static inline unsigned long
-+-get_sc_arg1(struct sudo_ptrace_regs *regs)
-++get_sc_arg1(pid_t pid, struct sudo_ptrace_regs *regs)
-+ {
-+     if (regs->compat) {
-+ 	return compat_reg_arg1(regs->u.compat);
-+@@ -135,7 +135,7 @@ set_sc_arg1(struct sudo_ptrace_regs *regs, unsigned long addr)
-+ }
-+ 
-+ static inline unsigned long
-+-get_sc_arg2(struct sudo_ptrace_regs *regs)
-++get_sc_arg2(pid_t pid, struct sudo_ptrace_regs *regs)
-+ {
-+     if (regs->compat) {
-+ 	return compat_reg_arg2(regs->u.compat);
-+@@ -155,7 +155,7 @@ set_sc_arg2(struct sudo_ptrace_regs *regs, unsigned long addr)
-+ }
-+ 
-+ static inline unsigned long
-+-get_sc_arg3(struct sudo_ptrace_regs *regs)
-++get_sc_arg3(pid_t pid, struct sudo_ptrace_regs *regs)
-+ {
-+     if (regs->compat) {
-+ 	return compat_reg_arg3(regs->u.compat);
-+@@ -164,7 +164,6 @@ get_sc_arg3(struct sudo_ptrace_regs *regs)
-+     }
-+ }
-+ 
-+-#  ifdef notyet
-+ static inline void
-+ set_sc_arg3(struct sudo_ptrace_regs *regs, unsigned long addr)
-+ {
-+@@ -176,7 +175,7 @@ set_sc_arg3(struct sudo_ptrace_regs *regs, unsigned long addr)
-+ }
-+ 
-+ static inline unsigned long
-+-get_sc_arg4(struct sudo_ptrace_regs *regs)
-++get_sc_arg4(pid_t pid, struct sudo_ptrace_regs *regs)
-+ {
-+     if (regs->compat) {
-+ 	return compat_reg_arg4(regs->u.compat);
-+@@ -185,8 +184,9 @@ get_sc_arg4(struct sudo_ptrace_regs *regs)
-+     }
-+ }
-+ 
-++#  ifdef notyet
-+ static inline void
-+-set_sc_arg4(struct sudo_ptrace_regs *regs, unsigned long addr)
-++set_sc_arg3(struct sudo_ptrace_regs *regs, unsigned long addr)
-+ {
-+     if (regs->compat) {
-+ 	compat_reg_set_arg4(regs->u.compat, addr);
-+@@ -196,6 +196,28 @@ set_sc_arg4(struct sudo_ptrace_regs *regs, unsigned long addr)
-+ }
-+ #  endif /* notyet */
-+ 
-++static inline unsigned long
-++get_sc_arg5(pid_t pid, struct sudo_ptrace_regs *regs)
-++{
-++    if (regs->compat) {
-++	return compat_reg_arg5(regs->u.compat);
-++    } else {
-++	return reg_arg5(regs->u.native);
-++    }
-++}
-++
-++#  ifdef notyet
-++static inline void
-++set_sc_arg5(struct sudo_ptrace_regs *regs, unsigned long addr)
-++{
-++    if (regs->compat) {
-++	compat_reg_set_arg5(regs->u.compat, addr);
-++    } else {
-++	reg_set_arg5(regs->u.native, addr);
-++    }
-++}
-++#  endif /* notyet */
-++
-+ # else /* SECCOMP_AUDIT_ARCH_COMPAT */
-+ 
-+ static inline unsigned long
-+@@ -223,7 +245,7 @@ set_syscallno(pid_t pid, struct sudo_ptrace_regs *regs, int syscallno)
-+ }
-+ 
-+ static inline unsigned long
-+-get_sc_arg1(struct sudo_ptrace_regs *regs)
-++get_sc_arg1(pid_t pid, struct sudo_ptrace_regs *regs)
-+ {
-+     return reg_arg1(regs->u.native);
-+ }
-+@@ -235,7 +257,7 @@ set_sc_arg1(struct sudo_ptrace_regs *regs, unsigned long addr)
-+ }
-+ 
-+ static inline unsigned long
-+-get_sc_arg2(struct sudo_ptrace_regs *regs)
-++get_sc_arg2(pid_t pid, struct sudo_ptrace_regs *regs)
-+ {
-+     return reg_arg2(regs->u.native);
-+ }
-+@@ -247,12 +269,11 @@ set_sc_arg2(struct sudo_ptrace_regs *regs, unsigned long addr)
-+ }
-+ 
-+ static inline unsigned long
-+-get_sc_arg3(struct sudo_ptrace_regs *regs)
-++get_sc_arg3(pid_t pid, struct sudo_ptrace_regs *regs)
-+ {
-+     return reg_arg3(regs->u.native);
-+ }
-+ 
-+-#  ifdef notyet
-+ static inline void
-+ set_sc_arg3(struct sudo_ptrace_regs *regs, unsigned long addr)
-+ {
-+@@ -260,17 +281,33 @@ set_sc_arg3(struct sudo_ptrace_regs *regs, unsigned long addr)
-+ }
-+ 
-+ static inline unsigned long
-+-get_sc_arg4(struct sudo_ptrace_regs *regs)
-++get_sc_arg4(pid_t pid, struct sudo_ptrace_regs *regs)
-+ {
-+     return reg_arg4(regs->u.native);
-+ }
-+ 
-++#  ifdef notyet
-+ static inline void
-+ set_sc_arg4(struct sudo_ptrace_regs *regs, unsigned long addr)
-+ {
-+     reg_set_arg4(regs->u.native, addr);
-+ }
-+ #  endif /* notyet */
-++
-++static inline unsigned long
-++get_sc_arg5(pid_t pid, struct sudo_ptrace_regs *regs)
-++{
-++    return reg_arg5(regs->u.native);
-++}
-++
-++#  ifdef notyet
-++static inline void
-++set_sc_arg5(struct sudo_ptrace_regs *regs, unsigned long addr)
-++{
-++    reg_set_arg5(regs->u.native, addr);
-++}
-++#  endif /* notyet */
-++
-+ # endif /* SECCOMP_AUDIT_ARCH_COMPAT */
-+ 
-+ /*
-+@@ -358,7 +395,7 @@ ptrace_readv_string(pid_t pid, unsigned long addr, char *buf, size_t bufsize)
-+     const char *cp, *buf0 = buf;
-+     struct iovec local, remote;
-+     ssize_t nread;
-+-    debug_decl(ptrace_read_string, SUDO_DEBUG_EXEC);
-++    debug_decl(ptrace_readv_string, SUDO_DEBUG_EXEC);
-+ 
-+     /*
-+      * Read the string via process_vm_readv(2) one page at a time.
-+@@ -951,7 +988,8 @@ ptrace_write_vec(pid_t pid, struct sudo_ptrace_regs *regs, char **vec,
-+ /*
-+  * Read a link from /proc/PID and store the result in buf.
-+  * Used to read the cwd and exe links in /proc/PID.
-+- * Returns the number of bytes written to buf on success, else -1.
-++ * Returns the length of the link on success, else -1.
-++ * NUL-terminates buf on success (not included in length).
-+  * Note: name and buf _may_ overlap.
-+  */
-+ static ssize_t
-+@@ -967,26 +1005,27 @@ proc_read_link(pid_t pid, const char *name, char *buf, size_t bufsize)
-+ 	if (len != -1 && (size_t)len != bufsize) {
-+ 	    /* readlink(2) does not add the NUL for us. */
-+ 	    buf[len] = '\0';
-+-	    debug_return_ssize_t(len + 1);
-++	    debug_return_ssize_t(len);
-+ 	}
-+     }
-+     debug_return_ssize_t(-1);
-+ }
-+ 
-+ /*
-+- * Read the filename, argv and envp of the execve(2) system call.
-++ * Read execve(2) or execveat(2) system call arguments from pid.
-+  * Returns a dynamically allocated buffer the parent is responsible for.
-+  */
-+ static char *
-+-get_execve_info(pid_t pid, struct sudo_ptrace_regs *regs, char **pathname_out,
-+-    int *argc_out, char ***argv_out, int *envc_out, char ***envp_out)
-++get_exec_info(pid_t pid, bool is_execveat, struct sudo_ptrace_regs *regs,
-++    char **pathname_out, int *argc_out, char ***argv_out, int *envc_out,
-++    char ***envp_out)
-+ {
-+     char *argbuf, **argv, **envp, *pathname = NULL;
-+     unsigned long argv_addr, envp_addr, path_addr;
-+     size_t bufsize, off = 0;
-+-    int i, argc, envc = 0;
-++    int i, argc, dirfd = -1, flags = 0, envc = 0;
-+     ssize_t nread;
-+-    debug_decl(get_execve_info, SUDO_DEBUG_EXEC);
-++    debug_decl(get_exec_info, SUDO_DEBUG_EXEC);
-+ 
-+     bufsize = PATH_MAX + arg_max;
-+     argbuf = malloc(bufsize);
-+@@ -995,13 +1034,22 @@ get_execve_info(pid_t pid, struct sudo_ptrace_regs *regs, char **pathname_out,
-+ 	goto bad;
-+     }
-+ 
-+-    /* execve(2) takes three arguments: pathname, argv, envp. */
-+-    path_addr = get_sc_arg1(regs);
-+-    argv_addr = get_sc_arg2(regs);
-+-    envp_addr = get_sc_arg3(regs);
-++    if (is_execveat) {
-++	/* execveat(2) takes five arguments */
-++	dirfd = get_sc_arg1(pid, regs) & 0xffffffff;
-++	path_addr = get_sc_arg2(pid, regs);
-++	argv_addr = get_sc_arg3(pid, regs);
-++	envp_addr = get_sc_arg4(pid, regs);
-++	flags = get_sc_arg5(pid, regs) & 0xffffffff;
-++    } else {
-++	/* execve(2) takes three arguments */
-++	path_addr = get_sc_arg1(pid, regs);
-++	argv_addr = get_sc_arg2(pid, regs);
-++	envp_addr = get_sc_arg3(pid, regs);
-++    }
-+     sudo_debug_printf(SUDO_DEBUG_INFO,
-+-	"%s: %d: path 0x%lx, argv 0x%lx, envp 0x%lx", __func__,
-+-	(int)pid, path_addr, argv_addr, envp_addr);
-++	"%s: %d: dirfd %d, path 0x%lx, argv 0x%lx, envp 0x%lx, flags: 0x%x",
-++	__func__, (int)pid, dirfd, path_addr, argv_addr, envp_addr, flags);
-+ 
-+     /* Read the pathname, if not NULL. */
-+     if (path_addr != 0) {
-+@@ -1009,12 +1057,62 @@ get_execve_info(pid_t pid, struct sudo_ptrace_regs *regs, char **pathname_out,
-+ 	if (nread == -1) {
-+ 	    sudo_debug_printf(
-+ 		SUDO_DEBUG_ERROR|SUDO_DEBUG_LINENO|SUDO_DEBUG_ERRNO,
-+-		"unable to read execve pathname for process %d", (int)pid);
-++		"unable to read execveat pathname for process %d", (int)pid);
-+ 	    goto bad;
-+ 	}
-+ 
-+-	/* For fexecve() the path may be in the form /proc/self/fd/N */
-+-	if (strncmp(argbuf, "/proc/self/fd/", 14) == 0) {
-++	/* Handle relative path and AT_EMPTY_PATH for execveat() */
-++	if (is_execveat && argbuf[0] != '/') {
-++	    if (argbuf[0] == '\0' && ISSET(flags, AT_EMPTY_PATH)) {
-++		/* Used to implement fexecve(3) */
-++		char name[64];
-++		(void)snprintf(name, sizeof(name), "fd/%d", dirfd);
-++		ssize_t len = proc_read_link(pid, name, argbuf, bufsize);
-++		if (len == -1) {
-++		    sudo_debug_printf(
-++			SUDO_DEBUG_ERROR|SUDO_DEBUG_LINENO|SUDO_DEBUG_ERRNO,
-++			"unable to read link /proc/%d/fd/%d", (int)pid, dirfd);
-++		    goto bad;
-++		}
-++		nread = len + 1;
-++	    } else {
-++		/* Relative path, resolve dirfd to a path. */
-++		char dir[PATH_MAX];
-++		char name[64];
-++
-++		if (dirfd == AT_FDCWD) {
-++		    (void)strlcpy(name, "cwd", sizeof(name));
-++		} else {
-++		    (void)snprintf(name, sizeof(name), "fd/%d", dirfd);
-++		}
-++		ssize_t len = proc_read_link(pid, name, dir, sizeof(dir));
-++		if (len == -1) {
-++		    sudo_debug_printf(
-++			SUDO_DEBUG_ERROR|SUDO_DEBUG_LINENO|SUDO_DEBUG_ERRNO,
-++			"unable to read link /proc/%d/%s", (int)pid, name);
-++		    goto bad;
-++		}
-++		if ((size_t)(nread + len + 1) >= bufsize) {
-++		    sudo_debug_printf(
-++			SUDO_DEBUG_ERROR|SUDO_DEBUG_LINENO|SUDO_DEBUG_ERRNO,
-++			"out of space storing path for process %d",
-++			(int)pid);
-++		    goto bad;
-++		}
-++		/* Prepend directory to relative pathname.  */
-++		memmove(argbuf + len + 1, argbuf, len + 1);
-++		memcpy(argbuf, dir, len);
-++		argbuf[len] = '/';
-++		nread += len + 1;
-++	    }
-++	}
-++
-++	/*
-++	 * For fexecve() the path may be in the form /proc/self/fd/N
-++	 * Used by glibc when the system doesn't support execveat(2).
-++	 */
-++	if (!ISSET(flags, AT_SYMLINK_NOFOLLOW) &&
-++		strncmp(argbuf, "/proc/self/fd/", 14) == 0) {
-+ 	    const char *fdstr = argbuf + 14;
-+ 	    const char *name = argbuf + 11;
-+ 	    const char *errstr;
-+@@ -1023,7 +1121,7 @@ get_execve_info(pid_t pid, struct sudo_ptrace_regs *regs, char **pathname_out,
-+ 		/* Rewrite argbuf with link target (if it is one). */
-+ 		ssize_t len = proc_read_link(pid, name, argbuf, bufsize);
-+ 		if (len != -1)
-+-		    nread = len;
-++		    nread = len + 1;
-+ 	    }
-+ 	}
-+ 
-+@@ -1037,7 +1135,7 @@ get_execve_info(pid_t pid, struct sudo_ptrace_regs *regs, char **pathname_out,
-+     if (nread == -1) {
-+ 	sudo_debug_printf(
-+ 	    SUDO_DEBUG_ERROR|SUDO_DEBUG_LINENO|SUDO_DEBUG_ERRNO,
-+-	    "unable to read execve argv for process %d", (int)pid);
-++	    "unable to read argv for process %d", (int)pid);
-+ 	goto bad;
-+     }
-+     off += (size_t)nread;
-+@@ -1057,7 +1155,7 @@ get_execve_info(pid_t pid, struct sudo_ptrace_regs *regs, char **pathname_out,
-+     if (nread == -1) {
-+ 	sudo_debug_printf(
-+ 	    SUDO_DEBUG_ERROR|SUDO_DEBUG_LINENO|SUDO_DEBUG_ERRNO,
-+-	    "unable to read execve envp for process %d", (int)pid);
-++	    "unable to read envp for process %d", (int)pid);
-+ 	goto bad;
-+     }
-+ 
-+@@ -1579,6 +1677,7 @@ check_argv:
-+ 
-+ /*
-+  * Verify that the execve(2) argument we wrote match the contents of closure.
-++ * TODO: test execveat(2) too.
-+  * Returns true if they match, else false.
-+  */
-+ static bool
-+@@ -1590,7 +1689,7 @@ verify_execve_args(pid_t pid, struct sudo_ptrace_regs *regs,
-+     bool ret = false;
-+     debug_decl(verify_execve_args, SUDO_DEBUG_EXEC);
-+ 
-+-    buf = get_execve_info(pid, regs, &pathname, &argc, &argv,
-++    buf = get_exec_info(pid, false, regs, &pathname, &argc, &argv,
-+ 	&envc, &envp);
-+     if (buf != NULL) {
-+ 	ret = execve_args_match(pathname, argc, argv, envc, envp, false, closure);
-+@@ -1717,6 +1816,7 @@ ptrace_intercept_execve(pid_t pid, struct intercept_closure *closure)
-+     bool path_mismatch = false;
-+     bool argv_mismatch = false;
-+     char cwd[PATH_MAX], *orig_argv0;
-++    bool is_execveat = false;
-+     unsigned long msg;
-+     bool ret = false;
-+     int i, oldcwd = -1;
-+@@ -1751,8 +1851,8 @@ ptrace_intercept_execve(pid_t pid, struct intercept_closure *closure)
-+ 	    /* Handled below. */
-+ 	    break;
-+ 	case COMPAT_execveat:
-+-	    /* We don't currently check execveat(2). */
-+-	    debug_return_bool(true);
-++	    /* Handled below. */
-++	    is_execveat = true;
-+ 	    break;
-+ 	default:
-+ 	    sudo_warnx("%s: unexpected compat system call %d",
-+@@ -1774,8 +1874,8 @@ ptrace_intercept_execve(pid_t pid, struct intercept_closure *closure)
-+ 	case X32_execveat:
-+ # endif
-+ 	case __NR_execveat:
-+-	    /* We don't currently check execveat(2). */
-+-	    debug_return_bool(true);
-++	    /* Handled below. */
-++	    is_execveat = true;
-+ 	    break;
-+ 	default:
-+ 	    sudo_warnx("%s: unexpected system call %d", __func__, syscallno);
-+@@ -1786,7 +1886,7 @@ ptrace_intercept_execve(pid_t pid, struct intercept_closure *closure)
-+     /* Get the current working directory and execve info. */
-+     if (proc_read_link(pid, "cwd", cwd, sizeof(cwd)) == -1)
-+ 	(void)strlcpy(cwd, "unknown", sizeof(cwd));
-+-    buf = get_execve_info(pid, &regs, &pathname, &argc, &argv,
-++    buf = get_exec_info(pid, is_execveat, &regs, &pathname, &argc, &argv,
-+ 	&envc, &envp);
-+     if (buf == NULL) {
-+ 	sudo_debug_printf(SUDO_DEBUG_ERROR|SUDO_DEBUG_ERRNO,
-+@@ -1910,7 +2010,11 @@ ptrace_intercept_execve(pid_t pid, struct intercept_closure *closure)
-+ 
-+ 	    if (argv_mismatch) {
-+ 		/* Update argv address in the tracee to our new value. */
-+-		set_sc_arg2(&regs, sp);
-++		if (is_execveat) {
-++		    set_sc_arg3(&regs, sp);
-++		} else {
-++		    set_sc_arg2(&regs, sp);
-++		}
-+ 
-+ 		/* Skip over argv pointers (plus NULL) for string table. */
-+ 		strtab += ((size_t)argc + 1 + regs.compat) * regs.wordsize;
-+@@ -1923,7 +2027,11 @@ ptrace_intercept_execve(pid_t pid, struct intercept_closure *closure)
-+ 	    }
-+ 	    if (path_mismatch) {
-+ 		/* Update pathname address in the tracee to our new value. */
-+-		set_sc_arg1(&regs, strtab);
-++		if (is_execveat) {
-++		    set_sc_arg2(&regs, strtab);
-++		} else {
-++		    set_sc_arg1(&regs, strtab);
-++		}
-+ 
-+ 		/* Write pathname to the string table. */
-+ 		nwritten = ptrace_write_string(pid, strtab, closure->command);
-+diff --git a/src/exec_ptrace.h b/src/exec_ptrace.h
-+index 2da6233..6e86d65 100644
-+--- a/src/exec_ptrace.h
-++++ b/src/exec_ptrace.h
-+@@ -1,5 +1,5 @@
-+ /*
-+- * Copyright (c) 2022 Todd C. Miller <Todd.Miller@sudo.ws>
-++ * Copyright (c) 2022-2026 Todd C. Miller <Todd.Miller@sudo.ws>
-+  *
-+  * Permission to use, copy, modify, and distribute this software for any
-+  * purpose with or without fee is hereby granted, provided that the above
-+@@ -87,6 +87,7 @@
-+ # define reg_arg2(x)		(x).rsi
-+ # define reg_arg3(x)		(x).rdx
-+ # define reg_arg4(x)		(x).r10
-++# define reg_arg5(x)		(x).r8
-+ #elif defined(__aarch64__)
-+ # define SECCOMP_AUDIT_ARCH	AUDIT_ARCH_AARCH64
-+ # define sudo_pt_regs		struct user_pt_regs
-+@@ -97,6 +98,7 @@
-+ # define reg_arg2(x)		(x).regs[1]	/* x1 */
-+ # define reg_arg3(x)		(x).regs[2]	/* x2 */
-+ # define reg_arg4(x)		(x).regs[3]	/* x3 */
-++# define reg_arg5(x)		(x).regs[4]	/* x4 */
-+ # define reg_set_syscall(_r, _nr) do {					\
-+     struct iovec _iov;							\
-+     long _syscallno = (_nr);						\
-+@@ -115,6 +117,7 @@
-+ # define reg_arg2(x)		(x).ARM_r1
-+ # define reg_arg3(x)		(x).ARM_r2
-+ # define reg_arg4(x)		(x).ARM_r3
-++# define reg_arg5(x)		(x).ARM_r4
-+ # define reg_set_syscall(_r, _nr) do {					\
-+     ptrace(PTRACE_SET_SYSCALL, pid, NULL, _nr);				\
-+ } while (0)
-+@@ -129,6 +132,7 @@
-+ # define reg_arg2(x)		(x).gr[25]	/* r25 */
-+ # define reg_arg3(x)		(x).gr[24]	/* r24 */
-+ # define reg_arg4(x)		(x).gr[23]	/* r23 */
-++# define reg_arg5(x)		(x).gr[22]	/* r22 */
-+ #elif defined(__i386__)
-+ # define SECCOMP_AUDIT_ARCH	AUDIT_ARCH_I386
-+ # define sudo_pt_regs		struct user_regs_struct
-+@@ -139,6 +143,7 @@
-+ # define reg_arg2(x)		(x).ecx
-+ # define reg_arg3(x)		(x).edx
-+ # define reg_arg4(x)		(x).esi
-++# define reg_arg5(x)		(x).edi
-+ #elif defined(__mips__)
-+ # if _MIPS_SIM == _MIPS_SIM_ABI32
-+ #  /* Linux o32 style syscalls, 4000-4999. */
-+@@ -204,15 +209,16 @@
-+     else								\
-+ 	(_r).regs[6] = _v; /* a2 */					\
-+ } while (0)
-+-/* XXX - reg_arg4 probably wrong for syscall() type calls on 032. */
-++/*
-++ * The o32 ABI uses registers a0 - a3 for the first 4 args, all others
-++ * are on the stack.  We do not implement reg_set_arg4 or reg_set_arg5.
-++ */
-+ # define reg_arg4(x)		\
-+-    ((x).regs[2] == __NR_O32_Linux ? (x).regs[8] : (x).regs[7])
-+-# define reg_set_arg4(_r, _v) do {					\
-+-    if ((_r).regs[2] == __NR_O32_Linux)					\
-+-	(_r).regs[8] = _v; /* a4 */					\
-+-    else								\
-+-	(_r).regs[7] = _v; /* a3 */					\
-+-} while (0)
-++    ((x).regs[2] == __NR_O32_Linux ? \
-++	(ptrace(PTRACE_PEEKDATA, pid, reg_sp(x) + 16, NULL)) : (x).regs[7])
-++# define reg_arg5(x)		\
-++    ptrace(PTRACE_PEEKDATA, pid, reg_sp(x) + \
-++	((x).regs[2] == __NR_O32_Linux ? 20 : 16))
-+ # define reg_set_syscall(_r, _nr) do {					\
-+     if ((_r).regs[2] == __NR_O32_Linux)					\
-+ 	(_r).regs[4] = _nr; /* a0 */					\
-+@@ -237,6 +243,7 @@
-+ # define reg_arg2(x)		(x).gpr[4]	/* r4 */
-+ # define reg_arg3(x)		(x).gpr[5]	/* r5 */
-+ # define reg_arg4(x)		(x).gpr[6]	/* r6 */
-++# define reg_arg5(x)		(x).gpr[7]	/* r7 */
-+ # define reg_set_retval(_r, _v) do {					\
-+     if (((_r).trap & 0xfff0) == 0x3000) {				\
-+ 	/* scv 0 system call, uses negative error code for result. */	\
-+@@ -260,6 +267,7 @@
-+ # define reg_arg2(x)		(x).a1
-+ # define reg_arg3(x)		(x).a2
-+ # define reg_arg4(x)		(x).a3
-++# define reg_arg5(x)		(x).a4
-+ #elif defined(__s390__)
-+ /*
-+  * Both the syscall number and return value are stored in r2 for
-+@@ -277,7 +285,8 @@
-+ # define reg_arg1(x)		(x).orig_gpr2	/* r2 */
-+ # define reg_arg2(x)		(x).gprs[3]	/* r3 */
-+ # define reg_arg3(x)		(x).gprs[4]	/* r4 */
-+-# define reg_arg4(x)		(x).gprs[5]	/* r6 */
-++# define reg_arg4(x)		(x).gprs[5]	/* r5 */
-++# define reg_arg5(x)		(x).gprs[6]	/* r6 */
-+ #else
-+ # error "Do not know how to find your architecture's registers"
-+ #endif
-+@@ -322,6 +331,7 @@ struct i386_user_regs_struct {
-+ # define compat_reg_arg2(x)		(x).ecx
-+ # define compat_reg_arg3(x)		(x).edx
-+ # define compat_reg_arg4(x)		(x).esi
-++# define compat_reg_arg5(x)		(x).edi
-+ #elif defined(__aarch64__)
-+ struct arm_pt_regs {
-+   unsigned int uregs[18];
-+@@ -337,6 +347,7 @@ struct arm_pt_regs {
-+ # define compat_reg_arg2(x)		(x).uregs[1]	/* r1 */
-+ # define compat_reg_arg3(x)		(x).uregs[2]	/* r2 */
-+ # define compat_reg_arg4(x)		(x).uregs[3]	/* r3 */
-++# define compat_reg_arg5(x)		(x).uregs[4]	/* r4 */
-+ # define compat_reg_set_syscall(_r, _nr) reg_set_syscall(_r, _nr)
-+ #elif defined(__mips__)
-+ # if _MIPS_SIM == _MIPS_SIM_ABI64
-+@@ -374,6 +385,8 @@ struct arm_pt_regs {
-+ # define compat_reg_set_arg3(_r, _v)	reg_set_arg3(_r, _v)
-+ # define compat_reg_arg4(x)		reg_arg4(x)
-+ # define compat_reg_set_arg4(_r, _v)	reg_set_arg4(_r, _v)
-++# define compat_reg_arg5(x)		reg_arg5(x)
-++# define compat_reg_set_arg5(_r, _v)	reg_set_arg5(_r, _v)
-+ # define compat_reg_set_syscall(_r, _nr) reg_set_syscall(_r, _nr)
-+ #elif defined(__powerpc64__)
-+ struct ppc_pt_regs {
-+@@ -407,6 +420,7 @@ struct ppc_pt_regs {
-+ # define compat_reg_arg2(x)		(x).gpr[4]	/* r4 */
-+ # define compat_reg_arg3(x)		(x).gpr[5]	/* r5 */
-+ # define compat_reg_arg4(x)		(x).gpr[6]	/* r6 */
-++# define compat_reg_arg5(x)		(x).gpr[7]	/* r7 */
-+ # define compat_reg_set_retval(_r, _v)	reg_set_retval(_r, _v)
-+ #endif
-+ 
-+@@ -475,6 +489,16 @@ struct ppc_pt_regs {
-+     compat_reg_arg4(_r) = (_v);						\
-+ } while (0)
-+ #endif
-++#ifndef reg_set_arg5
-++# define reg_set_arg5(_r, _v) do {					\
-++    reg_arg5(_r) = (_v);						\
-++} while (0)
-++#endif
-++#ifndef compat_reg_set_arg5
-++# define compat_reg_set_arg5(_r, _v) do {				\
-++    compat_reg_arg5(_r) = (_v);						\
-++} while (0)
-++#endif
-+ 
-+ /* Set the syscall arguments the "normal" way by default. */
-+ #ifndef reg_set_arg1
-+@@ -517,6 +541,16 @@ struct ppc_pt_regs {
-+     compat_reg_arg4(_r) = (_v);						\
-+ } while (0)
-+ #endif
-++#ifndef reg_set_arg5
-++# define reg_set_arg5(_r, _v) do {					\
-++    reg_arg5(_r) = (_v);						\
-++} while (0)
-++#endif
-++#ifndef compat_reg_set_arg5
-++# define compat_reg_set_arg5(_r, _v) do {				\
-++    compat_reg_arg5(_r) = (_v);						\
-++} while (0)
-++#endif
-+ 
-+ struct sudo_ptrace_regs {
-+     union {
-diff --git a/meta/recipes-extended/sudo/sudo_1.9.17p2.bb b/meta/recipes-extended/sudo/sudo_1.9.17p2.bb
-index 489c0db09df..e2843b24e13 100644
---- a/meta/recipes-extended/sudo/sudo_1.9.17p2.bb
-+++ b/meta/recipes-extended/sudo/sudo_1.9.17p2.bb
-@@ -5,6 +5,13 @@ SRC_URI = "https://www.sudo.ws/dist/sudo-${PV}.tar.gz \
-            file://0001-sudo.conf.in-fix-conflict-with-multilib.patch \
- 		   file://0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch \
- 		   file://CVE-2026-35535.patch \
-+           file://CVE-2026-82474-dependent_p1.patch \
-+           file://CVE-2026-82474-dependent_p2.patch \
-+           file://CVE-2026-82474.patch \
-+           file://CVE-2026-82474-regression_p1.patch \
-+           file://CVE-2026-82474-regression_p2.patch \
-+           file://CVE-2026-82474-regression_p3.patch \
-+           file://CVE-2026-82474-regression_p4.patch \
-            "
+diff --git a/meta/recipes-support/curl/curl_8.23.0.bb b/meta/recipes-support/curl/curl_8.23.0.bb
+index ad0ad408a16..bb9044a8894 100644
+--- a/meta/recipes-support/curl/curl_8.23.0.bb
++++ b/meta/recipes-support/curl/curl_8.23.0.bb
+@@ -113,8 +113,23 @@ do_install:append:class-nativesdk() {
+ 	install -m 644 ${UNPACKDIR}/environment.d-curl.sh ${D}${SDKPATHNATIVE}/environment-setup.d/curl.sh
+ }
  
- PAM_SRC_URI = "file://sudo.pam"
++PTEST_UNIT_BUILD = "${B}/ptest-unit"
++
++# Shared cross builds disable unit tests. Build their private static
++# library separately, keeping the production libcurl configuration.
++do_configure_ptest_base[prefuncs] += "autotools_sitefiles"
++do_configure_ptest_base[cleandirs] += "${PTEST_UNIT_BUILD}"
++
++do_configure_ptest() {
++	install -d ${PTEST_UNIT_BUILD}
++	cd ${PTEST_UNIT_BUILD}
++	oe_runconf --disable-shared --enable-static
++}
++
+ do_compile_ptest() {
+ 	oe_runmake -C ${B}/tests
++	oe_runmake -C ${PTEST_UNIT_BUILD}/lib libcurlu.la
++	oe_runmake -C ${PTEST_UNIT_BUILD}/tests/unit units
+ }
+ 
+ do_install_ptest() {
+@@ -127,6 +142,11 @@ do_install_ptest() {
+ 	done
+ 	rm -f ${D}${PTEST_PATH}/tests/libtest/libhostname.la
+ 
++	install -d ${D}${PTEST_PATH}/tests/unit
++	${PTEST_UNIT_BUILD}/libtool --mode=install install -m 0755 \
++		${PTEST_UNIT_BUILD}/tests/unit/units \
++		${D}${PTEST_PATH}/tests/unit/
++
+ 	install -d ${D}${PTEST_PATH}/tests/server
+ 	for name in $(makefile-getvar ${B}/tests/server/Makefile noinst_PROGRAMS); do
+ 		${B}/libtool --mode=install install ${B}/tests/server/$name ${D}${PTEST_PATH}/tests/server
 -- 
-2.43.7
+2.35.6
