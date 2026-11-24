@@ -1,130 +1,182 @@
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14142.1795510425247227134
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14274.1795511141355330392
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2026 00:53:47 -0800
+ Tue, 24 Nov 2026 01:05:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=q7jpAC6u;
- spf=pass (domain: est.tech, ip: 40.107.159.45, mailfrom: jaipaul.cheernam@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=auypRHCxxk79JZ/M6aXtN4ud6KOGW5vdHhr9S6wPeAp4NY4TP8Amk2IXKJ0DPP6dDkYZiO/wBx+C5PVYeF6tha5lppcAW/LEs/t3PuHSB12zUFhpC2Q9PCqnQcxehmSk7V5ZmQbU1Oy5cw/ZUzpHqMkLNC1+1pV7LR+R/kQU5UQIjVkU9iM8X1QAa2rEXnw4AYAxdnXtYUQFtAzfRPPgWBB9+Vl0On9kk0ipUROhWFfUTMO5EHO7DEb0M57lh/J7v12fmsFv+iq9iyVn9suh5GXQV+yKqumTKuoQCD0DlLYYk8nh95IgQIiM0+ZAz8u/0G4PKu7BGNT1ZO/CFHTaaw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=a0R8PclXZT7oaLmhWkX9LGwGDZkug5UtNSHeO95iSj8=;
- b=bnv3TFlFMPQx7HT3T/OdXNfVxtwvlLv7nLObvk0jfyYaY0mDFVJFS4MX+8/aU7XBhy1o66FAngD6HMqVjX+ZEg51QvlXFW0dbVeXR7l1sFP9si0+seZLH8Zbfx0JdSLYiCulh6laiS3CAt1/MpmgFXHtEnGOmvDb1jn1Hkgs3vDivVvF0GKT+8N2IB2uSXN9LFITYAxf/NJRELj3IcobioYT7nxESuTxLvPA+AfgKz1va3YPjpL61yJ5Gl60MUNVuqhjUp7I/WA5pKGxtf9DuNjniTcFCoglTok54nYJNkZB3SqmD81Txgbj90veFW57g/H00hjkyT+X+JXxPdBgig==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=a0R8PclXZT7oaLmhWkX9LGwGDZkug5UtNSHeO95iSj8=;
- b=q7jpAC6ufEpnUfedmEc10Z92K9gX7zrrl7A//okcCyJlo9QYXumYXtJsqMa2HwFChBEhWgnZdzGu9Qo1B7QsVkyi8puRPW5M6YGO/DSXW145xVRWZtl3RhAL6u0Cd7H7eDgfTCb7Ry5M7ek8GzrZz2sYLw5BEleATpNLlmJEYJF+1FReOGR8HbJKX+BXhVfk0uUYgeUlZ9FK7lrr/peiV2kuRqPYiKBx1Ih8OuuvdVIFvfecvwlELN+WyEq5rSpuIbYQLbcSB0n5HIQX8xHM2K3RO3Dz6LE+2Vkn214rXVU0I3t6gC3TkNAc9Hr3U3ksUq6/nLmLyuHTwU+5eKZrCQ==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
- by GV2P189MB2211.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:7b::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.12; Tue, 24 Nov
- 2026 08:53:41 +0000
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0639.012; Tue, 24 Nov 2026
- 08:53:41 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=Q890+nKu;
+ spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: fabien.thomas@smile.fr)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-49d05d51553so30525775e9.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 01:05:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google2; t=1795511139; x=1796115939; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/fbAv3KVpekwDbw8mKZC/OpWuG8bKvDsK1ps4VdWKXw=;
+        b=Q890+nKueR+CHdVT0oI+9p2hqc/gMroKSJixfVQoVXT9zRzp0JSM2NNDrvbXH60jLX
+         DK90sF9bQmcaprz+83m3U2HRtcrVbSE9lMbd6nUHL4VCJKg6/h5ej4qN8vkFPyIAyanC
+         Iwr0XQPd/PS4+P2OP2PZGF0FerGtpsNa0prkMUCWwL87AxrrrSHQfRKZ2kXWdzV1cnoR
+         o42qqpz8whs7wWsFDiNSSqDPnLdH/0UwoNVq7+Yo4ZWf4WQYSAmWBpJGLCbpQntkxqw9
+         wNbe7NCosD4PblBN+eXpc0iwTS+3r46Z247lSQK7wzcA+Dmvhe8+5ipmqlfOyMt8Pi0H
+         tGZA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795511139; x=1796115939;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=/fbAv3KVpekwDbw8mKZC/OpWuG8bKvDsK1ps4VdWKXw=;
+        b=2s695LwAmjM/ApeTNMY2ysa2nFtJM/cqIvbAEM6g6pAZ6Xc5ycl/GM4jcNEMRtV5dq
+         3iFJc2eZ7E2mec5yWoBI/0TMlNfHcE3qXcU0iiZPhcG9pRAT0h+RUNcQqp4OesQqgJkV
+         vMTGsjmDbyjzTCpAvDEaFCqrZl1jS5LbB9q23eW9mxQcqBQT/FnjQd/OPwbkvNhqxdEN
+         4a8dEUkNU065/P/PWD3kXcO3zCiJj6s9wPWHAJ02zP34+DQLc6lpFVXQX6HaDThJDMEg
+         /2VCdiKAU+fdNqlP/6/KChPksgFaEqjvUrGviOJjtPKHr5NCIaZwtmnMshPP7QWgyL4r
+         ROTg==
+X-Gm-Message-State: APuU4Z8qRD8C34QGQU5DZI0Ut76hI+nhs7uJEOdyJ0r3IKeLN/FijAb1
+	5s0IpFEmw1sb1yEsKzCk49UDdCZ/EibvAevt70ofcU3uyxcWCjmJ9zBrrRGKlBp4bKyw7BHnI/N
+	JVi1gwhE=
+X-Gm-Gg: AZFdTZeeFIGuhtKaMB2e8GjPE1YHe8SQxB1M0cIUlUugCJ1M70PmPRCtbv26uYJRvyP
+	qlomDhDuBQbeHtWnGeY5X3TAnv/g4ITb6DYj01ztSD0cZiNCJkYaorRCu0ucCMO0ivuSFc7+1Dv
+	hRUWb5ocrTZZu3YFQ3pm2g9Ip+m4T9Vr3l2nvd1Rn9zrpPS4+wrxOeojQweYyjUeI2a68KI/1nc
+	jkL4oL+kdG9sYUdQRpFe8jKHBD8nhbxU69ZaLqS639kgQXehdxOWRCdw5W2aRrkm2sVDWJepb2P
+	Dd48VDd+kDrwTlobjfqel9s0BTQfvOEWbA2yJBPiZrYpgCzQSWdTIFebE3iZDdKsFWtNX/NwAPZ
+	6/NbvuD1FyJArDfOxljuKWXCbpuOArSam2Mh42kKPJSTdeTm/LGyr9hRA0aFlmMZj52LJRKYd5f
+	O9PjnVmmjdVthFronH/HwnpR7C3EEkml2Qpi/H4Q1+QgpdQOTbAzN5rnFuEgMzwtHDJY91w0nRX
+	hxlC3TRjWywtArZuBnxhwDI4Nw+T+72p3CwKxGTlvDJahZwLzcL+MMCrTyyNtH0pPYYt1gOSR/F
+	Gr/i7RQcWs9HOmd37+D+/RanTuLeRe3ee3OoK5C1cvKXj0ra2VF7b8dV00m6RNkLByCdypX1eA+
+	NCsdnNTmJ7PI8iQLh2txRJER+V8J4qBBu58LIWXQl5LMdl5frz80JFskjBAQ3QXBjjkC+wvy1lu
+	IyNyPtVtewuEo/khIox4MGsZIYbfMFsQwmkDY4SA==
+X-Received: by 2002:a05:600c:4514:b0:4bb:6823:3d3c with SMTP id 5b1f17b1804b1-4bb888169d0mr300604595e9.20.1795511139229;
+        Tue, 24 Nov 2026 01:05:39 -0800 (PST)
+Return-Path: <fabien.thomas@smile.fr>
+Received: from FRSMI25-GIGUE (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884ab091sm603279415e9.11.2026.11.24.01.05.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Nov 2026 01:05:38 -0800 (PST)
+From: Fabien Thomas <fabien.thomas@smile.fr>
 To: openembedded-core@lists.openembedded.org
-CC: adam.duskett@amarulasolutions.com
-Subject: [PATCH 2/2] dnf: Update Upstream-Status of bash completion directory patch
-Date: Tue, 24 Nov 2026 09:53:35 +0100
-Message-ID: <20261124085335.68851-3-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20261124085335.68851-1-jaipaul.cheernam@est.tech>
-References: <20261124085335.68851-1-jaipaul.cheernam@est.tech>
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: DUZPR01CA0265.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:4b9::15) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:6c0::19)
-Return-Path: jaipaul.cheernam@est.tech
+Cc: Paul Barker <paul@pbarker.dev>
+Subject: [OE-core][scarthgap 00/18] Pull request (cover letter only)
+Date: Tue, 24 Nov 2026 10:04:21 +0100
+Message-ID: <cover.1795509705.git.fabien.thomas@smile.fr>
+X-Mailer: git-send-email 2.56.1
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|GV2P189MB2211:EE_
-X-MS-Office365-Filtering-Correlation-Id: 234280d4-c733-4441-83c6-08df4a08705c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|22082099003|18002099003|6133799003|261009223027099003|11063799006|261026140227099003|10067099003|56012099006|261102123227099003|261028144727099003|261026121527099003|261022105027099003|261021123027099003|261021121427099003;
-X-Microsoft-Antispam-Message-Info: 3qKjsdoDM5xs1EHkmbjHJKZwmJRCB5+L6qjUxPEGbJXCwNSQfDpZ6L5AzKG2wjG/W0pmDREPW/8AchVeHhRJ39DXzt+IlHI3bfBEkYSrtIBZc+UUsIaq/5+jBdfrAldxyOsAtQQ0ipy8yzY1WofDgineTTCYe/WWkwVy2c/yUWg1w4Tt8Wo9jtFkLM3cBeJj6sYgGn/aWeQdBSyFiwFEmGaGRavZEZ3uhfsYvv/EcboMABvWI9Snd6T2Y795duFvzqkM6TyKU0mfY4PbLvOimqIJfYUK4YDQU81pNoqElEXAjoJSl8P//ZxjEyHM5AoNvqPCCTMLJAxff99T9Ar7+n5zNFuamIZO2vc1wTT1FM+zxy8su3CIrmxSoY+df9+8tXTONRjAnmRqIt2RPTyFsjPaqkiXs0bmBdIUqBW7RR4soDmOGnmeA3mxlp54oQmKXiU8PCcBFznx9h80i9QnZT3ftGPSammLjdoKGqVEe/mWvsPgzD4L3o/m1lHDCNHkgtEVztBV5cSOk6moSKy8EFh+KV2Cq2Ttltun04jaP5R5iMKjXXZH07NzILGiRGyOeHCiBBxfw70O3/mH+lG/KjNSxe7s96sHkaA+qk7ertLA/UjKvxPmLLB+msaJmZnEIY2f8YBN0JLMSZ6HBN8gCqFpitngCl4Oiw6vr1nMbc4=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(22082099003)(18002099003)(6133799003)(261009223027099003)(11063799006)(261026140227099003)(10067099003)(56012099006)(261102123227099003)(261028144727099003)(261026121527099003)(261022105027099003)(261021123027099003)(261021121427099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?HXmvGOLuHgmkptCm56f1MJPjpBqVrzVlRFNB0oN7PBm/mTlbWgOgN4dIY0eQ?=
- =?us-ascii?Q?mMIERp4YuFvtEvYsZPFnMVjplGooPb2O/HKWgCD3frU9J6BbEmlpfZajLz3w?=
- =?us-ascii?Q?QN1c1edOV0tBpuoNAsuzx2ZZV30PfcWnX2+bfQWRTrvhhtm0XUdW0x0KUKp5?=
- =?us-ascii?Q?0eStoDXwHggHTz4aWQ+UC1fn6b2aF9Zvru+uZ8lgKneiwxGuJQxYtXT3OPO3?=
- =?us-ascii?Q?CRaKtoiNqjhzBXHh9kFF7EyrOrAgb8amtYUhQcWCvrFd8cAhRLwqyQn7u6V5?=
- =?us-ascii?Q?HwIW952dflwiM7x5rtvcdXQSr2ONMLbCO/ChucjEJBxc7vlZDp3Qhr673uax?=
- =?us-ascii?Q?tYXfZM8hZ+wdFaJS8TFkPXgVngcSc4UCS/A/8B2ncRjBotPw16No5V3QGZaX?=
- =?us-ascii?Q?/hE8W5hJyxD3XfEfAjuJi+BKm+2uHysUdOT6Iq+P0RF+5z1ErngC2uWpJF6A?=
- =?us-ascii?Q?Th0UxzITka0p0LjMgVpnjoVZ1qO9d6fh4le/aJUyDL6JhSfa13wZ7YsD6plD?=
- =?us-ascii?Q?Dy/ZhCVU7mJ2Kffd6VgpcmPL7OSKrMgkrIPynX/+iyH+8Voso6s7CfkFmTrs?=
- =?us-ascii?Q?a+uB6rEzpV1OycdUqKZMYZTtoFj6KvcyeBuloUO+TCxKTNeVm7zlAHVYS1DO?=
- =?us-ascii?Q?JXynApFcIKkQFwyr9QQYuOAQ+xiWhyFItcfJfnYaztMOOSnPsTFQOJDmQMMq?=
- =?us-ascii?Q?0FYyBPBB6CujJwZfrGRioCg9RQEtoNAUEEOTHTtahG6iFzkTIcnNJfrZtJKq?=
- =?us-ascii?Q?zmwxVW479lJfGJ/lu+Bwi9LW6NhrFCVOOcHXswJzJzi89WaB/d6spvyiGcyE?=
- =?us-ascii?Q?LyA4rX6Z96LhX/OZ8xZawjom2FsImbMoocHPfeJWP+BIV43plfUyJ+XcNCSE?=
- =?us-ascii?Q?UOGqwsaGVcoi7bmZtAiZO4CMCdyy3s62UwYgGRl/q+npTcmy293jYjK+u/Ig?=
- =?us-ascii?Q?z/pZe4DZZpcQK8tgQ+dUkn1EPKRv7GEnQVqqxqml2u67eDi/h75hyhgPIZLj?=
- =?us-ascii?Q?HiV57+BI+d/K3ZFMkqtlFNpQW/qkeYhndPWDkDG79kTmSGQE8716lLw9C5Ht?=
- =?us-ascii?Q?NsPuu7jGewBiuzj5YvEHSra1kK5o4rAlpMx7OSFbhktAvIPyjTayDStYVhbq?=
- =?us-ascii?Q?mdZdj9sAULCMdCUVbnSfdgUrHpe5iHat+Fw1kGKFdHw3PKT5+Gr/1ug5oj3V?=
- =?us-ascii?Q?RC0gJZMAjj57FQnUxZCBrYXy6e1aePRY8qs5X7r8+TcLAi8+IHpJQkZaA10U?=
- =?us-ascii?Q?lUfrzzbM6MByZJUtHbvVaeT84ge8xVOw+kk3cLmbDBaZ2hEjSHmWaP3jqdHe?=
- =?us-ascii?Q?+yU5qknYVdRLyRCORryyg5ja7tWHfL65T/3K2WAIM1X7/c7n5a76Y0s2J0Q9?=
- =?us-ascii?Q?VsY1L+a6tBDsl+jnlEdiL52cQf998qFr4WhRunOtvygSaw3ajfZEnRWP+nry?=
- =?us-ascii?Q?Wqz0M3+fS5MjHrrl68ZYM3jw42qcR6///2xZ3HMD5eBeXROb4V4WP/WcKFuj?=
- =?us-ascii?Q?Ol9zuzjLE0y81XcN3AARFXBtiPepKFixLJHrqypwMTPX4OYbDsYkPzBVDHAr?=
- =?us-ascii?Q?5rejmFvpEl0xZMQr+0MLVoz/BnJlXlTANNGBpjJokkKFV8vtaXmIE5ffCC6r?=
- =?us-ascii?Q?1mo5Y4YM/bWHlaXuLIoveAvAwK/LMknRTuOEB/JcpZfjz1qYwwYpAKcjSDAp?=
- =?us-ascii?Q?WkoYZ2hfgTTruikVViQGRlP2W6TRiat+ET8K+Hr6yIpTj1uvtBGA4DXsEiEJ?=
- =?us-ascii?Q?nL7Lqfo1Gw=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 234280d4-c733-4441-83c6-08df4a08705c
-X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2026 08:53:41.6616
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dJj7KNgnv/GYfEjujWDMNx7rkW6sVgx81CiOy+1EcocSL2jqfYOmxpryUvPKihSw1KI1umblV8lzAT4pELx78oOQBtFzRcVVnngNAknpU/w=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2P189MB2211
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 08:53:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250981
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 09:05:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250982
 Content-Type: text/plain; charset="utf-8"
 
-The hardcoded /etc/bash_completion.d fallback has been reported to dnf5
-upstream, so mark the patch as submitted.
+Those are the patches from the last patch review:      
+https://lore.kernel.org/openembedded-core/cover.1795101267.git.fabien.thomas@smile.fr/
+* I removed "TEST-pseudo: test patches" that was not ready as is.
 
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
----
- .../0001-Do-not-hardcode-etc-bash-completion-directory.patch    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Passed a-full on autobuilder:
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/5152
 
-diff --git a/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-bash-co=
-mpletion-directory.patch b/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardco=
-de-etc-bash-completion-directory.patch
-index 51c8d412e3c..9799b5121d8 100644
---- a/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-bash-completio=
-n-directory.patch
-+++ b/meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-etc-bash-completio=
-n-directory.patch
-@@ -6,7 +6,7 @@ Subject: [PATCH] Do not hardcode /etc bash completion direc=
-tory
- Same as dnf4's 0001-Do-not-hardcode-etc-and-systemd-unit-directories.patch=
-,
- dropped in the dnf5 upgrade.
-=20
--Upstream-Status: Inappropriate [oe-core specific]
-+Upstream-Status: Submitted [https://github.com/rpm-software-management/dnf=
-5/issues/3067]
- Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
- ---
-  dnf5/CMakeLists.txt | 2 +-
+The following changes since commit fc4316861becc9f0d41857b49f6438929ab4c291:
+
+  openssh: fix CVE-2026-123158 (aka "sshhole") (2026-11-10 10:47:42 +0100)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-next
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-next
+
+for you to fetch changes up to d521a7d8364fe038ce5205003170e80de218a83a:
+
+  aspell: upgrade 0.60.8.1 -> 0.60.8.2 (2026-11-20 16:25:55 +0100)
+
+----------------------------------------------------------------
+
+Adarsh Jagadish Kamini (3):
+  curl: fix CVE-2026-92389
+  curl: fix CVE-2026-92388
+  curl: fix CVE-2026-87864
+
+Alexander Yurkov (1):
+  oeqa/selftest/recipetool: Update create_go test.
+
+Darsh Kelaiya (2):
+  curl: set CVE_STATUS for CVE-2026-19931
+  curl: fix CVE-2026-18924
+
+Fabien Thomas (1):
+  vim: Fix for CVE-2026-73076
+
+João Marcos Costa (Schneider Electric) (1):
+  curl: fix CVE-2026-86409
+
+Khem Raj (1):
+  aspell: Backport a fix to build with gcc-15/clang-19
+
+Kris Gavvala (2):
+  nasm: fix CVE-2026-6067
+  nasm: fix CVE-2026-6068
+
+Peter Marko (3):
+  popt: patch CVE-2026-18739
+  glibc: patch CVE-2026-86805 and CVE-2026-95818
+  gcc: patch CVE-2026-102010
+
+Rohini Sangam (1):
+  bind: Security fix for CVE-2026-19667
+
+Wang Mingyu (1):
+  aspell: upgrade 0.60.8.1 -> 0.60.8.2
+
+Yoann Congal (1):
+  pseudo: Upgrade 1.9.11 -> 1.9.12+git
+
+Yogita Urade (1):
+  python3-urllib3: Fix CVE-2026-97687
+
+ meta/lib/oeqa/selftest/cases/recipetool.py    | 212 +-------
+ .../bind/bind/CVE-2026-19667-1.patch          | 139 +++++
+ .../bind/bind/CVE-2026-19667-2.patch          | 355 +++++++++++++
+ .../recipes-connectivity/bind/bind_9.18.49.bb |   2 +
+ .../0049-CVE-2026-86805-CVE-2026-95818.patch  | 267 ++++++++++
+ meta/recipes-core/glibc/glibc_2.39.bb         |   1 +
+ meta/recipes-devtools/gcc/gcc-13.5.inc        |   1 +
+ .../gcc/gcc/0028-CVE-2026-102010.patch        |  68 +++
+ .../nasm/nasm/CVE-2026-6067.patch             |  36 ++
+ .../nasm/nasm/CVE-2026-6068-1.patch           |  98 ++++
+ .../nasm/nasm/CVE-2026-6068-2.patch           |  80 +++
+ .../nasm/nasm/CVE-2026-6068-3.patch           |  51 ++
+ meta/recipes-devtools/nasm/nasm_2.16.03.bb    |   4 +
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |   6 +-
+ .../python3-urllib3/CVE-2026-97687_p1.patch   | 285 +++++++++++
+ .../python3-urllib3/CVE-2026-97687_p2.patch   | 482 ++++++++++++++++++
+ .../python/python3-urllib3_2.2.2.bb           |   2 +
+ ...{aspell_0.60.8.1.bb => aspell_0.60.8.2.bb} |   2 +-
+ .../curl/curl/CVE-2026-18924.patch            |  56 ++
+ .../curl/curl/CVE-2026-86409.patch            |  36 ++
+ .../curl/curl/CVE-2026-87864.patch            |  52 ++
+ .../curl/curl/CVE-2026-92388-1.patch          | 151 ++++++
+ .../curl/curl/CVE-2026-92388-2.patch          |  30 ++
+ .../curl/curl/CVE-2026-92389.patch            |  60 +++
+ meta/recipes-support/curl/curl_8.7.1.bb       |   7 +
+ .../popt/popt/CVE-2026-18739.patch            |  92 ++++
+ meta/recipes-support/popt/popt_1.19.bb        |   2 +
+ .../vim/files/CVE-2026-73076.patch            | 155 ++++++
+ meta/recipes-support/vim/vim.inc              |   1 +
+ 29 files changed, 2533 insertions(+), 200 deletions(-)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-19667-1.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-19667-2.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/0049-CVE-2026-86805-CVE-2026-95818.patch
+ create mode 100644 meta/recipes-devtools/gcc/gcc/0028-CVE-2026-102010.patch
+ create mode 100644 meta/recipes-devtools/nasm/nasm/CVE-2026-6067.patch
+ create mode 100644 meta/recipes-devtools/nasm/nasm/CVE-2026-6068-1.patch
+ create mode 100644 meta/recipes-devtools/nasm/nasm/CVE-2026-6068-2.patch
+ create mode 100644 meta/recipes-devtools/nasm/nasm/CVE-2026-6068-3.patch
+ create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2026-97687_p1.patch
+ create mode 100644 meta/recipes-devtools/python/python3-urllib3/CVE-2026-97687_p2.patch
+ rename meta/recipes-support/aspell/{aspell_0.60.8.1.bb => aspell_0.60.8.2.bb} (93%)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-18924.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-86409.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-87864.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-92388-1.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-92388-2.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-92389.patch
+ create mode 100644 meta/recipes-support/popt/popt/CVE-2026-18739.patch
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-73076.patch
+
