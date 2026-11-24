@@ -1,148 +1,193 @@
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15315.1795517981160961420
- for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2026 02:59:41 -0800
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=WTtghHfC;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=WTtghHfC;
- spf=pass (domain: arm.com, ip: 52.101.83.49, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=Y9Y9QLKpjNg/AsxxlVukW93kPeCo5QMao+wXRM1hWLJK18mDEjHgxHM2Uw020vgg0CWIKfL7Ym8Q+a4FdNSy3LLzMOV7c5Bbcy7Y4Gi55BoBj19rgL5bRPxmCIP1yYrY6287vt1FKiLWUWeC1IT8KVD4Ixp/5bEDc0WpX62UY2+LK/FaY2tpb88RjLWs7wblv3kzi8l3AEEQX7OD7QNYW/0MbcKhXuM7SGXPWmfJ5qllEKqzP5eFlLk1+IOparEzaaKl5Yaq1fdlTcYyixFU8lKi29VzCdLjpJs27+kq24dt1BM94i1qvIpIZh6JY8FA2/eFbEcqLsvQ/X1h8mV+aQ==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6KHNHt8zNRIe7z5VD1igSC8zIXRgYLpZSbQGuUegYYo=;
- b=hNbdOkuNX1KWLXGVso+niW3Cs0vNvksV9C1tUO4cXDGX0oQCggEMhe+4iGcM4P4duQgF+JFEpt/sT2Qmb+SzWSgspMiQ9VmmtWoip4GcSGyr1fQ8nZzJRNqgEvMHENYG67n7/eQOzuVzbv3OTLmOv7NirgKjgGrliSvbiZdOjtEZUl+CYF7uOjU9RS/qIfC3I0otFfrdfhzvDTzHMpoeW4GLHmmc7PnEjVhFjcvGM0l2MdTiEdSOTuXovj9vxx3kSK0S5GouB4N1uaSH4mMXusKH6GR+9P3H8Fwzrxh1e1GPxnwr1CJIWMUSlUcSeJpzQ+gpguNO/rQLMkhHWnO0LQ==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=gmail.com smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6KHNHt8zNRIe7z5VD1igSC8zIXRgYLpZSbQGuUegYYo=;
- b=WTtghHfCsya4I0pYJgRt7TTdQ3h24tiCFIjGIV9aEVnMWd2bSHmXqq3xv7hq5SbuhwubndiQ4zepKVxPiEgr+e90DuvmtzwS7UBMNuUDBjHGczBAPyegt5Wy4f/zNzTlyM3uken9iBTvcyhXNodYafvTgpmgv8wdB50vDpfNGOQ=
-Received: from AS9PR06CA0278.eurprd06.prod.outlook.com (2603:10a6:20b:45a::18)
- by GV2PR08MB11491.eurprd08.prod.outlook.com (2603:10a6:150:2a6::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.14; Tue, 24 Nov
- 2026 10:59:32 +0000
-Received: from AMS1EPF0000008F.eurprd05.prod.outlook.com
- (2603:10a6:20b:45a:cafe::9e) by AS9PR06CA0278.outlook.office365.com
- (2603:10a6:20b:45a::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.639.14 via Frontend Transport; Tue,
- 24 Nov 2026 10:59:31 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 4.158.2.129) smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- AMS1EPF0000008F.mail.protection.outlook.com (10.167.242.86) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.662.3
- via Frontend Transport; Tue, 24 Nov 2026 10:59:31 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VAIuywnppIIvdHiI72oBYNDc5nwN1kXBO8/jkX2v4mht0ktwCJLVdoqdRy0K/jDNhSRsCDAkr8b9uFEZJ1VgSIJe8qW3ZjqRzYZLQ4YPVNdcIXFtqrxIonFfD3NFmUv1IqeEDTMgYjO4ivl6KaOQ3nuKIOtYyOnzegdIQc4roKDe/L1UkSMl1P9nfynkZK70iukwp79lO0lT9ZspnB6DX2nwgz2BQs5ajIR+vUkHqrPpltDIRxldct+5qvC/fWa1kIr3RQpUG2pPjgE4mhTUd1TsRPiY9IHOsSF1R7/LDz/xVca2DnmPNLOR/PsGQBu7ZS5bGPx5Q+FMwCRvM46KWQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6KHNHt8zNRIe7z5VD1igSC8zIXRgYLpZSbQGuUegYYo=;
- b=bHfkm/gGbBPzvY/DES/3hLLNvh74kpliGey9vH2AGgd5amslfat7eJBuTORroZD10iWy/fr7hWglPv9+k/RYzUv7LHmk1lnVgF0xchTNnHft5mxBbUvXu9jjvApBwKqUZu2RmYRX86osL3zuDsllp6z+P7K5HBnc+NXkqv7ImC0EVFM0c1rR0bZKy8fGwECeQJSHRfG93+PE2F/958H/ZSyl0bhoTKNclp+tMpe0lbjOZ7KOjdsdh8NSChzzhXL2wTm6jrAxauUM7EVUZI0zbGYnd6aQIIRNft6N5xSuRz9XNuZamZarHc0HAdw0ghGgTG2CqM0suE0jfGrt5tu8Og==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6KHNHt8zNRIe7z5VD1igSC8zIXRgYLpZSbQGuUegYYo=;
- b=WTtghHfCsya4I0pYJgRt7TTdQ3h24tiCFIjGIV9aEVnMWd2bSHmXqq3xv7hq5SbuhwubndiQ4zepKVxPiEgr+e90DuvmtzwS7UBMNuUDBjHGczBAPyegt5Wy4f/zNzTlyM3uken9iBTvcyhXNodYafvTgpmgv8wdB50vDpfNGOQ=
-Received: from AS8PR08MB9410.eurprd08.prod.outlook.com (2603:10a6:20b:5a9::13)
- by VI0PR08MB10846.eurprd08.prod.outlook.com (2603:10a6:800:211::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.14; Tue, 24 Nov
- 2026 10:58:58 +0000
-Received: from AS8PR08MB9410.eurprd08.prod.outlook.com
- ([fe80::1f2c:bae7:a4d3:fefb]) by AS8PR08MB9410.eurprd08.prod.outlook.com
- ([fe80::1f2c:bae7:a4d3:fefb%5]) with mapi id 15.21.0639.011; Tue, 24 Nov 2026
- 10:58:58 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: Khem Raj <raj.khem@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 1/5] libtasn1: Enable linker version script
- explicitly
-Thread-Topic: [OE-core] [PATCH 1/5] libtasn1: Enable linker version script
- explicitly
-Thread-Index: AQHdd2zS3GjB5K1SuE2uelJZ95vTJLc7/F0AgAAfn4CAAPq4AA==
-Date: Tue, 24 Nov 2026 10:58:58 +0000
-Message-ID: <A84750DE-9576-4A92-AA9D-2867D047A31D@arm.com>
-References: <20261118145502.3243739-1-khem.raj@oss.qualcomm.com>
- <3A5D79A8-C1BD-46AC-A9CB-6ED307184E9E@arm.com>
- <CAMKF1srXNYjihezOZ9-wccQMehaaT894joHWncgO8tLFAxUpOg@mail.gmail.com>
-In-Reply-To: <CAMKF1srXNYjihezOZ9-wccQMehaaT894joHWncgO8tLFAxUpOg@mail.gmail.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3901.200.71.1.16)
-Authentication-Results-Original: mx.microsoft.com 1; dkim=none (message not
- signed) header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: AS8PR08MB9410:EE_|VI0PR08MB10846:EE_|AMS1EPF0000008F:EE_|GV2PR08MB11491:EE_
-X-MS-Office365-Filtering-Correlation-Id: 62023b3e-1955-424f-99b6-08df4a1a044f
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|18002099003|22082099003|56012099006|261022105027099003|11063799006|261026140227099003|261028144727099003|4143699003|261026121527099003|38070700021|10067099003;
-X-Microsoft-Antispam-Message-Info-Original: gLdlmy9OO2V1cHaK6LFxVeCwappAKPBhRItjuvrQmxQGT/3+2NlRU7+txmp0Of/RDRMBSv55tWnTyPY38RKPotKX6fpuJTXB+oD94ig5MFAbwJAaEFycE9a83rfVyFAdWB1+/zl3yfLXbecbgajbG2xas/P0JTeE0VrIeCW4V/mXiupjdlrndSpUZEzWrO/otsueBPU5EnT41pkAGAm5j3WS3bKNOEK+Gj8gk+kDbVL7pkNAKBaXAcSCUEIE7HVzl7eybddO58Vwl7rZfw+cd5PVWP7Jd9yRNcsocBALpqn32WM0e17DOBIDPmvplOfxFfp/z5NCbsie4V/mfe4H8+wqGhjKmrSA9XUIYjsrk2OpmPiENT10AZY2NUhDkOkxbvJmcKmXUhfsMczOKrMcHzdOIDLipepYN2KsK82uFjs/VPYnbfyjGkLs6LISWWc8giEo8cE0kMiE1Q50ONqiU1E2kLASG90kXwdn34Vaj9zz9K14F1iOwl1Slmk4kCLt32P3GebQCYxAjHHAyXEiD5GaBCXOf4HgElEHLFDKKqMMckVVJkGm9HLONnEa8uBB6SR+Y+qNNv8NRQ+pTjdu4jHBfgufL70d/gVQ/AsdeARfm8EKvx8LiuQB1fjV+zXtVTEG3ofrFxXbLsWJCxWxR0+2uPApJzlp9meLmMZinkFanCWNPhlnhQoVoFqxLOK7AVuV00eJ9ZiYIAnAdpPNimRdxrSdHr+P2oZjt9UyGBk=
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR08MB9410.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(18002099003)(22082099003)(56012099006)(261022105027099003)(11063799006)(261026140227099003)(261028144727099003)(4143699003)(261026121527099003)(38070700021)(10067099003);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <D0CFE91F362FB2498EC3F54D152C91C6@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+Subject: Re: [wrynose][PATCH] sudo: fix CVE-2026-82474
+To: openembedded-core@lists.openembedded.org
+From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
+X-Originating-Location: Mumbai, Maharashtra, IN (151.186.177.21)
+X-Originating-Platform: Windows Edge 158
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: KZ/f9QrpzLpnAXgQBYCURDlp4f+MfxX0A8lGB2NEB/wfKNVUxGJacDUgOg6+CuzGqn7QlpA5vlmzDQfb0090hc1+b7bdx6yFfgBs9MeO8TvOHomxj2qQe6bWtmEIhCymds/IavDaXCN/WWIl69d64KjKL/9E3tNCcfcx7Ld0MbiPffxnZyciMpRcCvY/RJu+7WbCv2cxPSuPC3rxewBP9E1pQMGh9fDfiEXstnGdK3mjWnEPKL4avk3tB0N14htS+pqeJl5IuoIhc3ZmRp9z8+vQAWsQrn/thJJQzEysbeNYD0Mi6OVcl3RXVV8yKfZuSC627U3USBpa7TvIkf5jBg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR08MB10846
-Return-Path: Ross.Burton@arm.com
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: AMS1EPF0000008F.eurprd05.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: f2c95069-2b69-46e2-64db-08df4a19f0ac
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|1800799024|35042699022|36860700016|14060799003|23010399003|82310400026|10067099003|11063799006|261028144727099003|4143699003|56012099006|261022105027099003|261026140227099003|261026121527099003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: IJ1hrYURKHR2O6Si4k44VG79Lhxy5FCfay/EUk7a9BjCk69zuLxBShDjjGQNB81beQrRqA/SZYDOdS7wGQdlYgK3/vPmwdMlBKc5iWbokj09T1a+Wbd6fsYY4KlZJE57chBAcT/4KsMZQhoWXhNmB9899b9EIPsZcSfTkSrEjsGJW9FOlsT6UGsbWti0Bq0NdgLoIxHwEgA/flzeWTf64+jZHw+SjHiuXFQ/GMKxgUkb2nMzUcEHKdohcnrOJZgEwMazPmwCwwq20BqpRjbOdp4U1cb72esfPWk0pFhzlDJe84IAhp2r6A4efL2Swn/A0snaikF949NbIJVFzbRH4iFdGgccWJla+0pvGkIw9I/eDLscS/Tc8if3Efqvzr06ZoVdIZPBO3Xn5gZ1iRhEeRp1N/fO5NGbKOpulVnQaXUD9THz+XYvafBQ+K5MiwzEteXNS8AEtV3MPDncn52LMryCHvQPWfAP70N1GZr0iU7A5wLwtQc8S574narqRK852LTxh2lxT0gvbc9Q35YHCjBu+u0RvQYtdWfgB7udjDSo6KJ/cMkXN071NwkBxoEeayAUnL301/jpMOmP+p+mIJuerPxl0NFrShyP+9aH6vTLYTokEDBuZW1T3y5H8fa1drsInN0PgXa9UG3LP0SZmbNLhV8kxUv+ZrQWk3yZr+djYSsjQy9+F1gZ50Xue1ulR5InnsfraKVWVXbiIoSP3g==
-X-Forefront-Antispam-Report: CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(35042699022)(36860700016)(14060799003)(23010399003)(82310400026)(10067099003)(11063799006)(261028144727099003)(4143699003)(56012099006)(261022105027099003)(261026140227099003)(261026121527099003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: cjhhIyhs7VAmDIYb8gpn7m8aBuvyzbYXGFst+fwSf076PQRzI8Nm94cqLOgofPuw/HOrJCt1jAFymYdauOzC4CkD2NS15h+TLI3Gao+l9fmOtnfOaScG3VZLL80dXw5I4zSO6gVzwqtJbQ3HJvTB/hfNuSSlOvE8yw12wLDV18ap8VSdq1uNAHLCV4jOQhK44LdhA2B7uU2DhmsOy0BGKaaykJryLfhx2cQW4Nz5lznwwiOWR6Ut1NxRHiohNKglQdT/hoWQ+iyoAwydUMaUByhP92ue3vElHO5argvi48JC7wo6EVtvQGAh7WJkg6h+urTQd2n0okcpsVjmVx1i1lw1to9SOo+cfZjj0xI5Xdwhx4CvymHZBN+CBU9rcBE9ori4m6bL1gzRNyjRZOSGu2IvXz3GUBBTJ+YVkctmuTnMV42Tv7g57wOvdsi5R14D
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2026 10:59:31.1397
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 62023b3e-1955-424f-99b6-08df4a1a044f
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: AMS1EPF0000008F.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR08MB11491
+Date: Tue, 24 Nov 2026 03:19:16 -0800
+References: <20261016065612.3926487-1-dkelaiya@cisco.com> <DM8WHNPDNECC.29BQ7CT8Z4HTX@smile.fr> <DMUTN7GH0G17.1CLRYSDWZVSUP@smile.fr> <897588.1794919051663404605@lists.openembedded.org>
+In-Reply-To: <897588.1794919051663404605@lists.openembedded.org>
+Message-ID: <1226682.1795519156912562061@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="ILTJuim9iiaD1hw52lvS"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 10:59:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251020
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 11:19:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251021
 
-T24gMjMgTm92IDIwMjYsIGF0IDIwOjAxLCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPiB3
-cm90ZToNCj4gT24gTW9uLCBOb3YgMjMsIDIwMjYgYXQgMTA6MDnigK9BTSBSb3NzIEJ1cnRvbiA8
-Um9zcy5CdXJ0b25AYXJtLmNvbT4gd3JvdGU6DQo+IE9uIDE4IE5vdiAyMDI2LCBhdCAxNDo1NCwg
-S2hlbSBSYWogdmlhIG9wZW5lbWJlZGRlZC1jb3JlIDxyYWoua2hlbT1nbWFpbC5jb21AbGlzdHMu
-b3BlbmVtYmVkZGVkLm9yZz4gd3JvdGU6DQo+ID4gDQo+ID4gY29uZmlndXJlJ3MgbGlua2VyIHZl
-cnNpb24gc2NyaXB0IGNoZWNrIGxpbmtzIGFuIGVtcHR5IHByb2dyYW0gd2l0aCBhDQo+ID4gc2Ny
-aXB0IHRoYXQgYXNzaWducyB2ZXJzaW9ucyB0byBhbiB1bmRlZmluZWQgc3ltYm9sICdzeW0nLiBs
-bGQgZGVmYXVsdHMgdG8NCj4gPiAtLW5vLXVuZGVmaW5lZC12ZXJzaW9uIGFuZCByZWplY3RzIGl0
-LCBzbyB3aXRoIGxkLWlzLWxsZCBjb25maWd1cmUNCj4gPiBkZWNpZGVzIHZlcnNpb24gc2NyaXB0
-cyBhcmUgdW5zdXBwb3J0ZWQgYW5kIHRoZSBsaWJyYXJ5IGlzIGJ1aWx0IHdpdGhvdXQNCj4gPiBh
-bnkgc3ltYm9sIHZlcnNpb25zLCBzaWxlbnRseSBjaGFuZ2luZyBpdHMgQUJJLiBDb25zdW1lcnMg
-bGlua2VkIGVhcmxpZXINCj4gPiBhZ2FpbnN0IHRoZSB2ZXJzaW9uZWQgbGlicmFyeSB0aGVuIGZh
-aWwgZmlsZS1yZGVwcyBRQSwgZS5nLiBvcGVubGRhcDoNCj4gDQo+IFRoaXMgaXMgcGFydCBvZiBn
-bnVsaWIsIHdvdWxkIHlvdSBiZSBhYmxlIHRvIGZpbGUgYSBidWcgd2l0aCB0aGVtPw0KPiANCj4g
-WWVzLCBnb29kIGlkZWEuIEhvd2V2ZXIsIEkgd29uZGVyIGlmIHdlIHNob3VsZCBnYXRlIHRoaXMg
-Y2hhbmdlIHRvIHJvdW5kIHRyaXAgdGhyb3VnaA0KPiBnbnVsaWIgdG8gZW5hYmxlIGxsZCBpbiBP
-cGVuRW1iZWRkZWQuIEl0IGNhbiBiZSBkb25lIGluIHBhcmFsbGVsLg0KDQpUaGUgcGF0Y2hlcyBo
-YXZlIGJlZW4gbWVyZ2VkLCBJ4oCZbSBjb25jZXJuZWQgYWJvdXQgdGhlaXIgc3ByZWFkIGFjcm9z
-cyBtb3JlIGF1dG9jb25mLXVzaW5nIHJlY2lwZXMuDQoNClJvc3M=
+--ILTJuim9iiaD1hw52lvS
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Yoann,
+
+I've sent a Blacksail patch:
+https://lists.openembedded.org/g/openembedded-core/message/251001
+
+I'll also send the master patch to add regression patches as soon as possib=
+le.
+
+Thanks,
+Darsh
+
+On Tue, Nov 17, 2026 at 06:07 PM, Darsh Kelaiya -X (dkelaiya - E INFOCHIPS =
+PRIVATE LIMITED at Cisco) wrote:
+
+>=20
+> Hi Yoann,
+>=20
+> I'm preparing a backport patch for Blacksail also. Will send as soon as
+> possible.
+>=20
+> Thanks,
+> Darsh
+>=20
+> On Sat, Nov 14, 2026 at 02:51 PM, Yoann Congal wrote:
+>=20
+>> On Mon Oct 19, 2026 at 4:56 PM CEST, Yoann Congal wrote:
+>>=20
+>>> On Fri Oct 16, 2026 at 8:56 AM CEST, Darsh Kelaiya -X (dkelaiya - E
+>>> INFOCHIPS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
+>>>=20
+>>>> From: Darsh Kelaiya <dkelaiya@cisco.com>
+>>>>=20
+>>>> This patch applies the upstream fix as referenced in [2],
+>>>> using the commit shown in [1].
+>>>>=20
+>>>> The recipe enables Linux intercept support. Check execveat commands
+>>>> and log subcommands instead of allowing this syscall unconditionally.
+>>>> Resolve directory file descriptors and AT_EMPTY_PATH to paths for
+>>>> sudoers policy checks.
+>>>>=20
+>>>> Apply prerequisites [3] and [4] for proc_read_link() and fexecve paths=
+.
+>>>> Include follow-ups [5] and [6] to reject failed pathname rewrites and
+>>>> correct relative-path moves. Keep the upstream source changes intact.
+>>>>=20
+>>>> [1] https://github.com/sudo-project/sudo/commit/71fbe42dcd5a1c8f799540=
+583a2dfb2ae6221edf
+>>>>=20
+>>>> [2] https://nvd.nist.gov/vuln/detail/CVE-2026-82474
+>>>> [3] https://github.com/sudo-project/sudo/commit/1a312af6348594df371e60=
+88aeed99685977f575
+>>>>=20
+>>>> [4] https://github.com/sudo-project/sudo/commit/e822b729da31baf9154946=
+329a9d6ef569f0d182
+>>>>=20
+>>>> [5] https://github.com/sudo-project/sudo/commit/d1121181a87b2b47b4dfbb=
+2af42399fcc5f1e3cd
+>>>>=20
+>>>> [6] https://github.com/sudo-project/sudo/commit/02b14c043825b52be6cd53=
+7b7f11bd5e7e10512e
+>>>>=20
+>>>>=20
+>>>> Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+>>>> ---
+>>>> .../files/CVE-2026-82474-dependent_p1.patch | 94 +++
+>>>> .../files/CVE-2026-82474-dependent_p2.patch | 34 +
+>>>> .../files/CVE-2026-82474-regression_p1.patch | 39 ++
+>>>> .../files/CVE-2026-82474-regression_p2.patch | 33 +
+>>>> .../sudo/files/CVE-2026-82474.patch | 617 ++++++++++++++++++
+>>>> meta/recipes-extended/sudo/sudo_1.9.17p2.bb | 5 +
+>>>> 6 files changed, 822 insertions(+)
+>>>> create mode 100644
+>>>> meta/recipes-extended/sudo/files/CVE-2026-82474-dependent_p1.patch
+>>>> create mode 100644
+>>>> meta/recipes-extended/sudo/files/CVE-2026-82474-dependent_p2.patch
+>>>> create mode 100644
+>>>> meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p1.patch
+>>>> create mode 100644
+>>>> meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p2.patch
+>>>> create mode 100644 meta/recipes-extended/sudo/files/CVE-2026-82474.pat=
+ch
+>>>=20
+>>> Hello,
+>>>=20
+>>> I think this fix is also needed for blacksail and master. Can you send
+>>> the relevant upgrade/backports so I can merge this on wrynose?
+>>=20
+>> Hello,
+>>=20
+>> This CVE is now fixed on master but the cherry-pick does not apply
+>> cleanly for blacksail. Can you send this fix for blacksail as well?
+>>=20
+>> Thanks!
+>> --
+>> Yoann Congal
+>> Smile ECS
+>=20
+>=20
+>
+
+--ILTJuim9iiaD1hw52lvS
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>Hi Yoann,<br /><br />I've sent a Blacksail patch:<br /><a href=3D"http=
+s://lists.openembedded.org/g/openembedded-core/message/251001" target=3D"_b=
+lank" rel=3D"noopener">https://lists.openembedded.org/g/openembedded-core/m=
+essage/251001</a><br /><br />I'll also send the master patch to add regress=
+ion patches as soon as possible.<br /><br />Thanks,<br />Darsh</div>
+<div>&nbsp;</div>
+<div>On Tue, Nov 17, 2026 at 06:07 PM, Darsh Kelaiya -X (dkelaiya - E INFOC=
+HIPS PRIVATE LIMITED at Cisco) wrote:</div>
+<div>
+<blockquote>
+<div>Hi Yoann,<br /><br />I'm preparing a backport patch for Blacksail also=
+. Will send as soon as possible.<br /><br />Thanks,<br />Darsh<br /><br />O=
+n Sat, Nov 14, 2026 at 02:51 PM, Yoann Congal wrote:</div>
+<div>
+<blockquote>On Mon Oct 19, 2026 at 4:56 PM CEST, Yoann Congal wrote:<br />
+<blockquote>On Fri Oct 16, 2026 at 8:56 AM CEST, Darsh Kelaiya -X (dkelaiya=
+ - E INFOCHIPS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:<=
+br />
+<blockquote>From: Darsh Kelaiya &lt;dkelaiya@cisco.com&gt;<br /><br />This =
+patch applies the upstream fix as referenced in [2],<br />using the commit =
+shown in [1].<br /><br />The recipe enables Linux intercept support. Check =
+execveat commands<br />and log subcommands instead of allowing this syscall=
+ unconditionally.<br />Resolve directory file descriptors and AT_EMPTY_PATH=
+ to paths for<br />sudoers policy checks.<br /><br />Apply prerequisites [3=
+] and [4] for proc_read_link() and fexecve paths.<br />Include follow-ups [=
+5] and [6] to reject failed pathname rewrites and<br />correct relative-pat=
+h moves. Keep the upstream source changes intact.<br /><br />[1] <a href=3D=
+"https://github.com/sudo-project/sudo/commit/71fbe42dcd5a1c8f799540583a2dfb=
+2ae6221edf" target=3D"_blank" rel=3D"noopener">https://github.com/sudo-proj=
+ect/sudo/commit/71fbe42dcd5a1c8f799540583a2dfb2ae6221edf</a><br />[2] <a hr=
+ef=3D"https://nvd.nist.gov/vuln/detail/CVE-2026-82474" target=3D"_blank" re=
+l=3D"noopener">https://nvd.nist.gov/vuln/detail/CVE-2026-82474</a><br />[3]=
+ <a href=3D"https://github.com/sudo-project/sudo/commit/1a312af6348594df371=
+e6088aeed99685977f575" target=3D"_blank" rel=3D"noopener">https://github.co=
+m/sudo-project/sudo/commit/1a312af6348594df371e6088aeed99685977f575</a><br =
+/>[4] <a href=3D"https://github.com/sudo-project/sudo/commit/e822b729da31ba=
+f9154946329a9d6ef569f0d182" target=3D"_blank" rel=3D"noopener">https://gith=
+ub.com/sudo-project/sudo/commit/e822b729da31baf9154946329a9d6ef569f0d182</a=
+><br />[5] <a href=3D"https://github.com/sudo-project/sudo/commit/d1121181a=
+87b2b47b4dfbb2af42399fcc5f1e3cd" target=3D"_blank" rel=3D"noopener">https:/=
+/github.com/sudo-project/sudo/commit/d1121181a87b2b47b4dfbb2af42399fcc5f1e3=
+cd</a><br />[6] <a href=3D"https://github.com/sudo-project/sudo/commit/02b1=
+4c043825b52be6cd537b7f11bd5e7e10512e" target=3D"_blank" rel=3D"noopener">ht=
+tps://github.com/sudo-project/sudo/commit/02b14c043825b52be6cd537b7f11bd5e7=
+e10512e</a><br /><br />Signed-off-by: Darsh Kelaiya &lt;dkelaiya@cisco.com&=
+gt;<br />---<br />.../files/CVE-2026-82474-dependent_p1.patch | 94 +++<br /=
+>.../files/CVE-2026-82474-dependent_p2.patch | 34 +<br />.../files/CVE-2026=
+-82474-regression_p1.patch | 39 ++<br />.../files/CVE-2026-82474-regression=
+_p2.patch | 33 +<br />.../sudo/files/CVE-2026-82474.patch | 617 +++++++++++=
++++++++<br />meta/recipes-extended/sudo/sudo_1.9.17p2.bb | 5 +<br />6 files=
+ changed, 822 insertions(+)<br />create mode 100644 meta/recipes-extended/s=
+udo/files/CVE-2026-82474-dependent_p1.patch<br />create mode 100644 meta/re=
+cipes-extended/sudo/files/CVE-2026-82474-dependent_p2.patch<br />create mod=
+e 100644 meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p1.patc=
+h<br />create mode 100644 meta/recipes-extended/sudo/files/CVE-2026-82474-r=
+egression_p2.patch<br />create mode 100644 meta/recipes-extended/sudo/files=
+/CVE-2026-82474.patch</blockquote>
+Hello,<br /><br />I think this fix is also needed for blacksail and master.=
+ Can you send<br />the relevant upgrade/backports so I can merge this on wr=
+ynose?</blockquote>
+Hello,<br /><br />This CVE is now fixed on master but the cherry-pick does =
+not apply<br />cleanly for blacksail. Can you send this fix for blacksail a=
+s well?<br /><br />Thanks!<br />-- <br />Yoann Congal<br />Smile ECS</block=
+quote>
+</div>
+</blockquote>
+</div>
+
+--ILTJuim9iiaD1hw52lvS--
