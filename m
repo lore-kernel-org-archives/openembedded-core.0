@@ -1,127 +1,103 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17780.1795526385512960706
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17845.1795526606716902207
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2026 05:19:45 -0800
+ Tue, 24 Nov 2026 05:23:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=RGeIsZaU;
- spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-49412eb1474so2905760f8f.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 05:19:45 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=R9CYVKJq;
+ spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4bb70074ab2so48279225e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 05:23:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795526384; x=1796131184; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=PoOx5PhDsGyJM01PapcjnnoX8xbd0kq/+9JOuocsLgE=;
-        b=RGeIsZaUOTzBuOAu2EMD8IGQVS+fmnn7/uotXmF2vI3ilWaN1uFtOhUJpW4XMjSuWn
-         IDn9MOP3djROmOsMr3qFrMESHrAo5RDHRgpfq2ZOPN7YqC9vxu7RTkYvKFFpNC8PdQqC
-         8z/g4shF+Y8wy9AKvR8MmeinrGbpzEOPQC/nTO4jGhrz9KwZ0KdZAfnNFRZbFq++WEkQ
-         fx0519T1OY1GCe51lT821WWPMQUWDhwI3XE63uFDOCC8vscdIdMZrTe2bOo5MJs15+Fk
-         ldP8TMSZVHb8GokoRAtLglBGt6uOnqjFGvyjJE6oIBV9flAM7qNCfgKLYHP5qmfG4Gdu
-         Qhzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795526384; x=1796131184;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=smile.fr; s=google2; t=1795526605; x=1796131405; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=PoOx5PhDsGyJM01PapcjnnoX8xbd0kq/+9JOuocsLgE=;
-        b=NmbVJH5GlR5fke62FVO0hGtXcbQWbFPIrYZQG/Ro4qCzvTPXYaKqb7XRMyGBiV3yxR
-         82djICjUbpEFR587srgnviVjR8YmGDUMGL8nHgH8tzKAz61zAEWHrWm8/BXCrBloeznu
-         RzeAoqFqc4Hhq1tC4YUc9KXgZOkki5dzTkHVR/UjFCEM7qm+9mDuFsxEIJz6kM2qakOG
-         39WTXqZbm4+2AjA2bWRDxGK6Q2X+fdC0ajv1irF23mSGpgLxh8TefFL56eFbOCrghUDx
-         MMUyk/Fkaforck7FwDR+4Ckz0uSlBQnBHNPNrNvE9gILCal0JC9rpuqAN3JUOyLAQtWl
-         fB1A==
-X-Gm-Message-State: APuU4Z/TbDw0AscGWNK6dUqw+cpRMUUqIOWZ1RFvM846NeJ+mQnzzOo2
-	j3zBn9HzZ+xSFjiRmiv5mmc8cYGp6aRrerQNPmpvAEW1J6THYI+AgkQ2RH28lzRb++Z7jwVCdLw
-	CYHoyi5g=
-X-Gm-Gg: AZFdTZfTz4ZcdheRW1YnI5fdtge4v6vD6dt6SDEVExeb1hL5g7Opmu2UQQR4NzYjoL2
-	wrFENMRd+sX9DJdqD6Vp6roCqJNJJ8cIytMNAtTVF7cc/ll+HAFOd1z5h+4YkAr/h/lrb1Xnx3a
-	mH2Ej5AESvf3T/aCusDJgRCEg/8XONGdXijj2S3xSi+t4YeUgcVA1Ttq0TIPjIjHDKuJQfLmK/P
-	V0AL2rIz0zi5RsAKOQ9LBbtrYBeSBPMeUcNDw8AaS79lgz1N/qpCUj4HqybRHoXlnH+hVuwvjtX
-	xijfxay4GBtRBo9J7PGsShrtr9RCsk1j8SM4qJuDweLCU+6bJsgFsLD+M11W0BzYy6I7+qrueE+
-	JbNLiJJLpr+4OxCKmGk2HsdhGYeeiwcsxCPxkLohSpwTCOZj27VZ1S6QmeEBAV0Jxta7pnaClPz
-	AvPJ+5HQrXcNw+nOWs/Iy4Hih9bUTVRL0OMZChd1SEd9t/iFH2XuqP8TbUp9vHBO7N1k6VY0HUM
-	a5PxaPFNUwniBILq/xuCm7Kowrpf+i3fyc2Vl6Nai1lmid43p6uiZA1fxA6HAqUA0xyubTDNmpR
-	wXe8sdr8DAxobL1/sFa/uoOjZHz+ZsuwKaxIciggEMTX+fVSEUBIbEx8Y1e+V75UvablEffT6ge
-	sh3fAPpFpB7AzAfwgb7UoH3C5Ih3ldeL9eYoyozjCZBnCtsNeMms=
-X-Received: by 2002:adf:e009:0:10b0:492:b1c5:6db4 with SMTP id ffacd0b85a97d-4abb4c7ab68mr19871985f8f.26.1795526383732;
-        Tue, 24 Nov 2026 05:19:43 -0800 (PST)
+        bh=KHPvg+9s6XMGaOU8FjoZVXs9pgPFI5XoY0F1KB9qzDI=;
+        b=R9CYVKJqENsMTfS+dEgMI3Ymc9OXA+WCcsIieaXABORkoQ8e73UpbWjcKbbMNig7pH
+         +I3s9vZMZcnZ1O+uAKUQ6xGC0S5u6aPxHcFjiNbR05TdIuUW3TjMafbYmdFQw0RQTm/k
+         m+ZMPjP5RzOBhBn/QTTguaajj7Qy29mg2LuQpvGBe6FwVwlA6DEHalvWBlb4xV20Wh7h
+         f+BP7LW+GviaRnDEFDOvsrEAzNx0YvDQ1QrQq+F/P7wiKxmET7Zwz72U2TYtO8f6w9hu
+         CCppfH7ewCzsRE9PJKJ4SmBzWgBut+AsSeiJGCAXOh+BKGrJIBXmjokiQwtCNln+IG4r
+         JpVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795526605; x=1796131405;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=KHPvg+9s6XMGaOU8FjoZVXs9pgPFI5XoY0F1KB9qzDI=;
+        b=SBTdfXbT1q/RhWihf3ajHyHW4Avzi3gazYZh4KpyYiABLzoVLd6fmTSV2oiIYGK+ss
+         fqYLu6SJZHrp5/TGZ8mgMX4k2JOr/lZhPQIpn1liooLQl74qkZ5c9YB+qDn+yt3OeFJW
+         2L27zKmBiIGfCe0KUUloOin/QrjAbZzrebFQkYDDUDfBQj5xigK8GOwDMvA6qtmnUrtH
+         Sjj97fx2qd+dANNE8Wu699XAh0p5DTtNxvGyKsgQLa67NGmycShhSKYVZeAr+JQcipAl
+         3x523VBUbY2AMqAVb7PUErhzSgt5PhjsyaVkrnDufMRvAR8mV8xYRxuYhO0wjEGTn9x9
+         J2RA==
+X-Forwarded-Encrypted: i=1; AL+hErHvhqB/3zXSlPXNtyVMcGSbsdfr9eulmwhHIA3y4gBAGuCLO3ZGZ4V7vUfZ0fnmKbu4KcWH8BeE0/mW915P3cnvLw==@lists.openembedded.org
+X-Gm-Message-State: APuU4Z9fEMNRxj3Cqswc4oJJnQrynrwR/A2GFRQ3MsP7WscAFHh/nyam
+	+MewSkY1H3mkvJjZWkcufWRP1+V5BtHGMD8/i+dgG27tyb2tylBocSHe3yJJ4NXRRwk=
+X-Gm-Gg: AZFdTZeLpWVcCWp93LedoLpZ1de6/BS7wWsBnmdD7j472DDp47qr3lmkU+j11q+8ncV
+	MtgDbnLbwcVJp4WjeEe3dBAEuour2c4ShY4DUGxlAth7Us/v3Rj+3vg5OV6nE7LQ+VFvBN3Edwb
+	JAyi1dLiz9ns79ebwb6MV5m/W/MYbDsca+zA/E4Ultm5L68XBxYOPiubg9SM/qQ6PkbYpCmHWAW
+	nsxecST2QjraGql/q8XiwBTWZXSd5QlYnGCzkZZXZ7+N2EXHYoJEDr8LS9UhtGKP4givbU2TFY/
+	nCKCDLAGcxxMU/6NXmGLET21TTMmgXtz+P34ZgK03pSHQ+4MC1pddm4LDmboOyd59g3qSuPNgG1
+	dYWSEQs3ENPzH25MJwi/kAmOzFm0F499r88y40LHGbT167qMIT18KsjaMzp240teRcL+Td5bBkb
+	pblrmYYhqldMxO94acGlFY5Os3LdInISYmBBYCwU/r3mxape9fpwyXhdunlpx9+BbjNWzSHqr3s
+	P3P6B7cA5P59rMofJh4ibtZ69O5QkYRqOOWqMzbQxKAnLwg6V4tnyjN8KqIfbnZgbaAliX4KPGN
+	ZjaB23l6TwCz/6vEHBDDmAdenPlWM1QTR8T3VH3wyJYSnGtNkUopzKL9ebSvEh4YYZjXlEp/uoB
+	ZhTylDhenSNwsv+QK1qKEecAQ5xsuJyq/+axYlg==
+X-Received: by 2002:a05:600c:5246:b0:4bb:6de4:2f7c with SMTP id 5b1f17b1804b1-4bb8881c5bdmr306931205e9.20.1795526604847;
+        Tue, 24 Nov 2026 05:23:24 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
-Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6a67fe48sm25722749f8f.23.2026.11.24.05.19.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 05:19:43 -0800 (PST)
-From: Yoann Congal <yoann.congal@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Cc: Yoann Congal <yoann.congal@smile.fr>
-Subject: [scarthgap][PATCH] pseudo: Upgrade 1.9.12+git -> 1.9.13
-Date: Tue, 24 Nov 2026 14:19:41 +0100
-Message-ID: <20261124131941.804698-1-yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.55.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb853a9687sm488531355e9.10.2026.11.24.05.23.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Nov 2026 05:23:24 -0800 (PST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 24 Nov 2026 14:23:24 +0100
+Message-Id: <DN3H26R12AID.GIRHHR4UJ41G@smile.fr>
+Subject: Re: [blacksail][PATCH] pseudo: Upgrade 1.9.12+git -> 1.9.13
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: "Yoann Congal" <yoann.congal@smile.fr>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20261124131836.800875-1-yoann.congal@smile.fr>
+In-Reply-To: <20261124131836.800875-1-yoann.congal@smile.fr>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 13:19:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251031
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 13:23:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251032
 
-From: Yoann Congal <yoann.congal@smile.fr>
+On Tue Nov 24, 2026 at 2:18 PM CET, Yoann Congal wrote:
+> From: Yoann Congal <yoann.congal@smile.fr>
+>
+> Changelog[0]:
+> * test: Skip open_tree tests when the function or syscall is unavailable
+> * makewrappers: Don't generate unused _int paths with noignore_path
+> * ports/linux: Don't require <linux/mount.h>
+> * configure: Require GCC 5 or later
+> * pseudo_client: serialize path changes across clients
+> * ports: hold the path lock in create and metadata wrappers
+> * ports: check created files under the path lock before recording them
+> * test-parallel-ops: Add a parallel create/rename/link/chmod test
+> * README.security: Add information specific to file/process security
+> * AGENTS.md: Add to assist future developers
+> * Declare 1.9.13 version
+>
+> [0]: https://git.yoctoproject.org/pseudo/log/?qt=3Drange&q=3De627b0dcb639=
+f387db935fae1f9b93b30cded5e1..pseudo-1.9.13
+>
+> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+> ---
+>  meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch | 4 ++--
+>  meta/recipes-devtools/pseudo/pseudo_git.bb                   | 4 ++--
+>  2 files changed, 4 insertions(+), 4 deletions(-)
 
-Changelog[0]:
-* test: Skip open_tree tests when the function or syscall is unavailable
-* makewrappers: Don't generate unused _int paths with noignore_path
-* ports/linux: Don't require <linux/mount.h>
-* configure: Require GCC 5 or later
-* pseudo_client: serialize path changes across clients
-* ports: hold the path lock in create and metadata wrappers
-* ports: check created files under the path lock before recording them
-* test-parallel-ops: Add a parallel create/rename/link/chmod test
-* README.security: Add information specific to file/process security
-* AGENTS.md: Add to assist future developers
-* Declare 1.9.13 version
+I'm sending this to put it in patchwork but it needs a master upgrade
+first: above commit fe4e4f0 (AGENTS.md: Add to assist future developers, 20=
+26-11-10)
 
-[0]: https://git.yoctoproject.org/pseudo/log/?qt=range&q=e627b0dcb639f387db935fae1f9b93b30cded5e1..pseudo-1.9.13
+Regards,
+--=20
+Yoann Congal
+Smile ECS
 
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
----
- meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch | 4 ++--
- meta/recipes-devtools/pseudo/pseudo_git.bb                   | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
-
-diff --git a/meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch b/meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch
-index f42b32b8d9e..1540ac78e1a 100644
---- a/meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch
-+++ b/meta/recipes-devtools/pseudo/files/older-glibc-symbols.patch
-@@ -25,7 +25,7 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
- diff --git a/Makefile.in b/Makefile.in
- --- a/Makefile.in
- +++ b/Makefile.in
--@@ -120,7 +120,7 @@ $(PSEUDODB): pseudodb.o $(SHOBJS) $(DBOBJS) pseudo_ipc.o | $(BIN)
-+@@ -123,7 +123,7 @@ $(PSEUDODB): pseudodb.o $(SHOBJS) $(DBOBJS) pseudo_ipc.o | $(BIN)
-  libpseudo: $(LIBPSEUDO)
-  
-  $(LIBPSEUDO): $(WRAPOBJS) pseudo_client.o pseudo_client_scanf.o pseudo_ipc.o $(SHOBJS) | $(LIB)
-@@ -37,7 +37,7 @@ diff --git a/Makefile.in b/Makefile.in
- diff --git a/pseudo_wrappers.c b/pseudo_wrappers.c
- --- a/pseudo_wrappers.c
- +++ b/pseudo_wrappers.c
--@@ -100,10 +100,13 @@ static void libpseudo_atfork_child(void)
-+@@ -101,10 +101,13 @@ static void libpseudo_atfork_child(void)
-  	pseudo_mutex_holder = 0;
-  }
-  
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 764f81b6832..74e7424224a 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -12,9 +12,9 @@ SRC_URI:append:class-nativesdk = " \
-     file://older-glibc-symbols.patch"
- SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
- 
--SRCREV = "e627b0dcb639f387db935fae1f9b93b30cded5e1"
-+SRCREV = "26afebdaafa416eefa51553fc28d827719c5aed5"
- S = "${WORKDIR}/git"
--PV = "1.9.12+git"
-+PV = "1.9.13"
- 
- # largefile and 64bit time_t support adds these macros via compiler flags globally
- # remove them for pseudo since pseudo intercepts some of the functions which will be
