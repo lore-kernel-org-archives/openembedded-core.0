@@ -1,164 +1,149 @@
-Received: from aer-iport-8.cisco.com (aer-iport-8.cisco.com [173.38.203.70])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14036.1795509670257072477
+Received: from mail-dy1-f182.google.com (mail-dy1-f182.google.com [74.125.82.182])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13794.1795509797839074161
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2026 00:41:10 -0800
+ Tue, 24 Nov 2026 00:43:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Cj0Zoy9l;
- spf=pass (domain: cisco.com, ip: 173.38.203.70, mailfrom: asparmar@cisco.com)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=Ly9UDQez;
+ spf=pass (domain: gmail.com, ip: 74.125.82.182, mailfrom: raj.khem@gmail.com)
+Received: by mail-dy1-f182.google.com with SMTP id 5a478bee46e88-385c497bf94so4138478eec.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 00:43:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=2912; q=dns/txt;
-  s=iport01; t=1795509670; x=1796719270;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=rJWOZNf+Ap0xGfwZICsyVkO3olk2GmGEUD0wjRVnZog=;
-  b=Cj0Zoy9l679dy2l111//39xCdeC8ZMs3fSHs3LwC1ORaTdEyoUDsXQFD
-   OYtTVCyi8zEvxm4f3XDQxnSLUTrpO4RQsVdxWmW1gbS8erqlb2XcdGkuC
-   VsgTc23k7RDPRDngGM224jADjfx2nj6WlBLcOXnoy8EyS9tFi8bq7wwCC
-   Ap/xTPSUd9zFfpg4bCOgLb7Z2sLk4ggrUgxfINeP9TRhuTB0zHM/sOYo4
-   gOfuAnW6VhnOwYDI1LsWnv40txfa+le0YZcd+mhgq3vTjRiDSEUsSZhIq
-   ft3Zs9QGvlcJzjGt3RHfwJodAdJFDH5Hm5bbKI92PEUes80JvNz1hKV6H
-   w==;
-X-CSE-ConnectionGUID: uL2DfnvkT6qQzX0S6Ql5iA==
-X-CSE-MsgGUID: 1eAqwMsCRcWW3tjrY8HMxQ==
-X-IPAS-Result: =?us-ascii?q?A0BHAgABTQVr/8pK/pBaglmCV3VhQkkDlCeCIQOeKYF+D?=
- =?us-ascii?q?wEBAQ9EDQQBAYUFAo4iAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQEKAQEFAQEBA?=
- =?us-ascii?q?gEHBYEOE4ZPDZASAQIBAzIBVhwDAQIvKyMIGYMCAYJ0AgERuhwbN4IsgQGEf?=
- =?us-ascii?q?tszAQsUAYE4hUKIJF0YAYR9JxsbgXKBFYNqgQWBXAKBJxF1hXkEgiKBDIFUG?=
- =?us-ascii?q?AaMeQKBT4hJSIEeA1ksAVUTDQoLBwWBaAM1EioVbjIdgSM7F4EHGwYFgRyBH?=
- =?us-ascii?q?oESgQNdgSsoXiGBCIF2AoJRggACAUlBDgdFUwklQxJHJCIIEgkBExosCoEaN?=
- =?us-ascii?q?TwJJj8VDGcLGgVhCAINDHQ5EDAeJC8FGiY+GwqBDCcfHhsOAh8QBhYhCxsYD?=
- =?us-ascii?q?UgRLDcVGQQ+bgeUFIMaexMBKgEggS1fkzcBB5I2oREKKIN5jCSVOhozhVulF?=
- =?us-ascii?q?wuYfY4KlWhphGqBaDyBWXAVgyIJShkPji4LC4NghAfKVCM1CwMvAQEHAgcOA?=
- =?us-ascii?q?wuBaIRhix8BJ4FWAQE?=
-IronPort-Data: A9a23:Zs7qS6/KLX/uGEcUzaSrDrUD1H+TJUtcMsCJ2f8bNWPcYEJGY0x3z
- WdODW3QOv3eZGCjfdl3Poi2oRwAvpHWydJmGVZlpHhEQiMRo6IpJzg2wmQcns+2BpeeJK6yx
- 5xGMrEsFOhtEDmB4E/rYuK8xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2bBVOCvT/
- 4mtyyHjEAX9gWAtazhPs/jrRC5H5ZwehhtJ5jTSWtgT1LPuvyF9JI4SI6i3M0z5TuF8dsamR
- /zOxa2O5WjQ+REgELuNyt4XpWVTH9Y+lSDX4pZnc/DKbipq/0Te4Y5nXBYoUnq7vh3S9zxHJ
- HqhgrTrIeshFvWkdO3wyHC0GQkmVUFN0OevzXRSLaV/wmWeG0YAzcmCA2krGdc09OBpAl0Q7
- MUKGGg2MCmH2uOflefTpulE3qzPLeHiMZlavjRryivUSK5/B5vCWK7No9Rf2V/chOgXQaqYP
- ZdFL2UzKk6YOXWjOX9PYH46tO6znnDldjRCgFmUvqEwpWPUyWSd1ZCzaIOFJ4HbFK25mG7Bq
- 0vf4EHiKSsRC+PE1TifwyKMo//2yHaTtIU6UefQGuRRqFqLy2oeDRcbWVe2rbyyjVSzc9ZeM
- FAPvC02oK4/8UamQtXwU1u/unHsg/IHc9NdCag+rQqK0KeRu1/fDWkfRTkHY9sj3CMreQEXO
- payt4uBLVRSXHe9EBpxKp/8QeuOBBUo
-IronPort-HdrOrdr: A9a23:yEM+HawTzvUYbWlNb+fCKrPwAL1zdoMgy1knxilNoHtuA6ilfq
- +V8sjzuSWYtN9VYgBCpTniAtjkfZqjz/9ICOAqVN/INjUO+lHYTr2KhrGM/9SPIUHDH5ZmtZ
- tIQuxZFMD6C0R8gILR5Qm1FMtl/fy8mZrY4ts3CxxWPHhXg2YK1XYeNjqm
-X-Talos-CUID: 9a23:jm7XBm9rTAbcFGxdhCyVv1MwQOwrdGPe8CnJGl2IUV03cbnISHbFrQ==
-X-Talos-MUID: 9a23:6AdKnwYJ1q6Ja+BT7jLFnS5HL+xS6JuRU1wPi6RWm+yUDHkl
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.27,229,1787011200"; 
-   d="scan'208";a="60185599"
-Received: from aer-l-core-01.cisco.com ([144.254.74.202])
-  by aer-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 24 Nov 2026 08:40:43 +0000
-Received: from sjc-ads-20495.cisco.com (sjc-ads-20495.cisco.com [171.70.188.248])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by aer-l-core-01.cisco.com (Postfix) with ESMTPS id B5E5C3441A
-	for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 08:40:42 +0000 (GMT)
-Received: by sjc-ads-20495.cisco.com (Postfix, from userid 1877012)
-	id 6938ACC2EF1; Tue, 24 Nov 2026 00:40:41 -0800 (PST)
-From: "Ashishkumar Parmar X (asparmar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <asparmar@cisco.com>
+        d=gmail.com; s=20260707; t=1795509797; x=1796114597; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=c1Qe8gwFyQVtWaLrbChQCsQhyi++I0Odv+bwWUPMIxE=;
+        b=Ly9UDQez4pltrov09DLT8R3Z2hRY72gosyAUGOyTipTKZuQlhuTyyQqh2VZhE2qABF
+         ie7nB3PnsZM0JLb2qiavQGsk+AN4g2OQfoHdZ4ReiVjSNYevyTshnPIt6EaMI73znokd
+         CaPCJNg9cPoFjykZx8OOy8N5WH140fu2PsoK1iVRIMGZk0XQqbWsSRNHEOTJfpSkufZG
+         sq/9qk/+RraSeocONxBVNGeMUGUOHaiuVsH8msFwvlGoxnpCy9jQ1/WVTAoP6I6WEpcl
+         5lEasCvQnczgnidD5epdNNtKgegK7iffR9M4Xy2k9FXfvV5iFHpG0uDo1fzwiwDRxcgE
+         OXPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795509797; x=1796114597;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=c1Qe8gwFyQVtWaLrbChQCsQhyi++I0Odv+bwWUPMIxE=;
+        b=FYLr2A6LtMKaEQp1T0W8tYg+2syb+KyFRL+Yrwku9QIDD//GayuWgWBb8CUevB1A0Z
+         wH4hRiwnYt6hPwQju/sSj3VC6YQM/ufpxGLUewTBVFXVlTq6xFjYTWquyLOO8tPLvWJs
+         voFwnLnUFycUVoRVFd9hV9z122gGEO7zXN2gaeNffavx3PRgRbF+0Oe2tP8KhJbvngoz
+         obkeTkZ7/b8T49fGcJhC3TRG5cN1VbKMus5cWEJh1WRQXhEfRE/Jo2QZ/MqPFCAW9Cow
+         nEg2JSizBoLQOBMVOPnAMbAe3/bYbePXYWAQblT0ors0buX8Ony2HjFkOq3EtFcHbqfe
+         rcFw==
+X-Gm-Message-State: APuU4Z+XAZHzXAFHkqhZPOTCw2wUnmWDlY6lQJZngmK2ZQbll+D1dXto
+	+cpNyKR6xeABEY/9damISgi6t9+/Igsm8HzZn09NPXkP9Tf7TcTn13dM9q8w9sTU
+X-Gm-Gg: AZFdTZdxKyf/suZKAAIJHn2QVnaCX11hmVT+VFOaxo5Z6xDCCt9LNk977Lz8FkZd8ZN
+	sGvu5S4OIGJ5idTDjPrzjg6J2adrGOx65OlcdZ86A1TeAsdT6JUe3/260MAJQVca7BPHuRJTuJZ
+	Tz4s3tgKrQoInGrgKQVby0G4sGDYE2RAwB0UNoFlGPuQ4TCMIjoIR7JvI98+NPJmun2jK0c68Hq
+	r8Jr//Cqw2oHyR4lDNkMH+0gaaJjVOEYHi8YJTL3jK9SK6Q+2a1TuPuoqiKOq8Rn+Cgdvc3I+GE
+	4oGaxZD2OQt6MJnaBGJ0LU1NyqNf3p29bENiIU9AUABIxNUq7U1BXvXbgYj4hI2kwav9iQuAkRh
+	UkoOFEcnI2E+JDr2zgoDuJuuGSA+Efq+9YuExQvOC4Mlq7bhoBnBiW0B3MA0UwmAyIFC58924HL
+	fT5wWDTkpzv+C0J9CGCChrmlvrwJl7pEB0zMqz6wXbiBo5rmfSqbdCM0Rr2X2m7VqExgOwJweGP
+	3jS/LTsV/C0O4e6F9b+h82nGTDsBr1+KwilaH9ED0vTxrvqQLnRfr89U2edc0aXiU8fFnYfNoAP
+	h1nbp5YqeZ0C5DvziuJNfpH3V+S+6N9+YvoVQbXJNavZI/bijv7iXztwN4JvlnO2a5av4C/cNCU
+	O/mJTtuwmC7TvOJ3Dav6vBJaB+NAw1bJTiEQXHp1l2Fjgi9lo5+gLO4xO8dnHAGmarQlbmpWHWL
+	GACE0+cpUkddEvjSuBMS95MbxdZurcNbigOFpusW4PQRLboyIBiyeGAf7lxTENfTBJAY2VvY+UJ
+	NJ7wT60fmd6LgZXcWfxN7FTg/weT9NGiI8ctPUULQaVXTWcR/bYXSKkkXtSuki5gE4+iX4vJDk4
+	rMmkInzYYgV4kD/VtVahUZzCxA==
+X-Received: by 2002:a05:7301:fd06:b0:369:f05d:6c5c with SMTP id 5a478bee46e88-3856f549471mr14586220eec.28.1795509796891;
+        Tue, 24 Nov 2026 00:43:16 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385665f21aesm53295750eec.4.2026.11.24.00.43.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Nov 2026 00:43:16 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap][PATCH 1/8] cups: Fix CVE-2026-55453
-Date: Tue, 24 Nov 2026 00:40:26 -0800
-Message-Id: <20261124084033.72286-2-asparmar@cisco.com>
-X-Mailer: git-send-email 2.35.6
-In-Reply-To: <20261124084033.72286-1-asparmar@cisco.com>
-References: <20261124084033.72286-1-asparmar@cisco.com>
+Cc: Khem Raj <khem.raj@oss.qualcomm.com>
+Subject: [PATCH] tcl: Fix lseq-4.21.1 ptest failure with clang
+Date: Tue, 24 Nov 2026 00:43:13 -0800
+Message-ID: <20261124084313.2047883-1-khem.raj@oss.qualcomm.com>
+X-Mailer: git-send-email 2.56.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: VERIFIED;sjc-ads-20495.cisco.com [171.70.188.248];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
-X-Outbound-SMTP-Client: 171.70.188.248, sjc-ads-20495.cisco.com
-X-Outbound-Node: aer-l-core-01.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 08:41:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250976
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 08:43:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250977
 Content-Type: text/plain; charset="utf-8"
 
-From: Ashishkumar Parmar <asparmar@cisco.com>
+GenerateArithSeries() casts an out of range double count to
+Tcl_WideInt, which is undefined behavior; with clang "lseq 1e5555"
+returns an empty list instead of an error. Add a patch to range check
+the count before converting it.
 
-This patch applies the upstream 2.4.x fix for CVE-2026-55453 to
-CUPS 2.4.11. The fixing commit is referenced in [1], and the public
-advisory is referenced in [2].
+AI-Generated: Uses Claude Code
+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+---
+ ...-check-lseq-count-before-converting-.patch | 49 +++++++++++++++++++
+ meta/recipes-devtools/tcltk/tcl_9.1.0.bb      |  1 +
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-devtools/tcltk/tcl/0005-tclExecute-Range-check-lseq-count-before-converting-.patch
 
-[1] https://github.com/OpenPrinting/cups/commit/d41cf0616688721e9d435d54118c4c8a36ed596a
-[2] https://github.com/OpenPrinting/cups/security/advisories/GHSA-7hqf-mfhx-7r3v
-
-Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
-
-diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index 4c158aaee1..476d093fb2 100644
---- a/meta/recipes-extended/cups/cups.inc
-+++ b/meta/recipes-extended/cups/cups.inc
-@@ -32,6 +32,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/cups-${PV}-source.tar.gz \
-            file://CVE-2026-34990.patch \
-            file://CVE-2026-39314.patch \
-            file://CVE-2026-39316.patch \
-+           file://CVE-2026-55453.patch \
-            "
- 
- GITHUB_BASE_URI = "https://github.com/OpenPrinting/cups/releases"
-diff --git a/meta/recipes-extended/cups/cups/CVE-2026-55453.patch b/meta/recipes-extended/cups/cups/CVE-2026-55453.patch
+diff --git a/meta/recipes-devtools/tcltk/tcl/0005-tclExecute-Range-check-lseq-count-before-converting-.patch b/meta/recipes-devtools/tcltk/tcl/0005-tclExecute-Range-check-lseq-count-before-converting-.patch
 new file mode 100644
-index 0000000000..9e899cc87c
+index 0000000000..a06468378d
 --- /dev/null
-+++ b/meta/recipes-extended/cups/cups/CVE-2026-55453.patch
-@@ -0,0 +1,52 @@
-+From 87a30222512dea2bed50ea436d85b1126bf1ee72 Mon Sep 17 00:00:00 2001
-+From: Michael R Sweet <msweet@msweet.org>
-+Date: Fri, 12 Jun 2026 14:45:48 -0400
-+Subject: [PATCH] Sanitize IPP attribute strings.
++++ b/meta/recipes-devtools/tcltk/tcl/0005-tclExecute-Range-check-lseq-count-before-converting-.patch
+@@ -0,0 +1,49 @@
++From 4f756debee55260106524bce5d12fb4c6ef5946e Mon Sep 17 00:00:00 2001
++From: Khem Raj <khem.raj@oss.qualcomm.com>
++Date: Fri, 16 Oct 2026 08:14:03 +0000
++Subject: [PATCH] tclExecute: Range check lseq count before converting to
++ integer
 +
-+CVE: CVE-2026-55453
-+Upstream-Status: Backport [https://github.com/OpenPrinting/cups/commit/d41cf0616688721e9d435d54118c4c8a36ed596a]
++GenerateArithSeries() casts a double count to Tcl_WideInt and then
++checks whether the result is integral. For Inf or values outside the
++Tcl_WideInt range the cast is undefined behavior; with clang the check
++passes and the count becomes WIDE_MIN, so "lseq 1e5555" returns an
++empty list instead of raising "expected integer", failing lseq-4.21.1.
 +
-+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
++Only take the integer conversion when the value is within range, and
++otherwise leave it as a double so TclNewArithSeriesObj() reports the
++error.
++
++Upstream-Status: Submitted [https://core.tcl-lang.org/tcl/tktview/97dbd7a4e9290821f20233c144077801424433e4]
++AI-Generated: Uses Claude Code
++Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
 +---
-+ CHANGES.md    | 1 +
-+ backend/ipp.c | 8 +++++++-
-+ 2 files changed, 8 insertions(+), 1 deletion(-)
++ generic/tclExecute.c | 12 +++++++++++-
++ 1 file changed, 11 insertions(+), 1 deletion(-)
 +
-+diff --git a/CHANGES.md b/CHANGES.md
-+index 7a5e8813fe..c8284c9b42 100644
-+--- a/CHANGES.md
-++++ b/CHANGES.md
-+@@ -5,6 +5,7 @@ CHANGES - OpenPrinting CUPS
-+ Changes in CUPS v2.4.11 (2024-09-30)
-+ ------------------------------------
-+ 
-++- CVE-2026-NNNNN: The backend did not sanitize IPP attribute strings.
-+ - Updated the maximum file descriptor limit for `cupsd` to 64k-1 (Issue #989)
-+ - Fixed `lpoptions -d` with a discovered but not added printer (Issue #833)
-+ - Fixed incorrect error message for HTTP/IPP errors (Issue #893)
-+diff --git a/backend/ipp.c b/backend/ipp.c
-+index 8609e3a283..e537bfb096 100644
-+--- a/backend/ipp.c
-++++ b/backend/ipp.c
-+@@ -70,6 +70,7 @@ typedef struct _cups_monitor_s		/**** Monitoring data ****/
-+ /*
-+  * Globals...
-+  */
++diff --git a/generic/tclExecute.c b/generic/tclExecute.c
++index fd43b87..97d76ab 100644
++--- a/generic/tclExecute.c
+++++ b/generic/tclExecute.c
++@@ -9404,7 +9404,17 @@ GenerateArithSeries(
++ 	switch (type) {
++ 	case TCL_NUMBER_DOUBLE: {
++ 	    double dCount = *((const double *) ptr);
++-	    Tcl_WideInt wCount = (Tcl_WideInt) dCount;
+++	    Tcl_WideInt wCount;
 ++
-+ #if defined(HAVE_GSSAPI) && defined(HAVE_XPC)
-+ static pid_t		child_pid = 0;	/* Child process ID */
-+ #endif /* HAVE_GSSAPI && HAVE_XPC */
-+@@ -3099,7 +3100,12 @@ quote_string(const char *s,		/* I - String */
-+         break;
-+     }
-+ 
-+-    *qptr++ = *s++;
-++    if ((*s & 255) < ' ' || *s == 127)
-++      *qptr++ = ' ';
-++    else
-++      *qptr++ = *s;
-++
-++    s ++;
-+   }
-+ 
-+   *qptr++ = '\"';
--- 
-2.35.6
-
+++	    /*
+++	     * Casting an out of range double (including Inf) to an integer
+++	     * is undefined behavior, and compilers may fold the check below
+++	     * into a plain "is integral" test, so do the range check first.
+++	     */
+++	    if (!(dCount > (double) WIDE_MIN && dCount < (double) WIDE_MAX)) {
+++		break;
+++	    }
+++	    wCount = (Tcl_WideInt) dCount;
++ 	    if (dCount - wCount == 0.0) {
++ 		Tcl_DecrRefCount(count);
++ 		// Switch to the object holding integer version of the count.
++-- 
++2.43.0
++
+diff --git a/meta/recipes-devtools/tcltk/tcl_9.1.0.bb b/meta/recipes-devtools/tcltk/tcl_9.1.0.bb
+index a0a908e19b..db31ab6d89 100644
+--- a/meta/recipes-devtools/tcltk/tcl_9.1.0.bb
++++ b/meta/recipes-devtools/tcltk/tcl_9.1.0.bb
+@@ -21,6 +21,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/tcl/tcl-core${PV}-src.tar.gz \
+            file://0002-tcl-fix-a-build-issue.patch \
+            file://0003-tcl-install-tcl-to-lib64-instead-of-lib-on-64bit-tar.patch \
+            file://0004-tcl-update-the-header-location.patch \
++           file://0005-tclExecute-Range-check-lseq-count-before-converting-.patch \
+            "
+ SRC_URI[sha256sum] = "ba11ae7035ec4b0caf2c489b20d5aa2abb1cf001a7e65b0fa2fbac86908c643b"
+ 
