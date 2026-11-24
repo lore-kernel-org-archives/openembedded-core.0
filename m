@@ -1,93 +1,394 @@
-Received: from aer-iport-1.cisco.com (aer-iport-1.cisco.com [173.38.203.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12435.1795501289132702413
+Received: from aer-iport-3.cisco.com (aer-iport-3.cisco.com [173.38.203.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12436.1795501289281978281
  for <openembedded-core@lists.openembedded.org>;
  Mon, 23 Nov 2026 22:21:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Qx2MtjOP;
- spf=pass (domain: cisco.com, ip: 173.38.203.51, mailfrom: yurade@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=J/+5kNRg;
+ spf=pass (domain: cisco.com, ip: 173.38.203.53, mailfrom: yurade@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=563; q=dns/txt;
+  d=cisco.com; i=@cisco.com; l=11874; q=dns/txt;
   s=iport01; t=1795501289; x=1796710889;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=18GRcPbW1BD8o7Ufm7P/gp1DC/zp38xzJxG7u0ooCsk=;
-  b=Qx2MtjOPwbjzuDALfJeojSQehFtYE30RDoFBXtM0DcxlafGky5YuCzFj
-   aznK8XIHeAFEECOnpZ7vbeIcTDvlze/hYEUVXN9SVdj0tBhHEfR5x7o6b
-   Wc+VIsAQxmBOeioESb+XChOZJnPtJDIuVT0HqcfUu845A6ypbfbcIEUEh
-   3bhBgXoZSlDpUSh2Q216FMwLgoCyNmFVHDif1wCclt4rNHKc9gywj0aih
-   FsX7HxEbFw0ROVclTeuiX61QYH181Jv2Jb1kgAw7V96yy2KIYnbJqS4Lv
-   BZYvuNUTnMsFokSmrGffLgLA7rQAum8c7alrvd2b8mxm99j01Ym1kIGZE
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=aXRHubK4+lN1k4TTnLKBCPxVFhbVsTM0AkkJyyuukA4=;
+  b=J/+5kNRgZM5gwspOghYiA8y9sIEfu5oXzTcBj/YR5dYdq8r3ug8HeOri
+   653i2+n3/HKCR4f0X1DggJHilmbSe3x6P9tLMpEX5VzjssFDvZ5hBjkA0
+   bhQYw6lXO8oyqOBovJ/Hi+Ffi98Iej3/UrgZRlXQizUwFAr2UiPJUuUj5
+   Yaba+CmxPB2q2vtO/k9GyW7iM7ixUI3/oiDBR2R7KzhFovrYV5nukGFnb
+   rC+5O4fOtGb9CdlD1JWgD0hLGwcQTraSSC3xokTHe4fUiZMse33LfunFF
+   cFMnVrZq7FBPLRZErSicBL5hVMg9A+/lRxPyk71/ekyBnAt4E2Nnz0PG1
    A==;
-X-CSE-ConnectionGUID: Z90NxKOSRb+1WvY/wQrUzw==
-X-CSE-MsgGUID: qV4Fm7xtSMqae1kdglnEIg==
-X-IPAS-Result: =?us-ascii?q?A0BXAwCcKgVr/85K/pBaglmDTGBDSQSUJqBNgX4PAQEBD?=
- =?us-ascii?q?0QNBAEBkykCJjQJDgECBAMCAwEBAQEBAQEBAQEBAQoBAQUBAQECAQcFgQ4Th?=
- =?us-ascii?q?k8NkEsBgVJEgwIBgnQDEbpzgiyBAYR+2UuBdBWBOI1mdoR9JxuBSUSEf4UQh?=
- =?us-ascii?q?XkEgxwSmQVIgR4DWSwBVRMNCgsHBYFoAzUSKhVuMh2BIzsXgQcbBgWBHIEeg?=
- =?us-ascii?q?RKBA12BKyheIYEIgXYCglGCAAIBSUEOB0VTCSVDEkckIggSCQETGiwKgRo1P?=
- =?us-ascii?q?AkmPxUMZwsaBWEIAg0MdDkQMB4kLwUaJj4bCoEMJx8eGw4CHxAGFiELGxgNS?=
- =?us-ascii?q?BEsNxUZBD5uB5QUgxqBDyuCLKV1oRGEK4wklToaM4NxpwGZCI4KllGEaoFoP?=
- =?us-ascii?q?IFZMxoIGxWDIgkKQBkPlzfJSCYyAgE6AgcCBw4DC5NmAQE?=
-IronPort-Data: A9a23:20I7V6ntAEV6IgYfUFLcAbno5gzLJ0RdPkR7XQ2eYbSJt1+Wr1Gzt
- xJLUGvQbv6NMWGhKI8jaoXgoBgO6sPcm4dkSgtorS9jE1tH+JHPbTi7wugcHM8zwunrFh8PA
- xA2M4GYRCwMZiaC4Errav6x9yQUOZigHtLUEPTDNj16WThqQSIgjQMLs+Mii+aEu/Dha++2k
- Y20+ZK31GONgWYubDtNsfnb8nuDgdyr0N8mlg1mDRx0lAe2e0k9VPo3Oay3Jn3kdYhYdsbSb
- /rD1ryw4lTC9B4rDN6/+p6jGqHdauePVeQmoiM+t5mK2nCulARrukoIHKZ0hXNsttm8t4sZJ
- OOhGnCHYVxB0qXkwIzxWvTDes10FfUuFLTveRBTvSEPpqHLWyOE/hlgMK05Fb9JosBnIkZ1z
- /ZbcQ8TX1ecvviL0q3uH4GAhux7RCXqFIoSoDRkiDreF/tjGc2FSKTR7tge1zA17ixMNa+CO
- 4xDNGYpM0iGOUURUrsUIMpWcOOAl2TlejFVgFmUvqEwpWPUyWSd1ZCzaoWLI4bXHa25mG6Bm
- D7o+jvpHio/LdWSkDmJ/Xaqq87AyHaTtIU6UefQGuRRqFqLy2oeDRcbWVe2rbyyjVSzc9ZeM
- FAPvC02oK4/8UamQtXwU1u/unHsg/IHc9NdCag+rQqK0KeRu1vfDWkfRTkHY9sj3CMreQEXO
- payt4uBLVRSXHe9EBpxKp/8QeuOBBUo
-IronPort-HdrOrdr: A9a23:8tV7Sahr1eclUfWleNzyWDQQJ3BQXuoji2hC6mlwRA09TyX+rb
- HNoB1173HJYVoqNU3I+urwW5VoP0m8yXcd2+B4Vt2ftWLd11dAQrsP0WKb+V3dMhy70PJB3q
- F9dKU7ItjxAV9myfve2mCDYrMdKB3tytHOuQ8YpE0dKT1XVw==
-X-Talos-CUID: 9a23:A5DFuWACdGzGLSv6Exs2rGgEOeceSHeelUjOEginMHxUWqLAHA==
-X-Talos-MUID: 9a23:tJZ0vQT3WlK2fWAzRXT1um1MMZh4/5+LEUkAyJYKtM2CGA1/bmI=
+X-CSE-ConnectionGUID: nYWpNy+YQQKokptkgj5a9A==
+X-CSE-MsgGUID: nvkgKQdYTL2ujeHp7zR3qA==
+X-IPAS-Result: =?us-ascii?q?A0BPAgBaKwVr/9BK/pBaHgEBCxIMggULgld1YENJA5Qng?=
+ =?us-ascii?q?iEDgn6IaJJDFIFqDwEBAQ9EDQQBAYUFAo4iAiY0CQ4BAgQDAgMBAQEBAQEBA?=
+ =?us-ascii?q?QEBAQEKAQEFAQEBAgEHBYEOE4ZPDZASAQIBAzIBVhwDAQIvKyMIGYMCAYI6A?=
+ =?us-ascii?q?zcDEbp3giyBAYNpAkNQ2UuBaAELFAGBOIVCiCRdGAGEfScbgUlEhAl2gQWBG?=
+ =?us-ascii?q?oILhl8EgxwSgVQejHkCgU+ISUiBHgNZLAFVEw0KCwcFgWgDNRIqFW4yHYEjO?=
+ =?us-ascii?q?xeBBxsGBYEcgR6BEoEDXYErKF4hgQiBdgKCUYIAAgFJQQ4HRVMJJUMSRyQiC?=
+ =?us-ascii?q?BIJARMaLAqBGjU8CSY/FQxnCxoFYQgCDQx0ORAwHiQvBRomPhsKgQwnHx4bD?=
+ =?us-ascii?q?gIfEAYWIQsbGA1IESw3FRkEPm4HlBSDCAsHASxOEwEKIQSBQQhHGBGTHZAmg?=
+ =?us-ascii?q?iGBNZ5rcYQrjCSPP4V7GjOEBJQaklQLmH2CWYsxhAqRK4EchGqBaDyBWTMaC?=
+ =?us-ascii?q?BsVgyIJShkPjisDCwuDYCjOMyYyCwMvAQEHAgcOAwuBaJF+AQE?=
+IronPort-Data: A9a23:maqjV6zhyM7HAhAkZcJ6t+d9xyrEfRIJ4+MujC+fZmUNrF6WrkUBn
+ zQYUWmCOq3fM2eheN1za9+09B4OupWEyd9rGQs6qFhgHilAwSbn6Xt1DatR0we6dJCroJdPt
+ p1GAjX4BJlqCCKa/lH9aOWJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
+ 4yaT/H3Ygf/hWctaDlMscpvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
+ evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
+ zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJEcHApU+66VGOFht8
+ v8ANDMCbE2K1svjldpXSsE07igiBMDmJsYb/3pn1zycValgSpHYSKKM7thdtNsyrpkSQbCEO
+ pZfNmYpNkyQC/FMEg9/5JYWjfqyj3XyWzZZs1mS46Ew5gA/ySQviOS1a4KNJ7RmQ+1TgEWXh
+ VvKzljdWAwYOfyHlii/qWuF07qncSTTHdh6+KeD3vlyjVuew2YeBBEbWR6wpuO0okq/QM5Eb
+ UsM9ywjqKI/+ECmQp/6RRLQnZKflhcRQZ9UVuY98gzIkvWS6AeCDW9CRTlEADA7iPILqfUR/
+ gfht7vU6fZH6dV5lVr1Gm+okA6P
+IronPort-HdrOrdr: A9a23:0axEiqGeqOzOBhfrpLqExMeALOsnbusQ8zAXPidKOHhom6Oj+f
+ xG8M536fawskdzZJhCo6HkBED/exLhHPdOiOF7V4tKHjOW2ldAR7sM0WKN+VHd8lXFltJ15O
+ NHb7V0DsH2ABxRiMb35xT9LvMbqeP3l5xBQYzlvg5QpcYAUdAH0ztE
+X-Talos-CUID: 9a23:v3ZoJmPjLfZBAu5DXhhY7GgFWfEcS17az2/MIEC6VG84YejA
+X-Talos-MUID: 9a23:vo3QjApi8eujDQurvKkezzd8N8hL2qifNGRXjJcLm9HbJxYrIh7I2Q==
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,229,1787011200"; 
-   d="scan'208";a="62761250"
-Received: from aer-l-core-05.cisco.com ([144.254.74.206])
-  by aer-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 24 Nov 2026 06:21:25 +0000
+   d="scan'208";a="60403005"
+Received: from aer-l-core-07.cisco.com ([144.254.74.208])
+  by aer-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 24 Nov 2026 06:21:25 +0000
 Received: from sjc-ads-7871.cisco.com (sjc-ads-7871.cisco.com [10.30.222.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by aer-l-core-05.cisco.com (Postfix) with ESMTPS id 48B6518000231
+	by aer-l-core-07.cisco.com (Postfix) with ESMTPS id 4F1D218000245
 	for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 06:21:25 +0000 (GMT)
 Received: by sjc-ads-7871.cisco.com (Postfix, from userid 1889728)
-	id EE502CC1611; Mon, 23 Nov 2026 22:21:23 -0800 (PST)
+	id F168ACBF201; Mon, 23 Nov 2026 22:21:23 -0800 (PST)
 From: Yogita Urade <yurade@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose][PATCH 0/1] glibc: Security fix
-Date: Mon, 23 Nov 2026 22:21:22 -0800
-Message-Id: <20261124062123.4168678-1-yurade@cisco.com>
+Subject: [OE-core][wrynose][PATCH 1/1] glibc: Fix CVE-2026-121758
+Date: Mon, 23 Nov 2026 22:21:23 -0800
+Message-Id: <20261124062123.4168678-2-yurade@cisco.com>
 X-Mailer: git-send-email 2.35.6
+In-Reply-To: <20261124062123.4168678-1-yurade@cisco.com>
+References: <20261124062123.4168678-1-yurade@cisco.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-7871.cisco.com [10.30.222.158];TLSv1.3;TLS_AES_256_GCM_SHA384;256
 X-Outbound-SMTP-Client: 10.30.222.158, sjc-ads-7871.cisco.com
-X-Outbound-Node: aer-l-core-05.cisco.com
+X-Outbound-Node: aer-l-core-07.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 06:21:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250948
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250949
 Content-Type: text/plain; charset="utf-8"
 
-Backport the upstream glibc fix for CVE-2026-121758 to the glibc
-2.43 recipe on wrynose.
+This patch applies the upstream fix as referenced in [2],
+using the commit shown in [1].
 
-The fix is based on the OE-core submission- 
-"glibc: stable 2.43 branch updates to 124e9adcd4"
-https://lore.kernel.org/openembedded-core/20261119035345.3136238-1-hthakar@cisco.com/
+[1] https://repo.or.cz/glibc.git/commit/170ee485fa89b95c3bb7d5606c9812c6c100c9be
+[2] https://ubuntu.com/security/CVE-2026-121758
 
-Yogita Urade (1):
-  glibc: Fix CVE-2026-121758
-
+Signed-off-by: Yogita Urade <yurade@cisco.com>
+---
  .../glibc/glibc/CVE-2026-121758.patch         | 281 ++++++++++++++++++
  meta/recipes-core/glibc/glibc_2.43.bb         |   1 +
  2 files changed, 282 insertions(+)
  create mode 100644 meta/recipes-core/glibc/glibc/CVE-2026-121758.patch
 
+diff --git a/meta/recipes-core/glibc/glibc/CVE-2026-121758.patch b/meta/recipes-core/glibc/glibc/CVE-2026-121758.patch
+new file mode 100644
+index 0000000000..6a01b903c5
+--- /dev/null
++++ b/meta/recipes-core/glibc/glibc/CVE-2026-121758.patch
+@@ -0,0 +1,281 @@
++From 170ee485fa89b95c3bb7d5606c9812c6c100c9be Mon Sep 17 00:00:00 2001
++From: JT Wang <skyman-wftw@hotmail.com>
++Date: Thu, 12 Nov 2026 05:08:42 +0000
++Subject: [PATCH] iconv: ISO-2022-CN-EXT: fix SO handling without a designation (bug 34774)
++
++In the FROM loop, the SO (0x0e) handler advances inptr before
++checking whether an SO designation had been announced.  Without a
++designation the SO byte is an error, but by the time the error is
++reported the byte has already been consumed.  Consequences:
++
++* With //IGNORE, STANDARD_FROM_LOOP_ERR_HANDLER skips one more byte
++  after the already-consumed SO.  If the SO is the last input byte,
++  inptr ends up one past inend; the loop condition inptr != inend
++  then no longer terminates the loop, and the converter keeps
++  reading past the end of the input buffer and may convert
++  out-of-bounds bytes into the output, in addition to the
++  *inbytesleft wraparound described in the report.  This is also
++  the path taken by iconv -c, which sets the ignore flag for the
++  conversion.  If the SO is not the last byte, the byte following
++  it is silently dropped.
++* Without //IGNORE there is no out-of-bounds access, but iconv()
++  returns EILSEQ with the SO already consumed, so *inbuf does not
++  point at the offending byte and the reported remaining length is
++  one byte short (or exhausted when the SO is the last byte).  A
++  caller that skips the offending byte on EILSEQ and calls iconv()
++  again then decrements an already-exhausted length.
++
++Move the increment after the error handler: the ignore path skips
++the SO exactly once, and the non-ignore path leaves the input
++pointer on the SO byte as POSIX expects.  Sequences with an
++announced designation are unaffected.
++
++Also update the stale comment in that branch, and extend
++tst-iconv-iso-2022-cn-ext with FROM-direction regressions covering
++the error paths, a trailing SO with //IGNORE placed next to an
++inaccessible page, and a designated-SO positive case.
++
++CVE: CVE-2026-121758
++Upstream-Status: Backport [https://repo.or.cz/glibc.git/commit/170ee485fa89b95c3bb7d5606c9812c6c100c9be]
++
++Signed-off-by: JT Wang <skyman-wftw@hotmail.com>
++Reviewed-by: Adhemerval Zanella  <adhemerval.zanella@linaro.org>
++Signed-off-by: Yogita Urade <yurade@cisco.com>
++---
++ iconvdata/iso-2022-cn-ext.c           |  10 +-
++ iconvdata/tst-iconv-iso-2022-cn-ext.c | 180 ++++++++++++++++++++++++++
++ 2 files changed, 184 insertions(+), 6 deletions(-)
++
++diff --git a/iconvdata/iso-2022-cn-ext.c b/iconvdata/iso-2022-cn-ext.c
++index cce29b19..a8fe5522 100644
++--- a/iconvdata/iso-2022-cn-ext.c
+++++ b/iconvdata/iso-2022-cn-ext.c
++@@ -248,12 +248,9 @@ enum
++       }									      \
++     else if (ch == SO)							      \
++       {									      \
++-	/* Switch to use GB2312, GB12345, CNS 11643 plane 1, or ISO-IR-165,   \
++-	   depending on which S0 designation came last.  The only problem     \
++-	   is what to do with faulty input files where no designator came.    \
++-	   XXX For now I'll default to use GB2312.  If this is not the	      \
++-	   best behavior (e.g., we should flag an error) let me know.  */     \
++-	++inptr;							      \
+++	/* Switch to the character set designated last for SO.  A faulty      \
+++	   input file may contain an SO byte without a prior SO               \
+++	   designation; treat such a lone SO as an illegal sequence.  */      \
++ 	if ((ann & SO_ann) != 0)					      \
++ 	  switch (ann & SO_ann)						      \
++ 	    {								      \
++@@ -276,6 +273,7 @@ enum
++ 	  {								      \
++ 	    STANDARD_FROM_LOOP_ERR_HANDLER (1);				      \
++ 	  }								      \
+++	++inptr;							      \
++ 	continue;							      \
++       }									      \
++     else if (ch == SI)							      \
++diff --git a/iconvdata/tst-iconv-iso-2022-cn-ext.c b/iconvdata/tst-iconv-iso-2022-cn-ext.c
++index 96a8765f..ff5f22c7 100644
++--- a/iconvdata/tst-iconv-iso-2022-cn-ext.c
+++++ b/iconvdata/tst-iconv-iso-2022-cn-ext.c
++@@ -25,6 +25,7 @@
++ 
++ #include <support/xunistd.h>
++ #include <support/check.h>
+++#include <support/next_to_fault.h>
++ #include <support/support.h>
++ 
++ /* The test sets up a two memory page buffer with the second page marked
++@@ -37,6 +38,177 @@
++    character sets and may run out of buffer space while doing the
++    operation.  */
++ 
+++/* FROM-direction regression tests for bug 34774: a lone SO (0x0e)
+++   without any announced SO designation.  The error paths must leave
+++   the input pointer on the offending SO byte, and //IGNORE must skip
+++   it exactly once.  */
+++
+++static void
+++test_lone_so_plain (void)
+++{
+++  iconv_t cd = iconv_open ("UTF-8", "ISO-2022-CN-EXT");
+++  TEST_VERIFY_EXIT (cd != (iconv_t) -1);
+++  char in[] = { 0x0e };
+++  char out[8];
+++  char *ip = in, *op = out;
+++  size_t il = sizeof in, ol = sizeof out;
+++  errno = 0;
+++  TEST_COMPARE (iconv (cd, &ip, &il, &op, &ol), (size_t) -1);
+++  TEST_COMPARE (errno, EILSEQ);
+++  TEST_VERIFY (ip == in);
+++  TEST_COMPARE (il, (size_t) 1);
+++  TEST_COMPARE (iconv_close (cd), 0);
+++}
+++
+++static void
+++test_so_after_ascii (void)
+++{
+++  iconv_t cd = iconv_open ("UTF-8", "ISO-2022-CN-EXT");
+++  TEST_VERIFY_EXIT (cd != (iconv_t) -1);
+++  char in[] = { 'A', 0x0e, 'B' };
+++  char out[8];
+++  char *ip = in, *op = out;
+++  size_t il = sizeof in, ol = sizeof out;
+++  errno = 0;
+++  TEST_COMPARE (iconv (cd, &ip, &il, &op, &ol), (size_t) -1);
+++  TEST_COMPARE (errno, EILSEQ);
+++  TEST_VERIFY (ip == in + 1);
+++  TEST_COMPARE (il, (size_t) 2);
+++  TEST_VERIFY (op == out + 1);
+++  TEST_COMPARE_BLOB (out, op - out, "A", 1);
+++  TEST_COMPARE (iconv_close (cd), 0);
+++}
+++
+++static void
+++test_lone_so_ignore (void)
+++{
+++  iconv_t cd = iconv_open ("UTF-8//IGNORE", "ISO-2022-CN-EXT");
+++  TEST_VERIFY_EXIT (cd != (iconv_t) -1);
+++  char in[] = { 0x0e, 'A', 'B' };
+++  char out[8];
+++  char *ip = in, *op = out;
+++  size_t il = sizeof in, ol = sizeof out;
+++  errno = 0;
+++  /* With //IGNORE the offending SO must be skipped exactly once and the
+++     following ASCII must be converted.  Note that glibc still reports
+++     EILSEQ here: the ignore arm of STANDARD_FROM_LOOP_ERR_HANDLER does
+++     not reset result, which stays __GCONV_ILLEGAL_INPUT, and the
+++     iconv() wrapper maps that status to -1 plus EILSEQ
+++     unconditionally (iconv/iconv.c).  */
+++  TEST_COMPARE (iconv (cd, &ip, &il, &op, &ol), (size_t) -1);
+++  TEST_COMPARE (errno, EILSEQ);
+++  TEST_VERIFY (ip == in + 3);
+++  TEST_COMPARE (il, (size_t) 0);
+++  TEST_COMPARE_BLOB (out, op - out, "AB", 2);
+++  TEST_COMPARE (iconv_close (cd), 0);
+++}
+++
+++static void
+++test_caller_skip_no_underflow (void)
+++{
+++  /* A caller that skips the offending byte on EILSEQ and calls
+++     iconv() again.  With the fix, the first call reports the SO as
+++     unconsumed input, so the skip drops the SO itself and the rest of
+++     the input still converts.  */
+++  iconv_t cd = iconv_open ("UTF-8", "ISO-2022-CN-EXT");
+++  TEST_VERIFY_EXIT (cd != (iconv_t) -1);
+++  char in[] = { 0x0e, 'A' };
+++  char out[8];
+++  char *ip = in, *op = out;
+++  size_t il = sizeof in, ol = sizeof out;
+++  errno = 0;
+++  TEST_COMPARE (iconv (cd, &ip, &il, &op, &ol), (size_t) -1);
+++  TEST_COMPARE (errno, EILSEQ);
+++  /* The SO is the offending byte and must still be unconsumed; do not
+++     run the caller-side skip unless this precondition holds, or the
+++     test itself would advance past the end of the input.  */
+++  TEST_VERIFY_EXIT (ip == in);
+++  TEST_VERIFY_EXIT (il == 2);
+++  ++ip;
+++  --il;
+++  op = out;
+++  ol = sizeof out;
+++  errno = 0;
+++  TEST_COMPARE (iconv (cd, &ip, &il, &op, &ol), (size_t) 0);
+++  TEST_COMPARE (il, (size_t) 0);
+++  TEST_COMPARE ((size_t) (op - out), (size_t) 1);
+++  TEST_COMPARE_BLOB (out, op - out, "A", 1);
+++  TEST_COMPARE (iconv_close (cd), 0);
+++}
+++
+++static void
+++test_lone_so_tail_caller_skip (void)
+++{
+++  /* A lone SO at the end of the input.  Before the fix the first call
+++     consumed the SO and left the remaining length at 0, so a caller
+++     skipping the offending byte decremented that length to
+++     (size_t) -1.  */
+++  iconv_t cd = iconv_open ("UTF-8", "ISO-2022-CN-EXT");
+++  TEST_VERIFY_EXIT (cd != (iconv_t) -1);
+++  char in[] = { 'A', 0x0e };
+++  char out[8];
+++  char *ip = in, *op = out;
+++  size_t il = sizeof in, ol = sizeof out;
+++  errno = 0;
+++  TEST_COMPARE (iconv (cd, &ip, &il, &op, &ol), (size_t) -1);
+++  TEST_COMPARE (errno, EILSEQ);
+++  TEST_VERIFY_EXIT (ip == in + 1);
+++  TEST_VERIFY_EXIT (il == 1);
+++  ++ip;
+++  --il;
+++  op = out;
+++  ol = sizeof out;
+++  errno = 0;
+++  TEST_COMPARE (iconv (cd, &ip, &il, &op, &ol), (size_t) 0);
+++  TEST_COMPARE (il, (size_t) 0);
+++  TEST_COMPARE (iconv_close (cd), 0);
+++}
+++
+++static void
+++test_designated_so (void)
+++{
+++  /* Positive case: with an announced designation the SO switches to
+++     the designated set, consumes exactly one byte, and the following
+++     7-bit GB2312 pair converts.  ESC $ ) A designates GB2312;
+++     0x52 0x3b is the 7-bit form of the GB2312 code for U+4E00.  */
+++  iconv_t cd = iconv_open ("UTF-8", "ISO-2022-CN-EXT");
+++  TEST_VERIFY_EXIT (cd != (iconv_t) -1);
+++  char in[] = { 0x1b, '$', ')', 'A', 0x0e, 0x52, 0x3b, 0x0f, 'Z' };
+++  char out[16];
+++  char *ip = in, *op = out;
+++  size_t il = sizeof in, ol = sizeof out;
+++  errno = 0;
+++  TEST_COMPARE (iconv (cd, &ip, &il, &op, &ol), (size_t) 0);
+++  TEST_COMPARE (il, (size_t) 0);
+++  TEST_COMPARE ((size_t) (op - out), (size_t) 4);
+++  TEST_COMPARE_BLOB (out, 4, "\xe4\xb8\x80Z", 4);
+++  TEST_COMPARE (iconv_close (cd), 0);
+++}
+++
+++static void
+++test_trailing_so_ignore (void)
+++{
+++  /* The shape from bug 34774: a lone SO as the last input byte with
+++     //IGNORE.  Place the input right before an inaccessible page so
+++     that a read past the end faults.  */
+++  struct support_next_to_fault ntf = support_next_to_fault_allocate (2);
+++  ntf.buffer[0] = 'A';
+++  ntf.buffer[1] = 0x0e;
+++  iconv_t cd = iconv_open ("UTF-8//IGNORE", "ISO-2022-CN-EXT");
+++  TEST_VERIFY_EXIT (cd != (iconv_t) -1);
+++  char out[8];
+++  char *ip = ntf.buffer, *op = out;
+++  size_t il = 2, ol = sizeof out;
+++  errno = 0;
+++  TEST_COMPARE (iconv (cd, &ip, &il, &op, &ol), (size_t) -1);
+++  TEST_COMPARE (errno, EILSEQ);
+++  TEST_VERIFY (ip == ntf.buffer + 2);
+++  TEST_COMPARE (il, (size_t) 0);
+++  TEST_COMPARE_BLOB (out, op - out, "A", 1);
+++  TEST_COMPARE (iconv_close (cd), 0);
+++  support_next_to_fault_free (&ntf);
+++}
+++
++ static int
++ do_test (void)
++ {
++@@ -122,6 +294,14 @@ do_test (void)
++ 
++   xmunmap (ntf, ntfsize);
++ 
+++  test_trailing_so_ignore ();
+++  test_lone_so_plain ();
+++  test_so_after_ascii ();
+++  test_lone_so_ignore ();
+++  test_caller_skip_no_underflow ();
+++  test_lone_so_tail_caller_skip ();
+++  test_designated_so ();
+++
++   return 0;
++ }
++ 
+diff --git a/meta/recipes-core/glibc/glibc_2.43.bb b/meta/recipes-core/glibc/glibc_2.43.bb
+index 5d2344389f..09e4e0b837 100644
+--- a/meta/recipes-core/glibc/glibc_2.43.bb
++++ b/meta/recipes-core/glibc/glibc_2.43.bb
+@@ -61,6 +61,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
+            file://0020-fix-create-thread-failed-in-unprivileged-process-BZ-.patch \
+            file://0021-tests-Skip-2-qemu-tests-that-can-hang-in-oe-selftest.patch \
+            file://0022-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch \
++           file://CVE-2026-121758.patch \
+ "
+ B = "${WORKDIR}/build-${TARGET_SYS}"
+ 
 -- 
 2.53.0
 
