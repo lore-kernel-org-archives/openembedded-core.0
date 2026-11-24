@@ -1,468 +1,357 @@
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13305.1795504893140732469
+Received: from aer-iport-3.cisco.com (aer-iport-3.cisco.com [173.38.203.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13151.1795505766475609485
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Nov 2026 23:21:33 -0800
+ Mon, 23 Nov 2026 23:36:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=DcQ998ZB;
- spf=pass (domain: siemens.com, ip: 52.101.83.50, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SXRrQEu1UHhT9b59dNzrgCvDhd4ZfEbB9A1qk6kfRlhuBGXPdYDm0LNuxiXro5ZhsC55e6NtQ2ndlCK6YVpMpjKtHbllrEODLYoFMx682DQsIYe5wwocAUOslj1Pl0w5X4jRNS5p1ASw3rnMVlu/GaKnQd4/wuzHRyUqRFNAYN+kcWXoCSErz+V8DvbgxbgpdFOrDiI4GrQT8sAyv3UE2mT18QIwIWiFQhJvTwY7cwkWm2UAl1F8SyIBbCSveiwMhDhPMtJ1i1onvHec5dPQRbquaoTTWGpDP6GVIof3bAu7hLHbyrmjt1vbG4qnaHQdaUE2IBSkNYcK7KdFMDRN8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=IVsa8mM6iMN7WaoFztahRZ0H1Eb86eHmTr9yfjeMGAY=;
- b=YlNXZ1s2Ga3riR9neMHiJ8yRPIy+80zUyIL1V+HkT02NfvJNLZIGsTrCTzYF/ZMiy0uLXl4OwAh3jpgshkFTbeW9ZKg0vuFulNF/hy9zpvGxgcmR8CkLu3dzlgcrCOuuRagtG+JWaICq9Z2YIisDj4dWeqgCumyJ66iN0CdXsiOqSHTQrCXmY/01iOQwPntECGPPRZF1EoDvsVqcIFKdQPP/iDN+Hntnrdh3uWOsCx7bFom7ThjS/fnouNkjVdjFO+ZrAwlc+7DoRz1VscJ4BMaQj9qp+El3pmljXL9kT2oWcajZPqpy4BsF8rH12tL/HrDnT9WRAEQtq317OdE9pw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=IVsa8mM6iMN7WaoFztahRZ0H1Eb86eHmTr9yfjeMGAY=;
- b=DcQ998ZBtGNGxsCIoN1+8DfTxadAiS9Y/h/F2hSBMoXuVJGtLkFeKzwfjWXp5oO5rV/wMHA9vIvLGMZKERP7wLlsFpVltQpkH3jtscFybP0RO2IVxWoke1DBSKr3whUgaW00Jv7KXaD0AT4mpxCg+VDdxnidscSpTXhRIHzAYZezrPr2VrjaL3wSey7fF7mCIYj/FjupIFJLLKj3HBEyO+fCz5jiCOGhjwgZcYWMikUHghi6UZdfsjXTnXRm8J99zuuNkXPMOi0UodMp6kNdKdzYw5jHpaD4QbelQ1+LeHFFVhXb114lZb1yATDfkH56DWL+ipUbfs7Vxx++Oj2sUQ==
-Received: from AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:420::16)
- by DU0PR10MB7590.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:402::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.4; Tue, 24 Nov
- 2026 07:21:28 +0000
-Received: from AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::a905:57e5:8858:d008]) by AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::a905:57e5:8858:d008%6]) with mapi id 15.21.0662.001; Tue, 24 Nov 2026
- 07:21:28 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: "yurade@cisco.com" <yurade@cisco.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core][wrynose][PATCH 1/1] glibc: Fix CVE-2026-121758
-Thread-Topic: [OE-core][wrynose][PATCH 1/1] glibc: Fix CVE-2026-121758
-Thread-Index: AQHde9wYpxU+zfWgOECe5IVTJ9HhcLc80JwQ
-Date: Tue, 24 Nov 2026 07:21:28 +0000
-Message-ID: <AS8PR10MB5073E76DEB08FCF83CDC3FBCFD442@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
-References: <20261124062123.4168678-1-yurade@cisco.com>
- <20261124062123.4168678-2-yurade@cisco.com>
-In-Reply-To: <20261124062123.4168678-2-yurade@cisco.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=fab022ab-3123-4ef3-a47c-6b70df6ede7c;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-11-24T07:19:38Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
- 3, 0, 1;
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS8PR10MB5073:EE_|DU0PR10MB7590:EE_
-x-ms-office365-filtering-correlation-id: bdebde16-d128-4e3e-8aa6-08df49fb8e56
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|23010399003|1800799024|376014|55112099003|22082099003|18002099003|38070700021|260925022911599003|260925021311599003|260925021911599003|56012099006|4143699003|5023799004|11063799006|3023799007|261009223027099003|261102123227099003|261021123027099003|261026140227099003|261026121527099003|261021121427099003|261022113327099003|261022105027099003|261028144727099003|261022075727099003|10067099003;
-x-microsoft-antispam-message-info: shn2tqR7GRt3j6qQVRtrf8sAD8OaclewWQT3hohHcOLt5osGGW2JMaCEoLr8VIceFWKlpfg+xK9pSpM86sF6QqvJcGaYQGBD/0Jz+do1wAwSofZH6ZdUUc18mxG+0ZKEFmoj7wMHpHQ4laNRx8BkHVnKSRrsZ2qqBpoEoSupX9b6bPPcfdFWBxqLwDUQFeKPwEhARF0rLvKqpXf6DGc05kKAylnlVIh+HybWiQGByoOaT4f4tXHUhZKmBIznbmN+ENlZbPn4vLrydLud8PKqAD33egBnYxKH//N443cZczhtaux1H5FkjI493jct1XkQiUWzZ4JfeH5d0KZwdnj/y1TMkl+XCqNN1/29c5+DkWFTga0qDY4yZH3RmmUYv2yMzFQ6oCv16pQVwo7t6zp7UpCMeqYX6uDvzBxD1GsptR1q8QyQ12RT2vYNA8gHcp0oS3fMtx6+wKIl4e7Jbb8EQGXRsBKwXcyaxVYh1RPf3+8gwj30JZ76wUMlD4Xui4CzsmoQQvkFK39OB0TXqR/tJT6nVvO2AbOUCq6ysiN9IFWhWMxkcnCfgk7JKEd1e8Fak9VFg99cByTfbi8KEqUUXGkJRWcdjk0IF0j6IES1y524esv6tjAjzGIL7Q+WGZuUtPUN5t6jrEZP5tBq7fKnH5/aZhouVt4nb+yaa1Q1wjY=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(1800799024)(376014)(55112099003)(22082099003)(18002099003)(38070700021)(260925022911599003)(260925021311599003)(260925021911599003)(56012099006)(4143699003)(5023799004)(11063799006)(3023799007)(261009223027099003)(261102123227099003)(261021123027099003)(261026140227099003)(261026121527099003)(261021121427099003)(261022113327099003)(261022105027099003)(261028144727099003)(261022075727099003)(10067099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Cl6fsVC8TUgD63hmcBCP1sJezllXXGxFv/GfhdyQNyLIkDFqRKolCl8LT71n?=
- =?us-ascii?Q?KXIC0UpPt890gPoJrFHYg3sXX6pAUw9tmmrcbFF90AZPp0YjA0uh8S2a36Mk?=
- =?us-ascii?Q?/Rh1zzZ7gCtTlSatZZ0B9+0drYwRaVuF6BNKAlaN6eww0DqfEwQoSrLk9Uc1?=
- =?us-ascii?Q?ZSwkGlQYRLHIbflFwxAjxNXVxM4DGnIf7C/J3uVR8EnBUafD/LRlSo7/e5oW?=
- =?us-ascii?Q?UtFrWzIM1yKLaOULreEdCwKT7INOTPKdXa7QTuhroQ6muLplDiz/fht3RIY+?=
- =?us-ascii?Q?6plG1wh+27RFDOoFW3bKQdV9MyrSAtkoz7YRGSQS7VDlzNTdxW1CE8Pq8v11?=
- =?us-ascii?Q?uFvEFElkdipiDd7KYpFlrW/WKF6YydII1sveqN+OqJS8aAQLjatFI5IvBrsj?=
- =?us-ascii?Q?gybu0pW8Ib+SW3f01YmzqwuqSD4Mwq3Gx0+0iG46dfsquw+6nLmXESEWLliq?=
- =?us-ascii?Q?z/9k2RumEiAFQi4UpfKMkwYIGoXOHDRjQC5XV3/g/sSGUilMhGZ+VET7ZMtr?=
- =?us-ascii?Q?+ucQoiG0zFpoJ7KISdsNfNXTPvqoODBIoWcXrDkc8dORbLRkK0i8m/ZpHv1N?=
- =?us-ascii?Q?pa5SECEsYff4D5+WtPSBsrnGigRCjoQ0jBo5LnAVBkmSkLfJXO4QvWWrMkUs?=
- =?us-ascii?Q?qO4FZYy8Hp1bOz1RTapTJKUHPKmZXsTL9uT87uIYr7TBF7IHoisVeDXRVWv6?=
- =?us-ascii?Q?ZJ8C49BfQL+guwVISeo4kZVIiWS0SZ2hqGyb9BAp+P/jZVIpjxh44L0KSyCk?=
- =?us-ascii?Q?mJzUrKfJ8N7zCrYll9EAb3ywZ3UyzUkCYmv+471kfjVX69wimrgwAGE/nNse?=
- =?us-ascii?Q?oKDt/Q7556uxV+EIQMT/noeogFllVlwNxSsJhv1QTjoqps135+ZcJUYLqIdN?=
- =?us-ascii?Q?y3+U9xdQEYv7nqlO4LvfDM2yaRLyxwyLfl5tp+GbQ4CFLpzliqnR2HZI0X2t?=
- =?us-ascii?Q?Ml0kNwr41u5TNX41d/F3ULTT3ROgBclJ3Z1RQrni1YVtuHtFqHDFz0XFRFKO?=
- =?us-ascii?Q?RRw2N2m7zqKrSaNlGuPotFevAhQVvOTsUZV9KbeoQh/YJkZ0opZkBFzxenLu?=
- =?us-ascii?Q?MK/0ija25kbfe9/6xt7mBSP1+EjgBhqvzIZ8uUFSrVsTo0Af9DrRekwU3SWx?=
- =?us-ascii?Q?sxPNk1hrO0K0zJlGkdjst+LnplAoJl2DRvSPHhk6BpeVEMA7VXT2rllj0HGy?=
- =?us-ascii?Q?EZNeh65aRBxcOG379HFvUId760viAt5RbLzdQ6tQm1bs99PHyGcPU3zHqMCF?=
- =?us-ascii?Q?Sk0iVERCp+l1Y4DJmeOXzHiZ3Wjxjxi9x3co0PjS3qBR14T/Py0Xs7Conv/t?=
- =?us-ascii?Q?MK7VzL2giSwxn1KLSHVbp4tnJNCV00G3RchRccub1LhiTpTZD71oOGKhx25Q?=
- =?us-ascii?Q?phq+NPDtx/1wPk5iDhnB2LPXJpJMUn28cGcUdz7ug5vUL1L1ikAwwNLguns7?=
- =?us-ascii?Q?LUkZuXDpLGtGyxINR33zRYCNZ55a3aa+yBfzn3PQHVrIZD4H839/jGRtHU7L?=
- =?us-ascii?Q?zAC1o9sjHZp7CIUWaE8+KdIgd4hoUUykSwzErYhtzR5Waf8ON7iV0rHXbjOb?=
- =?us-ascii?Q?dIbezNkb3UASxjm8/ZyFzXI6jSKgxJHxyktt2Df9tvhiaov7/Aey1CTrn3DA?=
- =?us-ascii?Q?OK8+nP/wbiHW3PM7n98gWdEEEojXBRzMV/FBvGRB6DIWn7r6LnEVIih5nZHb?=
- =?us-ascii?Q?LWilACtc66pyuF4NH7/vrWz4FpQIeaUPk14kxkioyT13Wx9BaA/FjM5dhpx9?=
- =?us-ascii?Q?TYG92XvCXQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=deNgISAi;
+ spf=pass (domain: cisco.com, ip: 173.38.203.53, mailfrom: dkelaiya@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=11369; q=dns/txt;
+  s=iport01; t=1795505766; x=1796715366;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=uZCyP0qde7IRo7lvffkLoQp3m3d3PTkLDNVCQwP8BBo=;
+  b=deNgISAi4H5/vtLbH6DqcrdVcPu/aai72EJJjnJ8WlD1hsvTrIIEGsGV
+   W73ERJCS/tmL/zvrriMlQv/ezmyEpbl1vAut2RhmICcYb7ouRo++ZNR3z
+   aLrQFsDAJrMIx7M+gE4H1qdjM1p1P+95u+4yQgn04Uo+8ChvrPcJ2XPQ4
+   fqtDXiEbsrvyYgvF80joKgIOTMcO0or/yPD+Lolzrh4Cd99GHI8W2Mism
+   8b0DmfOAwbdlCDEQ3UFFAHLy3Xx+bXQUGxvq7utDfciUDg27UgxBMyVyz
+   iDq5+46Ee+LaZ+IqIdzh33pQImLD4nFCMsv8Cfi03/phmNJ+T4P35EaL5
+   g==;
+X-CSE-ConnectionGUID: UWsCu4EdQbeOb2r5xKHmMA==
+X-CSE-MsgGUID: XUfQs461R5q4OtNxGRg2Dw==
+X-IPAS-Result: =?us-ascii?q?A0AnAABAPAVr/9RK/pBaHQEBAQEJARIBBQUBgXwIAQsBg?=
+ =?us-ascii?q?lZ1YENJjHKIbWyBFp0WgX4PAQEBD0QNBAEBhQWOJAImNAkOAQIEAwIDAQEBA?=
+ =?us-ascii?q?QEBAQEBAQEBCgEBBQEBAQIBBwWBDhOGTw2QEgECASoLARgBLSwDAQJaIyGDA?=
+ =?us-ascii?q?gGCdAMRum2BeTOBAYMpAd0HAQsUAYE4AYVBiCRdGAGEfScbG4FygRWCdHaCY?=
+ =?us-ascii?q?QQYgQ2GfwSCInoSgVQYBox5AoFPiElIgR4DWSwBVRMNCgsHBYFoAzUSKhVuM?=
+ =?us-ascii?q?h2BIzsXgQcbBgWBHIEegRKBA12BKyhdASGBCIF2AoJRggACAUlBDgdFUwklQ?=
+ =?us-ascii?q?xJHJCIIEgkBExosCoEaNTwJJj8VDGcLGgVhCAINDHQ5EDAeJC8FGiY+GwqBD?=
+ =?us-ascii?q?CcfHhsOAh8QBhYhCxsYDUgRLDcVGQQ+bgeUFIJNRgcBLE4TARMYF2QFGTQHa?=
+ =?us-ascii?q?QuSdS48j1mCIZ5NgkQKKIN5jCSVOhozhVulF5kIjgqVdF2EaoFoPIFZcBWDI?=
+ =?us-ascii?q?gkJQRkPji8ViHPJSCYyAgEBBzICBwIHDgMLkWiBHmABAQ?=
+IronPort-Data: A9a23:nyy5GKl9I9ULQt29jfzJ8+Do5gyNJ0RdPkR7XQ2eYbSJt1+Wr1Gzt
+ xJMXGGCafaPNGbyftpwaIXn/EIE65bXytA1HlZu/39hRltH+JHPbTi7wugcHM8zwunrFh8PA
+ xA2M4GYRCwMZiaC4Errav6x9yQUOZigHtLUEPTDNj16WThqQSIgjQMLs+Mii+aEu/Dha++2k
+ Y20+ZK31GONgWYubDtNsfnb8nuDgdyr0N8mlg1mDRx0lAe2e0k9VPo3Oay3Jn3kdYhYdsbSb
+ /rD1ryw4lTC9B4rDN6/+p6jGqHdauePVeQmoiM+t5mK2nCulARrukoIHKZ0hXNsttm8t4sZJ
+ OOhGnCHYVxB0qXkwIzxWvTDes10FfUuFLTveRBTvSEPpqHLWyOE/hlgMK05FbAn4c1qXUxCz
+ PYVDzpXdE2TpMKz5ZvuH4GAhux7RCXqFIoSoDRkiDreF/tjGMmFSKTR7tge1zA17ixMNa+CO
+ 4xDNGYpM0iGOUQVUrsUIMpWcOOAinrydzRZuVu9rqss6G+Vxwt0uFToGISNJoXVGZ0K9qqej
+ lL78V3iXk9DDoGGlR2Z1GKDvOCVsTyuDer+E5X9rJaGmma7z2geGDUSVF2mveO+jE+uHd5SQ
+ 2QO+yEupLI+slS2VNX8UjW8oXiZrhAbRtxcGvE77wfLzbDbiy6eHmUCQztLZdAqucNzTjsw2
+ 3eNnsj1HnpoqLCTRHeX+7uYoD/0PjIaRVLufgcNQBFA55zop5s+y0uWCN1iC6WyyNbyHFkc3
+ gy3kcT3vJ1L5eZj6klx1Qmvb+6EznQRcjMI2w==
+IronPort-HdrOrdr: A9a23:++HN6q/B5p8yMbwcPDZuk+DuI+orL9Y04lQ7vn2ZhyY7TiX+rb
+ HKoB11737JYVoqNU3I+urwWpVoP0m9yXcd2+B4Vt2ftWLd1ldAQrsP0WKb+UyCJwTOsshAyK
+ xnb69yTPf0DVR8kILGxTPQKadF/DFCm5rY49s3CBxWPGZXV50=
+X-Talos-CUID: =?us-ascii?q?9a23=3AhqasvmsfdZS1uDdh2oibsFha6IsYTWb20Sv9L3a?=
+ =?us-ascii?q?yBEFjEqfIWXyw/YZNxp8=3D?=
+X-Talos-MUID: =?us-ascii?q?9a23=3A5GJX9w+ST1BUlwCjWXLzYgKQf/dV7Z21VB5Uq8g?=
+ =?us-ascii?q?f5+6YEzxfATjHoCviFw=3D=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.27,229,1787011200"; 
+   d="scan'208";a="60417407"
+Received: from aer-l-core-11.cisco.com ([144.254.74.212])
+  by aer-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 24 Nov 2026 07:36:02 +0000
+Received: from sjc-ads-5675.cisco.com (sjc-ads-5675.cisco.com [10.28.88.189])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by aer-l-core-11.cisco.com (Postfix) with ESMTPS id 0C69F1800040B;
+	Tue, 24 Nov 2026 07:36:02 +0000 (GMT)
+Received: by sjc-ads-5675.cisco.com (Postfix, from userid 1887444)
+	id B1894CC1611; Mon, 23 Nov 2026 23:36:00 -0800 (PST)
+From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alexander Kanavin <alex@linutronix.de>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Darsh Kelaiya <dkelaiya@cisco.com>
+Subject: [OE-core][wrynose][PATCH] acl: upgrade 2.3.2 -> 2.4.0
+Date: Mon, 23 Nov 2026 23:35:57 -0800
+Message-Id: <20261124073557.219159-1-dkelaiya@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: bdebde16-d128-4e3e-8aa6-08df49fb8e56
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Nov 2026 07:21:28.2594
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: Mx/J0U6nrfxKlAJ//mV2OfKu1QFBCfz2pF5VX3VhlEudchMHLIv7I8maSa40Qyydbhl0/cCa1TLFPx9m5ANK4Q==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR10MB7590
+Content-Transfer-Encoding: 8bit
+X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5675.cisco.com [10.28.88.189];TLSv1.3;TLS_AES_256_GCM_SHA384;256
+X-Outbound-SMTP-Client: 10.28.88.189, sjc-ads-5675.cisco.com
+X-Outbound-Node: aer-l-core-11.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 07:21:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250962
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 07:36:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250963
+Content-Type: text/plain; charset="utf-8"
 
-Please update git hash instead of backporting patch.
-This commit is included in https://sourceware.org/git/?p=3Dglibc.git;a=3Dsh=
-ortlog;h=3Drefs/heads/release/2.43/master
+From: Alexander Kanavin <alex@linutronix.de>
 
-Peter
+Backport a patch to tar to avoid name clashes.
 
-> -----Original Message-----
-> From: Yogita Urade -X (yurade - E INFOCHIPS PRIVATE LIMITED at Cisco) via
-> openembedded-core <yurade=3Dcisco.com@lists.openembedded.org>
-> Sent: Tuesday, November 24, 2026 7:21 AM
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core][wrynose][PATCH 1/1] glibc: Fix CVE-2026-121758
->=20
-> This patch applies the upstream fix as referenced in [2],
-> using the commit shown in [1].
->=20
-> [1]
-> https://repo.or.cz/glibc.git/commit/170ee485fa89b95c3bb7d5606c9812c6c100c=
-9b
-> e
-> [2] https://ubuntu.com/security/CVE-2026-121758
->=20
-> Signed-off-by: Yogita Urade <yurade@cisco.com>
-> ---
->  .../glibc/glibc/CVE-2026-121758.patch         | 281 ++++++++++++++++++
->  meta/recipes-core/glibc/glibc_2.43.bb         |   1 +
->  2 files changed, 282 insertions(+)
->  create mode 100644 meta/recipes-core/glibc/glibc/CVE-2026-121758.patch
->=20
-> diff --git a/meta/recipes-core/glibc/glibc/CVE-2026-121758.patch b/meta/r=
-ecipes-
-> core/glibc/glibc/CVE-2026-121758.patch
-> new file mode 100644
-> index 0000000000..6a01b903c5
-> --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc/CVE-2026-121758.patch
-> @@ -0,0 +1,281 @@
-> +From 170ee485fa89b95c3bb7d5606c9812c6c100c9be Mon Sep 17 00:00:00
-> 2001
-> +From: JT Wang <skyman-wftw@hotmail.com>
-> +Date: Thu, 12 Nov 2026 05:08:42 +0000
-> +Subject: [PATCH] iconv: ISO-2022-CN-EXT: fix SO handling without a
-> designation (bug 34774)
-> +
-> +In the FROM loop, the SO (0x0e) handler advances inptr before
-> +checking whether an SO designation had been announced.  Without a
-> +designation the SO byte is an error, but by the time the error is
-> +reported the byte has already been consumed.  Consequences:
-> +
-> +* With //IGNORE, STANDARD_FROM_LOOP_ERR_HANDLER skips one more
-> byte
-> +  after the already-consumed SO.  If the SO is the last input byte,
-> +  inptr ends up one past inend; the loop condition inptr !=3D inend
-> +  then no longer terminates the loop, and the converter keeps
-> +  reading past the end of the input buffer and may convert
-> +  out-of-bounds bytes into the output, in addition to the
-> +  *inbytesleft wraparound described in the report.  This is also
-> +  the path taken by iconv -c, which sets the ignore flag for the
-> +  conversion.  If the SO is not the last byte, the byte following
-> +  it is silently dropped.
-> +* Without //IGNORE there is no out-of-bounds access, but iconv()
-> +  returns EILSEQ with the SO already consumed, so *inbuf does not
-> +  point at the offending byte and the reported remaining length is
-> +  one byte short (or exhausted when the SO is the last byte).  A
-> +  caller that skips the offending byte on EILSEQ and calls iconv()
-> +  again then decrements an already-exhausted length.
-> +
-> +Move the increment after the error handler: the ignore path skips
-> +the SO exactly once, and the non-ignore path leaves the input
-> +pointer on the SO byte as POSIX expects.  Sequences with an
-> +announced designation are unaffected.
-> +
-> +Also update the stale comment in that branch, and extend
-> +tst-iconv-iso-2022-cn-ext with FROM-direction regressions covering
-> +the error paths, a trailing SO with //IGNORE placed next to an
-> +inaccessible page, and a designated-SO positive case.
-> +
-> +CVE: CVE-2026-121758
-> +Upstream-Status: Backport
-> [https://repo.or.cz/glibc.git/commit/170ee485fa89b95c3bb7d5606c9812c6c100=
-c9
-> be]
-> +
-> +Signed-off-by: JT Wang <skyman-wftw@hotmail.com>
-> +Reviewed-by: Adhemerval Zanella  <adhemerval.zanella@linaro.org>
-> +Signed-off-by: Yogita Urade <yurade@cisco.com>
-> +---
-> + iconvdata/iso-2022-cn-ext.c           |  10 +-
-> + iconvdata/tst-iconv-iso-2022-cn-ext.c | 180 ++++++++++++++++++++++++++
-> + 2 files changed, 184 insertions(+), 6 deletions(-)
-> +
-> +diff --git a/iconvdata/iso-2022-cn-ext.c b/iconvdata/iso-2022-cn-ext.c
-> +index cce29b19..a8fe5522 100644
-> +--- a/iconvdata/iso-2022-cn-ext.c
-> ++++ b/iconvdata/iso-2022-cn-ext.c
-> +@@ -248,12 +248,9 @@ enum
-> +       }									      \
-> +     else if (ch =3D=3D SO)							      \
-> +       {									      \
-> +-	/* Switch to use GB2312, GB12345, CNS 11643 plane 1, or ISO-IR-165,   =
-\
-> +-	   depending on which S0 designation came last.  The only problem     =
-\
-> +-	   is what to do with faulty input files where no designator came.    =
-\
-> +-	   XXX For now I'll default to use GB2312.  If this is not the	      \
-> +-	   best behavior (e.g., we should flag an error) let me know.  */     =
-\
-> +-	++inptr;							      \
-> ++	/* Switch to the character set designated last for SO.  A faulty      =
-\
-> ++	   input file may contain an SO byte without a prior SO               =
-\
-> ++	   designation; treat such a lone SO as an illegal sequence.  */      =
-\
-> + 	if ((ann & SO_ann) !=3D 0)					      \
-> + 	  switch (ann & SO_ann)
-> \
-> + 	    {								      \
-> +@@ -276,6 +273,7 @@ enum
-> + 	  {								      \
-> + 	    STANDARD_FROM_LOOP_ERR_HANDLER (1);
-> 	      \
-> + 	  }								      \
-> ++	++inptr;							      \
-> + 	continue;							      \
-> +       }									      \
-> +     else if (ch =3D=3D SI)							      \
-> +diff --git a/iconvdata/tst-iconv-iso-2022-cn-ext.c b/iconvdata/tst-iconv=
--iso-2022-
-> cn-ext.c
-> +index 96a8765f..ff5f22c7 100644
-> +--- a/iconvdata/tst-iconv-iso-2022-cn-ext.c
-> ++++ b/iconvdata/tst-iconv-iso-2022-cn-ext.c
-> +@@ -25,6 +25,7 @@
-> +
-> + #include <support/xunistd.h>
-> + #include <support/check.h>
-> ++#include <support/next_to_fault.h>
-> + #include <support/support.h>
-> +
-> + /* The test sets up a two memory page buffer with the second page marke=
-d
-> +@@ -37,6 +38,177 @@
-> +    character sets and may run out of buffer space while doing the
-> +    operation.  */
-> +
-> ++/* FROM-direction regression tests for bug 34774: a lone SO (0x0e)
-> ++   without any announced SO designation.  The error paths must leave
-> ++   the input pointer on the offending SO byte, and //IGNORE must skip
-> ++   it exactly once.  */
-> ++
-> ++static void
-> ++test_lone_so_plain (void)
-> ++{
-> ++  iconv_t cd =3D iconv_open ("UTF-8", "ISO-2022-CN-EXT");
-> ++  TEST_VERIFY_EXIT (cd !=3D (iconv_t) -1);
-> ++  char in[] =3D { 0x0e };
-> ++  char out[8];
-> ++  char *ip =3D in, *op =3D out;
-> ++  size_t il =3D sizeof in, ol =3D sizeof out;
-> ++  errno =3D 0;
-> ++  TEST_COMPARE (iconv (cd, &ip, &il, &op, &ol), (size_t) -1);
-> ++  TEST_COMPARE (errno, EILSEQ);
-> ++  TEST_VERIFY (ip =3D=3D in);
-> ++  TEST_COMPARE (il, (size_t) 1);
-> ++  TEST_COMPARE (iconv_close (cd), 0);
-> ++}
-> ++
-> ++static void
-> ++test_so_after_ascii (void)
-> ++{
-> ++  iconv_t cd =3D iconv_open ("UTF-8", "ISO-2022-CN-EXT");
-> ++  TEST_VERIFY_EXIT (cd !=3D (iconv_t) -1);
-> ++  char in[] =3D { 'A', 0x0e, 'B' };
-> ++  char out[8];
-> ++  char *ip =3D in, *op =3D out;
-> ++  size_t il =3D sizeof in, ol =3D sizeof out;
-> ++  errno =3D 0;
-> ++  TEST_COMPARE (iconv (cd, &ip, &il, &op, &ol), (size_t) -1);
-> ++  TEST_COMPARE (errno, EILSEQ);
-> ++  TEST_VERIFY (ip =3D=3D in + 1);
-> ++  TEST_COMPARE (il, (size_t) 2);
-> ++  TEST_VERIFY (op =3D=3D out + 1);
-> ++  TEST_COMPARE_BLOB (out, op - out, "A", 1);
-> ++  TEST_COMPARE (iconv_close (cd), 0);
-> ++}
-> ++
-> ++static void
-> ++test_lone_so_ignore (void)
-> ++{
-> ++  iconv_t cd =3D iconv_open ("UTF-8//IGNORE", "ISO-2022-CN-EXT");
-> ++  TEST_VERIFY_EXIT (cd !=3D (iconv_t) -1);
-> ++  char in[] =3D { 0x0e, 'A', 'B' };
-> ++  char out[8];
-> ++  char *ip =3D in, *op =3D out;
-> ++  size_t il =3D sizeof in, ol =3D sizeof out;
-> ++  errno =3D 0;
-> ++  /* With //IGNORE the offending SO must be skipped exactly once and th=
-e
-> ++     following ASCII must be converted.  Note that glibc still reports
-> ++     EILSEQ here: the ignore arm of
-> STANDARD_FROM_LOOP_ERR_HANDLER does
-> ++     not reset result, which stays __GCONV_ILLEGAL_INPUT, and the
-> ++     iconv() wrapper maps that status to -1 plus EILSEQ
-> ++     unconditionally (iconv/iconv.c).  */
-> ++  TEST_COMPARE (iconv (cd, &ip, &il, &op, &ol), (size_t) -1);
-> ++  TEST_COMPARE (errno, EILSEQ);
-> ++  TEST_VERIFY (ip =3D=3D in + 3);
-> ++  TEST_COMPARE (il, (size_t) 0);
-> ++  TEST_COMPARE_BLOB (out, op - out, "AB", 2);
-> ++  TEST_COMPARE (iconv_close (cd), 0);
-> ++}
-> ++
-> ++static void
-> ++test_caller_skip_no_underflow (void)
-> ++{
-> ++  /* A caller that skips the offending byte on EILSEQ and calls
-> ++     iconv() again.  With the fix, the first call reports the SO as
-> ++     unconsumed input, so the skip drops the SO itself and the rest of
-> ++     the input still converts.  */
-> ++  iconv_t cd =3D iconv_open ("UTF-8", "ISO-2022-CN-EXT");
-> ++  TEST_VERIFY_EXIT (cd !=3D (iconv_t) -1);
-> ++  char in[] =3D { 0x0e, 'A' };
-> ++  char out[8];
-> ++  char *ip =3D in, *op =3D out;
-> ++  size_t il =3D sizeof in, ol =3D sizeof out;
-> ++  errno =3D 0;
-> ++  TEST_COMPARE (iconv (cd, &ip, &il, &op, &ol), (size_t) -1);
-> ++  TEST_COMPARE (errno, EILSEQ);
-> ++  /* The SO is the offending byte and must still be unconsumed; do not
-> ++     run the caller-side skip unless this precondition holds, or the
-> ++     test itself would advance past the end of the input.  */
-> ++  TEST_VERIFY_EXIT (ip =3D=3D in);
-> ++  TEST_VERIFY_EXIT (il =3D=3D 2);
-> ++  ++ip;
-> ++  --il;
-> ++  op =3D out;
-> ++  ol =3D sizeof out;
-> ++  errno =3D 0;
-> ++  TEST_COMPARE (iconv (cd, &ip, &il, &op, &ol), (size_t) 0);
-> ++  TEST_COMPARE (il, (size_t) 0);
-> ++  TEST_COMPARE ((size_t) (op - out), (size_t) 1);
-> ++  TEST_COMPARE_BLOB (out, op - out, "A", 1);
-> ++  TEST_COMPARE (iconv_close (cd), 0);
-> ++}
-> ++
-> ++static void
-> ++test_lone_so_tail_caller_skip (void)
-> ++{
-> ++  /* A lone SO at the end of the input.  Before the fix the first call
-> ++     consumed the SO and left the remaining length at 0, so a caller
-> ++     skipping the offending byte decremented that length to
-> ++     (size_t) -1.  */
-> ++  iconv_t cd =3D iconv_open ("UTF-8", "ISO-2022-CN-EXT");
-> ++  TEST_VERIFY_EXIT (cd !=3D (iconv_t) -1);
-> ++  char in[] =3D { 'A', 0x0e };
-> ++  char out[8];
-> ++  char *ip =3D in, *op =3D out;
-> ++  size_t il =3D sizeof in, ol =3D sizeof out;
-> ++  errno =3D 0;
-> ++  TEST_COMPARE (iconv (cd, &ip, &il, &op, &ol), (size_t) -1);
-> ++  TEST_COMPARE (errno, EILSEQ);
-> ++  TEST_VERIFY_EXIT (ip =3D=3D in + 1);
-> ++  TEST_VERIFY_EXIT (il =3D=3D 1);
-> ++  ++ip;
-> ++  --il;
-> ++  op =3D out;
-> ++  ol =3D sizeof out;
-> ++  errno =3D 0;
-> ++  TEST_COMPARE (iconv (cd, &ip, &il, &op, &ol), (size_t) 0);
-> ++  TEST_COMPARE (il, (size_t) 0);
-> ++  TEST_COMPARE (iconv_close (cd), 0);
-> ++}
-> ++
-> ++static void
-> ++test_designated_so (void)
-> ++{
-> ++  /* Positive case: with an announced designation the SO switches to
-> ++     the designated set, consumes exactly one byte, and the following
-> ++     7-bit GB2312 pair converts.  ESC $ ) A designates GB2312;
-> ++     0x52 0x3b is the 7-bit form of the GB2312 code for U+4E00.  */
-> ++  iconv_t cd =3D iconv_open ("UTF-8", "ISO-2022-CN-EXT");
-> ++  TEST_VERIFY_EXIT (cd !=3D (iconv_t) -1);
-> ++  char in[] =3D { 0x1b, '$', ')', 'A', 0x0e, 0x52, 0x3b, 0x0f, 'Z' };
-> ++  char out[16];
-> ++  char *ip =3D in, *op =3D out;
-> ++  size_t il =3D sizeof in, ol =3D sizeof out;
-> ++  errno =3D 0;
-> ++  TEST_COMPARE (iconv (cd, &ip, &il, &op, &ol), (size_t) 0);
-> ++  TEST_COMPARE (il, (size_t) 0);
-> ++  TEST_COMPARE ((size_t) (op - out), (size_t) 4);
-> ++  TEST_COMPARE_BLOB (out, 4, "\xe4\xb8\x80Z", 4);
-> ++  TEST_COMPARE (iconv_close (cd), 0);
-> ++}
-> ++
-> ++static void
-> ++test_trailing_so_ignore (void)
-> ++{
-> ++  /* The shape from bug 34774: a lone SO as the last input byte with
-> ++     //IGNORE.  Place the input right before an inaccessible page so
-> ++     that a read past the end faults.  */
-> ++  struct support_next_to_fault ntf =3D support_next_to_fault_allocate (=
-2);
-> ++  ntf.buffer[0] =3D 'A';
-> ++  ntf.buffer[1] =3D 0x0e;
-> ++  iconv_t cd =3D iconv_open ("UTF-8//IGNORE", "ISO-2022-CN-EXT");
-> ++  TEST_VERIFY_EXIT (cd !=3D (iconv_t) -1);
-> ++  char out[8];
-> ++  char *ip =3D ntf.buffer, *op =3D out;
-> ++  size_t il =3D 2, ol =3D sizeof out;
-> ++  errno =3D 0;
-> ++  TEST_COMPARE (iconv (cd, &ip, &il, &op, &ol), (size_t) -1);
-> ++  TEST_COMPARE (errno, EILSEQ);
-> ++  TEST_VERIFY (ip =3D=3D ntf.buffer + 2);
-> ++  TEST_COMPARE (il, (size_t) 0);
-> ++  TEST_COMPARE_BLOB (out, op - out, "A", 1);
-> ++  TEST_COMPARE (iconv_close (cd), 0);
-> ++  support_next_to_fault_free (&ntf);
-> ++}
-> ++
-> + static int
-> + do_test (void)
-> + {
-> +@@ -122,6 +294,14 @@ do_test (void)
-> +
-> +   xmunmap (ntf, ntfsize);
-> +
-> ++  test_trailing_so_ignore ();
-> ++  test_lone_so_plain ();
-> ++  test_so_after_ascii ();
-> ++  test_lone_so_ignore ();
-> ++  test_caller_skip_no_underflow ();
-> ++  test_lone_so_tail_caller_skip ();
-> ++  test_designated_so ();
-> ++
-> +   return 0;
-> + }
-> +
-> diff --git a/meta/recipes-core/glibc/glibc_2.43.bb b/meta/recipes-
-> core/glibc/glibc_2.43.bb
-> index 5d2344389f..09e4e0b837 100644
-> --- a/meta/recipes-core/glibc/glibc_2.43.bb
-> +++ b/meta/recipes-core/glibc/glibc_2.43.bb
-> @@ -61,6 +61,7 @@ SRC_URI =3D
-> "${GLIBC_GIT_URI};branch=3D${SRCBRANCH};name=3Dglibc \
->             file://0020-fix-create-thread-failed-in-unprivileged-process-=
-BZ-.patch \
->             file://0021-tests-Skip-2-qemu-tests-that-can-hang-in-oe-selft=
-est.patch \
->             file://0022-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS=
-.patch \
-> +           file://CVE-2026-121758.patch \
->  "
->  B =3D "${WORKDIR}/build-${TARGET_SYS}"
->=20
-> --
-> 2.53.0
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 2830d1319eec866947f4fa4a1ac16e2ea6584be5)
+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+---
+ ...0001-Avoid-acl_-prefix-for-functions.patch | 90 +++++++++++++++++++
+ meta/recipes-extended/tar/tar_1.35.bb         | 22 ++---
+ ...t_uid-fix-memory-wasting-loop-if-use.patch | 49 ----------
+ ...isc.test-Don-t-mix-stdout-and-stderr.patch | 35 --------
+ .../attr/{acl_2.3.2.bb => acl_2.4.0.bb}       |  4 +-
+ 5 files changed, 102 insertions(+), 98 deletions(-)
+ create mode 100644 meta/recipes-extended/tar/tar/0001-Avoid-acl_-prefix-for-functions.patch
+ delete mode 100644 meta/recipes-support/attr/acl/0001-libmisc-__acl_get_uid-fix-memory-wasting-loop-if-use.patch
+ delete mode 100644 meta/recipes-support/attr/acl/0001-test-misc.test-Don-t-mix-stdout-and-stderr.patch
+ rename meta/recipes-support/attr/{acl_2.3.2.bb => acl_2.4.0.bb} (90%)
 
+diff --git a/meta/recipes-extended/tar/tar/0001-Avoid-acl_-prefix-for-functions.patch b/meta/recipes-extended/tar/tar/0001-Avoid-acl_-prefix-for-functions.patch
+new file mode 100644
+index 00000000000..a736d5f2292
+--- /dev/null
++++ b/meta/recipes-extended/tar/tar/0001-Avoid-acl_-prefix-for-functions.patch
+@@ -0,0 +1,90 @@
++From 78a6e620515a0ca7e3481a9d8277225c800262a7 Mon Sep 17 00:00:00 2001
++From: Pavel Cahyna <pcahyna@redhat.com>
++Date: Wed, 24 Jun 2026 18:45:30 +0200
++Subject: [PATCH] Avoid acl_ prefix for functions
++
++The acl.h header from libacl uses acl_ prefix for its functions. Avoid
++defining functions with the same name in order to protect its namespace.
++
++Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/tar.git/commit/?id=08c3fc2e9337094aff01a511170fd35fdb8f1ee3]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ src/xattrs.c | 26 +++++++++++++-------------
++ 1 file changed, 13 insertions(+), 13 deletions(-)
++
++diff --git a/src/xattrs.c b/src/xattrs.c
++index 86a7e59..bf2c4f0 100644
++--- a/src/xattrs.c
+++++ b/src/xattrs.c
++@@ -139,13 +139,13 @@ static struct
++ #ifdef HAVE_POSIX_ACLS
++ 
++ /* acl-at wrappers, TODO: move to gnulib in future? */
++-static acl_t acl_get_file_at (int, const char *, acl_type_t);
++-static int acl_set_file_at (int, const char *, acl_type_t, acl_t);
+++static acl_t tar_acl_get_file_at (int, const char *, acl_type_t);
+++static int tar_acl_set_file_at (int, const char *, acl_type_t, acl_t);
++ static int file_has_acl_at (int, char const *, struct stat const *);
++-static int acl_delete_def_file_at (int, char const *);
+++static int tar_acl_delete_def_file_at (int, char const *);
++ 
++-/* acl_get_file_at */
++-#define AT_FUNC_NAME acl_get_file_at
+++/* tar_acl_get_file_at */
+++#define AT_FUNC_NAME tar_acl_get_file_at
++ #define AT_FUNC_RESULT acl_t
++ #define AT_FUNC_FAIL (acl_t)NULL
++ #define AT_FUNC_F1 acl_get_file
++@@ -159,8 +159,8 @@ static int acl_delete_def_file_at (int, char const *);
++ #undef AT_FUNC_POST_FILE_PARAM_DECLS
++ #undef AT_FUNC_POST_FILE_ARGS
++ 
++-/* acl_set_file_at */
++-#define AT_FUNC_NAME acl_set_file_at
+++/* tar_acl_set_file_at */
+++#define AT_FUNC_NAME tar_acl_set_file_at
++ #define AT_FUNC_F1 acl_set_file
++ #define AT_FUNC_POST_FILE_PARAM_DECLS   , acl_type_t type, acl_t acl
++ #define AT_FUNC_POST_FILE_ARGS          , type, acl
++@@ -170,8 +170,8 @@ static int acl_delete_def_file_at (int, char const *);
++ #undef AT_FUNC_POST_FILE_PARAM_DECLS
++ #undef AT_FUNC_POST_FILE_ARGS
++ 
++-/* acl_delete_def_file_at */
++-#define AT_FUNC_NAME acl_delete_def_file_at
+++/* tar_acl_delete_def_file_at */
+++#define AT_FUNC_NAME tar_acl_delete_def_file_at
++ #define AT_FUNC_F1 acl_delete_def_file
++ #define AT_FUNC_POST_FILE_PARAM_DECLS
++ #define AT_FUNC_POST_FILE_ARGS
++@@ -299,7 +299,7 @@ xattrs__acls_set (struct tar_stat_info const *st,
++       /* No "default" IEEE 1003.1e ACL set for directory.  At this moment,
++          FILE_NAME may already have inherited default acls from parent
++          directory;  clean them up. */
++-      if (acl_delete_def_file_at (chdir_fd, file_name))
+++      if (tar_acl_delete_def_file_at (chdir_fd, file_name))
++         WARNOPT (WARN_XATTR_WRITE,
++                 (0, errno,
++                  _("acl_delete_def_file_at: Cannot drop default POSIX ACLs "
++@@ -316,7 +316,7 @@ xattrs__acls_set (struct tar_stat_info const *st,
++       return;
++     }
++ 
++-  if (acl_set_file_at (chdir_fd, file_name, type, acl) == -1)
+++  if (tar_acl_set_file_at (chdir_fd, file_name, type, acl) == -1)
++     /* warn even if filesystem does not support acls */
++     WARNOPT (WARN_XATTR_WRITE,
++ 	     (0, errno,
++@@ -357,10 +357,10 @@ acls_get_text (int parentfd, const char *file_name, acl_type_t type,
++   char *val = NULL;
++   acl_t acl;
++ 
++-  if (!(acl = acl_get_file_at (parentfd, file_name, type)))
+++  if (!(acl = tar_acl_get_file_at (parentfd, file_name, type)))
++     {
++       if (errno != ENOTSUP)
++-        call_arg_warn ("acl_get_file_at", file_name);
+++        call_arg_warn ("tar_acl_get_file_at", file_name);
++       return;
++     }
++ 
+diff --git a/meta/recipes-extended/tar/tar_1.35.bb b/meta/recipes-extended/tar/tar_1.35.bb
+index d15e7f8a4e5..eb71863231a 100644
+--- a/meta/recipes-extended/tar/tar_1.35.bb
++++ b/meta/recipes-extended/tar/tar_1.35.bb
+@@ -6,7 +6,17 @@ SECTION = "base"
+ LICENSE = "GPL-3.0-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=1ebbd3e34237af26da5dc08a4e440464"
+ 
+-SRC_URI = "${GNU_MIRROR}/tar/tar-${PV}.tar.bz2"
++SRC_URI = "${GNU_MIRROR}/tar/tar-${PV}.tar.bz2 \
++           file://run-ptest \
++           file://0001-tests-fix-TESTSUITE_AT.patch \
++           file://0002-tests-check-for-recently-fixed-bug.patch \
++           file://0003-Exclude-VCS-directory-with-writing-from-an-archive.patch \
++           file://CVE-2026-5704-dependent_p1.patch \
++           file://CVE-2026-5704-dependent_p2.patch \
++           file://CVE-2026-5704.patch \
++           file://CVE-2026-5704-regression.patch \
++           file://0001-Avoid-acl_-prefix-for-functions.patch \
++           "
+ 
+ SRC_URI[sha256sum] = "7edb8886a3dc69420a1446e1e2d061922b642f1cf632d2cd0f9ee7e690775985"
+ 
+@@ -37,16 +47,6 @@ do_install:append:class-target() {
+ }
+ 
+ # add for ptest support
+-SRC_URI += " \
+-    file://run-ptest \
+-    file://0001-tests-fix-TESTSUITE_AT.patch \
+-    file://0002-tests-check-for-recently-fixed-bug.patch \
+-    file://0003-Exclude-VCS-directory-with-writing-from-an-archive.patch \
+-    file://CVE-2026-5704-dependent_p1.patch \
+-    file://CVE-2026-5704-dependent_p2.patch \
+-    file://CVE-2026-5704.patch \
+-    file://CVE-2026-5704-regression.patch \
+-"
+ 
+ inherit ptest
+ 
+diff --git a/meta/recipes-support/attr/acl/0001-libmisc-__acl_get_uid-fix-memory-wasting-loop-if-use.patch b/meta/recipes-support/attr/acl/0001-libmisc-__acl_get_uid-fix-memory-wasting-loop-if-use.patch
+deleted file mode 100644
+index 5052bdaa2f1..00000000000
+--- a/meta/recipes-support/attr/acl/0001-libmisc-__acl_get_uid-fix-memory-wasting-loop-if-use.patch
++++ /dev/null
+@@ -1,49 +0,0 @@
+-From 56abe432b65801f31277fb9a3bca0f9e31502315 Mon Sep 17 00:00:00 2001
+-From: Matthias Gerstner <matthias.gerstner@suse.de>
+-Date: Thu, 25 Apr 2024 12:43:49 +0200
+-Subject: [PATCH] libmisc: __acl_get_uid(): fix memory wasting loop if user
+- does not exist
+-
+-I noticed that `acl_from_text()` unexpectedly returns ENOMEM for invalid
+-user names. The reason for this is a missing break statement in the for
+-loop in `__acl_get_uid()`, which causes the loop to act as if ERANGE was
+-returned from `getpwnam_r()`, thereby exponentially increasing the
+-buffer size to (in my case) multiple gigabytes, until `grow_buffer()`
+-reports ENOMEM, which terminates the `__acl_get_uid()` function.
+-
+-This is a pretty costly "no such user" lookup that can disturb a
+-process's heap memory management, but can also cause a process to fail
+-e.g. if it is multithreaded and other threads encounter an ENOMEM,
+-before `__acl_get_uid()` frees the gigantic heap buffer and returns.
+-The allocated memory isn't actually used. Therefore on Linux it should
+-not affect other processes by default, due to its overcommit memory
+-and lazy memory allocation strategy.
+-
+-Fix this by properly terminating the for loop on any conditions except
+-an ERANGE error being reported. The same break statement correctly
+-exists in `__acl_get_gid()` already.
+-
+-Fixes: 3737f00 ("use thread-safe getpwnam_r and getgrnam_r")
+-Signed-off-by: Andreas Gruenbacher <agruenba@redhat.com>
+-
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+----
+- libmisc/uid_gid_lookup.c | 1 +
+- 1 file changed, 1 insertion(+)
+-
+-diff --git a/libmisc/uid_gid_lookup.c b/libmisc/uid_gid_lookup.c
+-index a4f21f6..74baab4 100644
+---- a/libmisc/uid_gid_lookup.c
+-+++ b/libmisc/uid_gid_lookup.c
+-@@ -91,6 +91,7 @@ __acl_get_uid(const char *token, uid_t *uid_p)
+- 		if (err == ERANGE)
+- 			continue;
+- 		errno = err ? err : EINVAL;
+-+		break;
+- 	}
+- 	free(buffer);
+- 	return result ? 0 : -1;
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-support/attr/acl/0001-test-misc.test-Don-t-mix-stdout-and-stderr.patch b/meta/recipes-support/attr/acl/0001-test-misc.test-Don-t-mix-stdout-and-stderr.patch
+deleted file mode 100644
+index 5aa3f3224cb..00000000000
+--- a/meta/recipes-support/attr/acl/0001-test-misc.test-Don-t-mix-stdout-and-stderr.patch
++++ /dev/null
+@@ -1,35 +0,0 @@
+-From 47f8039ec9bd08b629775c8e788d11e41fa95f14 Mon Sep 17 00:00:00 2001
+-From: Andreas Gruenbacher <agruenba@redhat.com>
+-Date: Mon, 24 Mar 2025 21:14:09 +0100
+-Subject: [PATCH] test/misc.test: Don't mix stdout and stderr
+-
+-In different environments, we may not get the stdout and stderr output
+-in the order the run script expects, so check both separately.
+-
+-Fixes: https://savannah.nongnu.org/bugs/?66944
+-Signed-off-by: Andreas Gruenbacher <agruenba@redhat.com>
+-
+-Upstream-Status: Backport
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+----
+- test/misc.test | 3 ++-
+- 1 file changed, 2 insertions(+), 1 deletion(-)
+-
+-diff --git a/test/misc.test b/test/misc.test
+-index 06b3136..57c02e5 100644
+---- a/test/misc.test
+-+++ b/test/misc.test
+-@@ -440,8 +440,9 @@ Dangling symlink test https://savannah.nongnu.org/bugs/?28131
+- 	> other::r-x
+- 	> 
+- 	$ setfacl -R -m u:bin:rw d
+--	$ getfacl -RL d
+-+	$ getfacl -RL d > /dev/null
+- 	> getfacl: d/b: No such file or directory
+-+	$ getfacl -RL d 2> /dev/null
+- 	> # file: d
+- 	> # owner: %TUSER
+- 	> # group: %TGROUP
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-support/attr/acl_2.3.2.bb b/meta/recipes-support/attr/acl_2.4.0.bb
+similarity index 90%
+rename from meta/recipes-support/attr/acl_2.3.2.bb
+rename to meta/recipes-support/attr/acl_2.4.0.bb
+index a405cc2692e..ef9ee492a08 100644
+--- a/meta/recipes-support/attr/acl_2.3.2.bb
++++ b/meta/recipes-support/attr/acl_2.4.0.bb
+@@ -16,11 +16,9 @@ LIC_FILES_CHKSUM = "file://doc/COPYING;md5=c781d70ed2b4d48995b790403217a249 \
+ DEPENDS = "attr"
+ 
+ SRC_URI = "${SAVANNAH_GNU_MIRROR}/acl/${BP}.tar.gz \
+-           file://0001-libmisc-__acl_get_uid-fix-memory-wasting-loop-if-use.patch \
+-           file://0001-test-misc.test-Don-t-mix-stdout-and-stderr.patch \
+            file://run-ptest \
+            "
+-SRC_URI[sha256sum] = "5f2bdbad629707aa7d85c623f994aa8a1d2dec55a73de5205bac0bf6058a2f7c"
++SRC_URI[sha256sum] = "73c853c3d44e1f693e5a96a986f1bd19d3d0dac2c7d453e796177774bc4e5f6a"
+ 
+ inherit autotools gettext ptest
+ 
+-- 
+2.35.6
