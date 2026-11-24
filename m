@@ -1,197 +1,114 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15981.1795519650000016075
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.6])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16223.1795520674441760923
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2026 03:27:30 -0800
+ Tue, 24 Nov 2026 03:44:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=KpwUfZav;
- spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4bb6ba3b244so44591945e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 03:27:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795519648; x=1796124448; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=WxTm5lT0jh6mn9DalbsbMWBl15oIqCc0wkUqbU/AY8g=;
-        b=KpwUfZavwReXr4FbxS/y2UKeJc1J/aiQIP2QKEXpN4buElk8xrO5e+l2fql7bFusvH
-         1ByDrvWm7L06Pe3f2X3V9kufOR7JOVUn9bPaRT4VFU/D8PMOFpvcFULrIRLWeyRe5moY
-         X4dVn8/Np8KT+R92qeyEorEcHyl2YrUNUqt0r68n0n5vMvD8BmvlDa7Q+oq+V9WkajX+
-         q8OKtgdeyfcYjgFJk4KVHWzHhbOPHuuk4kg6lBFNGg828J6Kq+FE8JhinJd2zUYRTPwa
-         0aFnsMDyWt62X+SJMPxskz6Uf2wOsLUULBoLx8IxwovTWxG5ZryX9UNalU59Svsqm+i0
-         GKKg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795519648; x=1796124448;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=WxTm5lT0jh6mn9DalbsbMWBl15oIqCc0wkUqbU/AY8g=;
-        b=y/k+zo7mP6SePDo++FSYPQfejMYAIcP+9q8veCLAg30XrF+B27rB6W1rCvzsvkw3d9
-         nIlSSyrh9Gh/G3HuIVaoHxv9EVZ45nnh7Ong1vqk88ZHvEmL8kmCGTJJtzp5fvWAoaL2
-         A60FzMRzxwA9FyHSaJG5DP0dxvFSnfPEk34uTmkoIpsyQQszwtbIdIlVTD+D9WJqJmlq
-         MacwCPEZrsUkF/zJ1EWzu1gqk7sIIIy+2QCWFpwS22C36MiNynw+NzO0sPZ11C2t5pV4
-         2GMd613xvWQBnUP2PTPw9lPSdOplRmEYy4vDOi+oWUu5XrihWxMJN2CMPIpU3VnFXqyr
-         Vmjg==
-X-Forwarded-Encrypted: i=1; AL+hErEuUpNeESRyFjAm4Bl/ZW9zLP5PekOkjeMR/AUzKaiqCsr8ebTYjGonb2zehAxRsYs7/4usMH9ggQvDyk0MB78IiA==@lists.openembedded.org
-X-Gm-Message-State: APuU4Z9GeZg2TgeqAe2SxqZRha5m4RyCCZh4v2T2s+yVQ5RqDErj4+H0
-	gPFQBReRmE7vJ3F4OEOXlI0VaB0eGYyQMPh/tD0NNsDz1QF+7uEjFZWkWJcVv2ocoiI=
-X-Gm-Gg: AZFdTZfwdRodhn6u0w4GA9Zs+yV4A4CB3g53wKzyVKJPprbLnI7++ZfBpaprwuqQ7/1
-	Nss695Gh1wmVzVEBNxdc71XZwhcfO/KZW7BCi24poEU8cWqZK0zqgDf+u4spT685eNOfrAqawXU
-	UqlcFW07sIkzMqsy2E7i1jAY4hFLUP+ec27CjkfvXOLvT1ESDyHyUTVnmVX9HR0x/QMmivAjrMX
-	iyIAhzAQNgf/Pr09nmoG/5HbXZBZGXx13akIlK1SsZ+yoSaXh/5W82h8PbeUfRrpHFEEBfAlJHf
-	q/KhdoWWhB0Er8zTkF1EviOQm40gf+dKyKDWyogzlGKAThXXYWwmamLMCpvyzRe8MpcClH32JZb
-	5eazYBJ2RXyuPh+aO1bngZMdWjad2QpLPx1xh0eq05WKiz9jVJ26gdU+IcT852MmfQlFKGC5oCC
-	zkskQ539k3xVkVvwwzqDg+eblxA7dlRJlRZ95P3YAOneCcIgZKEDAPQZqPyBDBjeCAiXpHyG9Aw
-	yQijAE9JTb8PQ5Bl20KS83LO5AUpsS3rX1KkkbdPzkE1MulJVx90Qytb+bdNt6bRf/j/w58lX3Q
-	l8EA2023yG+A7JakzfRSPLbrvF9Ui4uN6fRpvZAMqWXOUmDRUbrkLQHUkqX6G2i8xjddw8ouMIU
-	6YlSvIny3kFse9zAJ
-X-Received: by 2002:a05:600c:3113:b0:4bb:693e:4c8e with SMTP id 5b1f17b1804b1-4bb88816a53mr309554845e9.21.1795519647914;
-        Tue, 24 Nov 2026 03:27:27 -0800 (PST)
-Return-Path: <yoann.congal@smile.fr>
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb8849e598sm387381115e9.8.2026.11.24.03.27.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Nov 2026 03:27:27 -0800 (PST)
-Mime-Version: 1.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=tU5f4fb/;
+ spf=pass (domain: est.tech, ip: 52.101.70.6, mailfrom: jaipaul.cheernam@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SgaKlUZjMB4QFDNnQd6QnDlJSqIWjp3uZyu5whHeQ2TDfnoKUmkySbtTJYN6MhY1DNCX4Eyn7x4dFzBMnTJn/0iCP6mj2rQGmrdPaQQxSxNgJM662rZZQD55hC3XLzbMGTtEV6xO9rTLsujiP3iqCPRmU26JEgEe8+C9FeXYSU7Rz/sns8mNrEt4owsOe3zs1zVYMJzDirzvEASSpVpzNtg0TGOM25V0e5u4w1HBnCvr51AtrP4U6iPdqBzaiz5hM/n1FXfg9XTVCpjUyCdVGz1vtkQPFh2L0ryuJcPepv75F58ADdRc2yr2bKCgjHKfSKNsS8Zw0sSong5iUHN2sA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=c9+iemIBOWV/q+YkNf81Jvg5NltTuaznsxgS4dzyong=;
+ b=h98wvNWdm+bMZMGln8z2GlNwfiUjruEy1aUEUxsc2hLtsPQHLzg0ylJRbF/KJMigEyZ4ZxerNwzxjp6A8/exZ+puPAXqd53COAZWjPAXKEObf73Lz+qRZFV5yN9pYDhQsOiYs4UoAMuSw9RqAUlrKt5sL/n026eskxxOYzSgyw+CSHhZA6gj9LHVgUYq53lQejLPqSuvvWqNvu7y6tMavB1ofJShDdNTOay/ytKNq6n8dh/vKT5CRsfqis98PjuHlSkSHLcTPVLTpZH28FBWZgDww7gW1suyjbVvHzvTtvhXp6fQzoTlt8Y1l78aOTEzpz/QdJ+VXKpV4gIv+I+kXA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=c9+iemIBOWV/q+YkNf81Jvg5NltTuaznsxgS4dzyong=;
+ b=tU5f4fb/V6OlCkzNKNVOlxfibMHdiVEiqAPCD+bhePHl2dhwDwAVfC/tLD8jwS0jbiy+8mjIpn5AhDK4SZBv7lbvNsFDJ+JYZrXk4erJVfV5JNc38P3UmnzEBZXiKFqw2y+gwsIB8MfuBtLYRibiwjMmdL8ff//2yBXSUOtdHVaOOYGLIpbNmrwE4MUTh0kwdWiTRuQI+346Ufc9m6ia0+Zfj72mBMODnGF4aRrkGLlteZFiXfyaDsiLDGZpG+MW/TKdKeQwXR0sZ/ghXsALRbbQX2EZJQ32YydNVGqRyDNgCznG8Ta8QvBOGdkUyqbUeNq8rOu+RvEKnVpBdwc8IA==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
+ by ZRWP189MB886491.EURP189.PROD.OUTLOOK.COM (2603:10a6:910:400::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.13; Tue, 24 Nov
+ 2026 11:44:30 +0000
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0639.012; Tue, 24 Nov 2026
+ 11:44:29 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v3 0/3] gstreamer1.0-plugins-rs recipe fixes and upgrade
+Date: Tue, 24 Nov 2026 12:44:24 +0100
+Message-ID: <20261124114427.70379-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 24 Nov 2026 12:27:27 +0100
-Message-Id: <DN3ELESNX6PF.3L73PUZP0X5PE@smile.fr>
-Subject: Re: [OE-Core][scarthgap][PATCH 1/4] curl: Fix CVE-2026-8927
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <devanshp@cisco.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20261120130414.822854-1-devanshp@cisco.com>
- <20261120130414.822854-2-devanshp@cisco.com>
-In-Reply-To: <20261120130414.822854-2-devanshp@cisco.com>
+X-ClientProxiedBy: LO4P265CA0274.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:37a::6) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:6c0::19)
+Return-Path: jaipaul.cheernam@est.tech
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|ZRWP189MB886491:EE_
+X-MS-Office365-Filtering-Correlation-Id: b50746d5-c8c8-4f64-4fd9-08df4a204cbe
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|23010399003|10067099003|261021121427099003|261026121527099003|11063799006|56012099006|261021123027099003|261022105027099003|261026140227099003|261102123227099003|261028144727099003|261009223027099003|18002099003|6133799003|3023799007;
+X-Microsoft-Antispam-Message-Info: I/gi6tcqQrW1KcEAzjfwJBWY2pTm97fq/GFF1JsQQf9BGd6d95NkZQ0aornV9H0uHNywGZQCw/RWzLcpK3wNGbsqtqY8D9bHHD1rPqfc1eMhbt633wawcke/Ypv8Ht6PJqX9KkL1KrpGfI4NISvI2ZOAWipkYHAC8JkFN710zPuyxPGBPBVQKBRCLkWtMLpZvNSZcSJ4YelxoRhko31MGA9qTOGNxk3y2H/7pwXPNCP6dfD91wEt9qobvd4PpeMfs75cVGYRs4D2uHR4X/xfikFrYDcecbeNHX4q9JawhnB6WZRxPxUgF1w5sbuIyofm5vMoo2Axk4yKybXSsgppv72Yc3973mlkWSwZr/oCrvjI6HU/fVw0L9IuYySrjHRNpqH+mZaiI3q/S91TGXJYJOKIDffTPf/lrbQe39s6xYP6DkNulqirNvxROTPut5aek3rubr3ipy1TXEHQgCOBbVDj0jwzCqlHXduJ/8IIV/xp7o8V70rWMl8pELUaC1kbUoQXoIeTcPw5jdlLG6CW+WyenM6s5lVVVlR5FKpu6TgxwF/OBe7RPTb+7nhUg77N8r6/nu10gGiZFUki8sfd+/Hl4IL7hoA9KI/ZBRQpbQLA1GZITqp+cjYJF8IDAkCp56zyPXsQUfJu5i7aHQJc5iF7KUUaxnGxNCdtauEEVGs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(23010399003)(10067099003)(261021121427099003)(261026121527099003)(11063799006)(56012099006)(261021123027099003)(261022105027099003)(261026140227099003)(261102123227099003)(261028144727099003)(261009223027099003)(18002099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?AgTp1RQMJKt7PuKZEl7AO7ziYeA7mK1W4gYQKxPWpfZVC1Hf5qp+zNg59oUK?=
+ =?us-ascii?Q?y4oFVw1T00nyClpl5vHVgc2USzjwEuvlw3gxlTH5waSkEvNuGcwkTRQCctCX?=
+ =?us-ascii?Q?JwnPtfA0L0s/zIqje5fLtkqsMrVpu2euSbC+kzIh2nv6dgSbCXmPbBLBWp4P?=
+ =?us-ascii?Q?pljyakbQa6D5eKQ+k7Zxe0jceHbsiTxcIhIuJmjOqIACkvxkQpXwN57ezunb?=
+ =?us-ascii?Q?kum3IHz4zAXDJNoA6wBL2CvfB6scc5VhpnW5/5rpaRdxFS71FZVTYqtZAkHH?=
+ =?us-ascii?Q?jatuRhAlsek7bkqJ/PrhxZd4lrsnGh+SVNYegClCfGMz5K+fGrot93Fflmgu?=
+ =?us-ascii?Q?iKZB/MB8IYh4kUjrD5UE+QnMKGvNQKi/pVTtpXfdpUzcp6uJU+l5uFVbfDPY?=
+ =?us-ascii?Q?LwahAUGbRtHaEXKwNLGkk/z+f70yPMFghLHtOZpuqko0y/kJ4ibctUK6///h?=
+ =?us-ascii?Q?5P63L6oxFZJcYR9dtrifTc34ip7Xcrsa1q4XHcj+HF0RdXzweAN+gQ5z6apv?=
+ =?us-ascii?Q?RvG9+GXO5yLprIgWWICFlk3vFn3IUJk/iUVhdUtv9F2NMashcylBgV5cC6Gm?=
+ =?us-ascii?Q?l+Xyz+xQLq7L7m9YqLa+sdn16A3bZW87KwRmsoLQrY8wJpJI5Ax4pmaNUWL8?=
+ =?us-ascii?Q?SKhczHf+O7Gn+D1/+1aGHL9/XTt2R0P8eVwKgeH/r3yIBmfxzpFNuaUXtcd+?=
+ =?us-ascii?Q?79K/hrz/hj95qgNaMHIp6RLYscrWiOKnpvx/lZ0moRFRkIrNn87/zJ+pQu34?=
+ =?us-ascii?Q?bTdWw5pK6fHtQ/NVrDh6yy0j2fR+U4Rha05jQa253fbqZCVpna/E/yYJDUMZ?=
+ =?us-ascii?Q?ufsOlcZoNWvXlFm803787rT9eiBv1eKWcXObtywyxrKtB/RCx69Jf96f8juC?=
+ =?us-ascii?Q?ihj83IJTiNPC+WhWj8spj4Flcd/41V1GbktObQ5ksBCwMuBINW3Sfi3NJTEL?=
+ =?us-ascii?Q?ua+tRmgfJZf5ptP+Delk8qMwK6fO/ZYeHMd9GtXlVIjtPwdT+5ocDMvcjOqn?=
+ =?us-ascii?Q?+o8yuNuC9dUZYyWmzH0dUOb7VTLgSbVe//8v0ewSvrb4ZvRw6br4V4qoXxQf?=
+ =?us-ascii?Q?OZqinMRZKakSczB2zRzXVxY7FztwsmtN2+h8/1bqUjyIKpaXvJqrAY2W4Hf9?=
+ =?us-ascii?Q?32uObR57RVdC4cmWVL2tJ18M4lXmDX0LWbLzY++jeGfYy7hYjrJ4FVQjayzN?=
+ =?us-ascii?Q?ElBfRfQBx//eD7ymmlDxH7qjXQJZAZ4vM9hCHNFJ4iYT9wxaeFQJ5ySVBsc9?=
+ =?us-ascii?Q?Jf256G5e+99UaFN8XEf9k35b0vs+e75XsKJq2yyANydXalS75OLd4rEBnBaz?=
+ =?us-ascii?Q?Zuz1WJzKc+eR9s5ZvBWm2xcvyrri1rbND1DLMLoXDqbrAL/pTs2D8jt7d7pa?=
+ =?us-ascii?Q?WL2Yn+e0EXhRtOc5A6mFRW4IXNIYBlYvTBE2m0ApExSU9+wF8b9OkYwMNfCM?=
+ =?us-ascii?Q?fEjX1rp9pkO88wk1lrHPAY9qQ2/ps3e5tpMeyipX7R+s4YzE3T/AxRW81wlq?=
+ =?us-ascii?Q?67mPLLJVk88+dki35VYVEwp/qzlKbyVRRiA2qbTVHlojvViagERIkCR90qNU?=
+ =?us-ascii?Q?35yVFenN83ykYNhyky56MaKgl8DR66AWGdjEe/jcjVwXaiaNDVSoFLTR/hLm?=
+ =?us-ascii?Q?GxYDFl6uWnBa16ZdZPH/aiUFh/oWl3r1PH+aXDEcCeR+VeliiHaLevJTCRv3?=
+ =?us-ascii?Q?hs7xP/9R3cD6D5b+x41WlKkJ+Ig3PADsmZiPLdmOvntXtLyL2HZ8X26LvV6b?=
+ =?us-ascii?Q?a9iab+rWTg=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: b50746d5-c8c8-4f64-4fd9-08df4a204cbe
+X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2026 11:44:29.8763
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 92/2Den8XCwumE68XFGV6cjgySSGaBKppJWkJi3k2ZF03q8V//0Ro9zzr9r4TUTvWhlaoHRHRI18p4UkJr3ZnaIhLJmc8Z++3J+cXF5PADE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: ZRWP189MB886491
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 11:27:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251024
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 11:44:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251025
+Content-Type: text/plain; charset="utf-8"
 
-On Fri Nov 20, 2026 at 2:04 PM CET, Devansh Patel via openembedded-core wro=
-te:
-> From: Devansh Patel <devanshp@cisco.com>
->
-> This patch applies the upstream fix commit as referenced in [1],
-> and the public CVE advisory is referenced in [2].
->
-> [1] https://github.com/curl/curl/commit/5c225384b8d52c67ce8259c6e4203bc57=
-aacb567
-> [2] https://curl.se/docs/CVE-2026-8927.html
-> [3] https://www.cve.org/CVERecord?id=3DCVE-2026-8927
->
-> Signed-off-by: Devansh Patel <devanshp@cisco.com>
-> ---
->  .../curl/curl/CVE-2026-8927.patch             | 87 +++++++++++++++++++
->  meta/recipes-support/curl/curl_8.7.1.bb       |  1 +
->  2 files changed, 88 insertions(+)
->  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-8927.patch
->
-> diff --git a/meta/recipes-support/curl/curl/CVE-2026-8927.patch b/meta/re=
-cipes-support/curl/curl/CVE-2026-8927.patch
-> new file mode 100644
-> index 0000000..a8b07a5
-> --- /dev/null
-> +++ b/meta/recipes-support/curl/curl/CVE-2026-8927.patch
-> @@ -0,0 +1,87 @@
-> +From d4e71ad3aed07542606d9c4afdf6884eccdb3a26 Mon Sep 17 00:00:00 2001
-> +From: Daniel Stenberg <daniel@haxx.se>
-> +Date: Mon, 18 May 2026 23:47:11 +0200
-> +Subject: [PATCH] url: detect proxy changes read from environment
-> +
-> +When a proxy is set from an environment variable, detect if that proxy
-> +is not the same as previously and flush state.
-> +
-> +Verified by test1647: verify changing proxy with env variables and make
-> +sure Digest state is flushed in the second use
-> +
-> +Closes #21666
-> +
-> +CVE: CVE-2026-8927
-> +Upstream-Status: Backport [https://github.com/curl/curl/commit/5c225384b=
-8d52c67ce8259c6e4203bc57aacb567]
-> +
-> +Backport Changes:
-> +- Use the 8.7.1 free()/strdup() names and include vauth/vauth.h.
-> +  Keep the parsed proxy string until the existing out cleanup so the
-> +  upstream Digest-state comparison can still read it.
-> +- Omit tests/data/Makefile.am, tests/data/test1647,
-> +  tests/libtest/Makefile.inc and tests/libtest/lib1647.c.
-> +  The test-only feature-detection dependency is therefore unnecessary.
-> +
-> +Signed-off-by: Devansh Patel <devanshp@cisco.com>
-> +---
-> + lib/url.c     | 13 ++++++++++++-
-> + lib/urldata.h |  1 +
-> + 2 files changed, 13 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/lib/url.c b/lib/url.c
-> +index 9e1ca03..fe76397 100644
-> +--- a/lib/url.c
-> ++++ b/lib/url.c
-> +@@ -79,6 +79,7 @@
-> + #include "share.h"
-> + #include "content_encoding.h"
-> + #include "http_digest.h"
-> ++#include "vauth/vauth.h"
-> + #include "http_negotiate.h"
-> + #include "select.h"
-> + #include "multiif.h"
-> +@@ -331,6 +332,9 @@ CURLcode Curl_close(struct Curl_easy **datap)
-> +   Curl_wildcard_dtor(&data->wildcard);
-> +   Curl_freeset(data);
-> +   Curl_headers_cleanup(data);
-> ++#ifndef CURL_DISABLE_DIGEST_AUTH
-> ++  free(data->state.envproxy);
-> ++#endif
-> +   free(data);
-> +   return CURLE_OK;
-> + }
-> +@@ -2535,7 +2539,6 @@ static CURLcode create_conn_helper_init_proxy(stru=
-ct Curl_easy *data,
-> +     curl_proxytype ptype =3D (curl_proxytype)conn->http_proxy.proxytype=
-;
-> +     if(proxy) {
-> +       result =3D parse_proxy(data, conn, proxy, ptype);
-> +-      Curl_safefree(proxy); /* parse_proxy copies the proxy string */
+Jaipaul Cheernam (3):
+  gstreamer1.0-plugins-rs: fix annotated tag match
+  gstreamer1.0-plugins-rs: drop S override and fix LIC_FILES_CHKSUM
+    paths
+  gstreamer1.0-plugins-rs: Upgrade 0.15.3 -> 0.15.4
 
-This removed line is not in upstream patch. Are you sure you don't want
-to move it instead? Removing a free() sounds like a memory leak...
-
-> +       if(result)
-> +         goto out;
-> +     }
-> +@@ -2554,6 +2557,14 @@ static CURLcode create_conn_helper_init_proxy(str=
-uct Curl_easy *data,
-> +       result =3D CURLE_UNSUPPORTED_PROTOCOL;
-> +       goto out;
-> + #else
-> ++#ifndef CURL_DISABLE_DIGEST_AUTH
-> ++      if(!Curl_safecmp(data->state.envproxy, proxy)) {
-> ++        /* proxy changed */
-> ++        Curl_auth_digest_cleanup(&data->state.proxydigest);
-> ++        free(data->state.envproxy);
-> ++        data->state.envproxy =3D strdup(proxy);
-
-Have you checked that proxy can't be NULL here (on curl 8.7.1)?
-
-My review LLM wrote that it could and that sounds plausible to me:
-| Warning: The guard is different. 8.7.1 tests
-| `conn->http_proxy.host.rawalloc` where upstream tests
-| `conn->http_proxy.peer`.
-|=20
-| Upstream always parses the pre-proxy into socks_proxy, so `proxy` is
-| never NULL at that point.
-|=20
-| In 8.7.1, parse_proxy() puts a schemeless CURLOPT_PRE_PROXY
-| ("host:1080", scheme guessed as http, default PROXYTYPE) into http_proxy
-| and leaves `proxy` NULL. If the same handle used an HTTP proxy earlier,
-| Curl_safecmp(envproxy, NULL) returns false, the code calls strdup(NULL)
-| and segfaults.
-
-Can you check please?
-
-Regards,
---=20
-Yoann Congal
-Smile ECS
+ .../gstreamer1.0-plugins-rs-crates.inc        | 1262 +++++++++--------
+ ...-Cargo.lock-for-non-git-dependencies.patch |  888 ++++++++++++
+ ...3.bb =3D> gstreamer1.0-plugins-rs_0.15.4.bb} |   12 +-
+ 3 files changed, 1542 insertions(+), 620 deletions(-)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-=
+rs/0001-Update-Cargo.lock-for-non-git-dependencies.patch
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-rs_0.15.3.b=
+b =3D> gstreamer1.0-plugins-rs_0.15.4.bb} (95%)
 
