@@ -1,70 +1,70 @@
-Received: from aer-iport-4.cisco.com (aer-iport-4.cisco.com [173.38.203.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14020.1795509646694556519
+Received: from aer-iport-1.cisco.com (aer-iport-1.cisco.com [173.38.203.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14021.1795509646710928550
  for <openembedded-core@lists.openembedded.org>;
  Tue, 24 Nov 2026 00:40:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=hgTqLcEx;
- spf=pass (domain: cisco.com, ip: 173.38.203.54, mailfrom: asparmar@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=PVyv975M;
+ spf=pass (domain: cisco.com, ip: 173.38.203.51, mailfrom: asparmar@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=5319; q=dns/txt;
+  d=cisco.com; i=@cisco.com; l=3951; q=dns/txt;
   s=iport01; t=1795509646; x=1796719246;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=zWf9JtW/6heZXjowMHW2KZIeDN60TbBs8e/zrJ4bsJQ=;
-  b=hgTqLcExSAXxKWJ+fmUteWSdUQd2LqcwwGGeRnjCEXqpasDeiopyrVnE
-   Fbm9VohnTns+cNZ7FTFH3721Vq9w4BmtjroHbGOIevU6HDVcWd0YjVVt3
-   Bgx3tDlg40McdW/gGdN4ahr7CvD2Gf255qK27qjKz6TY2WtRY34cUWN/G
-   AvbPB6WiFLnVofYElBXC0rdq+XC7gTydFeQ7ej2q5Wm3mAvLjFEgCEnE4
-   f/lsdrzliZbJOauJWwgdvFAL1k+p7/U/V4IJz4d9hYo3Jmx0oqb5e9gPN
-   22LlRnrM7CFDye8bOauxHayPgJxzFWrxPxLZQF7vjj80JE76A58S9F0Hj
+  bh=WjXTREE2O8CkC9u9i/AwmWdp9ndPjDR/zil8V4uJiq4=;
+  b=PVyv975MLltLqR9LP6BnrUlujb2iwG8KVY8elhtjklDbxOK2MvAxLe/I
+   eULxuDHdYRju0Isc/NZVwBioKq/hspkbq8m1/erZJhb8vG2SWMGzIj1vC
+   RoTfBxzJeI65ZGjiD44E7Q8Tt88iEyZrHN1ED0AR/Tet+BV3QBI7aHxrp
+   /HOYptLqhKbDl/yIrW0pAycP5AgmvQLplYaiO9+xGt2hDKol2Ue143wIS
+   BIZpxtCh70tZxXLZNQ1kEpHzxbEziMrducEjPzJe2wWyMaVUyKszaro02
+   3+pWQRYVoE4pWq4CyVWUeDBbWskzxTWKniQaQ7LtzHJ0/nz2kpAxSZNUt
    w==;
-X-CSE-ConnectionGUID: 3sJFrZQoRiGbd4h62e9Ogw==
-X-CSE-MsgGUID: F22nBOLoTE+BbrpDzjDciA==
-X-IPAS-Result: =?us-ascii?q?A0BHAgABTQVr/8tK/pBaglmCV3VhQkkDlCeCIQOeKYF+D?=
+X-CSE-ConnectionGUID: AGUc50/BRCKd5lhPQ+gFrw==
+X-CSE-MsgGUID: AEdw/Y6UQLiRdnmof2YsLQ==
+X-IPAS-Result: =?us-ascii?q?A0BHAgCTSwVr/8xK/pBaglmCV3VhQkkDlCeCIQOeKYF+D?=
  =?us-ascii?q?wEBAQ9EDQQBAYUFAo4iAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQEKAQEFAQEBA?=
- =?us-ascii?q?gEHBYEOE4ZPDZASAQIBAycLAVYcAwECLysjCBmDAgGCdAIBEbocGzeBeTOBA?=
- =?us-ascii?q?YR+2zMBBQYUAYE4hUKIJF0YAYR9JxsbgXKBFYNqgQWBXAKIJgSCIoEMgVQYB?=
- =?us-ascii?q?ox5AoFPiElIgR4DWSwBVRMNCgsHBYFoAzUSKhVuMh2BIzsXgQcbBgWBHIEeg?=
- =?us-ascii?q?RKBA12BKyheIYEIgXYCglGCAAIBSUEOB0VTCSVDEkckIggSCQETGiwKgRo1P?=
- =?us-ascii?q?AkmPxUMZwsaBWEIAg0MdDkQMB4kLwUaJj4bCoEMJx8eGw4CHxAGFiELGxgNS?=
- =?us-ascii?q?BEsNxUZBD5uB5QUgxqBDggjAVaBVpM/kBWCIaERCiiDeYwklToaM6pyC5h9j?=
- =?us-ascii?q?gqVdA1QhGqBaDyBWXAVgyJTGQ+OOYNrzlsjNQsDLwEBBwIHDgMLgWiQAi2BT?=
- =?us-ascii?q?wEB?=
-IronPort-Data: A9a23:b7jYHahPYRQuchVfYh2G/xSgX161NBEKZh0ujC45NGQN5FlHY01je
- htvWzuAO/3ZZDDwLo1yaoW0/E5V6J6AmtY3TFBtpH9hQyhjpJueD7x1DKtf0wB+jyHnZBg6h
- ynLQoCYdKjYdleF+FHwdOCn/SMhvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
- vus5ZeAULOZ82QsaDxNsvjf8EoHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
- 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
- Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqVD4cRZG1N38
- sYZBzoBMhDd3e/n572kH7wEasQLdKEHPasWt2slyXTSCuwrBMiZBa7L/tRfmjw3g6iiH96HO
- 5ZfM2czKkucJUcXYT/7C7pm9AusrnDkazRCrVuPjaE2+GPUigd21dABNfKLIIPTFJoFwS50o
- EropT7/KDY+M+CyihCP6GqAlO3jliLSDdd6+LqQs6QCbEeo7msLBRsbUFG2rfW0hgu1XMhSA
- 0gV4TY1668q+UqmS9PwUxG1rDiDpBF0ZjZLO+Q38kSJj6HT+QvcXjJCRT9aY9tgv8gzLdA36
- mK0cxrSLWQHmNWopbi1r994cRva1fApEFI/
-IronPort-HdrOrdr: A9a23:wI2WOqnYjZjaWfPTbUdoP6uCsa/pDfIA3DAbv31ZSRFFG/Fw8P
- re+MjzuiWbtN98YhwdcJW7Scq9qBDnhPtICPcqXItKNTOO0ADDEGgh1/qB/9SKIULDH4BmuZ
- uIC5IfNPTASX5nkM39/A60V/wkwNWB7eSUoN229QYLcemvAJsQljuQzW2gYytLeDU=
-X-Talos-CUID: 9a23:ptw8XGyQGsZTyPY4d8+QBgVPAeILaE/ky03RDEW0VWY3ErDEblCPrfY=
-X-Talos-MUID: 9a23:GHpRjAokioX9ZXfXp7Mezx84bsFCxICpNG1Ou58co+WWNwB7Oh7I2Q==
+ =?us-ascii?q?gEHBYEOE4ZPDZASAQIBAzIBVhwDAQIvKyMIGYMCAYJ0AgERuhkbN4IsgQGEf?=
+ =?us-ascii?q?tszAQsUAYE4hUKIJF0YAYR9JxsbgXKBFYNqgQWBXAKBOIZuBIIigQyBVBgGj?=
+ =?us-ascii?q?HkCgU+ISUiBHgNZLAFVEw0KCwcFgWgDNRIqFW4yHYEjOxeBBxsGBYEcgR6BE?=
+ =?us-ascii?q?oEDXYErKF4hgQiBdgKCUYIAAgFJQQ4HRVMJJUMSRyQiCBIJARMaLAqBGjU8C?=
+ =?us-ascii?q?SY/FQxnCxoFYQgCDQx0ORAwHiQvBRomPhsKgQwnHx4bDgIfEAYWIQsbGA1IE?=
+ =?us-ascii?q?Sw3FRkEPm4HlBSDGlYlEwEqASCCDJM3AQeSNqERCiiDeYwklToaM4VbpRcLm?=
+ =?us-ascii?q?H2OCpVoaYRqgWg8gVlwFYMiCUoZD44uCwuDYIQHylQjNQsDLwEBBwIHDgMLg?=
+ =?us-ascii?q?WiEYYsggX0BAQ?=
+IronPort-Data: A9a23:E0yJyaDfhtiGWRVW/33iw5YqxClBgxIJ4kV8jS/XYbTApGtwgjwPx
+ mMYXjuOaPeKZ2SjeYskO4jioR4HsJGDyoRmOVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
+ /02M4eGcYZsCC+G+39BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jXGthh
+ fuo+5eBYQb/gGYuWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
+ P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
+ 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TE6tpTBxxueqci0cV7XGVOz
+ cVbJx4XcUXW7w626OrTpuhEj8k5ac2uN4QFtzQ4lnfSDO0tRtbIRKCiCd1whWtswJoTQbCBO
+ 4xDMWYHgBfoO3WjPn8eE4o3huKhnFH0ciZTrxSeoq9fD237klYugOO9YYS9ltqibOhZgQGp+
+ F//22XDDhcfM9LF+CGhyyf57gPItWahMG4IL5W/7vNsjViZy2AfBRFTXlyhrNG9i1WiQJRYM
+ 0ES9y8koKQ++UDtScPyNyBUu1aNswRZX59bFPc3rVnWjKHV+A2eQGMDS1atdeAbiSP/fhRyv
+ nfhoj8jLWUHXGG9IZ5FyoqpkA==
+IronPort-HdrOrdr: A9a23:bMwUGaoKkLdvvQ2xNDAJxn4aV5oHeYIsimQD101hICG9Ffbo8/
+ xG88506faZslsssTQb6LO90cq7MBbhHOBOgLX5VI3KNGKNhILrFvAB0WKI+VLd8kPFmtK1rZ
+ 0BT4FOTPvtEFN9kcH2pCO8E9om3Z271ZrAv5a485+oJjsaEp2JKGxCe2CmLnE=
+X-Talos-CUID: 9a23:ZqYVgmBjl1qJ9rv6EwBIyUVJQocPSFb+wCrUI3eBSmlHUqLAHA==
+X-Talos-MUID: 9a23:WornZAhC/dSJcG192fBaCsMpHepk/OOfVn00tZQ8t8+BMiIqCiy5tWHi
 X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.27,230,1787011200"; 
-   d="scan'208";a="62719787"
-Received: from aer-l-core-02.cisco.com ([144.254.74.203])
-  by aer-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 24 Nov 2026 08:40:43 +0000
+X-IronPort-AV: E=Sophos;i="6.27,229,1787011200"; 
+   d="scan'208";a="62783896"
+Received: from aer-l-core-03.cisco.com ([144.254.74.204])
+  by aer-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 24 Nov 2026 08:40:43 +0000
 Received: from sjc-ads-20495.cisco.com (sjc-ads-20495.cisco.com [171.70.188.248])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by aer-l-core-02.cisco.com (Postfix) with ESMTPS id BDBE51800015B
+	by aer-l-core-03.cisco.com (Postfix) with ESMTPS id BE4B418000206
 	for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 08:40:42 +0000 (GMT)
 Received: by sjc-ads-20495.cisco.com (Postfix, from userid 1877012)
-	id 7295CCBF223; Tue, 24 Nov 2026 00:40:41 -0800 (PST)
+	id 6B5A1CBF221; Tue, 24 Nov 2026 00:40:41 -0800 (PST)
 From: "Ashishkumar Parmar X (asparmar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <asparmar@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap][PATCH 4/8] cups: Fix CVE-2026-61702
-Date: Tue, 24 Nov 2026 00:40:29 -0800
-Message-Id: <20261124084033.72286-5-asparmar@cisco.com>
+Subject: [OE-core][scarthgap][PATCH 2/8] cups: Fix CVE-2026-55467
+Date: Tue, 24 Nov 2026 00:40:27 -0800
+Message-Id: <20261124084033.72286-3-asparmar@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20261124084033.72286-1-asparmar@cisco.com>
 References: <20261124084033.72286-1-asparmar@cisco.com>
@@ -72,114 +72,111 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: VERIFIED;sjc-ads-20495.cisco.com [171.70.188.248];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 171.70.188.248, sjc-ads-20495.cisco.com
-X-Outbound-Node: aer-l-core-02.cisco.com
+X-Outbound-Node: aer-l-core-03.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 08:40:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250971
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 08:40:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250972
 Content-Type: text/plain; charset="utf-8"
 
 From: Ashishkumar Parmar <asparmar@cisco.com>
 
-This patch applies the upstream 2.4.x fix for CVE-2026-61702 to
+This patch applies the upstream 2.4.x fix for CVE-2026-55467 to
 CUPS 2.4.11. The fixing commit is referenced in [1], and the public
 advisory is referenced in [2].
 
-[1] https://github.com/OpenPrinting/cups/commit/08a8a277ce2a8948a1af33552247a1ac53b72df3
-[2] https://github.com/OpenPrinting/cups/security/advisories/GHSA-gq9p-4w7m-2f5g
+[1] https://github.com/OpenPrinting/cups/commit/0cf4e7814d6810ed3c454222bce3aa342d541681
+[2] https://github.com/OpenPrinting/cups/security/advisories/GHSA-69qc-prxg-h2c7
 
 Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 
 diff --git a/meta/recipes-extended/cups/cups.inc b/meta/recipes-extended/cups/cups.inc
-index b6d047dc98..abc6e98df9 100644
+index 476d093fb2..cd69eb3bb6 100644
 --- a/meta/recipes-extended/cups/cups.inc
 +++ b/meta/recipes-extended/cups/cups.inc
-@@ -35,6 +35,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/cups-${PV}-source.tar.gz \
+@@ -33,6 +33,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/cups-${PV}-source.tar.gz \
+            file://CVE-2026-39314.patch \
+            file://CVE-2026-39316.patch \
             file://CVE-2026-55453.patch \
-            file://CVE-2026-55467.patch \
-            file://CVE-2026-55480.patch \
-+           file://CVE-2026-61702.patch \
++           file://CVE-2026-55467.patch \
             "
  
  GITHUB_BASE_URI = "https://github.com/OpenPrinting/cups/releases"
-diff --git a/meta/recipes-extended/cups/cups/CVE-2026-61702.patch b/meta/recipes-extended/cups/cups/CVE-2026-61702.patch
+diff --git a/meta/recipes-extended/cups/cups/CVE-2026-55467.patch b/meta/recipes-extended/cups/cups/CVE-2026-55467.patch
 new file mode 100644
-index 0000000000..761e36caf5
+index 0000000000..8c17c07484
 --- /dev/null
-+++ b/meta/recipes-extended/cups/cups/CVE-2026-61702.patch
-@@ -0,0 +1,73 @@
-+From 16ff31880ce331bac3758a0435430b18a81d77e0 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-extended/cups/cups/CVE-2026-55467.patch
+@@ -0,0 +1,70 @@
++From b5e074cee7d633233447cec7e9ced16dce66733d Mon Sep 17 00:00:00 2001
 +From: Michael R Sweet <msweet@msweet.org>
-+Date: Tue, 23 Jun 2026 11:00:50 -0400
-+Subject: [PATCH] Validate attributes-natural-language, and normalize the
-+ logging punctuation.
++Date: Fri, 12 Jun 2026 15:43:22 -0400
++Subject: [PATCH] Sanitizer destination-uri and pre-dial-string values.
 +
-+CVE: CVE-2026-61702
-+Upstream-Status: Backport [https://github.com/OpenPrinting/cups/commit/08a8a277ce2a8948a1af33552247a1ac53b72df3]
++CVE: CVE-2026-55467
++Upstream-Status: Backport [https://github.com/OpenPrinting/cups/commit/0cf4e7814d6810ed3c454222bce3aa342d541681]
 +
 +Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 +---
-+ scheduler/ipp.c | 30 +++++++++++++++++++-----------
-+ 1 file changed, 19 insertions(+), 11 deletions(-)
++ CHANGES.md      |  1 +
++ scheduler/job.c | 29 +++++++++++++++++++++++++++--
++ 2 files changed, 28 insertions(+), 2 deletions(-)
 +
-+diff --git a/scheduler/ipp.c b/scheduler/ipp.c
-+index 1721845974..6a62382cd5 100644
-+--- a/scheduler/ipp.c
-++++ b/scheduler/ipp.c
-+@@ -295,10 +295,19 @@ cupsdProcessIPPRequest(
-+         * Bad character set...
-+ 	*/
++diff --git a/CHANGES.md b/CHANGES.md
++index c8284c9b42..4e0de90191 100644
++--- a/CHANGES.md
+++++ b/CHANGES.md
++@@ -6,6 +6,7 @@ Changes in CUPS v2.4.11 (2024-09-30)
++ ------------------------------------
 + 
-+-        cupsdLogMessage(CUPSD_LOG_ERROR, "Unsupported character set \"%s\"",
-+-	                charset->values[0].string.text);
-+-	cupsdAddEvent(CUPSD_EVENT_SERVER_AUDIT, NULL, NULL, "%04X %s Unsupported attributes-charset value \"%s\".", IPP_STATUS_ERROR_CHARSET, con->http->hostname, charset->values[0].string.text);
-+-	send_ipp_status(con, IPP_STATUS_ERROR_CHARSET, _("Unsupported character set \"%s\"."), charset->values[0].string.text);
-++        cupsdLogClient(con, CUPSD_LOG_ERROR, "Unsupported \"attributes-charset\" value '%s'.", charset->values[0].string.text);
-++	cupsdAddEvent(CUPSD_EVENT_SERVER_AUDIT, NULL, NULL, "%04X %s Unsupported \"attributes-charset\" value '%s'.", IPP_STATUS_ERROR_CHARSET, con->http->hostname, charset->values[0].string.text);
-++	send_ipp_status(con, IPP_STATUS_ERROR_CHARSET, _("Unsupported \"attributes-charset\" value '%s'."), charset->values[0].string.text);
-++      }
-++      else if (language && !ippValidateAttribute(language))
++ - CVE-2026-NNNNN: The backend did not sanitize IPP attribute strings.
+++- CVE-2026-NNNNN: The scheduler did not sanitizer fax numbers.
++ - Updated the maximum file descriptor limit for `cupsd` to 64k-1 (Issue #989)
++ - Fixed `lpoptions -d` with a discovered but not added printer (Issue #833)
++ - Fixed incorrect error message for HTTP/IPP errors (Issue #893)
++diff --git a/scheduler/job.c b/scheduler/job.c
++index ea6aa2692a..f746fb0e02 100644
++--- a/scheduler/job.c
+++++ b/scheduler/job.c
++@@ -3904,12 +3904,37 @@ get_options(cupsd_job_t *job,		/* I - Job */
++     ipp_t *ipp = ippGetCollection(attr, 0);	// Collection value
++     const char *destination_uri = ippGetString(ippFindAttribute(ipp, "destination-uri", IPP_TAG_URI), 0, NULL);
++     const char *pre_dial_string = ippGetString(ippFindAttribute(ipp, "pre-dial-string", IPP_TAG_TEXT), 0, NULL);
+++    char buffer[256], *bufptr;		// Sanitized value
++ 
++     if (destination_uri && !strncmp(destination_uri, "tel:", 4))
++-      num_pwgppds = cupsAddOption("phone", destination_uri + 4, num_pwgppds, &pwgppds);
+++    {
+++      for (destination_uri += 4, bufptr = buffer; *destination_uri && bufptr < (buffer + sizeof(buffer) - 1); destination_uri ++)
 ++      {
-++       /*
-++        * Bad natural language...
-++        */
+++        if ((*destination_uri & 255) < ' ' || *destination_uri == 127)
+++          *bufptr++ = ' ';
+++	else
+++	  *bufptr++ = *destination_uri;
+++      }
 ++
-++        cupsdLogClient(con, CUPSD_LOG_ERROR, "Bad \"attributes-natural-language\" value '%s'.", language->values[0].string.text);
-++	cupsdAddEvent(CUPSD_EVENT_SERVER_AUDIT, NULL, NULL, "%04X %s Bad \"attributes-natural-language\" value '%s'.", IPP_STATUS_ERROR_BAD_REQUEST, con->http->hostname, language->values[0].string.text);
-++	send_ipp_status(con, IPP_STATUS_ERROR_BAD_REQUEST, _("Bad \"attributes-natural-language\" value '%s'."), language->values[0].string.text);
-+       }
-+       else if (!charset || !language ||
-+ 	       (!uri &&
-+@@ -316,24 +325,23 @@ cupsdProcessIPPRequest(
+++      *bufptr = '\0';
+++
+++      num_pwgppds = cupsAddOption("phone", buffer, num_pwgppds, &pwgppds);
+++    }
 + 
-+         if (!charset)
-+ 	{
-+-	  cupsdLogMessage(CUPSD_LOG_ERROR, "Missing attributes-charset attribute.");
-++	  cupsdLogMessage(CUPSD_LOG_ERROR, "Missing \"attributes-charset\" attribute.");
++     if (pre_dial_string)
++-      num_pwgppds = cupsAddOption("faxPrefix", pre_dial_string, num_pwgppds, &pwgppds);
+++    {
+++      for (bufptr = buffer; *pre_dial_string && bufptr < (buffer + sizeof(buffer) - 1); pre_dial_string ++)
+++      {
+++        if ((*pre_dial_string & 255) < ' ' || *pre_dial_string == 127)
+++          *bufptr++ = ' ';
+++	else
+++	  *bufptr++ = *pre_dial_string;
+++      }
+++
+++      *bufptr = '\0';
+++
+++      num_pwgppds = cupsAddOption("faxPrefix", buffer, num_pwgppds, &pwgppds);
+++    }
++   }
 + 
-+-	  cupsdAddEvent(CUPSD_EVENT_SERVER_AUDIT, NULL, NULL, "%04X %s Missing attributes-charset attribute.", IPP_STATUS_ERROR_BAD_REQUEST, con->http->hostname);
-++	  cupsdAddEvent(CUPSD_EVENT_SERVER_AUDIT, NULL, NULL, "%04X %s Missing \"attributes-charset\" attribute.", IPP_STATUS_ERROR_BAD_REQUEST, con->http->hostname);
-+         }
-+ 
-+         if (!language)
-+ 	{
-+-	  cupsdLogMessage(CUPSD_LOG_ERROR,
-+-	                  "Missing attributes-natural-language attribute.");
-++	  cupsdLogMessage(CUPSD_LOG_ERROR, "Missing \"attributes-natural-language\" attribute.");
-+ 
-+-	  cupsdAddEvent(CUPSD_EVENT_SERVER_AUDIT, NULL, NULL, "%04X %s Missing attributes-natural-language attribute.", IPP_STATUS_ERROR_BAD_REQUEST, con->http->hostname);
-++	  cupsdAddEvent(CUPSD_EVENT_SERVER_AUDIT, NULL, NULL, "%04X %s Missing \"attributes-natural-language\" attribute.", IPP_STATUS_ERROR_BAD_REQUEST, con->http->hostname);
-+         }
-+ 
-+         if (!uri)
-+ 	{
-+-	  cupsdLogMessage(CUPSD_LOG_ERROR, "Missing printer-uri, job-uri, or ppd-name attribute.");
-++	  cupsdLogMessage(CUPSD_LOG_ERROR, "Missing \"printer-uri\", \"job-uri\", or \"ppd-name\" attribute.");
-+ 
-+-	  cupsdAddEvent(CUPSD_EVENT_SERVER_AUDIT, NULL, NULL, "%04X %s Missing printer-uri, job-uri, or ppd-name attribute.", IPP_STATUS_ERROR_BAD_REQUEST, con->http->hostname);
-++	  cupsdAddEvent(CUPSD_EVENT_SERVER_AUDIT, NULL, NULL, "%04X %s Missing \"printer-uri\", \"job-uri\", or \"ppd-name\" attribute.", IPP_STATUS_ERROR_BAD_REQUEST, con->http->hostname);
-+         }
-+ 
-+ 	cupsdLogMessage(CUPSD_LOG_DEBUG, "Request attributes follow...");
++  /*
 -- 
 2.35.6
 
