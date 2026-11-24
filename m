@@ -1,137 +1,237 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.31041.1795560775322591217
+Received: from mail-yx1-f52.google.com (mail-yx1-f52.google.com [74.125.224.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.31320.1795561669414430053
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2026 14:52:55 -0800
+ Tue, 24 Nov 2026 15:07:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=BdqGdn3j;
- spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-4aa5833c263so4898437f8f.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 14:52:55 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=EMEa/veX;
+ spf=pass (domain: gmail.com, ip: 74.125.224.52, mailfrom: jpewhacker@gmail.com)
+Received: by mail-yx1-f52.google.com with SMTP id 956f58d0204a3-67dc7eb1442so5684494d50.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 15:07:49 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795561668; cv=none;
+        d=google.com; s=arc-20260327;
+        b=TcE07Wrcktghi5pkxakng/2F4wN54qj9HwhEPFbbrYxat2q4GsJSb0ZdWWELf/9Aq0
+         bzhq0E5AXtG80gnAS+N+OMQXN8f29/8b8ZlSX6YYxaYccGEisHzmCpRX2v5rBC2x3kR1
+         Wx+10+mMeVt2oXX/QJQAL8DumJqToVThB/RVF1GJU7fTLAIfXDUCECx129Dj3kQSPVs7
+         +DHIiJ0pucViB01HBVUh9Dbfi1cbaCtMyaagiYvL3q0FJDOcpCRLFedahd1JCJpSYz1Y
+         POshXOuXGZSpWLLzM0J0WajDY9QAgX+xVtOxErCpPquwZXCph15VW/FrQ459laDfx1Im
+         OceQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=hY7Stx7xdZGBnquZhnFjzsV20hnQVwemrC353KM7Kgg=;
+        fh=x4HEGiz3Le+5Lc7a1sPba9pC5kJ18gzkJHpnhl1cn9Y=;
+        b=R70FFakAqQzrmVIZfzShvr3C8rA2FCvJGa3QAaGZtNb5e/2AVGQxyFAEUCkBZ2unT5
+         I/SQjYsKmR2hhw5gvhGEIbOKHXNb1Tbm9lZbvDflRZMBuQD0lCQMuTqKxjMKxQG+La9S
+         PeAsH30eT5EBE46WeuuKhJUfWN4wlPFz7PFz5YOisZvDJsrnfDnovTgc2+9K3WndJoA/
+         ahb4zcc4Ep36QxA5mx5bRYKqt8l3sdmfWTOfRfcqte0w4oldtPwofuKxPs95XlKLuka4
+         FXPnIdOzRzqevMRT3WlTcssMHnzk48RPQi8Z6uM94S6hcEn+cVmeL1K2D06oWR5tmpxx
+         HeaQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795560773; x=1796165573; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=7uL/iAtsNgC5IZY9uWFp+3spG799kJlY5szTzxZDn9g=;
-        b=BdqGdn3jzE7HLWF7HL8EVVSCLEmYAKDMMMnyEOkeQJqzk2iEm+loHQLqzo4UBdb6q6
-         9qSQHA8iyTM+ix4WvXL2S7Uf79uKpme+TeEC6WC6gJ0d3Ey407JRViKxmd69mJ3wfTn8
-         /E+w8nnKHn4UCwkOvis3JYLwghi1coDwsmjdWF8iHGOfhG26mzcaQPBs0p/sTBk6qZgH
-         UkmvJy0/3u350FZ6D4eFy0mtbqQws/Pr4Wyp1oGU+oJYSoFR3shrkFppOYIH738CFr4b
-         8Jbq1gKrwvBU/tWHlo5sJrFej9MXAoisFTNcLdtWFcdecSZ5iIPrOpSom0CzCcLKC1Cx
-         DzZA==
+        d=gmail.com; s=20260707; t=1795561668; x=1796166468; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=hY7Stx7xdZGBnquZhnFjzsV20hnQVwemrC353KM7Kgg=;
+        b=EMEa/veXVeHfFVQ4VYRrIqqWRliNiwZAgVIn+s1jxdNLjj58DQeO34NfGMyc8J9v0m
+         ZUVCe68k6k2KA6lFs7dIltxM7Xzzvdu+3gW1cU2/pnpt+EJTJw3Ph8V9en34h+4I9G89
+         PQ6R2KkjVuLbQjcjlXj/0q4jNIZLEtrMjB2YQlkND24WXdDBj/J4lQggdrdoPAjQw50z
+         NgSyP/EW4WYeLeG4YRloR/mq7N+1UsIjYtM397ol0x8SqXFRB8DysIVVFTJTSS9xrvoQ
+         47jzgU1QONwW4ls1WE6oKnvazm2eAuzhoHix3RWw55cPRP/octp2pnz2D+tTLibSEjnW
+         iIvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795560773; x=1796165573;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=7uL/iAtsNgC5IZY9uWFp+3spG799kJlY5szTzxZDn9g=;
-        b=Y+qjvEmQhj+ShHGlUW9d74JTDtYSuCcWiJxRt2INX8a9PkOfIRQTCjhmTS6AWw/wXU
-         Dh3iGCbIwQBhj6YErVysLcJF/BXRRtJltSqxrTMhRplzZ8o2oqsLSJ5Yf3Hd/+hHur3v
-         556ap7xmzBZmzXyXC+q7u94pxp7U3x6MHP0c0bd+wMg9X+vSz5XQUfYqLtKGnEFFcmCT
-         6E4wMtpTAB/lbGiO99RwwYucr+P+IAENV1nNccj43QOYi/JLq3sB2YCN8seYIffjSuJs
-         pSChU1sPwCjtM/Gjn8FQSi5nAJqa3PbuB2mMjpOx4+JsssT4Yrexi2IrROck/oImkPB1
-         6eVA==
-X-Gm-Message-State: APuU4Z8Wf0sTGK1vJzFQxLQ78O+AO7QesdhR0gDJuWlzfdHZp/iaTmW1
-	EXxycTTBzLQHwSrMsLR8pmodTGUZQXu/A5sicwQX2bSCHFpRzernk5cxvdPt4MvOU8rq/uRaF08
-	lIUQUhgE=
-X-Gm-Gg: AZFdTZekN6KoMW2lFRnimfotTDsvYzqCdzgou+6zXGqLiaaFfh3RYI3gAy7N11F0WkH
-	61OK7FXWpP2PBy9rpiSwyHti4teiXbwn+BKSnunXnQWmJX49Hj0R6jFFJ36AyDvC3rT6A3H8/8l
-	gYMH5KC5NuqRPOrbz/CnEb+VDoINf1SXKFfNrtDq77ZMWjgzdked7N3jbUYMPNlEtAS6dqMwPc8
-	cbZcyZYXzvwmwz1QVrRp6yXOuDleL2srZgjkfysRYUlwf7oJWUkcdU40mUxSLCvJWAAsIgIYYIb
-	jcnnti2M7c/Qiuz9iKoi1cXSCtbPD5PiLOHF0tnwWhoL23S25C48blQNd8ouNl5lVbBQj98y1Br
-	Vhx0ZUkyQlifXDZEn4lV/EmhR0pihKOhbkDoeJwBeRecT+U21jmnHHNQTmAlBmxEPWd3Og836ZD
-	D+LAqPKvZyRU3h4vn+DjryBiOxPHbhh1SbirROHPBAyPsrB8xf8vSN1ZiJEU7mr4wN9D/pWWnY4
-	7zEXBYvWKT4zpcpHMNJfsEIeBHBW9FmzXk12Czb9YqkEnIOVX6q1Dk1YdfnixPll7F0dhJu6yPV
-	NBKKFM9E76GQdbJry1VbKLPM7Vnrd8sWopEWz4DcgcXEVoMW/qyOe9lFt3GyTFY9/cHyqyB3CAW
-	NsKf+SZwPASOE3YDtoI/n6t2eF906
-X-Received: by 2002:a05:600c:45d4:b0:4bb:6994:abf0 with SMTP id 5b1f17b1804b1-4bb88817d91mr346551885e9.23.1795560773530;
-        Tue, 24 Nov 2026 14:52:53 -0800 (PST)
-Return-Path: <yoann.congal@smile.fr>
-Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ad644140b5sm27446707f8f.17.2026.11.24.14.52.52
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 14:52:52 -0800 (PST)
-From: Yoann Congal <yoann.congal@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 19/21] speex: patch CVE-2026-116741
-Date: Tue, 24 Nov 2026 23:52:36 +0100
-Message-ID: <5ba43f49922f56e37067b8bd9850b93926fdbde5.1795560372.git.yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <cover.1795560372.git.yoann.congal@smile.fr>
-References: <cover.1795560372.git.yoann.congal@smile.fr>
+        d=1e100.net; s=20260707; t=1795561668; x=1796166468;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=hY7Stx7xdZGBnquZhnFjzsV20hnQVwemrC353KM7Kgg=;
+        b=QlJByKuGWPETCPkYvOpbBlRqHqLtocCTbhJhy7zbT5yo1+rTKkBosUaADsHbTlb6Kb
+         ftEHS6HVCmsR/3hz/0j5u//8/xWvcK1ZBm7AVCV1wYZAy1Mr6yo92OvwKOLSlBfFglbd
+         WkUcWQm9Q+zXYEnizOCPJ8ENAAkavRYJ28Wvr/veWC1jOXJ2w6cxvKg3FRkF5LLmbpz3
+         PfUV89tQvLCFDJcr2BMUjV72GK/v5tkdCI5fukQOH3paz4RvBcuFTfm3+7u54NgMUxuv
+         dhUDXP6xoOMw2EU7xD3MM/o68A1mBaBYXrBsBpLsXLjLi0Hthqn8yJTayE7QjK1dAiFm
+         eMVA==
+X-Gm-Message-State: APuU4Z91ZPzdrplSuJu7fDd0XYQyx2Xwzggg/lXwD9JR1bFwPEIOGABv
+	Bb1Ld9CNHwU1GPoAq9B1H3chdHMIvxRplDstrfj8bGx2u/Sc4dF1RHwBJfBibvrpoQDlXHJyTPn
+	OxI/9hLMfUU4oOHY6MukZ9MiqCP2s79k=
+X-Gm-Gg: AZFdTZdSIYQs3d6Y4zRIpHPGbcTaWYlaFjCsPyt861kDPI/3D3ixgI6xj1lJ2oVgPMu
+	teV2YDc3BYP+/KRV4dotwXw5lqNAt3Tb1/8l/EXA+HA4oFmsa8AIgf3V1b7tt9R1sy5ssyjCcV1
+	7lVE40EIgu49IkwT33wl8sCUwZpXxai8zNdJcjFjXoPUcoR9xOZecfZ2TphGeQAUhlumL31jjvL
+	8IwZ/f6SuuYfh+CmQwECXWWc9LLqomxXFVFJugPWNkm6qU8TexR1Rk4b7riUlw0eqhP5Dp6W4Ys
+	gQXJAbVCjd7I9lQns5AUAlX1quPWXA5w5obX2RKi6NfMWZvio3Cx9z0T6wma8gBH5HllMBAYBgP
+	WiA6KIQ5/nbf/tc05PmCPCBX1sfOHYwV9IbJvpVf3b7I1CXbMJR4=
+X-Received: by 2002:a05:690e:4894:20b0:67d:b54b:3cb8 with SMTP id
+ 956f58d0204a3-67df43f5c57mr5415395d50.34.1795561668463; Tue, 24 Nov 2026
+ 15:07:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20261119204909.2931233-1-stondo@gmail.com> <20261119204909.2931233-2-stondo@gmail.com>
+In-Reply-To: <20261119204909.2931233-2-stondo@gmail.com>
+From: Joshua Watt <jpewhacker@gmail.com>
+Date: Tue, 24 Nov 2026 16:07:35 -0700
+X-Gm-Features: Aa3M54r1e0dXIlJIBYkFjYy3TxUzkgr25CBxdBbqy78T34-81PzutDwLbzFE32E
+Message-ID: <CAJdd5GaQrt_8AN3UziUk_pdz0WV1SAxi+47AFk9vsrLFwWgjAw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/4] spdx30: Take name, version and PURL of downloads
+ from the fetcher
+To: Stefano Tondo <stondo@gmail.com>
+Cc: openembedded-core@lists.openembedded.org, 
+	Alexander Kanavin <alex.kanavin@gmail.com>, 
+	Stefan Herbrechtsmeier <stefan.herbrechtsmeier@weidmueller.com>, Paul Barker <paul@pbarker.dev>, 
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, Peter Marko <peter.marko@siemens.com>, 
+	stefano.tondo.ext@siemens.com
+Content-Type: multipart/alternative; boundary="0000000000006bce4106610dc7c6"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 22:53:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251121
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 23:07:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251124
 
-From: Peter Marko <peter.marko@siemens.com>
+--0000000000006bce4106610dc7c6
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Pick patch from [1] linked from CVE report.
+On Thu, Nov 19, 2026 at 1:49=E2=80=AFPM Stefano Tondo <stondo@gmail.com> wr=
+ote:
 
-[1] https://gitlab.xiph.org/xiph/speex/-/merge_requests/32
+> From: Stefano Tondo <stefano.tondo.ext@siemens.com>
+>
+> The fetchers of package registries (crate, gomod, npm) know the name
+> and the version of each package they download. Today the SPDX of such
+> a download only has the file name, so an SBOM scanner cannot match
+> the dependency.
+>
+> Ask the fetcher with package_identity() and set the name, the version
+> and the PURL of the download. This needs package_identity() in
+> bitbake.
+>
+> Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
+>
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit acdf6b0bfcf0a2c3b858ccf2f1b385afd5b13574)
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
----
- .../speex/speex/CVE-2026-116741.patch         | 29 +++++++++++++++++++
- meta/recipes-multimedia/speex/speex_1.2.1.bb  |  5 +++-
- 2 files changed, 33 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-multimedia/speex/speex/CVE-2026-116741.patch
+LGTM, Thanks
 
-diff --git a/meta/recipes-multimedia/speex/speex/CVE-2026-116741.patch b/meta/recipes-multimedia/speex/speex/CVE-2026-116741.patch
-new file mode 100644
-index 00000000000..4d71f7fa82c
---- /dev/null
-+++ b/meta/recipes-multimedia/speex/speex/CVE-2026-116741.patch
-@@ -0,0 +1,29 @@
-+From 09b569d1b437e5edccf3406a38714ad795e46d38 Mon Sep 17 00:00:00 2001
-+From: Tristan Matthews <tmatth@videolan.org>
-+Date: Thu, 22 Oct 2026 09:00:44 -0400
-+Subject: [PATCH] bits: fix OOB write in read_whole_bytes for non-owned buffers
-+
-+Fixes https://github.com/xiph/speex/issues/42
-+
-+Reported by HaiND (Nguyen Dinh Hai), Post and Telecommunication Institute of Technology, github.com/Haind03.
-+
-+CVE: CVE-2026-116741
-+Upstream-Status: Backport [https://gitlab.xiph.org/xiph/speex/-/commit/09b569d1b437e5edccf3406a38714ad795e46d38]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ libspeex/bits.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/libspeex/bits.c b/libspeex/bits.c
-+index 4f457af..c5546e8 100644
-+--- a/libspeex/bits.c
-++++ b/libspeex/bits.c
-+@@ -174,7 +174,7 @@ EXPORT void speex_bits_read_whole_bytes(SpeexBits *bits, const char *chars, int
-+          }
-+       } else {
-+          speex_warning("Do not own input buffer: truncating oversize input");
-+-         nchars=bits->buf_size;
-++         nchars=bits->buf_size-(bits->nbBits>>LOG2_BITS_PER_CHAR)-1;
-+       }
-+    }
-+ 
-diff --git a/meta/recipes-multimedia/speex/speex_1.2.1.bb b/meta/recipes-multimedia/speex/speex_1.2.1.bb
-index c40198fa8f3..2a174db0aa4 100644
---- a/meta/recipes-multimedia/speex/speex_1.2.1.bb
-+++ b/meta/recipes-multimedia/speex/speex_1.2.1.bb
-@@ -8,7 +8,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eff3f76350f52a99a3df5eec6b79c02a \
-                     "
- DEPENDS = "libogg speexdsp"
- 
--SRC_URI = "http://downloads.xiph.org/releases/speex/speex-${PV}.tar.gz"
-+SRC_URI = " \
-+    http://downloads.xiph.org/releases/speex/speex-${PV}.tar.gz \
-+    file://CVE-2026-116741.patch \
-+"
- UPSTREAM_CHECK_REGEX = "speex-(?P<pver>\d+(\.\d+)+)\.tar"
- 
- SRC_URI[sha256sum] = "4b44d4f2b38a370a2d98a78329fefc56a0cf93d1c1be70029217baae6628feea"
+Reviewed-by: Joshua Watt <JPEWhacker@gmail.com>
+
+
+> ---
+>  meta/lib/oe/spdx30_tasks.py | 14 ++++++++++++++
+>  1 file changed, 14 insertions(+)
+>
+> diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+> index 6eaa74ce3d..eded315819 100644
+> --- a/meta/lib/oe/spdx30_tasks.py
+> +++ b/meta/lib/oe/spdx30_tasks.py
+> @@ -463,6 +463,19 @@ def enrich_source_package(d, dl, fd, file_name,
+> primary_purpose):
+>              )
+>
+>
+> +def set_package_identity(d, dl, fd):
+> +    """Set name, version and PURL of a download that names a package.
+> +
+> +    Fetchers of package registries (crate, gomod, npm) know which packag=
+e
+> +    a URL downloads, see FetchMethod.package_identity() in bitbake.
+> +    """
+> +    identity =3D fd.method.package_identity(fd, d)
+> +    if identity:
+> +        dl.name =3D identity.name
+> +        dl.software_packageVersion =3D identity.version
+> +        dl.software_packageUrl =3D identity.purl
+> +
+> +
+>  def add_download_files(d, objset):
+>      inputs =3D set()
+>      release_date =3D get_release_date(d)
+> @@ -528,6 +541,7 @@ def add_download_files(d, objset):
+>              )
+>
+>              enrich_source_package(d, dl, fd, file_name, primary_purpose)
+> +            set_package_identity(d, dl, fd)
+>
+>              if release_date is not None:
+>                  dl.releaseTime =3D release_date
+> --
+> 2.56.1
+>
+>
+
+--0000000000006bce4106610dc7c6
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Nov 19,=
+ 2026 at 1:49=E2=80=AFPM Stefano Tondo &lt;<a href=3D"mailto:stondo@gmail.c=
+om">stondo@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quo=
+te" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204=
+);padding-left:1ex">From: Stefano Tondo &lt;<a href=3D"mailto:stefano.tondo=
+.ext@siemens.com" target=3D"_blank">stefano.tondo.ext@siemens.com</a>&gt;<b=
+r>
+<br>
+The fetchers of package registries (crate, gomod, npm) know the name<br>
+and the version of each package they download. Today the SPDX of such<br>
+a download only has the file name, so an SBOM scanner cannot match<br>
+the dependency.<br>
+<br>
+Ask the fetcher with package_identity() and set the name, the version<br>
+and the PURL of the download. This needs package_identity() in<br>
+bitbake.<br>
+<br>
+Signed-off-by: Stefano Tondo &lt;<a href=3D"mailto:stefano.tondo.ext@siemen=
+s.com" target=3D"_blank">stefano.tondo.ext@siemens.com</a>&gt;<br></blockqu=
+ote><div><br></div><div>LGTM, Thanks</div><div><br></div><div>Reviewed-by: =
+Joshua Watt &lt;<a href=3D"mailto:JPEWhacker@gmail.com">JPEWhacker@gmail.co=
+m</a>&gt;</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"=
+margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-lef=
+t:1ex">
+---<br>
+=C2=A0meta/lib/oe/spdx30_tasks.py | 14 ++++++++++++++<br>
+=C2=A01 file changed, 14 insertions(+)<br>
+<br>
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py<br>
+index 6eaa74ce3d..eded315819 100644<br>
+--- a/meta/lib/oe/spdx30_tasks.py<br>
++++ b/meta/lib/oe/spdx30_tasks.py<br>
+@@ -463,6 +463,19 @@ def enrich_source_package(d, dl, fd, file_name, primar=
+y_purpose):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0)<br>
+<br>
+<br>
++def set_package_identity(d, dl, fd):<br>
++=C2=A0 =C2=A0 &quot;&quot;&quot;Set name, version and PURL of a download t=
+hat names a package.<br>
++<br>
++=C2=A0 =C2=A0 Fetchers of package registries (crate, gomod, npm) know whic=
+h package<br>
++=C2=A0 =C2=A0 a URL downloads, see FetchMethod.package_identity() in bitba=
+ke.<br>
++=C2=A0 =C2=A0 &quot;&quot;&quot;<br>
++=C2=A0 =C2=A0 identity =3D fd.method.package_identity(fd, d)<br>
++=C2=A0 =C2=A0 if identity:<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 <a href=3D"http://dl.name" rel=3D"noreferrer" =
+target=3D"_blank">dl.name</a> =3D <a href=3D"http://identity.name" rel=3D"n=
+oreferrer" target=3D"_blank">identity.name</a><br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 dl.software_packageVersion =3D identity.versio=
+n<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 dl.software_packageUrl =3D identity.purl<br>
++<br>
++<br>
+=C2=A0def add_download_files(d, objset):<br>
+=C2=A0 =C2=A0 =C2=A0inputs =3D set()<br>
+=C2=A0 =C2=A0 =C2=A0release_date =3D get_release_date(d)<br>
+@@ -528,6 +541,7 @@ def add_download_files(d, objset):<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0)<br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0enrich_source_package(d, dl=
+, fd, file_name, primary_purpose)<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 set_package_identity(d, dl, fd)<=
+br>
+<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if release_date is not None=
+:<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0dl.releaseTim=
+e =3D release_date<br>
+-- <br>
+2.56.1<br>
+<br>
+</blockquote></div></div>
+
+--0000000000006bce4106610dc7c6--
