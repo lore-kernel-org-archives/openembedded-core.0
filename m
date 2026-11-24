@@ -1,62 +1,62 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.31017.1795560745665628267
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.30979.1795560746861911053
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2026 14:52:25 -0800
+ Tue, 24 Nov 2026 14:52:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=Ql3f8TQk;
- spf=pass (domain: smile.fr, ip: 209.85.221.42, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4a34ffd3e39so2784038f8f.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 14:52:25 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=hFr1Hn4z;
+ spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4bb6057b333so24075525e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 14:52:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795560744; x=1796165544; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1795560745; x=1796165545; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=2yRHzI+RxyOjZ1/yk7lXB9VgspNvmNJ4k+KNpxwGnB8=;
-        b=Ql3f8TQkFPOtlhmHDajC+su/DbA6Pin0UNODDKPCkP+/qMnz1IOUqS3E0ESc97tW6r
-         3CbhFPVpiFSD3SFbcIY6UKyw4RXlV2/chzRpt+WRrag3cnhb/LHP3OH+ehH0hYlcsC3E
-         bJcWKGqLXTrgY0OG6D4/qI0UCVrVkshh4pvVaE7zt84+ykZUVQ7QdqY2JGsk9EHnkvu1
-         rTV/wjnjCQJlFZEO7CgySSykRaCkcc38BI7itYtflW+xUM5VozFclxD7dTlayWXTfcu6
-         gOkZ1qdoJBXDe5pg+Vjr9HtTxrR5qfyLLjnika7UgoOX9zcP1WWCwoskqzz/S2IpmD3I
-         llRw==
+        bh=1k7GzTKIOkVJLe6A5a37Z8HGKYQ58EYjyflMb0OmFio=;
+        b=hFr1Hn4zonPiIEbdYTIuupnzFGSd+VrmY18+5ouhZGfsVnWXWFIwFH4592qgiQ4ll8
+         2TlUk8dxJjSFkrRYYF+uJrM7k8UZHG5go6/LGOx9d1AUDDnrl3w2/HNcrLVTVlbkFbwD
+         LO6OldvuQ6ln9FDBE/QSzfdLt46lG3ZA5wO0woVjYE8LvOyZTVkk2N3DEXURFn6ACDi9
+         /TsU+xqx0nQwnt5RSj+m5xqnk4AD8ZSQHyJnJM4BZZKjxPSzgytQQxbNHFjJ3waoUgPH
+         gHrP/qAA4F8yCI32smiIOgEeJ2G0+45+uK6JP9bikAnvdKpdFSZ3yPx07JdSelCzZtIn
+         CHyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795560744; x=1796165544;
+        d=1e100.net; s=20260707; t=1795560745; x=1796165545;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=2yRHzI+RxyOjZ1/yk7lXB9VgspNvmNJ4k+KNpxwGnB8=;
-        b=IK+MfVlWB2pEgiIVi7nmNEUTbOgO0Zp2yJEg//dQ0XKRrPWDvPIxvIJEVLkLNM26qq
-         Z73mJDtfiNqIkDX9auAABfRK/1bjHMfR08fHEKBdLIEk0qWSaYjPBhSXoOKoyd//Eqwg
-         byG9vURQxyLFffNrpFc/ugLUSB2jBiscmb0YzIxPs7nvbz9r0OSQ2bC3AJyN3cOv055a
-         tcro6Hwxuq1LRItay3Wm+HP0Q6NcNS9fWR65sO/BaZ/fTsXzG84Wiy0LyYTgdtbhb7wu
-         5q5Up1v4riWNnLmDYnJLoJn41sx8ilngIqj4q2ap3I0Fu2kqiojiVsZLIcUmcPB6ldpQ
-         g+BA==
-X-Gm-Message-State: APuU4Z89bFAXwP7f9iUSvkrlWdYtfnTYOlAlX33AZG6+gqxWZ337TXA+
-	KNfYjnuglx06hQ2Q0lxnBYRHGQsSKS/YYCFgcTEdcg5KvRcl52A9z0PT753t7z0cV3c/llazLsA
-	beevxpDk=
-X-Gm-Gg: AZFdTZd98wlERR5QIi9YeklwTklQ2KDSTVo/ZTcS6fpsqmTCODlrShb7iwSEMPXEIUy
-	IiQbJcCU3/ERvg9JYRZ32AgS+8WkJxwRxS2L/La2/lHFn4ohLs6yQLBp/LdwLsurevyjBKEB4GX
-	jyXFNlpZh6TkKcD2bBwHJ/h7YYOIVPweMguKHlWd8npC7PVVBGqJFXh1v1lB+Vz13GfQlnt8AgW
-	HGJVAymkwWyXbgTQIGN1smSpzae/9dKRqSubf9JOU3rSyw77MMF54Hyful+ifQG1PERhBkbkBxi
-	pQEVDBcChY10FPsm7GTd7xZCE9rtmOqG+xO/isF15sl9W+5GRFH4LLcQ253NtxCE5ttdOG4VjFi
-	6BTEsaNhIumyYXpB8XilLgv+uquSDf1/pzf8vs9vR2k3rmmJhwEa+znl0aqQXYpto3KOFYfmfbZ
-	vrhWI2OaVKM8gpc7MvleDde+Q9I0+mkXLW5FnBnYhnbWAkJhzBL/t4i0aW2Wy5sN/W1+T5cQPdZ
-	0K5ZdfJY0+2aJcFc6aD11NfUwvRRSt2fm0e6ljUwlK5EbuiGNtfzRlgD3fMdcAUcUdhqsMrm7lU
-	nd7QBG9ka9C7i11OUphULEX444LptfNa3v1khH8mmtlVIxPU6J8VTcWZcPswRRuRisbRSwoJblB
-	cJWsoyo6v1Kv3AY/HAaRI2nExWQZM
-X-Received: by 2002:a05:6000:310a:b0:48d:f383:2356 with SMTP id ffacd0b85a97d-4abb5eabd3dmr34501190f8f.53.1795560743916;
-        Tue, 24 Nov 2026 14:52:23 -0800 (PST)
+        bh=1k7GzTKIOkVJLe6A5a37Z8HGKYQ58EYjyflMb0OmFio=;
+        b=g4uVfEP07WqNwXwFRGfSYJibAuleV8hRUB4d27XQwop3+Pt2ezoLzSBiP1jsJGIcEV
+         rTdCKVDrxYbCoYy/l7ePqaP1i2G7S0sA+pSTdwHiQQvmJ+DzOMIakJK9qi6XCU0XxZIf
+         LMtElG0ZWOCcQH54DBG/YiQX/bHni4j8q2DXZlNZAUXEU4eslmHPcBiINxAnKpptMoUb
+         CXP+uEKSrQFwTz2uEPAwihgzqjcCEQ0IaWu5NucFPZA28FmGl6ZGp0+VQIvozOzRSlji
+         M6jPRCELgGlF4nzZ1b1KmuT7F6Po0s04WYZaFFjM/LYQ8/DztwokfRc8yt17X4/noA/W
+         jwiw==
+X-Gm-Message-State: APuU4Z/FEEjRxVNH/aK3K5kppKCBy03pOgM2ODjEnFXtLYzoW2vobWyK
+	+YpWwkW+dKfKsZr8GiMGgiSR5IOYEyj0u6kiRPDRyLtUm4QE9HtSAP633v2RF+zvDvSdRCv2V3t
+	3veNseXU=
+X-Gm-Gg: AZFdTZc12XuTa7e0UP/Eur98iJ1dvaLO9kcKXUcwuk24VU/MG40o0scm1mtaNWYwC/o
+	JIcP34DwuyviVvr9ln/vEueyPUVmP069dymCQkVZTnrrauXw8MyuasI+G0Y7egQUXAzAG7lhxEm
+	dx1d5pRYIN4ABhCjJnNos1fMyT8lHKmpQSXy/0vgQPIIwpt/Zr2Bl3BORyDaYI0QWxQb2Dt9VgF
+	aJ/RaDOrRIiewbZNGK0+ahYAGMbqUVNgm3cS0gonCDjLD3QWGDZqedWUsJ0oi7ixGZxXSM9RA2J
+	8lOVkDUbM7qHbFvXuhk2F5qItCN/cD5/d59pvVyWvMd8hpLheh4JCw3FrI4jdB7T0SCkDQTiMc5
+	hmOWruzF+bgcqPTvyw1WV3Uho0lUpF38hMmq3AXkA05F3n4EPJ8eq1KK3XIMA8H4oMoYQnWKmHr
+	O3X+/1igDTOMK38XXlSrQe9J8/xlV0oyaRM9iNfXm2O+m4Ej7ii5eREKc4w+XvDi3XoK02uIKLI
+	PDCp7FP+m/ld8ti/qkPHLH4UeWEBypT1nyLPjjcpRYrou6QGXwS6LFPj+ur9XUF3W32J1UstAeP
+	BhM4L4Y93CIHVsp5foPYI8m6wz60dqNvHjCwOfaODgJHmAqht2QuemfRpMdfskUUX+hdm80Z5JT
+	oowboEnIcjnOCYvanVmVuJt6fRfnPBg==
+X-Received: by 2002:a05:600c:4f10:b0:4a1:88de:9e8b with SMTP id 5b1f17b1804b1-4bb88807909mr354632535e9.5.1795560744955;
+        Tue, 24 Nov 2026 14:52:24 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6bb989e3sm30462488f8f.52.2026.11.24.14.52.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 14:52:23 -0800 (PST)
+        Tue, 24 Nov 2026 14:52:24 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][blacksail 08/21] sqlite3: fix CVE-2026-119378
-Date: Tue, 24 Nov 2026 23:51:15 +0100
-Message-ID: <6ac90ac92db451d1f3aca1d53347248464dc993b.1795560335.git.yoann.congal@smile.fr>
+Subject: [OE-core][blacksail 09/21] sqlite3: fix CVE-2026-119376
+Date: Tue, 24 Nov 2026 23:51:16 +0100
+Message-ID: <1e0d7f4e8bd99a632b743f1b6eba11d6d6de54f8.1795560335.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1795560335.git.yoann.congal@smile.fr>
 References: <cover.1795560335.git.yoann.congal@smile.fr>
@@ -64,97 +64,120 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 22:52:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251088
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251089
 Content-Type: text/plain; charset="utf-8"
 
 From: Arpit Patel <arpitpa@cisco.com>
 
-This patch applies the upstream fix [1], which prevents a use-after-free
-in R-Tree when a manipulated shadow-table schema causes
-sqlite3_last_insert_rowid() to return 0. The GitHub mirror commit [1]
-corresponds to the SQLite Fossil check-in shown in [2].
+This patch applies the upstream fix [1], which includes COLLATE
+expressions in expression tree depth calculations and prevents bypass
+of the expression depth limit. The GitHub mirror commit [1] corresponds
+to the SQLite Fossil check-in shown in [2].
 
-[1] https://github.com/sqlite/sqlite/commit/d21bd37c7cfc1b85b17a6703555f0926b6236e04
-[2] https://sqlite.org/src/info/6a9e1415659f9e75
+[1] https://github.com/sqlite/sqlite/commit/d54522a5b832422ab893a1e9fa7a99ab314ea4e2
+[2] https://sqlite.org/src/info/252c0b7bf5a727d2
 
 Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2026-119378
+https://nvd.nist.gov/vuln/detail/CVE-2026-119376
 
 Signed-off-by: Arpit Patel <arpitpa@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../sqlite/sqlite3/CVE-2026-119378.patch      | 52 +++++++++++++++++++
+ .../sqlite/sqlite3/CVE-2026-119376.patch      | 75 +++++++++++++++++++
  meta/recipes-support/sqlite/sqlite3_3.53.4.bb |  1 +
- 2 files changed, 53 insertions(+)
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119378.patch
+ 2 files changed, 76 insertions(+)
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119376.patch
 
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2026-119378.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119378.patch
+diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2026-119376.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119376.patch
 new file mode 100644
-index 00000000000..23d9aaf6aad
+index 00000000000..5a6bc972598
 --- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119378.patch
-@@ -0,0 +1,52 @@
-+From 347b0263ce597345446fcfd259d063ef86228191 Mon Sep 17 00:00:00 2001
-+From: dan <Dan Kennedy>
-+Date: Thu, 24 Sep 2026 20:14:31 +0000
-+Subject: [PATCH] Avoid a use-after-free problem in rtree triggered by an
-+ attacker manipulating the shadow table schema to ensure
-+ sqlite3_last_insert_rowid() returns 0 after certain INSERTs. Problem reported
-+ by Claude and Ada Logics.
++++ b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119376.patch
+@@ -0,0 +1,75 @@
++From 2af844923ba3e32fb16b06adab4e4ad3b2f4da49 Mon Sep 17 00:00:00 2001
++From: drh <>
++Date: Sun, 4 Oct 2026 21:54:17 +0000
++Subject: [PATCH] Fix expression tree depth calculations for COLLATE.
++ [bugs:/info/2026-10-04T04:50:56Z|Bug 2026-10-04T04:50:56Z]
 +
-+FossilOrigin-Name: 6a9e1415659f9e75940b3c3a6f6e123f61c5e9e2a7a612693ee395d7b7567bef
++FossilOrigin-Name: 252c0b7bf5a727d29605672bb58e06c758173c276671df3e388a68294998b4d3
 +
-+CVE: CVE-2026-119378
-+Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/d21bd37c7cfc1b85b17a6703555f0926b6236e04]
++CVE: CVE-2026-119376
++Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/d54522a5b832422ab893a1e9fa7a99ab314ea4e2]
 +
 +Backport Changes:
-+- Applied the ext/rtree/rtree.c fix to sqlite3.c because the recipe
-+  source uses the amalgamated SQLite layout.
-+- Omitted ext/rtree/rtreeI.test because the extracted source does not
++- Ported the src/expr.c and src/sqliteInt.h changes into sqlite3.c
++  because the recipe source uses the amalgamated SQLite layout.
++- Omitted test/sqllimits1.test because the extracted source does not
 +  include the upstream test tree.
 +- Omitted manifest and manifest.uuid because they are Fossil
 +  repository metadata and are not needed for this source patch.
 +
 +Signed-off-by: Arpit Patel <arpitpa@cisco.com>
 +---
-+ sqlite3.c | 12 +++++++++++-
-+ 1 file changed, 11 insertions(+), 1 deletion(-)
++ sqlite3.c | 16 +++++++++++-----
++ 1 file changed, 11 insertions(+), 5 deletions(-)
 +
 +diff --git a/sqlite3.c b/sqlite3.c
-+index 76cb284..d2c0f23 100644
++index d2c0f23..cb678b2 100644
 +--- a/sqlite3.c
 ++++ b/sqlite3.c
-+@@ -219417,7 +219417,17 @@ static int nodeWrite(Rtree *pRtree, RtreeNode *pNode){
-+     sqlite3_bind_null(p, 2);
-+     if( pNode->iNode==0 && rc==SQLITE_OK ){
-+       pNode->iNode = sqlite3_last_insert_rowid(pRtree->db);
-+-      nodeHashInsert(pRtree, pNode);
-++      if( pNode->iNode==0 ){
-++        /* If the SQL statement has succeeded but sqlite3_last_insert_rowid()
-++        ** returns 0, then the shadow table schema has been corrupted somehow
-++        ** (e.g. the %_node table has been replaced by a WITHOUT ROWID table).
-++        ** It would be dangerous to continue in this case as the hash table
-++        ** implementation assumes iNode==0 means that the node is not part
-++        ** of the hash table. */
-++        rc = SQLITE_CORRUPT_VTAB;
-++      }else{
-++        nodeHashInsert(pRtree, pNode);
-++      }
++@@ -22409,8 +22409,8 @@ SQLITE_PRIVATE void sqlite3SetTextEncoding(sqlite3 *db, u8);
++ SQLITE_PRIVATE CollSeq *sqlite3ExprCollSeq(Parse *pParse, const Expr *pExpr);
++ SQLITE_PRIVATE CollSeq *sqlite3ExprNNCollSeq(Parse *pParse, const Expr *pExpr);
++ SQLITE_PRIVATE int sqlite3ExprCollSeqMatch(Parse*,const Expr*,const Expr*);
++-SQLITE_PRIVATE Expr *sqlite3ExprAddCollateToken(const Parse *pParse, Expr*, const Token*, int);
++-SQLITE_PRIVATE Expr *sqlite3ExprAddCollateString(const Parse*,Expr*,const char*);
+++SQLITE_PRIVATE Expr *sqlite3ExprAddCollateToken(Parse *pParse, Expr*, const Token*, int);
+++SQLITE_PRIVATE Expr *sqlite3ExprAddCollateString(Parse*,Expr*,const char*);
++ SQLITE_PRIVATE Expr *sqlite3ExprSkipCollate(Expr*);
++ SQLITE_PRIVATE Expr *sqlite3ExprSkipCollateAndLikely(Expr*);
++ SQLITE_PRIVATE int sqlite3CheckCollSeq(Parse *, CollSeq *);
++@@ -113018,23 +113018,29 @@ SQLITE_PRIVATE int sqlite3ExprDataType(const Expr *pExpr){
++ ** and the pExpr parameter is returned unchanged.
++ */
++ SQLITE_PRIVATE Expr *sqlite3ExprAddCollateToken(
++-  const Parse *pParse,     /* Parsing context */
+++  Parse *pParse,           /* Parsing context */
++   Expr *pExpr,             /* Add the "COLLATE" clause to this expression */
++   const Token *pCollName,  /* Name of collating sequence */
++   int dequote              /* True to dequote pCollName */
++ ){
++-  if( pCollName->n>0 ){
+++  if( pCollName->n>0 && pParse->nErr==0 ){
++     Expr *pNew = sqlite3ExprAlloc(pParse->db, TK_COLLATE, pCollName, dequote);
+++    assert( pExpr!=0 );
++     if( pNew ){
++       pNew->pLeft = pExpr;
++       pNew->flags |= EP_Collate|EP_Skip;
+++#if SQLITE_MAX_EXPR_DEPTH>0
+++      pNew->nHeight = pExpr->nHeight+1;
+++      sqlite3ExprCheckHeight(pParse, pNew->nHeight);
+++      testcase( pParse->nErr>0 );
+++#endif
++       pExpr = pNew;
 +     }
 +   }
-+   return rc;
++   return pExpr;
++ }
++ SQLITE_PRIVATE Expr *sqlite3ExprAddCollateString(
++-  const Parse *pParse,  /* Parsing context */
+++  Parse *pParse,        /* Parsing context */
++   Expr *pExpr,          /* Add the "COLLATE" clause to this expression */
++   const char *zC        /* The collating sequence name */
++ ){
 +-- 
 +2.35.6
 +
 diff --git a/meta/recipes-support/sqlite/sqlite3_3.53.4.bb b/meta/recipes-support/sqlite/sqlite3_3.53.4.bb
-index 911f5720298..1aea7cb3741 100644
+index 1aea7cb3741..06cd34818f5 100644
 --- a/meta/recipes-support/sqlite/sqlite3_3.53.4.bb
 +++ b/meta/recipes-support/sqlite/sqlite3_3.53.4.bb
-@@ -30,6 +30,7 @@ SRC_URI += "file://0001-Add-option-to-disable-zlib.patch \
- 	file://CVE-2026-119375.patch \
+@@ -31,6 +31,7 @@ SRC_URI += "file://0001-Add-option-to-disable-zlib.patch \
  	file://CVE-2026-119379.patch \
  	file://CVE-2026-119372.patch \
-+	file://CVE-2026-119378.patch \
+ 	file://CVE-2026-119378.patch \
++	file://CVE-2026-119376.patch \
  "
  SRC_URI[sha256sum] = "0e9483900e92cd5de8fd48d16bf9200145a61f7fd5be542a5ac81d8a9516eb9c"
  
