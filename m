@@ -1,181 +1,340 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.31029.1795560764652567579
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.31030.1795560765234323903
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2026 14:52:44 -0800
+ Tue, 24 Nov 2026 14:52:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=SXgP1Ekg;
- spf=pass (domain: smile.fr, ip: 209.85.221.52, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-497614c95f0so2888483f8f.1
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=n0frj+NP;
+ spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-49412eb1474so3286206f8f.3
         for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 14:52:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile.fr; s=google2; t=1795560763; x=1796165563; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NCGsequrJ09De8fTL7Y/jtXakvZ0I8qiFMTMO5Wibl0=;
-        b=SXgP1EkgrzyhJHxoNAVGpY0GFVxbRqISGeNqPtHFWfgnAxoJv6Gdcj+f8wMt45+YWC
-         B6zWFYelHlRCQPlXHEkX+XQkBSckCtNnV+IyJsSecclRh0R7ZCsYcwa5wvgDqUuKmGer
-         qVbUJqepgznxOBjzacwxI/QTmGjtg+p0P/LUUsr+5BfBJvbTyEEvSvztt+Bd2SDldBVp
-         vYtpzIFstIs4vavrGrLs3gPFrxznhyyVYcN50xviU0LOdEJv3sl4VOugxOQ8yFBM+Fhg
-         3z8zh87O/lrfEwa48qk2FxNLGDqc7yiThOw8na3mliZ1jUCqBEFjDvyepz8CnbKSEh/o
-         +IdQ==
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=8+0TJagybpw9tY8LL4cKibyk1q2agjzPjuaj0dTZnd8=;
+        b=n0frj+NPrO+dq3UUwS0dgx1NX0AM8rXphEEpArX36fqMXLNxMPfwQzrb/5K2f+YmHg
+         zZSdG3H0n5BeCRWstxU/ptWfyez5zjOiN+4qWGJ957c5b4qW3sSCEWbXlge5qt0OTTTs
+         +3nrA9KVLnYzqO0OYh0gtIOAQRRwG7PYVUPSS/Y7eWwKsMUkJcnfgRjYgTjJQyc0JPoB
+         dS6vmsKtYp+3silsG+yU1ppAMzhalz5aEFSZO9oukJ4plDYzssK8+xjdlvgTtZ4wWc7X
+         ByRiObfk7zvVJT1ddE3NYqvgY+/KGUaB+PgK2ZizLk5aTTFQgqHnF0XmESffDVQuIrap
+         4/Xg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1795560763; x=1796165563;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=NCGsequrJ09De8fTL7Y/jtXakvZ0I8qiFMTMO5Wibl0=;
-        b=eg9OAnQwcwA65NTuKlznet5aLHuNwdQkINes7lH+jWqglIWL7cRD/RDIP5WnB9tiX1
-         GIVi4HahihB4o0GwI/eUlpewtOJEqRjsbnoW+xv79PTL8Ls+j5OD+lTNhkyHaI6+/clh
-         /DI4hH4RfJhwE48tJEOyEzBNvT/y7QRI/E05I60qHLCVBOcXDWDvZod9Q4UvlbpMO/xu
-         RnE9UkzLj630UCtWZ1e/LzlRozYV3M9Sae9o63wioybyG9WlmpBTUP83wVaHN+FpV06n
-         eMT74JPbuZNDqRLN+Nq3UJRolx45sfI3UjcJFoVWShJfhiPUmzwxyv5G6EFkdPe5P/X2
-         JnjA==
-X-Gm-Message-State: APuU4Z+vQcw9Sup2iaVuO59hl0A202sjkYyvqm+lyAjL4JbXtPdFZNmp
-	NuHtE0rZu8otLbOtaf7RrJp7Uz+01mvnpgzst6hQRRH3ibSUZV24j7ua3xY6vNbfAVqG10pOXut
-	J/E6HKN8=
-X-Gm-Gg: AZFdTZfts+EON1GEBIY+Peag4awEmrJ7awLnQX+7xO3FmpeE+0OD8q4HV2Gy5p7yHQs
-	66czdu0dofcfEwaZ9sfeTp9ZyAv3/w/3cRlnz//5lTcLerwUQ9dCqjT1Ul1SPBtLGNxfReb0mS/
-	DlEwpW+9caFmoCpOAHcWc09QiNkDOAe87JWgHfR2OBl+8z/DplWyzup9lhG/RIovlaLnk82zwWe
-	KgBIRKuDXz/rJkq4Og3EuZNRIQH8D19T1L32/EcNgulqstf3hSqHpodFnYPQrQ8wMz1bKW6laso
-	G3zPaOrYq993KkvuBezKhDpUONL9zmD0fQ09JZg0TL5gjtgx5oiETAiZ1L2FFalVgXSlpFiYVZ2
-	X2IbscGDWFdbPUSjw8LkRqQaHeazUA20rqEvcNygZ5/nMcO+Wd+v9F9q8OX8jAiZgbqpHipUQEZ
-	DWPL/d/XiCpQ4mt37ZdSay2iYOMANI0GChiDtUGiAmJCkzpjQeJqoM23eL6AqZgpfzI3cfGiFQt
-	SdDD5QQGuIlpje5vK2rdkvbx6K1CFswYJg1OKVaxaLpeys/DQhqi7HMh+mLUGs1C8YUGHL1HhKj
-	TbGCNzu638TTy3GwIoYD6D4L+542G4sUwr/GQ5W2rhPiEX8sRTenAZm9Mjwu5OweLLmiEbYDhMH
-	xYXrYpPSTKFOFpTRktlJ7P5dYXp4c
-X-Received: by 2002:a05:6000:258a:b0:4a6:4f35:1bdb with SMTP id ffacd0b85a97d-4abb44d3448mr32298846f8f.39.1795560762817;
-        Tue, 24 Nov 2026 14:52:42 -0800 (PST)
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8+0TJagybpw9tY8LL4cKibyk1q2agjzPjuaj0dTZnd8=;
+        b=Rtp+rQ0FaK9wfpFqnjmkCHQ6I79wN38GtFeqI8OWZCmiYllYHcCU2mKu3f/E53zNl2
+         2euRjtzbHG2LtKqcABjJyZl4+YkSMdH9XL0QXTNo/dTYP4aw9ATC8JzSAqAqMg3cG/N9
+         hUqo21dS5MF4wl6fkssXVPlwwqpknMVKYahSqMCXTEHfKYNCFHv+JitZwn16hn667sb8
+         bXjdbnyD8iyv0+fEHdC2b+PXvFplUiK+pcPKqlwP+24cwf6pqolBfze4DouFXNG7trAV
+         FccLKRTk9m0KQhykzQjQPZrTs6CELm36L9J78s8uvJKfAXBeLa+UgutHtJ3MG2o76DgE
+         aJSQ==
+X-Gm-Message-State: APuU4Z/AVid2sAXlBi9NRzGGLQ1JF19vr+H1E6xL6zITOftjGQNAkT5o
+	DwgdHyJ06fAUcbCkDku0G9l/afiextAVRfAncOUXxLVf2TCKoAalHiMdEvfAns/brqJq4TlCZGA
+	eYkTZ2nk=
+X-Gm-Gg: AZFdTZcnsJ1FWdIhy0hXFfdliD3Wsl2HvTY0XBvg5QKh/Cx2rHmPVxfPHqsDJ3Dvilo
+	khjez29uVZ6SQcgco8pYXwkEL6YgjbDmuhesGwfcCViktuF6Bm+0V79j1MritM38E/NKgahFWpo
+	06pfk3yGbj1dCPKgu/lQ0k+e0YqxzTJLvErEaM9+Y1IPZRRLTqlayPeFSkAUQQ38P2LFnWyoag7
+	3dyiece0xTovfeTN01V8XQTk2s06hnoIvZ79HBzj1jeLT3ZkiiaJh+qakIKLN424xv91dcLeGhy
+	AYgmUaq7Z99UHFZJW8HOlJl+OS77wFahjEeC+zXgt0riDNyoU+d6YK4DyX8XEh1tD5lSp+AUTMd
+	J8ZBvpioekgozjzGguXcBaWWqFogA8jFVieKW3G4kxfz+NQkQNvJ6TMcN37mthua1AmFpc6EAVK
+	fd6ujMP6C+kUnOlTVhmwm5O6RuUDVfd6L4vouIzLSwqoeuZ3PrEL0hnv5DDx0LF7eEwUqcr4BuD
+	3VW9wazmkoh8rmW9J2etXL1GfBEor0g7r1Y1DIndQUwVg8Lz/Isf7E4PMJL9NJibTr5EybnBunO
+	Nsmwp2SfhmPq3O9zScBC/Qi56e3qbjLIspL2DVtOZdLsD+xRXscZjxfVpIBb+NQhl8S+juIIXve
+	HRH96es3EQXNeoNUciMNDlAzy4ze4
+X-Received: by 2002:a05:6000:490f:b0:492:a72:9303 with SMTP id ffacd0b85a97d-4abb47b242fmr30876478f8f.22.1795560763269;
+        Tue, 24 Nov 2026 14:52:43 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ad644140b5sm27446707f8f.17.2026.11.24.14.52.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 14:52:42 -0800 (PST)
+        Tue, 24 Nov 2026 14:52:43 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 00/21] Patch review
-Date: Tue, 24 Nov 2026 23:52:17 +0100
-Message-ID: <cover.1795560372.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 01/21] bison: Fix CVE-2026-56390
+Date: Tue, 24 Nov 2026 23:52:18 +0100
+Message-ID: <bc1668278ba60b7fa84b22cb5e84c65dc017a71e.1795560372.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <cover.1795560372.git.yoann.congal@smile.fr>
+References: <cover.1795560372.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 22:52:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251102
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251103
 Content-Type: text/plain; charset="utf-8"
 
-Please review this set of changes for wrynose and have comments back by
-end of day Thursday, November 26.
+From: Yogita Urade <yurade@cisco.com>
 
-This series is a subset of the review queue aimed at unblocking as much
-scarthgap patches as possible for the upcoming 5.0.22 release.
+This patch applies the upstream fix as referenced in [2],
+using the commit shown in [1].
 
-Passed a-full on autobuilder:
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/5180
+[1] https://cgit.git.savannah.gnu.org/cgit/bison.git/commit/?id=8d101c19d4d9aaedf83a448c925513742d4efcf0
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-56390
 
-The following changes since commit 16a03ed6c2db2fa1d7edac4f288a74958a00eb9f:
-
-  build-appliance-image: Update to wrynose head revisions (2026-11-20 10:24:35 +0000)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/wrynose-review
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/wrynose-review
-
-for you to fetch changes up to 1dc4b90903b014a610c753ce0cc65b343a17796b:
-
-  python3-certifi: correct license to MPL-2.0 (2026-11-24 14:36:27 +0100)
-
-----------------------------------------------------------------
-
-Anders Heimer (1):
-  python3-certifi: correct license to MPL-2.0
-
-Ankur Tyagi (2):
-  aspell: upgrade 0.60.8.2 -> 0.60.8.3
-  tzdata/tzcode-native: upgrade 2026e -> 2026f
-
-Arpit Patel (10):
-  sqlite3: Fix CVE-2026-119377
-  sqlite3: fix CVE-2026-119373
-  sqlite3: fix CVE-2026-119374
-  sqlite3: fix CVE-2026-119375
-  sqlite3: fix CVE-2026-119379
-  sqlite3: fix CVE-2026-119372
-  sqlite3: fix CVE-2026-119378
-  sqlite3: fix CVE-2026-119376
-  sqlite3: fix CVE-2026-119371
-  sqlite3: fix CVE-2026-119591
-
-Hetvi Thakar (1):
-  glibc: stable 2.43 branch updates to 124e9adcd4
-
-Peter Marko (6):
-  popt: correct CVE-2026-18739.patch metadata
-  popt: patch CVE-2026-18839
-  libsndfile1: patch CVE-2024-50613
-  libsndfile1: patch CVE-2025-52194
-  libsndfile1: patch CVE-2026-109828
-  speex: patch CVE-2026-116741
-
-Yogita Urade (1):
-  bison: Fix CVE-2026-56390
-
- meta/recipes-core/glibc/glibc-version.inc     |   2 +-
- meta/recipes-core/glibc/glibc_2.43.bb         |   1 +
- .../bison/bison/CVE-2026-56390.patch          | 233 ++++++++++
+Signed-off-by: Yogita Urade <yurade@cisco.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit eefec9cde464081f5943f4ad5c3cb688a87eff1f)
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+ .../bison/bison/CVE-2026-56390.patch          | 233 ++++++++++++++++++
  meta/recipes-devtools/bison/bison_3.8.2.bb    |   1 +
- .../python/python3-certifi_2026.10.19.bb      |   2 +-
- meta/recipes-extended/timezone/timezone.inc   |   6 +-
- .../libsndfile1/CVE-2024-50613.patch          | 348 +++++++++++++++
- .../libsndfile1/CVE-2025-52194.patch          |  27 ++
- .../libsndfile1/CVE-2026-109828-01.patch      | 234 ++++++++++
- .../libsndfile1/CVE-2026-109828-02.patch      |  26 ++
- .../libsndfile/libsndfile1_1.2.2.bb           |   4 +
- .../speex/speex/CVE-2026-116741.patch         |  29 ++
- meta/recipes-multimedia/speex/speex_1.2.1.bb  |   5 +-
- ...{aspell_0.60.8.2.bb => aspell_0.60.8.3.bb} |   2 +-
- .../popt/popt/CVE-2026-18739.patch            |   2 +-
- .../popt/popt/CVE-2026-18839-01.patch         |  89 ++++
- .../popt/popt/CVE-2026-18839-02.patch         | 419 ++++++++++++++++++
- meta/recipes-support/popt/popt_1.19.bb        |   4 +-
- .../sqlite3/CVE-2026-119371-dependent.patch   | 109 +++++
- .../sqlite/sqlite3/CVE-2026-119371.patch      | 103 +++++
- .../sqlite/sqlite3/CVE-2026-119372.patch      |  56 +++
- .../sqlite/sqlite3/CVE-2026-119373.patch      |  56 +++
- .../sqlite/sqlite3/CVE-2026-119374.patch      |  76 ++++
- .../sqlite/sqlite3/CVE-2026-119375.patch      |  47 ++
- .../sqlite/sqlite3/CVE-2026-119376.patch      |  75 ++++
- .../CVE-2026-119377-dependent_p1.patch        |  86 ++++
- .../CVE-2026-119377-dependent_p2.patch        |  59 +++
- .../sqlite/sqlite3/CVE-2026-119377_p1.patch   |  52 +++
- .../sqlite/sqlite3/CVE-2026-119377_p2.patch   |  51 +++
- .../sqlite/sqlite3/CVE-2026-119378.patch      |  52 +++
- .../sqlite/sqlite3/CVE-2026-119379.patch      |  79 ++++
- .../sqlite/sqlite3/CVE-2026-119591.patch      |  40 ++
- meta/recipes-support/sqlite/sqlite3_3.51.3.bb |  14 +
- 33 files changed, 2380 insertions(+), 9 deletions(-)
+ 2 files changed, 234 insertions(+)
  create mode 100644 meta/recipes-devtools/bison/bison/CVE-2026-56390.patch
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2024-50613.patch
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2025-52194.patch
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2026-109828-01.patch
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2026-109828-02.patch
- create mode 100644 meta/recipes-multimedia/speex/speex/CVE-2026-116741.patch
- rename meta/recipes-support/aspell/{aspell_0.60.8.2.bb => aspell_0.60.8.3.bb} (93%)
- create mode 100644 meta/recipes-support/popt/popt/CVE-2026-18839-01.patch
- create mode 100644 meta/recipes-support/popt/popt/CVE-2026-18839-02.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119371-dependent.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119371.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119372.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119373.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119374.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119375.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119376.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119377-dependent_p1.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119377-dependent_p2.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119377_p1.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119377_p2.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119378.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119379.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119591.patch
 
+diff --git a/meta/recipes-devtools/bison/bison/CVE-2026-56390.patch b/meta/recipes-devtools/bison/bison/CVE-2026-56390.patch
+new file mode 100644
+index 00000000000..f32aa8a98cb
+--- /dev/null
++++ b/meta/recipes-devtools/bison/bison/CVE-2026-56390.patch
+@@ -0,0 +1,233 @@
++From 8d101c19d4d9aaedf83a448c925513742d4efcf0 Mon Sep 17 00:00:00 2001
++From: Paul Eggert <eggert@cs.ucla.edu>
++Date: Thu, 23 Apr 2026 12:41:25 -0700
++Subject: [PATCH] bison: tighten up output file names
++
++Problem reported by Michał Majchrowicz.
++* src/parse-gram.y: Do not allow '/' in %header and %output directives.
++
++CVE: CVE-2026-56390
++Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/bison.git/commit/?id=8d101c19d4d9aaedf83a448c925513742d4efcf0]
++
++Backport Changes:
++- Adapted generated src/parse-gram.c to the Bison 3.8.2 source tree.
++- omitted upstream generator-version/copyright metadata and
++  src/parse-gram.h-only metadata changes while retaining the
++  security-relevant parser changes.
++
++(cherry picked from commit 8d101c19d4d9aaedf83a448c925513742d4efcf0)
++Signed-off-by: Yogita Urade <yurade@cisco.com>
++---
++ THANKS           |  1 +
++ doc/bison.texi   |  2 ++
++ src/parse-gram.c | 56 ++++++++++++++++++++++++++++++++----------------
++ src/parse-gram.y | 31 ++++++++++++++++++++++-----
++ 4 files changed, 67 insertions(+), 23 deletions(-)
++
++diff --git a/THANKS b/THANKS
++index be743a23..0e481561 100644
++--- a/THANKS
+++++ b/THANKS
++@@ -128,6 +128,7 @@ Michael Catanzaro         mcatanzaro@gnome.org
++ Michael Felt              mamfelt@gmail.com
++ Michael Hayes             m.hayes@elec.canterbury.ac.nz
++ Michael Raskin            7c6f434c@mail.ru
+++Michał Majchrowicz        mmajchrowicz@afine.com
++ Michel d'Hooge            michel.dhooge@gmail.com
++ Michiel De Wilde          mdewilde.agilent@gmail.com
++ Mickael Labau             labau_m@epita.fr
++diff --git a/doc/bison.texi b/doc/bison.texi
++index a559649c..44a4e159 100644
++--- a/doc/bison.texi
+++++ b/doc/bison.texi
++@@ -5973,6 +5973,7 @@ Introduced in Bison 3.8.
++ 
++ @deffn {Directive} %header @var{header-file}
++ Same as above, but save in the file @file{@var{header-file}}.
+++The @var{header-file} name should not contain slashes.
++ @end deffn
++ 
++ @deffn {Directive} %language "@var{language}"
++@@ -6026,6 +6027,7 @@ file, treating it as an independent source file in its own right.
++ 
++ @deffn {Directive} %output "@var{file}"
++ Generate the parser implementation in @file{@var{file}}.
+++The @var{file} name should not contain slashes.
++ @end deffn
++ 
++ @deffn {Directive} %pure-parser
++diff --git a/src/parse-gram.y b/src/parse-gram.y
++index 15180cb5..114c5c44 100644
++--- a/src/parse-gram.y
+++++ b/src/parse-gram.y
++@@ -95,8 +95,11 @@
++      string from the scanner (should be CODE). */
++   static char const *translate_code_braceless (char *code, location loc);
++ 
+++  /* Is FILE a valid output file name?  */
+++  static bool valid_output_file_name (char const *file);
+++
++   /* Handle a %header directive.  */
++-  static void handle_header (char const *value);
+++  static void handle_header (location const *loc, char const *value);
++ 
++   /* Handle a %error-verbose directive.  */
++   static void handle_error_verbose (location const *loc, char const *directive);
++@@ -337,7 +340,7 @@ prologue_declaration:
++       muscle_percent_define_insert ($2, @$, $3.kind, $3.chars,
++                                     MUSCLE_PERCENT_DEFINE_GRAMMAR_FILE);
++     }
++-| "%header" string.opt             { handle_header ($2); }
+++| "%header" string.opt             { handle_header (&@2, $2); }
++ | "%error-verbose"                 { handle_error_verbose (&@$, $1); }
++ | "%expect" INT_LITERAL            { expected_sr_conflicts = $2; }
++ | "%expect-rr" INT_LITERAL         { expected_rr_conflicts = $2; }
++@@ -356,7 +359,15 @@ prologue_declaration:
++ | "%name-prefix" STRING         { handle_name_prefix (&@$, $1, $2); }
++ | "%no-lines"                   { no_lines_flag = true; }
++ | "%nondeterministic-parser"    { nondeterministic_parser = true; }
++-| "%output" STRING              { spec_outfile = unquote ($2); gram_scanner_last_string_free (); }
+++| "%output" STRING
+++    {
+++      char *file = unquote ($2);
+++      if (valid_output_file_name (file))
+++        spec_outfile = file;
+++      else
+++        complain (&@2, complaint, _("invalid %%output file name ignored"));
+++      gram_scanner_last_string_free ();
+++    }
++ | "%param" { current_param = $1; } params { current_param = param_none; }
++ | "%pure-parser"                { handle_pure_parser (&@$, $1); }
++ | "%require" STRING             { handle_require (&@2, $2); }
++@@ -952,14 +963,24 @@ add_param (param_type type, char *decl, location loc)
++ }
++ 
++ 
+++static bool
+++valid_output_file_name (char const *file)
+++{
+++  return !strchr (file, '/');
+++}
+++
+++
++ static void
++-handle_header (char const *value)
+++handle_header (location const *loc, char const *value)
++ {
++   header_flag = true;
++   if (value)
++     {
++       char *file = unquote (value);
++-      spec_header_file = xstrdup (file);
+++      if (valid_output_file_name (file))
+++        spec_header_file = xstrdup (file);
+++      else
+++        complain (loc, complaint, _("invalid %%header file name ignored"));
++       gram_scanner_last_string_free ();
++       unquote_free (file);
++     }
++diff --git a/src/parse-gram.c b/src/parse-gram.c
++index 3c1d8229..7f6deb33 100644
++--- a/src/parse-gram.c
+++++ b/src/parse-gram.c
++@@ -276,8 +276,11 @@ typedef enum yysymbol_kind_t yysymbol_kind_t;
++      string from the scanner (should be CODE). */
++   static char const *translate_code_braceless (char *code, location loc);
++ 
+++  /* Is FILE a valid output file name?  */
+++  static bool valid_output_file_name (char const *file);
+++
++   /* Handle a %header directive.  */
++-  static void handle_header (char const *value);
+++  static void handle_header (location const *loc, char const *value);
++ 
++   /* Handle a %error-verbose directive.  */
++   static void handle_error_verbose (location const *loc, char const *directive);
++@@ -663,19 +666,19 @@ union yyalloc
++ /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
++ static const yytype_int16 yyrline[] =
++ {
++-       0,   310,   310,   319,   320,   324,   325,   331,   335,   340,
++-     341,   342,   343,   344,   345,   350,   355,   356,   357,   358,
++-     359,   360,   360,   361,   362,   363,   364,   365,   366,   367,
++-     368,   372,   373,   382,   383,   387,   398,   402,   406,   414,
++-     424,   425,   435,   436,   442,   455,   455,   460,   460,   465,
++-     465,   470,   480,   481,   482,   483,   488,   489,   493,   494,
++-     499,   500,   504,   505,   509,   510,   511,   524,   533,   537,
++-     541,   549,   550,   554,   567,   568,   573,   574,   575,   593,
++-     597,   601,   609,   611,   616,   623,   633,   637,   641,   649,
++-     655,   668,   669,   675,   676,   677,   684,   684,   692,   693,
++-     694,   699,   702,   704,   706,   708,   710,   712,   714,   716,
++-     718,   723,   724,   733,   757,   758,   759,   760,   772,   774,
++-     798,   803,   804,   809,   817,   818
+++       0,   314,   314,   323,   324,   328,   329,   335,   339,   344,
+++     345,   346,   347,   348,   349,   354,   359,   360,   361,   362,
+++     363,   372,   372,   373,   374,   375,   376,   377,   378,   379,
+++     380,   384,   385,   394,   395,   399,   410,   414,   418,   426,
+++     436,   437,   447,   448,   454,   467,   467,   472,   472,   477,
+++     477,   482,   492,   493,   494,   495,   500,   501,   505,   506,
+++     511,   512,   516,   517,   521,   522,   523,   536,   545,   549,
+++     553,   561,   562,   566,   579,   580,   585,   586,   587,   605,
+++     609,   613,   621,   623,   628,   635,   645,   649,   653,   661,
+++     667,   680,   681,   687,   688,   689,   696,   696,   704,   705,
+++     706,   711,   714,   716,   718,   720,   722,   724,   726,   728,
+++     730,   735,   736,   745,   769,   770,   771,   772,   784,   786,
+++     810,   815,   816,   821,   829,   830
++ };
++ #endif
++ 
++@@ -2217,7 +2220,7 @@ yyreduce:
++ 
++   case 9: /* prologue_declaration: "%header" string.opt  */
++ #line 340 "src/parse-gram.y"
++-                                   { handle_header ((yyvsp[0].yykind_75)); }
+++                                   { handle_header (&(yylsp[0]), (yyvsp[0].yykind_75)); }
++ #line 2222 "src/parse-gram.c"
++     break;
++ 
++@@ -2289,7 +2292,14 @@ yyreduce:
++ 
++   case 20: /* prologue_declaration: "%output" "string"  */
++ #line 359 "src/parse-gram.y"
++-                                { spec_outfile = unquote ((yyvsp[0].STRING)); gram_scanner_last_string_free (); }
+++    {
+++      char *file = unquote ((yyvsp[0].STRING));
+++      if (valid_output_file_name (file))
+++        spec_outfile = file;
+++      else
+++        complain (&(yylsp[0]), complaint, _("invalid %%output file name ignored"));
+++      gram_scanner_last_string_free ();
+++    }
++ #line 2294 "src/parse-gram.c"
++     break;
++ 
++@@ -3290,14 +3300,24 @@ add_param (param_type type, char *decl, location loc)
++ }
++ 
++ 
+++static bool
+++valid_output_file_name (char const *file)
+++{
+++  return !strchr (file, '/');
+++}
+++
+++
++ static void
++-handle_header (char const *value)
+++handle_header (location const *loc, char const *value)
++ {
++   header_flag = true;
++   if (value)
++     {
++       char *file = unquote (value);
++-      spec_header_file = xstrdup (file);
+++      if (valid_output_file_name (file))
+++        spec_header_file = xstrdup (file);
+++      else
+++        complain (loc, complaint, _("invalid %%header file name ignored"));
++       gram_scanner_last_string_free ();
++       unquote_free (file);
++     }
++
++-- 
++2.44.4
+diff --git a/meta/recipes-devtools/bison/bison_3.8.2.bb b/meta/recipes-devtools/bison/bison_3.8.2.bb
+index 03d3cffe2ae..339a9d13364 100644
+--- a/meta/recipes-devtools/bison/bison_3.8.2.bb
++++ b/meta/recipes-devtools/bison/bison_3.8.2.bb
+@@ -13,6 +13,7 @@ SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
+            file://autoconf-2.73.patch \
+            file://add-with-bisonlocaledir.patch \
+            file://CVE-2026-56389.patch \
++           file://CVE-2026-56390.patch \
+            "
+ SRC_URI[sha256sum] = "9bba0214ccf7f1079c5d59210045227bcf619519840ebfa80cd3849cff5a5bf2"
+ 
