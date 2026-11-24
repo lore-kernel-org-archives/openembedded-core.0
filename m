@@ -1,354 +1,229 @@
-Received: from aer-iport-4.cisco.com (aer-iport-4.cisco.com [173.38.203.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14681.1795513337152236266
+Received: from aer-iport-8.cisco.com (aer-iport-8.cisco.com [173.38.203.70])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14482.1795513613142364474
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2026 01:42:17 -0800
+ Tue, 24 Nov 2026 01:46:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=YCHqJq+1;
- spf=pass (domain: cisco.com, ip: 173.38.203.54, mailfrom: devanshp@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=XRoiptaz;
+ spf=pass (domain: cisco.com, ip: 173.38.203.70, mailfrom: devanshp@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=11284; q=dns/txt;
-  s=iport01; t=1795513337; x=1796722937;
+  d=cisco.com; i=@cisco.com; l=6335; q=dns/txt;
+  s=iport01; t=1795513613; x=1796723213;
   h=from:to:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=0tYZcTgf0Nh1i+267nRk4TEowfscglElrfnmVerktNM=;
-  b=YCHqJq+1EW7FqvbVBMMYX/cI6GNeIS07Ro9vpnKI89CPxzTFMNNP9A70
-   ByZszITsz6wIREAMHstFvxXfkWx7s6faEATOtjMbsyKISJvNKFmxHJXrt
-   nswFXE4Ifxpojeb5IXUJJXwNZGsMgMZbr4UhL8H67KlJ1EeL1cudePqe7
-   nnubfExqcdhPXFO4wf1VpL7FpjheeZV6bt7GpowWv1CrcJK8LbafbMo7q
-   PulQDLycFe4KIn9utcobYa3B6Gkmz5mI3RdNzf8iYkoNVxksKEgMOZjJz
-   dyTmt8zMoiKznzegBAT+4DJK8dNHf5AxUoh6huqtdpGdx0l6gllnHlUBA
+  bh=ZBVklBdsFVxeYAiO9SgO+piClyKjQdH/2bOiXth3STM=;
+  b=XRoiptazOVPutPdVc9UFpLfwYPdUYgYbkFr98mBx7HwT0n8+ulO4LeYt
+   D7x4OE5R41F66vCw0Hx6ISE1g42HMvr4ISRqd76e4LH/kLBEVljydhpZ1
+   zycshzietxSuACvOcIehaLgoPj26jIVU5qWd/I4aI6rnUncK9RxaDlAeb
+   Iny+8DQLb1RBBRArLoqXbN8tlka5GtLYCGZb3eRkFOFQ4u7pbZHW8sQXx
+   aPOWwDvZC5errNutn14w+GTr/NNOAaW63lWI5v3VS809kMeUpj6bgkQ+c
+   6IrM5DvSOeH/448EWuV0vvb7YbY1yB3DTdSxqcyj3U0bSQGfgHSKrMBSv
    g==;
-X-CSE-ConnectionGUID: KHYnLuDxSTe31E5sJkWcKg==
-X-CSE-MsgGUID: cr+UzZkqSaur4rcPC6NZFg==
-X-IPAS-Result: =?us-ascii?q?A0DKAgBZWwVr/9NK/pBaglmCV3VgQ0kDlCeCIYtpkkOBf?=
- =?us-ascii?q?g8BAQEPLhYNBAEBkykCJjQJDgECBAMCAwEBAQEBAQEBAQEBAQoBAQUBAQECA?=
- =?us-ascii?q?QcFgQ4Thk8NkBIBAgEEJgsBcgMBAk8HBCMhgwIBgjoDNwMRumSBeTOBAYR+2?=
- =?us-ascii?q?EwNgloBBQYUAYE4hUKDAIUkXRgBhH0nGxuBcoEVg2qBBYEaQgGIJwSCInoSG?=
- =?us-ascii?q?4E5HmQJjAwCgU+ISUiBHgNZLAFVEw0KCwcFgWgDNRIqFW4yHYEjOxeBBxsGB?=
- =?us-ascii?q?YEcgR6BEoEDXYErKF4hgQiBdgKCUYIAAgFJQQ4HRVMJJUMSRyQiCBIJARMaL?=
- =?us-ascii?q?AqBGjU8CSY/FQxnCxoFYQgCDQx0ORAwHiQvBRomPhsKgQwnHx4bDgIfEAYWI?=
- =?us-ascii?q?QsbGA1IESw3FRkEPm4HlBSCKGALBwF6EwErBYIPEwUREyqjBoIhoCBxCiiDe?=
- =?us-ascii?q?YwkjT6CAIV8GjOEBKZuC5h9glmLMRaDdJFfaIRqgWg8gVlwFTuCZ1MZD44uC?=
- =?us-ascii?q?wuDYIUTyUgmMgsDLwEBBwIHDgMLgWiQAi2BTwEB?=
-IronPort-Data: A9a23:aCvvsK/18wZdkoM72OWcDrUD1H+TJUtcMsCJ2f8bNWPcYEJGY0x3n
- WYdUD+DaPqDZGH8eotyPt61pklXvJTWyNFlQQVp+ChEQiMRo6IpJzg2wmQcns+2BpeeJK6yx
- 5xGMrEsFOhtEDmB4E/rYuK8xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2bBVOCvT/
- 4mtyyHjEAX9gWAtazhIs/vrRC5H5ZwehhtJ5jTSWtgT1LPuvyF9JI4SI6i3M0z5TuF8dsamR
- /zOxa2O5WjQ+REgELuNyt4XpWVTH9Y+lSDX4pZnc/DKbipq/0Te4Y5nXBYoUnq7vh3S9zxHJ
- HqhgrTrIeshFvWkdO3wyHC0GQkmVUFN0OevzXRSLaV/wmWeG0YAzcmCA2kVHbwe3vtbEVpy+
- KdBBW0WTBO8jMG5lefTpulE3qzPLeHiMZlavjRryivUSK9+B5vCWK7No9Rf2V/chOgXQaqYP
- ZdFL2UzKk6ZOnWjOX9PYH46tOulmHD5aD1AgFmUvqEwpWPUyWSd1ZCzaoWOIozUH625mG6Tv
- CH77Vb6GyoTKcbD0zG92SyKtMHAyHaTtIU6UefQGuRRqFqLy2oeDRcbWVe2rbyyjVSzc9ZeM
- FAPvC02oK4/8UamQtXwU1u/unHsg/IHc9NdCag+rQqK0KeRul7fDWkfRTkHY9sj3CMreQEXO
- payt4uBLVRSXHe9EBpxKp/8QeuOBBUo
-IronPort-HdrOrdr: A9a23:QvStOqEt4h93NOaPpLqE2MeALOsnbusQ8zAXPidKOH5om6Oj+f
- xG8M536faWskdzZJhfo7G90cC7KBu2n6KdirN/AV7NZmXbUROTTL1K3M/F3yDqHTH4+6p20K
- dtdLU7NfjLZGIK6PoTJGKDYrEdKB7tytHNudvj
-X-Talos-CUID: 9a23:oZTXuWMyJTCnF+5DewlW8moJNtAeTnCGlVqNOG27Nm1KR+jA
-X-Talos-MUID: 9a23:WKQ6FQVZF++l4Urq/DT2xwxwBsRx2K2zEhwXmq0t5e+2GyMlbg==
+X-CSE-ConnectionGUID: F1p4U9IRSiWFt6TeRmdVGA==
+X-CSE-MsgGUID: dHZpmyUoTEa4FWlzO0Dq3A==
+X-IPAS-Result: =?us-ascii?q?A0BDAgBZWwVr/85K/pBaglmCV3VgQ0mUKoIhniyBfg8BA?=
+ =?us-ascii?q?QEPRA0EAQGFBQKOIgImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBAQIBB?=
+ =?us-ascii?q?wWBDhOGTw2QEgEtCwFyAwECWiMhgwIBgnQDEboSGzeBeTOBAYNbBQkCQ1DbM?=
+ =?us-ascii?q?wELFAGBOIVCiCRdGAGEfScbG4FyhH+BBYFcAQEDiCMEgiKBDIFUHm2MDAKBT?=
+ =?us-ascii?q?4hJSIEeA1ksAVUTDQoLBwWBaAM1EioVbjIdgSM7F4EHGwYFgRyBHoESgQNdg?=
+ =?us-ascii?q?SsoXiGBCIF2AoJRggACAUlBDgdFUwklQxJHJCIIEgkBExosCoEaNTwJJj8VD?=
+ =?us-ascii?q?GcLGgVhCAINDHQ5EDAeJC8FGiY+GwqBDCcfHhsOAh8QBhYhCxsYDUgRLDcVG?=
+ =?us-ascii?q?QQ+bgeUFIMaASwQUQErIlmBGTQnpTKhEQoog3mMJJU6GjOEBIFXkkOSVJkIj?=
+ =?us-ascii?q?gqWUYRqgWg8gUcLB3AVgyIJShkPV41UAwsLg2CBf4MUyUgmMgsyAQEHAgcOA?=
+ =?us-ascii?q?wuBaJF+AQE?=
+IronPort-Data: A9a23:GrtG36wBIoOF0jCh6Ix6t+djxyrEfRIJ4+MujC+fZmUNrF6WrkUDm
+ moXXGiEOfeIZWfzKN5zPI+w/U0BsZ+DytBgHApk+VhgHilAwSbn6Xt1DatR0we6dJCroJdPt
+ p1GAjX4BJlqCCKa/lH9aOWJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
+ 4yaT/H3Ygf/hWctaDlMscpvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
+ evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
+ zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJG9vJdElq8dNOmBx2
+ +BGFD03axy9qMvjldpXSsE07igiBMDmJsYb/3pn1zycVatgSpHYSKKM7thdtNsyrpkSQbCEO
+ pZfNmYpNkyeC/FMEg9/5JYWkOq2j3/kcyVwo1OOrq1x6G/WpOB0+Oa1aYuLKoPWLSlTtkq4l
+ HrD7ln+PjwTaPKgzSiiql613caayEsXX6pXTtVU7MVCh0WewGEWAhAaWVa35PK+kEOWX9NEN
+ 1dS/TIjq6U3/kGnQtTxGRqirxa5UgU0UtdKVul/4waXx++MvkCSB3MPSXhKb9lOWNIKeAHGH
+ 2Shx7vBbQGDepXMIZ5B3t94dQ+PBBU=
+IronPort-HdrOrdr: A9a23:MLXKqKOXpLdbwMBcTvGjsMiBIKoaSvp037BN7TESdfU7SKKlfq
+ yV8cjztiWE6wr5JktApTnoAsDpKhnhHPVOjrX5U43PYOCfgguVBbAny5f+yDv9HCC73Otc2a
+ B8N5VaMrTLfD1HZQKQ2njeLz7mq+P3lJyVuQ==
+X-Talos-CUID: 9a23:9M0gHWNxWauXB+5DdnB/qHNFO/oec0Lz0CnsLnW9BVhGYejA
+X-Talos-MUID: 9a23:bMFnbgn9TU0fnUEzNtE1dnpuFPVw5rWTD3wgmMkohM2WEnRcImy02WE=
 X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.27,230,1787011200"; 
-   d="scan'208";a="62730862"
-Received: from aer-l-core-10.cisco.com ([144.254.74.211])
-  by aer-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 24 Nov 2026 09:42:12 +0000
+X-IronPort-AV: E=Sophos;i="6.27,229,1787011200"; 
+   d="scan'208";a="60196874"
+Received: from aer-l-core-05.cisco.com ([144.254.74.206])
+  by aer-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 24 Nov 2026 09:46:50 +0000
 Received: from sjc-ads-4935.cisco.com (sjc-ads-4935.cisco.com [10.28.39.199])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by aer-l-core-10.cisco.com (Postfix) with ESMTPS id B109318000B73
-	for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 09:42:12 +0000 (GMT)
+	by aer-l-core-05.cisco.com (Postfix) with ESMTPS id 6C1EA1800039B
+	for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 09:46:50 +0000 (GMT)
 Received: by sjc-ads-4935.cisco.com (Postfix, from userid 1887503)
-	id 67F77CC2EF3; Tue, 24 Nov 2026 01:42:11 -0800 (PST)
+	id 23853CC2EF3; Tue, 24 Nov 2026 01:46:49 -0800 (PST)
 From: "Devansh Patel -X (devanshp - E INFOCHIPS PRIVATE LIMITED at Cisco)" <devanshp@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][blacksail][PATCH] grub: fix CVE-2026-97876
-Date: Tue, 24 Nov 2026 01:42:11 -0800
-Message-Id: <20261124094211.1552322-1-devanshp@cisco.com>
+Subject: [OE-core][wrynose][PATCH 1/3] qemu: fix CVE-2026-3195
+Date: Tue, 24 Nov 2026 01:46:47 -0800
+Message-Id: <20261124094649.1556576-1-devanshp@cisco.com>
 X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: VERIFIED;sjc-ads-4935.cisco.com [10.28.39.199];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 10.28.39.199, sjc-ads-4935.cisco.com
-X-Outbound-Node: aer-l-core-10.cisco.com
+X-Outbound-Node: aer-l-core-05.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 09:42:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250985
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 09:46:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250987
 Content-Type: text/plain; charset="utf-8"
 
 From: Devansh Patel <devanshp@cisco.com>
 
-This patch applies the upstream GRUB master backport for
-CVE-2026-97876. The upstream fix commit is referenced in [1],
-and the public CVE advisory is referenced in [2].
+This patch applies the upstream stable-10.2 backport for CVE-2026-3195.
+The upstream fix commit is referenced in [1], and the public CVE
+advisory is referenced in [2]. The individual backported commit links
+are recorded in the embedded patch headers when the fix expands to
+multiple commits.
 
-Validated with bitbake grub grub-efi for qemux86-64.
-
-[1] https://gitlab.freedesktop.org/gnu-grub/grub/-/commit/26beaa3b2720fefdc4d04c1ae209b776fe6848d6
-[2] https://www.openwall.com/lists/oss-security/2026/09/13/5
+[1] https://github.com/qemu/qemu/commit/a730f98a7a199706c44dd86a39d961e80e2ad18f
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-3195
 
 Signed-off-by: Devansh Patel <devanshp@cisco.com>
 ---
- .../grub/files/CVE-2026-97876.patch           | 237 ++++++++++++++++++
- meta/recipes-bsp/grub/grub2.inc               |   1 +
- 2 files changed, 238 insertions(+)
- create mode 100644 meta/recipes-bsp/grub/files/CVE-2026-97876.patch
+ meta/recipes-devtools/qemu/qemu.inc           |  2 +
+ .../qemu/qemu/CVE-2026-3195_p1.patch          | 48 ++++++++++++++++
+ .../qemu/qemu/CVE-2026-3195_p2.patch          | 55 +++++++++++++++++++
+ 3 files changed, 105 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2026-3195_p1.patch
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2026-3195_p2.patch
 
-diff --git a/meta/recipes-bsp/grub/files/CVE-2026-97876.patch b/meta/recipes-bsp/grub/files/CVE-2026-97876.patch
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 6a217cd..f40a14d 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -43,6 +43,8 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2025-14876_p2.patch \
+            file://0012-linux-user-Check-if-RESOLVE_CACHED-flag-is-defined-b.patch \
+            file://CVE-2026-48914.patch \
++           file://CVE-2026-3195_p1.patch \
++           file://CVE-2026-3195_p2.patch \
+            "
+ # file index at download.qemu.org isn't reliable: https://gitlab.com/qemu-project/qemu-web/-/issues/9
+ UPSTREAM_CHECK_URI = "https://www.qemu.org"
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2026-3195_p1.patch b/meta/recipes-devtools/qemu/qemu/CVE-2026-3195_p1.patch
 new file mode 100644
-index 0000000000000000000000000000000000000000..bbe251aaab6f7b3c376e06c306066e1a755e3757
+index 0000000..e4037a3
 --- /dev/null
-+++ b/meta/recipes-bsp/grub/files/CVE-2026-97876.patch
-@@ -0,0 +1,237 @@
-+From 6e77df4f6579eaf8ae6b494ff87cf78d6164d346 Mon Sep 17 00:00:00 2001
-+From: Andrew Hamilton <adhamilt@gmail.com>
-+Date: Tue, 15 Sep 2026 17:49:10 -0500
-+Subject: [PATCH] term/serial: Reject caller-supplied port addresses under
-+ lockdown
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2026-3195_p1.patch
+@@ -0,0 +1,48 @@
++From 3e37ca953a3da622e96f85912e162d22a7b11c1d Mon Sep 17 00:00:00 2001
++From: Manos Pitsidianakis <manos.pitsidianakis@linaro.org>
++Date: Fri, 20 Feb 2026 11:40:15 +0200
++Subject: [PATCH] virtio-snd: fix max_size bounds check in input cb
 +
-+The serial command is available in lockdown mode and the port option
-+accepts a raw port address or a raw mmio base address. This can be
-+misused to allow an attacker to write to local memory and do things
-+including disabling / bypassing secure boot as long as the
-+console is available or an unsigned GRUB configuration is under
-+the attacker's control.
++In 98e77e3d we calculated the max size and checked that each buffer is smaller than it.
 +
-+Update the serial logic to only accept a raw address in lockdown when
-+a port is already registered at it, which means the platform described
-+that UART: grub_ns8250_init() for the legacy com<N> ports,
-+grub_pciserial_init() for an enumerated PCI device, or an ACPI SPCR
-+UART once "auto" has parsed the table. Names that are not addresses
-+are untouched, so "auto", efi<N> from grub_efiserial_init() - the
-+route on arm64, which has neither ns8250 nor SPCR support - and
-+lookups by registered name all keep working.
++We neglected to subtract the size of the virtio_snd_pcm_status header
++from the max size, and max_size was thus larger than the correct value,
++leading to potential OOB writes.
 +
-+Behavior without lockdown (no secure boot) is unchanged.
++If the buffer cannot fit the header or can fit only the header, return
++the buffer immediately.
 +
-+CVE: CVE-2026-97876
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gnu-grub/grub/-/commit/26beaa3b2720fefdc4d04c1ae209b776fe6848d6]
++CVE: CVE-2026-3195
++Upstream-Status: Backport [https://github.com/qemu/qemu/commit/a730f98a7a199706c44dd86a39d961e80e2ad18f]
 +
-+Backport Changes:
-+- The exact cherry-pick conflicts because GRUB 2.12 and 2.14 lack
-+  the PL011 backend, introduced by upstream commit
-+  fcff8f881bca5ce747fded03d624b9ba81a06f1c after these releases.
-+  Omit grub-core/term/pl011.c, include/grub/pl011.h and the
-+  PL011-only caller hunk in grub-core/term/serial.c.
-+- Preserve all remaining upstream source/header changes unchanged.
-+
-+Assisted-by: Claude:Opus-5
-+
-+Signed-off-by: Andrew Hamilton <adhamilt@gmail.com>
-+Suggested-by: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-+Reviewed-by: Leo Sandoval <lsandova@redhat.com>
-+Part-of: <https://gitlab.freedesktop.org/gnu-grub/grub/-/merge_requests/266>
++Cc: qemu-stable@nongnu.org
++Fixes: 98e77e3dd8dd6e7aa9a7dffa60f49c8c8a49d4e3 ("virtio-snd: add max size bounds check in input cb")
++Reported-by: DARKNAVY <vr@darknavy.com>
++Signed-off-by: Manos Pitsidianakis <manos.pitsidianakis@linaro.org>
++Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
++Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
++Message-Id: <20260220-virtio-snd-series-v1-4-207c4f7200a2@linaro.org>
++(cherry picked from commit bcb53328aa70023f1405fade4e253e7f77567261)
++Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
 +Signed-off-by: Devansh Patel <devanshp@cisco.com>
 +---
-+ grub-core/term/ns8250-spcr.c |  6 +++--
-+ grub-core/term/ns8250.c      | 27 ++++++++++++++++---
-+ grub-core/term/serial.c      | 50 ++++++++++++++++++++++++++++++++----
-+ include/grub/serial.h        |  8 ++++--
-+ 4 files changed, 78 insertions(+), 13 deletions(-)
++ hw/audio/virtio-snd.c | 6 ++++++
++ 1 file changed, 6 insertions(+)
 +
-+diff --git a/grub-core/term/ns8250-spcr.c b/grub-core/term/ns8250-spcr.c
-+index d52b52c..ae20b07 100644
-+--- a/grub-core/term/ns8250-spcr.c
-++++ b/grub-core/term/ns8250-spcr.c
-+@@ -78,9 +78,11 @@ grub_ns8250_spcr_init (void)
-+   switch (spcr->base_addr.space_id)
-+     {
-++      /* The address comes from the platform's own ACPI table, so it is trusted. */
-+       case GRUB_ACPI_GENADDR_MEM_SPACE:
-+         return grub_serial_ns8250_add_mmio (spcr->base_addr.addr,
-+-                                            spcr->base_addr.access_size, &config);
-++                                            spcr->base_addr.access_size, &config,
-++                                            true);
-+       case GRUB_ACPI_GENADDR_IO_SPACE:
-+-        return grub_serial_ns8250_add_port (spcr->base_addr.addr, &config);
-++        return grub_serial_ns8250_add_port (spcr->base_addr.addr, &config, true);
-+       default:
-+         return NULL;
-+diff --git a/grub-core/term/ns8250.c b/grub-core/term/ns8250.c
-+index 23e8e09..014bb04 100644
-+--- a/grub-core/term/ns8250.c
-++++ b/grub-core/term/ns8250.c
-+@@ -348,5 +348,6 @@ grub_ns8250_hw_get_port (const unsigned int unit)
++diff --git a/hw/audio/virtio-snd.c b/hw/audio/virtio-snd.c
++index 9101560f3..d07b2614d 100644
++--- a/hw/audio/virtio-snd.c
+++++ b/hw/audio/virtio-snd.c
++@@ -1253,6 +1253,12 @@ static void virtio_snd_pcm_in_cb(void *data, int available)
++             }
 + 
-+ struct grub_serial_port *
-+-grub_serial_ns8250_add_port (grub_port_t port, struct grub_serial_config *config)
-++grub_serial_ns8250_add_port (grub_port_t port, struct grub_serial_config *config,
-++			     bool trusted)
++             max_size = iov_size(buffer->elem->in_sg, buffer->elem->in_num);
+++            if (max_size <= sizeof(virtio_snd_pcm_status)) {
+++                return_rx_buffer(stream, buffer);
+++                continue;
+++            }
+++            max_size -= sizeof(virtio_snd_pcm_status);
+++
++             for (;;) {
++                 if (buffer->size >= max_size) {
++                     return_rx_buffer(stream, buffer);
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2026-3195_p2.patch b/meta/recipes-devtools/qemu/qemu/CVE-2026-3195_p2.patch
+new file mode 100644
+index 0000000..b178033
+--- /dev/null
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2026-3195_p2.patch
+@@ -0,0 +1,55 @@
++From ee0153e8c5bfd59afade37cad98e84d4d7d547a0 Mon Sep 17 00:00:00 2001
++From: Manos Pitsidianakis <manos.pitsidianakis@linaro.org>
++Date: Fri, 20 Feb 2026 11:40:16 +0200
++Subject: [PATCH] virtio-snd: tighten read amount in in_cb
++
++The amount of bytes to read passed to AUD_read() should never surpass
++the maximum available buffer length. Tighten the current amount by
++MIN(<amount>, max_size - <existing size>).
++
++CVE: CVE-2026-3195
++Upstream-Status: Backport [https://github.com/qemu/qemu/commit/298986525140149bd749c236c17cfbb507c69e23]
++
++Cc: qemu-stable@nongnu.org
++Fixes: 98e77e3dd8dd6e7aa9a7dffa60f49c8c8a49d4e3 ("virtio-snd: add max size bounds check in input cb")
++Reported-by: DARKNAVY <vr@darknavy.com>
++Signed-off-by: Manos Pitsidianakis <manos.pitsidianakis@linaro.org>
++Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
++Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
++Message-Id: <20260220-virtio-snd-series-v1-5-207c4f7200a2@linaro.org>
++(cherry picked from commit 7994203bb1b83a6604f3ab00fe9598909bb66164)
++Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
++Signed-off-by: Devansh Patel <devanshp@cisco.com>
++---
++ hw/audio/virtio-snd.c | 10 ++++++----
++ 1 file changed, 6 insertions(+), 4 deletions(-)
++
++diff --git a/hw/audio/virtio-snd.c b/hw/audio/virtio-snd.c
++index d07b2614d..eecf3c3de 100644
++--- a/hw/audio/virtio-snd.c
+++++ b/hw/audio/virtio-snd.c
++@@ -1238,7 +1238,7 @@ static void virtio_snd_pcm_in_cb(void *data, int available)
 + {
-+   struct grub_serial_port *p;
-+@@ -364,6 +365,11 @@ grub_serial_ns8250_add_port (grub_port_t port, struct grub_serial_config *config
-+       }
++     VirtIOSoundPCMStream *stream = data;
++     VirtIOSoundPCMBuffer *buffer;
++-    size_t size, max_size;
+++    size_t size, max_size, to_read;
 + 
-++  /*
-++   * use_mmio and port share a union with the private data of every other back
-++   * end, so they only mean anything on a port this driver registered.
-++   */
-+   FOR_SERIAL_PORTS (p)
-+-    if (p->use_mmio == false && p->port == port)
-++    if (p->driver == &grub_ns8250_driver
-++	&& p->use_mmio == false && p->port == port)
-+       {
-+         if (config != NULL)
-+@@ -372,4 +378,8 @@ grub_serial_ns8250_add_port (grub_port_t port, struct grub_serial_config *config
-+       }
-+ 
-++  /* No port is registered here, so going on means probing the address. */
-++  if (grub_serial_reject_untrusted_address (trusted) == true)
-++    return NULL;
-++
-+   grub_outb (0x5a, port + UART_SR);
-+   if (grub_inb (port + UART_SR) != 0x5a)
-+@@ -403,5 +413,5 @@ grub_serial_ns8250_add_port (grub_port_t port, struct grub_serial_config *config
-+ struct grub_serial_port *
-+ grub_serial_ns8250_add_mmio (grub_addr_t addr, unsigned int acc_size,
-+-                             struct grub_serial_config *config)
-++                             struct grub_serial_config *config, bool trusted)
-+ {
-+   struct grub_serial_port *p;
-+@@ -416,6 +426,11 @@ grub_serial_ns8250_add_mmio (grub_addr_t addr, unsigned int acc_size,
-+       }
-+ 
-++  /*
-++   * use_mmio and mmio share a union with the private data of every other back
-++   * end, so they only mean anything on a port this driver registered.
-++   */
-+   FOR_SERIAL_PORTS (p)
-+-    if (p->use_mmio == true && p->mmio.base == addr)
-++    if (p->driver == &grub_ns8250_driver
-++	&& p->use_mmio == true && p->mmio.base == addr)
-+       {
-+         if (config != NULL)
-+@@ -424,4 +439,8 @@ grub_serial_ns8250_add_mmio (grub_addr_t addr, unsigned int acc_size,
-+       }
-+ 
-++  /* No port is registered here, so going on means programming the address. */
-++  if (grub_serial_reject_untrusted_address (trusted) == true)
-++    return NULL;
-++
-+   p = grub_malloc (sizeof (*p));
-+   if (p == NULL)
-+diff --git a/grub-core/term/serial.c b/grub-core/term/serial.c
-+index 8260dcb..57039dd 100644
-+--- a/grub-core/term/serial.c
-++++ b/grub-core/term/serial.c
-+@@ -29,4 +29,5 @@
-+ #include <grub/i18n.h>
-+ #include <grub/list.h>
-++#include <grub/lockdown.h>
-+ #ifdef GRUB_MACHINE_MIPS_LOONGSON
-+ #include <grub/machine/kernel.h>
-+@@ -141,4 +142,28 @@ static struct grub_term_output grub_serial_term_output =
-+ 
-+ 
-++/*
-++ * An address that no port is registered at cannot be honored while lockdown
-++ * is enforced: the probe and programming sequences in the ns8250 and pl011
-++ * back ends write to fixed offsets from it with no way to tell a UART from
-++ * ordinary memory, so an address taken from an unauthenticated configuration
-++ * is a write primitive against whatever it points at.
-++ *
-++ * A back end calls this once its own lookup has found no port already
-++ * registered at the address, that is, at the point where it would otherwise
-++ * touch the hardware. TRUSTED is true when the address came from a platform
-++ * description -- grub_ns8250_init(), an ACPI SPCR table, PCI enumeration --
-++ * rather than from the caller.
-++ */
-++bool
-++grub_serial_reject_untrusted_address (bool trusted)
-++{
-++  if (trusted == true || grub_is_lockdown () != GRUB_LOCKDOWN_ENABLED)
-++    return false;
-++
-++  grub_error (GRUB_ERR_ACCESS_DENIED,
-++	      N_("serial port address is not permitted when lockdown is enforced"));
-++  return true;
-++}
-++
-+ struct grub_serial_port *
-+ grub_serial_find (const char *name)
-+@@ -155,4 +180,10 @@ grub_serial_find (const char *name)
-+       return port;
-+ 
-++  /*
-++   * Everything below this point builds a port from an address the caller
-++   * gave us, so the back ends are told the address is untrusted: under
-++   * lockdown they hand back a port only if one is already registered at that
-++   * address, which means the platform described that UART.
-++   */
-+ #if (defined(__mips__) || defined (__i386__) || defined (__x86_64__)) && !defined(GRUB_MACHINE_EMU) && !defined(GRUB_MACHINE_ARC)
-+   if (grub_strncmp (name, "port", sizeof ("port") - 1) == 0
-+@@ -160,5 +191,5 @@ grub_serial_find (const char *name)
-+     {
-+       port = grub_serial_ns8250_add_port (grub_strtoul (&name[sizeof ("port") - 1],
-+-							0, 16), NULL);
-++							0, 16), NULL, false);
-+       if (port != NULL)
-+         return port;
-+@@ -206,5 +237,5 @@ grub_serial_find (const char *name)
-+           }
-+ 
-+-      port = grub_serial_ns8250_add_mmio (addr, acc_size, NULL);
-++      port = grub_serial_ns8250_add_mmio (addr, acc_size, NULL, false);
-+       if (port != NULL)
-+         return port;
-+@@ -276,7 +307,16 @@ grub_cmd_serial (grub_extcmd_context_t ctxt, int argc, char **args)
-+   port = grub_serial_find (name);
-+   if (!port)
-+-    return grub_error (GRUB_ERR_BAD_ARGUMENT,
-+-		       N_("serial port `%s' isn't found"),
-+-		       name);
-++    {
-++      /*
-++       * A back end that refused the port has already said why; keep that
-++       * rather than reporting a misleading "isn't found".
-++       */
-++      if (grub_errno == GRUB_ERR_ACCESS_DENIED)
-++	return grub_errno;
-++
-++      return grub_error (GRUB_ERR_BAD_ARGUMENT,
-++			 N_("serial port `%s' isn't found"),
-++			 name);
-++    }
-+ 
-+   config = port->config;
-+diff --git a/include/grub/serial.h b/include/grub/serial.h
-+index d7e0635..096209a 100644
-+--- a/include/grub/serial.h
-++++ b/include/grub/serial.h
-+@@ -189,12 +189,16 @@ grub_serial_config_defaults (struct grub_serial_port *port)
-+ }
-+ 
-++bool grub_serial_reject_untrusted_address (bool trusted);
-++
-+ #if defined(__mips__) || defined (__i386__) || defined (__x86_64__)
-+ void grub_ns8250_init (void);
-+ struct grub_serial_port *grub_ns8250_spcr_init (void);
-+ struct grub_serial_port *grub_serial_ns8250_add_port (grub_port_t port,
-+-						      struct grub_serial_config *config);
-++						      struct grub_serial_config *config,
-++						      bool trusted);
-+ struct grub_serial_port *grub_serial_ns8250_add_mmio (grub_addr_t addr,
-+ 						      unsigned int acc_size,
-+-						      struct grub_serial_config *config);
-++						      struct grub_serial_config *config,
-++						      bool trusted);
-+ #endif
-+ #ifdef GRUB_MACHINE_IEEE1275
-diff --git a/meta/recipes-bsp/grub/grub2.inc b/meta/recipes-bsp/grub/grub2.inc
-index 466c772e5bfe1f6c5c75220b2c6f85533297f385..3297f4ab66f1b5d523cd67e4ca2b2b4afcfc6782 100644
---- a/meta/recipes-bsp/grub/grub2.inc
-+++ b/meta/recipes-bsp/grub/grub2.inc
-@@ -19,6 +19,7 @@ SRC_URI = "${GNU_MIRROR}/grub/grub-${PV}.tar.gz \
-            file://0003-grub.d-10_linux.in-add-oe-s-kernel-name.patch \
-            file://0001-Revert-configure-Check-linker-for-image-base-support.patch \
-            file://0002-Revert-configure-Print-a-more-helpful-error-if-autoc.patch \
-+           file://CVE-2026-97876.patch \
- "
- 
- SRC_URI[sha256sum] = "d0415fbb3e739237064e173743a6e5f60c33a81ec02a069cc9152d80efff4967"
++     WITH_QEMU_LOCK_GUARD(&stream->queue_mutex) {
++         while (!QSIMPLEQ_EMPTY(&stream->queue)) {
++@@ -1264,10 +1264,12 @@ static void virtio_snd_pcm_in_cb(void *data, int available)
++                     return_rx_buffer(stream, buffer);
++                     break;
++                 }
+++                to_read = stream->params.period_bytes - buffer->size;
+++                to_read = MIN(to_read, available);
+++                to_read = MIN(to_read, max_size - buffer->size);
++                 size = AUD_read(stream->voice.in,
++-                        buffer->data + buffer->size,
++-                        MIN(available, (stream->params.period_bytes -
++-                                        buffer->size)));
+++                                buffer->data + buffer->size,
+++                                to_read);
++                 if (!size) {
++                     available = 0;
++                     break;
 -- 
 2.35.6
 
