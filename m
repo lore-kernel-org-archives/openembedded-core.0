@@ -1,62 +1,62 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.31021.1795560748791245793
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.31022.1795560749735966475
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2026 14:52:29 -0800
+ Tue, 24 Nov 2026 14:52:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=OcEV9Qqd;
- spf=pass (domain: smile.fr, ip: 209.85.221.47, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-48e47347279so3033626f8f.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 14:52:28 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=MgPXkz0S;
+ spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-4a7b8abe209so3907714f8f.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 14:52:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795560747; x=1796165547; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1795560748; x=1796165548; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=0M4jH7K/Ci1JBjAAsgFKXoHodUPGwrw5ETQyI/d9f6g=;
-        b=OcEV9Qqd20qTtXvmHpur3cK957bFdVyKIaDVieLMdCTy4yZQ/tH76nY2f2YBM50Ok3
-         3CVLdEcdZScEWd6AdhqcgRiIWjk2NuNyVJmxAN9YO6vfvIERdcsOVetN9l5zZYWQfBDE
-         PPwFfghRfnqIeCE6T7J+qDyCQkI4VScrVCPQhy8RzprM3WU4dzeJrVX2kFgX4UAIc8ki
-         ji5D1bdBul5nqJ77lZ8ZgGrLvrpqlgQxlJ6pXIMfDG4Wkcl/Z7KaLlpijEVylP+Q+TpG
-         mWTEMIAcHZCAanlD5zYrNsjaHhsd+RgK/mc21wPdg1qPzzN0kSMeayjNDxguTh1PV1Er
-         rtLw==
+        bh=Na84idtJWZmvOwmyoWUCDoFB+cKWAxFvBPKFyRogw+k=;
+        b=MgPXkz0SPtTO0O3oB1cl2pqVEOjqpxGyhXoCtUgmff63T17OBprphsFP+RdM/T5psW
+         qF5DDpr1xNBhm822z7Q1ge8RA5E00XytE1As6KMOykadsQTIwXuiYHejyxUWb7cz7DgR
+         tq8FxR6nOo1CygXvRqLuYq8eLEv+RFfFcusWMbS6Bw/P52uNf8hx692b6JW3NO4Mh1sA
+         /tX3t99qaRqYK/SdgmoFAJKiekFU+ok9arq0PzBmuHnAxCX6sN7Wio75PZcmr7IKub5Z
+         C1+H7GR7hrp62zr0AyskvCeLppVA89Ssn2IoO9k2jTLgPTijPqbnDNDCFZyQ4mi0Xf5q
+         /z1g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795560747; x=1796165547;
+        d=1e100.net; s=20260707; t=1795560748; x=1796165548;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=0M4jH7K/Ci1JBjAAsgFKXoHodUPGwrw5ETQyI/d9f6g=;
-        b=SSRVs5T6HQ+nbvzURz3RwTDdhRuBtfliygck0yo1nWMx6ogoi4wnLDYcfNFR7PqWez
-         IHX+vkUcRL46Vp2Q+xvzNj45OJOJM6dGmYlw9qixyV5KJWYF9KcH8XS8i5I49Qdz73nQ
-         pYJVKOlVcM2gnkNh7xfS16HL7nT5CTTlgSFb38Fa1aSrtkoBupEVNJjcosEz28KL8A2Y
-         vGyBB0gZJENnfcN6ya/HQYidAkTZ/Cgwk86RzmPDp6P77Nr5vOh1bXa1L3463i2L8UX0
-         BTmbNrDUKNpUk+aGoQtjAGoKVZLgDg61JKNZhcgkGK/rpLSC0DnPyEJB4sHL3WPrKDAR
-         zp6w==
-X-Gm-Message-State: APuU4Z/cLWWJbqJc3aUYuXPBQFPiX/k3c4Y3OgGtotfmKoANQD/Pr94o
-	XXRYypjFbH7jvY63I1goKo3s6990ObpSGm1cAWUjW8Qpoyk6HpEZ2L9mNgYEVQ8LGkPWzecJJcY
-	nw0iuMtw=
-X-Gm-Gg: AZFdTZfDkzVteqEMku4x/74w2KdB501S7INd/0Pgy8dG09Ca0jnNhTLZjz9hdqS6vq0
-	J2DvOc9GQVb0aBuaFNzh0JzOlIALg0gGD897Og8VM28UZGQVIC0vXwwB6T2O2iw++DGFkyXiIrY
-	oCTz0QA7Z1scPfRdiFpUCrNKDagiwgnu5nacT2V3DjK2dHEV3/AYJxVVtdwgXoyiMIYpK6A1mLk
-	05ftTLr6E0sPazJQ3KZiXPgkprwGQiWtb0fHXNyhlWXzAmKO7Y/dCPCraMHzZLM9C1fDE7ao/s+
-	Ke2d9xHkHtALmEE9L6dqDjugD872tkoFxsGbw3Kii1FNlvJQS/ubI1DNyYzErAQtpWbzvT1jZ2L
-	cJQ96Vr4QuFsM7YW3LrzPSaLdXSE82LqcP7AiD8oHQ6/N8jDUsjeOJl4zMbplwJ0WU3FAcyxi/S
-	FbXqe9x6S0b+nKRtQnqbG8qvfy2oHlEAsciH7PoyStgkW8w49kYp+l4e1Nqax4u90ioS9JJWjGD
-	I4iLOyK0Ww/9cvvi3HIa/NfyPmuc8wigGFEnslN1Lgr3kpjStMlChC5vz6U0EtHRBenH2rHKsVX
-	p9/XGpDAGW3klKZ0l1BPWNZB0xVXtPXgSIcyIVgxFGgCdgvz3BO87w709wN5S/B5CmmAvY95KhN
-	QN4hOnqHbLziYWZIbSb1GXfLxVjvi
-X-Received: by 2002:a05:6000:4312:b0:4a7:2673:ad2e with SMTP id ffacd0b85a97d-4abacfea57emr32501671f8f.1.1795560747058;
+        bh=Na84idtJWZmvOwmyoWUCDoFB+cKWAxFvBPKFyRogw+k=;
+        b=f3DparsiJ2Ny8UoEe2NZG7fwPaAfIEc7IVTQQopWs03CL9rsqflXF912RmVODZh0Tu
+         +KOterrD67DhaRm94wjAnOcu+LunAlqZ3J3E9yp8pYh4j0yB/y38w4FSYq2Dd9II3Qkk
+         sF26u/6OEKIgF5aaNzvpo6mxC8Ds7g0CgR3nzyCAyWAvuXrBROJ26WuSx0iP9/5CHpTU
+         uceRprDOYSsg4H8US+Wp7ojAALCQ8KANYS93hU958Z5CPpuIY9fbF4r7dZrYdV0zMBSN
+         yhNzjY4cOq0GigYyyvbhKh3FkkN4BYgSpOav8LDl0tBc5f8AQcc2bPrBcnWiRUElteJE
+         Kh5g==
+X-Gm-Message-State: APuU4Z8WQfLvt67i/GT5mX8QMaRPiGLIUvXZand+5sYcofj0iVCzujDt
+	dRtPmpNYBCay49mOvo6suf7EmHn22Ne+mTkxlxs151tqC39h037GJErU6iB5xXRETsTmjif9l6V
+	Q+lK6gY0=
+X-Gm-Gg: AZFdTZfxXBw+jLCJP9RpDaacdacEVdws0f/hbASWx3uaYjGoAsn0Fl4USMOJc0w90RP
+	+uUJeowEHVQhNaXoRKYNiVqpWD/5A/uo2ra6f7pvetydgfOjX5KJ59cChkg+/Cz3lNBvt7Hph2x
+	K9FuiFSCdK+EaCeb+KXVTRh00BtK61uMPZuafO/Bg1KAexFupIbEDnwZ30k+RZoXCtGV9mnDpgZ
+	oYuTf4aSQOMQmbL2lEphBuiFsLUDmm1Do3rNkppv9Ef64P7okagpFb8HkjHvLCwQyIkzPoBsSoX
+	yX6NgbWlJXmg6hTO6fvN0DETrsZFrVaguhKn7St5elRTsYUZzZyoNW5gfJTNncI4LqSZpjr/VpF
+	s+3E7gziWNvhA9B+vaOKsnzPrVpefLbdNWD8AfzKoibCOt+RQ97fanhv0YGNZYYp2/JfzPLrnwM
+	6NViTVF/DbE/iUfem3JXqIjAs9dJ5LrKxZ79u7bn9ufhT7E1dkbbRHBPO4A0JhPNBSZC2+lLzB3
+	G9BK7KRVm0wHxJcKpe9MOT8p+N4xu5x4j/ppALj32tCkfrXXX5FN8M8stJrCLKipCOkAYKHIppf
+	iS7Sv50nvTi17p+w3G0vyZgKGiMe+TtjxkHkIuRsPTi1z2KbUaU2uqm0AbdlyYCLA3tJoleKFuv
+	i40rQ0OCU9grATxVVUtfTyQyJtZqtm7lKlARQ6UAk2u3X2MPVJg==
+X-Received: by 2002:a05:6000:298e:20b0:488:7496:15b5 with SMTP id ffacd0b85a97d-4abb4c7ab74mr22118683f8f.47.1795560747752;
         Tue, 24 Nov 2026 14:52:27 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6bb989e3sm30462488f8f.52.2026.11.24.14.52.26
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6bb989e3sm30462488f8f.52.2026.11.24.14.52.27
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 14:52:26 -0800 (PST)
+        Tue, 24 Nov 2026 14:52:27 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][blacksail 13/21] popt: correct CVE-2026-18739.patch metadata
-Date: Tue, 24 Nov 2026 23:51:20 +0100
-Message-ID: <0b0a22019344292933083161ca1c32a00c5509d6.1795560335.git.yoann.congal@smile.fr>
+Subject: [OE-core][blacksail 14/21] popt: patch CVE-2026-18839
+Date: Tue, 24 Nov 2026 23:51:21 +0100
+Message-ID: <cae77eaa2f09cbe612a5f9f4f3a1231d816b4086.1795560335.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1795560335.git.yoann.congal@smile.fr>
 References: <cover.1795560335.git.yoann.congal@smile.fr>
@@ -64,32 +64,568 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 22:52:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251093
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251094
 Content-Type: text/plain; charset="utf-8"
 
 From: Peter Marko <peter.marko@siemens.com>
 
-There was a typo in CVE tag in this patch.
+Pick commits from PR [1] referencing this CVE.
+Modify the patch by converting cmake change to autotools.
+
+[1] https://github.com/rpm-software-management/popt/pull/142
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 15c5b3e7ff3e62b1763dfffa127875145b74730b)
+(cherry picked from commit a522f7f1d73e21745699243f6ca4fc89351fb91a)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-support/popt/popt/CVE-2026-18739.patch | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../popt/popt/CVE-2026-18839-01.patch         |  89 ++++
+ .../popt/popt/CVE-2026-18839-02.patch         | 419 ++++++++++++++++++
+ meta/recipes-support/popt/popt_1.19.bb        |   4 +-
+ 3 files changed, 511 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-support/popt/popt/CVE-2026-18839-01.patch
+ create mode 100644 meta/recipes-support/popt/popt/CVE-2026-18839-02.patch
 
-diff --git a/meta/recipes-support/popt/popt/CVE-2026-18739.patch b/meta/recipes-support/popt/popt/CVE-2026-18739.patch
-index 0a1e8f35907..94366f63437 100644
---- a/meta/recipes-support/popt/popt/CVE-2026-18739.patch
-+++ b/meta/recipes-support/popt/popt/CVE-2026-18739.patch
-@@ -14,7 +14,7 @@ Co-authored-by: Panu Matilainen <pmatilai@redhat.com>
+diff --git a/meta/recipes-support/popt/popt/CVE-2026-18839-01.patch b/meta/recipes-support/popt/popt/CVE-2026-18839-01.patch
+new file mode 100644
+index 00000000000..c3cb7e319c8
+--- /dev/null
++++ b/meta/recipes-support/popt/popt/CVE-2026-18839-01.patch
+@@ -0,0 +1,89 @@
++From 4f5a070cd98aade2767677de22661f4854d4a195 Mon Sep 17 00:00:00 2001
++From: Panu Matilainen <pmatilai@redhat.com>
++Date: Thu, 20 Aug 2026 13:46:32 +0300
++Subject: [PATCH] Bring in our own allocating printf() variants
++
++These are brought mostly as-is from rpm under a new POPT_ name, just
++with a slight change return an error on memory alloc failure whereas
++rpm exits on error.
++As the author of rvasprintf() and rasprintf() there, I'm at liberty to
++(re)license them under MIT as well.
++
++No functional changes here, just needed for sanity going forward.
++
++CVE: CVE-2026-18839
++Upstream-Status: Backport [https://github.com/rpm-software-management/popt/commit/4f5a070cd98aade2767677de22661f4854d4a195]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ src/poptint.c | 38 ++++++++++++++++++++++++++++++++++++++
++ src/poptint.h |  4 ++++
++ 2 files changed, 42 insertions(+)
++
++diff --git a/src/poptint.c b/src/poptint.c
++index b8dc90f..6b61ae3 100644
++--- a/src/poptint.c
+++++ b/src/poptint.c
++@@ -192,3 +192,41 @@ POPT_fprintf (FILE * stream, const char * format, ...)
++ }
++ 
++ #endif	/* !defined(POPT_fprintf) */
+++
+++int POPT_vasprintf(char **strp, const char *fmt, va_list ap)
+++{
+++    char * p = NULL;
+++    va_list aq;
+++
+++    if (strp == NULL)
+++	return -1;
+++
+++    va_copy(aq, ap);
+++    int n = vsnprintf(NULL, 0, fmt, aq);
+++    va_end(aq);
+++
+++    if (n >= 0) {
+++	size_t nb = (size_t)n + 1;
+++	if ((p = malloc(nb))) {
+++	    va_copy(aq, ap);
+++	    n = vsnprintf(p, nb, fmt, aq);
+++	    va_end(aq);
+++	} else {
+++	    n = -1;
+++ 	}
+++    }
+++    *strp = p;
+++
+++    return n;
+++}
+++
+++int POPT_asprintf(char **strp, const char *fmt, ...)
+++{
+++    va_list ap;
+++
+++    va_start(ap, fmt);
+++    int n = POPT_vasprintf(strp, fmt, ap);
+++    va_end(ap);
+++
+++    return n;
+++}
++diff --git a/src/poptint.h b/src/poptint.h
++index 910d6f5..d4127b3 100644
++--- a/src/poptint.h
+++++ b/src/poptint.h
++@@ -10,6 +10,7 @@
++ #define H_POPTINT
++ 
++ #include <stdint.h>
+++#include <stdarg.h>
++ 
++ /**
++  * Wrapper to free(3), hides const compilation noise, permit NULL, return NULL.
++@@ -136,6 +137,9 @@ const char *POPT_next_char (const char *str);
++ 
++ #endif
++ 
+++int POPT_vasprintf(char **strp, const char *fmt, va_list ap);
+++int POPT_asprintf(char **strp, const char *fmt, ...);
+++
++ #if defined(ENABLE_NLS) && defined(HAVE_LIBINTL_H)
++ #include <libintl.h>
++ #endif
+diff --git a/meta/recipes-support/popt/popt/CVE-2026-18839-02.patch b/meta/recipes-support/popt/popt/CVE-2026-18839-02.patch
+new file mode 100644
+index 00000000000..702403c2b3a
+--- /dev/null
++++ b/meta/recipes-support/popt/popt/CVE-2026-18839-02.patch
+@@ -0,0 +1,419 @@
++From af6f19e5968d48608a062d6d92d28b7fd248f8ea Mon Sep 17 00:00:00 2001
++From: Panu Matilainen <pmatilai@redhat.com>
++Date: Thu, 20 Aug 2026 14:28:11 +0300
++Subject: [PATCH] Fix a bucketful of buffer overflows in popt --help printing
++
++singleOptionDefaultValue() based the default value string output buffer
++size on the available line length, without any sort of bounds checking
++for most data. This was trivial to overflow with longer option names.
++
++There was also this baffling ellipsizing of long string arguments, done
++done based on the rather arbitrary buffer size instead of screen limits.
++Ellipsizing of long values might be totally reasonable but that belongs
++to the display code that does all manner of formatting too.
++
++Just use our newly introduced allocating sprintf() to get it right for
++good. Drop the line length argument entirely, it was only used for
++a bad estimation of the needed buffer size.
++
++At the other end, make sure the indent length stays below available
++columns to avoid the underflow from help printing.
++
++Annoyingly we need multiple different test programs for this because
++the various crashes are quite sensitive to the max length of a single
++option in the table. There are more broken cases than these, but we
++can't test everything and these cover the CVE-2026-18839 case.
++Update the ellipsis test a bit because it no longer makes sense.
++
++Note: this depends on the previous commit.
++
++Fixes: CVE-2026-18839
++
++CVE: CVE-2026-18839
++Upstream-Status: Backport [https://github.com/rpm-software-management/popt/commit/af6f19e5968d48608a062d6d92d28b7fd248f8ea]
++Convert cmake change to autotools.
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ src/popthelp.c    | 55 ++++++++++++++++-------------------------------
++ tests/Makefile.am | 10 ++++++++-
++ tests/test1.c     |  2 +-
++ tests/test4-1.c   | 33 ++++++++++++++++++++++++++++
++ tests/test4-2.c   | 33 ++++++++++++++++++++++++++++
++ tests/test4-3.c   | 33 ++++++++++++++++++++++++++++
++ tests/test4-4.c   | 33 ++++++++++++++++++++++++++++
++ tests/testit.sh   | 36 +++++++++++++++++++++++++++++--
++ 8 files changed, 195 insertions(+), 40 deletions(-)
++ create mode 100644 tests/test4-1.c
++ create mode 100644 tests/test4-2.c
++ create mode 100644 tests/test4-3.c
++ create mode 100644 tests/test4-4.c
++
++diff --git a/src/popthelp.c b/src/popthelp.c
++index fa31901..3950975 100644
++--- a/src/popthelp.c
+++++ b/src/popthelp.c
++@@ -197,79 +197,60 @@ getArgDescrip(const struct poptOption * opt,
++ 
++ /**
++  * Display default value for an option.
++- * @param lineLength	display positions remaining
++  * @param opt		option(s)
++  * @param translation_domain	translation domain
++  * @return
++  */
++ static char *
++-singleOptionDefaultValue(size_t lineLength,
+++singleOptionDefaultValue(
++ 		const struct poptOption * opt,
++ 		/* FIX: i18n macros disabled with lclint */
++ 		const char * translation_domain)
++ {
++     const char * defstr = D_(translation_domain, "default");
++-    char * le = malloc(4*lineLength + 1);
++-    char * l = le;
+++    char * l = NULL;
++ 
++-    if (le == NULL) return NULL;	/* XXX can't happen */
++-    *le = '\0';
++-    *le++ = '(';
++-    le = stpcpy(le, defstr);
++-    *le++ = ':';
++-    *le++ = ' ';
++   if (opt->arg) {	/* XXX programmer error */
++     poptArg arg = { .ptr = opt->arg };
++     switch (poptArgType(opt)) {
++     case POPT_ARG_VAL:
++     case POPT_ARG_INT:
++-	le += sprintf(le, "%d", arg.intp[0]);
+++	POPT_asprintf(&l, "(%s: %d)", defstr, arg.intp[0]);
++ 	break;
++     case POPT_ARG_SHORT:
++-	le += sprintf(le, "%hd", arg.shortp[0]);
+++	POPT_asprintf(&l, "(%s: %hd)", defstr, arg.shortp[0]);
++ 	break;
++     case POPT_ARG_LONG:
++-	le += sprintf(le, "%ld", arg.longp[0]);
+++	POPT_asprintf(&l, "(%s: %ld)", defstr, arg.longp[0]);
++ 	break;
++     case POPT_ARG_LONGLONG:
++-	le += sprintf(le, "%lld", arg.longlongp[0]);
+++	POPT_asprintf(&l, "(%s: %lld)", defstr, arg.longlongp[0]);
++ 	break;
++     case POPT_ARG_FLOAT:
++     {	double aDouble = (double) arg.floatp[0];
++-	le += sprintf(le, "%g", aDouble);
+++	POPT_asprintf(&l, "(%s: %g)", defstr, aDouble);
++     }	break;
++     case POPT_ARG_DOUBLE:
++-	le += sprintf(le, "%g", arg.doublep[0]);
+++	POPT_asprintf(&l, "(%s: %g)", defstr, arg.doublep[0]);
++ 	break;
++     case POPT_ARG_MAINCALL:
++-	le += sprintf(le, "%p", opt->arg);
+++	POPT_asprintf(&l, "(%s: %p)", defstr, opt->arg);
++ 	break;
++     case POPT_ARG_ARGV:
++-	le += sprintf(le, "%p", opt->arg);
+++	POPT_asprintf(&l, "(%s: %p)", defstr, opt->arg);
++ 	break;
++     case POPT_ARG_STRING:
++-    {	const char * s = arg.argv[0];
++-	if (s == NULL)
++-	    le = stpcpy(le, "null");
++-	else {
++-	    size_t limit = 4*lineLength - (le - l) - sizeof("\"\")");
++-	    size_t slen;
++-	    *le++ = '"';
++-	    strncpy(le, s, limit); le[limit] = '\0'; le += (slen = strlen(le));
++-	    if (slen == limit && s[limit])
++-		le[-1] = le[-2] = le[-3] = '.';
++-	    *le++ = '"';
++-	}
++-    }	break;
+++	if (arg.argv[0])
+++	    POPT_asprintf(&l, "(%s: \"%s\")", defstr, arg.argv[0]);
+++	else
+++	    POPT_asprintf(&l, "(%s: %s)", defstr, "null");
+++	break;
++     case POPT_ARG_NONE:
++     default:
++-	l = _free(l);
++ 	return NULL;
++ 	break;
++     }
++   }
++-    *le++ = ')';
++-    *le = '\0';
++ 
++     return l;
++ }
++@@ -286,7 +267,9 @@ static void singleOptionHelp(FILE * fp, columns_t columns,
++ 		const char * translation_domain)
++ {
++     size_t maxLeftCol = columns->cur;
++-    size_t indentLength = maxLeftCol + 5;
+++    size_t indentLength = maxLeftCol + 5 < columns->max ?
+++			maxLeftCol + 5 :
+++			columns->max - (maxLeftCol % columns->max) - 1;
++     size_t lineLength = columns->max - indentLength;
++     const char * help = D_(translation_domain, opt->descrip);
++     const char * argDescrip = getArgDescrip(opt, translation_domain);
++@@ -347,7 +330,7 @@ static void singleOptionHelp(FILE * fp, columns_t columns,
++ 
++ 	/* Choose type of output */
++ 	if (F_ISSET(opt, SHOW_DEFAULT)) {
++-	    defs = singleOptionDefaultValue(lineLength, opt, translation_domain);
+++	    defs = singleOptionDefaultValue(opt, translation_domain);
++ 	    if (defs) {
++ 		char * t = malloc((help ? strlen(help) : 0) +
++ 				strlen(defs) + sizeof(" "));
++diff --git a/tests/Makefile.am b/tests/Makefile.am
++index 99fbf64..dfc60e7 100644
++--- a/tests/Makefile.am
+++++ b/tests/Makefile.am
++@@ -11,7 +11,7 @@ EXTRA_DIST = testit.sh \
++ 
++ AM_CPPFLAGS = -I. -I$(top_srcdir)/src
++ 
++-noinst_PROGRAMS = test1 test2 tdict test3 tstuff
+++noinst_PROGRAMS = test1 test2 tdict test3 tstuff test4-1 test4-2 test4-3 test4-4
++ tstuff_SOURCES = tstuff.c
++ tstuff_LDFLAGS =
++ tstuff_LDADD = $(top_builddir)/src/libpopt.la
++@@ -24,6 +24,14 @@ test2_LDADD = $(top_builddir)/src/libpopt.la
++ test3_SOURCES = test3.c
++ test3_LDFLAGS = 
++ test3_LDADD = $(top_builddir)/src/libpopt.la
+++test4_1_SOURCES = test4-1.c
+++test4_1_LDADD = $(top_builddir)/src/libpopt.la
+++test4_2_SOURCES = test4-2.c
+++test4_2_LDADD = $(top_builddir)/src/libpopt.la
+++test4_3_SOURCES = test4-3.c
+++test4_3_LDADD = $(top_builddir)/src/libpopt.la
+++test4_4_SOURCES = test4-4.c
+++test4_4_LDADD = $(top_builddir)/src/libpopt.la
++ tdict_SOURCES = tdict.c
++ tdict_LDFLAGS = 
++ tdict_LDADD = $(top_builddir)/src/libpopt.la
++diff --git a/tests/test1.c b/tests/test1.c
++index 7a3e663..3007f27 100644
++--- a/tests/test1.c
+++++ b/tests/test1.c
++@@ -49,7 +49,7 @@ static char * oStr = (char *) -1;
++ static int singleDash = 0;
++ 
++ static const char * lStr =
++-"This tests default strings and exceeds the ... limit. "
+++"This tests default strings and exceeds the former ... limit. "
++ "123456789+123456789+123456789+123456789+123456789+ "
++ "123456789+123456789+123456789+123456789+123456789+ "
++ "123456789+123456789+123456789+123456789+123456789+ "
++diff --git a/tests/test4-1.c b/tests/test4-1.c
++new file mode 100644
++index 0000000..2a0f094
++--- /dev/null
+++++ b/tests/test4-1.c
++@@ -0,0 +1,33 @@
+++#include <stdio.h>
+++#include <popt.h>
+++
+++static char *arg2 = "meh";
+++
+++static struct poptOption options[] = {
+++    { "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaargh",
+++	    '\0', POPT_ARG_STRING | POPT_ARGFLAG_SHOW_DEFAULT,
+++	    &arg2, 0, "Second", NULL },
+++
+++    POPT_AUTOALIAS
+++    POPT_AUTOHELP
+++    POPT_TABLEEND
+++};
+++
+++int main(int argc, const char *argv[])
+++{
+++    poptContext optCon = poptGetContext("test4", argc, argv, options, 0);
+++
+++    poptReadDefaultConfig(optCon, 0);
+++
+++    int rc = poptGetNextOpt(optCon);
+++
+++    if (rc < -1) {
+++	fprintf(stderr, "%s: bad argument %s: %s\n",
+++		argv[0], poptBadOption(optCon, POPT_BADOPTION_NOALIAS),
+++		poptStrerror(rc));
+++	goto exit;
+++    }
+++
+++exit:
+++    poptFreeContext(optCon);
+++}
++diff --git a/tests/test4-2.c b/tests/test4-2.c
++new file mode 100644
++index 0000000..f9cd13d
++--- /dev/null
+++++ b/tests/test4-2.c
++@@ -0,0 +1,33 @@
+++#include <stdio.h>
+++#include <popt.h>
+++
+++static char *arg3 = NULL;
+++
+++static struct poptOption options[] = {
+++    { "brrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrgh",
+++	    '\0', POPT_ARG_STRING | POPT_ARGFLAG_SHOW_DEFAULT,
+++	    &arg3, 0, "Third", NULL },
+++
+++    POPT_AUTOALIAS
+++    POPT_AUTOHELP
+++    POPT_TABLEEND
+++};
+++
+++int main(int argc, const char *argv[])
+++{
+++    poptContext optCon = poptGetContext("test4", argc, argv, options, 0);
+++
+++    poptReadDefaultConfig(optCon, 0);
+++
+++    int rc = poptGetNextOpt(optCon);
+++
+++    if (rc < -1) {
+++	fprintf(stderr, "%s: bad argument %s: %s\n",
+++		argv[0], poptBadOption(optCon, POPT_BADOPTION_NOALIAS),
+++		poptStrerror(rc));
+++	goto exit;
+++    }
+++
+++exit:
+++    poptFreeContext(optCon);
+++}
++diff --git a/tests/test4-3.c b/tests/test4-3.c
++new file mode 100644
++index 0000000..a29f359
++--- /dev/null
+++++ b/tests/test4-3.c
++@@ -0,0 +1,33 @@
+++#include <stdio.h>
+++#include <popt.h>
+++
+++static char *arg2 = NULL;
+++
+++static struct poptOption options[] = {
+++    { "aarrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrggggggh",
+++	    '\0', POPT_ARG_STRING,
+++	    &arg2, 0, "xxxxx", NULL },
+++
+++    POPT_AUTOALIAS
+++    POPT_AUTOHELP
+++    POPT_TABLEEND
+++};
+++
+++int main(int argc, const char *argv[])
+++{
+++    poptContext optCon = poptGetContext("test4", argc, argv, options, 0);
+++
+++    poptReadDefaultConfig(optCon, 0);
+++
+++    int rc = poptGetNextOpt(optCon);
+++
+++    if (rc < -1) {
+++	fprintf(stderr, "%s: bad argument %s: %s\n",
+++		argv[0], poptBadOption(optCon, POPT_BADOPTION_NOALIAS),
+++		poptStrerror(rc));
+++	goto exit;
+++    }
+++
+++exit:
+++    poptFreeContext(optCon);
+++}
++diff --git a/tests/test4-4.c b/tests/test4-4.c
++new file mode 100644
++index 0000000..b1b1322
++--- /dev/null
+++++ b/tests/test4-4.c
++@@ -0,0 +1,33 @@
+++#include <stdio.h>
+++#include <popt.h>
+++
+++static char *arg2 = NULL;
+++
+++static struct poptOption options[] = {
+++    { "aarrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrgggggghyyyyy",
+++	    '\0', POPT_ARG_STRING,
+++	    &arg2, 0, "xxxxx", NULL },
+++
+++    POPT_AUTOALIAS
+++    POPT_AUTOHELP
+++    POPT_TABLEEND
+++};
+++
+++int main(int argc, const char *argv[])
+++{
+++    poptContext optCon = poptGetContext("test4", argc, argv, options, 0);
+++
+++    poptReadDefaultConfig(optCon, 0);
+++
+++    int rc = poptGetNextOpt(optCon);
+++
+++    if (rc < -1) {
+++	fprintf(stderr, "%s: bad argument %s: %s\n",
+++		argv[0], poptBadOption(optCon, POPT_BADOPTION_NOALIAS),
+++		poptStrerror(rc));
+++	goto exit;
+++    }
+++
+++exit:
+++    poptFreeContext(optCon);
+++}
++diff --git a/tests/testit.sh b/tests/testit.sh
++index d26be3a..b8357c8 100755
++--- a/tests/testit.sh
+++++ b/tests/testit.sh
++@@ -149,8 +149,8 @@ Usage: test1 [OPTION...]
++       --nstr=STRING               POPT_ARG_STRING: (null) (default: null)
++       --lstr=STRING               POPT_ARG_STRING: \"123456789...\" (default:
++                                   \"This tests default strings and exceeds the
++-                                  ... limit.
++-                                  123456789+123456789+123456789+123456789+123456789+ 123456789+123456789+123456789+123456789+123456789+ 1234567...\")
+++                                  former ... limit.
+++                                  123456789+123456789+123456789+123456789+123456789+ 123456789+123456789+123456789+123456789+123456789+ 123456789+123456789+123456789+123456789+123456789+ 123456789+123456789+123456789+123456789+123456789+ \")
++ 
++ arg for cb2
++   -c, --cb2=STRING                Test argument callbacks
++@@ -183,5 +183,37 @@ run_diff test3 "test3 - 2" test3-data/02.input test3-data/02.answer
++ run_diff test3 "test3 - 3" test3-data/03.input test3-data/03.answer
++ run_diff test3 "test3 - 5" test3-data/05.input test3-data/05.answer
++ 
+++run test4-1 "test 4-1 - 63" "\
+++Usage: test4-1 [OPTION...]
+++      --aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaargh=STRING     Second (default: \"meh\")
+++
+++Help options:
+++  -?, --help                                                                Show this help message
+++      --usage                                                               Display brief usage message" --help
+++
+++run test4-2 "test 4-2 - 64" "\
+++Usage: test4-2 [OPTION...]
+++      --brrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrgh=STRING     Third (default: null)
+++
+++Help options:
+++  -?, --help                                                                                                              Show this help message
+++      --usage                                                                                                             Display brief usage message" --help
+++
+++run test4-3 "test 4-3 - 65" "\
+++Usage: test4-3 [OPTION...]
+++      --aarrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrggggggh=STRING     xxxxx
+++
+++Help options:
+++  -?, --help                                                                   Show this help message
+++      --usage                                                                  Display brief usage message" --help
+++
+++run test4-4 "test 4-4 - 66" "\
+++Usage: test4-4 [OPTION...]
+++      --aarrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrgggggghyyyyy=STRING     xxxxx
+++
+++Help options:
+++  -?, --help                                                                        Show this help message
+++      --usage                                                                       Display brief usage message" --help
+++
++ echo ""
++ echo "Passed."
+diff --git a/meta/recipes-support/popt/popt_1.19.bb b/meta/recipes-support/popt/popt_1.19.bb
+index 10c4b4b0af7..cd35ddcdc63 100644
+--- a/meta/recipes-support/popt/popt_1.19.bb
++++ b/meta/recipes-support/popt/popt_1.19.bb
+@@ -12,6 +12,8 @@ SRC_URI = "http://ftp.rpm.org/popt/releases/popt-1.x/${BP}.tar.gz \
+            file://run-ptest \
+            file://CVE-2026-18743.patch \
+            file://CVE-2026-18739.patch \
++           file://CVE-2026-18839-01.patch \
++           file://CVE-2026-18839-02.patch \
+            "
+ SRC_URI[sha256sum] = "c25a4838fc8e4c1c8aacb8bd620edb3084a3d63bf8987fdad3ca2758c63240f9"
  
- Fixes: CVE-2026-18739
+@@ -24,7 +26,7 @@ do_compile_ptest() {
+ }
  
--CVE: CVE-2026-18743
-+CVE: CVE-2026-18739
- Upstream-Status: Backport [https://github.com/rpm-software-management/popt/commit/14c42b415ba0c11640f7d4ee80920452d0287058]
- Signed-off-by: Peter Marko <peter.marko@siemens.com>
- ---
+ do_install_ptest() {
+-    for f in test1 test2 tdict test3 tstuff testit.sh test-poptrc; do
++    for f in test1 test2 tdict test3 test4-1 test4-2 test4-3 test4-4 tstuff testit.sh test-poptrc; do
+         ${B}/libtool --mode=install install ${B}/tests/$f ${D}/${PTEST_PATH}
+     done
+ }
