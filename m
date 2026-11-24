@@ -1,63 +1,62 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.31030.1795560765234323903
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.30990.1795560768255704297
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2026 14:52:45 -0800
+ Tue, 24 Nov 2026 14:52:48 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=n0frj+NP;
- spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-49412eb1474so3286206f8f.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 14:52:44 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=JYCmKL0V;
+ spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-491971ac844so4621538f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 14:52:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795560763; x=1796165563; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=8+0TJagybpw9tY8LL4cKibyk1q2agjzPjuaj0dTZnd8=;
-        b=n0frj+NPrO+dq3UUwS0dgx1NX0AM8rXphEEpArX36fqMXLNxMPfwQzrb/5K2f+YmHg
-         zZSdG3H0n5BeCRWstxU/ptWfyez5zjOiN+4qWGJ957c5b4qW3sSCEWbXlge5qt0OTTTs
-         +3nrA9KVLnYzqO0OYh0gtIOAQRRwG7PYVUPSS/Y7eWwKsMUkJcnfgRjYgTjJQyc0JPoB
-         dS6vmsKtYp+3silsG+yU1ppAMzhalz5aEFSZO9oukJ4plDYzssK8+xjdlvgTtZ4wWc7X
-         ByRiObfk7zvVJT1ddE3NYqvgY+/KGUaB+PgK2ZizLk5aTTFQgqHnF0XmESffDVQuIrap
-         4/Xg==
+        d=smile.fr; s=google2; t=1795560766; x=1796165566; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=teu+i7eEEtyjJoPpM0oK7Eu/RwHSpwaGbx34dEMgiD8=;
+        b=JYCmKL0VMXNTW8U4+fl/pA5DV/bAOiLzNAJ38IlAvEm6tgwh45sRDV4vi6s1h1k0Fu
+         1qDmP7ykEcfDbNzvOlwqO+DexQjAgrv4OgQEPJayOAjlH28lFoBfzV0WmJc4jZP8iO8T
+         80RPWoXTQ1DUFWu1H+5mx4J1aIZOobXkScxhcYS268QcrSDbhthpGC+QzcwUJfgBhkCk
+         JOWsLcXSXLMwfrfO8nl4UonzWCQDPSVq8kOA3jCQNGALwvn0DqW3ZfeSvaBR6BgA5uAY
+         LE/F/BR1V2/pohFEb0R4/iIQ3zDziTxt/J20Yf4mBn04C3kcR/zVExbxYlPJzwsKQsmz
+         PQRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795560763; x=1796165563;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=8+0TJagybpw9tY8LL4cKibyk1q2agjzPjuaj0dTZnd8=;
-        b=Rtp+rQ0FaK9wfpFqnjmkCHQ6I79wN38GtFeqI8OWZCmiYllYHcCU2mKu3f/E53zNl2
-         2euRjtzbHG2LtKqcABjJyZl4+YkSMdH9XL0QXTNo/dTYP4aw9ATC8JzSAqAqMg3cG/N9
-         hUqo21dS5MF4wl6fkssXVPlwwqpknMVKYahSqMCXTEHfKYNCFHv+JitZwn16hn667sb8
-         bXjdbnyD8iyv0+fEHdC2b+PXvFplUiK+pcPKqlwP+24cwf6pqolBfze4DouFXNG7trAV
-         FccLKRTk9m0KQhykzQjQPZrTs6CELm36L9J78s8uvJKfAXBeLa+UgutHtJ3MG2o76DgE
-         aJSQ==
-X-Gm-Message-State: APuU4Z/AVid2sAXlBi9NRzGGLQ1JF19vr+H1E6xL6zITOftjGQNAkT5o
-	DwgdHyJ06fAUcbCkDku0G9l/afiextAVRfAncOUXxLVf2TCKoAalHiMdEvfAns/brqJq4TlCZGA
-	eYkTZ2nk=
-X-Gm-Gg: AZFdTZcnsJ1FWdIhy0hXFfdliD3Wsl2HvTY0XBvg5QKh/Cx2rHmPVxfPHqsDJ3Dvilo
-	khjez29uVZ6SQcgco8pYXwkEL6YgjbDmuhesGwfcCViktuF6Bm+0V79j1MritM38E/NKgahFWpo
-	06pfk3yGbj1dCPKgu/lQ0k+e0YqxzTJLvErEaM9+Y1IPZRRLTqlayPeFSkAUQQ38P2LFnWyoag7
-	3dyiece0xTovfeTN01V8XQTk2s06hnoIvZ79HBzj1jeLT3ZkiiaJh+qakIKLN424xv91dcLeGhy
-	AYgmUaq7Z99UHFZJW8HOlJl+OS77wFahjEeC+zXgt0riDNyoU+d6YK4DyX8XEh1tD5lSp+AUTMd
-	J8ZBvpioekgozjzGguXcBaWWqFogA8jFVieKW3G4kxfz+NQkQNvJ6TMcN37mthua1AmFpc6EAVK
-	fd6ujMP6C+kUnOlTVhmwm5O6RuUDVfd6L4vouIzLSwqoeuZ3PrEL0hnv5DDx0LF7eEwUqcr4BuD
-	3VW9wazmkoh8rmW9J2etXL1GfBEor0g7r1Y1DIndQUwVg8Lz/Isf7E4PMJL9NJibTr5EybnBunO
-	Nsmwp2SfhmPq3O9zScBC/Qi56e3qbjLIspL2DVtOZdLsD+xRXscZjxfVpIBb+NQhl8S+juIIXve
-	HRH96es3EQXNeoNUciMNDlAzy4ze4
-X-Received: by 2002:a05:6000:490f:b0:492:a72:9303 with SMTP id ffacd0b85a97d-4abb47b242fmr30876478f8f.22.1795560763269;
-        Tue, 24 Nov 2026 14:52:43 -0800 (PST)
+        d=1e100.net; s=20260707; t=1795560766; x=1796165566;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=teu+i7eEEtyjJoPpM0oK7Eu/RwHSpwaGbx34dEMgiD8=;
+        b=Zc8jvlEEO6+yJQQuIrVjCcFHvLUldGL/3h3X8YcHTmgU0DjTM58YKGmSX4z7z6t3nO
+         lDuEI/NRb3egYAGIwBJ/LgWUdh4xeVqPz2q5mPo39E4Bunlqvgsg8Zi/CcilIM102ovg
+         Gv4e71199pYDO6KSd/Lt3IqevThIUmnZBaG3HVwGtH/661M/089/zcePRdnOnzqY7+a4
+         qTOH7eUTj/Z/wBkgkbPPUH3pd05SJ8QuOJRDV1vgM9u4n6XoTEkyxQHmdhCeOrAPD4iB
+         /vEvIfVRa1PIdIwhXBxmiWej8P+VjMlLmdOOG1WCr5ZuHEIEMXvZ0vqQMnbpXKl/XkEm
+         CpGA==
+X-Gm-Message-State: APuU4Z/PxtEn5tGppYvSO3QgP++lrNn7ntnk/Hg6OqA0JFn/qj67W8R1
+	YXJB3wvlC7ci6fm3dQ6zbjg8O0LzeLu02j+hh9kUfuv88pq1i3tqF5Ma6fut9Jh52d6T1W6ZSHK
+	dbTBJ1SQ=
+X-Gm-Gg: AZFdTZcTowU5WYIsp9UnT2mHu+J3n8+x/dxApD1M1aNTfYZvWeIKFENgrRqHX3pNwOL
+	rdcoGQVUNKn9umGz/22XCc6vRObT1vSRAoRWtJp6QpiVUfiPYDI9ZShsgT6BqYPlB/71e9/cyYR
+	lss/nuPfcaYZxbwredGlGClY/2qgAhST6lVUrRN4muShcyPi4T8HxD7KiCKvKoj8UShvmwYt6px
+	bzxVPOpD/y4ZyOWdCDwKACBLtwBU3OKch9zjghvhVNaktGEyVlZvVzKOG2Rm1YBJrddKFUoIXkh
+	R4VHvYncrVIl5LClxKkddQYZexT9Ob7d035WdFlmBJ7NVDSKRh0lZrzN2/t+EezvYTBqoEJ2iyj
+	Y3VVmna7R12ZKxBVygyWifzaPFy6IZX9hWYHvjdb0Cw9Mkg9S1NZWiQ/2/N2XOxAMasevcS4YuU
+	Y5GecKhF1N0IvhCL5o50DTbxTwxKbxi29cQ06B1s7/3LLiu8yUGuMPewB/4fkDDnskfvWkMVUcJ
+	9G1NlpZcyFgEKJS0UbG3H1C5nBcrFqDgwpLp/FM1QNUtKx8FsrApZZd+qjfSYTKoFHzKomBr8tc
+	47sXFju8ZG3BwP9ARaZfJATo2cOoWbfd93j9//AEShPR5dodMKawTNpnUPx2kM5hvx+455OpBUO
+	OrwIJlbzcKo/dWvSb5V80tN5aisN9
+X-Received: by 2002:a5d:5d0a:0:b0:4a8:eed3:760 with SMTP id ffacd0b85a97d-4abb225faa7mr33898763f8f.31.1795560766465;
+        Tue, 24 Nov 2026 14:52:46 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ad644140b5sm27446707f8f.17.2026.11.24.14.52.42
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ad644140b5sm27446707f8f.17.2026.11.24.14.52.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 14:52:43 -0800 (PST)
+        Tue, 24 Nov 2026 14:52:45 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 01/21] bison: Fix CVE-2026-56390
-Date: Tue, 24 Nov 2026 23:52:18 +0100
-Message-ID: <bc1668278ba60b7fa84b22cb5e84c65dc017a71e.1795560372.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 07/21] sqlite3: fix CVE-2026-119379
+Date: Tue, 24 Nov 2026 23:52:24 +0100
+Message-ID: <adfbfb2903d129e16e63df34c578dc1023fb94b2.1795560372.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1795560372.git.yoann.congal@smile.fr>
 References: <cover.1795560372.git.yoann.congal@smile.fr>
@@ -65,276 +64,122 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 22:52:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251103
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251109
 Content-Type: text/plain; charset="utf-8"
 
-From: Yogita Urade <yurade@cisco.com>
+From: Arpit Patel <arpitpa@cisco.com>
 
-This patch applies the upstream fix as referenced in [2],
-using the commit shown in [1].
+This patch applies the upstream fix [1], which prevents a buffer
+overrun when applying a strategically corrupted changeset through
+SQLite's session extension. The GitHub mirror commit [1] corresponds
+to the SQLite Fossil check-in shown in [2].
 
-[1] https://cgit.git.savannah.gnu.org/cgit/bison.git/commit/?id=8d101c19d4d9aaedf83a448c925513742d4efcf0
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-56390
+[1] https://github.com/sqlite/sqlite/commit/64459c87cc702d600704fb77ee40ca1782398a52
+[2] https://sqlite.org/src/info/3f57024aecea0f3b
 
-Signed-off-by: Yogita Urade <yurade@cisco.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit eefec9cde464081f5943f4ad5c3cb688a87eff1f)
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2026-119379
+
+Signed-off-by: Arpit Patel <arpitpa@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../bison/bison/CVE-2026-56390.patch          | 233 ++++++++++++++++++
- meta/recipes-devtools/bison/bison_3.8.2.bb    |   1 +
- 2 files changed, 234 insertions(+)
- create mode 100644 meta/recipes-devtools/bison/bison/CVE-2026-56390.patch
+ .../sqlite/sqlite3/CVE-2026-119379.patch      | 79 +++++++++++++++++++
+ meta/recipes-support/sqlite/sqlite3_3.51.3.bb |  1 +
+ 2 files changed, 80 insertions(+)
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119379.patch
 
-diff --git a/meta/recipes-devtools/bison/bison/CVE-2026-56390.patch b/meta/recipes-devtools/bison/bison/CVE-2026-56390.patch
+diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2026-119379.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119379.patch
 new file mode 100644
-index 00000000000..f32aa8a98cb
+index 00000000000..3a882bd0a9e
 --- /dev/null
-+++ b/meta/recipes-devtools/bison/bison/CVE-2026-56390.patch
-@@ -0,0 +1,233 @@
-+From 8d101c19d4d9aaedf83a448c925513742d4efcf0 Mon Sep 17 00:00:00 2001
-+From: Paul Eggert <eggert@cs.ucla.edu>
-+Date: Thu, 23 Apr 2026 12:41:25 -0700
-+Subject: [PATCH] bison: tighten up output file names
++++ b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119379.patch
+@@ -0,0 +1,79 @@
++From f613058ee3c084c6ec1b49e5b9874197df6e7304 Mon Sep 17 00:00:00 2001
++From: dan <Dan Kennedy>
++Date: Mon, 17 Aug 2026 11:31:59 +0000
++Subject: [PATCH] Avoid a buffer overrun when processing a strategically
++ corrupted changeset. Report [bugs:/info/2026-08-16T10:15:25Z |
++ 2026-08-16T10:15:25Z].
 +
-+Problem reported by Michał Majchrowicz.
-+* src/parse-gram.y: Do not allow '/' in %header and %output directives.
++FossilOrigin-Name: 3f57024aecea0f3b565ed823cf94b085031c481fd6323c1f2e4319a53500864f
 +
-+CVE: CVE-2026-56390
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/bison.git/commit/?id=8d101c19d4d9aaedf83a448c925513742d4efcf0]
++CVE: CVE-2026-119379
++Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/64459c87cc702d600704fb77ee40ca1782398a52]
 +
 +Backport Changes:
-+- Adapted generated src/parse-gram.c to the Bison 3.8.2 source tree.
-+- omitted upstream generator-version/copyright metadata and
-+  src/parse-gram.h-only metadata changes while retaining the
-+  security-relevant parser changes.
++- Applied the ext/session/sqlite3session.c fix to sqlite3.c because
++  the recipe source uses the amalgamated SQLite layout.
++- Omitted ext/session/sessioncorrupt.test because the extracted source
++  does not include the upstream test tree.
++- Omitted manifest and manifest.uuid because they are Fossil
++  metadata and are not required for this backport.
 +
-+(cherry picked from commit 8d101c19d4d9aaedf83a448c925513742d4efcf0)
-+Signed-off-by: Yogita Urade <yurade@cisco.com>
++Signed-off-by: Arpit Patel <arpitpa@cisco.com>
 +---
-+ THANKS           |  1 +
-+ doc/bison.texi   |  2 ++
-+ src/parse-gram.c | 56 ++++++++++++++++++++++++++++++++----------------
-+ src/parse-gram.y | 31 ++++++++++++++++++++++-----
-+ 4 files changed, 67 insertions(+), 23 deletions(-)
++ sqlite3.c | 9 ++++-----
++ 1 file changed, 4 insertions(+), 5 deletions(-)
 +
-+diff --git a/THANKS b/THANKS
-+index be743a23..0e481561 100644
-+--- a/THANKS
-++++ b/THANKS
-+@@ -128,6 +128,7 @@ Michael Catanzaro         mcatanzaro@gnome.org
-+ Michael Felt              mamfelt@gmail.com
-+ Michael Hayes             m.hayes@elec.canterbury.ac.nz
-+ Michael Raskin            7c6f434c@mail.ru
-++Michał Majchrowicz        mmajchrowicz@afine.com
-+ Michel d'Hooge            michel.dhooge@gmail.com
-+ Michiel De Wilde          mdewilde.agilent@gmail.com
-+ Mickael Labau             labau_m@epita.fr
-+diff --git a/doc/bison.texi b/doc/bison.texi
-+index a559649c..44a4e159 100644
-+--- a/doc/bison.texi
-++++ b/doc/bison.texi
-+@@ -5973,6 +5973,7 @@ Introduced in Bison 3.8.
++diff --git a/sqlite3.c b/sqlite3.c
++index bcd317206b..83a018d3fc 100644
++--- a/sqlite3.c
+++++ b/sqlite3.c
++@@ -236199,10 +236199,10 @@ static int sessionChangesetApply(
++   int schemaMismatch = 0;
++   int rc = SQLITE_OK;             /* Return code */
++   const char *zTab = 0;           /* Name of current table */
++-  int nTab = 0;                   /* Result of sqlite3Strlen30(zTab) */
++   SessionApplyCtx sApply;         /* changeset_apply() context object */
++   int bPatchset;
++   u64 savedFlag = db->flags & SQLITE_FkNoAction;
+++  int bNew = 0;                   /* True for first entry of new table */
 + 
-+ @deffn {Directive} %header @var{header-file}
-+ Same as above, but save in the file @file{@var{header-file}}.
-++The @var{header-file} name should not contain slashes.
-+ @end deffn
++   assert( xConflict!=0 );
 + 
-+ @deffn {Directive} %language "@var{language}"
-+@@ -6026,6 +6027,7 @@ file, treating it as an independent source file in its own right.
++@@ -236223,15 +236223,16 @@ static int sessionChangesetApply(
++   if( rc==SQLITE_OK ){
++     rc = sqlite3_exec(db, "PRAGMA defer_foreign_keys = 1", 0, 0, 0);
++   }
++-  while( rc==SQLITE_OK && SQLITE_ROW==sqlite3changeset_next(pIter) ){
+++  while( rc==SQLITE_OK && SQLITE_ROW==sessionChangesetNext(pIter, 0, 0,&bNew) ){
++     int nCol;
++     int op;
++     const char *zNew;
 + 
-+ @deffn {Directive} %output "@var{file}"
-+ Generate the parser implementation in @file{@var{file}}.
-++The @var{file} name should not contain slashes.
-+ @end deffn
++     sqlite3changeset_op(pIter, &zNew, &nCol, &op, 0);
 + 
-+ @deffn {Directive} %pure-parser
-+diff --git a/src/parse-gram.y b/src/parse-gram.y
-+index 15180cb5..114c5c44 100644
-+--- a/src/parse-gram.y
-++++ b/src/parse-gram.y
-+@@ -95,8 +95,11 @@
-+      string from the scanner (should be CODE). */
-+   static char const *translate_code_braceless (char *code, location loc);
++-    if( zTab==0 || sqlite3_strnicmp(zNew, zTab, nTab+1) ){
+++    if( bNew ){
++       u8 *abPK;
+++      bNew = 0;
 + 
-++  /* Is FILE a valid output file name?  */
-++  static bool valid_output_file_name (char const *file);
-++
-+   /* Handle a %header directive.  */
-+-  static void handle_header (char const *value);
-++  static void handle_header (location const *loc, char const *value);
-+ 
-+   /* Handle a %error-verbose directive.  */
-+   static void handle_error_verbose (location const *loc, char const *directive);
-+@@ -337,7 +340,7 @@ prologue_declaration:
-+       muscle_percent_define_insert ($2, @$, $3.kind, $3.chars,
-+                                     MUSCLE_PERCENT_DEFINE_GRAMMAR_FILE);
++       rc = sessionRetryConstraints(
++           db, pIter->bPatchset, zTab, &sApply, xConflict, pCtx
++@@ -236266,7 +236267,6 @@ static int sessionChangesetApply(
++           rc = SQLITE_NOMEM;
++           break;
++         }
++-        nTab = (int)strlen(zTab);
++         sApply.azCol = (const char **)zTab;
++       }else{
++         int nMinCol = 0;
++@@ -236319,7 +236319,6 @@ static int sessionChangesetApply(
++             sApply.bStat1 = 0;
++           }
++         }
++-        nTab = sqlite3Strlen30(zTab);
++       }
 +     }
-+-| "%header" string.opt             { handle_header ($2); }
-++| "%header" string.opt             { handle_header (&@2, $2); }
-+ | "%error-verbose"                 { handle_error_verbose (&@$, $1); }
-+ | "%expect" INT_LITERAL            { expected_sr_conflicts = $2; }
-+ | "%expect-rr" INT_LITERAL         { expected_rr_conflicts = $2; }
-+@@ -356,7 +359,15 @@ prologue_declaration:
-+ | "%name-prefix" STRING         { handle_name_prefix (&@$, $1, $2); }
-+ | "%no-lines"                   { no_lines_flag = true; }
-+ | "%nondeterministic-parser"    { nondeterministic_parser = true; }
-+-| "%output" STRING              { spec_outfile = unquote ($2); gram_scanner_last_string_free (); }
-++| "%output" STRING
-++    {
-++      char *file = unquote ($2);
-++      if (valid_output_file_name (file))
-++        spec_outfile = file;
-++      else
-++        complain (&@2, complaint, _("invalid %%output file name ignored"));
-++      gram_scanner_last_string_free ();
-++    }
-+ | "%param" { current_param = $1; } params { current_param = param_none; }
-+ | "%pure-parser"                { handle_pure_parser (&@$, $1); }
-+ | "%require" STRING             { handle_require (&@2, $2); }
-+@@ -952,14 +963,24 @@ add_param (param_type type, char *decl, location loc)
-+ }
 + 
-+ 
-++static bool
-++valid_output_file_name (char const *file)
-++{
-++  return !strchr (file, '/');
-++}
-++
-++
-+ static void
-+-handle_header (char const *value)
-++handle_header (location const *loc, char const *value)
-+ {
-+   header_flag = true;
-+   if (value)
-+     {
-+       char *file = unquote (value);
-+-      spec_header_file = xstrdup (file);
-++      if (valid_output_file_name (file))
-++        spec_header_file = xstrdup (file);
-++      else
-++        complain (loc, complaint, _("invalid %%header file name ignored"));
-+       gram_scanner_last_string_free ();
-+       unquote_free (file);
-+     }
-+diff --git a/src/parse-gram.c b/src/parse-gram.c
-+index 3c1d8229..7f6deb33 100644
-+--- a/src/parse-gram.c
-++++ b/src/parse-gram.c
-+@@ -276,8 +276,11 @@ typedef enum yysymbol_kind_t yysymbol_kind_t;
-+      string from the scanner (should be CODE). */
-+   static char const *translate_code_braceless (char *code, location loc);
-+ 
-++  /* Is FILE a valid output file name?  */
-++  static bool valid_output_file_name (char const *file);
-++
-+   /* Handle a %header directive.  */
-+-  static void handle_header (char const *value);
-++  static void handle_header (location const *loc, char const *value);
-+ 
-+   /* Handle a %error-verbose directive.  */
-+   static void handle_error_verbose (location const *loc, char const *directive);
-+@@ -663,19 +666,19 @@ union yyalloc
-+ /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
-+ static const yytype_int16 yyrline[] =
-+ {
-+-       0,   310,   310,   319,   320,   324,   325,   331,   335,   340,
-+-     341,   342,   343,   344,   345,   350,   355,   356,   357,   358,
-+-     359,   360,   360,   361,   362,   363,   364,   365,   366,   367,
-+-     368,   372,   373,   382,   383,   387,   398,   402,   406,   414,
-+-     424,   425,   435,   436,   442,   455,   455,   460,   460,   465,
-+-     465,   470,   480,   481,   482,   483,   488,   489,   493,   494,
-+-     499,   500,   504,   505,   509,   510,   511,   524,   533,   537,
-+-     541,   549,   550,   554,   567,   568,   573,   574,   575,   593,
-+-     597,   601,   609,   611,   616,   623,   633,   637,   641,   649,
-+-     655,   668,   669,   675,   676,   677,   684,   684,   692,   693,
-+-     694,   699,   702,   704,   706,   708,   710,   712,   714,   716,
-+-     718,   723,   724,   733,   757,   758,   759,   760,   772,   774,
-+-     798,   803,   804,   809,   817,   818
-++       0,   314,   314,   323,   324,   328,   329,   335,   339,   344,
-++     345,   346,   347,   348,   349,   354,   359,   360,   361,   362,
-++     363,   372,   372,   373,   374,   375,   376,   377,   378,   379,
-++     380,   384,   385,   394,   395,   399,   410,   414,   418,   426,
-++     436,   437,   447,   448,   454,   467,   467,   472,   472,   477,
-++     477,   482,   492,   493,   494,   495,   500,   501,   505,   506,
-++     511,   512,   516,   517,   521,   522,   523,   536,   545,   549,
-++     553,   561,   562,   566,   579,   580,   585,   586,   587,   605,
-++     609,   613,   621,   623,   628,   635,   645,   649,   653,   661,
-++     667,   680,   681,   687,   688,   689,   696,   696,   704,   705,
-++     706,   711,   714,   716,   718,   720,   722,   724,   726,   728,
-++     730,   735,   736,   745,   769,   770,   771,   772,   784,   786,
-++     810,   815,   816,   821,   829,   830
-+ };
-+ #endif
-+ 
-+@@ -2217,7 +2220,7 @@ yyreduce:
-+ 
-+   case 9: /* prologue_declaration: "%header" string.opt  */
-+ #line 340 "src/parse-gram.y"
-+-                                   { handle_header ((yyvsp[0].yykind_75)); }
-++                                   { handle_header (&(yylsp[0]), (yyvsp[0].yykind_75)); }
-+ #line 2222 "src/parse-gram.c"
-+     break;
-+ 
-+@@ -2289,7 +2292,14 @@ yyreduce:
-+ 
-+   case 20: /* prologue_declaration: "%output" "string"  */
-+ #line 359 "src/parse-gram.y"
-+-                                { spec_outfile = unquote ((yyvsp[0].STRING)); gram_scanner_last_string_free (); }
-++    {
-++      char *file = unquote ((yyvsp[0].STRING));
-++      if (valid_output_file_name (file))
-++        spec_outfile = file;
-++      else
-++        complain (&(yylsp[0]), complaint, _("invalid %%output file name ignored"));
-++      gram_scanner_last_string_free ();
-++    }
-+ #line 2294 "src/parse-gram.c"
-+     break;
-+ 
-+@@ -3290,14 +3300,24 @@ add_param (param_type type, char *decl, location loc)
-+ }
-+ 
-+ 
-++static bool
-++valid_output_file_name (char const *file)
-++{
-++  return !strchr (file, '/');
-++}
-++
-++
-+ static void
-+-handle_header (char const *value)
-++handle_header (location const *loc, char const *value)
-+ {
-+   header_flag = true;
-+   if (value)
-+     {
-+       char *file = unquote (value);
-+-      spec_header_file = xstrdup (file);
-++      if (valid_output_file_name (file))
-++        spec_header_file = xstrdup (file);
-++      else
-++        complain (loc, complaint, _("invalid %%header file name ignored"));
-+       gram_scanner_last_string_free ();
-+       unquote_free (file);
-+     }
-+
 +-- 
-+2.44.4
-diff --git a/meta/recipes-devtools/bison/bison_3.8.2.bb b/meta/recipes-devtools/bison/bison_3.8.2.bb
-index 03d3cffe2ae..339a9d13364 100644
---- a/meta/recipes-devtools/bison/bison_3.8.2.bb
-+++ b/meta/recipes-devtools/bison/bison_3.8.2.bb
-@@ -13,6 +13,7 @@ SRC_URI = "${GNU_MIRROR}/bison/bison-${PV}.tar.xz \
-            file://autoconf-2.73.patch \
-            file://add-with-bisonlocaledir.patch \
-            file://CVE-2026-56389.patch \
-+           file://CVE-2026-56390.patch \
-            "
- SRC_URI[sha256sum] = "9bba0214ccf7f1079c5d59210045227bcf619519840ebfa80cd3849cff5a5bf2"
- 
++2.35.6
++
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.51.3.bb b/meta/recipes-support/sqlite/sqlite3_3.51.3.bb
+index 79d12d4b039..9dd182b168a 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.51.3.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.51.3.bb
+@@ -16,4 +16,5 @@ SRC_URI += "\
+ 	file://CVE-2026-119373.patch \
+ 	file://CVE-2026-119374.patch \
+ 	file://CVE-2026-119375.patch \
++	file://CVE-2026-119379.patch \
+ "
