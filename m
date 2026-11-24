@@ -1,379 +1,328 @@
-Received: from mail-dy1-f179.google.com (mail-dy1-f179.google.com [74.125.82.179])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12513.1795501870714573732
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12516.1795501913076488405
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Nov 2026 22:31:10 -0800
+ Mon, 23 Nov 2026 22:31:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=JFzhWh7b;
- spf=pass (domain: gmail.com, ip: 74.125.82.179, mailfrom: raj.khem@gmail.com)
-Received: by mail-dy1-f179.google.com with SMTP id 5a478bee46e88-386c71feeeaso39059eec.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 22:31:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795501870; x=1796106670; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=LJiffDyuhgyjzWlpgar+YE5l64xzdTqU80RnP9oz1Cs=;
-        b=JFzhWh7bbYEN5i4JDjS/6egOPt1MDUO27t12cjfub7ENUt4dVm7iqkKnUz9feNh5pM
-         0XIb3W7rbxUb+zrAm/OIMntXjPyzlXtiyCz0bIVO4LGW9MfF8l6CHc7oASRtU4hDfzw9
-         HqYk9GObatSuSitKcMT0PooDBi10ag6TKk8RILr9yONrCW3E3FoVdGVysMeWrLiPqSFj
-         H4OnlFvkHG8JPB1HPVVhDv6F22HMLYWywECx1QUjo22ZTymHex8FmBP6AJLCKxT60RC7
-         xS6uB88VuqIoU+el3y14n2Y6M9iIgHywI7Kg7QjU9wVHsxszoQePRD9L1wot4rkF56PQ
-         LgTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795501870; x=1796106670;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=LJiffDyuhgyjzWlpgar+YE5l64xzdTqU80RnP9oz1Cs=;
-        b=RI5Sf/niIwZmVZsDA9QJ0LnLPSkxF1KLPbgMBGzBwDDPMR4i8icCGhbezLE0pzpLLh
-         x2pv7yGd45bF/Vgvp49hl6JW/oktC3u0ZCty67hJS3917cPE4/UrNx9o5s5zc81cmiGU
-         0vPYhFOR+WyXzJPD/XzIJpQ2ZABL0BlP5o+lMYFVM3VzOlCzdt/d/jcxG906Tlzw0uyh
-         ADMGRgqh2kgk0gnkI0Lea38hPyyJnmSUCF48yv6qcZJnr7QhJW/NFPuDaHRJUfmtyodz
-         oR2N8Axutr3ak+7yMipgvHE73DoJnqTcATHjZYyEXaMNYAzK4QBMn6tEjpZEkXzfQp/F
-         8b9Q==
-X-Gm-Message-State: APuU4Z+B5Fsngfc391Jkc1XqgtHz/tEoIGTRZyZKE8UKCBOqPGPwoRRI
-	WJuw2nFTcZksF0iypFMmDX8RhDKV1mwSKQqfkFQ+s2Sl87uqo4skcM8W6gjRpQ4d
-X-Gm-Gg: AZFdTZcZEl5FtNvxCqdNmL6d+lyfFZMZXRk5joUt/h16jPj1Z0JjmeqI27ZRZnQ0coU
-	96rnXks/GR05MOwrLnvTtP+P/qbWDRWNasXfqfvbcu7SE/XxsnaVoDCYorSovOqR4NORkLCoi0G
-	oG1+2L5VR188p7FzrJ6Hza+TairHJasxSCWzkfNUXM2K3QmdfXs4aejDVgv2d3Ia1PatVrxPZBl
-	qIExE0Xx7xqWGCCXYoAuZbAQd+3SNPxJMP5Ojt9TUMCaYFrWDIi9iEd+5JWvgmEACAJPemacpVi
-	uZloY8I5JjSat6PtIKxslypfqktKQVHyQlwvDEJZqY8c2090r9uLJwbyX2VJMPeDiwzUh4HLWB9
-	jZh/aFMKNWWygjaW0Q0WkWy5BnUs6TlrxTZULdWgi9wAot3ivazdtYr2aKKrlKtZBpxensPKt3B
-	xufg0TCVE450GQVx+u5IytBePsVZI8P+MFkuhPPE73JptRI5Amqt8OERLJ80vFGQANLdy37HNNj
-	vbm/nw+kyMXCt2n8PMJnmWt8BUV9Gl5zbCw0JbMLFbfJduIrIJ2eEKrVZqgz2pztNYIhfMe9R0g
-	FVfwq2bHhOT0P8LOMAXlNnrOX5i4qETuk+Qm4dpIw8q3MTqbS7J6n4mNMBhNXtpJC5i1Y5bzQ6W
-	rO8cUG/U5NzaEx4fbNVm4thGAN/tbkDgHXI75QW2qW+mtp3zbu78yuYvTon7kctIuAITpIDbksj
-	CDzoQ3Yw+iohtOlDF/n2Dkc546bYkmfMSiC8TVO5OHyvnfJWRR6ZQc1tLpYn8mZZh0h/SzINT/H
-	RvJcVFd7YiaWS6Httcvm0W7NF+laLpRCXOiPATn06/7STQLoA33jbRZWnPxtNMe9sRGUClebamT
-	0U2zZsfyB0H9YlVvei7LLrdYog==
-X-Received: by 2002:a05:7300:c00f:10b0:386:c3ad:dc25 with SMTP id 5a478bee46e88-386c3adde30mr811295eec.34.1795501869800;
-        Mon, 23 Nov 2026 22:31:09 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-38567ea2cc5sm39137641eec.29.2026.11.23.22.31.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2026 22:31:09 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <khem.raj@oss.qualcomm.com>
-Subject: [PATCH v2] glib-networking: Fix openssl backend ptest failures
-Date: Mon, 23 Nov 2026 22:31:05 -0800
-Message-ID: <20261124063105.28945-1-khem.raj@oss.qualcomm.com>
-X-Mailer: git-send-email 2.56.1
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=YU6ayPLF;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=NBPDtw9w;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101a20c40f075-657d748a-df89-4061-8136-93c3782b6907-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1795501912;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=/xMSODB2I758d7DkE3zk8r6RxSva1Qpr2Y2uK58Ht/M=;
+	b=YU6ayPLFbD0c2HoN4iiMp4Aq/W4hGnMnnKwNciGvo1uYTu2TabCHeGQDiErjsPrJ
+	qarnabvL0gcfcbovjF8ojnaHwiLJymMGsf3xOKl8Pa2SymgcscILoF48KUTqRpT/RB5
+	JXmkniQ+5oFMu7ugAXymCuHizYLKZ1gQuCvg4vFA=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1795501912;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=/xMSODB2I758d7DkE3zk8r6RxSva1Qpr2Y2uK58Ht/M=;
+	b=NBPDtw9wi63v4ETN+QPStOsz35/ZU3YN7bfV2YDupvNnJUr9zmGVacpILtr2Ix/y
+	vDATHmhHf2/ZFA2rgaY0JXPa4cg08geNJSZQ7r0nfl0otNSKDZp6cfZKyVCCGsCRNSm
+	PS7beVNTX7vdc2HOqlPwHo76vI/uDw2uTb/xxvws=
+Content-Type: multipart/mixed; boundary="===============2719345190268848235=="
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: auh@yoctoproject.org
+To: Kusuma Dirisala <kusuma.dirisala@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] expat: upgrading to 2.11.0 SUCCEEDED
+Message-ID: <010101a20c40f075-657d748a-df89-4061-8136-93c3782b6907-000000@us-west-2.amazonses.com>
+Date: Tue, 24 Nov 2026 06:31:52 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.11.24-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 06:31:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250951
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 06:31:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250952
 
-With the openssl backend enabled, connection-openssl.test aborts, which
-fails the whole suite:
+--===============2719345190268848235==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-  not ok /tls/openssl/connection/client-auth-fail-missing-client-private-key
-  not ok /tls/openssl/connection/read-time-out-then-write
+Hello,
 
-The first is a test issue: with TLS 1.3 the certificate-required alert is
-reported again when the client closes, which the test already ignores for
-openssl on Windows. The second is a real bug: a socket timeout is passed
-to OpenSSL as a fatal transport error, so the connection is unusable
-afterwards.
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *expat* to *2.11.0* has Succeeded.
 
-OpenSSL 4.1 broke two more tests:
+Next steps:
+    - apply the patch: git am 0001-expat-upgrade-2.10.0-2.11.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-- A TLS 1.3 server without a session ID context no longer issues
-  session tickets, so session/resume_multiple_times never resumes. Set
-  a session ID context on the server SSL_CTX.
-- Host name checks no longer fall back to the subject commonName.
-  server-self.pem has no subjectAltName, so database/verify-bad-ca also
-  got BAD_IDENTITY. Regenerate it with the server.pem extensions.
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
-Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From a7b6790cdd2b143861cca72c8dbc3b3b4e29ef21 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Tue, 24 Nov 2026 05:21:34 +0000
+Subject: [PATCH] expat: upgrade 2.10.0 -> 2.11.0
+
 ---
-v2: Update the status of patches
+ meta/recipes-core/expat/{expat_2.10.0.bb => expat_2.11.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-core/expat/{expat_2.10.0.bb => expat_2.11.0.bb} (92%)
 
- ...et-timeouts-and-close-with-OpenSSL-4.patch |  80 +++++++++++++
- ...t-a-session-ID-context-on-the-server.patch |  53 +++++++++
- ...-a-subjectAltName-to-server-self.pem.patch | 111 ++++++++++++++++++
- .../glib-networking/glib-networking_2.90.1.bb |   3 +
- 4 files changed, 247 insertions(+)
- create mode 100644 meta/recipes-core/glib-networking/glib-networking/0001-openssl-Fix-socket-timeouts-and-close-with-OpenSSL-4.patch
- create mode 100644 meta/recipes-core/glib-networking/glib-networking/0002-openssl-Set-a-session-ID-context-on-the-server.patch
- create mode 100644 meta/recipes-core/glib-networking/glib-networking/0003-tests-Add-a-subjectAltName-to-server-self.pem.patch
+diff --git a/meta/recipes-core/expat/expat_2.10.0.bb b/meta/recipes-core/expat/expat_2.11.0.bb
+similarity index 92%
+rename from meta/recipes-core/expat/expat_2.10.0.bb
+rename to meta/recipes-core/expat/expat_2.11.0.bb
+index 5b252f6146..14f6025799 100644
+--- a/meta/recipes-core/expat/expat_2.10.0.bb
++++ b/meta/recipes-core/expat/expat_2.11.0.bb
+@@ -15,7 +15,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.xz  \
+ GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
+ UPSTREAM_CHECK_REGEX = "releases/tag/R_(?P<pver>.+)"
+ 
+-SRC_URI[sha256sum] = "c624ba2998fc65df1163a49641ff3f9ab73138b11641d92c86bee0fb01b1bc7f"
++SRC_URI[sha256sum] = "61e7614b602201c28a189dafee78f5bceaee192bbde46a930752ff09cf5542fa"
+ 
+ EXTRA_OECMAKE:class-native += "-DEXPAT_BUILD_DOCS=OFF"
+ 
+-- 
+2.47.1
 
-diff --git a/meta/recipes-core/glib-networking/glib-networking/0001-openssl-Fix-socket-timeouts-and-close-with-OpenSSL-4.patch b/meta/recipes-core/glib-networking/glib-networking/0001-openssl-Fix-socket-timeouts-and-close-with-OpenSSL-4.patch
-new file mode 100644
-index 0000000000..62c23ed06a
---- /dev/null
-+++ b/meta/recipes-core/glib-networking/glib-networking/0001-openssl-Fix-socket-timeouts-and-close-with-OpenSSL-4.patch
-@@ -0,0 +1,80 @@
-+From 7c30c375ca678f08278bc3315b35d34a2a4becfe Mon Sep 17 00:00:00 2001
-+From: Thomas Bechtold <thomasbechtold@jpberlin.de>
-+Date: Tue, 3 Nov 2026 10:44:14 +0100
-+Subject: [PATCH] openssl: Fix socket timeouts and close() with OpenSSL 4.0
-+
-+OpenSSL 4.0 (openssl/openssl#30230) puts the SSL object into the error
-+state on any fatal record-layer error, and every later SSL_read(),
-+SSL_write() or SSL_shutdown() then fails without queueing an error.
-+
-+A GSocket timeout was reported to OpenSSL as a non-retryable BIO error,
-+so on 4.0 the connection could no longer be used after a read timed
-+out. Treat G_IO_ERROR_TIMED_OUT as retryable in the BIO, like
-+G_IO_ERROR_WOULD_BLOCK and like the GnuTLS backend does, and don't
-+turn SSL_ERROR_WANT_* into a retry when the base status is
-+G_TLS_CONNECTION_BASE_TIMED_OUT, so the timeout is still reported.
-+
-+close() called SSL_shutdown() after a failed handshake. On 3.x that
-+raised SSL_R_SHUTDOWN_WHILE_IN_INIT, which end_openssl_io() already
-+treats as success; 4.0 returns early without it, so close() reported
-+the stored handshake error. Skip SSL_shutdown() while SSL_in_init()
-+is true.
-+
-+Closes #242
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib-networking/-/commit/66c888f74f4b1fda0b0a53038d13d643be27492f]
-+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
-+---
-+ tls/openssl/gtlsbio.c                | 6 ++++--
-+ tls/openssl/gtlsconnection-openssl.c | 7 +++++++
-+ 2 files changed, 11 insertions(+), 2 deletions(-)
-+
-+diff --git a/tls/openssl/gtlsbio.c b/tls/openssl/gtlsbio.c
-+index 6656d76..0f17359 100644
-+--- a/tls/openssl/gtlsbio.c
-++++ b/tls/openssl/gtlsbio.c
-+@@ -163,7 +163,8 @@ gtls_bio_write (BIO        *bio,
-+
-+   if (written == -1)
-+     {
-+-      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_WOULD_BLOCK))
-++      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_WOULD_BLOCK) ||
-++          g_error_matches (error, G_IO_ERROR, G_IO_ERROR_TIMED_OUT))
-+         BIO_set_retry_write (bio);
-+
-+       g_clear_error (gbio->write_error);
-+@@ -213,7 +214,8 @@ gtls_bio_read (BIO  *bio,
-+
-+   if (read == -1)
-+     {
-+-      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_WOULD_BLOCK))
-++      if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_WOULD_BLOCK) ||
-++          g_error_matches (error, G_IO_ERROR, G_IO_ERROR_TIMED_OUT))
-+         BIO_set_retry_read (bio);
-+
-+       g_clear_error (gbio->read_error);
-+diff --git a/tls/openssl/gtlsconnection-openssl.c b/tls/openssl/gtlsconnection-openssl.c
-+index 8270dcd..02cdef6 100644
-+--- a/tls/openssl/gtlsconnection-openssl.c
-++++ b/tls/openssl/gtlsconnection-openssl.c
-+@@ -109,6 +109,7 @@ end_openssl_io (GTlsConnectionOpenssl  *openssl,
-+
-+   if ((err_code == SSL_ERROR_WANT_READ ||
-+        err_code == SSL_ERROR_WANT_WRITE) &&
-++      status != G_TLS_CONNECTION_BASE_TIMED_OUT &&
-+       blocking)
-+     {
-+       status = G_TLS_CONNECTION_BASE_TRY_AGAIN;
-+@@ -1037,6 +1038,12 @@ g_tls_connection_openssl_close (GTlsConnectionBase  *tls,
-+
-+   priv->shutting_down = TRUE;
-+
-++  /* SSL_shutdown() must not be called on a connection whose handshake never
-++   * completed or failed.
-++   */
-++  if (SSL_in_init (g_tls_connection_openssl_get_ssl (openssl)))
-++    return G_TLS_CONNECTION_BASE_OK;
-++
-+   return perform_openssl_io (G_TLS_CONNECTION_OPENSSL (tls),
-+                              G_IO_IN | G_IO_OUT,
-+                              (GTlsOpensslIOFunc) SSL_shutdown,
-diff --git a/meta/recipes-core/glib-networking/glib-networking/0002-openssl-Set-a-session-ID-context-on-the-server.patch b/meta/recipes-core/glib-networking/glib-networking/0002-openssl-Set-a-session-ID-context-on-the-server.patch
-new file mode 100644
-index 0000000000..9d79be173b
---- /dev/null
-+++ b/meta/recipes-core/glib-networking/glib-networking/0002-openssl-Set-a-session-ID-context-on-the-server.patch
-@@ -0,0 +1,53 @@
-+From 58f575a1947f4e6e9ef6db91e8df91c6e847c864 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <khem.raj@oss.qualcomm.com>
-+Date: Sun, 8 Nov 2026 08:10:29 -0800
-+Subject: [PATCH] openssl: Set a session ID context on the server
-+
-+Since OpenSSL 4.1 a TLS 1.3 server without a session ID context stops
-+issuing session tickets (openssl/openssl#31964), so clients never resume
-+and /tls/openssl/connection/session/resume_multiple_times fails:
-+
-+  'reused' should be TRUE
-+
-+Set a fixed session ID context on the server SSL_CTX.
-+
-+Upstream-Status: Submitted [https://gitlab.gnome.org/GNOME/glib-networking/-/merge_requests/296]
-+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
-+---
-+ tls/openssl/gtlsserverconnection-openssl.c | 16 ++++++++++++++++
-+ 1 file changed, 16 insertions(+)
-+
-+diff --git a/tls/openssl/gtlsserverconnection-openssl.c b/tls/openssl/gtlsserverconnection-openssl.c
-+index 09b57f9..4cb965b 100644
-+--- a/tls/openssl/gtlsserverconnection-openssl.c
-++++ b/tls/openssl/gtlsserverconnection-openssl.c
-+@@ -339,6 +339,8 @@ set_signature_algorithm_list (GTlsServerConnectionOpenssl *server)
-+   SSL_CTX_set1_sigalgs_list (server->ssl_ctx, signature_algorithm_list);
-+ }
-+
-++#define SESSION_ID_CONTEXT "glib-networking"
-++
-+ static void
-+ set_curve_list (GTlsServerConnectionOpenssl *server)
-+ {
-+@@ -402,6 +404,20 @@ g_tls_server_connection_openssl_initable_init (GInitable       *initable,
-+             SSL_OP_NO_TLSv1_1;
-+   SSL_CTX_set_options (server->ssl_ctx, options);
-+
-++  /* Since OpenSSL 4.1, a TLS 1.3 server without a session ID context does not
-++   * issue session tickets, so clients could never resume.
-++   */
-++  if (!SSL_CTX_set_session_id_context (server->ssl_ctx,
-++                                       (const unsigned char *)SESSION_ID_CONTEXT,
-++                                       sizeof (SESSION_ID_CONTEXT) - 1))
-++    {
-++      ERR_error_string_n (ERR_get_error (), error_buffer, sizeof (error_buffer));
-++      g_set_error (error, G_TLS_ERROR, G_TLS_ERROR_MISC,
-++                   _("Could not create TLS context: %s"),
-++                   error_buffer);
-++      return FALSE;
-++    }
-++
-+   SSL_CTX_add_session (server->ssl_ctx, server->session);
-+
-+   set_signature_algorithm_list (server);
-diff --git a/meta/recipes-core/glib-networking/glib-networking/0003-tests-Add-a-subjectAltName-to-server-self.pem.patch b/meta/recipes-core/glib-networking/glib-networking/0003-tests-Add-a-subjectAltName-to-server-self.pem.patch
-new file mode 100644
-index 0000000000..3cf09d08b9
---- /dev/null
-+++ b/meta/recipes-core/glib-networking/glib-networking/0003-tests-Add-a-subjectAltName-to-server-self.pem.patch
-@@ -0,0 +1,111 @@
-+From 49ed40ea767e7e35bcb36f433d51dbe287a85f23 Mon Sep 17 00:00:00 2001
-+From: Khem Raj <khem.raj@oss.qualcomm.com>
-+Date: Sun, 8 Nov 2026 08:10:43 -0800
-+Subject: [PATCH] tests: Add a subjectAltName to server-self.pem
-+
-+server-self.pem only carries the host name in the subject commonName.
-+OpenSSL 4.1 no longer falls back to the subject DN when a certificate
-+has no subjectAltName (openssl/openssl#31982), so verifying it against
-+server.example.com now also reports G_TLS_CERTIFICATE_BAD_IDENTITY and
-+/tls/openssl/database/verify-bad-ca fails:
-+
-+  assertion failed (errors == G_TLS_CERTIFICATE_UNKNOWN_CA): (3 == 1)
-+
-+Generate the self-signed certificate with the same extensions as
-+server.pem, and update the copy in non-ca.pem.
-+
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib-networking/-/commit/f8f3c42032e70067ab03ae16f407b1cde7c8f4f7]
-+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
-+---
-+ tls/tests/files/create-files.sh |  2 +-
-+ tls/tests/files/non-ca.pem      | 21 +++++++++++----------
-+ tls/tests/files/server-self.pem | 21 +++++++++++----------
-+ 3 files changed, 23 insertions(+), 21 deletions(-)
-+
-+diff --git a/tls/tests/files/create-files.sh b/tls/tests/files/create-files.sh
-+index 05e3b6b..36e55af 100755
-+--- a/tls/tests/files/create-files.sh
-++++ b/tls/tests/files/create-files.sh
-+@@ -88,7 +88,7 @@ openssl pkcs8 -topk8 -in server-key.pem -outform DER -nocrypt -out server-key-pk
-+ #######################################################################
-+
-+ msg "Creating server self-signed certificate"
-+-openssl x509 -req -days 9125 -in server-csr.pem -signkey server-key.pem -out server-self.pem
-++openssl x509 -req -days 9125 -in server-csr.pem -signkey server-key.pem -extfile ssl/server.conf -extensions v3_req_ext -out server-self.pem
-+
-+ #######################################################################
-+ ### Client
-+diff --git a/tls/tests/files/non-ca.pem b/tls/tests/files/non-ca.pem
-+index 66c605c..b740e54 100644
-+--- a/tls/tests/files/non-ca.pem
-++++ b/tls/tests/files/non-ca.pem
-+@@ -101,10 +101,10 @@ Bmjwkx6t3AjGii6iSeTy/1UJQvVbq/tgVcAHig==
-+
-+ server-self.pem:
-+ -----BEGIN CERTIFICATE-----
-+-MIIDRzCCAi+gAwIBAgIUaH6pHw9hwrmQ1I7VLy28fE6G7kwwDQYJKoZIhvcNAQEL
-++MIIDjDCCAnSgAwIBAgIUUUjhllrH5WdTlXZy4U2Lj8J0evowDQYJKoZIhvcNAQEL
-+ BQAwSzETMBEGCgmSJomT8ixkARkWA0NPTTEXMBUGCgmSJomT8ixkARkWB0VYQU1Q
-+-TEUxGzAZBgNVBAMMEnNlcnZlci5leGFtcGxlLmNvbTAgFw0yNjA1MjkyMTQ5Mzda
-+-GA8yMDUxMDUyMzIxNDkzN1owSzETMBEGCgmSJomT8ixkARkWA0NPTTEXMBUGCgmS
-++TEUxGzAZBgNVBAMMEnNlcnZlci5leGFtcGxlLmNvbTAgFw0yNjExMDgxNjEwNDJa
-++GA8yMDUxMTEwMjE2MTA0MlowSzETMBEGCgmSJomT8ixkARkWA0NPTTEXMBUGCgmS
-+ JomT8ixkARkWB0VYQU1QTEUxGzAZBgNVBAMMEnNlcnZlci5leGFtcGxlLmNvbTCC
-+ ASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANAFvDpR+Cn1FaHwXlvkRuGK
-+ gmOSUqbmEDGEfrnGpRq/jiHZrTlrKX5GKAIrf573iAMMfabbhBygaX1DHd2ELR8U
-+@@ -112,11 +112,12 @@ wBoH+E/ymXCT4E5+npVweOVnelVE0XsQcB8xvrVuLbN7obJvb4VymVqN6J/UjMrL
-+ PTnsprQZh4ceUH5mpLKT3r1uuznIVfyy9XZ0BBqS8ub9muuixwzeO9j/YpdnQcNt
-+ tJV4iXEK7VgT9WDnWduxa6sSWz613ap4MaLykmFqfcr6tNGkY155chZEsOuUYTkh
-+ +96xAWw/305drhoLbORvQdK6yZ5ADeeuf2sQvUPNGGMl5yX15BDIBbsvwW0FTGEC
-+-AwEAAaMhMB8wHQYDVR0OBBYEFGZAbCAj2xhWObgNfp8Y62+mXx8WMA0GCSqGSIb3
-+-DQEBCwUAA4IBAQAPuwday2FnYkbWOHqxZqs3DJ1sJeOiwHvHaDvOkBDiNN/4ESFx
-+-d5mag5w2P8I+Ntc0s1+2JiHwecA1cvqhsQsKqqs3G1vFqs8uLT4gz4Ycdh1RqUCI
-+-Whsohfmfs4fJBrSw8UppKz0Iqkt7HigJHZFFYDKmRgGVyN1LVlCO5ziGg1mA8XDH
-+-Hy3Tz/VDsfO9uVetr4I1CIodezhd8c77WkGSVaoSf9k5YDqPfqUwuBmuSqp9T3is
-+-DxdUjYEfQPHYCam2DQHKd4bQ5WiL4net9oc4dnpz3hUmkJF5Q3Z4dz+Lm8WU08bg
-+-eKpdhHu657xSFs00t8lX/dRB7zy9WfxcgMZ8
-++AwEAAaNmMGQwCQYDVR0TBAIwADATBgNVHSUEDDAKBggrBgEFBQcDATAjBgNVHREE
-++HDAahwTAqAEKghJzZXJ2ZXIuZXhhbXBsZS5jb20wHQYDVR0OBBYEFGZAbCAj2xhW
-++ObgNfp8Y62+mXx8WMA0GCSqGSIb3DQEBCwUAA4IBAQClfG8qI1gmyNpoX/7FlLi/
-++hKN4voWSZa5/EEP/SWY4p9eOWh4FLXvyxsKLCWAJj0pStBR+xyuq8u/MGjXzYtPS
-++7d50umqrwzyMIeLSvGzAOauaIpPZMARgT+u/4OeARjAvfokiLzMRptB0RtRXrwkf
-++FL+JLXRBYcPLn37b2xlMCeFne5D0tMqkpiawjUcN2C4uExOHh2Loc9ZByqbWzkyk
-++Ys3sEmbb0EkolvQgciE8lxE48iUPSlH2g/SAbOWPMqxE7m80Bo0Qo2wW60jYeSjN
-++Il4fwbG6gObek0CHyF44JQPUVm+HVm5S3Rg1YH4+GpNieV2zp9826O2Jr2j2Yk3+
-+ -----END CERTIFICATE-----
-+diff --git a/tls/tests/files/server-self.pem b/tls/tests/files/server-self.pem
-+index 7f5700e..97c4cf4 100644
-+--- a/tls/tests/files/server-self.pem
-++++ b/tls/tests/files/server-self.pem
-+@@ -1,8 +1,8 @@
-+ -----BEGIN CERTIFICATE-----
-+-MIIDRzCCAi+gAwIBAgIUaH6pHw9hwrmQ1I7VLy28fE6G7kwwDQYJKoZIhvcNAQEL
-++MIIDjDCCAnSgAwIBAgIUUUjhllrH5WdTlXZy4U2Lj8J0evowDQYJKoZIhvcNAQEL
-+ BQAwSzETMBEGCgmSJomT8ixkARkWA0NPTTEXMBUGCgmSJomT8ixkARkWB0VYQU1Q
-+-TEUxGzAZBgNVBAMMEnNlcnZlci5leGFtcGxlLmNvbTAgFw0yNjA1MjkyMTQ5Mzda
-+-GA8yMDUxMDUyMzIxNDkzN1owSzETMBEGCgmSJomT8ixkARkWA0NPTTEXMBUGCgmS
-++TEUxGzAZBgNVBAMMEnNlcnZlci5leGFtcGxlLmNvbTAgFw0yNjExMDgxNjEwNDJa
-++GA8yMDUxMTEwMjE2MTA0MlowSzETMBEGCgmSJomT8ixkARkWA0NPTTEXMBUGCgmS
-+ JomT8ixkARkWB0VYQU1QTEUxGzAZBgNVBAMMEnNlcnZlci5leGFtcGxlLmNvbTCC
-+ ASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANAFvDpR+Cn1FaHwXlvkRuGK
-+ gmOSUqbmEDGEfrnGpRq/jiHZrTlrKX5GKAIrf573iAMMfabbhBygaX1DHd2ELR8U
-+@@ -10,11 +10,12 @@ wBoH+E/ymXCT4E5+npVweOVnelVE0XsQcB8xvrVuLbN7obJvb4VymVqN6J/UjMrL
-+ PTnsprQZh4ceUH5mpLKT3r1uuznIVfyy9XZ0BBqS8ub9muuixwzeO9j/YpdnQcNt
-+ tJV4iXEK7VgT9WDnWduxa6sSWz613ap4MaLykmFqfcr6tNGkY155chZEsOuUYTkh
-+ +96xAWw/305drhoLbORvQdK6yZ5ADeeuf2sQvUPNGGMl5yX15BDIBbsvwW0FTGEC
-+-AwEAAaMhMB8wHQYDVR0OBBYEFGZAbCAj2xhWObgNfp8Y62+mXx8WMA0GCSqGSIb3
-+-DQEBCwUAA4IBAQAPuwday2FnYkbWOHqxZqs3DJ1sJeOiwHvHaDvOkBDiNN/4ESFx
-+-d5mag5w2P8I+Ntc0s1+2JiHwecA1cvqhsQsKqqs3G1vFqs8uLT4gz4Ycdh1RqUCI
-+-Whsohfmfs4fJBrSw8UppKz0Iqkt7HigJHZFFYDKmRgGVyN1LVlCO5ziGg1mA8XDH
-+-Hy3Tz/VDsfO9uVetr4I1CIodezhd8c77WkGSVaoSf9k5YDqPfqUwuBmuSqp9T3is
-+-DxdUjYEfQPHYCam2DQHKd4bQ5WiL4net9oc4dnpz3hUmkJF5Q3Z4dz+Lm8WU08bg
-+-eKpdhHu657xSFs00t8lX/dRB7zy9WfxcgMZ8
-++AwEAAaNmMGQwCQYDVR0TBAIwADATBgNVHSUEDDAKBggrBgEFBQcDATAjBgNVHREE
-++HDAahwTAqAEKghJzZXJ2ZXIuZXhhbXBsZS5jb20wHQYDVR0OBBYEFGZAbCAj2xhW
-++ObgNfp8Y62+mXx8WMA0GCSqGSIb3DQEBCwUAA4IBAQClfG8qI1gmyNpoX/7FlLi/
-++hKN4voWSZa5/EEP/SWY4p9eOWh4FLXvyxsKLCWAJj0pStBR+xyuq8u/MGjXzYtPS
-++7d50umqrwzyMIeLSvGzAOauaIpPZMARgT+u/4OeARjAvfokiLzMRptB0RtRXrwkf
-++FL+JLXRBYcPLn37b2xlMCeFne5D0tMqkpiawjUcN2C4uExOHh2Loc9ZByqbWzkyk
-++Ys3sEmbb0EkolvQgciE8lxE48iUPSlH2g/SAbOWPMqxE7m80Bo0Qo2wW60jYeSjN
-++Il4fwbG6gObek0CHyF44JQPUVm+HVm5S3Rg1YH4+GpNieV2zp9826O2Jr2j2Yk3+
-+ -----END CERTIFICATE-----
-diff --git a/meta/recipes-core/glib-networking/glib-networking_2.90.1.bb b/meta/recipes-core/glib-networking/glib-networking_2.90.1.bb
-index ca701cc89a..b214bab78c 100644
---- a/meta/recipes-core/glib-networking/glib-networking_2.90.1.bb
-+++ b/meta/recipes-core/glib-networking/glib-networking_2.90.1.bb
-@@ -30,6 +30,9 @@ inherit gnomebase gettext upstream-version-is-even gio-module-cache ptest-gnome
 
- SRC_URI += "\
-             file://run-ptest \
-+            file://0001-openssl-Fix-socket-timeouts-and-close-with-OpenSSL-4.patch \
-+            file://0002-openssl-Set-a-session-ID-context-on-the-server.patch \
-+            file://0003-tests-Add-a-subjectAltName-to-server-self.pem.patch \
-             "
+--===============2719345190268848235==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
- FILES:${PN} += "\
+packages/x86-64-v3-poky-linux/expat/expat-dev: FILELIST: directory renamed /usr/lib/cmake/expat-2.10.0 -> /usr/lib/cmake/expat-2.11.0
+packages/x86-64-v3-poky-linux/expat/expat: FILELIST: removed "/usr/lib/libexpat.so.1.13.1", added "/usr/lib/libexpat.so.1.14.0"
+Changes to packages/x86-64-v3-poky-linux/expat (sysroot):
+  /usr/lib/libexpat.so.1 changed symlink target from libexpat.so.1.13.1 to libexpat.so.1.14.0
+  /usr/lib/cmake/expat-2.10.0 moved to /usr/lib/cmake/expat-2.11.0
+  /usr/lib/libexpat.so.1.13.1 moved to /usr/lib/libexpat.so.1.14.0
+Changes to packages/x86_64-linux/expat-native (sysroot):
+  /usr/lib/libexpat.so.1 changed symlink target from libexpat.so.1.13.1 to libexpat.so.1.14.0
+  /usr/lib/cmake/expat-2.10.0 moved to /usr/lib/cmake/expat-2.11.0
+  /usr/lib/libexpat.so.1.13.1 moved to /usr/lib/libexpat.so.1.14.0
+
+--===============2719345190268848235==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-expat-upgrade-2.10.0-2.11.0.patch"
+
+RnJvbSBhN2I2NzkwY2RkMmIxNDM4NjFjY2E3MmM4ZGJjM2IzYjRlMjllZjIxIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMjQgTm92IDIwMjYgMDU6MjE6MzQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBl
+eHBhdDogdXBncmFkZSAyLjEwLjAgLT4gMi4xMS4wCgotLS0KIG1ldGEvcmVjaXBlcy1jb3JlL2V4
+cGF0L3tleHBhdF8yLjEwLjAuYmIgPT4gZXhwYXRfMi4xMS4wLmJifSB8IDIgKy0KIDEgZmlsZSBj
+aGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBl
+cy1jb3JlL2V4cGF0L3tleHBhdF8yLjEwLjAuYmIgPT4gZXhwYXRfMi4xMS4wLmJifSAoOTIlKQoK
+ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2V4cGF0L2V4cGF0XzIuMTAuMC5iYiBiL21l
+dGEvcmVjaXBlcy1jb3JlL2V4cGF0L2V4cGF0XzIuMTEuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDky
+JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29yZS9leHBhdC9leHBhdF8yLjEwLjAuYmIKcmVu
+YW1lIHRvIG1ldGEvcmVjaXBlcy1jb3JlL2V4cGF0L2V4cGF0XzIuMTEuMC5iYgppbmRleCA1YjI1
+MmY2MTQ2Li4xNGY2MDI1Nzk5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9leHBhdC9l
+eHBhdF8yLjEwLjAuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvZXhwYXQvZXhwYXRfMi4xMS4w
+LmJiCkBAIC0xNSw3ICsxNSw3IEBAIFNSQ19VUkkgPSAiJHtHSVRIVUJfQkFTRV9VUkl9L2Rvd25s
+b2FkL1JfJHtWRVJTSU9OX1RBR30vZXhwYXQtJHtQVn0udGFyLnh6ICBcCiBHSVRIVUJfQkFTRV9V
+UkkgPSAiaHR0cHM6Ly9naXRodWIuY29tL2xpYmV4cGF0L2xpYmV4cGF0L3JlbGVhc2VzLyIKIFVQ
+U1RSRUFNX0NIRUNLX1JFR0VYID0gInJlbGVhc2VzL3RhZy9SXyg/UDxwdmVyPi4rKSIKIAotU1JD
+X1VSSVtzaGEyNTZzdW1dID0gImM2MjRiYTI5OThmYzY1ZGYxMTYzYTQ5NjQxZmYzZjlhYjczMTM4
+YjExNjQxZDkyYzg2YmVlMGZiMDFiMWJjN2YiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNjFlNzYx
+NGI2MDIyMDFjMjhhMTg5ZGFmZWU3OGY1YmNlYWVlMTkyYmJkZTQ2YTkzMDc1MmZmMDljZjU1NDJm
+YSIKIAogRVhUUkFfT0VDTUFLRTpjbGFzcy1uYXRpdmUgKz0gIi1ERVhQQVRfQlVJTERfRE9DUz1P
+RkYiCiAKLS0gCjIuNDcuMQoK
+
+--===============2719345190268848235==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/expat/expat-bin: PV changed from "2.10.0" to "2.11.0"
+packages/x86-64-v3-poky-linux/expat/expat-bin: PKGV changed from 2.10.0 [default] to 2.11.0 [default]
+packages/x86-64-v3-poky-linux/expat/expat-dbg: PV changed from "2.10.0" to "2.11.0"
+packages/x86-64-v3-poky-linux/expat/expat-dbg: PKGV changed from 2.10.0 [default] to 2.11.0 [default]
+packages/x86-64-v3-poky-linux/expat/expat-dbg: FILELIST: removed "/usr/lib/.debug/libexpat.so.1.13.1", added "/usr/lib/.debug/libexpat.so.1.14.0"
+packages/x86-64-v3-poky-linux/expat/expat-dbg: PKGSIZE changed from 1965840 to 2133424 (+9%)
+packages/x86-64-v3-poky-linux/expat/expat-dev: PV changed from "2.10.0" to "2.11.0"
+packages/x86-64-v3-poky-linux/expat/expat-dev: PKGV changed from 2.10.0 [default] to 2.11.0 [default]
+packages/x86-64-v3-poky-linux/expat/expat-dev: FILELIST: directory renamed /usr/lib/cmake/expat-2.10.0 -> /usr/lib/cmake/expat-2.11.0
+packages/x86-64-v3-poky-linux/expat/expat-dev: PKGSIZE changed from 70447 to 70585 (+0%)
+packages/x86-64-v3-poky-linux/expat/expat-doc: PV changed from "2.10.0" to "2.11.0"
+packages/x86-64-v3-poky-linux/expat/expat-doc: PKGV changed from 2.10.0 [default] to 2.11.0 [default]
+packages/x86-64-v3-poky-linux/expat/expat-doc: PKGSIZE changed from 135863 to 142970 (+5%)
+packages/x86-64-v3-poky-linux/expat/expat-locale: PV changed from "2.10.0" to "2.11.0"
+packages/x86-64-v3-poky-linux/expat/expat-locale: PKGV changed from 2.10.0 [default] to 2.11.0 [default]
+packages/x86-64-v3-poky-linux/expat/expat-ptest: PV changed from "2.10.0" to "2.11.0"
+packages/x86-64-v3-poky-linux/expat/expat-ptest: PKGV changed from 2.10.0 [default] to 2.11.0 [default]
+packages/x86-64-v3-poky-linux/expat/expat-ptest: PKGSIZE changed from 588736 to 629696 (+7%)
+packages/x86-64-v3-poky-linux/expat/expat-src: PV changed from "2.10.0" to "2.11.0"
+packages/x86-64-v3-poky-linux/expat/expat-src: PKGV changed from 2.10.0 [default] to 2.11.0 [default]
+packages/x86-64-v3-poky-linux/expat/expat-src: FILELIST: directory renamed /usr/src/debug/expat/2.10.0/tests/benchmark -> /usr/src/debug/expat/2.11.0/tests/benchmark, directory renamed /usr/src/debug/expat/2.10.0/lib -> /usr/src/debug/expat/2.11.0/lib, directory renamed /usr/src/debug/expat/2.10.0/xmlwf -> /usr/src/debug/expat/2.11.0/xmlwf, removed "/usr/src/debug/expat/2.10.0/tests/dummy.c /usr/src/debug/expat/2.10.0/tests/hash_tests.c /usr/src/debug/expat/2.10.0/tests/misc_tests.c /usr/src/debug/expat/2.10.0/tests/ns_tests.h /usr/src/debug/expat/2.10.0/tests/hash_tests.h /usr/src/debug/expat/2.10.0/tests/misc_tests.h /usr/src/debug/expat/2.10.0/tests/dummy.h /usr/src/debug/expat/2.10.0/tests/ns_tests.c /usr/src/debug/expat/2.10.0/tests/runtests.c /usr/src/debug/expat/2.10.0/tests/nsalloc_tests.c /usr/src/debug/expat/2.10.0/tests/acc_tests.c /usr/src/debug/expat/2.10.0/tests/xcs_tests.c /usr/src/debug/expat/2.10.0/tests/structdata.c /usr/src/debug/expat/2.10.0/tests/acc_tests.h /usr
+ /src/debug/expat/2.10.0/tests/nsalloc_tests.h /usr/src/debug/expat/2.10.0/tests/xcs_tests.h /usr/src/debug/expat/2.10.0/tests/structdata.h /usr/src/debug/expat/2.10.0/tests/common.h /usr/src/debug/expat/2.10.0/tests/common.c /usr/src/debug/expat/2.10.0/tests/chardata.h /usr/src/debug/expat/2.10.0/tests/minicheck.h /usr/src/debug/expat/2.10.0/tests/minicheck.c /usr/src/debug/expat/2.10.0/tests/chardata.c /usr/src/debug/expat/2.10.0/tests/entities_tests.h /usr/src/debug/expat/2.10.0/tests/alloc_tests.c /usr/src/debug/expat/2.10.0/tests/basic_tests.c /usr/src/debug/expat/2.10.0/tests/entities_tests.c /usr/src/debug/expat/2.10.0/tests/props_tests.c /usr/src/debug/expat/2.10.0/tests/basic_tests.h /usr/src/debug/expat/2.10.0/tests/alloc_tests.h /usr/src/debug/expat/2.10.0/tests/props_tests.h /usr/src/debug/expat/2.10.0/tests/handlers.c /usr/src/debug/expat/2.10.0/tests/handlers.h /usr/src/debug/expat/2.10.0/tests/memcheck.h /usr/src/debug/expat/2.10.0/tests/memcheck.c", added "/usr/src/de
+ bug/expat/2.11.0/tests/utfx.c /usr/src/debug/expat/2.11.0/tests/dummy.h /usr/src/debug/expat/2.11.0/tests/entities_tests.c /usr/src/debug/expat/2.11.0/tests/hash_tests.h /usr/src/debug/expat/2.11.0/tests/misc_tests.h /usr/src/debug/expat/2.11.0/tests/dummy.c /usr/src/debug/expat/2.11.0/tests/utfx.h /usr/src/debug/expat/2.11.0/tests/hash_tests.c /usr/src/debug/expat/2.11.0/tests/entities_tests.h /usr/src/debug/expat/2.11.0/tests/misc_tests.c /usr/src/debug/expat/2.11.0/tests/alloc_tests.h /usr/src/debug/expat/2.11.0/tests/basic_tests.h /usr/src/debug/expat/2.11.0/tests/props_tests.h /usr/src/debug/expat/2.11.0/tests/basic_tests.c /usr/src/debug/expat/2.11.0/tests/props_tests.c /usr/src/debug/expat/2.11.0/tests/alloc_tests.c /usr/src/debug/expat/2.11.0/tests/common.h /usr/src/debug/expat/2.11.0/tests/minicheck.h /usr/src/debug/expat/2.11.0/tests/minicheck.c /usr/src/debug/expat/2.11.0/tests/fifth_edition_tests.h /usr/src/debug/expat/2.11.0/tests/chardata.c /usr/src/debug/expat/2.11.0/
+ tests/ns_tests.c /usr/src/debug/expat/2.11.0/tests/runtests.c /usr/src/debug/expat/2.11.0/tests/ns_tests.h /usr/src/debug/expat/2.11.0/tests/chardata.h /usr/src/debug/expat/2.11.0/tests/fifth_edition_tests.c /usr/src/debug/expat/2.11.0/tests/structdata.c /usr/src/debug/expat/2.11.0/tests/acc_tests.h /usr/src/debug/expat/2.11.0/tests/xcs_tests.h /usr/src/debug/expat/2.11.0/tests/nsalloc_tests.c /usr/src/debug/expat/2.11.0/tests/structdata.h /usr/src/debug/expat/2.11.0/tests/nsalloc_tests.h /usr/src/debug/expat/2.11.0/tests/acc_tests.c /usr/src/debug/expat/2.11.0/tests/xcs_tests.c /usr/src/debug/expat/2.11.0/tests/handlers.c /usr/src/debug/expat/2.11.0/tests/common.c /usr/src/debug/expat/2.11.0/tests/handlers.h /usr/src/debug/expat/2.11.0/tests/memcheck.c /usr/src/debug/expat/2.11.0/tests/memcheck.h"
+packages/x86-64-v3-poky-linux/expat/expat-src: PKGSIZE changed from 1492849 to 1588122 (+6%)
+packages/x86-64-v3-poky-linux/expat/expat-staticdev: PV changed from "2.10.0" to "2.11.0"
+packages/x86-64-v3-poky-linux/expat/expat-staticdev: PKGV changed from 2.10.0 [default] to 2.11.0 [default]
+packages/x86-64-v3-poky-linux/expat/expat: PV changed from "2.10.0" to "2.11.0"
+packages/x86-64-v3-poky-linux/expat/expat: PKGV changed from 2.10.0 [default] to 2.11.0 [default]
+packages/x86-64-v3-poky-linux/expat/expat: FILELIST: removed "/usr/lib/libexpat.so.1.13.1", added "/usr/lib/libexpat.so.1.14.0"
+packages/x86-64-v3-poky-linux/expat/expat: PKGSIZE changed from 202738 to 215026 (+6%)
+packages/x86-64-v3-poky-linux/expat: PV changed from "2.10.0" to "2.11.0"
+packages/x86-64-v3-poky-linux/expat: PKGV changed from 2.10.0 [default] to 2.11.0 [default]
+packages/x86-64-v3-poky-linux/expat: SRC_URI changed from "https://github.com/libexpat/libexpat/releases//download/R_2_10_0/expat-2.10.0.tar.xz file://run-ptest" to "https://github.com/libexpat/libexpat/releases//download/R_2_11_0/expat-2.11.0.tar.xz file://run-ptest"
+Changes to packages/x86-64-v3-poky-linux/expat (sysroot):
+  /usr/lib/libexpat.so.1 changed symlink target from libexpat.so.1.13.1 to libexpat.so.1.14.0
+  /usr/lib/cmake/expat-2.10.0 moved to /usr/lib/cmake/expat-2.11.0
+  /usr/lib/libexpat.so.1.13.1 moved to /usr/lib/libexpat.so.1.14.0
+Changes to packages/x86_64-linux/expat-native (sysroot):
+  /usr/lib/libexpat.so.1 changed symlink target from libexpat.so.1.13.1 to libexpat.so.1.14.0
+  /usr/lib/cmake/expat-2.10.0 moved to /usr/lib/cmake/expat-2.11.0
+  /usr/lib/libexpat.so.1.13.1 moved to /usr/lib/libexpat.so.1.14.0
+
+--===============2719345190268848235==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="expat-changelog.txt"
+
+UmVsZWFzZSAyLjExLjAgTW9uIE5vdmVtYmVyIDIzIDIwMjYKICAgICAgICBTZWN1cml0eSBmaXhl
+czoKICAgICAgICAgICAjMTQ5MuKBoCAgQ1ZFLTIwMjYtMTI0MzE3IC0tIEZpeCBvdmVycmVhZCBp
+biB1bmtub3duIGVuY29kaW5nIGRlY29kZXIKICAgICAgICAgICAgICAgICAgICBJdCBuZWVkcyB1
+c2Ugb2YgYFhNTF9TZXRVbmtub3duRW5jb2RpbmdIYW5kbGVyYCB0byBiZQogICAgICAgICAgICAg
+ICAgICAgIGFmZmVjdGVkLgogICAgICAgICAgICMxNTAy4oGgICBDVkUtMjAyNi0xMjgyNDEgLS0g
+eG1sd2Y6IFBsdWcgc3ltbGluayBhdHRhY2tzIHdpdGggdGhlCiAgICAgICAgICAgICAgICAgICAg
+YC1kIDxkaXJlY3Rvcnk+YCBtb2RlLiBUaGUgeG1sd2YgQ0xJIG9mIGxpYmV4cGF0IHdhcwogICAg
+ICAgICAgICAgICAgICAgIHZ1bG5lcmFibGUgdG8gc3ltbGluayBhdHRhY2tzIGluIHRoZSBgLWQg
+PGRpcmVjdG9yeT5gIG1vZGUKICAgICAgICAgICAgICAgICAgICB3aXRoIGEgdGFyZ2V0IGRpcmVj
+dG9yeSB3cml0YWJsZSBieSBvdGhlciB1c2VycywgZS5nLiAvdG1wLgogICAgICAgICAgICAgICAg
+ICAgIFRoZSBhdHRhY2sgYWxsb3dlZCB0cnVuY2F0aW9uIG9yIG92ZXJ3cml0aW5nIHRoZSBzeW1s
+aW5rCiAgICAgICAgICAgICAgICAgICAgdGFyZ2V0IGZpbGUgZGVwZW5kaW5nIG9uIHRoZSB3ZWxs
+LWZvcm1lZG5lc3Mgb2YgdGhlIFhNTAogICAgICAgICAgICAgICAgICAgIGJlaW5nIHBhcnNlZC4K
+ICAgICAgICAgICAjMTUxOSAgQ1ZFLTIwMjYtMTM0NzAzIC0tIE1hbGZvcm1lZCBVVEYtMTYgY29u
+dGVudCBlbmRpbmcgaW4KICAgICAgICAgICAgICAgICAgICBpc29sYXRlZCBoaWdoIHN1cnJvZ2F0
+ZXMgY291bGQgYmUgcGFzc2VkIHRvIGNoYXJhY3RlciBkYXRhCiAgICAgICAgICAgICAgICAgICAg
+YW5kIGRlZmF1bHQgaGFuZGxlcnMgZGVwZW5kaW5nIG9uIHRoZWlyIGxvY2F0aW9uIGluIHRoZQog
+ICAgICAgICAgICAgICAgICAgIHBhcnNlZCBkb2N1bWVudCBhbmQgY291bGQgY2F1c2UgYXJiaXRy
+YXJ5IGRhbWFnZSBkZXBlbmRpbmcKICAgICAgICAgICAgICAgICAgICBvbiB0aGUgaGFuZGxlciBj
+b2RlIGluIHRoZSBhcHBsaWNhdGlvbiB1c2luZyBsaWJleHBhdC4KICAgICAgICAgICAgICAgICAg
+ICBBcHBsaWNhdGlvbnMgY2FuIGV4cGVjdCB0ZXh0IGZyZWUgZnJvbSBpc29sYXRlZCBzdXJyb2dh
+dGVzCiAgICAgICAgICAgICAgICAgICAgZnJvbSBFeHBhdC4KICAgICAgICAgICAgICAgICAgICBT
+aW1pbGFyIHRvIHBhc3QgQ1ZFLTIwMjYtOTM5OTAgYW5kIENWRS0yMDIyLTI1MjM1LgogICAgICAg
+ICAgICMxNDk1ICBSZXN0b3JlIGFuZCBkb2N1bWVudCBgLWZuby1zdHJpY3QtYWxpYXNpbmdgIGZv
+ciBzZWN1cml0eQogICAgICAgICAgICAgICAgICAgIHdpdGggYm90aCBHQ0MgYW5kIENsYW5nID49
+MjAuCiAgICAgICAgICAgICAgICAgICAgbGliZXhwYXQgY29udGludWVzIHRvIGJlIGAtV3N0cmlj
+dC1hbGlhc2luZz0zYCBjbGVhbiBhbmQKICAgICAgICAgICAgICAgICAgICB0byByZWplY3Qgdmlv
+bGF0aW9ucyB2aWEgQ0kgYnV0IHRoZXJlIGFyZSBtdWx0aXBsZSBrbm93bgogICAgICAgICAgICAg
+ICAgICAgIHN0cmljdCBhbGlhc2luZyB2aW9sYXRpb25zIHdpdGhpbiBsaWJleHBhdCB0aGF0IGRl
+c3BpdGUKICAgICAgICAgICAgICAgICAgICBgLVdzdHJpY3QtYWxpYXNpbmc9M2AgYXJlIG5vdCBk
+ZXRlY3RlZCBieSBHQ0MgYW5kIHdoaWNoCiAgICAgICAgICAgICAgICAgICAgYXJlIGhhcmQgdG8g
+aW1wb3NzaWJsZSB0byByZXNvbHZlIHdpdGhvdXQgYSBtZXNzLiBUaGVzZSBhbmQKICAgICAgICAg
+ICAgICAgICAgICBwb3RlbnRpYWxseSBvdGhlciBjYXNlcyBydW4gdGhlIHJpc2sgb2YgbWlzY29t
+cGlsYXRpb24oISkKICAgICAgICAgICAgICAgICAgICB3aXRoIGAtTzIvLU8zL09zYCB3aXRob3V0
+IGV4cGxpY2l0IGAtZm5vLXN0cmljdC1hbGlhc2luZ2AuCiAgICAgICAgICAgICAgICAgICAgSGVu
+Y2UgYC1mbm8tc3RyaWN0LWFsaWFzaW5nYCBpcyBicm91Z2h0IGJhY2sgdG8gYm90aCBidWlsZAog
+ICAgICAgICAgICAgICAgICAgIHN5c3RlbXMgYW5kIGlzIHJlY29tbWVuZGVkIHRvIGV2ZXJ5b25l
+IGVtYmVkZGluZyBsaWJleHBhdAogICAgICAgICAgICAgICAgICAgIGluIHBhcnRpY3VsYXIgKGJ1
+dCBub3Qgb25seSkgdG8gYXZvaWQgc3VycHJpc2VzIGZyb20KICAgICAgICAgICAgICAgICAgICBw
+b3RlbnRpYWwgbWlzY29tcGlsYXRpb24uIElmIGN1cmlvdXMsIGZvciB0aGUgMjAxNiBhcnRpY2xl
+CiAgICAgICAgICAgICAgICAgICAgYnkgSm9obiBSZWdlaHIgdGhhdCBtb3RpdmF0ZWQgdGhpcyBt
+b3ZlIHBsZWFzZSBzZWU6CiAgICAgICAgICAgICAgICAgICAgaHR0cHM6Ly9ibG9nLnJlZ2Voci5v
+cmcvYXJjaGl2ZXMvMTMwNyAuCgogICAgICAgIEJ1ZyBmaXhlczoKICAgICAjMTQ2OSAjMTQ4NSAg
+bGliOiBCZSByb2J1c3QgdG93YXJkcyBoYW5kbGVyIHJlc2V0CiAgICAgIzE0MzAgIzE0ODHigaAg
+IGxpYjogRW5zdXJlIG5vbi1OVUxMIGBwYXJzZXItPm1fZXZlbnRQdHJgIGZvciBub24tZXJyb3Ig
+Y2FsbHMKICAgICAgICAgICAgICAgICAgICB0byBgWE1MX1BhcnNlYCB3aXRoIGBYTUxfQ09OVEVY
+VF9CWVRFUyA9PSAwYAogICAgICMxNDMwICMxNDkxICBsaWI6IEFkdmFuY2UgYG1fZXZlbnRQdHJg
+IHRvIGBtX2J1ZmZlclB0cmAgd2hlbiBwb3NzaWJsZQogICAgICAgICAgICMxNTAxICBsaWI6IEVu
+c3VyZSBoZWFsdGh5IGBtX2V2ZW50UHRyYCBhbmQgYG1fcG9zaXRpb25QdHJgIHBhaXJpbmcKICAg
+ICAgICAgICAgICAgICAgICBhZnRlciBmaW5hbCBwYXJzZQogICAgICMxNTA1ICMxNTA2ICBsaWI6
+IE1ha2UgYGV2ZW50UHRyYCBpbmRlcGVuZGVudCBpbiBpbml0aWFsIGVycm9yIHBhcnNlCiAgICAg
+ICAgICAgIzE1MDcgIGxpYjogRml4IHRocmVlIG5hbWUgYW5kIG5hbWVzdGFydCBjaGFyYWN0ZXIg
+ZmFsc2UgcG9zaXRpdmVzOgogICAgICAgICAgICAgICAgICAtIFUrMDBBQSg9MTcwKSAiZmVtaW5p
+bmUgb3JkaW5hbCBpbmRpY2F0b3IiCiAgICAgICAgICAgICAgICAgIC0gVSswMEI1KD0xODEpICJt
+aWNybyBzaWduIgogICAgICAgICAgICAgICAgICAtIFUrMDBCQSg9MTg2KSAibWFzY3VsaW5lIG9y
+ZGluYWwgaW5kaWNhdG9yIgogICAgICAgICAgICMxNTE34oGgICBsaWI6IEluaXRpYWxpemUgYG1f
+aWRBdHRJbmRleGAgaW4gYHBhcnNlckluaXRgCiAgICAgICAgICAgIzE0OTAgIHhtbHdmOiBSZWpl
+Y3QgemVybyByZWFkIGJ1ZmZlciBzaXplCiAgICAgICAgICAgIzE1MDIgIHhtbHdmOiBDcmVhdGUg
+ZmlsZXMgd2l0aCAwNjAwIHJhdGhlciB0aGFuIDA2NjYgbW9kZQogICAgICMxNTE0ICMxNTE4ICB4
+bWx3ZjogUmVqZWN0IGVtcHR5LCBuZWdhdGl2ZSBhbmQgd2hpdGVzcGFjZS1zdGFydGluZyB2YWx1
+ZXMKICAgICAgICAgICAgICAgICAgICBmb3IgY29tbWFuZCBsaW5lIGFyZ3VtZW50cyBgLWJgIGFu
+ZCBgLWdgCgogICAgICAgIE5ldyBmZWF0dXJlczoKICAgICAgICAgICAjMTQ3NiAgbGliOiBBZGQg
+bmV3IGBzaXplX3RgLWJhc2VkIHB1YmxpYyBwYXJzaW5nIGZ1bmN0aW9uczoKICAgICAgICAgICAg
+ICAgICAgLSBYTUxfR2V0QnVmZmVyNjQKICAgICAgICAgICAgICAgICAgLSBYTUxfUGFyc2U2NAog
+ICAgICAgICAgICAgICAgICAtIFhNTF9QYXJzZUJ1ZmZlcjY0CiAgICAgIzE0NzYgIzE1MDMgIGxp
+YjogQWxsb3cgdG90YWwgYnVmZmVyIHNpemUgYmV5b25kIGBJTlRfTUFYYAogICAgICAgICAgICMx
+NDU1ICBsaWI6IExldmVyYWdlIGluaXRpYWwgbm8tYnVmZmVyIHBhcnNlIHdpdGgKICAgICAgICAg
+ICAgICAgICAgICBgWE1MX0NPTlRFWFRfQllURVMgPiAwYCBhcyB3ZWxsLi4uIHdoaWNoIHJlZHVj
+ZXMgdGhlIG1lbW9yeQogICAgICAgICAgICAgICAgICAgIGZvb3RwcmludCBmb3IgdGhlIGZpcnN0
+IHBhcnNpbmcgY2FsbCBwZXIgcGFyc2VyIGluc3RhbmNlCiAgICAgICAgICAgIzE0NzYgIHhtbHdm
+OiBSYWlzZSBsaW1pdCBmb3IgYC1nIDxidWZmZXJzaXplPmAgZnJvbSBgSU5UX01BWC8yKzFgCiAg
+ICAgICAgICAgICAgICAgICAgdG8gYElOVF9NQVhgCiMxNzEgIzE1MDfigaAgIzE1MjAgIGxpYjog
+TWlncmF0ZSBmcm9tIFhNTCAxLjByNCB0byBYTUwgMS4wcjUgbmFtZSBjaGFyYWN0ZXIgc2V0CiAg
+ICAgICAgICAgICAgICAgICAgZm9yIFVURi04IGFuZCBVVEYtMTYgKGJvdGggbGl0dGxlLSBhbmQg
+YmlnLWVuZGlhbikuCiAgICAgICAgICAgICAgICAgICAgRXZlcnkgc2luZ2xlIGNvZGVwb2ludCBp
+cyB0ZXN0ZWQgYnkgdGhlIHRlc3Qgc3VpdGUuCgogICAgICAgIE90aGVyIGNoYW5nZXM6CiAgIzE0
+NjIgIzE0NjQgLi4KICAjMTQ2NSAjMTQ2NiAuLgogICMxNDc1ICMxNDc5IC4uCiAgICAgIzE0ODAg
+IzE0ODcgIGxpYjogTWlncmF0ZSB0byBgc2l6ZV90YCBpbnRlcm5hbGx5CiAgICAgICAgICAgIzE0
+NzEgIGxpYjogRW5mb3JjZSB0aGF0IGBYTUxfR2V0SW5wdXRDb250ZXh0KmAgY2FuIG9ubHkgYmUg
+Y2FsbGVkCiAgICAgICAgICAgICAgICAgICAgZnJvbSB3aXRoaW4gaGFuZGxlcnMKICAgICAjMTQy
+MiAjMTQ2OOKBoCAgbGliOiBEcm9wICJ1IiBzdWZmaXhlcyBmb3IgbGl0ZXJhbHMgdXNlZCBpbiBk
+ZWJ1ZyBsZXZlbAogICAgICAgICAgICAgICAgICAgIGNvbXBhcmlzb25zCiAgICAgICAgICAgIzE0
+NzIgIGxpYjogRXh0cmFjdCBmdW5jdGlvbiBgaW50ZXJuYWxHZXRCdWZmZXI2NGAKICAgICAgICAg
+ICAjMTQ3MyAgbGliOiBSZXNvbHZlIHJlZHVuZGFudCBgZWxzZWAgbmVhciBgcGFyc2VyLT5tX2Vy
+cm9yQ29kZQogICAgICAgICAgICAgICAgICAgICE9IFhNTF9FUlJPUl9OT05FYAogICAgICAgICAg
+ICMxNDk2ICBsaWI6IEEgY291cGxlIG9mIGBsb29rdXBXaXRoTGVuZ3RoYCBzaW1wbGlmaWNhdGlv
+bnMKICAgICAgICAgICAjMTQ3N+KBoCAgbGlifHhtbHdmOiBQYXNzIGBOVUxMYCBpbnN0ZWFkIG9m
+IDAgZm9yIGEgcG9pbnRlcgogICAgICAgICAgICMxNDk3ICB4bWx3ZjogTWlncmF0ZSB0byBgc2l6
+ZV90YCBpbnRlcm5hbGx5CiAgICAgICAgICAgIzE0ODnigaAgIHhtbHdmfGV4YW1wbGVzOiBJbmNy
+ZWFzZSBidWZmZXIgc2l6ZSB0byAzMiBLaUIKICAgICAgICAgICAjMTQ4OCAgZXhhbXBsZXM6IE1p
+Z3JhdGUgdG8gYHNpemVfdGAKICAgICAgICAgICAjMTQ4MyAgdGVzdHM6IERyb3AgbGVhZGluZyB1
+bmRlcnNjb3JlIGZyb20gYF9YTUxfUGFyc2VfU0lOR0xFX0JZVEVTYAogICAgICAgICAgICAgICAg
+ICAgIGJlY2F1c2UgaXQgaXMgZm9yYmlkZGVuIGJ5IEM5OQogICAgICAgICAgICMxNDkzICB0ZXN0
+czogQ2hlY2sgZm9yIGxlYWtzIG9uIGFsbG9jYXRpb24tZmFpbHVyZSBjb2RlIHBhdGhzCiAgICAg
+ICAgICAgICAgICAgICAgaW4gdGhlIGFic2VuY2Ugb2YgTGVha1Nhbml0aXplcgogICAgICAgICAg
+ICMxNTA34oGgICB0ZXN0czogVXBncmFkZSBXM0MgWE1MIHRlc3Qgc3VpdGUgZnJvbSAyMDA4IHRv
+IDIwMTMKICAgICAgICAgICAjMTUyMSAgdGVzdHM6IEFkZHJlc3MgaGFybWxlc3MgYG1lbXNldGAg
+dHJ1bmNhdGlvbiB3YXJuaW5nCiAgICAgICAgICAgIzE1MDQgIEF1dG90b29sc3xtYWNPUzogU3lu
+YyBtYWNPUyBDTWFrZSB0ZW1wbGF0ZXMgd2l0aCBDTWFrZSA0LjUuMAogICAgICAgICAgICMxNTEy
+4oGgICBBdXRvdG9vbHN8Q01ha2U6IEludGVncmF0ZSBnZW5ubXRhYi5jIHdpdGggYm90aCBidWls
+ZCBzeXN0ZW1zCiAgICAgIzE0NzAgIzE0OTQgIFZlcnNpb24gaW5mbyBidW1wZWQgZnJvbSAxNDox
+OjEzIChsaWJleHBhdCouc28uMS4xMy4xKQogICAgICAgICAgICAgICAgICAgIHRvIDE1OjA6MTQg
+KGxpYmV4cGF0Ki5zby4xLjE0LjApOyBzZWUgaHR0cHM6Ly92ZXJidW1wLmRlLwogICAgICAgICAg
+ICAgICAgICAgIGZvciB3aGF0IHRoZXNlIG51bWJlcnMgZG8KCiAgICAgICAgSW5mcmFzdHJ1Y3R1
+cmU6CiAgICAgICAgICAgIzE0ODQgIENJOiBGaXggcnVubmVyIGltYWdlIHR5cG8gIm1hY29TLTI2
+IiBpbiBgYXV0b3Rvb2xzLWNtYWtlLnltbGAKICAgICAgICAgICAjMTQ4NiAgQ0k6IEJ1bXAgTWlu
+R1cgQ2xhbmcgZnJvbSAyMy4xLjQgdG8gMjMuMS41CiAgICAgICAgICAgIzE1MTEgIENJOiBHZXQg
+cmlkIG9mIFBvd2VyU2hlbGwgKGluIGZhdm9yIG9mIEJhc2gpCiAgICAgICAgICAgIzE1MTPigaAg
+IENJOiBWYWxpZGF0ZSBkb3dubG9hZHMgaW4gV2luZG93cyBiaW5hcmllcyBDSQogICAgICAgICAg
+ICMxNTE1ICBDSTogQnVtcCBJbm5vIFNldHVwIHRvIDcuMS4xIHdpdGggV2luZG93cyBiaW5hcmll
+cyBDSQogICAgICAgICAgICMxNTE24oGgICBDSTogQnVtcCBDbGFuZy1iYXNlZCBNaW5HVyB0byAy
+MDI2MTExNyB3aXRoIENsYW5nIDIzLjEuNgoKICAgICAgICBTcGVjaWFsIHRoYW5rcyB0bzoKICAg
+ICAgICAgICAgQXppeiBFbGJlbGF5Y2h5CiAgICAgICAgICAgIEJhc2hlZXIgQWwtSmFycmFoCiAg
+ICAgICAgICAgIEJlcmtheSBFcmVuIMOccsO8bgogICAgICAgICAgICBDYW1lcm9uIFNwYXJrcwog
+ICAgICAgICAgICBIdWFuZyBXZW5iaW4KICAgICAgICAgICAgSW9uIFRlcmVzaGVua28KICAgICAg
+ICAgICAgSm9obiBSZWdlaHIKICAgICAgICAgICAgTWF0dGhldyBGZXJuYW5kZXoKICAgICAgICAg
+ICAgT8SfdXpoYW4gRGVtaXJiYcWfCiAgICAgICAgICAgIFBhc2NhbCBDdW9xCiAgICAgICAgICAg
+IFB1IENoZW5nCiAgICAgICAgICAgIFJ5YW4gVmFuZGVyTWV1bGVuCiAgICAgICAgICAgIFNjb3R0
+IE1vb3JlCiAgICAgICAgICAgIFN0ZXZlbiBCdXNoCiAgICAgICAgICAgIFRzdWtpa28gSGFrdXJh
+CiAgICAgICAgICAgIFdlaS1MdW4gTGkKICAgICAgICAgICAgICAgICBhbmQKICAgICAgICAgICAg
+Q2l0eSBvZiBNdW5pY2ggT3BlbiBTb3VyY2UgU2FiYmF0aWNhbAogICAgICAgICAgICBPU1MtRnV6
+eiAvIENsdXN0ZXJGdXp6CiAgICAgICAgICAgIE9zdG9ybGFiCiAgICAgICAgICAgIFNpZW1lbnMK
+ICAgICAgICAgICAgVHJ1c3RJblNvZnQKICAgICAgICAgICAgVnVsbkNoZWNrCgogICAgICAjOTY3
+ICMxMzU0ICBsaWI6IFJlamVjdCBhbiBYTUwgZGVjbGFyYXRpb24gdmVyc2lvbiBvdGhlciB0aGFu
+IGAxLlswLTldK2AKICAgICAgICAgICAgICAgICAgICBwcmUtZXJyYXRhIGFuZCBtYXRjaGVzIFhN
+TCAxLjByNSAoZmlmdGggZWRpdGlvbikpCiAgICAgICAgICAgIFRydXN0SW5Tb2Z0CiAgICAgICAg
+ICAgIFRydXN0SW5Tb2Z0CiAgICAgICAgICAgICAgICAgYW5kCiAgICAgICAgICAgIFRydXN0SW5T
+b2Z0Cg==
+
+--===============2719345190268848235==--
