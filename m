@@ -1,62 +1,62 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.31040.1795560774743648005
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.30993.1795560770985614471
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2026 14:52:55 -0800
+ Tue, 24 Nov 2026 14:52:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=paIr7PDy;
- spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4bb72b44a97so44187475e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 14:52:54 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=YJWy7SBe;
+ spf=pass (domain: smile.fr, ip: 209.85.221.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-4a2f4ca0dcfso2921894f8f.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 14:52:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795560773; x=1796165573; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1795560769; x=1796165569; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=7xXJUfKr59/fjhFgS5EHW2pkCDuihLM+ahBn2WGVId8=;
-        b=paIr7PDyc8cge038ovPMMB4hL6o4TvwLXVMyYyOJZXAE+rMZajWxNnRfjX6wZkxqlC
-         C56dmdsGtxsOkYQ9SoQJcfAC9Sk31qR3zgLn1q1Ja2iI6aTxnspVUO53VRpy8u4F9olf
-         nLH5fBPLxnlFpHnGmpWJFLeaXRIrdJRD6GfZgYNWcAbGVfFWHFCfg6rH7OHFHf2+hkks
-         pfnC+M2FwsijitlxtPd0t8vh1F4V1+0EcUDMmE5VYl8KQwCA1ztxIBzwxnsLUxaCTjvW
-         Kf0UNSnmnH6ewTp8AGVErkGZRFQwp3g0SARq+H4N+Zh3ScSPUY0H8O1+tlxX5yO9BvCe
-         Td5A==
+        bh=sxy3LkzGBQ60uNa4m3/RzrP/sKHzgPxIpxBx8gQL7t4=;
+        b=YJWy7SBe3vfKbqW6WheJA11O9V/YCMS2Mw6o5avOYPaF0F+jIxkzjmqzpGgwKergAO
+         31Kst6m2Rh5YCPkSQY3DgdejZtptycB7XGICWG+S7Xl0RdofF9Dt5Fn5A9poy+0aUnCP
+         zXx/6IYWAkv5/7lFopNrrdIL34VAfKL/WWi7awrt00te1RUKh63RcXuop9ggzOxHPuEu
+         1wGyaqWLsUqu3vuldN/T33a2cF0+waj33sw7MG5HQP40MVhNX8YnuF+wb3q7qR6T7OWI
+         VDGr42/2Q5/CMlRSa9KP0MsmnNF2ymr+ZyF7ZVgOJuz9FWIt7p9XFswbC5m72dEifMsh
+         kY9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795560773; x=1796165573;
+        d=1e100.net; s=20260707; t=1795560769; x=1796165569;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=7xXJUfKr59/fjhFgS5EHW2pkCDuihLM+ahBn2WGVId8=;
-        b=mB1ivdHpIheekM5UjcJGbkkDJm29JMGeZYjA2mxjtn+r6gkEExv0u8zHh7aQBaEPy1
-         2ObEwxOcdcBcWPw3rCJ9OWRWL3vj2htfhopFNZh33TYx22inXG7wZqeNZjXR5vRarcLC
-         PRPD7RKoauiviG34Xk5/noFn7DAeC4MCEY5yVshz3PpH3lBRZ5/BAsKbpEWcVRNz5YCz
-         fLIfUeyckjswqgPqsQmxeez7Bg9f+4XpVVb4S0hy0FbYKnuXJDIfLe6qcnu30TN5h4VV
-         W37ercFybqu4jf6WSri9LpkdK7gAPSVkc5VipwodOdTn9ZYcIIN+JtCEzV86ZYfzXnAr
-         Zpnw==
-X-Gm-Message-State: APuU4Z8b0n8+HyW1VUeLjW1JjzdmILVP9suK5RiI/qNcf2aSPZ8lCjdV
-	iWjBcXsqmn+kqfPKgb62KMdTMbrb209eqQk+smwIkG+99l9/maLXIBDZUJ4F8QLMuzEh99vZHuo
-	bZjjrr1E=
-X-Gm-Gg: AZFdTZe9285cymMMEk+kr2URStqFehYfZa5YuHPOl3MNnpirBVQ4ZrZShmP3q3Tw/7f
-	RRTKrXDP+Z0W6MwK9NOCId89LoY9e/Jy540LxTD7cQ15PginNyguGfRMP7vHZNfO+84ignNGo/d
-	ysOeNDf542iSOgF/93TeVN7M3MKMwhiqf2nJFh/mk46WLVXlZEI29sRqQVwRrxxlp1auAg/nIrN
-	Hf53NK3EPCvmgjhH22cyg8KiN02+U80ShvYy8RnbLE1QHS2tlOxV5I78AhiqYqyCqlR20SVJsP7
-	kgDaqMeJpm8sMyheBobDLdo2dpYKuTw0jYGlOs8ZYFDUdDQ9giF7ZLw8Fgsg80+oiO/2V0Bkslx
-	UY+sUzmdALSljL3aI2C3NQtLIaoUFPBbVXt13x639+9yD5V7b7MYSnma+NtJXLo7iWhTlwomdWn
-	WxkGwf1RLLEqozC1u+fq9SsAX+NPJ4hsIYceTA3hmz+KjUoowlp/BRDAi7T0C/8PEckxhDHIhF+
-	aCXwD8YyeEr+mLLEAdx/kyB6tq04yo0VYYyiBIkiFCz0SUWBGktNec1lAympMzB7z+bDB0bGYLy
-	RyaW46p0J2oy+thTE3kTV+JLpxYOPYlZH7rgUhxuz5VnX24wPhhwWBPoVoNqWRaGn06lE/n9LEH
-	sO00Su6d8+C4rz7tDLBHFovWLXM5M
-X-Received: by 2002:a05:600c:a11:b0:4a2:e0c:2b0a with SMTP id 5b1f17b1804b1-4bb888120famr332712245e9.16.1795560772765;
-        Tue, 24 Nov 2026 14:52:52 -0800 (PST)
+        bh=sxy3LkzGBQ60uNa4m3/RzrP/sKHzgPxIpxBx8gQL7t4=;
+        b=GBb77+Hx3Fv3Oq/YN4CO0lC9pFBzuSA1ZwDMxtHbxouc1IMlmt4cdTdych1KnQ2CEm
+         FXUEjAWtm95WiOP18QKec6G6BxQ8lTLwjE15lsZfV5Id2Wxe7jfnbwLCCULIPYov69IV
+         5o5gu/upjh/wT3WqWgiQFGrvapEG5IFXPPj/Nm4kDPrgd7ddKmW9ojNOUs0JXZEC5BJY
+         8S8IH9zw0xL8wujDJk+kANo911MEiQk5UOTZiogq1S4YfZCraAUM+XMt9t/CNiqOCFxB
+         uKGnbT/fW/BciqC+W/sWRQiFpTbT0xHipNb7jmPry3GCPy2sYWayW8APczy7+yQ6KUrm
+         1nwQ==
+X-Gm-Message-State: APuU4Z9lzZ62FXeYBhiEH8vKwu5BlGHabpcnWdt5hCMV0/9DeZgi9zY3
+	Z0klGFo2MjZRrAkBD+r54rwwow1fEKyrP6r/gcqq/xJo0ptpo74EGP1sJUDsYagcVp6GaHtcgyr
+	1RFgZoYU=
+X-Gm-Gg: AZFdTZeFrdLJ9Gy9GEiXPpWV++c9zgz2JUgINWZXnCjO5pCThSwtlrY75MHJtybYSyW
+	6pX0RCverEXZD5CvcX3M89sv1NVvge3UYOtvN+HTUQJpLLTRlJgTuGGXHwHjuErsFM9AXlJkAhB
+	Mn08B58ZDkUOtBERPW5upJMcafb2OUDh+RPyQ7+KQSHRSqCPnUSkXDp1lKg1txbcI5VJCyyfSj5
+	4i4CM+N4IeTnLi7j3JcrP0eR2R1oD2kj0LgVKlHcJju4hZ72TqR2pX/beMvJ8gfLAwSvxkexDYI
+	R0KBB7WhL3l757+RHUxv7QyUL5BrbJF+BD8eTLDc3jgOJxQlBNawPt9DUO87t/EbR2kUFbAE/OD
+	+fYyVDn4AVSeUnVppzOvlthi3XY9pohgOBJBbyls5R624U9kwF/w/+Ejwk2H202SjAAzWQZr0Rm
+	RxzxP5uHSyVoZK4U4f+MlJkHnEaTlnjHB6ndTAOgW2XajcZHjBllehNMhcyI9OAP/+3udlELRjL
+	aDCEhPefxP8t5PWfO4r3LXRSwF0Ogz2Hi1zQl22vFV+NTTmlf8uoHFNfFwi4BZ4k/e/NZje/sQw
+	ntVfVWUlPRGFIOcx1udrkPmDs6N9FCOgvqTEhisRNXrxR221fjrQ9Ma+8aIcR9V1XG52Cm6vySc
+	+C7mbqrtsyvAasJwEubwbGhKNtNsU
+X-Received: by 2002:a05:6000:4812:b0:48d:b650:69aa with SMTP id ffacd0b85a97d-4abb55185e4mr30554767f8f.50.1795560769261;
+        Tue, 24 Nov 2026 14:52:49 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ad644140b5sm27446707f8f.17.2026.11.24.14.52.52
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ad644140b5sm27446707f8f.17.2026.11.24.14.52.48
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 14:52:52 -0800 (PST)
+        Tue, 24 Nov 2026 14:52:48 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 18/21] libsndfile1: patch CVE-2026-109828
-Date: Tue, 24 Nov 2026 23:52:35 +0100
-Message-ID: <b5bddf695d851f9d64174f7e152030aee4d73594.1795560372.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 12/21] sqlite3: fix CVE-2026-119591
+Date: Tue, 24 Nov 2026 23:52:29 +0100
+Message-ID: <e2c3735b9ddfe925b40c298cc428afffee90e7a2.1795560372.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1795560372.git.yoann.congal@smile.fr>
 References: <cover.1795560372.git.yoann.congal@smile.fr>
@@ -64,315 +64,82 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 22:53:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251120
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251114
 Content-Type: text/plain; charset="utf-8"
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Arpit Patel <arpitpa@cisco.com>
 
-Pick patch from [1] which clsed [2] linked from [3].
+This patch applies the upstream fix [1] for stack exhaustion in the
+count-of-view optimization. The GitHub mirror commit [1] corresponds
+to the SQLite Fossil check-in shown in [2].
 
-Also pick a refactoring commit which is required for a clean
-cherry-pick.
+[1] https://github.com/sqlite/sqlite/commit/eff50a067c55f972909e7780e506e91382d08de2
+[2] https://sqlite.org/src/info/ab621a3e11ee4acc
 
-[1] https://github.com/libsndfile/libsndfile/pull/1170
-[2] https://github.com/libsndfile/libsndfile/issues/1169
-[3] https://nvd.nist.gov/vuln/detail/cve-2026-109828
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2026-119591
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 6c80a8917e6c815cea297d2aa6c7d715f07c57d9)
+Signed-off-by: Arpit Patel <arpitpa@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../libsndfile1/CVE-2026-109828-01.patch      | 234 ++++++++++++++++++
- .../libsndfile1/CVE-2026-109828-02.patch      |  26 ++
- .../libsndfile/libsndfile1_1.2.2.bb           |   2 +
- 3 files changed, 262 insertions(+)
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2026-109828-01.patch
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2026-109828-02.patch
+ .../sqlite/sqlite3/CVE-2026-119591.patch      | 40 +++++++++++++++++++
+ meta/recipes-support/sqlite/sqlite3_3.51.3.bb |  1 +
+ 2 files changed, 41 insertions(+)
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119591.patch
 
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2026-109828-01.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2026-109828-01.patch
+diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2026-119591.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119591.patch
 new file mode 100644
-index 00000000000..61acc37c2dc
+index 00000000000..3b616842fb4
 --- /dev/null
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2026-109828-01.patch
-@@ -0,0 +1,234 @@
-+From 59babedce8fa8eb1000ecb3c87a5dd4a1190ad9e Mon Sep 17 00:00:00 2001
-+From: iceray-Li <108821718+iceray00@users.noreply.github.com>
-+Date: Tue, 22 Sep 2026 06:05:03 +0000
-+Subject: [PATCH] aiff, wav, wavlike: index the cue array through a pointer
++++ b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119591.patch
+@@ -0,0 +1,40 @@
++From 0894e1c6c54cde37d822bd1cb367fd1ed2765732 Mon Sep 17 00:00:00 2001
++From: drh <>
++Date: Mon, 5 Oct 2026 12:18:23 +0000
++Subject: [PATCH] Prevent the expression generated by the count-of-view
++ optimization from getting too deep and causing a CPU stack overflow.
++ [bugs:/info/2026-10-04T05:34:47Z|Bug 2026-10-04T05:34:47Z]
 +
-+The cue array of an SF_CUES struct is allocated with room for the actual cue
-+count (SF_CUES_VAR_SIZE()), but the public SF_CUES type declares it with a
-+fixed length of 100 (SF_CUES_VAR (100)).  Compilers therefore assume that
-+cue_points [] holds 100 elements, and UBSan's array-bounds check flags every
-+access beyond that even though the allocation is larger:
++FossilOrigin-Name: ab621a3e11ee4accce14bf6c90a7cc273d9c25a7c3d9dd2466f2bdc2bbbf8084
 +
-+    src/aiff.c:823:8:  runtime error: index 100 out of bounds for type 'SF_CUE_POINT [100]'
-+    src/aiff.c:943:38: runtime error: index 100 out of bounds for type 'SF_CUE_POINT [100]'
-+    src/wav.c:524:8:   runtime error: index 100 out of bounds for type 'SF_CUE_POINT [100]'
++CVE: CVE-2026-119591
++Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/eff50a067c55f972909e7780e506e91382d08de2]
 +
-+The declared bound is also the reason the CVE-2022-33064 report (issue #832)
-+is still open.  The accesses themselves are inside the allocation: the cue
-+count is capped at 2500 by wav.c and aiff.c, psf_cues_alloc() reserves
-+cue_count * sizeof (SF_CUE_POINT) bytes, and the same inputs are clean under
-+ASan, so no validation of the file can make the diagnostic disappear.
++Backport Changes:
++- Ported the src/select.c change into the amalgamated sqlite3.c.
++- Omitted manifest and manifest.uuid because they are Fossil metadata
++  and are not needed for this source layout.
 +
-+Add psf_cues_points(), which hands out the first element of the array as an
-+ordinary pointer, and use it at every place that subscripts cue_points [].
-+The layout of the public SF_CUES struct, the API it exposes and the file
-+handling are unchanged.
-+
-+Tested with ossfuzz/sndfile_fuzzer and ossfuzz/sndfile_alt_fuzzer built with
-+-fsanitize=address,undefined: the crafted AIFF and WAV inputs abort in
-+src/aiff.c and src/wav.c before the change and are clean after it.
-+
-+CVE: CVE-2026-109828
-+Upstream-Status: Backport [https://github.com/libsndfile/libsndfile/commit/59babedce8fa8eb1000ecb3c87a5dd4a1190ad9e]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
++Signed-off-by: Arpit Patel <arpitpa@cisco.com>
 +---
-+ src/aiff.c    | 36 ++++++++++++++++++++----------------
-+ src/common.h  | 10 ++++++++++
-+ src/wav.c     | 23 +++++++++++++----------
-+ src/wavlike.c |  5 +++--
-+ 4 files changed, 46 insertions(+), 28 deletions(-)
++ sqlite3.c | 4 ++++
++ 1 file changed, 4 insertions(+)
 +
-+diff --git a/src/aiff.c b/src/aiff.c
-+index e36b21e0..39c3221d 100644
-+--- a/src/aiff.c
-++++ b/src/aiff.c
-+@@ -403,6 +403,7 @@ aiff_read_header (SF_PRIVATE *psf, COMM_CHUNK *comm_fmt)
-+ 	int			k, found_chunk = 0, done = 0, error = 0 ;
-+ 	char		*cptr ;
-+ 	int			instr_found = 0, mark_found = 0 ;
-++	SF_CUE_POINT *cue_points = NULL ;
-+ 
-+ 	if (psf->filelength > 0xFFFFFFFFLL)
-+ 		psf_log_printf (psf, "Warning : filelength > 0xffffffff. This is bad!!!!\n") ;
-+@@ -813,6 +814,8 @@ aiff_read_header (SF_PRIVATE *psf, COMM_CHUNK *comm_fmt)
-+ 						if ((psf->cues = psf_cues_alloc (mark_count)) == NULL)
-+ 							return SFE_MALLOC_FAILED ;
-+ 
-++						cue_points = psf_cues_points (psf->cues) ;
-++
-+ 						for (n = 0 ; n < mark_count && bytesread < chunk_size ; n++)
-+ 						{	uint32_t pstr_len ;
-+ 							uint8_t ch ;
-+@@ -820,12 +823,12 @@ aiff_read_header (SF_PRIVATE *psf, COMM_CHUNK *comm_fmt)
-+ 							bytesread += psf_binheader_readf (psf, "E241", &mark_id, &position, &ch) ;
-+ 							psf_log_printf (psf, "   Mark ID  : %u\n   Position : %u\n", mark_id, position) ;
-+ 
-+-							psf->cues->cue_points [n].indx = mark_id ;
-+-							psf->cues->cue_points [n].position = 0 ;
-+-							psf->cues->cue_points [n].fcc_chunk = MAKE_MARKER ('d', 'a', 't', 'a') ; /* always data */
-+-							psf->cues->cue_points [n].chunk_start = 0 ;
-+-							psf->cues->cue_points [n].block_start = 0 ;
-+-							psf->cues->cue_points [n].sample_offset = position ;
-++							cue_points [n].indx = mark_id ;
-++							cue_points [n].position = 0 ;
-++							cue_points [n].fcc_chunk = MAKE_MARKER ('d', 'a', 't', 'a') ; /* always data */
-++							cue_points [n].chunk_start = 0 ;
-++							cue_points [n].block_start = 0 ;
-++							cue_points [n].sample_offset = position ;
-+ 
-+ 							pstr_len = (ch & 1) ? ch : ch + 1 ;
-+ 
-+@@ -841,7 +844,7 @@ aiff_read_header (SF_PRIVATE *psf, COMM_CHUNK *comm_fmt)
-+ 
-+ 							psf_log_printf (psf, "   Name     : %s\n", ubuf.scbuf) ;
-+ 
-+-							psf_strlcpy (psf->cues->cue_points [n].name, sizeof (psf->cues->cue_points [n].name), ubuf.cbuf) ;
-++							psf_strlcpy (cue_points [n].name, sizeof (cue_points [n].name), ubuf.cbuf) ;
-+ 
-+ 							paiff->markstr [n].markerID = mark_id ;
-+ 							paiff->markstr [n].position = position ;
-+@@ -940,14 +943,14 @@ aiff_read_header (SF_PRIVATE *psf, COMM_CHUNK *comm_fmt)
-+ 
-+ 			for (j = 0 ; j < psf->cues->cue_count - (uint32_t) (psf->instrument->loop_count * 2) ; j ++)
-+ 			{	/* This simply copies the information in cues above loop positions and writes it at current count instead */
-+-				psf->cues->cue_points [j].indx = psf->cues->cue_points [j + psf->instrument->loop_count * 2].indx ;
-+-				psf->cues->cue_points [j].position = psf->cues->cue_points [j + psf->instrument->loop_count * 2].position ;
-+-				psf->cues->cue_points [j].fcc_chunk = psf->cues->cue_points [j + psf->instrument->loop_count * 2].fcc_chunk ;
-+-				psf->cues->cue_points [j].chunk_start = psf->cues->cue_points [j + psf->instrument->loop_count * 2].chunk_start ;
-+-				psf->cues->cue_points [j].block_start = psf->cues->cue_points [j + psf->instrument->loop_count * 2].block_start ;
-+-				psf->cues->cue_points [j].sample_offset = psf->cues->cue_points [j + psf->instrument->loop_count * 2].sample_offset ;
-++				cue_points [j].indx = cue_points [j + psf->instrument->loop_count * 2].indx ;
-++				cue_points [j].position = cue_points [j + psf->instrument->loop_count * 2].position ;
-++				cue_points [j].fcc_chunk = cue_points [j + psf->instrument->loop_count * 2].fcc_chunk ;
-++				cue_points [j].chunk_start = cue_points [j + psf->instrument->loop_count * 2].chunk_start ;
-++				cue_points [j].block_start = cue_points [j + psf->instrument->loop_count * 2].block_start ;
-++				cue_points [j].sample_offset = cue_points [j + psf->instrument->loop_count * 2].sample_offset ;
-+ 				for (str_index = 0 ; str_index < 256 ; str_index++)
-+-					psf->cues->cue_points [j].name [str_index] = psf->cues->cue_points [j + psf->instrument->loop_count * 2].name [str_index] ;
-++					cue_points [j].name [str_index] = cue_points [j + psf->instrument->loop_count * 2].name [str_index] ;
-+ 				} ;
-+ 			psf->cues->cue_count -= psf->instrument->loop_count * 2 ;
-+ 			} else
-+@@ -1461,10 +1464,11 @@ aiff_write_header (SF_PRIVATE *psf, int calc_length)
-+ 	{	/* There are cues but no loops */
-+ 		uint32_t idx ;
-+ 		int totalStringLength = 0, stringLength ;
-++		SF_CUE_POINT *cue_points = psf_cues_points (psf->cues) ;
-+ 
-+ 		/* Here we count how many bytes will the pascal strings need */
-+ 		for (idx = 0 ; idx < psf->cues->cue_count ; idx++)
-+-		{	stringLength = strlen (psf->cues->cue_points [idx].name) + 1 ; /* We'll count the first byte also of every pascal string */
-++		{	stringLength = strlen (cue_points [idx].name) + 1 ; /* We'll count the first byte also of every pascal string */
-+ 			totalStringLength += stringLength + (stringLength % 2 == 0 ? 0 : 1) ;
-+ 			} ;
-+ 
-+@@ -1472,7 +1476,7 @@ aiff_write_header (SF_PRIVATE *psf, int calc_length)
-+ 			BHWm (MARK_MARKER), BHW4 (2 + psf->cues->cue_count * (2 + 4) + totalStringLength), BHW2 (psf->cues->cue_count)) ;
-+ 
-+ 		for (idx = 0 ; idx < psf->cues->cue_count ; idx++)
-+-			psf_binheader_writef (psf, "E24p", BHW2 (psf->cues->cue_points [idx].indx), BHW4 (psf->cues->cue_points [idx].sample_offset), BHWp (psf->cues->cue_points [idx].name)) ;
-++			psf_binheader_writef (psf, "E24p", BHW2 (cue_points [idx].indx), BHW4 (cue_points [idx].sample_offset), BHWp (cue_points [idx].name)) ;
-+ 		} ;
-+ 
-+ 	if (psf->strings.flags & SF_STR_LOCATE_START)
-+diff --git a/src/common.h b/src/common.h
-+index 01f6ae09..ee6844b8 100644
-+--- a/src/common.h
-++++ b/src/common.h
-+@@ -989,6 +989,16 @@ SF_CUES * psf_cues_dup (const void * ptr, size_t datasize) ;
-+ SF_CUES * psf_cues_alloc (uint32_t cue_count) ;
-+ void psf_get_cues (SF_PRIVATE * psf, void * data, size_t datasize) ;
-+ 
-++/* The cue array is allocated with room for the actual cue count (see
-++** psf_cues_alloc()), but the public SF_CUES type declares it with a fixed
-++** length of 100.  Index it through a pointer so that compilers do not flag
-++** accesses to the longer, correctly allocated array (issue #832).
-++*/
-++static inline SF_CUE_POINT *
-++psf_cues_points (SF_CUES *cues)
-++{	return cues->cue_points ;
-++} /* psf_cues_points */
-++
-+ SF_INSTRUMENT * psf_instrument_alloc (void) ;
-+ 
-+ void	psf_sanitize_string (char * cptr, int len) ;
-+diff --git a/src/wav.c b/src/wav.c
-+index 80dda4e1..f206bc34 100644
-+--- a/src/wav.c
-++++ b/src/wav.c
-+@@ -484,6 +484,7 @@ wav_read_header	(SF_PRIVATE *psf, int *blockalign, int *framesperblock)
-+ 
-+ 					{	uint32_t thisread, bytesread, cue_count, position, offset ;
-+ 						int id, chunk_id, chunk_start, block_start, cue_index ;
-++						SF_CUE_POINT *cue_points ;
-+ 
-+ 						bytesread = psf_binheader_readf (psf, "4", &cue_count) ;
-+ 						psf_log_printf (psf, "%M : %u\n", marker, chunk_size) ;
-+@@ -504,6 +505,7 @@ wav_read_header	(SF_PRIVATE *psf, int *blockalign, int *framesperblock)
-+ 						if ((psf->cues = psf_cues_alloc (cue_count)) == NULL)
-+ 							return SFE_MALLOC_FAILED ;
-+ 
-++						cue_points = psf_cues_points (psf->cues) ;
-+ 						cue_index = 0 ;
-+ 
-+ 						while (cue_count)
-+@@ -521,13 +523,13 @@ wav_read_header	(SF_PRIVATE *psf, int *blockalign, int *framesperblock)
-+ 							else if (cue_index == 10)
-+ 								psf_log_printf (psf,	"   (Skipping)\n") ;
-+ 
-+-							psf->cues->cue_points [cue_index].indx = id ;
-+-							psf->cues->cue_points [cue_index].position = position ;
-+-							psf->cues->cue_points [cue_index].fcc_chunk = chunk_id ;
-+-							psf->cues->cue_points [cue_index].chunk_start = chunk_start ;
-+-							psf->cues->cue_points [cue_index].block_start = block_start ;
-+-							psf->cues->cue_points [cue_index].sample_offset = offset ;
-+-							psf->cues->cue_points [cue_index].name [0] = '\0' ;
-++							cue_points [cue_index].indx = id ;
-++							cue_points [cue_index].position = position ;
-++							cue_points [cue_index].fcc_chunk = chunk_id ;
-++							cue_points [cue_index].chunk_start = chunk_start ;
-++							cue_points [cue_index].block_start = block_start ;
-++							cue_points [cue_index].sample_offset = offset ;
-++							cue_points [cue_index].name [0] = '\0' ;
-+ 							cue_count -- ;
-+ 							cue_index ++ ;
-+ 							} ;
-+@@ -1210,13 +1212,14 @@ wav_write_header (SF_PRIVATE *psf, int calc_length)
-+ 
-+ 	if (psf->cues != NULL)
-+ 	{	uint32_t k ;
-++		SF_CUE_POINT *cue_points = psf_cues_points (psf->cues) ;
-+ 
-+ 		psf_binheader_writef (psf, "em44", BHWm (cue_MARKER), BHW4 (4 + psf->cues->cue_count * 6 * 4), BHW4 (psf->cues->cue_count)) ;
-+ 
-+ 		for (k = 0 ; k < psf->cues->cue_count ; k++)
-+-			psf_binheader_writef (psf, "e44m444", BHW4 (psf->cues->cue_points [k].indx), BHW4 (psf->cues->cue_points [k].position),
-+-						BHWm (psf->cues->cue_points [k].fcc_chunk), BHW4 (psf->cues->cue_points [k].chunk_start),
-+-						BHW4 (psf->cues->cue_points [k].block_start), BHW4 (psf->cues->cue_points [k].sample_offset)) ;
-++			psf_binheader_writef (psf, "e44m444", BHW4 (cue_points [k].indx), BHW4 (cue_points [k].position),
-++						BHWm (cue_points [k].fcc_chunk), BHW4 (cue_points [k].chunk_start),
-++						BHW4 (cue_points [k].block_start), BHW4 (cue_points [k].sample_offset)) ;
-+ 		} ;
-+ 
-+ 	if (psf->instrument != NULL)
-+diff --git a/src/wavlike.c b/src/wavlike.c
-+index 05691323..0c3577a8 100644
-+--- a/src/wavlike.c
-++++ b/src/wavlike.c
-+@@ -1060,13 +1060,14 @@ wavlike_subchunk_parse (SF_PRIVATE *psf, int chunk, uint32_t chunk_length)
-+ 
-+ 						if (psf->cues)
-+  						{	unsigned int i = 0 ;
-++							SF_CUE_POINT *cue_points = psf_cues_points (psf->cues) ;
-+ 
-+ 							/* find id to store label */
-+-							while (i < psf->cues->cue_count && psf->cues->cue_points [i].indx != mark_id)
-++							while (i < psf->cues->cue_count && cue_points [i].indx != mark_id)
-+ 								i++ ;
-+ 
-+ 							if (i < psf->cues->cue_count)
-+-								memcpy (psf->cues->cue_points [i].name, buffer, sizeof (psf->cues->cue_points [i].name)) ;
-++								memcpy (cue_points [i].name, buffer, sizeof (cue_points [i].name)) ;
-+ 							} ;
-+ 						} ;
-+ 					break ;
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2026-109828-02.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2026-109828-02.patch
-new file mode 100644
-index 00000000000..dab12f04ace
---- /dev/null
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2026-109828-02.patch
-@@ -0,0 +1,26 @@
-+From 1ccd2a18826722c3aa9ed54122ebff20e3b92b10 Mon Sep 17 00:00:00 2001
-+From: Ilias Aberkane <user.name>
-+Date: Fri, 25 Sep 2026 13:38:54 +0200
-+Subject: [PATCH] wavlike: copy only the labl bytes actually read into cue
-+ names
++diff --git a/sqlite3.c b/sqlite3.c
++index 19ab450812..f3f10400c4 100644
++--- a/sqlite3.c
+++++ b/sqlite3.c
++@@ -154164,6 +154164,10 @@ static int countOfViewOptimization(Parse *pParse, Select *p){
++     }else{
++       pExpr = sqlite3PExpr(pParse, TK_PLUS, pTerm, pExpr);
++     }
+++    if( pParse->nErr ){
+++      sqlite3ExprDelete(db, pExpr);
+++      pExpr = 0;
+++    }
++     pSub = pPrior;
++   }
++   p->pEList->a[0].pExpr = pExpr;
++-- 
++2.35.6
 +
-+CVE: CVE-2026-109828
-+Upstream-Status: Backport [https://github.com/libsndfile/libsndfile/commit/1ccd2a18826722c3aa9ed54122ebff20e3b92b10]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ src/wavlike.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/src/wavlike.c b/src/wavlike.c
-+index 0c3577a8..9d99b74a 100644
-+--- a/src/wavlike.c
-++++ b/src/wavlike.c
-+@@ -1067,7 +1067,7 @@ wavlike_subchunk_parse (SF_PRIVATE *psf, int chunk, uint32_t chunk_length)
-+ 								i++ ;
-+ 
-+ 							if (i < psf->cues->cue_count)
-+-								memcpy (cue_points [i].name, buffer, sizeof (cue_points [i].name)) ;
-++								psf_strlcpy (cue_points [i].name, sizeof (cue_points [i].name), buffer) ;
-+ 							} ;
-+ 						} ;
-+ 					break ;
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
-index 2c3e28dc1c8..75242c34050 100644
---- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
-@@ -17,6 +17,8 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/libsndfile-${PV}.tar.xz \
-            file://CVE-2026-37555.patch \
-            file://CVE-2024-50613.patch \
-            file://CVE-2025-52194.patch \
-+           file://CVE-2026-109828-01.patch \
-+           file://CVE-2026-109828-02.patch \
-           "
- GITHUB_BASE_URI = "https://github.com/libsndfile/libsndfile/releases/"
- 
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.51.3.bb b/meta/recipes-support/sqlite/sqlite3_3.51.3.bb
+index 4073a48202b..6347fcd8d51 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.51.3.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.51.3.bb
+@@ -22,4 +22,5 @@ SRC_URI += "\
+ 	file://CVE-2026-119376.patch \
+ 	file://CVE-2026-119371-dependent.patch \
+ 	file://CVE-2026-119371.patch \
++	file://CVE-2026-119591.patch \
+ "
