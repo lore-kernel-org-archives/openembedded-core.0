@@ -1,62 +1,62 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.31035.1795560767425488546
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.31036.1795560768857385964
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2026 14:52:47 -0800
+ Tue, 24 Nov 2026 14:52:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=kAN/e5zZ;
- spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4b79502c27aso50467155e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 14:52:47 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=lbpp0dXh;
+ spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48dfc0421d9so4782656f8f.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 14:52:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795560766; x=1796165566; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1795560767; x=1796165567; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=9Lk0vS4d/A+jKQ9uiUCozPbTRpHSg+L4eujFPLj9J8k=;
-        b=kAN/e5zZcM6zDIpGLJxAg3capPsBV3NlHY9h0tEDtE9EPsHfkofkXDzYkF/z1F2wfx
-         pQe/gjgelIC7UTzfkDUaWkHF3lTCuZVKqXf5mxXa2X/LOrU18HNH68w62OPhnAfXjBdV
-         1RV2gUSp8Zg+X+Rt8iM3/R61/llRTnFinllmYsd7um5Ts9MEQO6BlFLv7KH72z9AzE3B
-         PtP4Ag6FeZsQocu3ri9RiK7RU8oFN9YHZwuKsHGdbcTIZTPzW+QRwAMN57ne+vtzIPvm
-         GJAxsVQtAPENp+Wx4vhCMnqwLCHuoN5SwU4KC56fe9vqP+xbSGr3ZPv+oTIoTbBlmTB6
-         I8Pw==
+        bh=ywkrYbaCnUvikY2AoR38QdUzN16/AnTbcqe+cmINtNc=;
+        b=lbpp0dXhGhxZSyuiC4tpcLG05RdcL3HHIezYtq4RBXG3ee/NcMX508TYlN/PdXod0O
+         ZCHnMk/ZKucsXGMaGUEBdyTGOe7TmKcg4inx0iyl0YJ20HlBO4Z0zmCF1FIqeLuciOdh
+         jLOdnM5W20dbnnbocqUipAhyUeYt/+J7+9f3QN8sSTuRdw8ViwAkudIlZNM3854VtMzx
+         rxtPW3h54/HJILZpy309lxmeIiGNFJSqOwzJaDqh0slj+rGZNxC6hN+vlvg/ivyAme3c
+         lXm3JjKVBb9oKNNLJG18AlelltYvvv1He7B921zH/ktB+nmhvqCtVQ10yhiSrVl9C9Ig
+         rQAg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795560766; x=1796165566;
+        d=1e100.net; s=20260707; t=1795560767; x=1796165567;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=9Lk0vS4d/A+jKQ9uiUCozPbTRpHSg+L4eujFPLj9J8k=;
-        b=Ga1dcO7zOAnpZaEDeq9De7QBZPKeQF1mQ/aL0MqkA/4xS3S/tIX4st5f61/YECDaJw
-         ntcHnAfP6qVPtotLuGQhdjuqsYn1FjwLhOctSLUjrQOJxpz9cCYD2GHd2e5pBnMEhZ9t
-         N2iElpBIoEt5S5SRv6eM+6y2N4yy5dIvBp5SM5P0cwSHwXTZ8AF79ZG2GCoQx9GVSPrQ
-         qMKpWMpVZY9OaQU6lE+GlXcwv9ELYPG/6aOj5/4iQBZlpzac8gxPuISfuh1TFOzUKWe3
-         y4It3znv3ZUuYndsf27GE0nexOrvXyWfzGfgcVkiIduGS+qYocojZaNBA37G1Ko+kGSN
-         f6Bg==
-X-Gm-Message-State: APuU4Z/Jy4E+KzQsy3p/bN6909096NFrrt6hLYaAnUnVaRnELhTFzUsb
-	pLG7jxtlmKxzbOJMBcp06cdkaWGcpvNutrpnZvtlp0iUZ8qBtbJSmabewGRZd0AnwiOZkB71lDr
-	HZ1RauEs=
-X-Gm-Gg: AZFdTZdRIyTiUw+KeMivraXYw5sGcIjWJOZfxzwTW3y2jWS23OsJF+jv7VuRlydzxeo
-	tiTxoBjd6DfeoQox7vLZnAiAd1P/l9l7dCpz6FS5ZtJT8QIgPbb9CDKej1LMi1cqcLFfrZl1GRb
-	RWGium8h3NQ0sKO6wDG/1dS7I57yrVC0EwzR9HE7Hn4/Kg98/BkxFTpSfsepWEzz5E1RfI33jbw
-	39hdrGv2jwVqySp26rV+wHweG2d7MFr87lAtk+AKuIkRzSMo4R//oxWLL+9C5sw8/DcBURHaHCZ
-	YmDD4PwKyWeQyxz48kaaMHXjCRKYtihklHOBSExbNthWnVYonL66S8TJgRElXiuAIs8F6TEhqNA
-	32gGV9/s9ELAtnpWou6mYwmKg1vInWshhCtqzeeApkfMboP7TOjPx4Lo6RyJLugK+vEIJbbEO3q
-	7KPk1NSeilCuHeEyLLhJ+TxH7RGGGCYK407k+W+OgayA5gG5iDYkCPooxISJk/qdl9qGlunJUPq
-	K7RABaIMePinDGo17WyxKsiR7bZCJrq34i/73QVGOZx7JLcHe0set8yVy8NMx7uz7qBrRwaoVAD
-	f9/5YK11MJsxwyU0e24mkA6V7oua5ucTfHdmLMX2QpoQPwiMgy+V2DyKuKDLUIzerEcAphOF+vP
-	GpJAiRd5Ax7pNX4bcOSm8QfrbcEMIQvZxl3PVI8wrr1RhMwpi15Q=
-X-Received: by 2002:a05:600c:4504:b0:4a1:9078:911 with SMTP id 5b1f17b1804b1-4bb888284d7mr340767925e9.31.1795560765598;
-        Tue, 24 Nov 2026 14:52:45 -0800 (PST)
+        bh=ywkrYbaCnUvikY2AoR38QdUzN16/AnTbcqe+cmINtNc=;
+        b=r80+NdNwkq70MIV5QMjZalZ25ve2vKMl5Q2LXMjHPAru6ZFv5IwdwtYyST5jpmC9/Q
+         j0aoAuvbtRB/oDpP8PzvYJ6xOX9PXEpKMsA+DGNMUt2WmnDmq9Z3SrZ02ntXQGSKVW/5
+         s5yvQfugmKSRzGaRcr0yXE1VMUQdblkT4Y0TT+J4Z1tJwEj0Knj5PNQMuPol4F6GQjE1
+         fSoibLSDDal7FT/0ZpkjJ0/OLIM1bUZH+FXklSeA5Q0HBCJxeaYnzn/OAUY+VtVIT/53
+         QhWjWICZ4AQBM6npiYlPer1axJMPic193k7tBG7Lrct7apfikl+bI28/vlyQIDyIVdN4
+         Xrvw==
+X-Gm-Message-State: APuU4Z9Agj1hcH4levutllRiTAQcfXFncHnecWEnNuK01g9JD7D3lkO9
+	5HnzMxDRLeHxMcy+ALwlRmLU5AeOOG0oisrtnMOdk5zbUFVZc2kfezM6HnwnAmaZD7lPBy86JTz
+	qLu0e0hs=
+X-Gm-Gg: AZFdTZf3DomOSlFROdE4J0kK5LT9EQlJa3eYaYsTpeq7t/bq+AsPmaP61PP88Av4jwK
+	JSxsyfrw7QAiQcgYgIKxAqRybIo5zrW9MJqlqu3fWQI8HfUJ/AIcrOUgVOMCzr0GzwPWZaNtEhx
+	ny/bpj4O8EVswXKJovyQNVhGUS1JidDA602r03HUFwQwBF2g24MVBDsi9F+YN4i7fUm8L6wpm9T
+	O+agR+KSEJpV8J3lqxV4wfoxTSFa8FPu9k36fxBRSzaCntN7NLsB17fJ143SyPH2fQc5Q6KthPQ
+	FqmfYK6Uq5e1sJzZt7Pj+PAkNCeaR0nYRbzqHouMQlIJwYKqDITWYJco+1VbQ09hxrxDO2ZzQid
+	Lwz1K2P7G+uOctT4xak2HPe0lUurx1/7ASB/d+6nIba3WfJpdwXn39tLQYMVHskVK2AaerY8Bi5
+	OwNMKLlhaFwhgaP7fKwhLZ/RlVpVYkA+cUmi44040z1IkdvaXhoaVrX90D5lexBDM7WzYnGFn9E
+	p3YOGH9SiNLKV61GsK8Q+mhX8fbuoyaMYXduu82+hyaZurF9bSwFxZGx/Fmd8mVIyqeFsiZK/gT
+	Hq5dZl3BvrNgCrg9beAlxp0eQy7x5WEV9atTlwdNt9VNfJ7M2tRQaYMlvqbcrH+NCbYTXg20cb+
+	A8+yjhl+yCX6NH0JAPjj+uwa9O2Fl
+X-Received: by 2002:a05:6000:2c0e:b0:48c:58d5:30fb with SMTP id ffacd0b85a97d-4abad5ac62emr32414248f8f.5.1795560767044;
+        Tue, 24 Nov 2026 14:52:47 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ad644140b5sm27446707f8f.17.2026.11.24.14.52.45
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ad644140b5sm27446707f8f.17.2026.11.24.14.52.46
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 14:52:45 -0800 (PST)
+        Tue, 24 Nov 2026 14:52:46 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 06/21] sqlite3: fix CVE-2026-119375
-Date: Tue, 24 Nov 2026 23:52:23 +0100
-Message-ID: <8afbe3bb846a6e1e0d73cb7e9b86428598ed2dee.1795560372.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 08/21] sqlite3: fix CVE-2026-119372
+Date: Tue, 24 Nov 2026 23:52:25 +0100
+Message-ID: <03e32765bb74923208ca473061c2e51a51f03a0b.1795560372.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1795560372.git.yoann.congal@smile.fr>
 References: <cover.1795560372.git.yoann.congal@smile.fr>
@@ -64,90 +64,98 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 22:52:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251108
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251110
 Content-Type: text/plain; charset="utf-8"
 
 From: Arpit Patel <arpitpa@cisco.com>
 
-This patch applies the upstream fix [1], which fully initializes the
-page read when the WAL and database page sizes differ, preventing
-disclosure of uninitialized page data. The GitHub mirror commit [1]
-corresponds to the SQLite Fossil check-in shown in [2].
+This patch applies the upstream fix [1], which prevents a use-after-free
+in FTS3 snippet() processing. The GitHub mirror commit [1] corresponds
+to the SQLite Fossil check-in shown in [2].
 
-[1] https://github.com/sqlite/sqlite/commit/e5bf119821f25be1d7f10ef0a2edbe175289166e
-[2] https://sqlite.org/src/info/f9b4ee369557c36c
+[1] https://github.com/sqlite/sqlite/commit/a87bd2471a9c0606e78d3c3678bcd9cecaa0e731
+[2] https://sqlite.org/src/info/e4635c41536a
 
 Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2026-119375
+https://nvd.nist.gov/vuln/detail/CVE-2026-119372
 
 Signed-off-by: Arpit Patel <arpitpa@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../sqlite/sqlite3/CVE-2026-119375.patch      | 47 +++++++++++++++++++
+ .../sqlite/sqlite3/CVE-2026-119372.patch      | 56 +++++++++++++++++++
  meta/recipes-support/sqlite/sqlite3_3.51.3.bb |  1 +
- 2 files changed, 48 insertions(+)
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119375.patch
+ 2 files changed, 57 insertions(+)
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119372.patch
 
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2026-119375.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119375.patch
+diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2026-119372.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119372.patch
 new file mode 100644
-index 00000000000..94bf2752a32
+index 00000000000..c05000cb491
 --- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119375.patch
-@@ -0,0 +1,47 @@
-+From 01d00d78bc2c756021a2f8f01733d58af7dec1ef Mon Sep 17 00:00:00 2001
-+From: drh <>
-+Date: Sun, 16 Aug 2026 10:49:39 +0000
-+Subject: [PATCH] When reading a frame from a WAL file where the WAL pagesize
-+ and the database pagesize disagree, be sure to fully initialize the page that
-+ is read.
++++ b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119372.patch
+@@ -0,0 +1,56 @@
++From 52acd34ba6d51393d9f714b3e0c5ae7d805ddeae Mon Sep 17 00:00:00 2001
++From: dan <Dan Kennedy>
++Date: Mon, 17 Aug 2026 13:55:38 +0000
++Subject: [PATCH] Avoid a problem causing a use-after-free in the fts3
++ snippet() function. Report [bugs:/info/2026-08-17T09:18:24Z |
++ 2026-08-17T09:18:24Z].
 +
-+FossilOrigin-Name: f9b4ee369557c36c606666bd7e6d8dc4685d87531993d3ce4e7a718aa814a5ac
++FossilOrigin-Name: e4635c41536a0b3620780c3f1c872de33121370bafb608fce9fe7e3113e2ae01
 +
-+CVE: CVE-2026-119375
-+Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/e5bf119821f25be1d7f10ef0a2edbe175289166e]
++CVE: CVE-2026-119372
++Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/a87bd2471a9c0606e78d3c3678bcd9cecaa0e731]
 +
 +Backport Changes:
-+- Applied the src/wal.c change to sqlite3.c because the recipe source
-+  uses the amalgamated SQLite layout.
++- Applied the ext/fts3/fts3_snippet.c fix to sqlite3.c because the
++  recipe source uses the amalgamated SQLite layout.
++- Omitted test/fts3snippet2.test because the extracted source does not
++  include the upstream Tcl test tree.
 +- Omitted manifest and manifest.uuid because they are Fossil
-+  repository metadata and are not needed in this source patch.
++  repository metadata and are not needed for this source patch.
 +
 +Signed-off-by: Arpit Patel <arpitpa@cisco.com>
 +---
-+ sqlite3.c | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
++ sqlite3.c | 10 +++++++---
++ 1 file changed, 7 insertions(+), 3 deletions(-)
 +
 +diff --git a/sqlite3.c b/sqlite3.c
-+index 1889632086..bcd317206b 100644
++index 83a018d3fc..cbad7b2ae5 100644
 +--- a/sqlite3.c
 ++++ b/sqlite3.c
-+@@ -70412,11 +70412,15 @@ SQLITE_PRIVATE int sqlite3WalReadFrame(
-+   i64 iOffset;
-+   sz = pWal->hdr.szPage;
-+   sz = (sz&0xfe00) + ((sz&0x0001)<<16);
-++  if( nOut>sz ){
-++    memset(pOut+sz, 0, nOut-sz);
-++    nOut = sz;
-++  }
-+   testcase( sz<=32768 );
-+   testcase( sz>=65536 );
-+   iOffset = walFrameOffset(iRead, sz) + WAL_FRAME_HDRSIZE;
-+   /* testcase( IS_BIG_INT(iOffset) ); // requires a 4GiB WAL */
-+-  return sqlite3OsRead(pWal->pWalFd, pOut, (nOut>sz ? sz : nOut), iOffset);
-++  return sqlite3OsRead(pWal->pWalFd, pOut, nOut, iOffset);
-+ }
++@@ -208133,6 +208133,7 @@ static int fts3BestSnippet(
++   sqlite3_int64 nByte;            /* Number of bytes of space to allocate */
++   int iBestScore = -1;            /* Best snippet score found so far */
++   int i;                          /* Loop counter */
+++  Fts3Expr *pExpr = pCsr->pExpr;
 + 
-+ /*
++   memset(&sIter, 0, sizeof(sIter));
++ 
++@@ -208161,9 +208162,12 @@ static int fts3BestSnippet(
++   sIter.nSnippet = nSnippet;
++   sIter.nPhrase = nList;
++   sIter.iCurrent = -1;
++-  rc = sqlite3Fts3ExprIterate(
++-      pCsr->pExpr, fts3SnippetFindPositions, (void*)&sIter
++-  );
+++  rc = sqlite3Fts3ExprIterate(pExpr, fts3SnippetFindPositions, (void*)&sIter);
+++  if( rc==SQLITE_OK ){
+++    /* Iterate through the expression twice, in case pointers garnered during
+++    ** the first iteration are invalidated by a call to fts5EvalRestart(). */
+++    rc = sqlite3Fts3ExprIterate(pExpr, fts3SnippetFindPositions, (void*)&sIter);
+++  }
++   if( rc==SQLITE_OK ){
++ 
++     /* Set the *pmSeen output variable. */
 +-- 
 +2.35.6
 +
 diff --git a/meta/recipes-support/sqlite/sqlite3_3.51.3.bb b/meta/recipes-support/sqlite/sqlite3_3.51.3.bb
-index f76ca8bd564..79d12d4b039 100644
+index 9dd182b168a..c6a19525fa7 100644
 --- a/meta/recipes-support/sqlite/sqlite3_3.51.3.bb
 +++ b/meta/recipes-support/sqlite/sqlite3_3.51.3.bb
-@@ -15,4 +15,5 @@ SRC_URI += "\
- 	file://CVE-2026-119377_p2.patch \
- 	file://CVE-2026-119373.patch \
+@@ -17,4 +17,5 @@ SRC_URI += "\
  	file://CVE-2026-119374.patch \
-+	file://CVE-2026-119375.patch \
+ 	file://CVE-2026-119375.patch \
+ 	file://CVE-2026-119379.patch \
++	file://CVE-2026-119372.patch \
  "
