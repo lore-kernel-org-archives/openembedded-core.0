@@ -1,162 +1,63 @@
-Subject: Re: [wrynose][PATCH 06/12] curl: fix CVE-2026-92386
-To: openembedded-core@lists.openembedded.org
-From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
-X-Originating-Location: Mumbai, Maharashtra, IN (151.186.177.21)
-X-Originating-Platform: Windows Edge 158
-User-Agent: GROUPS.IO Web Poster
-MIME-Version: 1.0
-Date: Tue, 24 Nov 2026 09:29:14 -0800
-References: <20261104073627.302002-1-dkelaiya@cisco.com> <20261104073627.302002-7-dkelaiya@cisco.com> <DN2R468NTAL9.2NXZ7MZO87AV3@smile.fr>
-In-Reply-To: <DN2R468NTAL9.2NXZ7MZO87AV3@smile.fr>
-Message-ID: <1257714.1795541354740666673@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="3YsSQSVzuazphQlltWHH"
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.24719.1795541894114345336
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 24 Nov 2026 09:38:14 -0800
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=kzG0rnsm;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=vdGoZ7mN;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a20ea300fc-311df9d0-05f9-497c-9783-5bd6eb71f476-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1795541893; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=KWhxroiJJoeoqpvynYtMmvAL/4733YeeIo5LgCAKjhw=;
+	b=kzG0rnsmITytz1Fk8Ks0Mq7jSVbOBgDq4zt0TiwLaRpMUq32jVUWUeS6M9/qMVTq
+	Y+UvUyVsqDHj6lTzMSIyxP1rZdvL06PxKqD08Pv49TgPWPWvUJjBpR7Um1eOVjMc3tI
+	mfd831bH1G9DzRdgSPRrQSYKeF3Kc3ek6PHSmM3A=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1795541893;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=KWhxroiJJoeoqpvynYtMmvAL/4733YeeIo5LgCAKjhw=;
+	b=vdGoZ7mNmP3PpZQnG3OFJr/frNCJ04J1SSMYYlBeOjtGUzYsZUkqDsDRSmKJEXES
+	HkLYiX/rLp6g8yl1eMHH0LRxVhMbO3fDByBXdJNecv8JqZyRXlDmzokd3zyJl7+HyZw
+	oMW+2woersqLxS/XG4DQOygrJiSGwzV98/Mr73d4=
+From: patchtest@automation.yoctoproject.org
+To: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 05/11] zstd: upgrade 1.5.7 -> 1.6.0
+In-Reply-To: <20261124171807.74394-6-jaipaul.cheernam@est.tech>
+References: <20261124171807.74394-6-jaipaul.cheernam@est.tech>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101a20ea300fc-311df9d0-05f9-497c-9783-5bd6eb71f476-000000@us-west-2.amazonses.com>
+Date: Tue, 24 Nov 2026 17:38:13 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.11.24-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 17:29:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251067
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 17:38:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251068
 
---3YsSQSVzuazphQlltWHH
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+--NextPart
+Content-Type: text/plain
 
-Hi Yoann,
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Thanks for the review. I will send a regression follow-up on top
-of Joao's patch as soon as possible for Blacksail.
+---
+Tests failed for the patch, but the results log could not be processed due to excessive result line length.
+---
 
-Regards,
-Darsh
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
 
-On Mon, Nov 23, 2026 at 10:33 PM, Yoann Congal wrote:
+--NextPart
 
->=20
-> On Wed Nov 4, 2026 at 8:36 AM CET, Darsh Kelaiya -X (dkelaiya - E
-> INFOCHIPS PRIVATE LIMITED at Cisco) via openembedded-core wrote:
->=20
->> From: Darsh Kelaiya <dkelaiya@cisco.com>
->>=20
->> This patch applies the upstream fix as referenced in [2],
->> using the commit shown in [1].
->>=20
->> Include the upstream correction [3] to accept every cookie-jar record
->> that curl can serialize. The original MAX_COOKIE_LINE + 48 allowance
->> is too small for long paths and domains. Keep both commits in separate
->> patches and include the test1902/lib1902.c regression coverage.
->>=20
->> [1] https://github.com/curl/curl/commit/445aa87e13f91c94bc742f54343a2eac=
-924e1765
->>=20
->> [2] https://curl.se/docs/CVE-2026-92386.html
->> [3] https://github.com/curl/curl/commit/7d64440abba37e3d8039fe663d3edc84=
-f582ce92
->>=20
->>=20
->> Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
->> ---
->> .../curl/curl/CVE-2026-92386_p1.patch | 33 ++++
->> .../curl/curl/CVE-2026-92386_p2.patch | 146 ++++++++++++++++++
->> meta/recipes-support/curl/curl_8.19.0.bb | 2 +
->> 3 files changed, 181 insertions(+)
->> create mode 100644 meta/recipes-support/curl/curl/CVE-2026-92386_p1.patc=
-h
->> create mode 100644 meta/recipes-support/curl/curl/CVE-2026-92386_p2.patc=
-h
->>=20
->> diff --git a/meta/recipes-support/curl/curl/CVE-2026-92386_p2.patch
->> b/meta/recipes-support/curl/curl/CVE-2026-92386_p2.patch
->> new file mode 100644
->> index 00000000000..4228387ae63
->> --- /dev/null
->> +++ b/meta/recipes-support/curl/curl/CVE-2026-92386_p2.patch
->> @@ -0,0 +1,146 @@
->> +From 7d64440abba37e3d8039fe663d3edc84f582ce92 Mon Sep 17 00:00:00 2001
->> +From: Zheng Yu <dataisland@outlook.com>
->> +Date: Wed, 14 Oct 2026 18:13:59 -0700
->> +Subject: [PATCH] cookie: reload complete self-generated cookie jar rows
->> +
->> +Closes #23407
->> +
->> +CVE: CVE-2026-92386
->> +Upstream-Status: Backport [ https://github.com/curl/curl/commit/7d64440=
-abba37e3d8039fe663d3edc84f582ce92
->> ]
->> +
->> +Backport Changes:
->> +- Match the two spaces before URL in the deleted CURLOPT_COOKIEJAR
->> + line in lib1902.c; upstream's deleted line uses one space.
->> +
->> +(cherry picked from commit 7d64440abba37e3d8039fe663d3edc84f582ce92)
->> +Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
->> +---
->> + lib/cookie.c | 9 ++++++---
->> + tests/data/test1902 | 5 ++++-
->> + tests/libtest/lib1902.c | 39 ++++++++++++++++++++++++++++++++++-----
->> + 3 files changed, 44 insertions(+), 9 deletions(-)
->=20
-> Hello,
->=20
-> That _p2 looks indeed like a regression fix, it needs to be submitted to
-> blacksail.
->=20
-> Regards,
-> --
-> Yoann Congal
-> Smile ECS
 
---3YsSQSVzuazphQlltWHH
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div>Hi Yoann,<br /><br />Thanks for the review. I will send a regression f=
-ollow-up on top</div>
-<div>of Joao's patch as soon as possible for Blacksail.<br /><br />Regards,=
-<br />Darsh</div>
-<div>&nbsp;</div>
-<div>On Mon, Nov 23, 2026 at 10:33 PM, Yoann Congal wrote:</div>
-<div>
-<blockquote>On Wed Nov 4, 2026 at 8:36 AM CET, Darsh Kelaiya -X (dkelaiya -=
- E INFOCHIPS PRIVATE LIMITED at Cisco) via openembedded-core wrote:<br />
-<blockquote>From: Darsh Kelaiya &lt;dkelaiya@cisco.com&gt;<br /><br />This =
-patch applies the upstream fix as referenced in [2],<br />using the commit =
-shown in [1].<br /><br />Include the upstream correction [3] to accept ever=
-y cookie-jar record<br />that curl can serialize. The original MAX_COOKIE_L=
-INE + 48 allowance<br />is too small for long paths and domains. Keep both =
-commits in separate<br />patches and include the test1902/lib1902.c regress=
-ion coverage.<br /><br />[1] <a href=3D"https://github.com/curl/curl/commit=
-/445aa87e13f91c94bc742f54343a2eac924e1765" target=3D"_blank" rel=3D"noopene=
-r">https://github.com/curl/curl/commit/445aa87e13f91c94bc742f54343a2eac924e=
-1765</a><br />[2] <a href=3D"https://curl.se/docs/CVE-2026-92386.html" targ=
-et=3D"_blank" rel=3D"noopener">https://curl.se/docs/CVE-2026-92386.html</a>=
-<br />[3] <a href=3D"https://github.com/curl/curl/commit/7d64440abba37e3d80=
-39fe663d3edc84f582ce92" target=3D"_blank" rel=3D"noopener">https://github.c=
-om/curl/curl/commit/7d64440abba37e3d8039fe663d3edc84f582ce92</a><br /><br /=
->Signed-off-by: Darsh Kelaiya &lt;dkelaiya@cisco.com&gt;<br />---<br />.../=
-curl/curl/CVE-2026-92386_p1.patch | 33 ++++<br />.../curl/curl/CVE-2026-923=
-86_p2.patch | 146 ++++++++++++++++++<br />meta/recipes-support/curl/curl_8.=
-19.0.bb | 2 +<br />3 files changed, 181 insertions(+)<br />create mode 1006=
-44 meta/recipes-support/curl/curl/CVE-2026-92386_p1.patch<br />create mode =
-100644 meta/recipes-support/curl/curl/CVE-2026-92386_p2.patch<br /><br />di=
-ff --git a/meta/recipes-support/curl/curl/CVE-2026-92386_p2.patch b/meta/re=
-cipes-support/curl/curl/CVE-2026-92386_p2.patch<br />new file mode 100644<b=
-r />index 00000000000..4228387ae63<br />--- /dev/null<br />+++ b/meta/recip=
-es-support/curl/curl/CVE-2026-92386_p2.patch<br />@@ -0,0 +1,146 @@<br />+F=
-rom 7d64440abba37e3d8039fe663d3edc84f582ce92 Mon Sep 17 00:00:00 2001<br />=
-+From: Zheng Yu &lt;dataisland@outlook.com&gt;<br />+Date: Wed, 14 Oct 2026=
- 18:13:59 -0700<br />+Subject: [PATCH] cookie: reload complete self-generat=
-ed cookie jar rows<br />+<br />+Closes #23407<br />+<br />+CVE: CVE-2026-92=
-386<br />+Upstream-Status: Backport [<a href=3D"https://github.com/curl/cur=
-l/commit/7d64440abba37e3d8039fe663d3edc84f582ce92" target=3D"_blank" rel=3D=
-"noopener">https://github.com/curl/curl/commit/7d64440abba37e3d8039fe663d3e=
-dc84f582ce92</a>]<br />+<br />+Backport Changes:<br />+- Match the two spac=
-es before URL in the deleted CURLOPT_COOKIEJAR<br />+ line in lib1902.c; up=
-stream's deleted line uses one space.<br />+<br />+(cherry picked from comm=
-it 7d64440abba37e3d8039fe663d3edc84f582ce92)<br />+Signed-off-by: Darsh Kel=
-aiya &lt;dkelaiya@cisco.com&gt;<br />+---<br />+ lib/cookie.c | 9 ++++++---=
-<br />+ tests/data/test1902 | 5 ++++-<br />+ tests/libtest/lib1902.c | 39 +=
-+++++++++++++++++++++++++++++++++-----<br />+ 3 files changed, 44 insertion=
-s(+), 9 deletions(-)</blockquote>
-Hello,<br /><br />That _p2 looks indeed like a regression fix, it needs to =
-be submitted to<br />blacksail.<br /><br />Regards,<br />-- <br />Yoann Con=
-gal<br />Smile ECS</blockquote>
-</div>
-
---3YsSQSVzuazphQlltWHH--
+--NextPart--
