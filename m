@@ -1,97 +1,111 @@
-Received: from mail-dl1-f52.google.com (mail-dl1-f52.google.com [74.125.82.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13831.1795510051713318249
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14142.1795510425247227134
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2026 00:47:31 -0800
+ Tue, 24 Nov 2026 00:53:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=s6+ZBI12;
- spf=pass (domain: gmail.com, ip: 74.125.82.52, mailfrom: raj.khem@gmail.com)
-Received: by mail-dl1-f52.google.com with SMTP id a92af1059eb24-1a2761c69fbso3877621c88.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 00:47:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795510051; x=1796114851; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=cWNObwyxfe+vx9nIw6Tl83xqFTwauAXFOQIZ7+m0USk=;
-        b=s6+ZBI12W/SuysJrF5xF0Q4Ly3YHWfSJ/RStD6FPVi6cDmmWfK7zvcdUyODWT74wGx
-         UmzJDdrQmtGVDSlJU2ApJBgJ2XqcpCbM/Jo/JiZ5qI2igXJpheMk6AudtyBFxOizlBth
-         txwwAMHbXYTAWgpO/R4P80VddoAb97dU+jN5HUWPblLyozP4LqT9d0QQPlqfBxjyLnBo
-         oIlU5J61Fdxxr1HNF2N2sbiSdYmWnV79ay9Zd/GKP9exlN4HfRl6Oz4g8K6k7LPvG9wR
-         rPAsYEiCG55vp92S1C6Lq33dQ8poguHm6V+mLWpPLdNVtGRgKm9ScvkiTv4AS4EMhs0E
-         FjQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795510051; x=1796114851;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=cWNObwyxfe+vx9nIw6Tl83xqFTwauAXFOQIZ7+m0USk=;
-        b=eJ7AJ+NcemC4++c/HS2VZ5tjtZPuX8IZ7Q/7UgGblZmmr6FTwfVh5iH1dkg/mk2aDi
-         vye4o+or5y5hOdmXky20wTXEUPXuO4ipg6o6fd/9ABOz3dqoOoQ8JQBpWXprBI8XaDek
-         /hHDIAMv59r4f4Vq8kyIZl31fQaV86S66KHoBXe7+ekbSbCMnxWOgGKCfK17nHRJC+mW
-         ZybnQLYcfpoy8glJYxJdm/Krsscd/n/U3ak7oJb6JIF+6VkP9Vdf/fgdWYr935UrYCGW
-         QCbD5zKaLytEht0KKxRVu8Q5cNAIkwOyI95Ol+CXv+QkUY9piahMgB0dtt8e6y81/xU2
-         jEtg==
-X-Gm-Message-State: APuU4Z80umlArQ336kad90QGSBi32HSGo02npiBov3+jXXA/VNc0IkRn
-	HXoWJEN5OgcfYmvAzSYC7Qn2LEkulx6DPtK+mA8DSPuCuYigDQRJeyzPBIkRn03Z
-X-Gm-Gg: AZFdTZfKsYcB/dXykhUenJbDxvKO0szlO9H/PqNXbBMnMrGbxumk729WQItugPfB0eU
-	E6jIfAU6lrAo/BlYASwST8wgX7qx1fzY7gX09nUp941UMHWDfBb/JjM0OBQCcQRqYa6+jvq/46e
-	IhL3/0ciKRUsRPOjBZPVxz1ae0F62l2UZiSdzQCCUCKekd3GGjTnZj19rAt/FLnC3Ax+sro/BcV
-	bq2QDqepGRG1eGiT4UTVFmc/1nn+HhIA7clGamsDsERQTmN56p0RiY7jLtdrHmgI3okHrwAiAgz
-	lgYguIdiWWWp3C3U0b9rplkm6lhdUcc3wpeUneo69kMltktmEQlf1ixgndY3fZpB4/YCX7WdOcX
-	WX2usNbGTQlOzrOyhraY4jmUfzQfeTdkONF2r+LM2LDvoe0GN1vIBLE/EtWYAH6ZV2ZFpSKaA39
-	XlXNLQX3ThphmupUP4hmYo3gVcbnJEU8+F2VoQDE++BGxbQnjekMNpwRFUhSCoaizQg5+HZYdrU
-	ovvAGVX6PRo7+oedTYmUzrORhpT4m7fZpV39/IgLqqvqGGdt10Uyq2Do+7Ay4R4jLjs7V2Ydd2S
-	UC/VIYKq2Bunv3ZTr5ddROmnifgPeIy7vZNVV8CHgxShKsM2Me3FWiYPO7uLuF5WLflXhn26C3q
-	9+/9va7k+HCWLRp4uSEL514nPJ6ZS6Y112poAYUzuQXHKfrfELyaBYcvv/qZw75fzVzwBIE+w6a
-	sG+AySm8NoJY0dB2pUVF46zyOAIUu8A2RFF/lKa0clyKVQnr6pFL4HfWeDcxBOvBc/DrWh3YxDt
-	zJ0YHk6LtiWAINrlf52EqI2GOu+7sqbQN1TwteEOHHuNnViV5mLgN2Ji1x136DsaIbzodtoZvV5
-	Vjku
-X-Received: by 2002:a05:701b:42c6:10b0:1ac:91b6:8dfd with SMTP id a92af1059eb24-1b55690919bmr16610246c88.31.1795510050843;
-        Tue, 24 Nov 2026 00:47:30 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b556847fdasm38101035c88.13.2026.11.24.00.47.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 00:47:30 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=XQu5j53Y;
+ spf=pass (domain: est.tech, ip: 40.107.159.45, mailfrom: jaipaul.cheernam@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ygxyTZJZoC64QR/xWXb2QpyilmsnkVRQMfjUXzbkTEofoG9jYredkkJSmSbkYcsDBWD93ftlqejJQ9Pei4i6JPTMICBx5oFh19hv8LxOXYWcNA+4aOPSGGN0I+Lnhi7GxxPkMmz9Qp55A5xhhOJGBhgNYL3Qizj6A7s3TYI1qAUK4UqeC/P5aFQ28qFqcgUmOmKq1LgpZOm7yjjTG9dzJbgC/6zlm348238+5obSIidvF2RiHjMFOzmeRZOMF2Qdf4lg4zysxFgxha0ZQxGaCDwLlYYt8TR8esOm41LoPWt4UcWaXJT+TGXdDPHMQeGcIyO7iKXB/9K5xRsOR6iTnA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UwSpEieJ6guJH8q2HMh+FFN4vbQnv5cUZPy8dPmgZuw=;
+ b=RS8Z/vvHx4y63kPvDGCHEf8ERVBV5j+A2IpIVtf7C+CLD2tt2vM/JTUy9T/Hl2YN/V3RsZxD+X898ecHiHcUT0VH+g1XiakUp81vE07ulvrlKigc2NHVRGCayAZJszRHAK5ptndq4leTLPpk5Je2aXKe1nBJd8U/EeYzed0DADMNy3iNtbxJpKMUeOhGUM4/APTmSfpAqBtMt8FyPG7PslrBqGdfIoU3bhGI9mSmKes7+oR9WqlAa2S0FSQO8b1lqYexKpvDv3xHkxXsVM5QcgABBez7yfSN6AYxNniHNKbszPDiqgj/TspsvnMg4bRyvSO+OPBh8XQWjNn9DrKU1A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UwSpEieJ6guJH8q2HMh+FFN4vbQnv5cUZPy8dPmgZuw=;
+ b=XQu5j53YjvNtZjX9uF8ZsqhN7HdO9bEmn9itPqBHFqgX4TT86jUePze3Qf4QMuuomQ6YoWxtxHYVqgLVC1w2a/VYxZuYaRGMxk1RhxKM8V95//GbfTT79BomVuJQWQ+0364ct50rz/w3Vu4YOUiSA+lbCH4FK7R/hmofS+0d5tyaSC/yEWB9DLYTUetDjIeLFoj/gnnqisW4QCCidEJkkhspH+6+nM6p/EF6nXwQp1g6lIs+Bxah8Fp4w3vvgW5ftPMpnef4NO+zJpxmqa60qYj6oUOp/6gL3StVqRt68xWoU8C2onpzhZmtrxGYFgnUDHBypyn2b3QuS7j56qtlBw==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
+ by GV2P189MB2211.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:7b::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.12; Tue, 24 Nov
+ 2026 08:53:38 +0000
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0639.012; Tue, 24 Nov 2026
+ 08:53:38 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <khem.raj@oss.qualcomm.com>
-Subject: [PATCH] ptest-perl: Run do_install_ptest_perl before do_populate_sysroot
-Date: Tue, 24 Nov 2026 00:47:27 -0800
-Message-ID: <20261124084727.2388995-1-khem.raj@oss.qualcomm.com>
-X-Mailer: git-send-email 2.56.1
+CC: adam.duskett@amarulasolutions.com
+Subject: [PATCH 0/2] dnf5 patches
+Date: Tue, 24 Nov 2026 09:53:33 +0100
+Message-ID: <20261124085335.68851-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: DU7PR01CA0041.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:50e::6) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:6c0::19)
+Return-Path: jaipaul.cheernam@est.tech
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|GV2P189MB2211:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6d09a42a-a403-491a-1ddc-08df4a086e5f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|18002099003|6133799003|261009223027099003|11063799006|261026140227099003|10067099003|56012099006|261102123227099003|261028144727099003|261026121527099003|261022105027099003|261021123027099003|261021121427099003;
+X-Microsoft-Antispam-Message-Info: g7hPTNcPCK4VQ3rRa8bGZGm4CAxcH7x8U6m8o8loaVcItiDf1nOPe2cBlbCej/EZUMqYEPapFA7HznyubEdMs6pkXQsuNePeHww12duPKGAi8HkoACM+t4jplBy79gK8IyoNq1IXIHYL19eIP4REgETdqRHcvagz56g2bm/WkUVEu9J5nuSGN3ipp2d+WTY1mYx8lmOzAGVJBL9RaQCcCmBcQ/srxyWiwR2zWWqWVm2GZE/KBNHP+vuoTzluoza3SsFfBS7sn3kzVVrt8gp+SGRtwxpbddZunK0NM55x27X5Iak6ogdIyqFKx+jNY9jvDujtEd/LiLvlv8BMlqgdp0W9Ad9NhXnaZmkG0UJsnQvXJwSLIrIumcnwnXGAdG46kEDmu3H4eMgWUA+2KVHa9ee4+nRtmEgaFO7XWEDeiw1ZuddrK7qxk/OSpgAC9WPuEpcipVlv0WZ/CDG4+eDk/64fag4RE/FRzMRhV1kyKT778QZU60+bN/4tX41nxAR62hTlAgx1B0dUdULpoSAcDtwInbaWO7VBp15pl19g+DH3rTMmAXU7z6yvWSnY6wju38qSOrPK/DllUau5W/34XWG5c8iOj8EObLQc4PcB3F34aLHemPobgmo10OKlkJ3Owi0VnjkDn5BuY8ZxgSehKkzvk7sRXtghHqNNOEl24HM=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(18002099003)(6133799003)(261009223027099003)(11063799006)(261026140227099003)(10067099003)(56012099006)(261102123227099003)(261028144727099003)(261026121527099003)(261022105027099003)(261021123027099003)(261021121427099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?PmT/4Nf0KZ/JIPmxCJrD0REEs9djhAHNoZKia4WGYncKN80axNSJ5Z57Xwag?=
+ =?us-ascii?Q?3cQ03ei+omlnqgiwH9NOLyOMIpTKHlyceVMznbpqMPI5+T6v1u328o8g7hVJ?=
+ =?us-ascii?Q?bUKkyiZPWQNoUCckMWdbNiM+J4pt0iZ+mqgZ4O9SsmPHsoUTXwjEq53Am6zE?=
+ =?us-ascii?Q?IjpDuDGnvCRtEDLLwVclMt1VevyKSQLuiBoTKQf9Bjqrk3dgniVUPEKBYZNl?=
+ =?us-ascii?Q?Pdi7j4Mm2QxYIWATRm4XHMrG7ICOMXK8sQ1UqrJeM5mMijDYnVOSsIrRSooE?=
+ =?us-ascii?Q?CGl/HOLpyLQME1hgBfA0nfj/X4vA4UQucPuZD35sHISNJfZnPHaCJnAI6+w9?=
+ =?us-ascii?Q?GAUlS9GxyCOQqmAU7Z7nERjgLHhm20sc2i+jTv6pFGzErMAwOseytsLlT1Z2?=
+ =?us-ascii?Q?lXR+4OoiBxLVfBH8NmgRbgb+tYrtmd090+YTtmmGkav1aMzsHXc4+gMbnOX/?=
+ =?us-ascii?Q?p9PgM3DX8dSaC03kTOMymvDLrBrY4l+tVoc6f70U1OEUeUptxJyimgdLfi7l?=
+ =?us-ascii?Q?BR5mX2pREw1r0Mz2VMbl4YgVZDYHSWlA0AUrtPm6uaQ4xwdrHyL2oHHzaosO?=
+ =?us-ascii?Q?SGzVJtZeegAY7cukeiN3xBt0bqySYt6VgJojeVqMiOR0zx+aSB+o4XUXFeFW?=
+ =?us-ascii?Q?6Jl+AGszdHUaVPgQAyFI+iQHVoi/9gCd+7mE7vgEzv3CLv5c2pBf+nYNYVbr?=
+ =?us-ascii?Q?9SyptwuUXHF4gFaf7a9kgXkpQWxdlxufdytuGAw7c4vkgAU6Nqgv3o8lwUEn?=
+ =?us-ascii?Q?6bXokBs66T0cyxApQeHi+YAjt4iLse+sEWz+iUlwiRE+wFsx65B5VppOOt+M?=
+ =?us-ascii?Q?jCovVX5scjXBQs6eNVLtoBm6QqT/vK24r2UvAurmmB5+zVQdQSyT+2kWP8fG?=
+ =?us-ascii?Q?KUMGRYGhu1c17Lx6sCmF1lFUVsyT5CCpUEAiKuYyoHQrdSmW8xpNBuhVXsVG?=
+ =?us-ascii?Q?euIwwTkfQ2tXuitDbVsF2yT/e1USYq2CKdAIFzK7lFczKQMcZepN61YcsLFL?=
+ =?us-ascii?Q?V6jIVENRmUnWOeveE+UYPrwuw65rNB3q+hXTSw27ErvSw1ckNvTJFXug9Ami?=
+ =?us-ascii?Q?/OVmFCv7z1Ft4/q4Gv6XftcY0doqcDplUICkQ93qmIIiNQNePfXArb+iXpNn?=
+ =?us-ascii?Q?K15oSIGoSA6Lcj2g3XvGi9XC2ny7guq5KfkwbFKE/teaqeGr8EwD63tt8idm?=
+ =?us-ascii?Q?I85/7q+RysR2VRYi9CQoKky71jZrWOdJi3DuZ7nvppWm+9QpuXE6qGQZq+HN?=
+ =?us-ascii?Q?v2y7bRhE1CFu+0stQyXpmJSU1RuIELfIbbKDxVLL4G6c8TDLZlG+4ZFObRqE?=
+ =?us-ascii?Q?Rp+pfUOz2eneOELdt1gqlpv3dZNJvmVEucgc+kub5bTL3GhcpJ3kI3BFQWCl?=
+ =?us-ascii?Q?Bo7tH4dm9EmgMpeSoeaCWU1t98uhcHex6O57xktzXcAd2LcpxmtZFzc/t50u?=
+ =?us-ascii?Q?xkqwOJg5aAJNQoPFpdiKmdNVWfyqYVL/NQbM6nhxwQmC8pyKl9oMb83L29Ji?=
+ =?us-ascii?Q?AjA9R4i2z/XcJlTY3Ly1VVwS6cPDSjKGzVDGNJTROgWXyB9DbZGQLWAnUukL?=
+ =?us-ascii?Q?S3x83P7BQREQqdBBOeZCUrlSmN1JBUzNlfaOoRwgFiGTYdzQGCikzy9t91Rh?=
+ =?us-ascii?Q?gM6DWF5xKEftkFVsqoZcFfXHmqpKO2WxuIwzW7z6Rg1bt1NxOk3V4NyWwmVA?=
+ =?us-ascii?Q?iGDi369ZDxFfUSUmZOvTCE/oA/6b5aqS4ieAmCw/rLnQY1YYo8HPSvYaqXrP?=
+ =?us-ascii?Q?3IrCenOmmg=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6d09a42a-a403-491a-1ddc-08df4a086e5f
+X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2026 08:53:38.3516
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: JdMg33SpxDT0YxTs6RxiOPzWyxo+pNZaW0T9mAvDTgYYOqi0maSn5VEbNh4Jht/4cFvy/rgrGs4Ewh2THjQ6y/PWrUznhEfzQmDN4Q93rXU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2P189MB2211
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 08:47:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250978
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 08:53:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250979
 Content-Type: text/plain; charset="utf-8"
 
-do_install_ptest_perl changes ${D} after do_install, but it is only
-ordered before do_package, so do_populate_sysroot can stage ${D} at the
-same time. Recipes that remove files from ${PTEST_PATH} in it then fail
-at random, e.g. libnet-dns-perl, which deletes t/00-install.t:
+Jaipaul Cheernam (2):
+  dnf: Replace systemd unit dir patch with EXTRA_OECMAKE
+  dnf: Update Upstream-Status of bash completion directory patch
 
-  cpio: ./libnet-dns-perl/ptest/t/00-install.t: Cannot stat: No such file or directory
+ ...rdcode-etc-bash-completion-directory.patch |  2 +-
+ ...-hardcode-the-systemd-unit-directory.patch | 29 -------------------
+ meta/recipes-devtools/dnf/dnf_5.4.8.0.bb      |  2 +-
+ 3 files changed, 2 insertions(+), 31 deletions(-)
+ delete mode 100644 meta/recipes-devtools/dnf/dnf/0001-Do-not-hardcode-the-=
+systemd-unit-directory.patch
 
-Order it before do_populate_sysroot too, as ptest.bbclass does for
-do_install_ptest_base.
-
-Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
----
- meta/classes-recipe/ptest-perl.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes-recipe/ptest-perl.bbclass b/meta/classes-recipe/ptest-perl.bbclass
-index a4a9d40d52..64c1590597 100644
---- a/meta/classes-recipe/ptest-perl.bbclass
-+++ b/meta/classes-recipe/ptest-perl.bbclass
-@@ -23,7 +23,7 @@ FILES:${PN}-ptest:prepend = "${PTEST_PATH}/t/* ${PTEST_PATH}/run-ptest "
-
- RDEPENDS:${PN}-ptest:prepend = "perl "
-
--addtask install_ptest_perl after do_install_ptest_base before do_package
-+addtask install_ptest_perl after do_install_ptest_base before do_package do_populate_sysroot
-
- python () {
-     if not bb.data.inherits_class('native', d) and not bb.data.inherits_class('cross', d):
