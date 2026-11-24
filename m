@@ -1,193 +1,130 @@
-Subject: Re: [wrynose][PATCH] sudo: fix CVE-2026-82474
+Received: from mail-dy1-f181.google.com (mail-dy1-f181.google.com [74.125.82.181])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15947.1795519562825555637
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 24 Nov 2026 03:26:02 -0800
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@mvista.com header.s=google header.b=LkfeVMUE;
+ spf=pass (domain: mvista.com, ip: 74.125.82.181, mailfrom: rsangam@mvista.com)
+Received: by mail-dy1-f181.google.com with SMTP id 5a478bee46e88-38644aedba1so6752904eec.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 03:26:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1795519562; x=1796124362; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=fqG/0edUY+K3KcxMArRgkW655Y5LLi4gU/iUULTJKrI=;
+        b=LkfeVMUEC89gvYyVjYTLfUJ/IybvILPYKqBNSpQmxgfqBh7dJNnx4DGmSo8ScPqRzQ
+         yoLOCshERJbWK5/2EWRwieHwQyrZfmqqXJKl1mzlr+5Y1itYmeWHTjXUNjonCNbQ04qA
+         JrA2CV/kmz0K4OlKfOxYTbfFlECTHJ4uQoAhw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795519562; x=1796124362;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=fqG/0edUY+K3KcxMArRgkW655Y5LLi4gU/iUULTJKrI=;
+        b=s4mWZQbVa5Y5DmbPSxU1Pep0XqC/5TqOb9vZ6tBqL0sX7oZRaXjiC+DZUShnIp8uaK
+         1jwLQmGQsBe1rRxglHQtTUahFqytreqSy4c700QoCDVO75QTHlX3d3/nl0igtSdZP/jh
+         L1iJl2HJEmcVhh5WkyprNT2obLAQqrEcXTi4w90anDkxhrs3Y5F83B0yZ+N5Pw5vuH+A
+         RFFXDnUa0toA+XQ3BebxZgxYqdRe/HVxdvkzk2uQz6pCdBzfohzsNQDDoGeVqOV0TiGM
+         4g/Qy/srlnzHgQORC5CrQTAl/AIaS+bgccFnLBmZ1zi8sS1BItKytUSjbWHtinHCw1BI
+         eXfg==
+X-Gm-Message-State: APuU4Z8I0wKtpgmgdku9gYptJhp8GEHCevBdr7z4RFe5xMbUdTRAkIm+
+	fBDcdI2x4dDcCefmkByLHnXRnotXijX6R6TobcMUMOduwoksIL8+9MKsmSetj+pNwdMKdXy+PP4
+	W79JnmXk=
+X-Gm-Gg: AZFdTZeJ/FpNboda195msg7Hms685tyojDx2z4dtWjh/TpzOOwW+Uu8jeHYSMx2cxQ3
+	UcYjQ4R/IVlpYmqzfxqnGKm88xhKzKes1ift5+yRRlbDilP6yKUiw4K6s6pGPyCBeO5TAsvnq1q
+	F2AgmBpIF1gJRjeTBIxouvGfmI6oCV0Vl/MbgHkN2I76cF1GE4C5Kuyu1rU4fwNBSCI33/bES4N
+	ZdSvklUT+4LZV7FjpN4J0QRQPcjLVygE5tYewSJlw5o8uGsUgZlr/L9JszWO8rFC9zRLOy4c2Pe
+	8nnjV2M+AH29MD33XEC65nm8bq5EvFTgNeDXXPiJ1hiQ1fOoIwX/bnIUs0wlLBMhNM8+P01Vf2P
+	uSdZuYNR4ssnXtziNz71HZ5xp6lyZgeCv7hSLDCwf3FZg6agjEYnN1haqCdgFuCNxuhNWdQKo/y
+	9XJxfZLe5ovJMg5ol6oa/Sphhclpe9l033ky4a4YZ7uKTJbwrq1gIN9SE4iajXCP2TGhOlznqcH
+	JUIKzd5LTbDG7H4c8cZ84k7TITc9isKRXxwLxaXhHBuCaPedG1BMevZy+gofRVieZkHLse8nC3Z
+	lhGzhSHAplnwPSP0tVDfROTBLab0Jti1Y4EG
+X-Received: by 2002:a05:701b:4510:20b0:1b5:595f:4236 with SMTP id a92af1059eb24-1b5595f4800mr13228670c88.35.1795519561864;
+        Tue, 24 Nov 2026 03:26:01 -0800 (PST)
+Return-Path: <rsangam@mvista.com>
+Received: from MVIN00040.mvista.com ([49.207.209.52])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b55684c85fsm49961369c88.14.2026.11.24.03.25.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Nov 2026 03:26:01 -0800 (PST)
+From: Rohini Sangam <rsangam@mvista.com>
 To: openembedded-core@lists.openembedded.org
-From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
-X-Originating-Location: Mumbai, Maharashtra, IN (151.186.177.21)
-X-Originating-Platform: Windows Edge 158
-User-Agent: GROUPS.IO Web Poster
+Cc: Rohini Sangam <rsangam@mvista.com>
+Subject: [OE-core][scarthgap][PATCH] gstreamer1.0-plugins-base: Security fix for CVE-2026-18297
+Date: Tue, 24 Nov 2026 16:55:54 +0530
+Message-Id: <20261124112554.93601-1-rsangam@mvista.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Date: Tue, 24 Nov 2026 03:19:16 -0800
-References: <20261016065612.3926487-1-dkelaiya@cisco.com> <DM8WHNPDNECC.29BQ7CT8Z4HTX@smile.fr> <DMUTN7GH0G17.1CLRYSDWZVSUP@smile.fr> <897588.1794919051663404605@lists.openembedded.org>
-In-Reply-To: <897588.1794919051663404605@lists.openembedded.org>
-Message-ID: <1226682.1795519156912562061@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="ILTJuim9iiaD1hw52lvS"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 11:19:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251021
-
---ILTJuim9iiaD1hw52lvS
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 11:26:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251022
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Yoann,
+Pick patch from [1] also mentioned at Debian tracker in [2]
 
-I've sent a Blacksail patch:
-https://lists.openembedded.org/g/openembedded-core/message/251001
+[1] https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/178ae5ac20db75e56d65e4c4bc142bb234387807
+[2] https://security-tracker.debian.org/tracker/CVE-2026-18297
 
-I'll also send the master patch to add regression patches as soon as possib=
-le.
+Signed-off-by: Rohini Sangam <rsangam@mvista.com>
+---
+ .../CVE-2026-18297.patch                      | 35 +++++++++++++++++++
+ .../gstreamer1.0-plugins-base_1.22.12.bb      |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2026-18297.patch
 
-Thanks,
-Darsh
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2026-18297.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2026-18297.patch
+new file mode 100644
+index 0000000000..fa90a06566
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2026-18297.patch
+@@ -0,0 +1,35 @@
++From 178ae5ac20db75e56d65e4c4bc142bb234387807 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Sebastian=20Dr=C3=B6ge?= <sebastian@centricular.com>
++Date: Fri, 19 Jun 2026 13:48:16 +0300
++Subject: [PATCH] opusdec: Don't use any channel positions for >64 channels
++
++We don't support this.
++
++Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/work_items/5122
++
++Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/12044>
++
++CVE: CVE-2026-18297
++Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/178ae5ac20db75e56d65e4c4bc142bb234387807]
++
++Signed-off-by: Rohini Sangam <rsangam@mvista.com>
++---
++ ext/opus/gstopusdec.c | 2 ++
++ 1 file changed, 2 insertions(+)
++
++diff --git a/ext/opus/gstopusdec.c b/ext/opus/gstopusdec.c
++index 03d061a..7c936d0 100644
++--- a/ext/opus/gstopusdec.c
+++++ b/ext/opus/gstopusdec.c
++@@ -359,6 +359,8 @@ gst_opus_dec_negotiate (GstOpusDec * dec, const GstAudioChannelPosition * pos)
++     GST_DEBUG_OBJECT (dec, "Using a default of 2 channels");
++     dec->n_channels = 2;
++     pos = NULL;
+++    } else if (dec->n_channels > 64) {
+++    pos = NULL;
++   }
++ 
++   if (dec->sample_rate == 0) {
++-- 
++2.44.4
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.12.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.12.bb
+index 2eff864022..0f60e79b35 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.12.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.12.bb
+@@ -22,6 +22,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
+            file://CVE-2025-47808.patch \
+            file://CVE-2025-47806.patch \
+            file://CVE-2025-47807.patch \
++           file://CVE-2026-18297.patch \
+            "
+ SRC_URI[sha256sum] = "73cfadc3a6ffe77ed974cfd6fb391c605e4531f48db21dd6b9f42b8cb69bd8c1"
+ 
+-- 
+2.34.1
 
-On Tue, Nov 17, 2026 at 06:07 PM, Darsh Kelaiya -X (dkelaiya - E INFOCHIPS =
-PRIVATE LIMITED at Cisco) wrote:
-
->=20
-> Hi Yoann,
->=20
-> I'm preparing a backport patch for Blacksail also. Will send as soon as
-> possible.
->=20
-> Thanks,
-> Darsh
->=20
-> On Sat, Nov 14, 2026 at 02:51 PM, Yoann Congal wrote:
->=20
->> On Mon Oct 19, 2026 at 4:56 PM CEST, Yoann Congal wrote:
->>=20
->>> On Fri Oct 16, 2026 at 8:56 AM CEST, Darsh Kelaiya -X (dkelaiya - E
->>> INFOCHIPS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
->>>=20
->>>> From: Darsh Kelaiya <dkelaiya@cisco.com>
->>>>=20
->>>> This patch applies the upstream fix as referenced in [2],
->>>> using the commit shown in [1].
->>>>=20
->>>> The recipe enables Linux intercept support. Check execveat commands
->>>> and log subcommands instead of allowing this syscall unconditionally.
->>>> Resolve directory file descriptors and AT_EMPTY_PATH to paths for
->>>> sudoers policy checks.
->>>>=20
->>>> Apply prerequisites [3] and [4] for proc_read_link() and fexecve paths=
-.
->>>> Include follow-ups [5] and [6] to reject failed pathname rewrites and
->>>> correct relative-path moves. Keep the upstream source changes intact.
->>>>=20
->>>> [1] https://github.com/sudo-project/sudo/commit/71fbe42dcd5a1c8f799540=
-583a2dfb2ae6221edf
->>>>=20
->>>> [2] https://nvd.nist.gov/vuln/detail/CVE-2026-82474
->>>> [3] https://github.com/sudo-project/sudo/commit/1a312af6348594df371e60=
-88aeed99685977f575
->>>>=20
->>>> [4] https://github.com/sudo-project/sudo/commit/e822b729da31baf9154946=
-329a9d6ef569f0d182
->>>>=20
->>>> [5] https://github.com/sudo-project/sudo/commit/d1121181a87b2b47b4dfbb=
-2af42399fcc5f1e3cd
->>>>=20
->>>> [6] https://github.com/sudo-project/sudo/commit/02b14c043825b52be6cd53=
-7b7f11bd5e7e10512e
->>>>=20
->>>>=20
->>>> Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
->>>> ---
->>>> .../files/CVE-2026-82474-dependent_p1.patch | 94 +++
->>>> .../files/CVE-2026-82474-dependent_p2.patch | 34 +
->>>> .../files/CVE-2026-82474-regression_p1.patch | 39 ++
->>>> .../files/CVE-2026-82474-regression_p2.patch | 33 +
->>>> .../sudo/files/CVE-2026-82474.patch | 617 ++++++++++++++++++
->>>> meta/recipes-extended/sudo/sudo_1.9.17p2.bb | 5 +
->>>> 6 files changed, 822 insertions(+)
->>>> create mode 100644
->>>> meta/recipes-extended/sudo/files/CVE-2026-82474-dependent_p1.patch
->>>> create mode 100644
->>>> meta/recipes-extended/sudo/files/CVE-2026-82474-dependent_p2.patch
->>>> create mode 100644
->>>> meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p1.patch
->>>> create mode 100644
->>>> meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p2.patch
->>>> create mode 100644 meta/recipes-extended/sudo/files/CVE-2026-82474.pat=
-ch
->>>=20
->>> Hello,
->>>=20
->>> I think this fix is also needed for blacksail and master. Can you send
->>> the relevant upgrade/backports so I can merge this on wrynose?
->>=20
->> Hello,
->>=20
->> This CVE is now fixed on master but the cherry-pick does not apply
->> cleanly for blacksail. Can you send this fix for blacksail as well?
->>=20
->> Thanks!
->> --
->> Yoann Congal
->> Smile ECS
->=20
->=20
->
-
---ILTJuim9iiaD1hw52lvS
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div>Hi Yoann,<br /><br />I've sent a Blacksail patch:<br /><a href=3D"http=
-s://lists.openembedded.org/g/openembedded-core/message/251001" target=3D"_b=
-lank" rel=3D"noopener">https://lists.openembedded.org/g/openembedded-core/m=
-essage/251001</a><br /><br />I'll also send the master patch to add regress=
-ion patches as soon as possible.<br /><br />Thanks,<br />Darsh</div>
-<div>&nbsp;</div>
-<div>On Tue, Nov 17, 2026 at 06:07 PM, Darsh Kelaiya -X (dkelaiya - E INFOC=
-HIPS PRIVATE LIMITED at Cisco) wrote:</div>
-<div>
-<blockquote>
-<div>Hi Yoann,<br /><br />I'm preparing a backport patch for Blacksail also=
-. Will send as soon as possible.<br /><br />Thanks,<br />Darsh<br /><br />O=
-n Sat, Nov 14, 2026 at 02:51 PM, Yoann Congal wrote:</div>
-<div>
-<blockquote>On Mon Oct 19, 2026 at 4:56 PM CEST, Yoann Congal wrote:<br />
-<blockquote>On Fri Oct 16, 2026 at 8:56 AM CEST, Darsh Kelaiya -X (dkelaiya=
- - E INFOCHIPS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:<=
-br />
-<blockquote>From: Darsh Kelaiya &lt;dkelaiya@cisco.com&gt;<br /><br />This =
-patch applies the upstream fix as referenced in [2],<br />using the commit =
-shown in [1].<br /><br />The recipe enables Linux intercept support. Check =
-execveat commands<br />and log subcommands instead of allowing this syscall=
- unconditionally.<br />Resolve directory file descriptors and AT_EMPTY_PATH=
- to paths for<br />sudoers policy checks.<br /><br />Apply prerequisites [3=
-] and [4] for proc_read_link() and fexecve paths.<br />Include follow-ups [=
-5] and [6] to reject failed pathname rewrites and<br />correct relative-pat=
-h moves. Keep the upstream source changes intact.<br /><br />[1] <a href=3D=
-"https://github.com/sudo-project/sudo/commit/71fbe42dcd5a1c8f799540583a2dfb=
-2ae6221edf" target=3D"_blank" rel=3D"noopener">https://github.com/sudo-proj=
-ect/sudo/commit/71fbe42dcd5a1c8f799540583a2dfb2ae6221edf</a><br />[2] <a hr=
-ef=3D"https://nvd.nist.gov/vuln/detail/CVE-2026-82474" target=3D"_blank" re=
-l=3D"noopener">https://nvd.nist.gov/vuln/detail/CVE-2026-82474</a><br />[3]=
- <a href=3D"https://github.com/sudo-project/sudo/commit/1a312af6348594df371=
-e6088aeed99685977f575" target=3D"_blank" rel=3D"noopener">https://github.co=
-m/sudo-project/sudo/commit/1a312af6348594df371e6088aeed99685977f575</a><br =
-/>[4] <a href=3D"https://github.com/sudo-project/sudo/commit/e822b729da31ba=
-f9154946329a9d6ef569f0d182" target=3D"_blank" rel=3D"noopener">https://gith=
-ub.com/sudo-project/sudo/commit/e822b729da31baf9154946329a9d6ef569f0d182</a=
-><br />[5] <a href=3D"https://github.com/sudo-project/sudo/commit/d1121181a=
-87b2b47b4dfbb2af42399fcc5f1e3cd" target=3D"_blank" rel=3D"noopener">https:/=
-/github.com/sudo-project/sudo/commit/d1121181a87b2b47b4dfbb2af42399fcc5f1e3=
-cd</a><br />[6] <a href=3D"https://github.com/sudo-project/sudo/commit/02b1=
-4c043825b52be6cd537b7f11bd5e7e10512e" target=3D"_blank" rel=3D"noopener">ht=
-tps://github.com/sudo-project/sudo/commit/02b14c043825b52be6cd537b7f11bd5e7=
-e10512e</a><br /><br />Signed-off-by: Darsh Kelaiya &lt;dkelaiya@cisco.com&=
-gt;<br />---<br />.../files/CVE-2026-82474-dependent_p1.patch | 94 +++<br /=
->.../files/CVE-2026-82474-dependent_p2.patch | 34 +<br />.../files/CVE-2026=
--82474-regression_p1.patch | 39 ++<br />.../files/CVE-2026-82474-regression=
-_p2.patch | 33 +<br />.../sudo/files/CVE-2026-82474.patch | 617 +++++++++++=
-+++++++<br />meta/recipes-extended/sudo/sudo_1.9.17p2.bb | 5 +<br />6 files=
- changed, 822 insertions(+)<br />create mode 100644 meta/recipes-extended/s=
-udo/files/CVE-2026-82474-dependent_p1.patch<br />create mode 100644 meta/re=
-cipes-extended/sudo/files/CVE-2026-82474-dependent_p2.patch<br />create mod=
-e 100644 meta/recipes-extended/sudo/files/CVE-2026-82474-regression_p1.patc=
-h<br />create mode 100644 meta/recipes-extended/sudo/files/CVE-2026-82474-r=
-egression_p2.patch<br />create mode 100644 meta/recipes-extended/sudo/files=
-/CVE-2026-82474.patch</blockquote>
-Hello,<br /><br />I think this fix is also needed for blacksail and master.=
- Can you send<br />the relevant upgrade/backports so I can merge this on wr=
-ynose?</blockquote>
-Hello,<br /><br />This CVE is now fixed on master but the cherry-pick does =
-not apply<br />cleanly for blacksail. Can you send this fix for blacksail a=
-s well?<br /><br />Thanks!<br />-- <br />Yoann Congal<br />Smile ECS</block=
-quote>
-</div>
-</blockquote>
-</div>
-
---ILTJuim9iiaD1hw52lvS--
