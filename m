@@ -1,130 +1,114 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.26482.1795547434458102912
+Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.27143.1795549133544944513
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2026 11:10:34 -0800
+ Tue, 24 Nov 2026 11:38:54 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=oEk5RKKg;
- spf=pass (domain: gmail.com, ip: 209.85.215.177, mailfrom: bbnpreetsingh@gmail.com)
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-cdac6d19ddaso1885529a12.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 11:10:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795547434; x=1796152234; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=89TS6ayp3/hAsVwmGplolQ+a/dBUhMXBbpFvX9Ijj5U=;
-        b=oEk5RKKghHtpLqALJJKDD7iJay7UGgHqyeyVp7eJQ+zFRbqPHivN1Pf+IN1bS4h9wE
-         b8Xa2CbTKF7YhtOY8LbtP9um2iSqT+0zKJH8qGv1kLLgrLa4iZn1nhcWApO5tgmRPwRc
-         JtcI7Je5fUJc1l+2orexCYjo/T5CbzglthI7f3xY2fnXNMCB2ZsxkbmjWwvr8HShGoOL
-         uW/43CX3DpiScosKU4zmLcjXuw0e0zxmslqnVGY7bcH0VI8Flg2j2M6F6BAa2Hj984dv
-         tgDQBeFOt5adKXj2j25loJ/rNBj+dec4pFpD9R7uog5atpGnS0u5dtHr9DPatpKJpCt2
-         zD4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795547434; x=1796152234;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=89TS6ayp3/hAsVwmGplolQ+a/dBUhMXBbpFvX9Ijj5U=;
-        b=1ZCriw5Zgwt5IWCOu2fcABhldz1ia0ovMtzWVMW7qHZuz2zxl0LQl9LXD6/GXQjgtt
-         U6SdDPmsR6KGd7MaPTrcFZpG5LTJ3hxIO7vij8sgPeQSNQTi+60+QohLk+8BPOHcIDzi
-         98D5mlSDPXyVKXXl/Vx+y6AO+Su5FpFOtDJ7fCphC3dw8fTaP4TGf3BPlSAZ8p1S+KrI
-         J6eLMfyP/jgC0oalp9z2mp8m99WOaxnMXw6PBsoAhqFZdLj9A1uzMKQw0co73ED3aM/4
-         Oy/w8j4YxRn7/b/3XXX6PgweoQ8/LJAlb4xbaDlkBCnqGSI+69Zw7eP7H5Up5DXYBUyr
-         cjfg==
-X-Gm-Message-State: APuU4Z/L6gdlyGymL76949Zl8NRmlAOy3XEOpS9scxCQNsZc9DyS5kw7
-	Ozk9kj6Q6mVQ0Ua20ojrxPJceZgCk6jJjWygR7CUy+ltLK7vmVR0+K8pqXmareC3cKY=
-X-Gm-Gg: AZFdTZfaRq7zszsDoXPSQmQRyJU6T2pV5s6RvyNK3SftK30t41AiDLnvrJzpDSyYtTX
-	cJkqcSqbW3HCKZyuz/+oICIILw+DnFZd2JzSy1L0nBsaFeWAC7RjBYFIh5YghVeQQbcd0z4R4gv
-	AvkWTBOIllgNdecF/3epplRvyp2naa3wEQAgR2CDE4p1rYQ6VkDMlPpHQkTwzLdwdQ7iZMOsDk3
-	xjgOYtPiLAEtXWfHjltJpuvRndKQao6YEMx9D6fnnGjvipxx5+PBvpTkOhIUJIdLHH1IaadYBzd
-	eC/EwOhP0Y5g9E+R1uIl3St6l+++MT1i1FhOMhXDqXPyZEKisDpDwJo3wV3mRTX9mKNsYZkLltK
-	XilBfcFT05YMQpHiJJFMpf/+1kJYqpa9fadiCStRLO1ZQSKSE3lKGwjPRYCmFdXZ/NBdvhCDCUq
-	v5+rvqCM0SwKO/kyrglGRK5I3cKad9m4Z9f2/uZ64O/KsLC8YRMyccQWTz282DUaWpvpuXQCT1k
-	+XtW7skYt4MnQTAllN6fBRpDo+tAYeZlVMX5DrR9UGyfnaznj3fqkiZOFvIqVIqF9NUe6+m+5Dj
-	oqAYbdiKelYULsBEfx/GA9yDoqnhen60SL8bnHxypaCGcqX9yqm2KeXyYA==
-X-Received: by 2002:a17:90b:2f8c:b0:3ab:3437:554f with SMTP id 98e67ed59e1d1-3b41c92a519mr14007935a91.29.1795547433693;
-        Tue, 24 Nov 2026 11:10:33 -0800 (PST)
-Return-Path: <bbnpreetsingh@gmail.com>
-Received: from localhost.localdomain ([65.7.19.138])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b48b41928esm13564044a91.9.2026.11.24.11.10.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 11:10:33 -0800 (PST)
-From: Babanpreet Singh <bbnpreetsingh@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Paul Barker <paul@pbarker.dev>,
-	Ross Burton <ross.burton@arm.com>,
-	Babanpreet Singh <bbnpreetsingh@gmail.com>
-Subject: [PATCH] oeqa/selftest/oescripts: add a test for oe-init-build-env under set -u
-Date: Tue, 24 Nov 2026 19:10:32 +0000
-Message-ID: <20261124191032.7-1-bbnpreetsingh@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <DN2HD431V6TX.3GQ0CXC17IQLQ@pbarker.dev>
-References: <DN2HD431V6TX.3GQ0CXC17IQLQ@pbarker.dev>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@pengutronix.de header.s=20260414 header.b=a5A9rdin;
+ spf=pass (domain: pengutronix.de, ip: 185.203.200.13, mailfrom: uol@pengutronix.de)
+Received: from dude03.red.stw.pengutronix.de (dude03.red.stw.4.pengutronix.de [10.17.1.7])
+	(Authenticated sender: relay-from-dude03.red.stw.pengutronix.de)
+	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id 68191205A38;
+	Tue, 24 Nov 2026 20:38:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
+	s=20260414; t=1795549126;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=oierQU7uXK0y4m28+6fKGCF88UPvDPztPBoV2Ytx9NY=;
+	b=a5A9rdinlS83IEnIwdW+T47toEuW56a87Tyn4USaTAje7EUvqPwMaH6pGHX6rPuHYXCTrC
+	hnZwn4qh6zicGGnz7fIlXK3VKaoS69FLCQYIT4FVfvyfAgCPrPQfc4VoEN8MphUbt8gL/H
+	tSgMYM8Sbuyi6fgi7RNiySQLjxDDqqHIEbeS5eecu5Ak8dpPBSncelj21GdcU9ho+7Ezc1
+	SBLN8lH/2m8I07lJTeq5YpZogEtB6dzpdOwkifxxaVhjqxc2dbMyKuFFtj4raCS5J9zKo/
+	TzrgHx7xbjuKtTxGBTdFpiyoqyljBP+Vlf2MqaSgFU+XqINn9Qq04x7R+Zmy7Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
+	s=20260414; t=1795549126;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=oierQU7uXK0y4m28+6fKGCF88UPvDPztPBoV2Ytx9NY=;
+	b=eiRcDNSA1zrdUM46DfkFrzq91HUrFnNiwhr6kiEx7j0RFwjEEQuRUjkHMvMcUz0PdDWhD0
+	taT1LlD/adYMOdauYmlv9SFPRhmAPsa5nDSrpGYStvfZct7n6Vvl0ON7M8McP6n12jS4HE
+	rtxbNMBLQCBajNQLE2afP57+FmJ8IDxTs27MEUL6c0LKiDk5tMcWTFs7aqgV8dbm86jkuA
+	s3dz6gjuFhFkbDMPzsI645qnDBHwqZdQ0YWAA661/txgn8c/y4b1o5zzEgyKVybyRhS7pK
+	UiclCYI+276kakv8xGAJkfXRZryNjvZeqCQBwawqpG6HJUOyoohUUi/LqpK15A==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=relay-from-dude03.red.stw.pengutronix.de smtp.mailfrom=uol@pengutronix.de
+ARC-Seal: i=1; s=20260414; d=pengutronix.de; t=1795549126; a=rsa-sha256;
+	cv=none;
+	b=VoE7vlPK61oOpVuw2vifAPXa/4cGTx8wfYAqwc0bK81qqVj887id/6Qs0vTfDc/CNSeesS
+	qbN4nhlk9wVK4gAx6MZi88tlJRSNqkgye35roZMutcbUymi4ndzKzcsjmJsZpLBjJcgsPs
+	USx7LRKphtncWvmu9hQp4aVzZl/09pJdp/FHN9pBj4hT9IXNLx0wvYYe5wZt5SEb/sscly
+	sZRXJmQnUlIvjs4usP3BiaxnQYahvNhBHGEaQyPNNMJXBVXWtBRI4NiettKNKDlAkqKxRD
+	y58DHmxIMJeSi6HumGHlVRz+6PnTF4q7XdY+/tVsOBm54jpjJGZRieahT1oIzA==
+Received: by dude03.red.stw.pengutronix.de (Postfix, from userid 1052)
+	id 4CD2E2CAAB1; Tue, 24 Nov 2026 20:38:46 +0100 (CET)
+From: =?UTF-8?q?Ulrich=20=C3=96lmann?= <u.oelmann@pengutronix.de>
+To: OpenEmbedded Core Developers <openembedded-core@lists.openembedded.org>
+Cc: yocto@pengutronix.de,
+	=?UTF-8?q?Ulrich=20=C3=96lmann?= <u.oelmann@pengutronix.de>
+Subject: [PATCH 1/2] initramfs-framework: fix dependencies
+Date: Tue, 24 Nov 2026 20:38:42 +0100
+Message-ID: <20261124193843.3572691-1-u.oelmann@pengutronix.de>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 19:10:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251075
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 19:38:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251076
 
-Add a test that sources oe-init-build-env from bash and dash with
-'set -u', to catch a regression of 81df4c8650 ("oe-init-build-env: fix
-unbound variable errors under 'set -u'"). Both fail with that commit
-reverted.
+As can be seen from the PACKAGES list, there is no package named ${PN}.
+Therefore, the dependency on VIRTUAL-RUNTIME_base-utils, as introduced by=
+ [1]
+and updated by [2], and the recommendation for VIRTUAL-RUNTIME_base-utils=
+-
+syslog, as added by [3], had no effect.
 
-[YOCTO #15469]
+This dependency and recommendation were presumably intended for the base
+package, so assign them to ${PN}-base instead.
 
-Suggested-by: Paul Barker <paul@pbarker.dev>
-AI-Generated: Uses Claude (claude-opus-5-5)
-Signed-off-by: Babanpreet Singh <bbnpreetsingh@gmail.com>
+Note: The missing dependency on VIRTUAL-RUNTIME_base-utils, which default=
+s to
+"busybox" in default-providers.inc, is hidden in OE-Core's initramfs reci=
+pes
+because they explicitly list it again in their list of packages to be ins=
+talled.
+Fixing the recommendation for VIRTUAL-RUNTIME_base-utils-syslog, which de=
+faults
+to "busybox-syslog" in default-providers.inc, may now add that package to=
+ the
+initramfs.
+
+[1] 8c9a604d3ef3 ("initramfsframework: Improve RDEPENDS to be package spe=
+cific")
+[2] f0f7062e9aa5 ("initramfs-framework_1.0:replace busybox for variable."=
+)
+[3] 544ade2d78f1 ("busybox/packagegroups: Break out the busybox-syslog de=
+pendency")
+
+Signed-off-by: Ulrich =C3=96lmann <u.oelmann@pengutronix.de>
 ---
- meta/lib/oeqa/selftest/cases/oescripts.py | 26 +++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/oescripts.py b/meta/lib/oeqa/selftest/cases/oescripts.py
-index 3e0bd6f4ec..342e6531df 100644
---- a/meta/lib/oeqa/selftest/cases/oescripts.py
-+++ b/meta/lib/oeqa/selftest/cases/oescripts.py
-@@ -7,6 +7,7 @@
- import os
- import shutil
- import importlib
-+import tempfile
- import unittest
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.utils.commands import runCmd, bitbake, get_bb_var
-@@ -103,6 +104,31 @@ class OEGitproxyTests(OESelftestTestCase):
-             self.skipTest("No \"dash\" found on test system.")
-         self.run_oegitproxy(custom_shell=dash)
- 
-+class OEInitBuildEnvTests(OESelftestTestCase):
-+
-+    @classmethod
-+    def setUpClass(cls):
-+        super().setUpClass()
-+        cls.corebase = get_bb_var('COREBASE')
-+
-+    def run_oe_init_build_env(self, shell):
-+        # The environment oe-selftest runs in already sets some of the
-+        # variables the script reads, so start from an empty one
-+        with tempfile.TemporaryDirectory(prefix="oe-init-build-env-") as builddir:
-+            script = 'set -u; . ./oe-init-build-env && echo "BUILDDIR=$BUILDDIR"'
-+            result = runCmd([shell, '-c', script, shell, builddir],
-+                            cwd=self.corebase, env={'PATH': os.environ['PATH']})
-+            self.assertIn('BUILDDIR=' + os.path.realpath(builddir), result.output)
-+
-+    def test_oe_init_build_env_nounset_bash(self):
-+        self.run_oe_init_build_env('bash')
-+
-+    def test_oe_init_build_env_nounset_dash(self):
-+        dash = shutil.which("dash")
-+        if dash is None:
-+            self.skipTest("No \"dash\" found on test system.")
-+        self.run_oe_init_build_env(dash)
-+
- class OeRunNativeTest(OESelftestTestCase):
-     def test_oe_run_native(self):
-         bitbake("qemu-helper-native -c addto_recipe_sysroot")
--- 
-2.43.0
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b=
+/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+index 2c5ff108138f..1fe7ec9b5e2c 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
++++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+@@ -1,8 +1,8 @@
+ SUMMARY =3D "Modular initramfs system"
+ LICENSE =3D "MIT"
+ LIC_FILES_CHKSUM =3D "file://${COREBASE}/meta/COPYING.MIT;md5=3D3da9cfbc=
+b788c80a0384361b4de20420"
+-RDEPENDS:${PN} +=3D "${VIRTUAL-RUNTIME_base-utils}"
+-RRECOMMENDS:${PN} =3D "${VIRTUAL-RUNTIME_base-utils-syslog}"
++RDEPENDS:${PN}-base +=3D "${VIRTUAL-RUNTIME_base-utils}"
++RRECOMMENDS:${PN}-base =3D "${VIRTUAL-RUNTIME_base-utils-syslog}"
+=20
+ SRC_URI =3D "file://init \
+            file://exec \
+--=20
+2.47.3
 
