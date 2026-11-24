@@ -1,70 +1,71 @@
-Received: from aer-iport-8.cisco.com (aer-iport-8.cisco.com [173.38.203.70])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15517.1795517773918226553
+Received: from aer-iport-1.cisco.com (aer-iport-1.cisco.com [173.38.203.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15269.1795517770998302844
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2026 02:56:14 -0800
+ Tue, 24 Nov 2026 02:56:11 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=UzkmI2uf;
- spf=pass (domain: cisco.com, ip: 173.38.203.70, mailfrom: asparmar@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=SvdlX6El;
+ spf=pass (domain: cisco.com, ip: 173.38.203.51, mailfrom: asparmar@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=3690; q=dns/txt;
-  s=iport01; t=1795517774; x=1796727374;
+  d=cisco.com; i=@cisco.com; l=5222; q=dns/txt;
+  s=iport01; t=1795517771; x=1796727371;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=+tMsM6if/YtYzjas/f5Y7ERL5FlrLXkHh8rCXDCYmxY=;
-  b=UzkmI2ufY/HkiN79FrL+rS3OklX3Zr36vkDRsI5K2SvzomJVBpdKK98l
-   nK8n3QhheovSdAVl1iL4dln5JDQT2lAgy9PHNwB8fjBxBsoku8Sy6tT+v
-   2uhYTsuHZM1ZpWYplXVRsIuIf8veKAAdDuSTHwwbncGOUT8UgBEv3Cv3v
-   32WAX388aa65kJQiDaW7n8e9weQGp9d4yJUYYjEFgVM5HSA85V0BpOjUt
-   6hIYPlcEaz0dkNZxHqoTaQfUr82nP9bbOkgfe6v8vB9EzNYFn6OabYxCG
-   +PLJJiR4JjQ+LJyCD3JJb3B7hwMq7q4hoIe1Ue5e5fgra51KlTMXGFtng
+  bh=ngu6uTvWGvAUlDcMFcyEgHxGf+zRqUwTnaHPKVZonO0=;
+  b=SvdlX6El/7g86ujG4LcLtXa4wDVaEoNRuITWbBkKtKagykSW84uLsL8B
+   MZpdNWLIlEeEHBe5v26xN3peBQvssrMrz0crfIvDoqqPd/XW2f595F3lV
+   NWLkEE84r/srT8vRj/gIo97WHRK/2QuW945kOA1zZ3Ts+xwriUHpUXFLk
+   6zKE00VrJiTb5pSIuDoe1G/pDKhYe4vIOTBK7ArB/EdaKO/BihE3vRwNR
+   xGXQc0cPqB7/7efAkUmJMD07yi+cf60us52aPdE/cJ6PmxGDWMlKHW+WI
+   +3BCOMoodm+8ojt2Oh4xxyQRxoL2oNhLR1juDihh6s3ikWUklEDRcCDIY
    w==;
-X-CSE-ConnectionGUID: Xh2hh7XURkKXDpgPZHhFog==
-X-CSE-MsgGUID: 6e/rmJ2VQduXT5f+GX3IOQ==
-X-IPAS-Result: =?us-ascii?q?A0BJAgD3awVr/9JK/pBaglmCV3VhQkkDlCeCIQOeKYF+D?=
- =?us-ascii?q?wEBAQ9EDQQBAYQ/RgKOIgImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBA?=
- =?us-ascii?q?QIBBwWBDhOGTw2QEgECAQMyARgBPRwDAQIvKyMIEAmDAgGCdAIBEboIGzeCL?=
- =?us-ascii?q?IEBgykBPwJDUNszAQsUAYE4hUKIJF0YAYJKgjMnGxuBcoEVg2qBBYFcAgOBR?=
- =?us-ascii?q?YZeBIIiehKBVB6MeQKBT4hJSIEeA1ksAVUTDQoLBwWBaAM1EioVbjIdgSM7F?=
- =?us-ascii?q?4EHGwYFgRyBHoESgQNdgSsoXiGBCIF2AoJRggACAUlBDgdFUwklQxJHJCIIE?=
- =?us-ascii?q?gkBExosCoEaNTwJJj8VDGcLGgVhCAINDHQ5EDAeJC8FGiY+GwqBDCcfHhsOA?=
- =?us-ascii?q?h8QBhYhCxsYDUgRLDcVGQQ+bgeUFIMaexMBK4IsBqVvoREKKIN5jCSVOhozq?=
- =?us-ascii?q?nILmH2OCpZRhGqBaDyBWXAVgyIJShkPjjmDa4UTyUgjNQsDLwEBBwIHDgMLg?=
- =?us-ascii?q?WiRfgEB?=
-IronPort-Data: A9a23:pHRBzKqK+ZVEZdDkx3KSB1h9RaFeBmJMZBIvgKrLsJaIsI4StFCzt
- garIBnQPKqNYmP3c411ao2x80kGuMDSn98wSlE+qi42FS9ApePIVI+TRqvS04x+DSFioGZPt
- Zh2hgzodZhsJpPkjk7zdOWn9T8sj/zgqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziLBVOSvV0
- T/Ji5OZYgDNNwJcaDpOtfva8kg35pwehRtB1rAATaET1LPhvyF94KI3fcmZM3b+S49IKe+2L
- 86r5K255G7Q4yA2AdqjlLvhGmVSKlIFFVHT4pb+c/HKbilq/kTe4I5iXBYvQRs/ZwGyojxE4
- I4lWapc5useFvakdOw1C3G0GszlVEFM0OevzXOX6aR/w6BaGpfh660GMa04AWEX0tZ3W2FOq
- swlEjMuXjybiNqE4LKVTeY506zPLOGzVG8eknht13TdSP0hW52GG/SM7t5D1zB2jcdLdRrcT
- 5NFNXw1MUiGPEEJYA5PYH49tL/Aan3XeiZAoUiQrLAf6GnIxws327/oWDbQUoLSH50FxxfAz
- o7A1zr0RQsfFoah8DaYwk7xiKzgrXjaf7tHQdVU8dYv2jV/3Fc7DwUbU1a+q/S1hkOyHtlYM
- UE8/is1sbN081SmSNT4VRC0rHOI+BkGVLJt//YS4QyXj66R6AGDCy1cH3hKaccts4k9QjlCO
- kK1ou4FzAdH6NW9IU9xPJ/Nxd9uEUD59VM/WBI=
-IronPort-HdrOrdr: A9a23:sodjs6m7baFbiWbuNhYm8sxrcInpDfIA3DAbv31ZSRFFG/Fw8P
- re+MjzuiWbtN98YhwdcJW7Scq9qBDnhPtICPcqXItKNTOO0ADDEGgh1/qB/9SKIULDH4BmuZ
- uIC5IfNPTASX5nkM39/A60V/wkwNWB7eSUoN229QYLcemvAJsQljuQzW2gYytLeDU=
-X-Talos-CUID: 9a23:9Jsq+G4rAWomFz/D+tssxE5OGsB6QkDnz1TgD1e3MVRJSJOSRgrF
-X-Talos-MUID: 9a23:h0U1gQj0erq97/Xxt87xn8Mpasov+aGMUn40nYg2h5SKdgNAYBa6tWHi
+X-CSE-ConnectionGUID: 4pJFcXglQJmPDZrtHfy89A==
+X-CSE-MsgGUID: iMH2enWcQN6aGXg2X/GBjA==
+X-IPAS-Result: =?us-ascii?q?A0BMAgD1agVr/8pK/pBaglmCV3VhQkkDhFSPU4IhA54pg?=
+ =?us-ascii?q?X4PAQEBD0QNBAEBhD9GAo4iAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQEKAQEFA?=
+ =?us-ascii?q?QEBAgEHBYEOE4ZPDZASAQIBAyMECwEYAT0cAwECAwImAgIrIwgQCYMCAYJ0A?=
+ =?us-ascii?q?gERulx6fzOBAYMpAT8CQ1DbMwELFAGBCi6FQoMgAYUDXRgBgkqCMycbG4Fyg?=
+ =?us-ascii?q?RWDaoEFgVwCA4U5gmoEgg0VehKBVB6DBIl1AoFPiElIgQIcA1ksAVUTDQoLB?=
+ =?us-ascii?q?wWBaAM1EioVbjIdgSM7Fy9YGwYFgRyBHoESgQNdgSsoXiGBCIF2AoJRggACA?=
+ =?us-ascii?q?UlBDgdFUwklQxJHJCIIEgkBExosCoEaNTwJJj8VDGcLGgVhCAINDHQ5EDAeJ?=
+ =?us-ascii?q?C8FGiY+GwqBDCcfHhsOAh8QBhYhCxsYDUgRLDcVGQQ9AW4HlBSDEwcGUzUBK?=
+ =?us-ascii?q?4FrQQ4BkwImAZI9oREKKIN5jCSVOhozqnILmH2OCpYHSoRqgWg8gVlwFYMiC?=
+ =?us-ascii?q?UoZD445g2uFE8lIIzULAy8BAQcCBwEMAQMLgWiRfgEB?=
+IronPort-Data: A9a23:92nL2aL3M9rZC0WKFE+RhZQlxSXFcZb7ZxGr2PjKsXjdYENShTYGy
+ GAYXWmEbvaJa2P1Ko0laom18EkAsZeDyd8wTwId+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
+ 63yUvGZcoZpCCea9k3wWlTYhSEU/bmSQbbhA/LzNCl0RAt1IA8skhsLd9QR2uaEuvDnRVnS0
+ T/Oi5eHYgH8gmQvajh8B5+r8XuDgtyj4Fv0gXRmDRx7lAe2v2UYCpsZOZawIxPQKqFIHvS3T
+ vr017qw+GXU5X8FUrtJRZ6iLyXm6paLVeS/oiI+t5qK23CulQRuukoPD8fwXG8M49m/c3+d/
+ /0W3XC4YV9B0qQhA43xWTEAe811FfUuFLMqvRFTvOTLp3AqfUcAzN0yFGMYNr0X/t9VBFlix
+ +YECD4cPkGq0rfeLLKTEoGAh+wqIdOuOMYUvWttiGmAS/0nWpvEBa7N4Le03h9p2pwIR6uCI
+ ZVFL2A3NnwsYDUXUrsTIJslhO6yg3DlWzZZs1mS46Ew5gA/ySQviui1bYaOIbRmQ+1Uu2bCq
+ 2T59F3fXBg1BNPF+X2q2HCF07qncSTTHdh6+KeD3vlyjVuew2YeBBEbWR6wpuO0okq/QM5Eb
+ UsM9ywjqKI/+ECmQp/6RRLQnZKflhcRQZ9UVuY98gzIkvOS6AeCDW9CRTlEADA7iPILqfUR/
+ gfht7vU6fZH6dV5lVr1Gm+okA6P
+IronPort-HdrOrdr: A9a23:ej2/KKl8uOQa5rmpoq3pyfwzAFfpDfIO3DAbv31ZSRFFG/Fw8P
+ re+8jztCWE7Ar5N0tPpTntAsS9qDbnhP1ICOoqTNKftXfd2VdARbsKheCJ/9SjIVydygc378
+ hdmsZFZOEYdWIbse/KpC+lDt0n3N6LtIqshevY0jNRaDsCUdAH0++8YTzranGfg2J9dOMEKK
+ Y=
+X-Talos-CUID: 9a23:He7HkGEESO5S6bPLqmI77Gw6EfAqdkT/yU/8EVWkKWh4GOy8HAo=
+X-Talos-MUID: 9a23:mXvVsAg9WOiSiXuLylcQA8MpNeJIuamoN0s0t8sPlPmLbxw3FB2fpWHi
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,229,1787011200"; 
-   d="scan'208";a="60208190"
-Received: from aer-l-core-09.cisco.com ([144.254.74.210])
-  by aer-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 24 Nov 2026 10:56:10 +0000
+   d="scan'208";a="62805433"
+Received: from aer-l-core-01.cisco.com ([144.254.74.202])
+  by aer-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 24 Nov 2026 10:56:08 +0000
 Received: from sjc-ads-20495.cisco.com (sjc-ads-20495.cisco.com [171.70.188.248])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by aer-l-core-09.cisco.com (Postfix) with ESMTPS id E4F7718000123
-	for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 10:56:09 +0000 (GMT)
+	by aer-l-core-01.cisco.com (Postfix) with ESMTPS id 6419034441
+	for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 10:56:08 +0000 (GMT)
 Received: by sjc-ads-20495.cisco.com (Postfix, from userid 1877012)
-	id 2DDAFCBF231; Tue, 24 Nov 2026 02:56:07 -0800 (PST)
+	id 1846DCBF223; Tue, 24 Nov 2026 02:56:07 -0800 (PST)
 From: "Ashishkumar Parmar X (asparmar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <asparmar@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][blacksail][PATCH 09/10] openssh: Fix CVE-2026-106552
-Date: Tue, 24 Nov 2026 02:55:32 -0800
-Message-Id: <20261124105533.348654-10-asparmar@cisco.com>
+Subject: [OE-core][blacksail][PATCH 04/10] openssh: Fix CVE-2026-106582
+Date: Tue, 24 Nov 2026 02:55:27 -0800
+Message-Id: <20261124105533.348654-5-asparmar@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20261124105533.348654-1-asparmar@cisco.com>
 References: <20261124105533.348654-1-asparmar@cisco.com>
@@ -72,10 +73,10 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: VERIFIED;sjc-ads-20495.cisco.com [171.70.188.248];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 171.70.188.248, sjc-ads-20495.cisco.com
-X-Outbound-Node: aer-l-core-09.cisco.com
+X-Outbound-Node: aer-l-core-01.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 10:56:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251018
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251009
 Content-Type: text/plain; charset="utf-8"
 
 From: Ashishkumar Parmar <asparmar@cisco.com>
@@ -83,93 +84,129 @@ From: Ashishkumar Parmar <asparmar@cisco.com>
 This patch applies the upstream fix as referenced in [2], using the
 commit shown in [1].
 
-[1] https://github.com/openssh/openssh-portable/commit/c07ea2180adebd6019a6ebdd89becb9d9f4b4897
-[2] https://ubuntu.com/security/CVE-2026-106552
+[1] https://github.com/openssh/openssh-portable/commit/1d5340fce24526719e32aebc4c721fc228182ace
+[2] https://ubuntu.com/security/CVE-2026-106582
 
 Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 ---
- .../openssh/openssh/CVE-2026-106552.patch     | 62 +++++++++++++++++++
+ .../openssh/openssh/CVE-2026-106582.patch     | 98 +++++++++++++++++++
  .../openssh/openssh_10.5p1.bb                 |  1 +
- 2 files changed, 63 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-106552.patch
+ 2 files changed, 99 insertions(+)
+ create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-106582.patch
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2026-106552.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2026-106552.patch
+diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2026-106582.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2026-106582.patch
 new file mode 100644
-index 0000000000..edfe267052
+index 0000000000..8471f99a38
 --- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/CVE-2026-106552.patch
-@@ -0,0 +1,62 @@
-+From e6004a489f53846268117c975184e1c1a4ddc21c Mon Sep 17 00:00:00 2001
-+From: "djm@openbsd.org" <djm@openbsd.org>
-+Date: Thu, 1 Oct 2026 03:11:49 +0000
-+Subject: [PATCH] upstream: sftp: be stricter in accepting paths returned by
-+ the
++++ b/meta/recipes-connectivity/openssh/openssh/CVE-2026-106582.patch
+@@ -0,0 +1,98 @@
++From a85cb0087d0ee2788c3e85adad926455b646da3a Mon Sep 17 00:00:00 2001
++From: "job@openbsd.org" <job@openbsd.org>
++Date: Tue, 22 Sep 2026 04:38:09 +0000
++Subject: [PATCH] upstream: Disable LZ77 dictionary coder to avoid a potential
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+server for SSH_FXP_REALPATH or SSH2_FXP_READDIR replies, as these can be used
-+in some situations to decide the destination path for recursive transfers.
++side-channel leak
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+Report and patch from Junghoon Cho
++A chosen-plaintext attack method exists which makes use of
++dictionary-based compression to recover secrets from one channel by
++interacting with the SSH session's shared compression dictionary through
++another channel.
 +
-+OpenBSD-Commit-ID: ad357002a1b75c87113f01086a9f0c12c36082d8
++Attacker-controlled input can recognizably reflect into the total length
++of transmitted ciphertexts by virtue of LZ77 replacing repeated strings
++with back-references into the SSH session's encoder search buffer,
++which is shared across all channels. For this reason, the documentation
++already recommended against enabling compression for connections that
++share trusted and untrusted traffic.
 +
-+CVE: CVE-2026-106552
-+Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/c07ea2180adebd6019a6ebdd89becb9d9f4b4897]
++As an extra precaution, use only Huffman coding when compressing
++plaintexts, as this algorithm does not use a dictionary. But, this
++results in a reduction of compression effectiveness.
++
++Inspired by "Crossing the Streams: SSH Plaintext Recovery via a Common
++Compression Context in Multiplexed Channels." by Fabian Bäumer and
++Marcus Brinkmann, preprint https://arxiv.org/abs/2609.07709 (2026)
++
++OK djm@ dtucker@
++
++OpenBSD-Commit-ID: 839e5e53ad76786d0e90bed530304e4e13acbba0
++
++CVE: CVE-2026-106582
++Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/1d5340fce24526719e32aebc4c721fc228182ace]
 +
 +Backport Changes:
 +- Omit the upstream OpenBSD revision-only hunks.
 +
 +Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 +---
-+ sftp-client.c |  3 ++-
-+ sftp.c        | 12 +++++++++---
-+ 2 files changed, 11 insertions(+), 4 deletions(-)
++ packet.c | 15 +++++++--------
++ 1 file changed, 7 insertions(+), 8 deletions(-)
 +
-+diff --git a/sftp-client.c b/sftp-client.c
-+index 1f03112..9b7d0a0 100644
-+--- a/sftp-client.c
-++++ b/sftp-client.c
-+@@ -791,7 +791,8 @@ sftp_lsreaddir(struct sftp_conn *conn, const char *path, int print_flag,
-+ 			 * These can be used to attack recursive ops
-+ 			 * (e.g. send '../../../../etc/passwd')
-+ 			 */
-+-			if (strpbrk(filename, SFTP_DIRECTORY_CHARS) != NULL) {
-++			if (*filename == '\0' ||
-++			    strpbrk(filename, SFTP_DIRECTORY_CHARS) != NULL) {
-+ 				error("Server sent suspect path \"%s\" "
-+ 				    "during readdir of \"%s\"", filename, path);
-+ 			} else if (dir) {
-+diff --git a/sftp.c b/sftp.c
-+index 31d8fa4..8cdcd44 100644
-+--- a/sftp.c
-++++ b/sftp.c
-+@@ -675,9 +675,15 @@ process_get(struct sftp_conn *conn, const char *src, const char *dst,
-+ 			goto out;
-+ 		}
++diff --git a/packet.c b/packet.c
++index 63dcb53..4c0cfb9 100644
++--- a/packet.c
+++++ b/packet.c
++@@ -804,14 +804,13 @@ ssh_packet_init_compression(struct ssh *ssh)
 + 
-+-		/* Special handling for dest of '..' */
-+-		if (strcmp(filename, "..") == 0)
-+-			filename = "."; /* Download to dest, not dest/.. */
-++		/*
-++		 * Special handling for destinations of '..' and remote roots.
-++		 * In particular, never select the local root as an implicit
-++		 * destination for a remote root.
-++		 */
-++		if (strcmp(filename, "..") == 0 ||
-++		    (filename[0] != '\0' &&
-++		    filename[strspn(filename, "/")] == '\0'))
-++			filename = ".";
++ #ifdef WITH_ZLIB
++ static int
++-start_compression_out(struct ssh *ssh, int level)
+++start_compression_out(struct ssh *ssh)
++ {
++-	if (level < 1 || level > 9)
++-		return SSH_ERR_INVALID_ARGUMENT;
++-	debug("Enabling compression at level %d.", level);
+++	debug("Enabling compression.");
++ 	if (ssh->state->compression_out_started == 1)
++ 		deflateEnd(&ssh->state->compression_out_stream);
++-	switch (deflateInit(&ssh->state->compression_out_stream, level)) {
+++	switch (deflateInit2(&ssh->state->compression_out_stream,
+++	    Z_BEST_SPEED, Z_DEFLATED, 15, 8, Z_HUFFMAN_ONLY)) {
++ 	case Z_OK:
++ 		ssh->state->compression_out_started = 1;
++ 		break;
++@@ -937,7 +936,7 @@ uncompress_buffer(struct ssh *ssh, struct sshbuf *in, struct sshbuf *out)
++ #else	/* WITH_ZLIB */
 + 
-+ 		if (g.gl_matchc == 1 && dst) {
-+ 			if (local_is_dir(dst)) {
++ static int
++-start_compression_out(struct ssh *ssh, int level)
+++start_compression_out(struct ssh *ssh)
++ {
++ 	return SSH_ERR_INTERNAL_ERROR;
++ }
++@@ -1043,7 +1042,7 @@ ssh_set_newkeys(struct ssh *ssh, int mode)
++ 		if ((r = ssh_packet_init_compression(ssh)) < 0)
++ 			return r;
++ 		if (mode == MODE_OUT) {
++-			if ((r = start_compression_out(ssh, 6)) != 0)
+++			if ((r = start_compression_out(ssh)) != 0)
++ 				return r;
++ 		} else {
++ 			if ((r = start_compression_in(ssh)) != 0)
++@@ -1188,7 +1187,7 @@ ssh_packet_enable_delayed_compress(struct ssh *ssh)
++ 			if ((r = ssh_packet_init_compression(ssh)) != 0)
++ 				return r;
++ 			if (mode == MODE_OUT) {
++-				if ((r = start_compression_out(ssh, 6)) != 0)
+++				if ((r = start_compression_out(ssh)) != 0)
++ 					return r;
++ 			} else {
++ 				if ((r = start_compression_in(ssh)) != 0)
 diff --git a/meta/recipes-connectivity/openssh/openssh_10.5p1.bb b/meta/recipes-connectivity/openssh/openssh_10.5p1.bb
-index 4db5a42957..04454382c4 100644
+index 495c69c0ec..56e17632fc 100644
 --- a/meta/recipes-connectivity/openssh/openssh_10.5p1.bb
 +++ b/meta/recipes-connectivity/openssh/openssh_10.5p1.bb
-@@ -33,6 +33,7 @@ SRC_URI = "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.ta
-            file://CVE-2026-106582.patch \
-            file://CVE-2026-106585.patch \
-            file://CVE-2026-106583.patch \
-+           file://CVE-2026-106552.patch \
+@@ -30,6 +30,7 @@ SRC_URI = "https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.ta
+            file://CVE-2026-106586_p2.patch \
+            file://CVE-2026-106586_p3.patch \
+            file://CVE-2026-106587.patch \
++           file://CVE-2026-106582.patch \
             "
  SRC_URI[sha256sum] = "d44d28a839ea9daf969cc69150fde59910b2b39361dad81a3bd6cbd19218db11"
  
