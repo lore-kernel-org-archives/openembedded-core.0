@@ -1,216 +1,242 @@
-Received: from aer-iport-2.cisco.com (aer-iport-2.cisco.com [173.38.203.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.24224.1795540594810078717
- for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2026 09:16:35 -0800
-Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=HOOBR2DY;
- spf=pass (domain: cisco.com, ip: 173.38.203.52, mailfrom: dkelaiya@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=5319; q=dns/txt;
-  s=iport01; t=1795540594; x=1796750194;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=VIwSFW/TzSJk7JSiADeDDCuzO0GSy1/4Jj9ukEnwUPs=;
-  b=HOOBR2DYPi3A0XZe8spcQLlv/o0oAV66DFoQ2on05UNigfEQEwqD2F8E
-   cuI91pJbE9XYjvmb/GS1zj3RhZ4a2MBP7Pz8izeMbxT5xrCXP7+H2k9J6
-   256RFemG3O04RC9kcDXzkwZETLBLcTcwio1Iy2htL95g+ECGhEL4RdobU
-   xdXreXBII18to3S9b2KH0SuOREcj0AZjCoFsuL28Bx+gxgc23UJXRRxfU
-   77Ub1FkEZ6Mh2tbwKrE9hSCNiTtF+ZS0Mw6SpCSzfzkRj3So5AABMA919
-   hOceyG/UBXP2Pk8Il2F+9vSOfYSg2Bnm3rxeqrBVD01KvGgIdufQakEnj
-   g==;
-X-CSE-ConnectionGUID: Sg/SkB4fT9enpNH+B+vkyQ==
-X-CSE-MsgGUID: OkxYNiE6RMO9tZ8VUsXfeQ==
-X-IPAS-Result: =?us-ascii?q?A0BJAgD+xAVr/9RK/pBaglmCV3VgQ0kDlkieLBSBYAoPA?=
- =?us-ascii?q?QEBDy4WDQQBAYQ/Ro4kAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQEKAQEFAQEBA?=
- =?us-ascii?q?gEHBYEOE4ZPDZASAQIBBCYLARgBLSwDAQIWQAQjIYMCAYJ0AxG6Ghs3gXkzg?=
- =?us-ascii?q?QGDKQGBVNszAQsUAYE4hUKIJV0YAYR+JxsbgXKEf4EFgVwBAYEZDniGBwSCI?=
- =?us-ascii?q?oEMgVQeZIwVAoFPiE5IgR4DWSwBVRMNCgsHBYFoAzUSKhVuMh2BIzsXgQcbB?=
- =?us-ascii?q?gWBHIEegRKBA12BKyhdASGBCIF2AoJRggACAUlBDgdFUwklQxJHJCIIEgkBE?=
- =?us-ascii?q?xosCoEaNTwJJj8VDGcLGgVhCAINDHQ5EDAeJC8FGiY+GwqBDCcfHhsOAh8QB?=
- =?us-ascii?q?hYhCyIYDUgRLDcVGQQ+bgeUGIMaAX4PAStwZFijVIIhoREKKIN5jCSNPod8G?=
- =?us-ascii?q?jOqcguYfY4KFpY7hGqBaDyBWXAVgm4BMwlKGQ+OLQwLg2DOWyYyAgkDLwEBB?=
- =?us-ascii?q?wIHDgMLgWiQAIF+AQE?=
-IronPort-Data: A9a23:AoKhb6gbu2+CqAcMGbRn3tWqX161NBEKZh0ujC45NGQN5FlHY01je
- htvWm7SMqqDamL3fdpzao7kpEhSvZbSzNY2SFZoqSBmEChjpJueD7x1DKtf0wB+jyHnZBg6h
- ynLQoCYdKjYdleF+FHwdOCn/SMhvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
- vus5ZeAULOZ82QsaDxNsvjf8EkHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
- 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
- Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqUj9aFMAksS+
- 8BJJTYVSDDAraGow6OCH7wEasQLdKEHPasWt2slyXTSCuwrBMmaBa7L/tRfmjw3g6iiH96HO
- 5ZfM2czKkucJUcWYD/7C7pm9AusrnX8fjlRqUOcjaE2+GPUigd21dABNfKLIIzXG5QLzi50o
- Erh/HTIJBA3aua67muZwCKSu/T/ky7CDdd6+LqQs6QCbEeo7msLBRsbUFG2rfW0hgu1XMhSA
- 0gV4TY1668q+UqmS9PwUxG1rDiDpBF0ZjZLO+Q38kSJj6HT+QvcXzFCRT9aY9tgv8gzLdA36
- mK0cxrSLWQHmNWopbi1r994cRva1fApEFI/
-IronPort-HdrOrdr: A9a23:bJIqK65Tb0dzZ3dLuAPXwP7XdLJyesId70hD6qm+c3Nom6uj5q
- WTdZsgtCMc5Ax9ZJhCo6HjBED/exPhHPdOiOF7V4tKNzOJhILHFu1fBPPZsl7dMhy70PJB3q
- F9dKU7ItjxAV9myfve2mCDYrIdKB3tytHPuQ8YpE0dKj1XVw==
-X-Talos-CUID: 9a23:qlgBSW/l0mv72jiqmtWVv3UbXfsmWCHT8CbdJVeeKSVDC6OWWGbFrQ==
-X-Talos-MUID: =?us-ascii?q?9a23=3ALEZn1Q8x8ekoI3+NJVsmI0OQf+Br85WICW1Tq7A?=
- =?us-ascii?q?h6tW2ZRJNIAeTgQ3iFw=3D=3D?=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.27,231,1787011200"; 
-   d="scan'208";a="62856968"
-Received: from aer-l-core-11.cisco.com ([144.254.74.212])
-  by aer-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 24 Nov 2026 17:16:32 +0000
-Received: from sjc-ads-5675.cisco.com (sjc-ads-5675.cisco.com [10.28.88.189])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by aer-l-core-11.cisco.com (Postfix) with ESMTPS id 274ED180001DE;
-	Tue, 24 Nov 2026 17:16:32 +0000 (GMT)
-Received: by sjc-ads-5675.cisco.com (Postfix, from userid 1887444)
-	id CF8E0CC1611; Tue, 24 Nov 2026 09:16:30 -0800 (PST)
-From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
+Subject: Re: [wrynose][PATCH 3/3] expat: fix CVE-2026-118370
 To: openembedded-core@lists.openembedded.org
-Cc: Darsh Kelaiya <dkelaiya@cisco.com>
-Subject: [OE-core][wrynose][PATCH v2 3/3] expat: fix CVE-2026-118370
-Date: Tue, 24 Nov 2026 09:16:28 -0800
-Message-Id: <20261124171628.1617804-1-dkelaiya@cisco.com>
-X-Mailer: git-send-email 2.35.6
+From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
+X-Originating-Location: Mumbai, Maharashtra, IN (151.186.177.21)
+X-Originating-Platform: Windows Edge 158
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5675.cisco.com [10.28.88.189];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 10.28.88.189, sjc-ads-5675.cisco.com
-X-Outbound-Node: aer-l-core-11.cisco.com
+Date: Tue, 24 Nov 2026 09:17:25 -0800
+References: <20261105091719.1622520-1-dkelaiya@cisco.com> <20261105091719.1622520-3-dkelaiya@cisco.com> <DN2K9NVN0739.1ZT0ITGNS0QQG@smile.fr> <26a1abae-94e5-4a17-ae9b-127a4ad0b924@bootlin.com> <DN2M45VC2WEV.2SB302BX0OSBO@smile.fr>
+In-Reply-To: <DN2M45VC2WEV.2SB302BX0OSBO@smile.fr>
+Message-ID: <1226682.1795540645373229347@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="1j9vSYXMsXeHrnJhmJeb"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 17:16:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251050
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 17:17:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251051
+
+--1j9vSYXMsXeHrnJhmJeb
 Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Darsh Kelaiya <dkelaiya@cisco.com>
+Hi Yoann, Joao,
 
-Backport the upstream prefix and attribute-index fixes [1,2]
-identified by the release announcement [3]. Use size_t for storeAtts
-bookkeeping and reject values that cannot be represented by the
-existing public int attribute-count interfaces.
+Thanks for the clarification. I've sent a v2 with the _p3 patch dropped:
 
-[1] https://github.com/libexpat/libexpat/commit/621cb2c78b253ee023a86bc91d6ddb048481c04c
-[2] https://github.com/libexpat/libexpat/commit/1bac53c4fc460a03cd9860f39501c7979f6750ae
-[3] https://www.openwall.com/lists/oss-security/2026/11/02/6
+https://lists.openembedded.org/g/openembedded-core/message/251050
 
-Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
----
-Changes in v2:
-- Drop the tokenizer-count patch (_p3) and its SRC_URI entry.
----
- .../expat/expat/CVE-2026-118370_p1.patch      | 29 ++++++++++
- .../expat/expat/CVE-2026-118370_p2.patch      | 58 +++++++++++++++++++
- meta/recipes-core/expat/expat_2.8.3.bb        |  2 +
- 3 files changed, 89 insertions(+)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-118370_p1.patch
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-118370_p2.patch
+Regards,
+Darsh
 
-diff --git a/meta/recipes-core/expat/expat/CVE-2026-118370_p1.patch b/meta/recipes-core/expat/expat/CVE-2026-118370_p1.patch
-new file mode 100644
-index 0000000000..0b2e5f48d6
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2026-118370_p1.patch
-@@ -0,0 +1,29 @@
-+From 621cb2c78b253ee023a86bc91d6ddb048481c04c Mon Sep 17 00:00:00 2001
-+From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Tue, 27 Oct 2026 17:57:19 +0100
-+Subject: [PATCH] lib: Protect `nPrefixes` in `storeAtts` from signed integer
-+ overflow
-+
-+.. by migrating to `size_t`
-+
-+CVE: CVE-2026-118370
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/621cb2c78b253ee023a86bc91d6ddb048481c04c]
-+
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ lib/xmlparse.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index b17f5e0..6fdfbc8 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -3871,7 +3871,7 @@ storeAtts(XML_Parser parser, const ENCODING *enc, const char *attStr,
-+   DTD *const dtd = parser->m_dtd; /* save one level of indirection */
-+   int attIndex = 0;
-+   XML_Char *uri;
-+-  int nPrefixes = 0;
-++  size_t nPrefixes = 0;
-+   BINDING *binding;
-+   const XML_Char *localPart;
-+ 
-diff --git a/meta/recipes-core/expat/expat/CVE-2026-118370_p2.patch b/meta/recipes-core/expat/expat/CVE-2026-118370_p2.patch
-new file mode 100644
-index 0000000000..0015f4f1cd
---- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2026-118370_p2.patch
-@@ -0,0 +1,58 @@
-+From 1bac53c4fc460a03cd9860f39501c7979f6750ae Mon Sep 17 00:00:00 2001
-+From: Sebastian Pipping <sebastian@pipping.org>
-+Date: Tue, 27 Oct 2026 15:20:33 +0100
-+Subject: [PATCH] lib: Protect `attIndex` in `storeAtts` from signed integer
-+ overflow
-+
-+.. by migrating to `size_t`
-+
-+CVE: CVE-2026-118370
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/1bac53c4fc460a03cd9860f39501c7979f6750ae]
-+
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ lib/xmlparse.c | 15 ++++++++++-----
-+ 1 file changed, 10 insertions(+), 5 deletions(-)
-+
-+diff --git a/lib/xmlparse.c b/lib/xmlparse.c
-+index 6fdfbc8..6c97639 100644
-+--- a/lib/xmlparse.c
-++++ b/lib/xmlparse.c
-+@@ -3869,7 +3869,7 @@ storeAtts(XML_Parser parser, const ENCODING *enc, const char *attStr,
-+           TAG_NAME *tagNamePtr, BINDING **bindingsPtr,
-+           enum XML_Account account) {
-+   DTD *const dtd = parser->m_dtd; /* save one level of indirection */
-+-  int attIndex = 0;
-++  size_t attIndex = 0;
-+   XML_Char *uri;
-+   size_t nPrefixes = 0;
-+   BINDING *binding;
-+@@ -4048,11 +4048,16 @@ storeAtts(XML_Parser parser, const ENCODING *enc, const char *attStr,
-+   }
-+ 
-+   /* set-up for XML_GetSpecifiedAttributeCount and XML_GetIdAttributeIndex */
-+-  parser->m_nSpecifiedAtts = attIndex;
-++  // Detect and reject integer overflow
-++  if (attIndex > INT_MAX)
-++    return XML_ERROR_NO_MEMORY;
-++  parser->m_nSpecifiedAtts = (int)attIndex;
-+   if (elementType->idAtt && (elementType->idAtt->name)[-1]) {
-+-    for (int i = 0; i < attIndex; i += 2)
-++    for (size_t i = 0; i < attIndex; i += 2)
-+       if (appAtts[i] == elementType->idAtt->name) {
-+-        parser->m_idAttIndex = i;
-++        if (i > INT_MAX)
-++          return XML_ERROR_NO_MEMORY;
-++        parser->m_idAttIndex = (int)i;
-+         break;
-+       }
-+   } else
-+@@ -4085,7 +4090,7 @@ storeAtts(XML_Parser parser, const ENCODING *enc, const char *attStr,
-+ 
-+   /* expand prefixed attribute names, check for duplicates,
-+      and clear flags that say whether attributes were specified */
-+-  int i = 0;
-++  size_t i = 0;
-+   if (nPrefixes) {
-+     unsigned int j; /* hash table index */
-+     unsigned long version = parser->m_nsAttsVersion;
-diff --git a/meta/recipes-core/expat/expat_2.8.3.bb b/meta/recipes-core/expat/expat_2.8.3.bb
-index b6911e79de..410aa7fb5e 100644
---- a/meta/recipes-core/expat/expat_2.8.3.bb
-+++ b/meta/recipes-core/expat/expat_2.8.3.bb
-@@ -27,6 +27,8 @@ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2 \
-            file://CVE-2026-113351_p5.patch \
-            file://CVE-2026-117610_p1.patch \
-            file://CVE-2026-117610_p2.patch \
-+           file://CVE-2026-118370_p1.patch \
-+           file://CVE-2026-118370_p2.patch \
-            "
- 
- GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
--- 
-2.35.6
+On Mon, Nov 23, 2026 at 06:38 PM, Yoann Congal wrote:
+
+>=20
+> On Mon Nov 23, 2026 at 1:48 PM CET, Joao Marcos Costa wrote:
+>=20
+>> Hello, all
+>>=20
+>> On 11/23/26 12:41 PM, Yoann Congal wrote:
+>>=20
+>>> On Thu Nov 5, 2026 at 10:17 AM CET, Darsh Kelaiya -X (dkelaiya - E
+>>> INFOCHIPS PRIVATE LIMITED at Cisco) via openembedded-core wrote:
+>>>=20
+>>>> From: Darsh Kelaiya <dkelaiya@cisco.com>
+>>>>=20
+>>>> Backport the upstream prefix and attribute-index fixes [1,2]
+>>>> identified by the release announcement [3]. Use size_t for storeAtts
+>>>> bookkeeping and reject values that cannot be represented by the
+>>>> existing public int attribute-count interfaces.
+>>>>=20
+>>>> Include the related tokenizer-count correction [4] so XmlGetAttributes
+>>>> and getAtts do not overflow a signed count or narrow the available
+>>>> attribute capacity before the storeAtts checks. This closes the same
+>>>> large-attribute data path; it corrects a pre-existing issue rather tha=
+n
+>>>> a regression introduced by the first two fixes. Preserve Expat 2.8.3's
+>>>> PTRCALL annotations on the tokenizer callback and implementation.
+>>>>=20
+>>>> Validated with the full native unit suite, inline undefined-behavior
+>>>> traps and an arithmetic boundary model. A multi-gigabyte attribute
+>>>> payload and BitBake were not run.
+>>>>=20
+>>>> [1] https://github.com/libexpat/libexpat/commit/621cb2c78b253ee023a86b=
+c91d6ddb048481c04c
+>>>>=20
+>>>> [2] https://github.com/libexpat/libexpat/commit/1bac53c4fc460a03cd9860=
+f39501c7979f6750ae
+>>>>=20
+>>>> [3] https://www.openwall.com/lists/oss-security/2026/11/02/6
+>>>> [4] https://github.com/libexpat/libexpat/commit/c67cbc6185d1b494f521f2=
+f46280d5982f50f2cf
+>>>>=20
+>>>>=20
+>>>> Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+>>>=20
+>>>=20
+>>=20
+>> (...)
+>>=20
+>> While I'm not familiar with expat's sources, I get the point of
+>> backporting this extra commit to make sure that getAtts and setAtts will
+>> "agree" upon using the same size_t type.
+>>=20
+>> I don't see, however, any clear statements (e.g., from libexpat
+>> maintainers, NVD, Debian's security tracker, Debian's bug tracker) that
+>> this 3rd patch is directly related to PR#1450 or to CVE-2026-118370.
+>>=20
+>>=20
+>>>=20
+>>> Hello,
+>>>=20
+>>> If I'm not mistaken, this _p3 never was submitted for master &
+>>> blacksail. Specifically, it was not part of Jo=C3=A3o's patch:
+>>> https://patchwork.yoctoproject.org/project/oe-core/patch/20261118103042=
+.1825679-2-joaomarcos.costa@bootlin.com/
+>>>=20
+>>> Note that I've taken this patch in my review branch.
+>>>=20
+>>> Please submit this _p3 for master/blacksail so I can take this one here=
+.
+>>>=20
+>>> Jo=C3=A3o (CC'd), do we need this for blacksail?
+>>>=20
+>>> Thanks,
+>>=20
+>> @Yoan: as per my comment above, I'm not sure p3 is actually mandatory,
+>> and the PR#1463 [1] introducing doesn't mention this CVE or PR#1450 in
+>> any way. There's only a 'enhancement' tag (whatever that means), as
+>> opposed to 'bug' and 'security' at PR#1450.
+>>=20
+>> To summarize my POV: not mandatory, but nice to have.
+>>=20
+>> That said, will we apply this same reasoning for all the other CVE fix
+>> backports, or stick with the directly-related patches only?
+>>=20
+>> Please let me know in case that wasn't clear (or helpful!) enough.
+>>=20
+>> [1] https://github.com/libexpat/libexpat/pull/1463
+>=20
+> I don't think we want (or can) chase down every related fix like this.
+> So, let's generaly stick to what is referenced by our trusted CVE info
+> sources.
+> That said, if we happen to stumble on a fix, I'm not against backporting
+> it but the justification bar will be higher (like every non-CVE bugfix).
+>=20
+> In this case, I don't think :
+>=20
+>> Include the related tokenizer-count correction [4] so XmlGetAttributes
+>> and getAtts do not overflow a signed count or narrow the available
+>> attribute capacity before the storeAtts checks. This closes the same
+>> large-attribute data path; it corrects a pre-existing issue rather than
+>> a regression introduced by the first two fixes. Preserve Expat 2.8.3's
+>> PTRCALL annotations on the tokenizer callback and implementation.
+>>=20
+>> [4] https://github.com/libexpat/libexpat/commit/c67cbc6185d1b494f521f2f4=
+6280d5982f50f2cf
+>>=20
+>=20
+> ... is enough for that. For exemple, what kind of input triggers the
+> issue? Why/how does the patch fixes it? Without CVE data to help, I
+> have to rely on this info to judge a patch.
+>=20
+> One quick way to unlock this patch would be to resubmit it without this
+> _p3 and , then, add this p3 separately if needed.
+>=20
+> Regards,
+> --
+> Yoann Congal
+> Smile ECS
+
+--1j9vSYXMsXeHrnJhmJeb
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>Hi Yoann, Joao,<br /><br />Thanks for the clarification. I've sent a v=
+2 with the _p3 patch dropped:<br /><br /><a href=3D"https://lists.openembed=
+ded.org/g/openembedded-core/message/251050" target=3D"_blank" rel=3D"noopen=
+er">https://lists.openembedded.org/g/openembedded-core/message/251050</a>&n=
+bsp;<br /><br />Regards,<br />Darsh<br /><br /></div>
+<div>On Mon, Nov 23, 2026 at 06:38 PM, Yoann Congal wrote:</div>
+<div>
+<blockquote>On Mon Nov 23, 2026 at 1:48 PM CET, Joao Marcos Costa wrote:<br=
+ />
+<blockquote>Hello, all<br /><br />On 11/23/26 12:41 PM, Yoann Congal wrote:=
+<br />
+<blockquote>On Thu Nov 5, 2026 at 10:17 AM CET, Darsh Kelaiya -X (dkelaiya =
+- E INFOCHIPS PRIVATE LIMITED at Cisco) via openembedded-core wrote:<br />
+<blockquote>From: Darsh Kelaiya &lt;dkelaiya@cisco.com&gt;<br /><br />Backp=
+ort the upstream prefix and attribute-index fixes [1,2]<br />identified by =
+the release announcement [3]. Use size_t for storeAtts<br />bookkeeping and=
+ reject values that cannot be represented by the<br />existing public int a=
+ttribute-count interfaces.<br /><br />Include the related tokenizer-count c=
+orrection [4] so XmlGetAttributes<br />and getAtts do not overflow a signed=
+ count or narrow the available<br />attribute capacity before the storeAtts=
+ checks. This closes the same<br />large-attribute data path; it corrects a=
+ pre-existing issue rather than<br />a regression introduced by the first t=
+wo fixes. Preserve Expat 2.8.3's<br />PTRCALL annotations on the tokenizer =
+callback and implementation.<br /><br />Validated with the full native unit=
+ suite, inline undefined-behavior<br />traps and an arithmetic boundary mod=
+el. A multi-gigabyte attribute<br />payload and BitBake were not run.<br />=
+<br />[1] <a href=3D"https://github.com/libexpat/libexpat/commit/621cb2c78b=
+253ee023a86bc91d6ddb048481c04c" target=3D"_blank" rel=3D"noopener">https://=
+github.com/libexpat/libexpat/commit/621cb2c78b253ee023a86bc91d6ddb048481c04=
+c</a><br />[2] <a href=3D"https://github.com/libexpat/libexpat/commit/1bac5=
+3c4fc460a03cd9860f39501c7979f6750ae" target=3D"_blank" rel=3D"noopener">htt=
+ps://github.com/libexpat/libexpat/commit/1bac53c4fc460a03cd9860f39501c7979f=
+6750ae</a><br />[3] <a href=3D"https://www.openwall.com/lists/oss-security/=
+2026/11/02/6" target=3D"_blank" rel=3D"noopener">https://www.openwall.com/l=
+ists/oss-security/2026/11/02/6</a><br />[4] <a href=3D"https://github.com/l=
+ibexpat/libexpat/commit/c67cbc6185d1b494f521f2f46280d5982f50f2cf" target=3D=
+"_blank" rel=3D"noopener">https://github.com/libexpat/libexpat/commit/c67cb=
+c6185d1b494f521f2f46280d5982f50f2cf</a><br /><br />Signed-off-by: Darsh Kel=
+aiya &lt;dkelaiya@cisco.com&gt;</blockquote>
+</blockquote>
+(...)<br /><br />While I'm not familiar with expat's sources, I get the poi=
+nt of <br />backporting this extra commit to make sure that getAtts and set=
+Atts will <br />"agree" upon using the same size_t type.<br /><br />I don't=
+ see, however, any clear statements (e.g., from libexpat <br />maintainers,=
+ NVD, Debian's security tracker, Debian's bug tracker) that <br />this 3rd =
+patch is directly related to PR#1450 or to CVE-2026-118370.<br /><br />
+<blockquote><br />Hello,<br /><br />If I'm not mistaken, this _p3 never was=
+ submitted for master &amp;<br />blacksail. Specifically, it was not part o=
+f Jo&atilde;o's patch:<br /><a href=3D"https://patchwork.yoctoproject.org/p=
+roject/oe-core/patch/20261118103042.1825679-2-joaomarcos.costa@bootlin.com/=
+" target=3D"_blank" rel=3D"noopener">https://patchwork.yoctoproject.org/pro=
+ject/oe-core/patch/20261118103042.1825679-2-joaomarcos.costa@bootlin.com/</=
+a><br />Note that I've taken this patch in my review branch.<br /><br />Ple=
+ase submit this _p3 for master/blacksail so I can take this one here.<br />=
+<br />Jo&atilde;o (CC'd), do we need this for blacksail?<br /><br />Thanks,=
+</blockquote>
+@Yoan: as per my comment above, I'm not sure p3 is actually mandatory, <br =
+/>and the PR#1463 [1] introducing doesn't mention this CVE or PR#1450 in <b=
+r />any way. There's only a 'enhancement' tag (whatever that means), as <br=
+ />opposed to 'bug' and 'security' at PR#1450.<br /><br />To summarize my P=
+OV: not mandatory, but nice to have.<br /><br />That said, will we apply th=
+is same reasoning for all the other CVE fix <br />backports, or stick with =
+the directly-related patches only?<br /><br />Please let me know in case th=
+at wasn't clear (or helpful!) enough.<br /><br />[1] <a href=3D"https://git=
+hub.com/libexpat/libexpat/pull/1463" target=3D"_blank" rel=3D"noopener">htt=
+ps://github.com/libexpat/libexpat/pull/1463</a></blockquote>
+I don't think we want (or can) chase down every related fix like this.<br /=
+>So, let's generaly stick to what is referenced by our trusted CVE info<br =
+/>sources.<br />That said, if we happen to stumble on a fix, I'm not agains=
+t backporting<br />it but the justification bar will be higher (like every =
+non-CVE bugfix).<br /><br />In this case, I don't think :<br />
+<blockquote>Include the related tokenizer-count correction [4] so XmlGetAtt=
+ributes<br />and getAtts do not overflow a signed count or narrow the avail=
+able<br />attribute capacity before the storeAtts checks. This closes the s=
+ame<br />large-attribute data path; it corrects a pre-existing issue rather=
+ than<br />a regression introduced by the first two fixes. Preserve Expat 2=
+.8.3's<br />PTRCALL annotations on the tokenizer callback and implementatio=
+n.<br /><br />[4] <a href=3D"https://github.com/libexpat/libexpat/commit/c6=
+7cbc6185d1b494f521f2f46280d5982f50f2cf" target=3D"_blank" rel=3D"noopener">=
+https://github.com/libexpat/libexpat/commit/c67cbc6185d1b494f521f2f46280d59=
+82f50f2cf</a></blockquote>
+... is enough for that. For exemple, what kind of input triggers the<br />i=
+ssue? Why/how does the patch fixes it? Without CVE data to help, I<br />hav=
+e to rely on this info to judge a patch.<br /><br />One quick way to unlock=
+ this patch would be to resubmit it without this<br />_p3 and , then, add t=
+his p3 separately if needed.<br /><br />Regards,<br />-- <br />Yoann Congal=
+<br />Smile ECS</blockquote>
+</div>
+
+--1j9vSYXMsXeHrnJhmJeb--
