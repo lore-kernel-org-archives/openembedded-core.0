@@ -1,70 +1,72 @@
-Received: from aer-iport-2.cisco.com (aer-iport-2.cisco.com [173.38.203.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14489.1795513637490892540
+Received: from aer-iport-4.cisco.com (aer-iport-4.cisco.com [173.38.203.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14729.1795513637555616194
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2026 01:47:17 -0800
+ Tue, 24 Nov 2026 01:47:18 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=gC75UcaN;
- spf=pass (domain: cisco.com, ip: 173.38.203.52, mailfrom: devanshp@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=XCtRywGg;
+ spf=pass (domain: cisco.com, ip: 173.38.203.54, mailfrom: devanshp@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=4599; q=dns/txt;
-  s=iport01; t=1795513637; x=1796723237;
+  d=cisco.com; i=@cisco.com; l=5488; q=dns/txt;
+  s=iport01; t=1795513638; x=1796723238;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=zEzs6pnhE8qqXDvQfF8PqJrw20BEpIGgpkrJ+CzaFDE=;
-  b=gC75UcaNAfltSPlnlWCSfIoMVkf+DRMJZJd1SRpOJ0k1rZ8OtrQLSX4I
-   w2dUdXReXDsYcISVAHyMnsRg42E4Pg1dTq5oPfnE0iyPLmkX37jcCdQfe
-   WQNX6OpmyVysJEby17pgBQlbqP41iRZqN3xLqolHNCjZeV6Cbg2QBdcwg
-   PBpIqguqKDGoi+UDf3/9Lf3ZLNV+xunPKm1Bf/wUf8j4dE6fm9bieKAdU
-   Qyyt6psJpRuhHU7mZzlDXGNxLLSkts37jL8dmoZ7itZdloTIyiaaxALZW
-   68HWNm+d2onVvfKksyH9++t25gVyIWc0S7r6k7yMBome0YZiW80Cz6QrB
-   A==;
-X-CSE-ConnectionGUID: sjhtYpr1TBGI80ABSXtI+w==
-X-CSE-MsgGUID: 8ecaL3ZbRJCyuPjgPgUyQA==
-X-IPAS-Result: =?us-ascii?q?A0BKAgDQWwVr/9VK/pBaglmCV3VgQ0mEV49TgiEDgROdF?=
- =?us-ascii?q?oF+DwEBAQ9EDQQBAYUFAo4iAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQEKAQEFA?=
- =?us-ascii?q?QEBAgEHBYEOE4ZPDZASAQIBAyMPAVYcAwECAwImAgIrIwgQCYMCAYJ0AxG6E?=
- =?us-ascii?q?Bs3eoEygQGDWwUJAkNQ2zMBBQYUAYEKLoVCgyABhQNdGAGEfScbG4FygRWCd?=
- =?us-ascii?q?HaBBYFcAQEDhTmCagSCIoEMgVQejHkCgU+ISUiBAhwDWSwBVRMNCgsHBYFoA?=
- =?us-ascii?q?zUSKhVuMh2BIzsXL1gbBgWBHIEegRKBA12BKyheIYEIgXYCglGCAAIBSUEOB?=
- =?us-ascii?q?0VTCSVDEkckIggSCQETGiwKgRo1PAkmPxUMZwsaBWEIAg0MdDkQMB4kLwUaJ?=
- =?us-ascii?q?j4bCoEMJx8eGw4CHxAGFiELGxgNSBEsNxUZBD0BbgeUFIMTBwGBDQEre4ECF?=
- =?us-ascii?q?2aScZI2oREKKIN5jCSVOhozqnKZCIsngmOVNYEchGqBaDyBRwsHcBWDIlMZD?=
- =?us-ascii?q?1eNVAMLC4NggX+DFMlIJjILMgEBBwIHAQwBAwuBaJF+AQE?=
-IronPort-Data: A9a23:dYTAna3V6CgLGSYb2/bD5Ydwkn2cJEfYwER7XKvMYLTBsI5bpzcAm
- msbXmuCb/aOMTehLdFyYITi8EpXu8Pdy9NqHQFt3Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
- 512huHodZ5yEzmE4Ef3b9ANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXX5
- rsen+WFYAX7gmcubjpNg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
- u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
- OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGF0M2IbwA4L9LK05vp
- aQxAgs9cjHAmLfjqF67YrEEasULJcTxeYdasXZ6wHSAV7AtQIvIROPB4towMDUY35wSW6yDO
- 4xGNXw1NU+ojx5nYj/7DLoykfmhgGL/axVTqUmeouw85G27IAlZjuKyYIWFJITiqcN9zkuTr
- 0adzW7DIDoLKeSdxgKKz2OVr7qa9c/8cMdIfFGizdZtmFCVy2kZBREaWFf+qv6jh2a6WslDM
- AoT4icooK04+UCnQ9W7WAe3yENopTYVVsAVF6gx7xuAj/OOpQ2YHWMDCDVGbbTKqfMLeNDj7
- XfR9/uBONClmOT9pa61nltMkQ6PBA==
-IronPort-HdrOrdr: A9a23:EfP/n6tSOkHTfrm/Ux3SyZCy7skDVNV00zEX/kB9WHVpm6uj5q
- eTdZUgpHvJYVkqNk3I9ersBEDEewK+yXcX2/h1AV7dZmjbUQKTRekIh7cKgQeQeREWndQz6U
- 4PScRD4aXLbWRSvILd/BSyFcomzZ2s9aClgvqb8lJWJDsaDZ2JK2xCe36m+oocfng+OaYE
-X-Talos-CUID: 9a23:53cSw2CXnIv9R9/6EzJl9FIlAtp8Tlfy7SeICmWDOXpIC6LAHA==
-X-Talos-MUID: 9a23:UJGhzwYRsPRb6+BT5zLnjRU5Bs1SwY+/FXgPnq0Jhti9HHkl
+  bh=dTfKNo76C2eoCqGxT74Ijqp360HT0tun/4JrJQEh8eA=;
+  b=XCtRywGgdbrNAMox6P+xUyqcrDPspgZi6KO8LH9NgvhZKU0ZdEsKfUI2
+   O7oxafLyEmB8FwPFvzJxgN8hA+EUNOmIt4orT/o5zVgnyyajCIpVjGSlK
+   JmD4ij7dPFdvZlOOW7SQA4Df4EvmF7hYhC+XSjl7GXWFS3qozftR5Fl2+
+   Rixr8KEODpdIx9k/DfcmMl5gu512Z+1yDJ/2mOXttMXM8Cwigunvgw6f7
+   0Mmu8lOzgewsLlmMeZR0OACZ9l0/PmI4nOxJMkRZfpjkgS/7bBA9Zej1i
+   u1LIzjzvnC/DGAjwF8SrmYxdaDKe/yitGmFHs3pQwvXOvVT5qJReSAgxX
+   g==;
+X-CSE-ConnectionGUID: AebAihtIQuSFx4vwaQtFYQ==
+X-CSE-MsgGUID: ukFpPbc6SDCVWZvfIcEaxw==
+X-IPAS-Result: =?us-ascii?q?A0BLAgBHXAVr/8xK/pBaglmCV3VgQ0mEV49TgiEDnimBf?=
+ =?us-ascii?q?g8BAQEPRA0EAQGFBQKOIgImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBA?=
+ =?us-ascii?q?QIBBwWBDhOGTw2QEgECAQMjBAsBVgkTAwECAwImAgIrIwgQCYMCAYJ0AxGfP?=
+ =?us-ascii?q?5pSGzd6fzOBAYNbBQkCQ1DbMwEFBhQBgQouhUKDIAGFA10YAYR9JxsbgXKBF?=
+ =?us-ascii?q?YNqgQWBXAEBA4E1hASCagSCIoEMgVQejHkCgU+ISUiBAhwDWSwBVRMNCgsHB?=
+ =?us-ascii?q?YFoAzUSKhVuMh2BIzsXL1gbBgWBHIEegRKBA12BKyheIYEIgXYCglGCAAIBS?=
+ =?us-ascii?q?UEOB0VTCSVDEkckIggSCQETGiwKgRo1PAkmPxUMZwsaBWEIAg0MdDkQMB4kL?=
+ =?us-ascii?q?wUaJj4bCoEMJx8eGw4CHxAGFiELGxgNSBEsNxUZBD0BbgeUFIMaAYENASt7C?=
+ =?us-ascii?q?lU6k0YHkkCBNZ9cCiiDeYwklToaM6pymQiOCpYBUIRqgWg8gUcLB3AVgyJTG?=
+ =?us-ascii?q?Q9XjVQDCwuDYIF/gxTJSCYyCzIBAQcCBw4DC4FokAGBfQEB?=
+IronPort-Data: A9a23:ePHcWaxzljBf+K8AGKt6t+djxyrEfRIJ4+MujC+fZmUNrF6WrkVWy
+ mtMWT/Sa6rbZmLyL94ibt6/8UsAvJSHmoNqTQFtr1hgHilAwSbn6Xt1DatR0we6dJCroJdPt
+ p1GAjX4BJlqCCKa/lH9aOWJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
+ 4yaT/H3Ygf/hWctaD5MsspvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
+ evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
+ zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJGg7N6QZ+vpWOHx12
+ +xENi8EVwytttvjldpXSsE07igiBMDmJsYb/3pn1zycVa1gSpHYSKKM7thdtNsyrpkSQbCEO
+ pZfNmYpNkycC/FMEg9/5JYWkOq2j3/kcyVwo1OOrq1x6G/WpOB0+Oa3b4GPK4zRLSlTtlubi
+ Hr+9W+nOT0xCuOt1zSk+V+llvCayEsXX6pXTtVU7MVCh0WewGEWAhAaWVa35PK+kEOWX9NEN
+ 1dS/TIjq6U3/kGnQtTxGRqirxa5UgU0UtdKVul/4waXx++MuECSB3MPSXhKb9lOWNIKeAHGH
+ 2Shx7vBbQGDepXPIZ5B3t94dQ+PBBU=
+IronPort-HdrOrdr: A9a23:cbR1RKjO3Mg+WNYVb12JXeY1LHBQXvgji2hC6mlwRA09TyX+rb
+ HIoB17726RtN9/Yh8dcLy7VZVoBEmslqKdgrNhWItKIjOGhILAFugLhuHfKn/bak/DH4Vmup
+ uIHZITNDSJNzhHpPe/xhWkGNA9x9TC2qWpieDCi0pJd2hRGsddB8MTMHfiLqWwLzM2fKYEKA
+ ==
+X-Talos-CUID: =?us-ascii?q?9a23=3AWeGNk2u3/CPSWsZnpT9hGBsC6IsMf3f0zXfMAna?=
+ =?us-ascii?q?lMkh5FKOKQGaM1pJdxp8=3D?=
+X-Talos-MUID: 9a23:KH3z6AnDh4l/wTYY08e4dnp/N+lw266lVnshuqs5ideKFCddMieC2WE=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,230,1787011200"; 
-   d="scan'208";a="62787860"
-Received: from aer-l-core-12.cisco.com ([144.254.74.213])
-  by aer-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 24 Nov 2026 09:47:15 +0000
+   d="scan'208";a="62732983"
+Received: from aer-l-core-03.cisco.com ([144.254.74.204])
+  by aer-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 24 Nov 2026 09:47:15 +0000
 Received: from sjc-ads-4935.cisco.com (sjc-ads-4935.cisco.com [10.28.39.199])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by aer-l-core-12.cisco.com (Postfix) with ESMTPS id 4F98318000232
+	by aer-l-core-03.cisco.com (Postfix) with ESMTPS id 44EBA180006C5
 	for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 09:47:15 +0000 (GMT)
 Received: by sjc-ads-4935.cisco.com (Postfix, from userid 1887503)
-	id 020E4CCA798; Tue, 24 Nov 2026 01:47:14 -0800 (PST)
+	id F056ACC2EFA; Tue, 24 Nov 2026 01:47:13 -0800 (PST)
 From: "Devansh Patel -X (devanshp - E INFOCHIPS PRIVATE LIMITED at Cisco)" <devanshp@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap][PATCH 3/3] qemu: fix CVE-2026-3842
-Date: Tue, 24 Nov 2026 01:47:13 -0800
-Message-Id: <20261124094713.1557189-3-devanshp@cisco.com>
+Subject: [OE-core][scarthgap][PATCH 2/3] qemu: fix CVE-2026-3196
+Date: Tue, 24 Nov 2026 01:47:12 -0800
+Message-Id: <20261124094713.1557189-2-devanshp@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20261124094713.1557189-1-devanshp@cisco.com>
 References: <20261124094713.1557189-1-devanshp@cisco.com>
@@ -72,136 +74,144 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: VERIFIED;sjc-ads-4935.cisco.com [10.28.39.199];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 10.28.39.199, sjc-ads-4935.cisco.com
-X-Outbound-Node: aer-l-core-12.cisco.com
+X-Outbound-Node: aer-l-core-03.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 09:47:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250990
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250992
 Content-Type: text/plain; charset="utf-8"
 
 From: Devansh Patel <devanshp@cisco.com>
 
-This patch applies the upstream stable-10.0 backport for CVE-2026-3842.
+This patch applies the upstream stable-10.0 backport for CVE-2026-3196.
 The upstream fix commit is referenced in [1], and the public CVE
 advisory is referenced in [2]. The individual backported commit links
 are recorded in the embedded patch headers when the fix expands to
 multiple commits.
 
-[1] https://github.com/qemu/qemu/commit/903addd92fc8dd352f3f08ba8f603d54a087b863
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-3842
+[1] https://github.com/qemu/qemu/commit/83e9328eaacb2c4bd8d78d49306ac425dc1ee369
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-3196
 
 Signed-off-by: Devansh Patel <devanshp@cisco.com>
 ---
  meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2026-3842.patch             | 88 +++++++++++++++++++
- 2 files changed, 89 insertions(+)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2026-3842.patch
+ .../qemu/qemu/CVE-2026-3196.patch             | 96 +++++++++++++++++++
+ 2 files changed, 97 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2026-3196.patch
 
 diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index d3e7362..da2eafa 100644
+index d13d2fc..d3e7362 100644
 --- a/meta/recipes-devtools/qemu/qemu.inc
 +++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -56,6 +56,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+@@ -55,6 +55,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+            file://CVE-2026-2243.patch \
             file://CVE-2026-3195_p1.patch \
             file://CVE-2026-3195_p2.patch \
-            file://CVE-2026-3196.patch \
-+           file://CVE-2026-3842.patch \
++           file://CVE-2026-3196.patch \
             "
  UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
-diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2026-3842.patch b/meta/recipes-devtools/qemu/qemu/CVE-2026-3842.patch
+diff --git a/meta/recipes-devtools/qemu/qemu/CVE-2026-3196.patch b/meta/recipes-devtools/qemu/qemu/CVE-2026-3196.patch
 new file mode 100644
-index 0000000..c5b5ed1
+index 0000000..3102c02
 --- /dev/null
-+++ b/meta/recipes-devtools/qemu/qemu/CVE-2026-3842.patch
-@@ -0,0 +1,88 @@
-+From e845c44cfb85a07e621c45f05697e164e10340d6 Mon Sep 17 00:00:00 2001
-+From: Paolo Bonzini <pbonzini@redhat.com>
-+Date: Mon, 9 Mar 2026 13:20:35 +0100
-+Subject: [PATCH] hyperv/syndbg: check length returned by
-+ cpu_physical_memory_map()
++++ b/meta/recipes-devtools/qemu/qemu/CVE-2026-3196.patch
+@@ -0,0 +1,96 @@
++From e224e5cc8d400ffa8e8aa84dcf6f0a8a80d4dad8 Mon Sep 17 00:00:00 2001
++From: Manos Pitsidianakis <manos.pitsidianakis@linaro.org>
++Date: Fri, 20 Feb 2026 11:40:14 +0200
++Subject: [PATCH] virtio-snd: handle 5.14.6.2 for PCM_INFO properly
 +MIME-Version: 1.0
 +Content-Type: text/plain; charset=UTF-8
 +Content-Transfer-Encoding: 8bit
 +
-+If cpu_physical_memory_map() returns a length shorter than the one
-+that was passed into the function, writing the full out_len bytes
-+causes an access beyond the memory allocated to the guest; or in
-+the case of the MMIO bounce buffer, an out-of-bounds access in a
-+heap-allocated object.
++The section 5.14.6.2 of the VIRTIO spec says:
 +
-+Add a check similar to the one already in handle_send_msg(),
-+and take the occasion to remove repeated computations of
-+recv_byte_count + UDP_PKT_HEADER_SIZE and clarify that the
-+code does not write past out_len bytes.
++  5.14.6.2 Driver Requirements: Item Information Request
 +
-+CVE: CVE-2026-3842
-+Upstream-Status: Backport [https://github.com/qemu/qemu/commit/903addd92fc8dd352f3f08ba8f603d54a087b863]
++  - The driver MUST NOT set start_id and count such that start_id +
++    count is greater than the total number of particular items that is
++    indicated in the device configuration space.
 +
-+Reported-by: Oleh Konko <https://github.com/1seal>
-+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
-+Fixes: CVE-2026-3842
-+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
-+(cherry picked from commit 4f28b87fdd24df2049626106b7c24d0180952115)
-+(Mjt: context fixup for 10.0.x)
++  - The driver MUST provide a buffer of sizeof(struct virtio_snd_hdr) +
++    count * size bytes for the response.
++
++While we performed some check for the second requirement, it failed to
++check for integer overflow.
++
++Add also a check for the first requirement, which should limit exposure
++to any overflow, since realistically the number of streams will be low
++enough in value such that overflow is improbable.
++
++CVE: CVE-2026-3196
++Upstream-Status: Backport [https://github.com/qemu/qemu/commit/83e9328eaacb2c4bd8d78d49306ac425dc1ee369]
++
++Cc: qemu-stable@nongnu.org
++Reported-by: 罗铭源 <myluo24@m.fudan.edu.cn>
++Signed-off-by: Manos Pitsidianakis <manos.pitsidianakis@linaro.org>
++Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
++Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
++Message-Id: <20260220-virtio-snd-series-v1-3-207c4f7200a2@linaro.org>
++(cherry picked from commit 61679d7dcfa2dffc8fb115aa19b09e0e7cf5ea5c)
 +Signed-off-by: Michael Tokarev <mjt@tls.msk.ru>
 +Signed-off-by: Devansh Patel <devanshp@cisco.com>
 +---
-+ hw/hyperv/syndbg.c | 23 +++++++++++------------
-+ 1 file changed, 11 insertions(+), 12 deletions(-)
++ hw/audio/virtio-snd.c | 31 +++++++++++++++++++++++++++----
++ 1 file changed, 27 insertions(+), 4 deletions(-)
 +
-+diff --git a/hw/hyperv/syndbg.c b/hw/hyperv/syndbg.c
-+index 065e12fb1..9fdec1146 100644
-+--- a/hw/hyperv/syndbg.c
-++++ b/hw/hyperv/syndbg.c
-+@@ -189,7 +189,7 @@ static uint16_t handle_recv_msg(HvSynDbg *syndbg, uint64_t outgpa,
++diff --git a/hw/audio/virtio-snd.c b/hw/audio/virtio-snd.c
++index 8889abb62..742596481 100644
++--- a/hw/audio/virtio-snd.c
+++++ b/hw/audio/virtio-snd.c
++@@ -158,7 +158,7 @@ static virtio_snd_pcm_set_params *virtio_snd_pcm_get_params(VirtIOSound *s,
++ static void virtio_snd_handle_pcm_info(VirtIOSound *s,
++                                        virtio_snd_ctrl_command *cmd)
 + {
-+     uint16_t ret;
-+     uint8_t data_buf[TARGET_PAGE_SIZE - UDP_PKT_HEADER_SIZE];
-+-    hwaddr out_len;
-++    hwaddr out_len, out_requested_len;
-+     void *out_data;
-+     ssize_t recv_byte_count;
++-    uint32_t stream_id, start_id, count, size;
+++    uint32_t stream_id, start_id, count, size, tmp;
++     virtio_snd_pcm_info val;
++     virtio_snd_query_info req;
++     VirtIOSoundPCMStream *stream = NULL;
++@@ -184,14 +184,37 @@ static void virtio_snd_handle_pcm_info(VirtIOSound *s,
++     count = le32_to_cpu(req.count);
++     size = le32_to_cpu(req.size);
 + 
-+@@ -218,29 +218,28 @@ static uint16_t handle_recv_msg(HvSynDbg *syndbg, uint64_t outgpa,
-+     if (is_raw) {
-+         out_len += UDP_PKT_HEADER_SIZE;
-+     }
-++    out_requested_len = out_len;
-+     out_data = cpu_physical_memory_map(outgpa, &out_len, 1);
-+-    if (!out_data) {
-+-        return HV_STATUS_INSUFFICIENT_MEMORY;
-++    ret = HV_STATUS_INSUFFICIENT_MEMORY;
-++    if (!out_data || out_len < out_requested_len) {
-++        goto cleanup_out_data;
-+     }
-+ 
-+     if (is_raw &&
-+-        !create_udp_pkt(syndbg, out_data,
-+-                        recv_byte_count + UDP_PKT_HEADER_SIZE,
-++        !create_udp_pkt(syndbg, out_data, out_len,
-+                         data_buf, recv_byte_count)) {
-+-        ret = HV_STATUS_INSUFFICIENT_MEMORY;
-+         goto cleanup_out_data;
-+     } else if (!is_raw) {
-+-        memcpy(out_data, data_buf, recv_byte_count);
-++        memcpy(out_data, data_buf, out_len);
-+     }
-+ 
-+-    *retrieved_count = recv_byte_count;
-+-    if (is_raw) {
-+-        *retrieved_count += UDP_PKT_HEADER_SIZE;
-+-    }
-++    *retrieved_count = out_len;
-+     ret = HV_STATUS_SUCCESS;
-+ 
-+ cleanup_out_data:
-+-    cpu_physical_memory_unmap(out_data, out_len, 1, out_len);
-++    if (out_data) {
-++        cpu_physical_memory_unmap(out_data, out_len, 1, out_len);
++-    if (iov_size(cmd->elem->in_sg, cmd->elem->in_num) <
++-        sizeof(virtio_snd_hdr) + size * count) {
+++    /*
+++     * 5.14.6.2 Driver Requirements: Item Information Request
+++     * "The driver MUST NOT set start_id and count such that start_id + count
+++     * is greater than the total number of particular items that is indicated
+++     * in the device configuration space."
+++     */
+++    if (start_id > s->snd_conf.streams
+++        || !g_uint_checked_add(&tmp, start_id, count)
+++        || start_id + count > s->snd_conf.streams) {
+++        error_report("pcm info: start_id + count is greater than the total "
+++                     "number of streams, got: start_id = %u, count = %u",
+++                     start_id, count);
+++        cmd->resp.code = cpu_to_le32(VIRTIO_SND_S_BAD_MSG);
+++        return;
 ++    }
-+     return ret;
-+ }
-+ 
+++
+++    /*
+++     * 5.14.6.2 Driver Requirements: Item Information Request
+++     * "The driver MUST provide a buffer of sizeof(struct virtio_snd_hdr) +
+++     * count * size bytes for the response."
+++     */
+++    if (!g_uint_checked_mul(&tmp, size, count)
+++        || !g_uint_checked_add(&tmp, tmp, sizeof(virtio_snd_hdr))
+++        || iov_size(cmd->elem->in_sg, cmd->elem->in_num) <
+++           sizeof(virtio_snd_hdr) + size * count) {
++         /*
++          * TODO: do we need to set DEVICE_NEEDS_RESET?
++          */
++         error_report("pcm info: buffer too small, got: %zu, needed: %zu",
++                 iov_size(cmd->elem->in_sg, cmd->elem->in_num),
++-                sizeof(virtio_snd_pcm_info));
+++                sizeof(virtio_snd_pcm_info) * count);
++         cmd->resp.code = cpu_to_le32(VIRTIO_SND_S_BAD_MSG);
++         return;
++     }
 -- 
 2.35.6
 
