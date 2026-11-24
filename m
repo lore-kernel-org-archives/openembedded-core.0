@@ -1,154 +1,197 @@
-Received: from mail-dl1-f43.google.com (mail-dl1-f43.google.com [74.125.82.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15972.1795519606148709999
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15981.1795519650000016075
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2026 03:26:46 -0800
+ Tue, 24 Nov 2026 03:27:30 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=C3seDoKj;
- spf=pass (domain: mvista.com, ip: 74.125.82.43, mailfrom: rsangam@mvista.com)
-Received: by mail-dl1-f43.google.com with SMTP id a92af1059eb24-1b3acec6677so6277198c88.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 03:26:46 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=KpwUfZav;
+ spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4bb6ba3b244so44591945e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 03:27:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1795519605; x=1796124405; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=cp8cT/v5rk1HnRO6UKHO9LjIN/WboPzy84v7tWf0EGw=;
-        b=C3seDoKjT2MGturtYIX3H8+x5msrWHY7E7zIybfqqgpcXoy+4X3JIYj1H3LUW0v+Vp
-         MOVN0Jts35kHsVA1vtYooQ9rnkYJIQKF0g4IuUPaZKds03/G2gBM9q/uH0qkFf7lJ8Z9
-         eBTsmINr9r6hZ7ZKw9bOxPWnBT7k5+JrNYu/U=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795519605; x=1796124405;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=smile.fr; s=google2; t=1795519648; x=1796124448; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=cp8cT/v5rk1HnRO6UKHO9LjIN/WboPzy84v7tWf0EGw=;
-        b=RL6M2C436xUZX6Rqc87Vw8xPxx+VH6Bx4qJvM4Nf6FChL537nj2uJzIUl7/F8iobMq
-         0HDQ+tIHYl7GsqztE7AboyHUGc7wuqJGWbPqelyGqQsz4P+bcIMLObeb4M2zNA6skhn9
-         6oKF5XbUM/vbLnlLe+aG+PKBW6JsD458hYkU7/jynQqN+LadZoAZFNTZ4MiN4ZbQPAV6
-         gAXcMM/fQpVul5kX36Gb/gRZ5vrTRjwA9qB7aWWJ03ty+xt54c7Gj8JrJBxCoBfitKQp
-         lalxeaJd6ib9PejDJMH2NwNtPJek1STg8aKrHusFZD32M/N3UyCvUus8OXs6/7n4jYOs
-         4zew==
-X-Gm-Message-State: APuU4Z/km+SUdsZMwFDd9/i8hQpgyhSqmo06T21sfvs63PCSHtEJ9E27
-	4KtA8Aw7KN6xgau9qpZ4LiP7BLd5jSgud6150TzA4ttSiUkI4eEbyE94TBQj1ON/Yh+XoApAKIb
-	VKcq1aW0=
-X-Gm-Gg: AZFdTZcQESOEvjd+CUbF1IIWKPO30lUCV5ti/0LAL+nPXtUNke/s87awbEdMTFx6gMo
-	j1O9poHYSLtIOYVmIxa6hgE54i8P8mgQJgf2j7ObYZQcdvzyQxQ4jrgLEV9YqaBrg1F/4y3bqiX
-	vLhBgqHvEgMLEzH5PwQ2zzBLOfOIBElg47zSWjxlW8XkNvop4+eusNstnni/rXdgQsMMNUt/bAf
-	3SFcDPY6vcGPZJtdQShqyB2s5zG0I9jhXQw1+Xjt//W31uPsLHBVGMGjgHqJXUdGy/X75kox4d0
-	Mnq3KyFL7UFheJne/5DLRNoiKBt/uA8lu7zOd1S3mWwS7P3IRh3nyGYImJNdu/igh2ndI+t/Xwp
-	7lSuYHByY75cM9A/KXRdhIlGS7TzYkCDNoyYwMGamTCjJCVnXrI5DTZng0B/qaQtyVNE5la4Tr2
-	j5RRLRVVdgF/StwoIRPXSqyC70cJ4NeKDoSGiDZq1KvmEN2uViqwfnYMD95gaaULWBezo719ifn
-	ZgjgBcL5vB+IsUToaEEK9xZz62Dkz/LFgrnX6Pq4GjZ4U+1tV4S54unkXE7bpbphfhCk59eHVW3
-	4BsDGvG2fSrZsqGw36t0wA3oYNYOM8oKNdES
-X-Received: by 2002:a05:701b:4553:10b0:1b2:6a1d:bf58 with SMTP id a92af1059eb24-1b55694435amr14560013c88.38.1795519605369;
-        Tue, 24 Nov 2026 03:26:45 -0800 (PST)
-Return-Path: <rsangam@mvista.com>
-Received: from MVIN00040.mvista.com ([49.207.209.52])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5567ffa8csm40448694c88.7.2026.11.24.03.26.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 03:26:44 -0800 (PST)
-From: Rohini Sangam <rsangam@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Rohini Sangam <rsangam@mvista.com>
-Subject: [OE-core][scarthgap][PATCH] gstreamer1.0-plugins-base: Security fix for CVE-2026-85150
-Date: Tue, 24 Nov 2026 16:56:38 +0530
-Message-Id: <20261124112638.93705-1-rsangam@mvista.com>
-X-Mailer: git-send-email 2.34.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        bh=WxTm5lT0jh6mn9DalbsbMWBl15oIqCc0wkUqbU/AY8g=;
+        b=KpwUfZavwReXr4FbxS/y2UKeJc1J/aiQIP2QKEXpN4buElk8xrO5e+l2fql7bFusvH
+         1ByDrvWm7L06Pe3f2X3V9kufOR7JOVUn9bPaRT4VFU/D8PMOFpvcFULrIRLWeyRe5moY
+         X4dVn8/Np8KT+R92qeyEorEcHyl2YrUNUqt0r68n0n5vMvD8BmvlDa7Q+oq+V9WkajX+
+         q8OKtgdeyfcYjgFJk4KVHWzHhbOPHuuk4kg6lBFNGg828J6Kq+FE8JhinJd2zUYRTPwa
+         0aFnsMDyWt62X+SJMPxskz6Uf2wOsLUULBoLx8IxwovTWxG5ZryX9UNalU59Svsqm+i0
+         GKKg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795519648; x=1796124448;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=WxTm5lT0jh6mn9DalbsbMWBl15oIqCc0wkUqbU/AY8g=;
+        b=y/k+zo7mP6SePDo++FSYPQfejMYAIcP+9q8veCLAg30XrF+B27rB6W1rCvzsvkw3d9
+         nIlSSyrh9Gh/G3HuIVaoHxv9EVZ45nnh7Ong1vqk88ZHvEmL8kmCGTJJtzp5fvWAoaL2
+         A60FzMRzxwA9FyHSaJG5DP0dxvFSnfPEk34uTmkoIpsyQQszwtbIdIlVTD+D9WJqJmlq
+         MacwCPEZrsUkF/zJ1EWzu1gqk7sIIIy+2QCWFpwS22C36MiNynw+NzO0sPZ11C2t5pV4
+         2GMd613xvWQBnUP2PTPw9lPSdOplRmEYy4vDOi+oWUu5XrihWxMJN2CMPIpU3VnFXqyr
+         Vmjg==
+X-Forwarded-Encrypted: i=1; AL+hErEuUpNeESRyFjAm4Bl/ZW9zLP5PekOkjeMR/AUzKaiqCsr8ebTYjGonb2zehAxRsYs7/4usMH9ggQvDyk0MB78IiA==@lists.openembedded.org
+X-Gm-Message-State: APuU4Z9GeZg2TgeqAe2SxqZRha5m4RyCCZh4v2T2s+yVQ5RqDErj4+H0
+	gPFQBReRmE7vJ3F4OEOXlI0VaB0eGYyQMPh/tD0NNsDz1QF+7uEjFZWkWJcVv2ocoiI=
+X-Gm-Gg: AZFdTZfwdRodhn6u0w4GA9Zs+yV4A4CB3g53wKzyVKJPprbLnI7++ZfBpaprwuqQ7/1
+	Nss695Gh1wmVzVEBNxdc71XZwhcfO/KZW7BCi24poEU8cWqZK0zqgDf+u4spT685eNOfrAqawXU
+	UqlcFW07sIkzMqsy2E7i1jAY4hFLUP+ec27CjkfvXOLvT1ESDyHyUTVnmVX9HR0x/QMmivAjrMX
+	iyIAhzAQNgf/Pr09nmoG/5HbXZBZGXx13akIlK1SsZ+yoSaXh/5W82h8PbeUfRrpHFEEBfAlJHf
+	q/KhdoWWhB0Er8zTkF1EviOQm40gf+dKyKDWyogzlGKAThXXYWwmamLMCpvyzRe8MpcClH32JZb
+	5eazYBJ2RXyuPh+aO1bngZMdWjad2QpLPx1xh0eq05WKiz9jVJ26gdU+IcT852MmfQlFKGC5oCC
+	zkskQ539k3xVkVvwwzqDg+eblxA7dlRJlRZ95P3YAOneCcIgZKEDAPQZqPyBDBjeCAiXpHyG9Aw
+	yQijAE9JTb8PQ5Bl20KS83LO5AUpsS3rX1KkkbdPzkE1MulJVx90Qytb+bdNt6bRf/j/w58lX3Q
+	l8EA2023yG+A7JakzfRSPLbrvF9Ui4uN6fRpvZAMqWXOUmDRUbrkLQHUkqX6G2i8xjddw8ouMIU
+	6YlSvIny3kFse9zAJ
+X-Received: by 2002:a05:600c:3113:b0:4bb:693e:4c8e with SMTP id 5b1f17b1804b1-4bb88816a53mr309554845e9.21.1795519647914;
+        Tue, 24 Nov 2026 03:27:27 -0800 (PST)
+Return-Path: <yoann.congal@smile.fr>
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb8849e598sm387381115e9.8.2026.11.24.03.27.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Nov 2026 03:27:27 -0800 (PST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 24 Nov 2026 12:27:27 +0100
+Message-Id: <DN3ELESNX6PF.3L73PUZP0X5PE@smile.fr>
+Subject: Re: [OE-Core][scarthgap][PATCH 1/4] curl: Fix CVE-2026-8927
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <devanshp@cisco.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20261120130414.822854-1-devanshp@cisco.com>
+ <20261120130414.822854-2-devanshp@cisco.com>
+In-Reply-To: <20261120130414.822854-2-devanshp@cisco.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 11:26:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251023
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 11:27:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251024
 
-Pick patch from [1] also mentioned at Debian tracker in [2]
+On Fri Nov 20, 2026 at 2:04 PM CET, Devansh Patel via openembedded-core wro=
+te:
+> From: Devansh Patel <devanshp@cisco.com>
+>
+> This patch applies the upstream fix commit as referenced in [1],
+> and the public CVE advisory is referenced in [2].
+>
+> [1] https://github.com/curl/curl/commit/5c225384b8d52c67ce8259c6e4203bc57=
+aacb567
+> [2] https://curl.se/docs/CVE-2026-8927.html
+> [3] https://www.cve.org/CVERecord?id=3DCVE-2026-8927
+>
+> Signed-off-by: Devansh Patel <devanshp@cisco.com>
+> ---
+>  .../curl/curl/CVE-2026-8927.patch             | 87 +++++++++++++++++++
+>  meta/recipes-support/curl/curl_8.7.1.bb       |  1 +
+>  2 files changed, 88 insertions(+)
+>  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-8927.patch
+>
+> diff --git a/meta/recipes-support/curl/curl/CVE-2026-8927.patch b/meta/re=
+cipes-support/curl/curl/CVE-2026-8927.patch
+> new file mode 100644
+> index 0000000..a8b07a5
+> --- /dev/null
+> +++ b/meta/recipes-support/curl/curl/CVE-2026-8927.patch
+> @@ -0,0 +1,87 @@
+> +From d4e71ad3aed07542606d9c4afdf6884eccdb3a26 Mon Sep 17 00:00:00 2001
+> +From: Daniel Stenberg <daniel@haxx.se>
+> +Date: Mon, 18 May 2026 23:47:11 +0200
+> +Subject: [PATCH] url: detect proxy changes read from environment
+> +
+> +When a proxy is set from an environment variable, detect if that proxy
+> +is not the same as previously and flush state.
+> +
+> +Verified by test1647: verify changing proxy with env variables and make
+> +sure Digest state is flushed in the second use
+> +
+> +Closes #21666
+> +
+> +CVE: CVE-2026-8927
+> +Upstream-Status: Backport [https://github.com/curl/curl/commit/5c225384b=
+8d52c67ce8259c6e4203bc57aacb567]
+> +
+> +Backport Changes:
+> +- Use the 8.7.1 free()/strdup() names and include vauth/vauth.h.
+> +  Keep the parsed proxy string until the existing out cleanup so the
+> +  upstream Digest-state comparison can still read it.
+> +- Omit tests/data/Makefile.am, tests/data/test1647,
+> +  tests/libtest/Makefile.inc and tests/libtest/lib1647.c.
+> +  The test-only feature-detection dependency is therefore unnecessary.
+> +
+> +Signed-off-by: Devansh Patel <devanshp@cisco.com>
+> +---
+> + lib/url.c     | 13 ++++++++++++-
+> + lib/urldata.h |  1 +
+> + 2 files changed, 13 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/lib/url.c b/lib/url.c
+> +index 9e1ca03..fe76397 100644
+> +--- a/lib/url.c
+> ++++ b/lib/url.c
+> +@@ -79,6 +79,7 @@
+> + #include "share.h"
+> + #include "content_encoding.h"
+> + #include "http_digest.h"
+> ++#include "vauth/vauth.h"
+> + #include "http_negotiate.h"
+> + #include "select.h"
+> + #include "multiif.h"
+> +@@ -331,6 +332,9 @@ CURLcode Curl_close(struct Curl_easy **datap)
+> +   Curl_wildcard_dtor(&data->wildcard);
+> +   Curl_freeset(data);
+> +   Curl_headers_cleanup(data);
+> ++#ifndef CURL_DISABLE_DIGEST_AUTH
+> ++  free(data->state.envproxy);
+> ++#endif
+> +   free(data);
+> +   return CURLE_OK;
+> + }
+> +@@ -2535,7 +2539,6 @@ static CURLcode create_conn_helper_init_proxy(stru=
+ct Curl_easy *data,
+> +     curl_proxytype ptype =3D (curl_proxytype)conn->http_proxy.proxytype=
+;
+> +     if(proxy) {
+> +       result =3D parse_proxy(data, conn, proxy, ptype);
+> +-      Curl_safefree(proxy); /* parse_proxy copies the proxy string */
 
-[1] https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/bfeda94b70b265f0969e5831580c6a793093e97f
-[2] https://security-tracker.debian.org/tracker/CVE-2026-85150
+This removed line is not in upstream patch. Are you sure you don't want
+to move it instead? Removing a free() sounds like a memory leak...
 
-Signed-off-by: Rohini Sangam <rsangam@mvista.com>
----
- .../CVE-2026-85150.patch                      | 59 +++++++++++++++++++
- .../gstreamer1.0-plugins-base_1.22.12.bb      |  1 +
- 2 files changed, 60 insertions(+)
- create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2026-85150.patch
+> +       if(result)
+> +         goto out;
+> +     }
+> +@@ -2554,6 +2557,14 @@ static CURLcode create_conn_helper_init_proxy(str=
+uct Curl_easy *data,
+> +       result =3D CURLE_UNSUPPORTED_PROTOCOL;
+> +       goto out;
+> + #else
+> ++#ifndef CURL_DISABLE_DIGEST_AUTH
+> ++      if(!Curl_safecmp(data->state.envproxy, proxy)) {
+> ++        /* proxy changed */
+> ++        Curl_auth_digest_cleanup(&data->state.proxydigest);
+> ++        free(data->state.envproxy);
+> ++        data->state.envproxy =3D strdup(proxy);
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2026-85150.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2026-85150.patch
-new file mode 100644
-index 0000000000..2f9c57cb54
---- /dev/null
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/CVE-2026-85150.patch
-@@ -0,0 +1,59 @@
-+From bfeda94b70b265f0969e5831580c6a793093e97f Mon Sep 17 00:00:00 2001
-+From: Matthew Waters <matthew@centricular.com>
-+Date: Wed, 2 Sep 2026 16:14:23 +1000
-+Subject: [PATCH] rtsp/message: fix crash when an auth value started with
-+ whitespace
-+
-+When parsing a field like 'key= ",foo=bar' the space after the '=' would be
-+considered the end of the key value pair.
-+
-+The '=' would be found and the key (before the '=') extracted. Then the value
-+parsing would skip any initial whitespace. advancing beyond the ' '. The value
-+would then be g_strndup(value, end - value). As `end < value`, This attempts to
-+copy -1 bytes and fail.
-+
-+Fix by using the end of the item after skipping over any whitespace.
-+
-+Fixes https://gitlab.freedesktop.org/gstreamer/gstreamer/-/work_items/5278
-+
-+Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/12431>
-+
-+CVE: CVE-2026-85150
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/bfeda94b70b265f0969e5831580c6a793093e97f]
-+
-+Signed-off-by: Rohini Sangam <rsangam@mvista.com>
-+---
-+ gst-libs/gst/rtsp/gstrtspmessage.c | 7 +++++--
-+ 1 file changed, 5 insertions(+), 2 deletions(-)
-+
-+diff --git a/gst-libs/gst/rtsp/gstrtspmessage.c b/gst-libs/gst/rtsp/gstrtspmessage.c
-+index ed62636..02ba5e5 100644
-+--- a/gst-libs/gst/rtsp/gstrtspmessage.c
-++++ b/gst-libs/gst/rtsp/gstrtspmessage.c
-+@@ -1416,18 +1416,21 @@ parse_auth_credentials (GPtrArray * auth_credentials, const gchar * header,
-+         if (eq[0] == '=') {
-+           GstRTSPAuthParam *auth_param = g_new0 (GstRTSPAuthParam, 1);
-+           const gchar *value;
-++          const gchar *param_end;
-+ 
-+           /* have an actual param */
-+           auth_param->name = g_strndup (header, eq - header);
-+ 
-+           value = eq + 1;
-+           value = skip_lws (value);
-+-          auth_param->value = g_strndup (value, item_end - value);
-++          param_end = skip_item (value);
-++
-++          auth_param->value = g_strndup (value, param_end - value);
-+           if (value[0] == '"')
-+             decode_quoted_string (auth_param->value);
-+ 
-+           g_ptr_array_add (params, auth_param);
-+-          header = item_end;
-++          header = param_end;
-+         } else {
-+           /* at next scheme, header at start of it */
-+           break;
-+-- 
-+2.44.4
-+
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.12.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.12.bb
-index 0f60e79b35..31224a4c7c 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.12.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.22.12.bb
-@@ -23,6 +23,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
-            file://CVE-2025-47806.patch \
-            file://CVE-2025-47807.patch \
-            file://CVE-2026-18297.patch \
-+           file://CVE-2026-85150.patch \
-            "
- SRC_URI[sha256sum] = "73cfadc3a6ffe77ed974cfd6fb391c605e4531f48db21dd6b9f42b8cb69bd8c1"
- 
--- 
-2.34.1
+Have you checked that proxy can't be NULL here (on curl 8.7.1)?
+
+My review LLM wrote that it could and that sounds plausible to me:
+| Warning: The guard is different. 8.7.1 tests
+| `conn->http_proxy.host.rawalloc` where upstream tests
+| `conn->http_proxy.peer`.
+|=20
+| Upstream always parses the pre-proxy into socks_proxy, so `proxy` is
+| never NULL at that point.
+|=20
+| In 8.7.1, parse_proxy() puts a schemeless CURLOPT_PRE_PROXY
+| ("host:1080", scheme guessed as http, default PROXYTYPE) into http_proxy
+| and leaves `proxy` NULL. If the same handle used an HTTP proxy earlier,
+| Curl_safecmp(envproxy, NULL) returns false, the code calls strdup(NULL)
+| and segfaults.
+
+Can you check please?
+
+Regards,
+--=20
+Yoann Congal
+Smile ECS
 
