@@ -1,271 +1,114 @@
-Subject: Re: [wrynose][PATCH 0/3] acl: Security fixes
-To: openembedded-core@lists.openembedded.org
-From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
-X-Originating-Location: Mumbai, Maharashtra, IN (151.186.177.21)
-X-Originating-Platform: Windows Edge 158
-User-Agent: GROUPS.IO Web Poster
-MIME-Version: 1.0
-Date: Mon, 23 Nov 2026 23:43:12 -0800
-References: <20261104055335.2080900-1-dkelaiya@cisco.com> <DMVCJFB6GMSJ.278YTTU78ZCM0@smile.fr> <882014.1794918843277220981@lists.openembedded.org>
-In-Reply-To: <882014.1794918843277220981@lists.openembedded.org>
-Message-ID: <1226682.1795506192826477342@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="OS56xS5qtFxcfR98Jb84"
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13574.1795508559795713989
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 24 Nov 2026 00:22:40 -0800
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=UJVOXMnE;
+ spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-497614c95f0so2303915f8f.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 00:22:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google2; t=1795508558; x=1796113358; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=FAycVLvCzzjpTn07kMzRfIfGy53nMHBW+v+6VlKixsM=;
+        b=UJVOXMnELKSWhgmuBzYC8ec3xIp/6ACPklT/SYEb40MZSPSzvNFedQFbM6DqVTIsY/
+         T3XgWT0ylkAJaR5BK1540iaMNbU7YwdptQebhh4biJWyHRG9MpKH4MGgdmaqMmWLGs1+
+         Iqs6BB64PLzM4jypghZpHONSa0g6AYvXSYJSJbfrmqNUSZZb2dBSg9UMZUY2IMZppgqW
+         QFVA9Vz0n7upk3RUOYyNuXLNYl2tL1r+l6W1KZhaRnsarPj4NDhTCFGFXn4DTrB8ONJK
+         Tkaa7mcTHcVUVmN9vyoXBg6BOB4PVjlxWAbv7qgzFHb/zkKh0t6eg+zkaFzs59E+Mi9m
+         I/Fg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795508558; x=1796113358;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=FAycVLvCzzjpTn07kMzRfIfGy53nMHBW+v+6VlKixsM=;
+        b=jDZSLLqOvAPwZJl6qOzDpFteR/ijfIPVvmLQo/q3EAdjx/2zT9HViWpA3VXjf1wyux
+         l/QBae2SdgVOzbdbDe+vMEbHCDUMLn94pFqRNX1tEIdQdPG8aiBZ2xartHurmfccnXOK
+         gUVpZcIk0uQ0dh6kFLWaan7D1pOXr6/P8J7wgUALjCt8hxOkvfnptlqjdLR9I/j/4Ubm
+         r0qE0wvY//zYxSQj84sPuB6Lk9OcMcAqHyXBHiOD4tbxA2j6SnLuMu8lGNgPJWCPm0+w
+         E0YjF9kBDwsHJk+4UGGshCl5ytsWGVClnu4U81rhYDMo8x5RHgoq9mV+dYeOLaIe3QyA
+         rJ3w==
+X-Forwarded-Encrypted: i=1; AL+hErHicqU5sElrCCUbIiM793BwzhgSnLHEgU9+Mjcx0dgWaMj2jFSCPx1k+7cOv9Qu3YBL1neUkH4BQxin5bNVF3KdeQ==@lists.openembedded.org
+X-Gm-Message-State: APuU4Z8qLFgyqS1twry8PABFWY1ujRdvpTrtphOC6joeIo5xX4sBFPjw
+	4uORCGGk92oytvBRECegdiGusl/XbMWOCVWFElMcN2GsZD4VK4eUjKWSVcsyJHVM40c=
+X-Gm-Gg: AZFdTZee7ctmVSqZ57nK66OmADFLq3UXNIu/kPNNj6M8mdqYc5QGMajEPUQaTdndKxH
+	/lzY8hCjzICozxznOhxSmb8q9QPCMaLb9zTcE7JJ7VeaaO/0aTs6RgkUIQ5Jpq86nJoAqh/W++7
+	Qc4KZHo5ZrEOgkD5ikWF0Lw73tWTiVluRbtgEgHPQD89XVx7tHFK9HpGKiymdX+bU1KbdeGTUdO
+	/gzWomBYcbtqA/7d7PEPIPhXChJYntFSGTumWkXmFF1i5bLndWagZGRCpSPZ5RLeyW3JtdNcR3O
+	inhRb/1r68UabFUZVxBcoScKREfd7pZ9Rna+XKW1L/jVbdkQJRqzgtZtGem4tDpLAzuQ00SdgWu
+	6U2Zae40fcXOdTHkbPUD7ABd71YhzrSqB18IsJFMoxjBSdGUcmxCp49cmVQYKaWCDo75Gig+3SR
+	fntTlRCkebDGXP2qyxhCt1CW+gR+13yizhrgSPVgGjLSQ5qEfzICuSDe955OT4IyJo9SR6MruCM
+	8NHpp9C0zfQB5Phw5Panrg8L239p+QWVORPYVpSvrQC3sTsmyn1yYPl2cfEAJzm0SYbP7l4vPfW
+	C1PuP3y1Ws2y/q//lOoeLi6I+uIYWhVQWA6Lzf7K67l+rPPCZrEw9k3Tp25jxa+RGB4OTiQOaGu
+	nJ81T0pGtV4uG+BEm
+X-Received: by 2002:a05:6000:4024:b0:4b7:7db4:2cd8 with SMTP id ffacd0b85a97d-4b77db42cf7mr1571524f8f.35.1795508557881;
+        Tue, 24 Nov 2026 00:22:37 -0800 (PST)
+Return-Path: <yoann.congal@smile.fr>
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6bb989eesm26603862f8f.50.2026.11.24.00.22.37
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Nov 2026 00:22:37 -0800 (PST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 24 Nov 2026 09:22:37 +0100
+Message-Id: <DN3ANW1PYB7F.3UQIXBSJZ4JOK@smile.fr>
+Subject: Re: [OE-core][wrynose][PATCH] acl: upgrade 2.3.2 -> 2.4.0
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: "Alexander Kanavin" <alex@linutronix.de>, "Richard Purdie"
+ <richard.purdie@linuxfoundation.org>
+To: <dkelaiya@cisco.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20261124073557.219159-1-dkelaiya@cisco.com>
+In-Reply-To: <20261124073557.219159-1-dkelaiya@cisco.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 07:43:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250964
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 08:22:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250965
 
---OS56xS5qtFxcfR98Jb84
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Yoann,
-
-Following our discussion, I have submitted an ACL 2.4.0 upgrade for
-Wrynose [1] to replace the earlier three-patch backport series.
-
-Upgrading keeps the source aligned with an upstream release and
-avoids maintaining an extensive downstream patch stack.
-
-Therefore, I believe the upgrade is preferable for addressing
-CVE-2026-54369 and CVE-2026-54370, and worth considering as an exception
-for Wrynose.
-
-[1] https://lists.openembedded.org/g/openembedded-core/message/250963
-
-Thanks,
-Darsh
-On Tue, Nov 17, 2026 at 06:04 PM, Darsh Kelaiya -X (dkelaiya - E INFOCHIPS =
-PRIVATE LIMITED at Cisco) wrote:
-
->=20
-> Hi Yoann,
->=20
-> Thanks for reviewing this. I haven't identified any definite breakage
-> specific to upgrading to ACL 2.4.0. My original choice followed the
-> usual stable-branch backport approach.
->=20
-> I agree that this series already introduces substantial changes,
-> including the new APIs, compatibility helpers and directory walker.
-> Keeping the 2.3.2 version therefore does not necessarily provide a
-> lower-risk result.
->=20
-> Upstream also recommends updating these packages even on older
-> distributions:
->=20
-> https://www.openwall.com/lists/oss-security/2026/06/29/1#:~:text=3DYou%20=
-probably%20want,org/projects/acl
->=20
->=20
-> I'm happy to evaluate the 2.4.0 upgrade. That would give us a firmer
-> basis for considering an upgrade exception for Wrynose.
->=20
-> Regards,
-> Darsh
->=20
-> On Sun, Nov 15, 2026 at 05:39 AM, Yoann Congal wrote:
->=20
->> On Wed Nov 4, 2026 at 6:53 AM CET, Darsh Kelaiya -X (dkelaiya - E
->> INFOCHIPS PRIVATE LIMITED at Cisco) via openembedded-core wrote:
->>=20
->>> From: Darsh Kelaiya <dkelaiya@cisco.com>
->>>=20
->>> Backport the upstream fixes for CVE-2026-54369 and CVE-2026-54370 to
->>> ACL 2.3.2.
->>>=20
->>> CVE-2026-54369 adds descriptor-relative ACL APIs so callers can control
->>> symlink traversal. CVE-2026-54370 uses those APIs to harden getfacl,
->>> setfacl, setfacl --restore and chacl against path replacement races and
->>> unsafe symlink traversal.
->>>=20
->>> Retain ACL 2.3.2 on the stable Wrynose branch and backport the security
->>> fixes with the required _at APIs and helper dependencies. This follows
->>> OE-Core's focus on security and bug fixes for stable branches [1],
->>> avoiding a general recipe upgrade to ACL 2.4.0. Existing pathname API
->>> behavior is preserved.
->>>=20
->>> The new public acl_*_at declarations conflict with private helpers
->>> using the same names in GNU tar 1.35. Patch 1 backports the upstream
->>> tar rename before patches 2 and 3 introduce and consume
->>> the new ACL APIs.
->>>=20
->>> [1] https://docs.yoctoproject.org/6.0/ref-manual/release-process.html#s=
-table-release-process
->>>=20
->>>=20
->>> Darsh Kelaiya (3):
->>> tar: avoid name conflicts with new libacl APIs
->>> acl: fix CVE-2026-54369
->>> acl: fix CVE-2026-54370
->>>=20
->>> .../tar/tar/Avoid-acl_-prefix-for-functions.patch | 103 ++
->>> meta/recipes-extended/tar/tar_1.35.bb | 1 +
->>> .../attr/acl/CVE-2026-54369-dependent_p1.patch | 69 ++
->>> .../attr/acl/CVE-2026-54369-dependent_p2.patch | 200 ++++
->>> .../attr/acl/CVE-2026-54369-dependent_p3.patch | 712 +++++++++++++
->>> meta/recipes-support/attr/acl/CVE-2026-54369_p1.patch | 719 +++++++++++=
-++
->>> meta/recipes-support/attr/acl/CVE-2026-54369_p2.patch | 957
->>> ++++++++++++++++++
->>> meta/recipes-support/attr/acl/CVE-2026-54369_p3.patch | 109 ++
->>> .../attr/acl/CVE-2026-54370-dependent_p1.patch | 168 +++
->>> .../attr/acl/CVE-2026-54370-dependent_p2.patch | 761 ++++++++++++++
->>> .../attr/acl/CVE-2026-54370-dependent_p3.patch | 439 ++++++++
->>> .../attr/acl/CVE-2026-54370-dependent_p4.patch | 140 +++
->>> meta/recipes-support/attr/acl/CVE-2026-54370_p1.patch | 299 ++++++
->>> meta/recipes-support/attr/acl/CVE-2026-54370_p2.patch | 403 ++++++++
->>> meta/recipes-support/attr/acl/CVE-2026-54370_p3.patch | 603 +++++++++++
->>> meta/recipes-support/attr/acl/CVE-2026-54370_p4.patch | 213 ++++
->>> meta/recipes-support/attr/acl_2.3.2.bb | 14 +
->>> 17 files changed, 5910 insertions(+)
->>> create mode 100644
->>> meta/recipes-extended/tar/tar/Avoid-acl_-prefix-for-functions.patch
->>> create mode 100644
->>> meta/recipes-support/attr/acl/CVE-2026-54369-dependent_p1.patch
->>> create mode 100644
->>> meta/recipes-support/attr/acl/CVE-2026-54369-dependent_p2.patch
->>> create mode 100644
->>> meta/recipes-support/attr/acl/CVE-2026-54369-dependent_p3.patch
->>> create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54369_p1.patc=
-h
->>> create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54369_p2.patc=
-h
->>> create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54369_p3.patc=
-h
->>> create mode 100644
->>> meta/recipes-support/attr/acl/CVE-2026-54370-dependent_p1.patch
->>> create mode 100644
->>> meta/recipes-support/attr/acl/CVE-2026-54370-dependent_p2.patch
->>> create mode 100644
->>> meta/recipes-support/attr/acl/CVE-2026-54370-dependent_p3.patch
->>> create mode 100644
->>> meta/recipes-support/attr/acl/CVE-2026-54370-dependent_p4.patch
->>> create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54370_p1.patc=
-h
->>> create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54370_p2.patc=
-h
->>> create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54370_p3.patc=
-h
->>> create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54370_p4.patc=
-h
->>=20
->> Hello,
->>=20
->> This is quite a big series ("5910 insertions(+)"). Looking at it, I thin=
-k
->> this might be just backporting most of the risky parts of the 2.4.0
->> upgrade, but then, we might just be better off simply upgrading to
->> 2.4.0. Do you have thoughts about that? Are there definite breakage on a
->> potential 2.4.0 upgrade?
->>=20
->> Obviously, a 2.4.0 upgrade would need serious thoughts/discussion but
->> this might be the way forward.
->>=20
->> Regards,
->> --
->> Yoann Congal
->> Smile ECS
->=20
->=20
+On Tue Nov 24, 2026 at 8:35 AM CET, Darsh Kelaiya -X (dkelaiya - E INFOCHIP=
+S PRIVATE LIMITED at Cisco) via openembedded-core wrote:
+> From: Alexander Kanavin <alex@linutronix.de>
 >
+> Backport a patch to tar to avoid name clashes.
+>
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit 2830d1319eec866947f4fa4a1ac16e2ea6584be5)
+> Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+> ---
+>  ...0001-Avoid-acl_-prefix-for-functions.patch | 90 +++++++++++++++++++
+>  meta/recipes-extended/tar/tar_1.35.bb         | 22 ++---
+>  ...t_uid-fix-memory-wasting-loop-if-use.patch | 49 ----------
+>  ...isc.test-Don-t-mix-stdout-and-stderr.patch | 35 --------
+>  .../attr/{acl_2.3.2.bb =3D> acl_2.4.0.bb}       |  4 +-
+>  5 files changed, 102 insertions(+), 98 deletions(-)
+>  create mode 100644 meta/recipes-extended/tar/tar/0001-Avoid-acl_-prefix-=
+for-functions.patch
+>  delete mode 100644 meta/recipes-support/attr/acl/0001-libmisc-__acl_get_=
+uid-fix-memory-wasting-loop-if-use.patch
+>  delete mode 100644 meta/recipes-support/attr/acl/0001-test-misc.test-Don=
+-t-mix-stdout-and-stderr.patch
+>  rename meta/recipes-support/attr/{acl_2.3.2.bb =3D> acl_2.4.0.bb} (90%)
 
---OS56xS5qtFxcfR98Jb84
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Hello,
 
-<div>Hi Yoann,<br /><br />Following our discussion, I have submitted an ACL=
- 2.4.0 upgrade for<br />Wrynose [1] to replace the earlier three-patch back=
-port series.<br /><br />Upgrading keeps the source aligned with an upstream=
- release and<br />avoids maintaining an extensive downstream patch stack.<b=
-r /><br />Therefore, I believe the upgrade is preferable for addressing<br =
-/>CVE-2026-54369 and CVE-2026-54370, and worth considering as an exception<=
-br />for Wrynose.<br /><br />[1] <a href=3D"https://lists.openembedded.org/=
-g/openembedded-core/message/250963" target=3D"_blank" rel=3D"noopener">http=
-s://lists.openembedded.org/g/openembedded-core/message/250963</a>&nbsp;<br =
-/><br />Thanks,<br />Darsh</div>
-<div>On Tue, Nov 17, 2026 at 06:04 PM, Darsh Kelaiya -X (dkelaiya - E INFOC=
-HIPS PRIVATE LIMITED at Cisco) wrote:</div>
-<div>
-<blockquote>
-<div>Hi Yoann,<br /><br />Thanks for reviewing this. I haven't identified a=
-ny definite breakage<br />specific to upgrading to ACL 2.4.0. My original c=
-hoice followed the<br />usual stable-branch backport approach.<br /><br />I=
- agree that this series already introduces substantial changes,<br />includ=
-ing the new APIs, compatibility helpers and directory walker.<br />Keeping =
-the 2.3.2 version therefore does not necessarily provide a<br />lower-risk =
-result.<br /><br />Upstream also recommends updating these packages even on=
- older<br />distributions:<br /><br /><a href=3D"https://www.openwall.com/l=
-ists/oss-security/2026/06/29/1#:~:text=3DYou%20probably%20want,org/projects=
-/acl" target=3D"_blank" rel=3D"noopener">https://www.openwall.com/lists/oss=
--security/2026/06/29/1#:~:text=3DYou%20probably%20want,org/projects/acl</a>=
-&nbsp;<br /><br />I'm happy to evaluate the 2.4.0 upgrade. That would give =
-us a firmer<br />basis for considering an upgrade exception for Wrynose.<br=
- /><br />Regards,<br />Darsh<br /><br />On Sun, Nov 15, 2026 at 05:39 AM, Y=
-oann Congal wrote:</div>
-<div>
-<blockquote>On Wed Nov 4, 2026 at 6:53 AM CET, Darsh Kelaiya -X (dkelaiya -=
- E INFOCHIPS PRIVATE LIMITED at Cisco) via openembedded-core wrote:<br />
-<blockquote>From: Darsh Kelaiya &lt;dkelaiya@cisco.com&gt;<br /><br />Backp=
-ort the upstream fixes for CVE-2026-54369 and CVE-2026-54370 to<br />ACL 2.=
-3.2.<br /><br />CVE-2026-54369 adds descriptor-relative ACL APIs so callers=
- can control<br />symlink traversal. CVE-2026-54370 uses those APIs to hard=
-en getfacl,<br />setfacl, setfacl --restore and chacl against path replacem=
-ent races and<br />unsafe symlink traversal.<br /><br />Retain ACL 2.3.2 on=
- the stable Wrynose branch and backport the security<br />fixes with the re=
-quired _at APIs and helper dependencies. This follows<br />OE-Core's focus =
-on security and bug fixes for stable branches [1],<br />avoiding a general =
-recipe upgrade to ACL 2.4.0. Existing pathname API<br />behavior is preserv=
-ed.<br /><br />The new public acl_*_at declarations conflict with private h=
-elpers<br />using the same names in GNU tar 1.35. Patch 1 backports the ups=
-tream<br />tar rename before patches 2 and 3 introduce and consume<br />the=
- new ACL APIs.<br /><br />[1] <a href=3D"https://docs.yoctoproject.org/6.0/=
-ref-manual/release-process.html#stable-release-process" target=3D"_blank" r=
-el=3D"noopener">https://docs.yoctoproject.org/6.0/ref-manual/release-proces=
-s.html#stable-release-process</a><br /><br />Darsh Kelaiya (3):<br />tar: a=
-void name conflicts with new libacl APIs<br />acl: fix CVE-2026-54369<br />=
-acl: fix CVE-2026-54370<br /><br />.../tar/tar/Avoid-acl_-prefix-for-functi=
-ons.patch | 103 ++<br />meta/recipes-extended/tar/tar_1.35.bb | 1 +<br />..=
-./attr/acl/CVE-2026-54369-dependent_p1.patch | 69 ++<br />.../attr/acl/CVE-=
-2026-54369-dependent_p2.patch | 200 ++++<br />.../attr/acl/CVE-2026-54369-d=
-ependent_p3.patch | 712 +++++++++++++<br />meta/recipes-support/attr/acl/CV=
-E-2026-54369_p1.patch | 719 +++++++++++++<br />meta/recipes-support/attr/ac=
-l/CVE-2026-54369_p2.patch | 957 ++++++++++++++++++<br />meta/recipes-suppor=
-t/attr/acl/CVE-2026-54369_p3.patch | 109 ++<br />.../attr/acl/CVE-2026-5437=
-0-dependent_p1.patch | 168 +++<br />.../attr/acl/CVE-2026-54370-dependent_p=
-2.patch | 761 ++++++++++++++<br />.../attr/acl/CVE-2026-54370-dependent_p3.=
-patch | 439 ++++++++<br />.../attr/acl/CVE-2026-54370-dependent_p4.patch | =
-140 +++<br />meta/recipes-support/attr/acl/CVE-2026-54370_p1.patch | 299 ++=
-++++<br />meta/recipes-support/attr/acl/CVE-2026-54370_p2.patch | 403 +++++=
-+++<br />meta/recipes-support/attr/acl/CVE-2026-54370_p3.patch | 603 ++++++=
-+++++<br />meta/recipes-support/attr/acl/CVE-2026-54370_p4.patch | 213 ++++=
-<br />meta/recipes-support/attr/acl_2.3.2.bb | 14 +<br />17 files changed, =
-5910 insertions(+)<br />create mode 100644 meta/recipes-extended/tar/tar/Av=
-oid-acl_-prefix-for-functions.patch<br />create mode 100644 meta/recipes-su=
-pport/attr/acl/CVE-2026-54369-dependent_p1.patch<br />create mode 100644 me=
-ta/recipes-support/attr/acl/CVE-2026-54369-dependent_p2.patch<br />create m=
-ode 100644 meta/recipes-support/attr/acl/CVE-2026-54369-dependent_p3.patch<=
-br />create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54369_p1.pat=
-ch<br />create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54369_p2.=
-patch<br />create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54369_=
-p3.patch<br />create mode 100644 meta/recipes-support/attr/acl/CVE-2026-543=
-70-dependent_p1.patch<br />create mode 100644 meta/recipes-support/attr/acl=
-/CVE-2026-54370-dependent_p2.patch<br />create mode 100644 meta/recipes-sup=
-port/attr/acl/CVE-2026-54370-dependent_p3.patch<br />create mode 100644 met=
-a/recipes-support/attr/acl/CVE-2026-54370-dependent_p4.patch<br />create mo=
-de 100644 meta/recipes-support/attr/acl/CVE-2026-54370_p1.patch<br />create=
- mode 100644 meta/recipes-support/attr/acl/CVE-2026-54370_p2.patch<br />cre=
-ate mode 100644 meta/recipes-support/attr/acl/CVE-2026-54370_p3.patch<br />=
-create mode 100644 meta/recipes-support/attr/acl/CVE-2026-54370_p4.patch</b=
-lockquote>
-Hello,<br /><br />This is quite a big series ("5910 insertions(+)"). Lookin=
-g at it, I think<br />this might be just backporting most of the risky part=
-s of the 2.4.0<br />upgrade, but then, we might just be better off simply u=
-pgrading to<br />2.4.0. Do you have thoughts about that? Are there definite=
- breakage on a<br />potential 2.4.0 upgrade?<br /><br />Obviously, a 2.4.0 =
-upgrade would need serious thoughts/discussion but<br />this might be the w=
-ay forward.<br /><br />Regards,<br />-- <br />Yoann Congal<br />Smile ECS</=
-blockquote>
-</div>
-</blockquote>
-</div>
+This upgrade would be an exception to the usual rule to simplify CVE
+patching. It needs more justification that a simple cherry-pick from
+master. I expect to see:
+- An analysis of the changelog highlighting changes outside of our usual
+  policy and their consequences to our user's code.
+- A link to the CVE backport attempt that lead to this upgrade
+  suggestion.
 
---OS56xS5qtFxcfR98Jb84--
+This is a bit of work but we need those info to defend the exception to
+the rule.
+
+Regards,
+--=20
+Yoann Congal
+Smile ECS
+
