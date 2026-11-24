@@ -1,154 +1,115 @@
-Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15121.1795517107282030762
+Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15137.1795517192395794940
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2026 02:45:07 -0800
+ Tue, 24 Nov 2026 02:46:32 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=B63WgpW/;
- spf=pass (domain: siemens.com, ip: 52.101.70.4, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tjFlIyNINXyvlLD+amIvUz/ak/ICwTduidJ01YbaZ+v3liDk3Jy7d/NCi/9EGCq4yZY73F0pmCJOG32KVu2WANhU0Xu8+J/dplsApS6eX11sxZ6uQ02ULZDQedUbRsBP49B1Zyr75+LfA4kSIZ5imfNW1r2CJUbMKJ6FfpdAtX/dZObKZOjVjKRBrAsJ7SAfjjzG8lHKkRxZzIPuAwgCavgSIZ4VBt5LKJzeOnDZcgq/Rq5RhlqIESgGRw0KoVkKiew5pcmu3n7dE7SFTlFyr6liDIBYLOj72X9+A+Crg/2SXGSm2ZZXwQMIuktYWDx1xZYA8yc01+WG6RqCFS1TEA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=yl/0UH+YqfebcMR9Y8loPntCx6XIWGt+uLWaekz3eZs=;
- b=GoDpguPq5iRLV8Z5hBy8/SIENspGVpMUzaveQvs0Q/n8JXws/mUnOpZfdn58M9MQQAbmmbPOA1pXfsJoF1aAXGbBFv03d7MknW5/M6WkZWZZBceL6D2h56UAnxvuQgCwcOCTvXJICLNgzJwR1V3A7cCxKjpfvjoqrcG0123yXqh2QY/F3hq48n30LLe+Rhf61thbSDPn2DW2HHdMhQ/n4qP7IKSS6T95QIxyKJDFudgqTjv62O6C1QuOPqJZihvrNJTy5wkoYvE0sZsmN9EQHRm9h2GfD6Fkl+RHdSYrvbuNmD4Xy/O3urVxktv0JN9n7SGd88sl3O3+VsFcJP9V6g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yl/0UH+YqfebcMR9Y8loPntCx6XIWGt+uLWaekz3eZs=;
- b=B63WgpW/v3xPZ2lDTZCNShOIVY1k77aMQLQjf/V19sFImRddun0RjwkPUEXeFK9ji2QnxCFommKMfqaSaVYi3tNxdRDeEzndpQJVuqOg60HApzanx0DWIQQYECmJarxtTYIsicpjSmdJLb7HqqXkvit71SYkKl8HC5F/QXrrSAGHT/8LCYViRw6jRxBg3ycCovh3w2eCc6Gtop8MvNrelfKZnyC64s/6CUf3iAEWrwMA9PkfbgHcEvbiRZZIz+KsahDGOYLgzrecz/NBI8uSn87Gl8Gnsh2WOZ8LXX2nBGcom/JpQHQzX1KYz8eXkpjcCkRa7U3HupSeozU03jrcjQ==
-Received: from AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:420::16)
- by DB8PR10MB3750.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:16f::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.4; Tue, 24 Nov
- 2026 10:45:02 +0000
-Received: from AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::a905:57e5:8858:d008]) by AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::a905:57e5:8858:d008%6]) with mapi id 15.21.0662.001; Tue, 24 Nov 2026
- 10:45:02 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: "devanshp@cisco.com" <devanshp@cisco.com>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core][blacksail][PATCH] zlib: Ignore CVE-2026-76844
-Thread-Topic: [OE-core][blacksail][PATCH] zlib: Ignore CVE-2026-76844
-Thread-Index: AQHde/k7CpHgLakH+kion279osiDhbc9CWGQ
-Date: Tue, 24 Nov 2026 10:45:02 +0000
-Message-ID: <AS8PR10MB507343A3CBDBB0F4257E4F32FD442@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
-References: <20261124094943.1560218-1-devanshp@cisco.com>
-In-Reply-To: <20261124094943.1560218-1-devanshp@cisco.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=3c0291dc-8df3-4a59-bdf1-a0e377c45a39;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-11-24T10:43:38Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
- 3, 0, 1;
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS8PR10MB5073:EE_|DB8PR10MB3750:EE_
-x-ms-office365-filtering-correlation-id: db430361-ee7a-489e-9743-08df4a17feb3
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|38070700021|10067099003|261026140227099003|56012099006|11063799006|261028144727099003|261022075727099003|261021121427099003|261022105027099003|261102123227099003|261009223027099003|55112099003|22082099003|18002099003;
-x-microsoft-antispam-message-info: 8T1DEYOPJjtzJ3FgkaXehoJ4YlYhnlPW+tPlh0cQsMi5RpTXjMDfC/BPmPSyW1QbV9mWjFf1h+L2rfmzYI2vLWtGSNqoitUeMcN1wt1NDpHMnvP/ZC+WX7HUU1mGOoae+ywjDRx/cgpn75zKbv3IpGyDeHpoxCjNBCoR65N1MEjbydSahkl3pW0+8QXEj7LiFJBUhJNNe3Evn6BXtptrx0i2zrcEFYsoOA2WknHh5YM+x74dmGEondkZPYBGt+lt+s6pemK7uurRIiICJl/AN//ETQufeiwnoxj/oGSiQF3mHif8nunJ6sqejXoydxvKEgOMAgZSfkYF5Yd1D4RDht7Fo5WG8TSS++FNvpQDdg97/7XcqVcFIML9mirGjfMcj8TG7AerOqGuxXwpOmFgCZPhtLd6TzGg0TVxkCkXp0uWzI4YWGpfMo1nLMIKZ4seMzxLv1ELJE0Td4r/sItU6L74lMGmkbGFXKCQvZIS3cyo/NRbf6+1zlqKVwlCtTXklnYJefII0i0WuMfZChldcPi62xfOh/JxbO7+SE/jIG1sQY819u32F+isN83B9ZncgkKboMUAxQss56KjHYTS3QlYB89UUMnvC1MsS/1EPvhRCxF/5xoqoAjQSqSV9Vdy1kBr1YzpNDMOH/1VRyJlfU2+NflNOD3nwopaOPKjQAnra+muWuEw4wy1EeEZnz63I2SdA28+URURd47h7yRX66eQbZv0JbNThFYwH5xxnaQ=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(38070700021)(10067099003)(261026140227099003)(56012099006)(11063799006)(261028144727099003)(261022075727099003)(261021121427099003)(261022105027099003)(261102123227099003)(261009223027099003)(55112099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?OSyEnU79fPJvzCC4TtxFf1pTnLkdpgNQ1KZtoDjfHSj1CoNJ/+dHWuEoHBdm?=
- =?us-ascii?Q?dgjID5mQde3G7FByyhE96Wi/NWgRFmAQbZOK/ZluzGnWCYvPh6HAcqUrKZVn?=
- =?us-ascii?Q?kqnbEtAV21ZA79fMslJJ0WJ/317PnZk4jXHKz+Th/m/o2TKBB4w/QVOFDwK8?=
- =?us-ascii?Q?TZw+OndGmcB6TLsEYyjx1KfhPFG8B0R4LaCjTXsMGwzo1vXNnKtZ7TL9iEqp?=
- =?us-ascii?Q?4RqhjYQG6fr+UJRB5oZfAp82P/KZ53mReXM/JBWybc1uKDRgUplasc06C14U?=
- =?us-ascii?Q?Io/UfzErppBtzcW2lyn/DKPkTFoABtrNXI8iGiIPMbVQW/FGlbCWs86tH6dY?=
- =?us-ascii?Q?DrIbwXe+DBLntthkWiYxLFzlamVb92A4JzmVDeYsWc4dcuEiBEnG0kb8tCU4?=
- =?us-ascii?Q?oWPQv0huDaygF9GhJblqvRoHOK9fdivRASoJp/PqzV7UoI64xLz2v5iZ2eni?=
- =?us-ascii?Q?KC8h1S/EW/GRtEbG4bln0M0rInV0RBA8T1qaZdSXgNRTLWF4uX3YVUzkEK0Z?=
- =?us-ascii?Q?Y99AhRJMj8uMXpDTmYUARyAkfYxGQqG3pqs9K14tbUX/fyWiFRuQwQtlEWVJ?=
- =?us-ascii?Q?UlM86sl3t1n7nmi7L4cv6ULq07P3re7boU435RrlXYiySYmyJvidTFGKknV8?=
- =?us-ascii?Q?xv224tQwxmpdzTg8S5W4x6q5BIRRb4sptXfYelisfxT8/4A6drc54BBkyohc?=
- =?us-ascii?Q?0MjQDoCAcBLsmKRuXx4laMeHrn5NRshY6TobW7WUIpbzNu0xZ/uP7T8FHqJ+?=
- =?us-ascii?Q?Nk5VrMIAeRZgwUezUxur3JNNWDzPwFnLWD0Z4rNBlSd5XQpBMNJFyGLfoA/b?=
- =?us-ascii?Q?wTunzxwcXNmW5cgysyBCDc/9TOm5kusLc99UiBeLLYkYq3nmmeyT2nge9wve?=
- =?us-ascii?Q?wRQQLNJGAk8QejivWdJRdU2skdZsA76UO/SIFT7ltneYI9hP+1ccxKWV0W4E?=
- =?us-ascii?Q?e8D+NVw3n905GLFKhD3wxyDwVRXhkXPMKM54C2ovAYPegKRbAOWu2+8Zygly?=
- =?us-ascii?Q?BNbzxoeysDr+2NLVDiVaVDGgTBzt52/7jK5QlZP6BMNp0IkaLTWZiSwt3ZzW?=
- =?us-ascii?Q?oCy2dxHbrqzWqgs/wo6ffh5GER0ZIuDCBlGon1Da5njScQT44ErH6esL83fM?=
- =?us-ascii?Q?z4kY99hOauMFydikqxJTlsZGM/r5bMImUXeqFsEhnFr5/7iruOxVex8Dzn+q?=
- =?us-ascii?Q?gYingyuWm0xKNGGogz6faAa26MOGWwYBwPOf64VLzV0+qw1NnZw8BxsPCWtm?=
- =?us-ascii?Q?A2Tt1TEP/42MOkrR7waaKVutnVZH+Yq60LhWF/yho2ihwnsXsDcikMiye8B1?=
- =?us-ascii?Q?Yaw477MEPWhw+O0VjZuNYiRqSnRdl0JDkaLk0PktjW279Vo35zvvsl5+t3mO?=
- =?us-ascii?Q?BRcaP/yD3ZJWkJtJNwJhMubOVTRxAuJnAx9GacLzPMLyBk2vw+ufZxTPPJ7b?=
- =?us-ascii?Q?GkWrGiV14D1JS/9l90EMxcWqpOBLLH89pQNc8ucHLzUnzfWrUyZt1oVKmk/W?=
- =?us-ascii?Q?0p+ZSff5iunK5GFG8V47SJXvUJDI6aUGIQX6EUJD1FJQ+psdcpSlSUcctgsc?=
- =?us-ascii?Q?ygeRM0hEMxHbqKr7mF3h15P6BPgOxh4vPk88ahgL10WOibpCgwfT2aPsALAU?=
- =?us-ascii?Q?kaiuJUGEe8xAZxCHlomrlO+r2a+TupkrDhszqjbHC0ALKuT3vvf7KooxXA2W?=
- =?us-ascii?Q?GM0j5aLOGrC+GKTbP4cNQR9R3sAiNUFb98nuyv1w3NiZzwwqoXXt9KB+NUVD?=
- =?us-ascii?Q?KAzjhz1DIQ=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=GJIxaHFp;
+ spf=pass (domain: gmail.com, ip: 209.85.219.46, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-9211bbce3abso35971166d6.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 02:46:32 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1795517191; cv=none;
+        d=google.com; s=arc-20260327;
+        b=eVUDhvW7ynkDf/5oca3cfhusmLibzPpVIEii4eQm/7ketJgRFD4iH75xpQ3QlfMcSr
+         5KD56FIrbGECzRipt4VcqpFhjjMUeppRXHf3eNNqgTND1ge7ubV+KLV5+5NrzSs2Mazu
+         yxCcemvG3aU1yuevHKhKaoeIHriPrWdIQyhMMVULXurLkbNhNQeWszLLRlu+65Wfu1zw
+         vzelQa+CY/yaGeN50ja5SSCT4S8tnrXZN15++avIylBcc9Dja3CfjmzciaYIMZ/FTOlD
+         7buQ+n1jZU9pbg1hzz0cR/lsP6was0vgdC5ivnIwUJMpW4Gwm1xA7MpbtcCmmEwTTmKk
+         RMQA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=5SkEP5G8pFGS/jAT5tEq28WFlOMTWg56rOXhXcZ4yLE=;
+        fh=t7chGXBqmskmzQUmoob6Y92laTW5wYR0hjIqvaBb0Zs=;
+        b=FIgJc2zmpPUrqfM3rvL38fxkQ95Taz2tkP3ENimzFVMCzn57caFW9QrzHedQrkM8l3
+         ouzxxq6po7RjWiLLl3Yg1LmHfN8QExqs23kCDa4FurYVTJA1UQFPgBIkakCSpPpCofzI
+         0c5Zymd7EoRPZt69BL3UdDn7MUbElOMbb7Qc7d55x85rbGqmJ6jhHAWaFWTGS9qdIVi+
+         wBRArfItf68AlIAJGHs9RUs3U9TD8XmQ6XHCmKvPFYwSk6y4Au/qlcuVxfYJJQB3KlCq
+         Z7JIWmnXTClRRw9leDwO3JIN88Y3e5VnxLJySGCzF+umN8Mtou/1XKSBuL3zzvdgI/WV
+         B28g==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795517191; x=1796121991; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5SkEP5G8pFGS/jAT5tEq28WFlOMTWg56rOXhXcZ4yLE=;
+        b=GJIxaHFp7YU9l5pUDN5RmEhSBiyh48NVTBqMviAgSEjBzayGhJblRZIz4ZIHBzMFRK
+         MX6SE/t0DikKghovyz7G6qBspKBNazv16A4aU5uy9qO6DEKyk/UZL9JDHzX7ylbelHZB
+         dEJyYJ89/qLR/KfBE6PmoKWiatUFvqgsR9Cgjd3zj87vdxAL5A/O6BSYIKydczDRtmLt
+         RUIrsQR9qP77flrDLg9VDdogJRkCKc00I7i8PObYuZ3h6K0jkrbNHnqH0dfbVklreCYx
+         ld3DdPh7NPi94v1Kx+Tap9duPc75hM4ZHNdVT1r6RBRfecwTjOtoYjvvpG6sj7fr+4/4
+         0MXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795517191; x=1796121991;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=5SkEP5G8pFGS/jAT5tEq28WFlOMTWg56rOXhXcZ4yLE=;
+        b=xg/HtvyarrIWCyNondFXSUbRQEg79za50p96XbRJLLjAKPqgW6goH3Ys5hYEWPYjUd
+         4wJyS7yh6crM7pPVO0uLuhjxiu+/lpfaY4S2ESwjzyzlaxhZC0iSe31JvBY4gy11v6LG
+         LOG8iNwu5UWARYfjnPtY3eitKwGRVNatUb+khQ8bbkUVhCnbax4SJs+3qG6tL1oYTAdM
+         4/46XuSHKV6KAKLuzi3nHt9ylBZIIug5i/fnANguVLbC2f2P4jjfJOMaD+y4MTmWLqWX
+         tdAkVJmV1y1sbzd92MFOIFH4vs4V1+RFIFMSBVqD1BNrMnmZy3vAz4XlDDSsqWokWAfb
+         Xytg==
+X-Gm-Message-State: APuU4Z9Hbf4U03L0VczXGOrjv/OXlQJx7Ioed209yfpe9CVoYb7zuwna
+	DP/9kQR0GkcAMR0AEWjwATDsgTQIy7lgC0R8t6N2J8+HXg6m/vNB57IoIKPprXtAGJmEfmOuN6L
+	onjEsG8fWIVckDucRYBQkoTAnB9GLeNo=
+X-Gm-Gg: AZFdTZcBmzb9hDCXVzVxDrRM1qHEGyvZdstAy7f8J9Vjl25PZ8jQHeGm4TdCAWr1R9G
+	ZXs51o2CD/fyOgLkzfVf/sju84lR+Wro0S+AvtJ7Q8uSZ4h2nNzh9uGn7ta3lhg0koX6iOszF+v
+	psmSpidPpfmqzFNMwy8XQFJqKbvEZ3REleAm/XpWeDkjA2YLXLpuJrtYCyc/UADF/kNsYHs3KAf
+	5b2yOrgNrBt9NZGvNqEj8fiJUi79jdmQgKH2xMmpR2c61AZgwy3zDsSeteEWqKx8ahn47KAfdF0
+	AbHqmcW1T/wVYj2jak/C38XzToXtBh8BPieeRAKfR45FVvvNAvcqdx4PyROT3H5ONBwzFwzTGH7
+	nukT4Vjv9FsTF0NZqb3DRwSbSB8fOWAGTh5FG47xbVDorgSglNwOu86NEXInpwIqyJy3Z7TM=
+X-Received: by 2002:a05:6214:5294:b0:921:3766:8307 with SMTP id
+ 6a1803df08f44-92137668410mr233808326d6.10.1795517191213; Tue, 24 Nov 2026
+ 02:46:31 -0800 (PST)
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: db430361-ee7a-489e-9743-08df4a17feb3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Nov 2026 10:45:02.7700
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 6aGmPSkWvZ1kvPPeRM4lyFoiP/rUBPRkgYwmUxVMV5LmQ0osNsOb6fYsYBZGwrwBvSh35rf9ayMLUw/Oqb+D/w==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8PR10MB3750
+References: <20261124054841.2576858-1-hthakar@cisco.com>
+In-Reply-To: <20261124054841.2576858-1-hthakar@cisco.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Tue, 24 Nov 2026 11:46:19 +0100
+X-Gm-Features: Aa3M54qsZNdJ6AdEP-PpIuGcBeGSYA3axldvl8Bm09d3baZawv5OS9AHy6gLtqw
+Message-ID: <CANNYZj8G8WR+EkPx6+PD4cS3DwFv5G=YjARDGmqNuJgT8D+ceg@mail.gmail.com>
+Subject: Re: [OE-core][PATCH] attr: fix recursive getfattr failures with low
+ descriptor limits
+To: hthakar@cisco.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000005edac90661036caa"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 10:45:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251004
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 10:46:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251005
 
-Patches for this CVE for different branches are no longer needed.
-CPE was corrected for this CVE to webpack couple weeks ago...
+--0000000000005edac90661036caa
+Content-Type: text/plain; charset="UTF-8"
 
-Peter
+On Tue, 24 Nov 2026 at 06:48, Hetvi Thakar -X (hthakar - E INFOCHIPS
+PRIVATE LIMITED at Cisco) via openembedded-core <hthakar=
+cisco.com@lists.openembedded.org> wrote:
 
-> -----Original Message-----
-> From: Devansh Patel via openembedded-core
-> <devanshp=3Dcisco.com@lists.openembedded.org>
-> Sent: Tuesday, November 24, 2026 10:50 AM
-> To: openembedded-core@lists.openembedded.org
-> Subject: [OE-core][blacksail][PATCH] zlib: Ignore CVE-2026-76844
->=20
-> From: Devansh Patel <devanshp@cisco.com>
->=20
-> Analysis:
-> - The corrected CVE record identifies webpack-dev-middleware [1].
-> - Its affected product and source fix are unrelated to zlib [2].
-> - Hence ignoring the CVE for zlib with a cpe-incorrect annotation.
->=20
-> Tested with bitbake zlib zlib-native.
->=20
-> Reference:
-> [1] https://www.cve.org/CVERecord?id=3DCVE-2026-76844
-> [2] https://github.com/webpack/webpack-dev-
-> middleware/security/advisories/GHSA-g84c-rxfj-3j2c
->=20
-> Signed-off-by: Devansh Patel <devanshp@cisco.com>
-> ---
->  meta/recipes-core/zlib/zlib_1.3.2.bb | 2 ++
->  1 file changed, 2 insertions(+)
->=20
-> diff --git a/meta/recipes-core/zlib/zlib_1.3.2.bb b/meta/recipes-
-> core/zlib/zlib_1.3.2.bb
-> index 8a23d98c..3792af55 100644
-> --- a/meta/recipes-core/zlib/zlib_1.3.2.bb
-> +++ b/meta/recipes-core/zlib/zlib_1.3.2.bb
-> @@ -50,3 +50,5 @@ BBCLASSEXTEND =3D "native nativesdk"
->=20
->  # Adding 'CVE_PRODUCT' to avoid false detection of CVEs
->  CVE_PRODUCT =3D "zlib:zlib gnu:zlib"
-> +
-> +CVE_STATUS[CVE-2026-76844] =3D "cpe-incorrect: Applies to webpack-dev-
-> middleware, not zlib"
-> --
-> 2.35.6
+> +Subject: [PATCH] walk_tree: resume traversal through anchored directory
+> + handles
+> +Upstream-Status: Pending
 
+
+Please submit this upstream first, and do not claim 'pending' without a
+clear reason for it.
+
+Alex
+
+--0000000000005edac90661036caa
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr">On Tue, 24 Nov 2026 at 06:48, Hetvi Thaka=
+r -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco) via openembedded-core=
+ &lt;hthakar=3D<a href=3D"mailto:cisco.com@lists.openembedded.org">cisco.co=
+m@lists.openembedded.org</a>&gt; wrote:</div><div class=3D"gmail_quote gmai=
+l_quote_container"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0p=
+x 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">+Subje=
+ct: [PATCH] walk_tree: resume traversal through anchored directory<br>
++ handles<br>+Upstream-Status: Pending</blockquote><div><br></div><div>Plea=
+se submit this upstream first, and do not claim &#39;pending&#39; without a=
+ clear reason for it.</div><div><br></div><div>Alex=C2=A0</div></div></div>
+
+--0000000000005edac90661036caa--
