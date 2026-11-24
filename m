@@ -1,67 +1,67 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17760.1795526342190322009
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17775.1795526368584838163
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2026 05:19:02 -0800
+ Tue, 24 Nov 2026 05:19:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=IGRp1sMi;
- spf=pass (domain: smile.fr, ip: 209.85.221.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48e47347279so2653488f8f.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 05:19:01 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=DQFJNI1K;
+ spf=pass (domain: smile.fr, ip: 209.85.221.52, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-4a42b34e930so3937915f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 05:19:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795526340; x=1796131140; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1795526367; x=1796131167; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
         bh=es0O+4jf/WYqL/PYtNlTs8RnAYyBCSDXeS24tPZZd2E=;
-        b=IGRp1sMiWHxeH7aTx+LRM6i1M8v3dl8qh6wVb+Z21lTY6qx1Co30wUhHAKoPTCU7YQ
-         yE39EJKoUP+ZrpxH3sT9aomuhZWmdyVESvwmhEZJkwIiJ+qEVPlroRmYstH2UCjBZi28
-         NUKZWuTuSlACQeSXHlsHdknBKAimpaWLL4Tzqq0N8Xmuo7gHzAXKzTusH/kFi2emOaGS
-         +xBEHJnZDBEr7tPKlxCvazw+y3bmWNpFJ99CHK7xpRH4XCLB4a4dkmDeZbnUmvGGwR/W
-         hreex3WLK+XLR+DuPKr6QtJziKu7P4QUl37ttjzUO4M4mGAUiM1IngCLoi2iVbu9PRKh
-         hGMw==
+        b=DQFJNI1K7G6j+3V8RvVac95BfSHUGPtE+JczVlYJmGGPVuaaFp7+P4qQ5YV4+ZV7tp
+         PvqNi2HY35rmgf/w8bnWsEM/vpMMWqaxTC2UPnqzsWFLq9/uY3x5LRfWJuh8y64dT/37
+         kLDOqnXLAVqU559D0iMlIwCfhv0zR3uLYTn4Rg5W1xjoVPmLDnCK8g6R0z8FN+DIVdyz
+         KNcdC6kVNe+Po6a4oqmDaGuOUls4UVD5vICz1UJevwc0owtSQ/eDATD8f0tHwoHvzC71
+         F1Gn7pPtaqNcr/2bi3idcJookSDQi9sMpjiBQ6Tc1sEgJSsyKAl+vbcYiufSlWWIVFq2
+         1ItA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795526340; x=1796131140;
+        d=1e100.net; s=20260707; t=1795526367; x=1796131167;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
         bh=es0O+4jf/WYqL/PYtNlTs8RnAYyBCSDXeS24tPZZd2E=;
-        b=IJaXctM3GWkhXeJE9gXp7PDgrQ1Em1nFXXEruwxFQISj6Tr2WKAOmgGS2j7rFb0HrJ
-         5P1vp/tYSh8oRQwV+0SIombpKh06zbYCDLI3eZY4Z60ci+e3o7FZaKiE9k4VZE1DaQQe
-         QB44IfQn+D4XUZYnn1KQZpx+lW38cJiF9YDBxTZpbcEu8CdgIgopGaaTME2GUZ8arOlz
-         yZWzQlrLmrZtgPVPiudWuiAtlfVcLQH2u4OFzC7atsW53WTlTpDtKquUi/7qaRwTcUCh
-         7EYgb6EFW6nsFNTtRYqwPKCy+rXMqgyqmQaLqVJv9lmffJltgiqd3g7mF5ATgkmKXuXC
-         cLJQ==
-X-Gm-Message-State: APuU4Z9bW9+EAcH679/liSE+zNC4683nA4pwmWDw1GXVgHSs4VTcIfrX
-	UcFAn/yHn9f7H7eZ1kLv4ICGg6pum01lt+y8Ml/neJqVwVIy53+Ep99RSyDdJK7WSEXEW3X3mRX
-	W9AeuruI=
-X-Gm-Gg: AZFdTZdwSgKCluwkotpcnjOBKfV5CkuIVNRz2kgCctuEFSNYgLwGPg8eKy6wVJ3a0i9
-	rjdjf3padapH11bkEh78sEUA+x/Bcz2wwnq5TzootADx0jlpvNoVKm8U4TyPuJy8PUT+LEgAhPI
-	fJrESVTI3McPVc6QbwW/B9Ji+a/utnXOlrFtFsvo4mdrCxSQsGDNCeRha6dfbhiNQ46tFucSfZW
-	xfIm+2nrPNia5p/8YRYrZqshLmw74QQ47kGMzvNsqGFPP9s8A9SrHbekOCeaOvDeQYA0AX3ckjM
-	NTVyLnuBRKON7eVmWniXQVCA/sG21nzgVt0MCeWPXwEfJ2d08BL9mbrrd0n1DmyiDK+3iQlifaN
-	kElanaSu/DsTNjc/9wAEJ7RDPE+ky/3/Jf0Bo7x/wSoK0vAp8YNKtNl2ykrfHNbAuo/nQxypdML
-	aBMMA3z32xyKkegJ7gEQSzbqP73zDYxtUzQJykBhyDm83qllo5sdTDauFqt5gs+0ZY5YdbCPtSb
-	k6yJuE2bOjqi6rvEZS4jLtlgjvQLW9h3jcTCgrGuEfU6xzW8k15gD1hWRNfHRLbfeZZvcFXMYIg
-	8KRBld6jWTMSTHyM4rUz31d1r20QtB5MFNkB+MzSHw5FGw/Ttv4sStQvxe3YzGLE9SWt46G/4Wa
-	2NeIwCCESzaShvNINQ6ME0rZCw2MZNg==
-X-Received: by 2002:adf:e197:0:b0:48e:7a41:d78e with SMTP id ffacd0b85a97d-4abb36787bamr24933402f8f.19.1795526340267;
-        Tue, 24 Nov 2026 05:19:00 -0800 (PST)
+        b=QbEz2jlsiV/SggdnCLzK5U6ewnwVwVMMZLxj79Z/RG+2epgLY63f3b420QFP3XfTBo
+         DUJXRDsOOj03SFrNjdlDROHZv6qJ+BPtVhEcQXo5lGPprPCM1qa2BMnjKivrvGbQvUcB
+         UYFhlJM73pHOxSVuevMQwEdHGYvW1Y8Z/ulrAL7L/dezm0xxfU5omPSPSFGZTN9QBMMZ
+         anuOF+XClyFTZzaMJItbuMM3AJUCryYHnyzjQZpgv1abNyl/ZGOzUVUAfiFS5wkcAZqX
+         6PM0SR+kezxxYHa9lD75A7Z1Aazugdf6ravZlb5jGpRcxWM26+yhA3nDm4DC8S+QmGvn
+         EUGA==
+X-Gm-Message-State: APuU4Z+IRyiFfwQi66OImzjYw52ov+dBS/y6DF8Ys/daAijaWm0khPmB
+	nXY/PwkY56eoe9PzR4eseparFnRVLo3slexWGmz/6dh+wd9iEmx7qandozCjuMpx6xRAngePQ9X
+	reUf/pfM=
+X-Gm-Gg: AZFdTZdjKF24Zs94YIYKII4hTqlN9XWLRMIjBiz4cGqU8t7tnRg98MU6AYrYCelUiEG
+	GwhD1VMA5d2m2BYLAEEOrxsnkci+k9tri1OfnLIF2Z0Po4pDjOlCiWeleu3DCyX0NNN0/P4IakV
+	PjL+qJLBZbxPcxYDa+/04b87tMKOL5CEwd/+9bSYfnBDuw043dfPNv6FhQ+S4JgUl9ni1zp7cJs
+	LcFBE9myEiWdBNumcvqJtlGZjYDd2yXw5SFgZi+1OJg4fbJ5otVEgNEa2C50dhaoBVQHGqN57RJ
+	Kyx8+ubIBpF7ASl9r+mBoQGvFffeEhWkMgap13tcdbQJfeIcXGcNvJW6rSOoJWfwmOgNidIbNsz
+	8u/LUPBAEQmFs0Khy/Goos3nfQ/P47U0fjK0F5GLVHuqQf+a+dpYcBdlGoGjZov7BAotHeK0+Ow
+	VmhEOknc6eXIQW1X0pbonhSQO3xlUVMsRR0xtKc9QwaOkt4IJTDeB6qp9PbAaw1bBVnw2UloxW7
+	Jz4XwsI/myDf2kNWEBSPnWAA2GIX27ItPSYX0Sb8M1SXs2N2lOhTdv7xpd9aMaS59sC7dfC/wwn
+	8MlPeWyMH1eITD4v03AjFFlfvMqxhSCof3tjZ/mZkTbtbOGCNBSWN8s6QKe4habNhEgoyPdgI44
+	/TjJ1sS+M5zXKYOycTcQJB7St+D6u
+X-Received: by 2002:a5d:64e5:0:b0:4a4:f208:6a37 with SMTP id ffacd0b85a97d-4abb4e642fdmr28154277f8f.42.1795526366745;
+        Tue, 24 Nov 2026 05:19:26 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6bb98b4dsm28754029f8f.53.2026.11.24.05.18.59
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6bb989eesm28085970f8f.50.2026.11.24.05.19.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 05:18:59 -0800 (PST)
+        Tue, 24 Nov 2026 05:19:26 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
 Cc: Yoann Congal <yoann.congal@smile.fr>
-Subject: [blacksail][PATCH] pseudo: Upgrade 1.9.12+git -> 1.9.13
-Date: Tue, 24 Nov 2026 14:18:36 +0100
-Message-ID: <20261124131836.800875-1-yoann.congal@smile.fr>
+Subject: [wrynose][PATCH] pseudo: Upgrade 1.9.12+git -> 1.9.13
+Date: Tue, 24 Nov 2026 14:19:22 +0100
+Message-ID: <20261124131922.803547-1-yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 13:19:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251029
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 13:19:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251030
 Content-Type: text/plain; charset="utf-8"
 
 From: Yoann Congal <yoann.congal@smile.fr>
