@@ -1,62 +1,62 @@
 Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.30990.1795560768255704297
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.30988.1795560765520283712
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2026 14:52:48 -0800
+ Tue, 24 Nov 2026 14:52:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=JYCmKL0V;
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=eKWq2oSZ;
  spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-491971ac844so4621538f8f.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 14:52:48 -0800 (PST)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-48dfc0421d9so4782629f8f.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 14:52:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795560766; x=1796165566; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1795560764; x=1796165564; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=teu+i7eEEtyjJoPpM0oK7Eu/RwHSpwaGbx34dEMgiD8=;
-        b=JYCmKL0VMXNTW8U4+fl/pA5DV/bAOiLzNAJ38IlAvEm6tgwh45sRDV4vi6s1h1k0Fu
-         1qDmP7ykEcfDbNzvOlwqO+DexQjAgrv4OgQEPJayOAjlH28lFoBfzV0WmJc4jZP8iO8T
-         80RPWoXTQ1DUFWu1H+5mx4J1aIZOobXkScxhcYS268QcrSDbhthpGC+QzcwUJfgBhkCk
-         JOWsLcXSXLMwfrfO8nl4UonzWCQDPSVq8kOA3jCQNGALwvn0DqW3ZfeSvaBR6BgA5uAY
-         LE/F/BR1V2/pohFEb0R4/iIQ3zDziTxt/J20Yf4mBn04C3kcR/zVExbxYlPJzwsKQsmz
-         PQRQ==
+        bh=aMcW3NJ4OMMIDk9Oj5zaSztK7ul1ano941wk5jrHVyk=;
+        b=eKWq2oSZi69P4VqcY8mT6on9a7Nfg2gZzEV1bVxDHcPwSP/bn9RAzNkMjX3sO0nHGt
+         3EYCorl6+OJHOHzInSwv4zTrdpOyidwAsf8EZEaiIhJ/FpoaZ49TLhk9sOjO4ZK9b9yR
+         wov1C3XkGENr6KNWeEL5Jv+lybpXoBKdzQ/44zE8+rL41zYvIIswz+AOVMBEMD+1Y7f8
+         NCjJsYkLdIGDh0qkAAKzqRtRVubsYuBOvUgAUMM3NiW9yjkfuVpmnE4AxlgyESc/5zJl
+         9CPifcTdAi9zAsccJYD0CkTKhrC2blF8CV9+dAQz8poGo8zux7SILPbVBuuMdcMj7/Pu
+         g3Ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795560766; x=1796165566;
+        d=1e100.net; s=20260707; t=1795560764; x=1796165564;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=teu+i7eEEtyjJoPpM0oK7Eu/RwHSpwaGbx34dEMgiD8=;
-        b=Zc8jvlEEO6+yJQQuIrVjCcFHvLUldGL/3h3X8YcHTmgU0DjTM58YKGmSX4z7z6t3nO
-         lDuEI/NRb3egYAGIwBJ/LgWUdh4xeVqPz2q5mPo39E4Bunlqvgsg8Zi/CcilIM102ovg
-         Gv4e71199pYDO6KSd/Lt3IqevThIUmnZBaG3HVwGtH/661M/089/zcePRdnOnzqY7+a4
-         qTOH7eUTj/Z/wBkgkbPPUH3pd05SJ8QuOJRDV1vgM9u4n6XoTEkyxQHmdhCeOrAPD4iB
-         /vEvIfVRa1PIdIwhXBxmiWej8P+VjMlLmdOOG1WCr5ZuHEIEMXvZ0vqQMnbpXKl/XkEm
-         CpGA==
-X-Gm-Message-State: APuU4Z/PxtEn5tGppYvSO3QgP++lrNn7ntnk/Hg6OqA0JFn/qj67W8R1
-	YXJB3wvlC7ci6fm3dQ6zbjg8O0LzeLu02j+hh9kUfuv88pq1i3tqF5Ma6fut9Jh52d6T1W6ZSHK
-	dbTBJ1SQ=
-X-Gm-Gg: AZFdTZcTowU5WYIsp9UnT2mHu+J3n8+x/dxApD1M1aNTfYZvWeIKFENgrRqHX3pNwOL
-	rdcoGQVUNKn9umGz/22XCc6vRObT1vSRAoRWtJp6QpiVUfiPYDI9ZShsgT6BqYPlB/71e9/cyYR
-	lss/nuPfcaYZxbwredGlGClY/2qgAhST6lVUrRN4muShcyPi4T8HxD7KiCKvKoj8UShvmwYt6px
-	bzxVPOpD/y4ZyOWdCDwKACBLtwBU3OKch9zjghvhVNaktGEyVlZvVzKOG2Rm1YBJrddKFUoIXkh
-	R4VHvYncrVIl5LClxKkddQYZexT9Ob7d035WdFlmBJ7NVDSKRh0lZrzN2/t+EezvYTBqoEJ2iyj
-	Y3VVmna7R12ZKxBVygyWifzaPFy6IZX9hWYHvjdb0Cw9Mkg9S1NZWiQ/2/N2XOxAMasevcS4YuU
-	Y5GecKhF1N0IvhCL5o50DTbxTwxKbxi29cQ06B1s7/3LLiu8yUGuMPewB/4fkDDnskfvWkMVUcJ
-	9G1NlpZcyFgEKJS0UbG3H1C5nBcrFqDgwpLp/FM1QNUtKx8FsrApZZd+qjfSYTKoFHzKomBr8tc
-	47sXFju8ZG3BwP9ARaZfJATo2cOoWbfd93j9//AEShPR5dodMKawTNpnUPx2kM5hvx+455OpBUO
-	OrwIJlbzcKo/dWvSb5V80tN5aisN9
-X-Received: by 2002:a5d:5d0a:0:b0:4a8:eed3:760 with SMTP id ffacd0b85a97d-4abb225faa7mr33898763f8f.31.1795560766465;
-        Tue, 24 Nov 2026 14:52:46 -0800 (PST)
+        bh=aMcW3NJ4OMMIDk9Oj5zaSztK7ul1ano941wk5jrHVyk=;
+        b=Hrdr0vvRZvrMmubrHefPhVbO4W4VKilFXXzNQMh5mWVqNwqXRmbiOHkmsJvOCWXF7d
+         dy5vkDmCR8+PlBwgueaRA/BhcUek+YYrTUmQQiVBEzgrj4GGJgEwlZRMbefRsqcs/VT0
+         0jMbK9a79bzbWV/iI15or60Yj0bX96/6rVR/wydTmIhZLMQM+i7pMlQyXvoge7xcOhoP
+         aYkzAQQBNQ/x3GLNUrBJusjGbvVDVrzWJiMRbWb5qdRziTzXeqEz8h1J1AiIFqJfaE2o
+         f/hEE24Ri9bWOx90PaiJ38e7kTh8QOeLRjveLlmzmAazs7S9QnE3mJSck+TkVr5Zk0QD
+         wYxg==
+X-Gm-Message-State: APuU4Z9oJtL38yQiuDwJrnLuR6R4f1E/JqLsMOaZgCCekB777ZsNPaGJ
+	SbDG3RZ/U7nrrTBZ35ueWFytUNkW6guGPPNXIkG4BV7gKQCEYohCTQZOa2A9LAICnshi5ggYZPF
+	bGQw/05Y=
+X-Gm-Gg: AZFdTZdEbitOrXV4YzgJFeOmQCn3aV9HbIAyZW5RtZ7dU/xdP8QphmX8vf00dMFcCDz
+	k/sDzVQ2NwmE7sKIug87e6sB9byQKtwLLQwmeRu3ulzlQI3+sX7zPRFJl+l3yyjc9prGaow7z0Q
+	bUUOTcBCfdao1K4Op5mQN/pW/svNvMiYJ+PhFqglG2vpmMcr/iYUMs1E2q0G9u6WlSF1Kypsx7I
+	+PM6cJW3LhvUr5dZs94G9cGIhXh8GW9Jf6gUsjHK1uEK4msiwMeOQ8yHEiLH4Dbguc14ajtiW1i
+	genwsVpIGi5coIrFZVXpL3vUHNeZ4zRxD2LacxpTYUFBBVCjhmrUMFVDeP/plX98lnsbf5JQJuQ
+	srA/XwyzxnQMrO3NlELxYx/ZBYQjtFu2ZCpITPvBmyrfPJOVrPI0qL9eL655oi3XHstNiDH9K1e
+	qeOeEpqcoF0yxtRH14NKCqgou2kBJNmHbNSb0jk6w065Dm2Iz6qaZjkSOfbvDJ2TAJaxsMImd81
+	2dNHQydCro0iRwLqMGIu+eFa47acSto/KCDteFpwens2sfFrzoNAr+GkRh92OxU5WwcR3I/Z4JU
+	yrWN3nJJdjqdxxVPUhGP1u4fIzzJApLor8SNGqTYcW3RzETs/7nSGsHm1EOfL9pF+9StXrLMWK4
+	7FxziF2cQkoVfnXC41h9jOA61ieI5
+X-Received: by 2002:a05:6000:4a14:b0:4a6:9f2f:414b with SMTP id ffacd0b85a97d-4abb71cbc15mr29711510f8f.32.1795560763726;
+        Tue, 24 Nov 2026 14:52:43 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ad644140b5sm27446707f8f.17.2026.11.24.14.52.45
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ad644140b5sm27446707f8f.17.2026.11.24.14.52.43
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 14:52:45 -0800 (PST)
+        Tue, 24 Nov 2026 14:52:43 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 07/21] sqlite3: fix CVE-2026-119379
-Date: Tue, 24 Nov 2026 23:52:24 +0100
-Message-ID: <adfbfb2903d129e16e63df34c578dc1023fb94b2.1795560372.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 02/21] glibc: stable 2.43 branch updates to 124e9adcd4
+Date: Tue, 24 Nov 2026 23:52:19 +0100
+Message-ID: <079c5e3000f990bc6541d0e2dbfec8ea3655b1b5.1795560372.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1795560372.git.yoann.congal@smile.fr>
 References: <cover.1795560372.git.yoann.congal@smile.fr>
@@ -64,122 +64,51 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 22:52:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251109
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251104
 Content-Type: text/plain; charset="utf-8"
 
-From: Arpit Patel <arpitpa@cisco.com>
+From: Hetvi Thakar <hthakar@cisco.com>
 
-This patch applies the upstream fix [1], which prevents a buffer
-overrun when applying a strategically corrupted changeset through
-SQLite's session extension. The GitHub mirror commit [1] corresponds
-to the SQLite Fossil check-in shown in [2].
+Update SRCREV from 562cd7badd to 124e9adcd4 on release/2.43/master.
+This pulls eight stable maintenance commits, including fixes for:
 
-[1] https://github.com/sqlite/sqlite/commit/64459c87cc702d600704fb77ee40ca1782398a52
-[2] https://sqlite.org/src/info/3f57024aecea0f3b
+  CVE-2026-84243: LANGUAGE directory traversal in gettext
+  CVE-2026-100290: double free after regex allocation failures
+  CVE-2026-115819: extra NUL byte in wide scanf conversions
 
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2026-119379
+Record these CVEs as stable backports because the recipe version remains
+2.43+git and version-based matching cannot identify the fixes.
 
-Signed-off-by: Arpit Patel <arpitpa@cisco.com>
+Upstream: https://sourceware.org/git/?p=glibc.git;a=commit;h=124e9adcd407737f0462aa4ba38a37678e8941ec
+
+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../sqlite/sqlite3/CVE-2026-119379.patch      | 79 +++++++++++++++++++
- meta/recipes-support/sqlite/sqlite3_3.51.3.bb |  1 +
- 2 files changed, 80 insertions(+)
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119379.patch
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
+ meta/recipes-core/glibc/glibc_2.43.bb     | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2026-119379.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119379.patch
-new file mode 100644
-index 00000000000..3a882bd0a9e
---- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119379.patch
-@@ -0,0 +1,79 @@
-+From f613058ee3c084c6ec1b49e5b9874197df6e7304 Mon Sep 17 00:00:00 2001
-+From: dan <Dan Kennedy>
-+Date: Mon, 17 Aug 2026 11:31:59 +0000
-+Subject: [PATCH] Avoid a buffer overrun when processing a strategically
-+ corrupted changeset. Report [bugs:/info/2026-08-16T10:15:25Z |
-+ 2026-08-16T10:15:25Z].
-+
-+FossilOrigin-Name: 3f57024aecea0f3b565ed823cf94b085031c481fd6323c1f2e4319a53500864f
-+
-+CVE: CVE-2026-119379
-+Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/64459c87cc702d600704fb77ee40ca1782398a52]
-+
-+Backport Changes:
-+- Applied the ext/session/sqlite3session.c fix to sqlite3.c because
-+  the recipe source uses the amalgamated SQLite layout.
-+- Omitted ext/session/sessioncorrupt.test because the extracted source
-+  does not include the upstream test tree.
-+- Omitted manifest and manifest.uuid because they are Fossil
-+  metadata and are not required for this backport.
-+
-+Signed-off-by: Arpit Patel <arpitpa@cisco.com>
-+---
-+ sqlite3.c | 9 ++++-----
-+ 1 file changed, 4 insertions(+), 5 deletions(-)
-+
-+diff --git a/sqlite3.c b/sqlite3.c
-+index bcd317206b..83a018d3fc 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -236199,10 +236199,10 @@ static int sessionChangesetApply(
-+   int schemaMismatch = 0;
-+   int rc = SQLITE_OK;             /* Return code */
-+   const char *zTab = 0;           /* Name of current table */
-+-  int nTab = 0;                   /* Result of sqlite3Strlen30(zTab) */
-+   SessionApplyCtx sApply;         /* changeset_apply() context object */
-+   int bPatchset;
-+   u64 savedFlag = db->flags & SQLITE_FkNoAction;
-++  int bNew = 0;                   /* True for first entry of new table */
-+ 
-+   assert( xConflict!=0 );
-+ 
-+@@ -236223,15 +236223,16 @@ static int sessionChangesetApply(
-+   if( rc==SQLITE_OK ){
-+     rc = sqlite3_exec(db, "PRAGMA defer_foreign_keys = 1", 0, 0, 0);
-+   }
-+-  while( rc==SQLITE_OK && SQLITE_ROW==sqlite3changeset_next(pIter) ){
-++  while( rc==SQLITE_OK && SQLITE_ROW==sessionChangesetNext(pIter, 0, 0,&bNew) ){
-+     int nCol;
-+     int op;
-+     const char *zNew;
-+ 
-+     sqlite3changeset_op(pIter, &zNew, &nCol, &op, 0);
-+ 
-+-    if( zTab==0 || sqlite3_strnicmp(zNew, zTab, nTab+1) ){
-++    if( bNew ){
-+       u8 *abPK;
-++      bNew = 0;
-+ 
-+       rc = sessionRetryConstraints(
-+           db, pIter->bPatchset, zTab, &sApply, xConflict, pCtx
-+@@ -236266,7 +236267,6 @@ static int sessionChangesetApply(
-+           rc = SQLITE_NOMEM;
-+           break;
-+         }
-+-        nTab = (int)strlen(zTab);
-+         sApply.azCol = (const char **)zTab;
-+       }else{
-+         int nMinCol = 0;
-+@@ -236319,7 +236319,6 @@ static int sessionChangesetApply(
-+             sApply.bStat1 = 0;
-+           }
-+         }
-+-        nTab = sqlite3Strlen30(zTab);
-+       }
-+     }
-+ 
-+-- 
-+2.35.6
-+
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.51.3.bb b/meta/recipes-support/sqlite/sqlite3_3.51.3.bb
-index 79d12d4b039..9dd182b168a 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.51.3.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.51.3.bb
-@@ -16,4 +16,5 @@ SRC_URI += "\
- 	file://CVE-2026-119373.patch \
- 	file://CVE-2026-119374.patch \
- 	file://CVE-2026-119375.patch \
-+	file://CVE-2026-119379.patch \
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index e8e6bb665ae..ec079d9127a 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.43/master"
+ PV = "2.43+git"
+-SRCREV_glibc ?= "562cd7badd3f9edd74b68316439f910f6f7c4c1f"
++SRCREV_glibc ?= "124e9adcd407737f0462aa4ba38a37678e8941ec"
+ SRCREV_localedef ?= "cba02c503d7c853a38ccfb83c57e343ca5ecd7e5"
+ 
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
+diff --git a/meta/recipes-core/glibc/glibc_2.43.bb b/meta/recipes-core/glibc/glibc_2.43.bb
+index c962171cf3a..5d2344389ff 100644
+--- a/meta/recipes-core/glibc/glibc_2.43.bb
++++ b/meta/recipes-core/glibc/glibc_2.43.bb
+@@ -25,6 +25,7 @@ CVE_STATUS_STABLE_BACKPORTS = "CVE-2025-15281 CVE-2026-0861 CVE-2026-0915 CVE-20
+     CVE-2026-5435 CVE-2026-5450 CVE-2026-5928 CVE-2026-6238 CVE-2026-6791 \
+     CVE-2026-6368 CVE-2026-19499 CVE-2026-77117 CVE-2026-80489 CVE-2026-18374 CVE-2026-8674 \
+     CVE-2026-89092 CVE-2026-97399 CVE-2026-19542 CVE-2026-86805 CVE-2026-95818 \
++    CVE-2026-84243 CVE-2026-100290 CVE-2026-115819 \
  "
+ CVE_STATUS_STABLE_BACKPORTS[status] = "cpe-stable-backport: fix available in used git hash"
+ 
