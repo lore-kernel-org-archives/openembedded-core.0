@@ -1,62 +1,62 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.30984.1795560749992653675
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.31023.1795560750720978611
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2026 14:52:30 -0800
+ Tue, 24 Nov 2026 14:52:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=Rwoay6Pc;
- spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-4a68190a2a7so4170078f8f.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 14:52:29 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=hhKFxVjw;
+ spf=pass (domain: smile.fr, ip: 209.85.221.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-490c3ae81d3so3187393f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 14:52:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795560748; x=1796165548; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1795560749; x=1796165549; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=qgg7z0I1YVkn4AJEy6mb8UAW3EDGLirtKmAb2wIozUQ=;
-        b=Rwoay6PcUpDhcv/Vb1HjmeOqb3T45KsaEsOlPMQYy7mdzXdUPG4JXyz1LQr0MBgThc
-         FzlrEpedGnhblUkxaSaFaW72Jc9TVBe6SpF5TV5jkvGtz9nWwJ6RSmrqQNg4Vix9HRY0
-         /c6pcfU8Ok1P6Li7OUctqNANzA3w1M6E/KLMS9av++mxnfu0p9pt58ZVPeD4UjYiltpf
-         sgcGwPwf8cByeeLn40/se4+F1KlMTqHQ2/+FiXiOFFyqOuMRf/YY1Ww6FTostGKh+22B
-         RImZLcsKu694NwUaVg48Yagq+maGHE2ZNzE/JPeg92IYM8WuGTS0vdJY3FvSKGw/AD6h
-         lWYg==
+        bh=aYmOIRgzRedqmA0MroPKPDtqltb1pnM6zMyuwN348X4=;
+        b=hhKFxVjwxHwVxVsF9GNatXWX4oSR7XnRm9YyYTpJwW4ontcCKd6dUWZm0iZ68le/hD
+         WVhDc7BSSQ+X6A1bQATqBijwr0DViI5HQ6+fLJgIdMCQ+ho4Iw/dtNaQPvGGMj4n9jaZ
+         FmNRkNZBBdQCHbV3SLYGyXz8utf5CIvCTvnFYlVpjXu06u6tdKXO78t+DAwSpfk8wxCW
+         8U6vL0DQOW81GyQDOsFgsblN06sgkXg7CLngNgvj3IAbMpFmxAn0/WuAe4wBqoZJ4ZRs
+         CMX4QTqu+mC8Vdqlq2rwMgI0XOuOCMBZm/5qSl/AJGQpFpWsHTNx1sPz1PeYhh6kb6F/
+         VpCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795560748; x=1796165548;
+        d=1e100.net; s=20260707; t=1795560749; x=1796165549;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=qgg7z0I1YVkn4AJEy6mb8UAW3EDGLirtKmAb2wIozUQ=;
-        b=E1RbY/gHtRuPDiUIyvZQnNpG5/c+7KVjyfdST3iJ1WzcmPck+LpZmo+YqLpmEnLEzo
-         ck9PoVZkidu2bOecdAbSqxGx+/Jqb5vAAQMIHNBVWl5BPOIxV5QxNlUmskH73agxmqh7
-         5QDHJSPnovS3GT09wt6KPGxqahBRxffWoa3N1CSyKLyuXSryMQyLqQrkwciLGqXWBKx6
-         jl7COCPXniPjYpTfAHsYQug43vaABUlPol2zm63Ysxlnysltrma7ohevdg6PTSJjSOCh
-         xC7g5Q55WwHBNbpxBDOrbxv4uBCLtUtdL4oMby/EA7pA4pZ7D2n9dppxwPsC7aX7N6XT
-         JNBw==
-X-Gm-Message-State: APuU4Z+yUDCAF5gXy9ZCuboM1DgTSAKdbj9vaFzeb9TL2AIUuPstAwgC
-	Hpk+csJfkaTwVvMIunQ7f+Qjuh6S8YHarlx/64KNJN9zLiQdkUHK/QVtX37MnQxj1WcwXk8TQ3t
-	Q4Rxq9S8=
-X-Gm-Gg: AZFdTZdPvl6XH8DV5mB3VqNxkX6ITjp4l10tvo7fYYJc6yMkqsimKuO5cqWvXOOJGUv
-	QplxTjhuOQjjOp+NZks2Azx/PZpgS417q0LA02xDd3bMJgK+JRzjcvtt4rUAFrJzARWzbKvmud4
-	Y/Is7CqHHpbLRD5XPUOZkDMw7cCuRNyWDxBPIib9d5B4S0jxEsmmaU+tEwjfBj7VDmYmttOKYu2
-	NeGZeBs+dtB/UA/O2glNu1TLBdoO/qrPS4Mewc3z9GgLFZrCBdpPGWB14AkAFIY6rgZqPQs+mkI
-	5IM5H6bCxLCQibcqLI7cT7yXOIOrWXNhm4f0xXgyX0TVSN//pS5/laZ3Ru1cb1hrwL6VZZfgF11
-	YBx+p9gpotDh8vYf+XnqYF5WRJvOyERu+4d8IuS/5390y1B7IV3+O8LfIFWcAFr+uLEi9HMx11y
-	SmNYja5s3cDBddjx6m9xfUn8X9L980w6zyP1wQU3TxQG42ELXzlB2A53JgG/LL4MTJSjGiYOuaz
-	yV/41qaR+gd0f+KsynO3EqzwyzkjqsX7tOrC7fVV776pICKFoZuoPr4DD29cGC9HlQ9MkQ7jR4G
-	E4Q3lcivUs/ZKCAL8WD1MDdX+U8yBNYPG4XwfvOqGHL2oZAOq0GpNGZYcOi/ixImaP9Vezo9ytZ
-	cVCEbHCpmXft7RCnTXJnc5UyZkevh
-X-Received: by 2002:a05:6000:2903:b0:49d:7e8c:e8a2 with SMTP id ffacd0b85a97d-4abb244870cmr35507771f8f.33.1795560748204;
+        bh=aYmOIRgzRedqmA0MroPKPDtqltb1pnM6zMyuwN348X4=;
+        b=0x30hToFbhUGBLBpSg90yY3rtfaIjWfrJbgFpBQnOnvnQtSbLHy5U3ZwUKo6syPmXM
+         ikzncKbnSXXYza9/87Dp1w1o9HIHfNG2NVoC7nuiJgycBtqtsNDk2JlXi8DSAR1iYjFP
+         Oth4hT1IhfH/d+ERt6T9ujHSaGIWQFPCH41OB2U44Rc3/rXddzXgTVBf2H/GfLW+e3rh
+         OUNCOm2VVstcadXT1tbkX0PNnY6++yGwsGg5/Do78Vu5D/RZNIdcwwjIlBjViwLvY+Sl
+         BY1eEDuAQargd4LwYMNVZnuOh913XUiU8K4FMQXLiHUQbgvHwtuZ+FOIlu6p+/xNiB6Z
+         o7wg==
+X-Gm-Message-State: APuU4Z9Qm4tRPzua6dfrNRC39HhBGxJXWDKme3NW8KrhN4jFyPmfSAGP
+	+gUDqFJsQGtTdbrBp+pHhApBIUNO36vE+zvCSejwLRTMBAH7/hE7WCbC+UlHMcP5KXK1uDR3d3P
+	14tpJ+sw=
+X-Gm-Gg: AZFdTZeRPYGXuU/yJ+BqxEnhrLMDQPm5fqKadTuT8RA9Etk7C3r2mPT52wYkvSZkEUb
+	g5hZkHJmBbizAhqLNtu4jfWPja/vuubvQ5GTQLo0ad0oktCLgamJ9UH9q8UzkARqH+s2KyTnBKD
+	rWF65ZbzuIiFlzppr3UDKW9AQptBvufjWVWJyo0GGaku0C02oEvvXlP3RGzNf+SMAnW3GIh8u3l
+	HkWLPumFPYZXrvFXMllADg39RxrFkTOFGJkphNeT8SNPEb6I8fxY9nxth9tpl3maZX2XcOQAajo
+	D/g8MjMIeNbKwC4JUjz8Qb21YFbWI9pjJnvWpSFjQesIyCmrNoVjfY92vqhW1dvS5HsyjDsJFjG
+	O8LxlwV2JaGK7IkdXpfqNsBnEd7VxfXVKJln+2H85/8yRT+LNBGatsbdTqxY7yn3mcAGHiW2nFz
+	uumxbWVS/VKhcBN7xMtiJJf6AziaGnUnb8szAo19MwJufPMiolZE9qflVZkM847fefXNmRBpZa/
+	MdRrTaVyHhlegchVqOW1uIoxBijlkfqH5PZguB3UQ2SjxGLcYl9OBxGDjjAsvkT5IN8b7JKY6ZI
+	pPmPlAplt5qqgWX3XiYHc4RuQsIR9qVBYRzRyUYlaMadUFjG0K+BI/t+jK94mcW/6gnyMwU0zbg
+	qABlru37M/91Jz09Vws1cJMpNtkRO
+X-Received: by 2002:a05:6000:481c:b0:4a5:ebcc:2260 with SMTP id ffacd0b85a97d-4abb2dda518mr31180246f8f.29.1795560748705;
         Tue, 24 Nov 2026 14:52:28 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6bb989e3sm30462488f8f.52.2026.11.24.14.52.27
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6bb989e3sm30462488f8f.52.2026.11.24.14.52.28
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 14:52:27 -0800 (PST)
+        Tue, 24 Nov 2026 14:52:28 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][blacksail 15/21] aspell: upgrade 0.60.8.2 -> 0.60.8.3
-Date: Tue, 24 Nov 2026 23:51:22 +0100
-Message-ID: <a4d4a72005f03020a332e28accec571a414e770c.1795560335.git.yoann.congal@smile.fr>
+Subject: [OE-core][blacksail 16/21] libsndfile1: patch CVE-2024-50613
+Date: Tue, 24 Nov 2026 23:51:23 +0100
+Message-ID: <5cb1b702f11432d309e9900306765d04444f5581.1795560335.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1795560335.git.yoann.congal@smile.fr>
 References: <cover.1795560335.git.yoann.congal@smile.fr>
@@ -64,40 +64,389 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 22:52:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251095
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251096
 Content-Type: text/plain; charset="utf-8"
 
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-- Fix CVE-2026-75818, CVE-2026-75819, CVE-2026-75820 and CVE-2026-103658.
-- Fix various other memory problems.
-- Fix various typos in documentation.
-- Remove unused MySpell example code.
+Pick patch from [1] which linked this CVE.
 
-Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+[1] https://github.com/libsndfile/libsndfile/pull/1198
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(From OE-Core rev: 05baab915b146a19776cd292962e2cf4edfc6f20)
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+(cherry picked from commit e56fdd1720050fbd2107ff48bb8d24e24dff72b9)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../aspell/{aspell_0.60.8.2.bb => aspell_0.60.8.3.bb}           | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/aspell/{aspell_0.60.8.2.bb => aspell_0.60.8.3.bb} (93%)
+ .../libsndfile1/CVE-2024-50613.patch          | 348 ++++++++++++++++++
+ .../libsndfile/libsndfile1_1.2.2.bb           |   1 +
+ 2 files changed, 349 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2024-50613.patch
 
-diff --git a/meta/recipes-support/aspell/aspell_0.60.8.2.bb b/meta/recipes-support/aspell/aspell_0.60.8.3.bb
-similarity index 93%
-rename from meta/recipes-support/aspell/aspell_0.60.8.2.bb
-rename to meta/recipes-support/aspell/aspell_0.60.8.3.bb
-index 60d33766782..d97958d83b8 100644
---- a/meta/recipes-support/aspell/aspell_0.60.8.2.bb
-+++ b/meta/recipes-support/aspell/aspell_0.60.8.3.bb
-@@ -14,7 +14,7 @@ LICENSE = "LGPL-2.0-only OR LGPL-2.1-only"
- LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2024-50613.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2024-50613.patch
+new file mode 100644
+index 00000000000..9b7302b2316
+--- /dev/null
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2024-50613.patch
+@@ -0,0 +1,348 @@
++From ecbccc2f23de6cefd2d97842fc0333bb742a0625 Mon Sep 17 00:00:00 2001
++From: Capsize Security <contact@capsize.online>
++Date: Mon, 26 Oct 2026 17:28:12 -0600
++Subject: [PATCH] mpeg: sanitize float/double input to LAME ieee entry points
++
++Crafted files can deliver NaNs, infinities, or huge finite values through sf_writef_float / sf_writef_double into the MP3 encoder. Passing those straight to LAME trips assertions inside LAME (psymodel.c: calc_energy: `el >= 0') and aborts the host application.
++
++Clamp encoder input to the [-1, 1] range LAME's ieee_float / ieee_double entry points document ("data must be scaled to +/- 1 full scale", lame/lame.h); non-finite samples become silence. All four float/double x mono/stereo paths funnel through the sanitizing normalize_float / normalize_double helpers, including the non-normalized paths via a 1/0x8000 pre-scale (the stereo path already did this). The mono non-normalized path previously used lame_encode_buffer_float; routing it through the scaled ieee_float entry instead changes its gain by ~0.003% (1 part in 32768).
++
++Note: clamping to +/-1 intentionally changes output for valid slightly-over-full-scale input (e.g. a constant 2.0), which LAME's ieee entries never accepted in-contract; in-range audio passes through unchanged.
++
++CVE-2024-50613 Issue: https://github.com/libsndfile/libsndfile/issues/1034
++
++Signed-off-by: Capsize Security <contact@capsize.online>
++
++CVE: CVE-2024-50613
++Upstream-Status: Backport [https://github.com/libsndfile/libsndfile/commit/ecbccc2f23de6cefd2d97842fc0333bb742a0625]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ src/mpeg_l3_encode.c |  91 ++++++++++++++++++-------
++ tests/mpeg_test.c    | 158 +++++++++++++++++++++++++++++++++++++++++++
++ 2 files changed, 226 insertions(+), 23 deletions(-)
++
++diff --git a/src/mpeg_l3_encode.c b/src/mpeg_l3_encode.c
++index aba22394..c712e6e7 100644
++--- a/src/mpeg_l3_encode.c
+++++ b/src/mpeg_l3_encode.c
++@@ -596,22 +596,77 @@ mpeg_l3_encode_write_int_stereo (SF_PRIVATE *psf, const int *ptr, sf_count_t len
++ }
++ 
++ 
+++/* LAME's ieee_float / ieee_double entry points require input samples in the
+++** range [-1.0, +1.0] ("data must be scaled to +/- 1 full scale", lame/lame.h).
+++** Crafted input files can deliver NaNs, infinities, or huge finite values
+++** through the public sf_writef_float / sf_writef_double API ; passing those
+++** straight to LAME trips assertions inside LAME (psymodel.c : calc_energy :
+++** `el >= 0') and aborts the host application (CVE-2024-50613,
+++** https://github.com/libsndfile/libsndfile/issues/1034). Clamp here so the
+++** encoder only ever sees in-contract input. Samples already in range pass
+++** through unchanged.
+++*/
+++
+++static inline float
+++sanitize_float_sample (float x)
+++{	if (!isfinite (x))
+++		return 0.0f ;
+++	if (x > 1.0f)
+++		return 1.0f ;
+++	if (x < -1.0f)
+++		return -1.0f ;
+++	return x ;
+++} /* sanitize_float_sample */
+++
+++static inline double
+++sanitize_double_sample (double x)
+++{	if (!isfinite (x))
+++		return 0.0 ;
+++	if (x > 1.0)
+++		return 1.0 ;
+++	if (x < -1.0)
+++		return -1.0 ;
+++	return x ;
+++} /* sanitize_double_sample */
+++
+++static inline void
+++normalize_float (float *dest, const float *src, sf_count_t count, float norm_fact)
+++{	while (--count >= 0)
+++		dest [count] = sanitize_float_sample (src [count] * norm_fact) ;
+++} /* normalize_float */
+++
+++static inline void
+++normalize_double (double *dest, const double *src, sf_count_t count, double norm_fact)
+++{	while (--count >= 0)
+++		dest [count] = sanitize_double_sample (src [count] * norm_fact) ;
+++} /* normalize_double */
+++
+++
++ static sf_count_t
++ mpeg_l3_encode_write_float_mono (SF_PRIVATE *psf, const float *ptr, sf_count_t len)
++-{	MPEG_L3_ENC_PRIVATE *pmpeg = (MPEG_L3_ENC_PRIVATE*) psf->codec_data ;
+++{	BUF_UNION ubuf ;
+++	MPEG_L3_ENC_PRIVATE *pmpeg = (MPEG_L3_ENC_PRIVATE*) psf->codec_data ;
++ 	sf_count_t total = 0 ;
++ 	int nbytes, writecount, writen ;
++ 
++ 	if ((psf->error = mpeg_l3_encoder_construct (psf)))
++ 		return 0 ;
++ 
+++	const sf_count_t max_samples = SF_MIN (ARRAY_LEN (ubuf.fbuf), pmpeg->frame_samples) ;
++ 	while (len)
++-	{	writecount = SF_MIN (len, (sf_count_t) pmpeg->frame_samples) ;
+++	{	writecount = SF_MIN (len, max_samples) ;
++ 
++ 		if (psf->norm_float)
++-			nbytes = lame_encode_buffer_ieee_float (pmpeg->lamef, ptr + total, NULL, writecount, pmpeg->block, pmpeg->block_len) ;
+++		{	normalize_float (ubuf.fbuf, ptr + total, writecount, 1.0f) ;
+++			nbytes = lame_encode_buffer_ieee_float (pmpeg->lamef, ubuf.fbuf, NULL, writecount, pmpeg->block, pmpeg->block_len) ;
+++			}
++ 		else
++-			nbytes = lame_encode_buffer_float (pmpeg->lamef, ptr + total, NULL, writecount, pmpeg->block, pmpeg->block_len) ;
+++		{	/* Lame lacks a non-normalized mono float write, so scale to
+++			** ieee full scale here, mirroring the stereo path below.
+++			*/
+++			normalize_float (ubuf.fbuf, ptr + total, writecount, 1.0 / (float) 0x8000) ;
+++			nbytes = lame_encode_buffer_ieee_float (pmpeg->lamef, ubuf.fbuf, NULL, writecount, pmpeg->block, pmpeg->block_len) ;
+++			}
++ 		if (nbytes < 0)
++ 		{	psf_log_printf (psf, "lame_encode_buffer returned %d\n", nbytes) ;
++ 			break ;
++@@ -632,14 +687,6 @@ mpeg_l3_encode_write_float_mono (SF_PRIVATE *psf, const float *ptr, sf_count_t l
++ }
++ 
++ 
++-static inline void
++-normalize_float (float *dest, const float *src, sf_count_t count, float norm_fact)
++-{	while (--count >= 0)
++-	{	dest [count] = src [count] * norm_fact ;
++-		} ;
++-}
++-
++-
++ static sf_count_t
++ mpeg_l3_encode_write_float_stereo (SF_PRIVATE *psf, const float *ptr, sf_count_t len)
++ {	BUF_UNION ubuf ;
++@@ -655,7 +702,9 @@ mpeg_l3_encode_write_float_stereo (SF_PRIVATE *psf, const float *ptr, sf_count_t
++ 	{	writecount = SF_MIN (len, max_samples) ;
++ 
++ 		if (psf->norm_float)
++-			nbytes = lame_encode_buffer_interleaved_ieee_float (pmpeg->lamef, ptr + total, writecount / 2, pmpeg->block, pmpeg->block_len) ;
+++		{	normalize_float (ubuf.fbuf, ptr + total, writecount, 1.0f) ;
+++			nbytes = lame_encode_buffer_interleaved_ieee_float (pmpeg->lamef, ubuf.fbuf, writecount / 2, pmpeg->block, pmpeg->block_len) ;
+++			}
++ 		else
++ 		{	/* Lame lacks a non-normalized interleaved float write. Bummer. */
++ 			normalize_float (ubuf.fbuf, ptr + total, writecount, 1.0 / (float) 0x8000) ;
++@@ -682,14 +731,6 @@ mpeg_l3_encode_write_float_stereo (SF_PRIVATE *psf, const float *ptr, sf_count_t
++ }
++ 
++ 
++-static inline void
++-normalize_double (double *dest, const double *src, sf_count_t count, double norm_fact)
++-{	while (--count >= 0)
++-	{	dest [count] = src [count] * norm_fact ;
++-		} ;
++-}
++-
++-
++ static sf_count_t
++ mpeg_l3_encode_write_double_mono (SF_PRIVATE *psf, const double *ptr, sf_count_t len)
++ {	BUF_UNION ubuf ;
++@@ -705,7 +746,9 @@ mpeg_l3_encode_write_double_mono (SF_PRIVATE *psf, const double *ptr, sf_count_t
++ 	{	writecount = SF_MIN (len, max_samples) ;
++ 
++ 		if (psf->norm_double)
++-			nbytes = lame_encode_buffer_ieee_double (pmpeg->lamef, ptr + total, NULL, writecount, pmpeg->block, pmpeg->block_len) ;
+++		{	normalize_double (ubuf.dbuf, ptr + total, writecount, 1.0) ;
+++			nbytes = lame_encode_buffer_ieee_double (pmpeg->lamef, ubuf.dbuf, NULL, writecount, pmpeg->block, pmpeg->block_len) ;
+++			}
++ 		else
++ 		{	/* Lame lacks non-normalized double writing */
++ 			normalize_double (ubuf.dbuf, ptr + total, writecount, 1.0 / (double) 0x8000) ;
++@@ -747,7 +790,9 @@ mpeg_l3_encode_write_double_stereo (SF_PRIVATE *psf, const double *ptr, sf_count
++ 	{	writecount = SF_MIN (len, max_samples) ;
++ 
++ 		if (psf->norm_double)
++-			nbytes = lame_encode_buffer_interleaved_ieee_double (pmpeg->lamef, ptr + total, writecount / 2, pmpeg->block, pmpeg->block_len) ;
+++		{	normalize_double (ubuf.dbuf, ptr + total, writecount, 1.0) ;
+++			nbytes = lame_encode_buffer_interleaved_ieee_double (pmpeg->lamef, ubuf.dbuf, writecount / 2, pmpeg->block, pmpeg->block_len) ;
+++			}
++ 		else
++ 		{	/* Lame lacks interleaved non-normalized double writing */
++ 			normalize_double (ubuf.dbuf, ptr + total, writecount, 1.0 / (double) 0x8000) ;
++diff --git a/tests/mpeg_test.c b/tests/mpeg_test.c
++index fe7f53d1..87adf2ac 100644
++--- a/tests/mpeg_test.c
+++++ b/tests/mpeg_test.c
++@@ -258,6 +258,162 @@ mpeg_double_test (void)
++ 	unlink (filename) ;
++ } /* mpeg_double_test */
++ 
+++/* Hostile input (CVE-2024-50613) : NaNs, infinities and huge finite values
+++** must be sanitized before reaching LAME, not abort it. One helper covers
+++** mono and stereo (channels == 2 exercises the interleaved_ieee paths),
+++** with float normalization on or off.
+++*/
+++static void
+++mpeg_hostile_float_case (int channels, int normalize)
+++{	char filename [64] ;
+++	SNDFILE * file ;
+++	SF_INFO sfinfo ;
+++	unsigned k ;
+++	size_t samples = ARRAY_LEN (data_out.f) ;
+++
+++	snprintf (filename, sizeof (filename), "mpeg_hostile_float_%dch_%s.mp3",
+++		channels, normalize ? "norm" : "nonorm") ;
+++
+++	print_test_name ("mpeg_hostile_float_test", filename) ;
+++
+++	if (channels == 1)
+++	{	gen_windowed_sine_float (data_out.f, samples, normalize ? 0.95 : 1.0 * 0x7F00) ;
+++		}
+++	else
+++	{	/* Interleave two mirrored channels. data_in.f is scratch here ;
+++		** it is overwritten by the read-back below.
+++		*/
+++		gen_windowed_sine_float (data_in.f, samples / 2, normalize ? 0.95 : 1.0 * 0x7F00) ;
+++		for (k = 0 ; k < samples / 2 ; k++)
+++		{	data_out.f [2 * k] = data_in.f [k] ;
+++			data_out.f [2 * k + 1] = data_in.f [samples / 2 - k - 1] ;
+++			} ;
+++		} ;
+++
+++	data_out.f [0] = NAN ;
+++	data_out.f [1] = INFINITY ;
+++	data_out.f [2] = -INFINITY ;
+++	data_out.f [3] = 1.0e30f ;
+++	data_out.f [4] = -1.0e30f ;
+++
+++	memset (&sfinfo, 0, sizeof (sfinfo)) ;
+++
+++	/* Set up output file type. */
+++	sfinfo.format = SF_FORMAT_MPEG | SF_FORMAT_MPEG_LAYER_III ;
+++	sfinfo.channels = channels ;
+++	sfinfo.samplerate = SAMPLE_RATE ;
+++
+++	/* Write the output file. */
+++	file = test_open_file_or_die (filename, SFM_WRITE, &sfinfo, SF_FALSE, __LINE__) ;
+++	if (! normalize)
+++		sf_command (file, SFC_SET_NORM_FLOAT, NULL, SF_FALSE) ;
+++	test_write_float_or_die (file, 0, data_out.f, samples, __LINE__) ;
+++	sf_close (file) ;
+++
+++	/* Read the file in again. */
+++	memset (&sfinfo, 0, sizeof (sfinfo)) ;
+++
+++	file = test_open_file_or_die (filename, SFM_READ, &sfinfo, SF_FALSE, __LINE__) ;
+++	test_read_float_or_die (file, 0, data_in.f, samples, __LINE__) ;
+++	sf_close (file) ;
+++
+++	/* The decoded output must be finite and within a sane range. MP3 is
+++	** lossy so decoded peaks may overshoot the encoder's +/-1 clamp
+++	** slightly ; a generous bound catches scale errors without
+++	** false-failing on codec noise. Explicit checks (no assert.h
+++	** dependency) match the surrounding test style.
+++	*/
+++	for (k = 0 ; k < samples ; k++)
+++		if (! isfinite (data_in.f [k]) || fabsf (data_in.f [k]) > 4.0f)
+++		{	printf ("\n\nLine %d : bad decoded sample at index %u : %f.\n\n", __LINE__, k, data_in.f [k]) ;
+++			exit (1) ;
+++			} ;
+++
+++	puts ("ok") ;
+++
+++	unlink (filename) ;
+++} /* mpeg_hostile_float_case */
+++
+++static void
+++mpeg_hostile_float_test (void)
+++{	mpeg_hostile_float_case (1, SF_TRUE) ;
+++	mpeg_hostile_float_case (1, SF_FALSE) ;
+++	mpeg_hostile_float_case (2, SF_TRUE) ;
+++	mpeg_hostile_float_case (2, SF_FALSE) ;
+++} /* mpeg_hostile_float_test */
+++
+++/* Double-precision version of the helper above. */
+++static void
+++mpeg_hostile_double_case (int channels, int normalize)
+++{	char filename [64] ;
+++	SNDFILE * file ;
+++	SF_INFO sfinfo ;
+++	unsigned k ;
+++	size_t samples = ARRAY_LEN (data_out.d) ;
+++
+++	snprintf (filename, sizeof (filename), "mpeg_hostile_double_%dch_%s.mp3",
+++		channels, normalize ? "norm" : "nonorm") ;
+++
+++	print_test_name ("mpeg_hostile_double_test", filename) ;
+++
+++	if (channels == 1)
+++	{	gen_windowed_sine_double (data_out.d, samples, normalize ? 0.95 : 1.0 * 0x7F00) ;
+++		}
+++	else
+++	{	gen_windowed_sine_double (data_in.d, samples / 2, normalize ? 0.95 : 1.0 * 0x7F00) ;
+++		for (k = 0 ; k < samples / 2 ; k++)
+++		{	data_out.d [2 * k] = data_in.d [k] ;
+++			data_out.d [2 * k + 1] = data_in.d [samples / 2 - k - 1] ;
+++			} ;
+++		} ;
+++
+++	data_out.d [0] = NAN ;
+++	data_out.d [1] = INFINITY ;
+++	data_out.d [2] = -INFINITY ;
+++	data_out.d [3] = 1.0e300 ;
+++	data_out.d [4] = -1.0e300 ;
+++
+++	memset (&sfinfo, 0, sizeof (sfinfo)) ;
+++
+++	/* Set up output file type. */
+++	sfinfo.format = SF_FORMAT_MPEG | SF_FORMAT_MPEG_LAYER_III ;
+++	sfinfo.channels = channels ;
+++	sfinfo.samplerate = SAMPLE_RATE ;
+++
+++	/* Write the output file. */
+++	file = test_open_file_or_die (filename, SFM_WRITE, &sfinfo, SF_FALSE, __LINE__) ;
+++	if (! normalize)
+++		sf_command (file, SFC_SET_NORM_DOUBLE, NULL, SF_FALSE) ;
+++	test_write_double_or_die (file, 0, data_out.d, samples, __LINE__) ;
+++	sf_close (file) ;
+++
+++	/* Read the file in again. */
+++	memset (&sfinfo, 0, sizeof (sfinfo)) ;
+++
+++	file = test_open_file_or_die (filename, SFM_READ, &sfinfo, SF_FALSE, __LINE__) ;
+++	test_read_double_or_die (file, 0, data_in.d, samples, __LINE__) ;
+++	sf_close (file) ;
+++
+++	/* Finite and sane, as above. */
+++	for (k = 0 ; k < samples ; k++)
+++		if (! isfinite (data_in.d [k]) || fabs (data_in.d [k]) > 4.0)
+++		{	printf ("\n\nLine %d : bad decoded sample at index %u : %f.\n\n", __LINE__, k, data_in.d [k]) ;
+++			exit (1) ;
+++			} ;
+++
+++	puts ("ok") ;
+++
+++	unlink (filename) ;
+++} /* mpeg_hostile_double_case */
+++
+++static void
+++mpeg_hostile_double_test (void)
+++{	mpeg_hostile_double_case (1, SF_TRUE) ;
+++	mpeg_hostile_double_case (1, SF_FALSE) ;
+++	mpeg_hostile_double_case (2, SF_TRUE) ;
+++	mpeg_hostile_double_case (2, SF_FALSE) ;
+++} /* mpeg_hostile_double_test */
+++
++ 
++ static void
++ mpeg_stereo_seek_test (const char * filename, int format)
++@@ -338,6 +494,8 @@ main (void)
++ 		mpeg_int_test () ;
++ 		mpeg_float_test () ;
++ 		mpeg_double_test () ;
+++		mpeg_hostile_float_test () ;
+++		mpeg_hostile_double_test () ;
++ 
++ 		mpeg_stereo_seek_test ("mpeg_seek.mp3", SF_FORMAT_MPEG | SF_FORMAT_MPEG_LAYER_III) ;
++ 		}
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
+index a26f57d7f42..fb466190ab4 100644
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
+@@ -15,6 +15,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/libsndfile-${PV}.tar.xz \
+            file://CVE-2025-56226-01.patch \
+            file://CVE-2025-56226-02.patch \
+            file://CVE-2026-37555.patch \
++           file://CVE-2024-50613.patch \
+           "
+ GITHUB_BASE_URI = "https://github.com/libsndfile/libsndfile/releases/"
  
- SRC_URI = "${GNU_MIRROR}/aspell/aspell-${PV}.tar.gz"
--SRC_URI[sha256sum] = "57fe4863eae6048f72245a8575b44b718fb85ca14b9f8c0afc41b254dfd76919"
-+SRC_URI[sha256sum] = "0534eae11132405120d11e46bf595bd5dd189bc124ba77a5dd6aae861b48a162"
- 
- PACKAGECONFIG ??= ""
- PACKAGECONFIG[curses] = "--enable-curses,--disable-curses,ncurses"
