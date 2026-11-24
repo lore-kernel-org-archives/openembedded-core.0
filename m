@@ -1,394 +1,137 @@
-Received: from aer-iport-3.cisco.com (aer-iport-3.cisco.com [173.38.203.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12436.1795501289281978281
+Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12714.1795501481656827840
  for <openembedded-core@lists.openembedded.org>;
- Mon, 23 Nov 2026 22:21:29 -0800
+ Mon, 23 Nov 2026 22:24:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=J/+5kNRg;
- spf=pass (domain: cisco.com, ip: 173.38.203.53, mailfrom: yurade@cisco.com)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=QBeAlIK3;
+ spf=pass (domain: gmail.com, ip: 74.125.82.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-386c71feeeaso34187eec.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 23 Nov 2026 22:24:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=11874; q=dns/txt;
-  s=iport01; t=1795501289; x=1796710889;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=aXRHubK4+lN1k4TTnLKBCPxVFhbVsTM0AkkJyyuukA4=;
-  b=J/+5kNRgZM5gwspOghYiA8y9sIEfu5oXzTcBj/YR5dYdq8r3ug8HeOri
-   653i2+n3/HKCR4f0X1DggJHilmbSe3x6P9tLMpEX5VzjssFDvZ5hBjkA0
-   bhQYw6lXO8oyqOBovJ/Hi+Ffi98Iej3/UrgZRlXQizUwFAr2UiPJUuUj5
-   Yaba+CmxPB2q2vtO/k9GyW7iM7ixUI3/oiDBR2R7KzhFovrYV5nukGFnb
-   rC+5O4fOtGb9CdlD1JWgD0hLGwcQTraSSC3xokTHe4fUiZMse33LfunFF
-   cFMnVrZq7FBPLRZErSicBL5hVMg9A+/lRxPyk71/ekyBnAt4E2Nnz0PG1
-   A==;
-X-CSE-ConnectionGUID: nYWpNy+YQQKokptkgj5a9A==
-X-CSE-MsgGUID: nvkgKQdYTL2ujeHp7zR3qA==
-X-IPAS-Result: =?us-ascii?q?A0BPAgBaKwVr/9BK/pBaHgEBCxIMggULgld1YENJA5Qng?=
- =?us-ascii?q?iEDgn6IaJJDFIFqDwEBAQ9EDQQBAYUFAo4iAiY0CQ4BAgQDAgMBAQEBAQEBA?=
- =?us-ascii?q?QEBAQEKAQEFAQEBAgEHBYEOE4ZPDZASAQIBAzIBVhwDAQIvKyMIGYMCAYI6A?=
- =?us-ascii?q?zcDEbp3giyBAYNpAkNQ2UuBaAELFAGBOIVCiCRdGAGEfScbgUlEhAl2gQWBG?=
- =?us-ascii?q?oILhl8EgxwSgVQejHkCgU+ISUiBHgNZLAFVEw0KCwcFgWgDNRIqFW4yHYEjO?=
- =?us-ascii?q?xeBBxsGBYEcgR6BEoEDXYErKF4hgQiBdgKCUYIAAgFJQQ4HRVMJJUMSRyQiC?=
- =?us-ascii?q?BIJARMaLAqBGjU8CSY/FQxnCxoFYQgCDQx0ORAwHiQvBRomPhsKgQwnHx4bD?=
- =?us-ascii?q?gIfEAYWIQsbGA1IESw3FRkEPm4HlBSDCAsHASxOEwEKIQSBQQhHGBGTHZAmg?=
- =?us-ascii?q?iGBNZ5rcYQrjCSPP4V7GjOEBJQaklQLmH2CWYsxhAqRK4EchGqBaDyBWTMaC?=
- =?us-ascii?q?BsVgyIJShkPjisDCwuDYCjOMyYyCwMvAQEHAgcOAwuBaJF+AQE?=
-IronPort-Data: A9a23:maqjV6zhyM7HAhAkZcJ6t+d9xyrEfRIJ4+MujC+fZmUNrF6WrkUBn
- zQYUWmCOq3fM2eheN1za9+09B4OupWEyd9rGQs6qFhgHilAwSbn6Xt1DatR0we6dJCroJdPt
- p1GAjX4BJlqCCKa/lH9aOWJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
- 4yaT/H3Ygf/hWctaDlMscpvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
- evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
- zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJEcHApU+66VGOFht8
- v8ANDMCbE2K1svjldpXSsE07igiBMDmJsYb/3pn1zycValgSpHYSKKM7thdtNsyrpkSQbCEO
- pZfNmYpNkyQC/FMEg9/5JYWjfqyj3XyWzZZs1mS46Ew5gA/ySQviOS1a4KNJ7RmQ+1TgEWXh
- VvKzljdWAwYOfyHlii/qWuF07qncSTTHdh6+KeD3vlyjVuew2YeBBEbWR6wpuO0okq/QM5Eb
- UsM9ywjqKI/+ECmQp/6RRLQnZKflhcRQZ9UVuY98gzIkvWS6AeCDW9CRTlEADA7iPILqfUR/
- gfht7vU6fZH6dV5lVr1Gm+okA6P
-IronPort-HdrOrdr: A9a23:0axEiqGeqOzOBhfrpLqExMeALOsnbusQ8zAXPidKOHhom6Oj+f
- xG8M536fawskdzZJhCo6HkBED/exLhHPdOiOF7V4tKHjOW2ldAR7sM0WKN+VHd8lXFltJ15O
- NHb7V0DsH2ABxRiMb35xT9LvMbqeP3l5xBQYzlvg5QpcYAUdAH0ztE
-X-Talos-CUID: 9a23:v3ZoJmPjLfZBAu5DXhhY7GgFWfEcS17az2/MIEC6VG84YejA
-X-Talos-MUID: 9a23:vo3QjApi8eujDQurvKkezzd8N8hL2qifNGRXjJcLm9HbJxYrIh7I2Q==
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.27,229,1787011200"; 
-   d="scan'208";a="60403005"
-Received: from aer-l-core-07.cisco.com ([144.254.74.208])
-  by aer-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 24 Nov 2026 06:21:25 +0000
-Received: from sjc-ads-7871.cisco.com (sjc-ads-7871.cisco.com [10.30.222.158])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by aer-l-core-07.cisco.com (Postfix) with ESMTPS id 4F1D218000245
-	for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 06:21:25 +0000 (GMT)
-Received: by sjc-ads-7871.cisco.com (Postfix, from userid 1889728)
-	id F168ACBF201; Mon, 23 Nov 2026 22:21:23 -0800 (PST)
-From: Yogita Urade <yurade@cisco.com>
+        d=gmail.com; s=20260707; t=1795501481; x=1796106281; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=wt+ETf8oGxs9bRxZ4Z8yiXBPjA+h6YAV7zdslXrXCqE=;
+        b=QBeAlIK3GH0BXf58WWoIYuBX2+fT1Y7qCB8U9cW1u6wJ10Z/swK5+rqP5PJqUeSVOs
+         tuq+LF2dlqikti/MTz6s3ZjTAAmQc2cdiCDfnxsWefPLrb04o+veZD6SQxJhlxEn7FRp
+         UXLq3BvHuiilYR4jik6nt9nO3JO4ZuxTqB3iECu53KL5LYCFHDS1eMWAAFamIeBjdR97
+         5oMUVjRNfCC/H8mihB/LKO02D7oCyCpr6FNVO650jkrpaJQrwEVsMh6cp04wVu0KXOmk
+         h2ky85aMPC+WITPWNjAF+0KDhzGXk8iHnaouUQ7YqkG55OwAM1SeTfdITm3y2I5U3v7F
+         FQaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795501481; x=1796106281;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=wt+ETf8oGxs9bRxZ4Z8yiXBPjA+h6YAV7zdslXrXCqE=;
+        b=OVZ+EEWvCjhrSLh1eVcJbhkYs1TTKa9Prldy5rlpS/uukOmvMrY7IZHgSyMGx+BQ2r
+         M3VnKphROb1JTeIC+NDHg4UobL6iD+dD6JZdOCQ8A8NuUuk7drLvHkxmLzlmUUTkcgcb
+         gDwVRUiyxWsB0tSzE9b/mqGc+Qxbj/r98ecBVw/BSy+qi6PRxtNa1bm1ia+ujz6hPMVx
+         jWml83go55qLzBxNwgN0TBBmpTp1FmAOPybjwUVU4ujdXqjZnQEyFP0YFs4hSy5SR7Xi
+         juH9fP3wsFJfgwyFxmJVaGOtvO24Y2US4oVmTs+9nkQ+oPJ8yQ3mNcf/UvVpSSFtNkLa
+         vyfw==
+X-Gm-Message-State: APuU4Z/YZfg7maZtO4gtphsz949P4MdcGlDdoAAn61YLco1w+qoHfnAH
+	GABwCP70UezWLyaD1Nm8M86e/3a21dOsDB+hbMKLPS9CpwiBHnkKZF+JFlZAr31l
+X-Gm-Gg: AZFdTZfVFx1XaWgxb+RgadZerTMhimxvN01AlwCdFZ7se4sol58RubSMha7WN9frpq1
+	dIUPwiifRZHjcdS1xT6+xjv+E6Gs4Nhv9SmFzo3HyW/G8ORu2cHpgcWAj9iHWMST8u0N5be4gwB
+	33XJxjDy7DXE7pXfNli0GD7jqvcydCNgMpNGNibfDrAY+EhgetrgBR6JIPB97zOcrI31EpHWj/R
+	DjW53QIJk9yutS7iscv1HALQ1TGZ3OiI9uY4nRb6/s3MrVJdjp0D/3NuTxqM6NI5lV/ryxv5HKU
+	YN+aurxDJTKkzcyLlDPPZsnCHnxiOAf9PP6txDL/lqTTrG9kR+vx2nS+9trvrglwTTv1/c0ueh8
+	q8INEGrSK0V6oZTz1D6b5K/s7oi5tuR8Q9EO/UCxY83XAMQCbs1uU9gn9ePPKhdI1gPG4OekzCn
+	PfPEGF184IKymkdU7Bxw0JbzD/JCHLONKAimm24aAFPWDcAVb6udB+R3GY0jjHmXALN+cGxfOK6
+	m0BKqt6GNpUT4ugV3b1TX2/eP4AfCgXx6G4/jW8oeu9Y2HxceUWU+NPfXr4U3qJhWCRT6zJnP9R
+	QigXZptYZAX9pIcrKys1rd9NTDKgrJcTH4s9pFzdK+s/AawbqGqKdiXmPBj0GJuReK8AdEokoF1
+	YKCyRh+UWrmDj4ATUcjAuwHIcm74UPLJ/VE/uQrL5wD03YalxN4E+Nuqz7ce38Q2Dqywzt3j/Z2
+	MYM2VzlC93sMFI3usAO1WIJiaqY6N24xVeiIc7D0gcU/+Ku0LUaIjR6481JaFSkTiI77hsK2MVn
+	/ah1PEa4+7DFwTcywVlKhsotFIt8MHKK0y11Q52mQ+btTJZhige0iNSmOVS2xwz4eix3lay5Uo4
+	zN2V
+X-Received: by 2002:a05:7301:4281:b0:386:a193:9afa with SMTP id 5a478bee46e88-386a1939c38mr9758460eec.11.1795501480730;
+        Mon, 23 Nov 2026 22:24:40 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385646633d0sm72700490eec.3.2026.11.23.22.24.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2026 22:24:40 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose][PATCH 1/1] glibc: Fix CVE-2026-121758
-Date: Mon, 23 Nov 2026 22:21:23 -0800
-Message-Id: <20261124062123.4168678-2-yurade@cisco.com>
-X-Mailer: git-send-email 2.35.6
-In-Reply-To: <20261124062123.4168678-1-yurade@cisco.com>
-References: <20261124062123.4168678-1-yurade@cisco.com>
+Cc: Khem Raj <khem.raj@oss.qualcomm.com>
+Subject: [PATCH] popt: Do not export _init and _fini
+Date: Mon, 23 Nov 2026 22:24:36 -0800
+Message-ID: <20261124062436.4104471-1-khem.raj@oss.qualcomm.com>
+X-Mailer: git-send-email 2.56.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-7871.cisco.com [10.30.222.158];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 10.30.222.158, sjc-ads-7871.cisco.com
-X-Outbound-Node: aer-l-core-07.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 06:21:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250949
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 06:24:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/250950
 Content-Type: text/plain; charset="utf-8"
 
-This patch applies the upstream fix as referenced in [2],
-using the commit shown in [1].
+The version script names _init and _fini, which riscv64 glibc does not
+define, so linking with lld fails:
 
-[1] https://repo.or.cz/glibc.git/commit/170ee485fa89b95c3bb7d5606c9812c6c100c9be
-[2] https://ubuntu.com/security/CVE-2026-121758
+  ld.lld: error: version script assignment of 'LIBPOPT_0' to symbol '_fini' failed: symbol not defined
 
-Signed-off-by: Yogita Urade <yurade@cisco.com>
+Drop them from the version script; the loader uses DT_INIT/DT_FINI and
+nothing looks them up by name.
+
+AI-Generated: Uses Claude Code
+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
 ---
- .../glibc/glibc/CVE-2026-121758.patch         | 281 ++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.43.bb         |   1 +
- 2 files changed, 282 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/CVE-2026-121758.patch
+ ...t.vers-Do-not-export-_init-and-_fini.patch | 34 +++++++++++++++++++
+ meta/recipes-support/popt/popt_1.19.bb        |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-support/popt/popt/0001-libpopt.vers-Do-not-export-_init-and-_fini.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/CVE-2026-121758.patch b/meta/recipes-core/glibc/glibc/CVE-2026-121758.patch
+diff --git a/meta/recipes-support/popt/popt/0001-libpopt.vers-Do-not-export-_init-and-_fini.patch b/meta/recipes-support/popt/popt/0001-libpopt.vers-Do-not-export-_init-and-_fini.patch
 new file mode 100644
-index 0000000000..6a01b903c5
+index 0000000000..14a83d3e94
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/CVE-2026-121758.patch
-@@ -0,0 +1,281 @@
-+From 170ee485fa89b95c3bb7d5606c9812c6c100c9be Mon Sep 17 00:00:00 2001
-+From: JT Wang <skyman-wftw@hotmail.com>
-+Date: Thu, 12 Nov 2026 05:08:42 +0000
-+Subject: [PATCH] iconv: ISO-2022-CN-EXT: fix SO handling without a designation (bug 34774)
++++ b/meta/recipes-support/popt/popt/0001-libpopt.vers-Do-not-export-_init-and-_fini.patch
+@@ -0,0 +1,34 @@
++From e7b50f35178d7ec011438c699234a5ee90173eaf Mon Sep 17 00:00:00 2001
++From: Khem Raj <raj.khem@gmail.com>
++Date: Wed, 11 Nov 2026 11:41:05 -0800
++Subject: [PATCH] libpopt.vers: Do not export _init and _fini
 +
-+In the FROM loop, the SO (0x0e) handler advances inptr before
-+checking whether an SO designation had been announced.  Without a
-+designation the SO byte is an error, but by the time the error is
-+reported the byte has already been consumed.  Consequences:
++_init and _fini come from crti.o on some architectures and are not part of
++the popt API. The dynamic loader finds them through DT_INIT/DT_FINI, not by
++symbol lookup, so there is no reason to export them.
 +
-+* With //IGNORE, STANDARD_FROM_LOOP_ERR_HANDLER skips one more byte
-+  after the already-consumed SO.  If the SO is the last input byte,
-+  inptr ends up one past inend; the loop condition inptr != inend
-+  then no longer terminates the loop, and the converter keeps
-+  reading past the end of the input buffer and may convert
-+  out-of-bounds bytes into the output, in addition to the
-+  *inbytesleft wraparound described in the report.  This is also
-+  the path taken by iconv -c, which sets the ignore flag for the
-+  conversion.  If the SO is not the last byte, the byte following
-+  it is silently dropped.
-+* Without //IGNORE there is no out-of-bounds access, but iconv()
-+  returns EILSEQ with the SO already consumed, so *inbuf does not
-+  point at the offending byte and the reported remaining length is
-+  one byte short (or exhausted when the SO is the last byte).  A
-+  caller that skips the offending byte on EILSEQ and calls iconv()
-+  again then decrements an already-exhausted length.
++On architectures without crti.o _init/_fini, e.g. riscv64, they are not
++defined at all, and lld, which defaults to --no-undefined-version, fails:
 +
-+Move the increment after the error handler: the ignore path skips
-+the SO exactly once, and the non-ignore path leaves the input
-+pointer on the SO byte as POSIX expects.  Sequences with an
-+announced designation are unaffected.
++  ld.lld: error: version script assignment of 'LIBPOPT_0' to symbol '_fini' failed: symbol not defined
++  ld.lld: error: version script assignment of 'LIBPOPT_0' to symbol '_init' failed: symbol not defined
 +
-+Also update the stale comment in that branch, and extend
-+tst-iconv-iso-2022-cn-ext with FROM-direction regressions covering
-+the error paths, a trailing SO with //IGNORE placed next to an
-+inaccessible page, and a designated-SO positive case.
-+
-+CVE: CVE-2026-121758
-+Upstream-Status: Backport [https://repo.or.cz/glibc.git/commit/170ee485fa89b95c3bb7d5606c9812c6c100c9be]
-+
-+Signed-off-by: JT Wang <skyman-wftw@hotmail.com>
-+Reviewed-by: Adhemerval Zanella  <adhemerval.zanella@linaro.org>
-+Signed-off-by: Yogita Urade <yurade@cisco.com>
++Upstream-Status: Backport [https://github.com/rpm-software-management/popt/commit/aec97bc20f46464b779a40d465f716cfe6099e92]
++Signed-off-by: Khem Raj <raj.khem@gmail.com>
 +---
-+ iconvdata/iso-2022-cn-ext.c           |  10 +-
-+ iconvdata/tst-iconv-iso-2022-cn-ext.c | 180 ++++++++++++++++++++++++++
-+ 2 files changed, 184 insertions(+), 6 deletions(-)
++ src/libpopt.vers | 2 --
++ 1 file changed, 2 deletions(-)
 +
-+diff --git a/iconvdata/iso-2022-cn-ext.c b/iconvdata/iso-2022-cn-ext.c
-+index cce29b19..a8fe5522 100644
-+--- a/iconvdata/iso-2022-cn-ext.c
-++++ b/iconvdata/iso-2022-cn-ext.c
-+@@ -248,12 +248,9 @@ enum
-+       }									      \
-+     else if (ch == SO)							      \
-+       {									      \
-+-	/* Switch to use GB2312, GB12345, CNS 11643 plane 1, or ISO-IR-165,   \
-+-	   depending on which S0 designation came last.  The only problem     \
-+-	   is what to do with faulty input files where no designator came.    \
-+-	   XXX For now I'll default to use GB2312.  If this is not the	      \
-+-	   best behavior (e.g., we should flag an error) let me know.  */     \
-+-	++inptr;							      \
-++	/* Switch to the character set designated last for SO.  A faulty      \
-++	   input file may contain an SO byte without a prior SO               \
-++	   designation; treat such a lone SO as an illegal sequence.  */      \
-+ 	if ((ann & SO_ann) != 0)					      \
-+ 	  switch (ann & SO_ann)						      \
-+ 	    {								      \
-+@@ -276,6 +273,7 @@ enum
-+ 	  {								      \
-+ 	    STANDARD_FROM_LOOP_ERR_HANDLER (1);				      \
-+ 	  }								      \
-++	++inptr;							      \
-+ 	continue;							      \
-+       }									      \
-+     else if (ch == SI)							      \
-+diff --git a/iconvdata/tst-iconv-iso-2022-cn-ext.c b/iconvdata/tst-iconv-iso-2022-cn-ext.c
-+index 96a8765f..ff5f22c7 100644
-+--- a/iconvdata/tst-iconv-iso-2022-cn-ext.c
-++++ b/iconvdata/tst-iconv-iso-2022-cn-ext.c
-+@@ -25,6 +25,7 @@
-+ 
-+ #include <support/xunistd.h>
-+ #include <support/check.h>
-++#include <support/next_to_fault.h>
-+ #include <support/support.h>
-+ 
-+ /* The test sets up a two memory page buffer with the second page marked
-+@@ -37,6 +38,177 @@
-+    character sets and may run out of buffer space while doing the
-+    operation.  */
-+ 
-++/* FROM-direction regression tests for bug 34774: a lone SO (0x0e)
-++   without any announced SO designation.  The error paths must leave
-++   the input pointer on the offending SO byte, and //IGNORE must skip
-++   it exactly once.  */
-++
-++static void
-++test_lone_so_plain (void)
-++{
-++  iconv_t cd = iconv_open ("UTF-8", "ISO-2022-CN-EXT");
-++  TEST_VERIFY_EXIT (cd != (iconv_t) -1);
-++  char in[] = { 0x0e };
-++  char out[8];
-++  char *ip = in, *op = out;
-++  size_t il = sizeof in, ol = sizeof out;
-++  errno = 0;
-++  TEST_COMPARE (iconv (cd, &ip, &il, &op, &ol), (size_t) -1);
-++  TEST_COMPARE (errno, EILSEQ);
-++  TEST_VERIFY (ip == in);
-++  TEST_COMPARE (il, (size_t) 1);
-++  TEST_COMPARE (iconv_close (cd), 0);
-++}
-++
-++static void
-++test_so_after_ascii (void)
-++{
-++  iconv_t cd = iconv_open ("UTF-8", "ISO-2022-CN-EXT");
-++  TEST_VERIFY_EXIT (cd != (iconv_t) -1);
-++  char in[] = { 'A', 0x0e, 'B' };
-++  char out[8];
-++  char *ip = in, *op = out;
-++  size_t il = sizeof in, ol = sizeof out;
-++  errno = 0;
-++  TEST_COMPARE (iconv (cd, &ip, &il, &op, &ol), (size_t) -1);
-++  TEST_COMPARE (errno, EILSEQ);
-++  TEST_VERIFY (ip == in + 1);
-++  TEST_COMPARE (il, (size_t) 2);
-++  TEST_VERIFY (op == out + 1);
-++  TEST_COMPARE_BLOB (out, op - out, "A", 1);
-++  TEST_COMPARE (iconv_close (cd), 0);
-++}
-++
-++static void
-++test_lone_so_ignore (void)
-++{
-++  iconv_t cd = iconv_open ("UTF-8//IGNORE", "ISO-2022-CN-EXT");
-++  TEST_VERIFY_EXIT (cd != (iconv_t) -1);
-++  char in[] = { 0x0e, 'A', 'B' };
-++  char out[8];
-++  char *ip = in, *op = out;
-++  size_t il = sizeof in, ol = sizeof out;
-++  errno = 0;
-++  /* With //IGNORE the offending SO must be skipped exactly once and the
-++     following ASCII must be converted.  Note that glibc still reports
-++     EILSEQ here: the ignore arm of STANDARD_FROM_LOOP_ERR_HANDLER does
-++     not reset result, which stays __GCONV_ILLEGAL_INPUT, and the
-++     iconv() wrapper maps that status to -1 plus EILSEQ
-++     unconditionally (iconv/iconv.c).  */
-++  TEST_COMPARE (iconv (cd, &ip, &il, &op, &ol), (size_t) -1);
-++  TEST_COMPARE (errno, EILSEQ);
-++  TEST_VERIFY (ip == in + 3);
-++  TEST_COMPARE (il, (size_t) 0);
-++  TEST_COMPARE_BLOB (out, op - out, "AB", 2);
-++  TEST_COMPARE (iconv_close (cd), 0);
-++}
-++
-++static void
-++test_caller_skip_no_underflow (void)
-++{
-++  /* A caller that skips the offending byte on EILSEQ and calls
-++     iconv() again.  With the fix, the first call reports the SO as
-++     unconsumed input, so the skip drops the SO itself and the rest of
-++     the input still converts.  */
-++  iconv_t cd = iconv_open ("UTF-8", "ISO-2022-CN-EXT");
-++  TEST_VERIFY_EXIT (cd != (iconv_t) -1);
-++  char in[] = { 0x0e, 'A' };
-++  char out[8];
-++  char *ip = in, *op = out;
-++  size_t il = sizeof in, ol = sizeof out;
-++  errno = 0;
-++  TEST_COMPARE (iconv (cd, &ip, &il, &op, &ol), (size_t) -1);
-++  TEST_COMPARE (errno, EILSEQ);
-++  /* The SO is the offending byte and must still be unconsumed; do not
-++     run the caller-side skip unless this precondition holds, or the
-++     test itself would advance past the end of the input.  */
-++  TEST_VERIFY_EXIT (ip == in);
-++  TEST_VERIFY_EXIT (il == 2);
-++  ++ip;
-++  --il;
-++  op = out;
-++  ol = sizeof out;
-++  errno = 0;
-++  TEST_COMPARE (iconv (cd, &ip, &il, &op, &ol), (size_t) 0);
-++  TEST_COMPARE (il, (size_t) 0);
-++  TEST_COMPARE ((size_t) (op - out), (size_t) 1);
-++  TEST_COMPARE_BLOB (out, op - out, "A", 1);
-++  TEST_COMPARE (iconv_close (cd), 0);
-++}
-++
-++static void
-++test_lone_so_tail_caller_skip (void)
-++{
-++  /* A lone SO at the end of the input.  Before the fix the first call
-++     consumed the SO and left the remaining length at 0, so a caller
-++     skipping the offending byte decremented that length to
-++     (size_t) -1.  */
-++  iconv_t cd = iconv_open ("UTF-8", "ISO-2022-CN-EXT");
-++  TEST_VERIFY_EXIT (cd != (iconv_t) -1);
-++  char in[] = { 'A', 0x0e };
-++  char out[8];
-++  char *ip = in, *op = out;
-++  size_t il = sizeof in, ol = sizeof out;
-++  errno = 0;
-++  TEST_COMPARE (iconv (cd, &ip, &il, &op, &ol), (size_t) -1);
-++  TEST_COMPARE (errno, EILSEQ);
-++  TEST_VERIFY_EXIT (ip == in + 1);
-++  TEST_VERIFY_EXIT (il == 1);
-++  ++ip;
-++  --il;
-++  op = out;
-++  ol = sizeof out;
-++  errno = 0;
-++  TEST_COMPARE (iconv (cd, &ip, &il, &op, &ol), (size_t) 0);
-++  TEST_COMPARE (il, (size_t) 0);
-++  TEST_COMPARE (iconv_close (cd), 0);
-++}
-++
-++static void
-++test_designated_so (void)
-++{
-++  /* Positive case: with an announced designation the SO switches to
-++     the designated set, consumes exactly one byte, and the following
-++     7-bit GB2312 pair converts.  ESC $ ) A designates GB2312;
-++     0x52 0x3b is the 7-bit form of the GB2312 code for U+4E00.  */
-++  iconv_t cd = iconv_open ("UTF-8", "ISO-2022-CN-EXT");
-++  TEST_VERIFY_EXIT (cd != (iconv_t) -1);
-++  char in[] = { 0x1b, '$', ')', 'A', 0x0e, 0x52, 0x3b, 0x0f, 'Z' };
-++  char out[16];
-++  char *ip = in, *op = out;
-++  size_t il = sizeof in, ol = sizeof out;
-++  errno = 0;
-++  TEST_COMPARE (iconv (cd, &ip, &il, &op, &ol), (size_t) 0);
-++  TEST_COMPARE (il, (size_t) 0);
-++  TEST_COMPARE ((size_t) (op - out), (size_t) 4);
-++  TEST_COMPARE_BLOB (out, 4, "\xe4\xb8\x80Z", 4);
-++  TEST_COMPARE (iconv_close (cd), 0);
-++}
-++
-++static void
-++test_trailing_so_ignore (void)
-++{
-++  /* The shape from bug 34774: a lone SO as the last input byte with
-++     //IGNORE.  Place the input right before an inaccessible page so
-++     that a read past the end faults.  */
-++  struct support_next_to_fault ntf = support_next_to_fault_allocate (2);
-++  ntf.buffer[0] = 'A';
-++  ntf.buffer[1] = 0x0e;
-++  iconv_t cd = iconv_open ("UTF-8//IGNORE", "ISO-2022-CN-EXT");
-++  TEST_VERIFY_EXIT (cd != (iconv_t) -1);
-++  char out[8];
-++  char *ip = ntf.buffer, *op = out;
-++  size_t il = 2, ol = sizeof out;
-++  errno = 0;
-++  TEST_COMPARE (iconv (cd, &ip, &il, &op, &ol), (size_t) -1);
-++  TEST_COMPARE (errno, EILSEQ);
-++  TEST_VERIFY (ip == ntf.buffer + 2);
-++  TEST_COMPARE (il, (size_t) 0);
-++  TEST_COMPARE_BLOB (out, op - out, "A", 1);
-++  TEST_COMPARE (iconv_close (cd), 0);
-++  support_next_to_fault_free (&ntf);
-++}
-++
-+ static int
-+ do_test (void)
++diff --git a/src/libpopt.vers b/src/libpopt.vers
++index 3ac5e52..d199ac9 100644
++--- a/src/libpopt.vers
+++++ b/src/libpopt.vers
++@@ -1,8 +1,6 @@
++ LIBPOPT_0
 + {
-+@@ -122,6 +294,14 @@ do_test (void)
-+ 
-+   xmunmap (ntf, ntfsize);
-+ 
-++  test_trailing_so_ignore ();
-++  test_lone_so_plain ();
-++  test_so_after_ascii ();
-++  test_lone_so_ignore ();
-++  test_caller_skip_no_underflow ();
-++  test_lone_so_tail_caller_skip ();
-++  test_designated_so ();
-++
-+   return 0;
-+ }
-+ 
-diff --git a/meta/recipes-core/glibc/glibc_2.43.bb b/meta/recipes-core/glibc/glibc_2.43.bb
-index 5d2344389f..09e4e0b837 100644
---- a/meta/recipes-core/glibc/glibc_2.43.bb
-+++ b/meta/recipes-core/glibc/glibc_2.43.bb
-@@ -61,6 +61,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0020-fix-create-thread-failed-in-unprivileged-process-BZ-.patch \
-            file://0021-tests-Skip-2-qemu-tests-that-can-hang-in-oe-selftest.patch \
-            file://0022-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch \
-+           file://CVE-2026-121758.patch \
- "
- B = "${WORKDIR}/build-${TARGET_SYS}"
++   global:
++-    _fini;
++-    _init;
++     _poptArgMask;
++     _poptGroupMask;
++     poptAddAlias;
+diff --git a/meta/recipes-support/popt/popt_1.19.bb b/meta/recipes-support/popt/popt_1.19.bb
+index dadcfdfeac..6161d4a7c4 100644
+--- a/meta/recipes-support/popt/popt_1.19.bb
++++ b/meta/recipes-support/popt/popt_1.19.bb
+@@ -15,6 +15,7 @@ SRC_URI = "http://ftp.rpm.org/popt/releases/popt-1.x/${BP}.tar.gz \
+            file://CVE-2026-18839-01.patch \
+            file://CVE-2026-18839-02.patch \
+            file://0001-Fix-test-output-format.patch \
++           file://0001-libpopt.vers-Do-not-export-_init-and-_fini.patch \
+            "
+ SRC_URI[sha256sum] = "c25a4838fc8e4c1c8aacb8bd620edb3084a3d63bf8987fdad3ca2758c63240f9"
  
--- 
-2.53.0
-
