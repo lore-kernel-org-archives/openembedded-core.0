@@ -1,62 +1,62 @@
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.30997.1795560773988894217
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.31041.1795560775322591217
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2026 14:52:54 -0800
+ Tue, 24 Nov 2026 14:52:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=o6zX0AV5;
- spf=pass (domain: smile.fr, ip: 209.85.221.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-490c3ae81d3so3187525f8f.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 14:52:53 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=BdqGdn3j;
+ spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-4aa5833c263so4898437f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 14:52:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795560772; x=1796165572; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1795560773; x=1796165573; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=2hg8zAs+sJ9efEATajGMf3Squ0pHNOSlXohTqJxrhRs=;
-        b=o6zX0AV543tMhJdsf39avq42L2RMRXOrvilo3uKU2LdAqVsB0p5yc2VdXE6mERL8Qm
-         33VujDupCK7c6mQ5+e/33kZKeG72K9gXwby2oPveMrQF8YQdnWhCyTyK0EOeRn7ypeTw
-         Y+cSXNPqRWUUYryhhldYGWuJHqg44lQXugib/kPnD/RhWmLUpFLpK26OylBOHUmJ6Hpj
-         Ko7gOkRrCqYA75W2YuVHVqUUneT9s8AtgrjuEp5/K+lO1CYuzqQJPLaqg29DSqjV9rt1
-         PBzKRr9Ccm7SrXxigZWHMfip4NKBj65oqiYuJgvoSw9yO53S3KPtlMEo2R/IDFoYeRxw
-         D5lQ==
+        bh=7uL/iAtsNgC5IZY9uWFp+3spG799kJlY5szTzxZDn9g=;
+        b=BdqGdn3jzE7HLWF7HL8EVVSCLEmYAKDMMMnyEOkeQJqzk2iEm+loHQLqzo4UBdb6q6
+         9qSQHA8iyTM+ix4WvXL2S7Uf79uKpme+TeEC6WC6gJ0d3Ey407JRViKxmd69mJ3wfTn8
+         /E+w8nnKHn4UCwkOvis3JYLwghi1coDwsmjdWF8iHGOfhG26mzcaQPBs0p/sTBk6qZgH
+         UkmvJy0/3u350FZ6D4eFy0mtbqQws/Pr4Wyp1oGU+oJYSoFR3shrkFppOYIH738CFr4b
+         8Jbq1gKrwvBU/tWHlo5sJrFej9MXAoisFTNcLdtWFcdecSZ5iIPrOpSom0CzCcLKC1Cx
+         DzZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795560772; x=1796165572;
+        d=1e100.net; s=20260707; t=1795560773; x=1796165573;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=2hg8zAs+sJ9efEATajGMf3Squ0pHNOSlXohTqJxrhRs=;
-        b=XXDfhDLhYGU2686u2X5N2iV3mhyTT1LgMgW5Mm4R+xM6nFcjHUU7+eQUMy1JOEU0v5
-         j51uXGrBXJcxyKM0F2EaT5bppajre+X2RLvvmjn10BSZg7ZA5kZDsUlXhU1UK7iCDuOt
-         9ShnOvqPH7MqsjIthj9UxC6ljqkZR6dKDoPKAdodvlj2rQCcgfl+LOVNrlAuLTXNa6g5
-         1N2S8QXpUgrf+8gKhrOd9+MwVnaZ/sGGrSvdombDXKudiNpN0u6Kxln2trZyPgLSLgaC
-         A0EDdJm9rDmW+ckl2hdCbAU6E6fHl3pW7NwMcR4UHqSzvaI4qi4mQscKbGv5UN7dVkfR
-         OyRA==
-X-Gm-Message-State: APuU4Z9MLKRFeMoYWpy/hzZ3N6qaf63hxE4u8ysgyO31mCI+wQ16D+bP
-	bABxCZvsH9L4NgLcvIsEYp0RwlRxBLkiCUCcwWtuEHkmvckFmhnV1K4DVghFc3IBYin9cP71WQs
-	t81rxCgA=
-X-Gm-Gg: AZFdTZcPxQXyBYOV2gc/H5u3QIx3acjNcBjPDV+eH5FwCd1tzxUDm94FsKx/Kgdlj/y
-	4CdzEGiyQkjTh2NaKIh/faeqlmcwsNaTxueRboF84lsDML0r/CYG9rwsbwaXtMdmyYrK2L6ijm7
-	8F5zOgi6bxUWbmhcUglZooV8kb2MySquqhEJZzWMjhoU12yxrypo1g8kyQKYa8kNaeqRurrR747
-	Bnxd8ZhYvsp4HVOMsnnV+res3fyePqlL4ygA0sRTcisVewfh0ym28MVtw354u2xTdRhEOmIgmvr
-	M94zzaKryaPVFhSdOLG36nrRjvIGlKjsqIfnRDLF8BH3Wng/3gf4RMZ71L27I1tDeW4Rd2kPd+i
-	0bBSFJWrXQSr/LK5waCHMe801TnwaCG2MqQQKfZ1i6l3M61s4MtaJN1NRhKcqPE904COKheyZr2
-	FmPHi9qpdz2oQOiHSzRysJkpZ10uvPSv4VxMxwi0IRBtluP64JNldha7+Pz2uXk36IVvmWQecmi
-	tlYg6u4wwQIGA5iOzPvAa1Q098+c2yz9VDHCqrQWDkPhTSksChQpZRg2hKL4iZoaR1jSgGr6jfF
-	Hmh2M54ELm+0Rh37a1HAnLaXY0Ge8suuDSRjB4MnMF0JMJxQsOtZO19M3qLJlfWY2L2fe8j2Vd/
-	YgOssS+yqqUsNFMy/QewsOK+DEu4j
-X-Received: by 2002:a05:600c:4e0b:b0:4bb:6f45:2a79 with SMTP id 5b1f17b1804b1-4bb88817920mr350465375e9.22.1795560772238;
-        Tue, 24 Nov 2026 14:52:52 -0800 (PST)
+        bh=7uL/iAtsNgC5IZY9uWFp+3spG799kJlY5szTzxZDn9g=;
+        b=Y+qjvEmQhj+ShHGlUW9d74JTDtYSuCcWiJxRt2INX8a9PkOfIRQTCjhmTS6AWw/wXU
+         Dh3iGCbIwQBhj6YErVysLcJF/BXRRtJltSqxrTMhRplzZ8o2oqsLSJ5Yf3Hd/+hHur3v
+         556ap7xmzBZmzXyXC+q7u94pxp7U3x6MHP0c0bd+wMg9X+vSz5XQUfYqLtKGnEFFcmCT
+         6E4wMtpTAB/lbGiO99RwwYucr+P+IAENV1nNccj43QOYi/JLq3sB2YCN8seYIffjSuJs
+         pSChU1sPwCjtM/Gjn8FQSi5nAJqa3PbuB2mMjpOx4+JsssT4Yrexi2IrROck/oImkPB1
+         6eVA==
+X-Gm-Message-State: APuU4Z8Wf0sTGK1vJzFQxLQ78O+AO7QesdhR0gDJuWlzfdHZp/iaTmW1
+	EXxycTTBzLQHwSrMsLR8pmodTGUZQXu/A5sicwQX2bSCHFpRzernk5cxvdPt4MvOU8rq/uRaF08
+	lIUQUhgE=
+X-Gm-Gg: AZFdTZekN6KoMW2lFRnimfotTDsvYzqCdzgou+6zXGqLiaaFfh3RYI3gAy7N11F0WkH
+	61OK7FXWpP2PBy9rpiSwyHti4teiXbwn+BKSnunXnQWmJX49Hj0R6jFFJ36AyDvC3rT6A3H8/8l
+	gYMH5KC5NuqRPOrbz/CnEb+VDoINf1SXKFfNrtDq77ZMWjgzdked7N3jbUYMPNlEtAS6dqMwPc8
+	cbZcyZYXzvwmwz1QVrRp6yXOuDleL2srZgjkfysRYUlwf7oJWUkcdU40mUxSLCvJWAAsIgIYYIb
+	jcnnti2M7c/Qiuz9iKoi1cXSCtbPD5PiLOHF0tnwWhoL23S25C48blQNd8ouNl5lVbBQj98y1Br
+	Vhx0ZUkyQlifXDZEn4lV/EmhR0pihKOhbkDoeJwBeRecT+U21jmnHHNQTmAlBmxEPWd3Og836ZD
+	D+LAqPKvZyRU3h4vn+DjryBiOxPHbhh1SbirROHPBAyPsrB8xf8vSN1ZiJEU7mr4wN9D/pWWnY4
+	7zEXBYvWKT4zpcpHMNJfsEIeBHBW9FmzXk12Czb9YqkEnIOVX6q1Dk1YdfnixPll7F0dhJu6yPV
+	NBKKFM9E76GQdbJry1VbKLPM7Vnrd8sWopEWz4DcgcXEVoMW/qyOe9lFt3GyTFY9/cHyqyB3CAW
+	NsKf+SZwPASOE3YDtoI/n6t2eF906
+X-Received: by 2002:a05:600c:45d4:b0:4bb:6994:abf0 with SMTP id 5b1f17b1804b1-4bb88817d91mr346551885e9.23.1795560773530;
+        Tue, 24 Nov 2026 14:52:53 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ad644140b5sm27446707f8f.17.2026.11.24.14.52.51
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ad644140b5sm27446707f8f.17.2026.11.24.14.52.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2026 14:52:51 -0800 (PST)
+        Tue, 24 Nov 2026 14:52:52 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 17/21] libsndfile1: patch CVE-2025-52194
-Date: Tue, 24 Nov 2026 23:52:34 +0100
-Message-ID: <8ff1072d37e89936c5dbf0c80054e0f4a0480a7b.1795560372.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 19/21] speex: patch CVE-2026-116741
+Date: Tue, 24 Nov 2026 23:52:36 +0100
+Message-ID: <5ba43f49922f56e37067b8bd9850b93926fdbde5.1795560372.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1795560372.git.yoann.congal@smile.fr>
 References: <cover.1795560372.git.yoann.congal@smile.fr>
@@ -64,68 +64,74 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Tue, 24 Nov 2026 22:53:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251119
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251121
 Content-Type: text/plain; charset="utf-8"
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patch references by [1] references in CVE report.
+Pick patch from [1] linked from CVE report.
 
-[1] https://github.com/libsndfile/libsndfile/issues/1082#issuecomment-6442050313
+[1] https://gitlab.xiph.org/xiph/speex/-/merge_requests/32
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit cc20c00e9261011c175d4bb92c99f02b5773b419)
+(cherry picked from commit acdf6b0bfcf0a2c3b858ccf2f1b385afd5b13574)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../libsndfile1/CVE-2025-52194.patch          | 27 +++++++++++++++++++
- .../libsndfile/libsndfile1_1.2.2.bb           |  1 +
- 2 files changed, 28 insertions(+)
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2025-52194.patch
+ .../speex/speex/CVE-2026-116741.patch         | 29 +++++++++++++++++++
+ meta/recipes-multimedia/speex/speex_1.2.1.bb  |  5 +++-
+ 2 files changed, 33 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/speex/speex/CVE-2026-116741.patch
 
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2025-52194.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2025-52194.patch
+diff --git a/meta/recipes-multimedia/speex/speex/CVE-2026-116741.patch b/meta/recipes-multimedia/speex/speex/CVE-2026-116741.patch
 new file mode 100644
-index 00000000000..ec5da0b731e
+index 00000000000..4d71f7fa82c
 --- /dev/null
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2025-52194.patch
-@@ -0,0 +1,27 @@
-+From 7ff854d1e0bd9a751a9ff52ed980c62afced91fe Mon Sep 17 00:00:00 2001
-+From: Saddam <saddamr3e@gmail.com>
-+Date: Tue, 21 Jul 2026 20:49:11 +0530
-+Subject: [PATCH] ircam: use psf_lrintf when reading samplerate
++++ b/meta/recipes-multimedia/speex/speex/CVE-2026-116741.patch
+@@ -0,0 +1,29 @@
++From 09b569d1b437e5edccf3406a38714ad795e46d38 Mon Sep 17 00:00:00 2001
++From: Tristan Matthews <tmatth@videolan.org>
++Date: Thu, 22 Oct 2026 09:00:44 -0400
++Subject: [PATCH] bits: fix OOB write in read_whole_bytes for non-owned buffers
 +
-+The IRCAM header sample rate is a float read straight from the file. (int) samplerate is undefined when the value is out of int range or non-finite; psf_lrintf matches mat4/mat5 which convert a file sample rate the same way.
++Fixes https://github.com/xiph/speex/issues/42
 +
-+CVE: CVE-2025-52194
-+Upstream-Status: Backport [https://github.com/libsndfile/libsndfile/commit/7ff854d1e0bd9a751a9ff52ed980c62afced91fe]
++Reported by HaiND (Nguyen Dinh Hai), Post and Telecommunication Institute of Technology, github.com/Haind03.
++
++CVE: CVE-2026-116741
++Upstream-Status: Backport [https://gitlab.xiph.org/xiph/speex/-/commit/09b569d1b437e5edccf3406a38714ad795e46d38]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ src/ircam.c | 2 +-
++ libspeex/bits.c | 2 +-
 + 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/src/ircam.c b/src/ircam.c
-+index 3d73ba44..d0780d8a 100644
-+--- a/src/ircam.c
-++++ b/src/ircam.c
-+@@ -161,7 +161,7 @@ ircam_read_header	(SF_PRIVATE *psf)
++diff --git a/libspeex/bits.c b/libspeex/bits.c
++index 4f457af..c5546e8 100644
++--- a/libspeex/bits.c
+++++ b/libspeex/bits.c
++@@ -174,7 +174,7 @@ EXPORT void speex_bits_read_whole_bytes(SpeexBits *bits, const char *chars, int
++          }
++       } else {
++          speex_warning("Do not own input buffer: truncating oversize input");
++-         nchars=bits->buf_size;
+++         nchars=bits->buf_size-(bits->nbBits>>LOG2_BITS_PER_CHAR)-1;
++       }
++    }
 + 
-+ 	psf_log_printf (psf, "marker: 0x%X\n", marker) ;
-+ 
-+-	psf->sf.samplerate = (int) samplerate ;
-++	psf->sf.samplerate = psf_lrintf (samplerate) ;
-+ 
-+ 	psf_log_printf (psf,	"  Sample Rate : %d\n"
-+ 							"  Channels    : %d\n"
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
-index fb466190ab4..2c3e28dc1c8 100644
---- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
-@@ -16,6 +16,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/libsndfile-${PV}.tar.xz \
-            file://CVE-2025-56226-02.patch \
-            file://CVE-2026-37555.patch \
-            file://CVE-2024-50613.patch \
-+           file://CVE-2025-52194.patch \
-           "
- GITHUB_BASE_URI = "https://github.com/libsndfile/libsndfile/releases/"
+diff --git a/meta/recipes-multimedia/speex/speex_1.2.1.bb b/meta/recipes-multimedia/speex/speex_1.2.1.bb
+index c40198fa8f3..2a174db0aa4 100644
+--- a/meta/recipes-multimedia/speex/speex_1.2.1.bb
++++ b/meta/recipes-multimedia/speex/speex_1.2.1.bb
+@@ -8,7 +8,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eff3f76350f52a99a3df5eec6b79c02a \
+                     "
+ DEPENDS = "libogg speexdsp"
  
+-SRC_URI = "http://downloads.xiph.org/releases/speex/speex-${PV}.tar.gz"
++SRC_URI = " \
++    http://downloads.xiph.org/releases/speex/speex-${PV}.tar.gz \
++    file://CVE-2026-116741.patch \
++"
+ UPSTREAM_CHECK_REGEX = "speex-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+ SRC_URI[sha256sum] = "4b44d4f2b38a370a2d98a78329fefc56a0cf93d1c1be70029217baae6628feea"
