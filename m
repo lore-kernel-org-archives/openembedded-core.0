@@ -1,92 +1,109 @@
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.44989.1795622597336096255
+Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.45196.1795622904926546450
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Nov 2026 08:03:17 -0800
+ Wed, 25 Nov 2026 08:08:25 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=hfeWC3bP;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=bc8gXQsq;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101a213726f9c-77e8cd6c-b2d4-4687-b155-f90021d7b6a6-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1795622596; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=ovpriJV+Voslyej8ooTBaMOmvBCXtJMMgCrhsQEVoc0=;
-	b=hfeWC3bPz1yq1N9iEj0zCCaguhqGKoDfaaNqmkScwQdpK5z6XBeT2QaCTIkUTXYB
-	2+USki9SIcqyaFwRW6h8p1In0YPzdBry+0x8T4neRr5HhwVDy8v32FUIqpuEZkT5T+D
-	NOum3vlYOdLb7O1X/k4pCUPl9cYuiOsUFSX/wWEo=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1795622596;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=ovpriJV+Voslyej8ooTBaMOmvBCXtJMMgCrhsQEVoc0=;
-	b=bc8gXQsqOe8HU4qrA2niZpLi6KQ2Nz2tKtCYZ4IRXROQS/VRqKXeBOfROFReCnyl
-	sfWcoDCCrzBjokLi9NUrNMGjJzjYiJKi4Zo1UTjb38wXXALbrylVj9rMcL7bXUXyZgY
-	Mb6nwyatH1G286xol1IXVCbr6ea+rVPHAYSg2pHY=
-From: patchtest@automation.yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][PATCH 2/6] hyperfine: add ptest support
-In-Reply-To: <20261125155508.3024814-3-tgamblin@baylibre.com>
-References: <20261125155508.3024814-3-tgamblin@baylibre.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a213726f9c-77e8cd6c-b2d4-4687-b155-f90021d7b6a6-000000@us-west-2.amazonses.com>
-Date: Wed, 25 Nov 2026 16:03:16 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.25-54.240.27.191
+ dkim=pass header.i=@baylibre.com header.s=google header.b=Mf73KrF3;
+ spf=pass (domain: baylibre.com, ip: 209.85.219.42, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-92134c4592dso52602016d6.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 08:08:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1795622904; x=1796227704; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vTyek/c4neB0gDIPIwEHmqvUkFEpUKNekSv2/nXMbvM=;
+        b=Mf73KrF3KaYAeKQ6z6d2Sqvp9SUkNkhAcv4D3iYFs9bITr7KHr+CqJ8mv4VGBpoMNw
+         2lRBvdjMQJqrmhTYnPO8WBNWjYaof5aUx7CLnCco2GBgsT0Yt4D+0nbGQGxJnVPxyTPB
+         9F1Dj5ITEZXkGJqpQlPUuXcvVCt2XlafJa07Hkpnl5aC2Xhr6tAziqyP0NDmLyB7ZJpR
+         BZj/vzW+y2vykzkqQ+cN96YiVJHKrTnkzu2uZsfk3DQyrUiKwKNbTMVlTzkXmPp+f7lV
+         slAEflbrQdA3wv1wFOv2rFu2RbEyG5db/u7ECZepXYTqRhKAGh6htoYU6ij73gg9Db2a
+         8wbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795622904; x=1796227704;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=vTyek/c4neB0gDIPIwEHmqvUkFEpUKNekSv2/nXMbvM=;
+        b=Gb1WQQWtVUAhhlUwLKHGqZpgjcP5n4/JdzF05ij/lBcGdzH2ouvjr132F0p2xQuvhf
+         0cSRNOoXxQMPQ7rArl9OdlyPBYKEvPbrrRjeTjiS9GwCD8pXW8le7fI0ZgvSz8waCPRs
+         4EBr6x3R3O8iSYiRQwLT+4Q+C+QUfOqudaceKcARbAFXpnf4mqE68b136fNxJ5CYXYjC
+         M3JLpARDdbxfZapAQKDhDMZUJpBT1AffPJ3tnwP5pE2BUXAK/DggHrOAxc3vIHRr/1eU
+         3WpSh56CXDDCP9hSsLCFwm2eR06pIwyE2dFoOCTIOglOtAQ2T1j1kjNjUMAASVx3GnV6
+         drtg==
+X-Gm-Message-State: APuU4Z+r42bSFMyASY7LsJIGHKRiVr3AN3riBEfNO+VNJsXNzKCfgMko
+	GZgJHexUpQXgP7/cJmQBi99ya9htekkuOLEZp44JUuGLHTpSuXmNvrhJgSZdLeyp8Cm79WnpHUf
+	+z7B6
+X-Gm-Gg: AZFdTZc9dnVEPvds8geei+ehgLpQFdwR73k8N3mDtyJ1yPe8t2+CGUj5TwpYEwxT2XR
+	zr4luoI2kxa3+ZM0xNdOCwxAaoze5POy0IEABWfZlpDAVNpmh4ItIKt6dw/gUZaxv399cr5jXJ8
+	5lSzajfsBLisOP4Dz9v456eD901cKMdgRKpykajrfnPddslvbQencDiaL8+MMuy7hLYQYvvWOzD
+	hWQQeaDhrbyZfqDrj108ia/7SIw1AInAMeJa3wEe8fHqpEy87IPWajxDfDUo7RVPQaqvyhrIlT3
+	ufIk+huQ2GuqM3s3IcpBw+Sz9ljELEwXcWQKmwMhk5+xR+Oi/0Qkdy4FsRA8NC6tpaRK+R0mJs6
+	y4UJiAuq/VlYdieENb6O9AsJcrjap2o/KDtwHIQlUMGFN/s26qJ7yDGrC47u0pAQNHJ/dVKGJ/s
+	+UsRF3tzrHO9AmdqQ2vA/xkbApqFpgBmqIsR23F5L+9szC3NFXpfKKYdA2ZgEnSMI/tz6PCnvKB
+	ROuNeLMdJojL+UT9Biq7px419Sjoo8okjEbqS7wdLi0wE+9A8TaafHon3ZD8hRoCUTNQiHCOpgX
+	9CDjh/a2EMbfhV3y5BvhwRJgcOEzbYs3SU4zH7atXzkgyDiK46MNO573Hv76JYyKVLVXDVooLJj
+	Q0UkQwYjV4A==
+X-Received: by 2002:a05:6214:495:b0:921:2fb5:2fe6 with SMTP id 6a1803df08f44-92134a861d9mr339663246d6.34.1795622903585;
+        Wed, 25 Nov 2026 08:08:23 -0800 (PST)
+Return-Path: <tgamblin@baylibre.com>
+Received: from megalith.oryx-coho.ts.net ([2001:1970:3847:e000:e8bd:ca0f:c232:9f10])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-921787f6847sm25849466d6.30.2026.11.25.08.08.22
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2026 08:08:22 -0800 (PST)
+From: Trevor Gamblin <tgamblin@baylibre.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [OE-core][PATCH 0/6 v2] add hyperfine recipe, improve ptest-cargo.bbclass
+Date: Wed, 25 Nov 2026 11:08:15 -0500
+Message-ID: <20261125160821.3028875-1-tgamblin@baylibre.com>
+X-Mailer: git-send-email 2.56.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 16:03:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251204
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 16:08:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251205
+Content-Type: text/plain; charset="utf-8"
 
---NextPart
-Content-Type: text/plain
+Compared to v1, fix the second patch ('hyperfine: add ptest support') to add a
+missing Signed-off-by and be more explicit about the AI usage there.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+This began as a "simple" attempt to add a recipe for hyperfine [1], which is a
+very handy benchmarking tool we could use for statistcal analysis on test
+targets. Once the ptests were added in a follow-up to the recipe patch, I
+started hitting issues with ptest-cargo.bbclass and the way that we're deploying
+test binaries, so the final four commits address that. The last patch changes
+the way we invoke chown - if everyone were using Python 3.13 or newer, we could
+stick with shutil, but this would break compatibility for older distros.
 
----
-Testing patch /home/patchtest/share/mboxes/2-6-hyperfine-add-ptest-support.patch
+All of this has been assisted by Claude Opus 5.5, except for
+'ptest-cargo.bbclass: improve test binary matching', which I ended up going to
+the docs and reading a bit for. I think that one is correct, but if someone has
+a better approach, let me know.
 
-FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: '0001-tests-allow-overriding-the-hyperfine-binary-with-HYP.patch' (test_patch.TestPatch.test_signed_off_by_presence)
+[1]: https://github.com/sharkdp/hyperfine
 
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+Trevor Gamblin (6):
+  hyperfine: add recipe
+  hyperfine: add ptest support
+  ptest-cargo.bbclass: improve test binary matching
+  ptest-cargo.bbclass: run do_install_ptest_cargo as a postfunc
+  librsvg: make ptest symlink creation idempotent
+  ptest-cargo.bbclass: don't follow symlinks when chowning
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+ meta/classes-recipe/ptest-cargo.bbclass       |  29 +-
+ meta/conf/distro/include/maintainers.inc      |   1 +
+ .../distro/include/ptest-packagelists.inc     |   1 +
+ ...riding-the-hyperfine-binary-with-HYP.patch |  39 +++
+ .../hyperfine/files/run-ptest                 |   7 +
+ .../hyperfine/hyperfine-crates.inc            | 274 ++++++++++++++++++
+ .../hyperfine/hyperfine_2.0.0.bb              |  32 ++
+ meta/recipes-gnome/librsvg/librsvg_2.63.4.bb  |   2 +-
+ 8 files changed, 369 insertions(+), 16 deletions(-)
+ create mode 100644 meta/recipes-devtools/hyperfine/files/0001-tests-allow-overriding-the-hyperfine-binary-with-HYP.patch
+ create mode 100644 meta/recipes-devtools/hyperfine/files/run-ptest
+ create mode 100644 meta/recipes-devtools/hyperfine/hyperfine-crates.inc
+ create mode 100644 meta/recipes-devtools/hyperfine/hyperfine_2.0.0.bb
 
----
+-- 
+2.56.1
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
