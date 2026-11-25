@@ -1,767 +1,339 @@
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.36435.1795585770878552793
+Received: from alln-iport-1.cisco.com (alln-iport-1.cisco.com [173.37.142.88])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.36544.1795586068027131640
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2026 21:49:30 -0800
+ Tue, 24 Nov 2026 21:54:28 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=GfKqv7I4;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=FEcwRoqh;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101a211408260-48e78018-af31-4a6c-baaa-40c0dcd14c1c-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1795585770;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=iL2O2njYW22UEH30ooC2l7MfDQRE76wTT56sV47/RZk=;
-	b=GfKqv7I4Y+uxAHmj12jxhJ77S1Gw80MFhlF+y0lvGUyBCivWHUZszOk5tv0ZKzCT
-	1cTYlUskQTUkqt+Yh0rnZZrGwknlj3PVe6bq2OqlioEx95l+7dwkmEFx6hlW1pMTTgk
-	FQUyBU6HnPmyMtlv5784VnILdmskHRHKPRnqBPZ0=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1795585770;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=iL2O2njYW22UEH30ooC2l7MfDQRE76wTT56sV47/RZk=;
-	b=FEcwRoqhHtGCruH3eUn4+B7cQdf5GW8Vhf3HF4b90QEk2fT0gKU+psfs399W6wh8
-	9AKQLL4mYyyoFtfrGpXvbiD91XVpR4E5vvpENZA2koctB7CZPgHmQqPicZLbZXHIgIr
-	6ujLx3TGme2KY8vobf4dA4sqBS3p2rrtoZKpZI58=
-Content-Type: multipart/mixed; boundary="===============1120044481886186807=="
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=VLRiK2W9;
+ spf=pass (domain: cisco.com, ip: 173.37.142.88, mailfrom: hthakar@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=6753; q=dns/txt;
+  s=iport01; t=1795586068; x=1796795668;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:mime-version;
+  bh=JAdNxqeEIb5eAOxLdEyD6DuXw+MdSeld2bEf4N5ez/4=;
+  b=VLRiK2W9un//FtWE+2g4hWFzI2bost4rXdokA0ppyaBma0qOSJIXj/UY
+   jQMg3XnsvoF7N+1tpUE5B8nkfRh99pmFBT2/tYiklpW7dePuLSdQDbLce
+   Gvwz76QlSJISdsMoW920ita+zq0f7N35mD2sqXdVpR2s9QW4D3FlgizA/
+   xw62SPMuraldlC1PnEIjB6/cynlJwrNpWBlNxdHh079G1Okfnyze2skGp
+   pTizT620qBFNpCZDD/E/siZStVwE1Sq8ynFx1kHvBFr23DBXM0YAZp0rK
+   3/RSzM9kCApYMVT4/2AjqV+pSKlbgBr3UC0xkrWTkq9Ph+GJ+Lfp80IEY
+   g==;
+X-CSE-ConnectionGUID: YS0Zsdq6RHGBnP4hXs4pFg==
+X-CSE-MsgGUID: R6oOGHzdRlCV5o7UNqCvaA==
+X-IPAS-Result: =?us-ascii?q?A0DCAwBydwZr/48QJK1agS6BK4E9MVOBCQKBERJJBIgfA?=
+ =?us-ascii?q?4UriH2eKYF+DwEBAQ0CLgEVDQQBAYUFAo4iAiY0CQ4BAgQDAgMBAQEBAQEBA?=
+ =?us-ascii?q?QEBAQEKAQEFAQEBAgEHBYEOE4ZPDZASAQEBAQMBERVSEAIBCBEEAQEBLicKH?=
+ =?us-ascii?q?QgCBAENBQgagmGCHRZBAwECDq5VcwKKHXiBATOBAeA3BhWBOIVCgwQbAQEFJ?=
+ =?us-ascii?q?klsgl6BIxgBhH4nGxuBcoFXgmo+gQWBXAQYgR0rhBSCMASCInoSG4I7CYwIA?=
+ =?us-ascii?q?QGBSYhSUnIiAyYzLAFVExcLBwWBJRAzAyovLSNLBS0dcAwnEikXER5YGwYFE?=
+ =?us-ascii?q?iAqQENbgRKBA12BKyhdAQIfRi0VgXUCglGBI10CAUlBDgdFUwklPgUSRyQiC?=
+ =?us-ascii?q?BIJARMaLAqBGjU8CSY/FQxbDAsaBRpHCAILAgx0KBEQEx0cJC8FGSY8GwqBD?=
+ =?us-ascii?q?CcdHhkOAikGFiELNG09NwYPGQMEgTUFkycHW4RVT4FEH4pfiGgujxKBfKF9C?=
+ =?us-ascii?q?iiDeYp+gSaNPogyF4QEjRSZWguYfSONZ5VhIYUNAgQCBAUCEQEBBoFoPIFZc?=
+ =?us-ascii?q?BU7gjMBATITQBkPlzfJJ3kCAToBAQcCBw4DC4FokACBfgEB?=
+IronPort-PHdr: A9a23:6cgrtRHfL6nQ2WGJ0TZr+p1GfhMY04WdBeZdwpMjj7QLdbys4NG4e
+ kfe/v5qylTOWNaT5/FFjr/Ourv7ESwb4JmHuWwfapEESRIfiMsXkgBhSM6IAEH2NrjrOgQxH
+ d9JUxlu+HTTDA==
+IronPort-Data: A9a23:rIftYal/uOtlqy++lFEBpaTo5gzYJ0RdPkR7XQ2eYbSJt1+Wr1Gzt
+ xJOCm2DOKyNN2LyL9BxbI+w9xsAv8XQy9RgTVNqrSk9F1tH+JHPbTi7wugcHM8zwunrFh8PA
+ xA2M4GYRCwMZiaC4Errav6x9yQUOZigHtLUEPTDNj16WThqQSIgjQMLs+Mii+aEu/Dha++2k
+ Y20+ZK31GONgWYubDtNsf/b8XuDgdyr0N8mlg1mDRx0lAe2e0k9VPo3Oay3Jn3kdYhYdsbSb
+ /rD1ryw4lTC9B4rDN6/+p6jGqHdauePVeQmoiM+t5mK2nCulARrukoIHKZ0hXNsttm8t4sZJ
+ OOhGnCHYVxB0qXkwIzxWvTDes10FfUuFLTveRBTvSEPpqHLWyOE/hlgMK05FbwjotRsDXgQz
+ 9w3AjY1MhCznL6u7r3uH4GAhux7RCXqFIobvnclyXTSCuwrBMidBa7L/tRfmjw3g6iiH96HO
+ JFfMmQpNUqGOkEUUrsUIMpWcOOAhmX/ej5RsnqepLE85C7YywkZPL3FYYOOIY3WGZoF9qqej
+ liY+EPWIgMWDti092eCrU+Kn8TRlAquDer+E5X9rJaGmma7wXQeDhATX1a3rfS1z0W5Qd93L
+ 00P5jFoqrA/8kGuRNTxUxC05nmesXYht8F4Guk+7kSJj6HT+QvcXjZCRT9aY9tgv8gzLdA36
+ mK0cxrSLWUHmJWeSGmW8fGfqjbaBMTfBTZqifMsJefd3+TenQ==
+IronPort-HdrOrdr: A9a23:w4F246+th51DTtJe0Vtuk+HYdr1zdoMgy1knxilNoENuA6+lfp
+ GV/MjziyWUtN9IYgBfpTnhAsW9qXO1z+8S3WBjB8bSYOCGghrmEGgM1/qZ/9SNIVybygcZ79
+ YeT0EcMqy/MbEZt7eG3ODQKb9Jq7f3ktHMuQ6d9QYQcegAUdAY0+4NMHfhLqQAfng/OXNWLu
+ v62uN34xCbVTA8aMO9CnMZX+7FieHqufvdCyIuNloM0iXLqSmnxoLbPnGjsys2Yndi0L0i+W
+ /Kn0jD4Lm/s/a08xnY12XCxZVbktnsx7J4dY2xY84uRQnEu0KNXsBMSreCtDc6rKWE81Axiu
+ TBpB8mIoBa927RVnvdm2qv5yDQlBIVr1Pyw16RhnXu5ebjQighNsZHjYVFNjPE9ksbus1m2q
+ 4j5RPai3MXN2KEoM3O3amOa/hYrDvznZPkq59Ls5Vra/pbVFaWl/1GwKoaKuZaIMuw0vFWLA
+ AnNrCu2B8RSyLbU1np+k9y3derQnM/Wj2CQkQEp4ip9gI+pgEi86Pdr/ZvwkvpM/kGOsR5D+
+ ioCNUbqJheCsARdq5zH+EHXI++DXHMWwvFNCaILU3gD7xvAQOGl3fb2sR82AiRQu1C8LIi3J
+ DaFF9Iv287fEzjTcWIwZ1Q6xjIBGGwRy7kxM1S74Vw/uSUfsumDQSTDFQ118ewqfQWBcPWH/
+ 61JZJNGvfmaW/jA5xA0QHyU4RbbXMeTMoWsNAmXE/mmLOHFqT68ujANPrDLrvkFjgpHmv5H3
+ sYRTD2YN5N60i6M0WIySQ5m0mdDHAX0agAZ5QypdJjvbTlHrc8xjQotQ==
+X-Talos-CUID: 9a23:JP6S62zqjTonQWfyf4QTBgUlIZgXaXHEkk3wDGW+MTppeKbJUXGfrfY=
+X-Talos-MUID: 9a23:in3muAvQqgVhMGgxPc2nvm9lE+hI8aiUDGszzJJZhu+dHjJ5EmLI
+X-IronPort-Anti-Spam-Filtered: true
+Received: from alln-l-core-06.cisco.com ([173.36.16.143])
+  by alln-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 25 Nov 2026 05:54:27 +0000
+Received: from alln-opgw-2.cisco.com (alln-opgw-2.cisco.com [173.37.147.250])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by alln-l-core-06.cisco.com (Postfix) with ESMTPS id EDE1D18000258
+	for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 05:54:25 +0000 (GMT)
+X-CSE-ConnectionGUID: dbOhrqIQRS2nGVbTrKBvGQ==
+X-CSE-MsgGUID: z6kIIvPJQ1G95xRBLrXgZQ==
+Authentication-Results: alln-opgw-2.cisco.com; dkim=pass (signature verified) header.i=@cisco.com
+X-IronPort-AV: E=Sophos;i="6.27,232,1787011200"; 
+   d="scan'208,217";a="68529366"
+Received: from mail-eastusazon11012009.outbound.protection.outlook.com (HELO BL0PR03CU003.outbound.protection.outlook.com) ([52.101.53.9])
+  by alln-opgw-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 25 Nov 2026 05:54:25 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=GnoypnBoa7b6xXUv3HotKYfVbw/RIcG0vMAsag9CToGsTCL+jPoagXCSdeQWgc81ZRA0s4kWw/N1O36J4pSfwbAWUXHXsU2x4MV5msVMt/qmo+WBdzwpyg1X7H2n9tGm/8sL8XBLOjARCMTTUNKnGwJQYKr7CjrWIy0ORk5SAeDDi7JzQ68wEKj3pJp7rGx3vMSaLsoUuOzpYEghAxBFFPK/GKPIG02EnMdOVrFCZ4S/KoInfhxo7GyGlnw9aMZWzOqYZ8Zp60Oyqq3QhPeSIBMn2HN+ITmG1ZgO8d09p9Kf21Fl3aM8rCbFu4oxTHKKHWCZnt8Yh7tKYZ1i1cK84A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=JAdNxqeEIb5eAOxLdEyD6DuXw+MdSeld2bEf4N5ez/4=;
+ b=oGR8xqtPm+IJn6AUxPknk1URaRooAu20wTowytvRc6/fmBeOaX8JKhoKL/t0C63bnS2vHWwKNk9Wx/8hRbQvWxCYrL38ize/DjcygiCSXm7V4a0qySctvMoo8AXNQzpZPbLNAG3xp7j2DQ/ryQuIsUALXRmuTkozsQK+4hMVTRZM/mMTqlU1Vi9WNXg1q0o29yCSMIEznvRIjjpC/iGoCbvhrrFmFXg82o47XpbFv8RRRvy03kBeUuWaw03O+SPsLQohVgLfJ+byiAG0fUSguJu1b0vi0BfyiYM3Y3jajJ/yE6FskYaGAY6z3wXGgeWLAiVElQzndVpgzAgxsR/YfA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cisco.com; dmarc=pass action=none header.from=cisco.com;
+ dkim=pass header.d=cisco.com; arc=none
+Received: from PH0PR11MB5952.namprd11.prod.outlook.com (2603:10b6:510:147::7)
+ by DS6PR11MB458385.namprd11.prod.outlook.com (2603:10b6:8:499::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.639.14; Wed, 25 Nov
+ 2026 05:54:23 +0000
+Received: from PH0PR11MB5952.namprd11.prod.outlook.com
+ ([fe80::baf6:8034:a18e:56e1]) by PH0PR11MB5952.namprd11.prod.outlook.com
+ ([fe80::baf6:8034:a18e:56e1%4]) with mapi id 15.21.0639.012; Wed, 25 Nov 2026
+ 05:54:23 +0000
+From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)"
+	<hthakar@cisco.com>
+To: Yoann Congal <yoann.congal@smile.fr>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: "xe-linux-external (Internal Group)" <xe-linux-external@cisco.com>
+Subject: Re: [OE-core][wrynose][PATCH 01/10] openssh: Fix CVE-2026-106584
+Thread-Topic: [OE-core][wrynose][PATCH 01/10] openssh: Fix CVE-2026-106584
+Thread-Index: AQHdXSHLjg7gDsBQhU+IrpXDsy9xObcFOYMAgBvH+6OABPH7gIAR2kYAgAa486g=
+Date: Wed, 25 Nov 2026 05:54:23 +0000
+Message-ID: <PH0PR11MB59520D6D4347D955A82201BAAD432@PH0PR11MB5952.namprd11.prod.outlook.com>
+References: <20261016035236.442896-1-hthakar@cisco.com>
+ <20261016035236.442896-2-hthakar@cisco.com>
+ <DM91CIFZHG6C.1EYHKXIN5ULNT@smile.fr>
+ <PH7PR11MB8598B4AAA920FDDFE1174602AD762@PH7PR11MB8598.namprd11.prod.outlook.com>
+ <DMQR3DP72ES8.3KANJDXOTSO63@smile.fr> <DN0EZPT21YQ7.72UEI7OFXYMK@smile.fr>
+In-Reply-To: <DN0EZPT21YQ7.72UEI7OFXYMK@smile.fr>
+Accept-Language: en-IN, en-US
+Content-Language: en-IN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PH0PR11MB5952:EE_|DS6PR11MB458385:EE_
+x-ms-office365-filtering-correlation-id: 790834da-8d5f-455f-271e-08df4ab88e3d
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|23010399003|18002099003|22082099003|261009223027099003|13003099007|8096899003|261022105027099003|261026140227099003|261026121527099003|38070700021|261022113327099003|261022075727099003|261028144727099003|56012099006|4143699003|10067099003|11063799006;
+x-microsoft-antispam-message-info: amOb5kbjTTOmyWY9bFyhrhcOAKlZYGy/xDP+9UPf3qKKbC7eA5qW2VKcBUpfM4/klJFHmtncnWzutWAK90GQAeMYD6PU0OEELnyE3RUq0H3ZYSDacwV2yOBEn/i3/qcUrTBZ6i6V6PJOl5vLQPZrhUYNIo6QDVXIznzjdOzNG2NgaoxKg7yUKcU8eltOrPQj8bbIqcgIsl/vXR5Sjsk65KNGRJtAUkyZENMK4Iy/LsJanXG9FOZa1/X9gZCqjN/if+IK6MS9PAvDo6GvGzVte08V3Z8GM1wmzM3uu/CRQx2gko4zaOepWuxARDvvBfWbAHmFWydv/2WXg/GT3TLvgSP2L2E7HvjH4nCi/H/tZuMnrtzi+XZZ6eL0qG/aMs4gsEUKsx95rtFh1gn9T8wdqIUgkuY+9dZLzbOxZHtcfVtKMQlR7F69nxmvgxH7v4Hcs1aTxy1Va+ZQioK8PnAnHKxVm7NFBBdoOYP9UknWIHraXNWsLUcGBh8qNuxaPENMPeHksBzh+JPwCQYrULtCZn0tqgd+8LtmuO1/ReX5/Gf7wm/Sdq7djWw3JzFJjS6+p/ALJ+u/jWwMpPT9MabNt+DJpNOtIcxB1FL0zBbKNWQIf55aBSRIGAw5emg9CMPkUJwaHBtJKZETdueCtao0BKZATMjhN6eHN034Az22PCJmZFbf33UrPZQNEebCIoQ8
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5952.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(23010399003)(18002099003)(22082099003)(261009223027099003)(13003099007)(8096899003)(261022105027099003)(261026140227099003)(261026121527099003)(38070700021)(261022113327099003)(261022075727099003)(261028144727099003)(56012099006)(4143699003)(10067099003)(11063799006);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?YCnmAuC8tEs18atnWvmO/prboKrMTPCR8FR+oLtnlC/ZavJCCNjEz6sm90?=
+ =?iso-8859-1?Q?c50Hv0s6FtwpzRkzaSWgYYEH9byIoffg7M/sUCYZ3N3wRKhkp7hPGMxeMx?=
+ =?iso-8859-1?Q?08gGnMuvYctV6s3J5Dr2rNkafNN3fmKQ6hORvvjf4xb4bjy1HoPhXs/ktq?=
+ =?iso-8859-1?Q?RCNyl4IS7yjWjJn5A3G6UVRDLGjvDyfXERPxv75I33IMuyA7IE+JCO3FI/?=
+ =?iso-8859-1?Q?J1vCofj1g8tryYAvZC9K6JeOlOBi6ktOBETYo82BBhpMyVJpUlfEVOy+MN?=
+ =?iso-8859-1?Q?Fk+/b38xaxsq/bu8jqSv0iMn0Fbh7Ha59gS5tbt+nwDhBin+hl1mo82315?=
+ =?iso-8859-1?Q?qL5wd1NXMkI/FwCKjngbdnBfrHgXxQja5LFPLychwA/Phnl8X4rsTfdZ58?=
+ =?iso-8859-1?Q?Hh7JpX6iHFqfwsGvuXogPy8tai0wQOf20b6bGnsr24LX1fbVhYuuTPg+6L?=
+ =?iso-8859-1?Q?aH5KNeNr/ftV55osOxLzZy6FwDHuY0Gnwv3rS+nEFneGk30CEw7EQEokTu?=
+ =?iso-8859-1?Q?dLoQruRdJltnWuL0IxEVmHBFa5i6vhKPXvhy3lTB4HxZMbGo8WjVN4BYvR?=
+ =?iso-8859-1?Q?enmcyufv/dgjOPtzbpRuaqCG3VpbAcJKKyDBv08jY0AOS4jtbFL736JRS5?=
+ =?iso-8859-1?Q?et9EXXJbuZoq9yorZdSFuQZoOeMxrFxga3yyHll3YPH5wxIf3RH3vt0k2Q?=
+ =?iso-8859-1?Q?aAqiSMHBBPYZbK3/v7yKxas4H0Bj/WgQIumIBeb123Ut9g+TUto8ZyE0O8?=
+ =?iso-8859-1?Q?Y2dQ+ADowv+bbX3N7WruSfoJ+xXdS4xpY2y+TXDBGWgNXJw52iSm/Y3+vU?=
+ =?iso-8859-1?Q?H3DF6Wo1g122wdEECC7dRcZspF4e1m259TWehgw91wkaO9VNDeZE0JrZWB?=
+ =?iso-8859-1?Q?Qo0rivIR/nJUtLZIblUuB8/dLKGKLZjG8p2W8bWGourg4x/zX4kssvE2iK?=
+ =?iso-8859-1?Q?4b0UsIqSrFmY2sKstC8seY5lM5T9/FK4A038NtUS0M/zwAF7FlLDOlAWv2?=
+ =?iso-8859-1?Q?Na+nMcDjHlqk7H2M6mCxT6I0ctqubkpmeWJK1vFHRgOpIBL/vIaKub8jgs?=
+ =?iso-8859-1?Q?ODRXNh+VeJXGCKP2aeK07/oid5EMN9MAwAZfdsGa0rSHH8idwKVmsQTLtJ?=
+ =?iso-8859-1?Q?fDP727otkOOjn/FVIbCtTQtSxdkDeQRm8p56TieeafvW4lAcowHHz0GsS3?=
+ =?iso-8859-1?Q?/sn8pkrZVdHYhN+IZp0k0NjX9JsStMCcrZmi0MCvZ/SlgvHwvtiXLUjHnz?=
+ =?iso-8859-1?Q?Q4M/xG1T/nra1TExSlbtITi+SsxpsMb2LNoj0tK6W/I3TKBHAB9pq7TB1X?=
+ =?iso-8859-1?Q?KwAbfwUIlsIFaL2PL3HEfSkatKX/OLEAdER2nfELLi5AVlCCLsXcoj/4Rf?=
+ =?iso-8859-1?Q?REgLKrU/gkMAwYnC5PWvuvP6ZP0tizLZO8uEM3E9D3IjNiMkrXYapXLksZ?=
+ =?iso-8859-1?Q?hWZRNee1Dv8nIzXXyb7p6rit7QIeyYsnxPhtsRGNiszmmXmH8ahL8iZjIR?=
+ =?iso-8859-1?Q?Uu59FSDsjKeBGshU/H91g32lApj48vvaV46XWEZBNDVPkIuW/dU/S1QRIq?=
+ =?iso-8859-1?Q?m+9orn6k+6gfoabk+J3PuXiyhlZm2vFI8FlGVi2zoKkPmZZQQVmLVNZJ6C?=
+ =?iso-8859-1?Q?cD69uwORXGTip1jES/vBW+J9gvNyrc1KmbXrsOXk/fEcC+zmnKJn3Wq86z?=
+ =?iso-8859-1?Q?Pkmgtys8mK3WdpRk9JuSHzUtrnuvm1ojKbtOJk21MIzcZCR52wKMe/9cun?=
+ =?iso-8859-1?Q?zTU6TY8FSU0m3MaetHuSf1LJkEX4RWOmz157mqNOB9M5t2?=
+Content-Type: multipart/alternative;
+	boundary="_000_PH0PR11MB59520D6D4347D955A82201BAAD432PH0PR11MB5952namp_"
 MIME-Version: 1.0
-From: auh@yoctoproject.org
-To: Venkatasainath Ravikanti <venkatasainath.ravikanti@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] flex: upgrading to 2.7.9 FAILED
-Message-ID: <010101a211408260-48e78018-af31-4a6c-baaa-40c0dcd14c1c-000000@us-west-2.amazonses.com>
-Date: Wed, 25 Nov 2026 05:49:30 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.25-54.240.27.192
+X-Exchange-RoutingPolicyChecked: LtcJL5J1Uv79am8OSSxDvD2/SLIUVpgV7hrm11IjbRhGLofSnYzZhR15te7r/ctyt6DkdDxMA1wKP84gklBpmds5CeYx4Uw4bnRmlqq1XxL0E2GpaqBDCRx6vhzYR2Ke6IfyeAsgFjYv3CR3gnGLp7Xc26dmeb/k9OyT7Pxa8kecNgW/j6w12plUBIUpj8RrveXhmX4ay7XN1scIqSZUBkWnI01tybxD0q+i/Eyc+EvEyR+sgCxEpNrQrF5y81DlRTSQm3ZW9Zd4BIoMounUl3o+jwbiCuQ6xTOzG39jhsTJopbaPAPCz29FLF/g/VJ+YSP41JGpTe6vu8CJzonqVw==
+X-OriginatorOrg: cisco.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5952.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 790834da-8d5f-455f-271e-08df4ab88e3d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Nov 2026 05:54:23.0146
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ZvlN2wRh5RDbhdSH6oGO+2yNVnTDjFsWmbuFgAnAHptykqAVVdzXB75R8+quD+duhwwslFLftA0Up9BuIlk3FQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS6PR11MB458385
+X-Outbound-Client-TLS: ANONYMOUS;alln-opgw-2.cisco.com [173.37.147.250];TLSv1.3;TLS_AES_256_GCM_SHA384;256
+X-Outbound-SMTP-Client: 173.37.147.250, alln-opgw-2.cisco.com
+X-Outbound-Node: alln-l-core-06.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 05:49:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251151
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 05:54:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251160
 
---===============1120044481886186807==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+--_000_PH0PR11MB59520D6D4347D955A82201BAAD432PH0PR11MB5952namp_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Yoann,
+The corresponding backport series for blacksail has now been submitted upst=
+ream [1].
+As requested, I have also resubmitted the patch series for wrynose [2]. Cou=
+ld you please review the updated series?
+[1] https://patchwork.yoctoproject.org/project/oe-core/list/?series=3D53833
+[2] https://patchwork.yoctoproject.org/project/oe-core/list/?series=3D53876
+Regards,
+Hetvi
+
+________________________________
+From: Yoann Congal <yoann.congal@smile.fr>
+Sent: Saturday, November 21, 2026 04:38
+To: Yoann Congal <yoann.congal@smile.fr>; Hetvi Thakar -X (hthakar - E INFO=
+CHIPS PRIVATE LIMITED at Cisco) <hthakar@cisco.com>; openembedded-core@list=
+s.openembedded.org <openembedded-core@lists.openembedded.org>
+Cc: xe-linux-external (Internal Group) <xe-linux-external@cisco.com>
+Subject: Re: [OE-core][wrynose][PATCH 01/10] openssh: Fix CVE-2026-106584
+
+On Mon Nov 9, 2026 at 3:30 PM CET, Yoann Congal wrote:
+> On Fri Nov 6, 2026 at 12:00 PM CET, Hetvi Thakar -X (hthakar - E INFOCHIP=
+S PRIVATE LIMITED at Cisco) wrote:
+>> Hi Yoann,
+>
+> Hello,
+>
+>> I have submitted the corresponding OpenSSH backport patches for
+>> blacksail upstream [1] .
+>> Could you please review  the wrynose series when you have a chance?
+>> [1] [blacksail] openssh: Upgrade 10.5p1 -> 10.6p1 -
+>> Patchwork<https://patchwork.yoctoproject.org/project/oe-core/patch/20261=
+105042209.1168511-1-hthakar@cisco.com/>
+>
+> I had to reject this blacksail patch. This mean that I can't
+> review/accept this wrynose series until equivalent fixes are sent to
+> blacksail by backports.
 
 Hello,
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *flex* to *2.7.9* has Failed (devtool error).
-
-Detailed error information:
-
-Running 'devtool upgrade' for recipe flex failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 2014 entries from dependency cache.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.20.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.1.99+snapshot-4d7ae0f606e6c1aa5b99cd4c84f37188ff9c422b"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:4d7ae0f606e6c1aa5b99cd4c84f37188ff9c422b"
-meta-yocto-bsp       
-meta-poky            = "master:6ee74fbbe3a36dabb7f8f85ee10691eaf8aa3252"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 964 .bb files complete (0 cached, 964 parsed). 2015 targets, 43 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.20.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.1.99+snapshot-4d7ae0f606e6c1aa5b99cd4c84f37188ff9c422b"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:4d7ae0f606e6c1aa5b99cd4c84f37188ff9c422b"
-meta-yocto-bsp       
-meta-poky            = "master:6ee74fbbe3a36dabb7f8f85ee10691eaf8aa3252"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:  23% |########                            | ETA:  0:00:00
-Adding changed files:  47% |#################                   | ETA:  0:00:00
-Adding changed files:  71% |#########################           | ETA:  0:00:00
-Adding changed files:  95% |##################################  | ETA:  0:00:00
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://github.com/westes/flex/releases/download/v2.7.9/flex-2.7.9.tar.gz...
-INFO: Rebasing devtool onto 9d0b4611bb26b08bf23c3300ea92b5968548e7e7
-WARNING: Command 'git rebase 9d0b4611bb26b08bf23c3300ea92b5968548e7e7' failed:
-Auto-merging configure.ac
-CONFLICT (content): Merge conflict in configure.ac
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/flex
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/flex/flex_2.7.9.bb
-INFO: Changelog extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/flex.txt
-INFO: Changelog metadata written to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/flex.json
-
-
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+I will now drop this series. Please send a new submission if the above
+situation changes.
 
 Regards,
-The Upgrade Helper
---===============1120044481886186807==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="flex-changelog.txt"
-
-ghcr.io/westes/flex-
-ci@sha256:e5a43387e92a1bfc965d7a87c468ffbb78b56f53b8ef1e892b9a835f1e4a6770.
-
-ghcr.io/westes/flex-
-ci@sha256:8c03fea0348c51fd06397a7a05ae389c04f84378099718a52c231a183fc49659.
-
-ghcr.io/westes/flex-
-ci@sha256:79746b114f8033cf89f3b06b9eb0b3da52f7f5ee6bc9dcb98e93e9e051a312cf.
-
-ghcr.io/westes/flex-
-ci@sha256:ec845185ff56c0a0ae1e9c83862d3f7bf626f63335b1cc895a7b93aed40fa8d8.
-
-ghcr.io/westes/flex-
-ci@sha256:83a5849088fb651a5cae4958c97c4de4496aeda904279fa445a71e98ad5935f0.
-
-ghcr.io/westes/flex-
-ci@sha256:8fabfd5186659b13b3c769a0b7d4b798862fabee59160c76aa22c0f0124e004b.
-
-ghcr.io/westes/flex-
-ci@sha256:89a63cd98e8c377a3041278518a1043084e0c08509100cfb9c4e651155ca5303.
-
-[github/codeql-action/analyze](https://github.com/github/codeql-action).Updates
-`github/codeql-action/init` from 4.39.1 to 4.39.3 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/9b3254085494b55a0f7c4c
-2b3d2d52cc712ce370...33d7b85da1a04171e211befe2c739303b9a4c066)Updates
-`github/codeql-action/analyze` from 4.39.1 to 4.39.3 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/9b3254085494b55a0f7c4c
-2b3d2d52cc712ce370...33d7b85da1a04171e211befe2c739303b9a4c066)--- updated-
-dependencies: - dependency-name: github/codeql-action/init   dependency-version:
-4.39.3   dependency-type: direct:production   update-type: version-
-update:semver-patch   dependency-group: github-actions - dependency-name:
-github/codeql-action/analyze   dependency-version: 4.39.3   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[github/codeql-action/analyze](https://github.com/github/codeql-action).Updates
-`github/codeql-action/init` from 4.37.4 to 4.39.1 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/f205ea1c3313d32999d8d6
-a48b4f6530d4437b38...9b3254085494b55a0f7c4c2b3d2d52cc712ce370)Updates
-`github/codeql-action/analyze` from 4.37.4 to 4.39.1 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/f205ea1c3313d32999d8d6
-a48b4f6530d4437b38...9b3254085494b55a0f7c4c2b3d2d52cc712ce370)--- updated-
-dependencies: - dependency-name: github/codeql-action/init   dependency-version:
-4.39.1   dependency-type: direct:production   update-type: version-
-update:semver-minor   dependency-group: github-actions - dependency-name:
-github/codeql-action/analyze   dependency-version: 4.39.1   dependency-type:
-direct:production   update-type: version-update:semver-minor   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[github/codeql-action/analyze](https://github.com/github/codeql-action).Updates
-`github/codeql-action/init` from 4.37.3 to 4.37.4 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/e4fba868fa4b1b91e1fdab
-776edc8cfbe6e9fb81...f205ea1c3313d32999d8d6a48b4f6530d4437b38)Updates
-`github/codeql-action/analyze` from 4.37.3 to 4.37.4 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/e4fba868fa4b1b91e1fdab
-776edc8cfbe6e9fb81...f205ea1c3313d32999d8d6a48b4f6530d4437b38)--- updated-
-dependencies: - dependency-name: github/codeql-action/init   dependency-version:
-4.37.4   dependency-type: direct:production   update-type: version-
-update:semver-patch   dependency-group: github-actions - dependency-name:
-github/codeql-action/analyze   dependency-version: 4.37.4   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[github/codeql-action/analyze](https://github.com/github/codeql-action).Updates
-`actions/checkout` from 7.0.0 to 7.0.1 - [Release
-notes](https://github.com/actions/checkout/releases) -
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/9c091bb21b7c1c1d1991bb908d
-89e4e9dddfe3e0...3d3c42e5aac5ba805825da76410c181273ba90b1)Updates
-`github/codeql-action/init` from 4.36.3 to 4.37.3 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/54f647b7e1bb85c95cddab
-cd46b0c578ec92bc1a...e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81)Updates
-`github/codeql-action/analyze` from 4.36.3 to 4.37.3 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/54f647b7e1bb85c95cddab
-cd46b0c578ec92bc1a...e4fba868fa4b1b91e1fdab776edc8cfbe6e9fb81)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-version: 7.0.1
-dependency-type: direct:production   update-type: version-update:semver-patch
-dependency-group: github-actions - dependency-name: github/codeql-action/init
-dependency-version: 4.37.3   dependency-type: direct:production   update-type:
-version-update:semver-minor   dependency-group: github-actions - dependency-
-name: github/codeql-action/analyze   dependency-version: 4.37.3   dependency-
-type: direct:production   update-type: version-update:semver-minor   dependency-
-group: github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[github/codeql-action/analyze](https://github.com/github/codeql-action).Updates
-`github/codeql-action/init` from 4.36.2 to 4.36.3 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/8aad20d150bbac5944a9f9
-d289da16a4b0d87c1e...54f647b7e1bb85c95cddabcd46b0c578ec92bc1a)Updates
-`github/codeql-action/analyze` from 4.36.2 to 4.36.3 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/8aad20d150bbac5944a9f9
-d289da16a4b0d87c1e...54f647b7e1bb85c95cddabcd46b0c578ec92bc1a)--- updated-
-dependencies: - dependency-name: github/codeql-action/init   dependency-version:
-4.36.3   dependency-type: direct:production   update-type: version-
-update:semver-patch   dependency-group: github-actions - dependency-name:
-github/codeql-action/analyze   dependency-version: 4.36.3   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/df4cb1c069e1874edd31b4311f
-1884172cec0e10...9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-version: 7.0.0
-dependency-type: direct:production   update-type: version-update:semver-major
-dependency-group: github-actions ...  Signed-off-by: dependabot[bot]
-<support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/87557b9c84dde89fdd9b10
-e88954ac2f4248e463...8aad20d150bbac5944a9f9d289da16a4b0d87c1e)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-version:
-4.36.2   dependency-type: direct:production   update-type: version-
-update:semver-patch   dependency-group: github-actions ...  Signed-off-by:
-dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/de0fac2e4500dabe0009e67214
-ff5f5447ce83dd...df4cb1c069e1874edd31b4311f1884172cec0e10)Updates
-`github/codeql-action` from 4.36.0 to 4.36.1 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/7211b7c8077ea37d8641b6
-271f6a365a22a5fbfa...87557b9c84dde89fdd9b10e88954ac2f4248e463)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-version: 6.0.3
-dependency-type: direct:production   update-type: version-update:semver-patch
-dependency-group: github-actions - dependency-name: github/codeql-action
-dependency-version: 4.36.1   dependency-type: direct:production   update-type:
-version-update:semver-patch   dependency-group: github-actions ...  Signed-off-
-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/9e0d7b8d25671d64c341c1
-9c0152d693099fb5ba...7211b7c8077ea37d8641b6271f6a365a22a5fbfa)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-version:
-4.36.0   dependency-type: direct:production   update-type: version-
-update:semver-minor   dependency-group: github-actions ...  Signed-off-by:
-dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/e46ed2cbd01164d986452f
-91f178727624ae40d7...9e0d7b8d25671d64c341c19c0152d693099fb5ba)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-version:
-4.35.4   dependency-type: direct:production   update-type: version-
-update:semver-patch   dependency-group: github-actions ...  Signed-off-by:
-dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/95e58e9a2cdfd71adc6e03
-53d5c52f41a045d225...e46ed2cbd01164d986452f91f178727624ae40d7)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-version:
-4.35.3   dependency-type: direct:production   update-type: version-
-update:semver-patch   dependency-group: github-actions ...  Signed-off-by:
-dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/c10b8064de6f491fea5242
-54123dbe5e09572f13...95e58e9a2cdfd71adc6e0353d5c52f41a045d225)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-version:
-4.35.2   dependency-type: direct:production   update-type: version-
-update:semver-patch   dependency-group: github-actions ...  Signed-off-by:
-dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/c793b717bc78562f491db7
-b0e93a3a178b099162...c10b8064de6f491fea524254123dbe5e09572f13)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-version:
-4.35.1   dependency-type: direct:production   update-type: version-
-update:semver-minor   dependency-group: github-actions ...  Signed-off-by:
-dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/89a39a4e59826350b863aa
-6b6252a07ad50cf83e...c793b717bc78562f491db7b0e93a3a178b099162)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-version:
-4.32.5   dependency-type: direct:production   update-type: version-
-update:semver-patch   dependency-group: github-actions ...  Signed-off-by:
-dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/08c6903cd8c0fde910a37f8832
-2edcfb5dd907a8...de0fac2e4500dabe0009e67214ff5f5447ce83dd)Updates
-`github/codeql-action` from 3.29.10 to 4.32.4 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/96f518a34f7a8700180577
-16cc4d7a5c014bd61c...89a39a4e59826350b863aa6b6252a07ad50cf83e)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-version: 6.0.2
-dependency-type: direct:production   update-type: version-update:semver-major
-dependency-group: github-actions - dependency-name: github/codeql-action
-dependency-version: 4.32.4   dependency-type: direct:production   update-type:
-version-update:semver-major   dependency-group: github-actions ...  Signed-off-
-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/11bd71901bbe5b1630ceea73d2
-7597364c9af683...08c6903cd8c0fde910a37f88322edcfb5dd907a8)Updates
-`github/codeql-action` from 3.28.18 to 3.29.10 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/ff0a06e83cb2de871e5a09
-832bc6a81e7276941f...96f518a34f7a870018057716cc4d7a5c014bd61c)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-version: 5.0.0
-dependency-type: direct:production   update-type: version-update:semver-major
-dependency-group: github-actions - dependency-name: github/codeql-action
-dependency-version: 3.29.10   dependency-type: direct:production   update-type:
-version-update:semver-minor   dependency-group: github-actions ...  Signed-off-
-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/1b549b9259bda1cb5ddde3
-b41741a82a2d15a841...ff0a06e83cb2de871e5a09832bc6a81e7276941f)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-version:
-3.28.18   dependency-type: direct:production   update-type: version-
-update:semver-patch   dependency-group: github-actions ...  Signed-off-by:
-dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/6bb031afdd8eb862ea3fc1
-848194185e076637e5...1b549b9259bda1cb5ddde3b41741a82a2d15a841)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/b6a472f63d85b9c78a3ac5
-e89422239fc15e9b3c...6bb031afdd8eb862ea3fc1848194185e076637e5)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/48ab28a6f5dbc2a99bf1e0
-131198dd8f1df78169...b6a472f63d85b9c78a3ac5e89422239fc15e9b3c)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/f09c1c0a94de965c15400f
-5634aa42fac8fb8f88...48ab28a6f5dbc2a99bf1e0131198dd8f1df78169)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-minor   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/4f3212b61783c3c68e8309
-a0f18a699764811cda...f09c1c0a94de965c15400f5634aa42fac8fb8f88)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/eef61447b9ff4aafe5dcd4e0bb
-f5d482be7e7871...11bd71901bbe5b1630ceea73d27597364c9af683)Updates
-`github/codeql-action` from 3.26.13 to 3.27.1 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/f779452ac5af1c261dce03
-46a8f964149f49322b...4f3212b61783c3c68e8309a0f18a699764811cda)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-minor   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/d632683dd7b4114ad314bca155
-54477dd762a938...eef61447b9ff4aafe5dcd4e0bbf5d482be7e7871)Updates
-`github/codeql-action` from 3.26.11 to 3.26.13 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/6db8d6351fd0be61f9ed8e
-bd12ccd35dcec51fea...f779452ac5af1c261dce0346a8f964149f49322b)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/e2b3eafc8d227b0241d48b
-e5f425d47c2d750a13...6db8d6351fd0be61f9ed8ebd12ccd35dcec51fea)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/692973e3d937129bcbf40652eb
-9f2f61becf3332...d632683dd7b4114ad314bca15554477dd762a938)Updates
-`github/codeql-action` from 3.26.8 to 3.26.10 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/294a9d92911152fe08befb
-9ec03e240add280cb3...e2b3eafc8d227b0241d48be5f425d47c2d750a13)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-minor   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/8214744c546c1e5c8f03dd
-e8fab3a7353211988d...294a9d92911152fe08befb9ec03e240add280cb3)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/2c779ab0d087cd7fe7b826
-087247c2c81f27bfa6...8214744c546c1e5c8f03dde8fab3a7353211988d)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/429e1977040da7a23b6822
-b13c129cd1ba93dbb2...2c779ab0d087cd7fe7b826087247c2c81f27bfa6)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/eb055d739abdc2e8de2e5f
-4ba1a8b246daa779aa...429e1977040da7a23b6822b13c129cd1ba93dbb2)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/afb54ba388a7dca6ecae48
-f608c4ff05ff4cc77a...eb055d739abdc2e8de2e5f4ba1a8b246daa779aa)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-minor   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/b611370bb5703a7efb587f
-9d136a52ea24c5c38c...afb54ba388a7dca6ecae48f608c4ff05ff4cc77a)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/23acc5c183826b7a8a97bc
-e3cecc52db901f8251...b611370bb5703a7efb587f9d136a52ea24c5c38c)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/a5ac7e51b41094c92402da3b24
-376905380afc29...692973e3d937129bcbf40652eb9f2f61becf3332)Updates
-`github/codeql-action` from 3.25.8 to 3.25.10 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/2e230e8fe0ad3a14a340ad
-0815ddb96d599d2aff...23acc5c183826b7a8a97bce3cecc52db901f8251)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/f079b8493333aace61c814
-88f8bd40919487bd9f...2e230e8fe0ad3a14a340ad0815ddb96d599d2aff)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/9fdb3e49720b44c48891d0
-36bb502feb25684276...f079b8493333aace61c81488f8bd40919487bd9f)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/44c2b7a8a4ea60a981eaca3cf9
-39b5f4305c123b...a5ac7e51b41094c92402da3b24376905380afc29)Updates
-`github/codeql-action` from 3.25.5 to 3.25.6 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/b7cec7526559c32f161647
-6ff32d17ba4c59b2d6...9fdb3e49720b44c48891d036bb502feb25684276)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/0ad4b8fadaa221de15dcec353f
-45205ec38ea70b...44c2b7a8a4ea60a981eaca3cf939b5f4305c123b)Updates
-`github/codeql-action` from 3.25.3 to 3.25.5 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/d39d31e687223d841ef683
-f52467bd88e9b21c14...b7cec7526559c32f1616476ff32d17ba4c59b2d6)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/1d96c772d19495a3b5c517cd2b
-c0cb401ea0529f...0ad4b8fadaa221de15dcec353f45205ec38ea70b)Updates
-`github/codeql-action` from 3.25.1 to 3.25.3 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/c7f9125735019aa87cfc36
-1530512d50ea439c71...d39d31e687223d841ef683f52467bd88e9b21c14)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-https://lists.defectivebydesign.org/archive/html/help-flex/2013-01/msg00000.html
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/9bb56186c3b09b4f86b1c65136
-769dd318469633...1d96c772d19495a3b5c517cd2bc0cb401ea0529f)Updates
-`github/codeql-action` from 3.24.10 to 3.25.1 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/4355270be187e1b672a7a1
-c7c7bae5afdc1ab94a...c7f9125735019aa87cfc361530512d50ea439c71)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-minor   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/1b1aada464948af03b9508
-97e5eb522f92603cc2...4355270be187e1b672a7a1c7c7bae5afdc1ab94a)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/05963f47d870e2cb19a537
-396c1f668a348c7d8f...1b1aada464948af03b950897e5eb522f92603cc2)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/012739e5082ff0c22ca6d6
-ab32e07c36df03c4a4...e5f05b81d5b6ff8cfa111c80c22c5fd02a384118)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-minor   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/407ffafae6a767df3e0230
-c3df91b6443ae8df75...c0d1daa7f7e14667747d73a7dbbe8c074bc8bfe2)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/74483a38d39275f33fcff5
-f35b679b5ca4a26a99...407ffafae6a767df3e0230c3df91b6443ae8df75)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/8ade135a41bc03ea155e62e844
-d188df1ea18608...b4ffde65f46336ab88eb53be808477a3936bae11)Updates
-`github/codeql-action` from 2.22.3 to 2.22.5 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/0116bc2df50751f9724a2e
-35ef1f24d22f90e4e1...74483a38d39275f33fcff5f35b679b5ca4a26a99)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/ddccb873888234080b77e9
-bc2d4764d5ccaaccf9...0116bc2df50751f9724a2e35ef1f24d22f90e4e1)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-minor   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/actions/checkout/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/actions/checkout/compare/3df4ab11eba7bda6032a0b82a6
-bb43b11571feac...8ade135a41bc03ea155e62e844d188df1ea18608)Updates
-`github/codeql-action` from 2.21.7 to 2.21.9 - [Release
-notes](https://github.com/github/codeql-action/releases) -
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/04daf014b50eaf774287bf
-3f0f1869d4b4c4b913...ddccb873888234080b77e9bc2d4764d5ccaaccf9)--- updated-
-dependencies: - dependency-name: actions/checkout   dependency-type:
-direct:production   update-type: version-update:semver-minor   dependency-group:
-github-actions - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-[Changelog](https://github.com/github/codeql-action/blob/main/CHANGELOG.md)-
-
-[Commits](https://github.com/github/codeql-action/compare/00e563ead9f72a8461b248
-76bee2d0c2e8bd2ee8...04daf014b50eaf774287bf3f0f1869d4b4c4b913)--- updated-
-dependencies: - dependency-name: github/codeql-action   dependency-type:
-direct:production   update-type: version-update:semver-patch   dependency-group:
-github-actions ...  Signed-off-by: dependabot[bot] <support@github.com>
-
-<https://lists.gnu.org/archive/html/bug-autoconf/2018-02/msg00005.html>As a
-workaround, let's move comments out of AC_CHECK_FUNCS.  Signed-off-by: Kang-Che
-Sung <explorer09@gmail.com>
-
---===============1120044481886186807==--
+--
+Yoann Congal
+Smile ECS
+
+
+--_000_PH0PR11MB59520D6D4347D955A82201BAAD432PH0PR11MB5952namp_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div class=3D"elementToProof" style=3D"margin-top: 1em; margin-bottom: 1em;=
+ font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
+etica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+Hi Yoann,</div>
+<div class=3D"elementToProof" style=3D"margin-top: 1em; margin-bottom: 1em;=
+ font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
+etica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+The corresponding backport series for blacksail has now been submitted upst=
+ream [1].</div>
+<div class=3D"elementToProof" style=3D"margin-top: 1em; margin-bottom: 1em;=
+ font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
+etica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+As requested, I have also resubmitted the patch series for wrynose [2]. Cou=
+ld you please review the updated series?</div>
+<div class=3D"elementToProof" style=3D"margin-top: 1em; margin-bottom: 1em;=
+ font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
+etica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+[1] <a href=3D"https://patchwork.yoctoproject.org/project/oe-core/list/?ser=
+ies=3D53833" id=3D"OWA17865d27-837d-8b7e-6d1e-0df60a9d7551" class=3D"OWAAut=
+oLink" data-rich-text-autolink=3D"">
+https://patchwork.yoctoproject.org/project/oe-core/list/?series=3D53833</a>=
+</div>
+<div class=3D"elementToProof" style=3D"margin-top: 1em; margin-bottom: 1em;=
+ font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
+etica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+[2] <a href=3D"https://patchwork.yoctoproject.org/project/oe-core/list/?ser=
+ies=3D53876" id=3D"OWA12ba71fb-9121-8d06-75b6-44f025b0e110" class=3D"OWAAut=
+oLink" data-rich-text-autolink=3D"">
+https://patchwork.yoctoproject.org/project/oe-core/list/?series=3D53876</a>=
+</div>
+<div class=3D"elementToProof" style=3D"margin-top: 1em; margin-bottom: 1em;=
+ font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
+etica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+Regards,<br>
+Hetvi</div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<hr style=3D"display: inline-block; width: 98%;">
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<b>From:</b> Yoann Congal &lt;yoann.congal@smile.fr&gt;<br>
+<b>Sent:</b> Saturday, November 21, 2026 04:38<br>
+<b>To:</b> Yoann Congal &lt;yoann.congal@smile.fr&gt;; Hetvi Thakar -X (hth=
+akar - E INFOCHIPS PRIVATE LIMITED at Cisco) &lt;hthakar@cisco.com&gt;; ope=
+nembedded-core@lists.openembedded.org &lt;openembedded-core@lists.openembed=
+ded.org&gt;<br>
+<b>Cc:</b> xe-linux-external (Internal Group) &lt;xe-linux-external@cisco.c=
+om&gt;<br>
+<b>Subject:</b> Re: [OE-core][wrynose][PATCH 01/10] openssh: Fix CVE-2026-1=
+06584 </div>
+<div style=3D"font-family: Calibri, Arial, Helvetica, sans-serif; font-size=
+: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div style=3D"font-size: 11pt;">On Mon Nov 9, 2026 at 3:30 PM CET, Yoann Co=
+ngal wrote:<br>
+&gt; On Fri Nov 6, 2026 at 12:00 PM CET, Hetvi Thakar -X (hthakar - E INFOC=
+HIPS PRIVATE LIMITED at Cisco) wrote:<br>
+&gt;&gt; Hi Yoann,<br>
+&gt;<br>
+&gt; Hello,<br>
+&gt;<br>
+&gt;&gt; I have submitted the corresponding OpenSSH backport patches for<br=
+>
+&gt;&gt; blacksail upstream [1] .<br>
+&gt;&gt; Could you please review&nbsp; the wrynose series when you have a c=
+hance?<br>
+&gt;&gt; [1] [blacksail] openssh: Upgrade 10.5p1 -&gt; 10.6p1 -<br>
+&gt;&gt; Patchwork&lt;<a href=3D"https://patchwork.yoctoproject.org/project=
+/oe-core/patch/20261105042209.1168511-1-hthakar@cisco.com/" id=3D"OWA28a22f=
+d6-7d87-3133-c236-dd01b57faa9a" class=3D"OWAAutoLink" data-auth=3D"NotAppli=
+cable">https://patchwork.yoctoproject.org/project/oe-core/patch/20261105042=
+209.1168511-1-hthakar@cisco.com/</a>&gt;<br>
+&gt;<br>
+&gt; I had to reject this blacksail patch. This mean that I can't<br>
+&gt; review/accept this wrynose series until equivalent fixes are sent to<b=
+r>
+&gt; blacksail by backports.<br>
+<br>
+Hello,<br>
+<br>
+I will now drop this series. Please send a new submission if the above<br>
+situation changes.<br>
+<br>
+Regards,<br>
+--<br>
+Yoann Congal<br>
+Smile ECS<br>
+<br>
+</div>
+</body>
+</html>
+
+--_000_PH0PR11MB59520D6D4347D955A82201BAAD432PH0PR11MB5952namp_--
