@@ -1,35 +1,35 @@
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2120.1795642490659033736
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2111.1795642500576032025
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Nov 2026 13:34:51 -0800
+ Wed, 25 Nov 2026 13:35:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=aiGAJg/P;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-202611252134461af62e9c6e00020757-ccnnui@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 202611252134461af62e9c6e00020757
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=iRyj3rc/;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20261125213458be32186d8c000207c5-ntsvhp@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20261125213458be32186d8c000207c5
         for <openembedded-core@lists.openembedded.org>;
-        Wed, 25 Nov 2026 22:34:47 +0100
+        Wed, 25 Nov 2026 22:34:58 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=4KiW0AKJntjAeYeJctUtbGmLGUjGq8K5y56A9p4c0j8=;
- b=aiGAJg/PJo7D3EgD3iSC+UsFw+KEHQODaaeVX37W4zUGi6pi2X2mEIL7pqMBVHQxmAoDcX
- 3iDSUeswGfublziJxZ6bPStzfu3ojrONnU8+Zxoje7xcXZxrRYHb7PvIO/mCAT6LEvXIB3Tl
- SUkpvhZpKzYhpbRalgbRu9PD0yFQelgmFWx7lobSrxpwkTE9QrUbcxOVubXmYqzEeNUi3eFl
- aktMoan0w+zuWtvzhGha4eObJ2fcgsNLP8r34eRsR1HkG0pqPX99H4CmhSwGZgXv7iJz6lev
- qXwUs2ymPEX38AuXYis6ge+GjwVA4uYEuw8MfMjyPGnfxIrEcWGiSsVw==;
+ bh=yf/oWx1g9RZVciWc4WoOwiYmkf3lMkv9lPqYaZXVt18=;
+ b=iRyj3rc/aVRWn5AT1Pilruf8551kc4uk1M8ROg3IxooBPBvGEukZKx/yYbc2AYfMiAw8pg
+ UpmOcKD+Wynk9FdKhRdkAaw4bn1ZYzMKEmaiUK7Bt9xwDnyJ7ZNxOmRQJ38OzTq5YXHpayEC
+ Ovfu2TVKQOJfThp/UrvyF7vV6LSem5rHUEKDunszxNK6s9s6HXujeqgb1RHDvDTyIz5ovIVI
+ TeZcmy56Ie57B3lpd3rtNYNkjOfiXYDbLMPZNIGOqpM7Irh/wn22hcsscO3/U9va/661XMV6
+ bWmCtecJBeglimaTnELaNyfe+RocEVec8VL5vPFtGqWEMh3+rZmPMrFw==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH] busybox: patch CVE-2026-136411
-Date: Wed, 25 Nov 2026 22:33:36 +0100
-Message-ID: <20261125213336.3584486-1-peter.marko@siemens.com>
+Subject: [blacksail][PATCH] busybox: patch CVE-2026-136411
+Date: Wed, 25 Nov 2026 22:33:51 +0100
+Message-ID: <20261125213351.3584523-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 21:34:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251251
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 21:35:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251252
 Content-Type: text/plain; charset="utf-8"
 
 From: Peter Marko <peter.marko@siemens.com>
@@ -45,7 +45,7 @@ Signed-off-by: Peter Marko <peter.marko@siemens.com>
 
 diff --git a/meta/recipes-core/busybox/busybox/CVE-2026-136411.patch b/meta/recipes-core/busybox/busybox/CVE-2026-136411.patch
 new file mode 100644
-index 0000000000..048bb867c4
+index 00000000000..048bb867c4f
 --- /dev/null
 +++ b/meta/recipes-core/busybox/busybox/CVE-2026-136411.patch
 @@ -0,0 +1,84 @@
@@ -134,7 +134,7 @@ index 0000000000..048bb867c4
 + 		error_msg = "mode is not 'octet'";
 + 		goto err;
 diff --git a/meta/recipes-core/busybox/busybox_1.38.0.bb b/meta/recipes-core/busybox/busybox_1.38.0.bb
-index a75c6394e9..7a23054288 100644
+index a75c6394e9b..7a230542880 100644
 --- a/meta/recipes-core/busybox/busybox_1.38.0.bb
 +++ b/meta/recipes-core/busybox/busybox_1.38.0.bb
 @@ -60,6 +60,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
