@@ -1,307 +1,114 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.41718.1795613255280766448
+Received: from mail-ua1-f44.google.com (mail-ua1-f44.google.com [209.85.222.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.42756.1795616476486837188
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Nov 2026 05:27:35 -0800
+ Wed, 25 Nov 2026 06:21:16 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=yzcEmhxa;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: joaomarcos.costa@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 9D9E41A17EE
-	for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 13:27:33 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 6ABF760480;
-	Wed, 25 Nov 2026 13:27:33 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 100B811E68463;
-	Wed, 25 Nov 2026 14:27:26 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1795613248; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=o1oe/OwxzHFnZYkY64OVUxPJAaVpFaAkUHU1ybo3yz4=;
-	b=yzcEmhxaQOJGXUFMXmor/8eLypo8RZccbjv7ZEKyu+ViCn0D3CrkU0U3S8oBMZxBNb3LRv
-	TUb11mDEwz9ZYAj3Agdt6iV7Ln5saZV3cmg/eo3IK4KYTR6popPjdr6bOfQjmMnWrY2A2U
-	u8OLDe0y7LHtK6ST3wPQarwERODXJj4fQZw4HcjXkJQOFEPomD6xejqm3jYs3qFGoQlF3G
-	ibPI6FPGFzBnYqyjOWBtXRh14YhVHwSLHiEBAypdZwmXA6hgVS3F7cBMBY7QmutQXxFyMg
-	HdxR9u0kzb4lU7ADSJ9WPxqcCkIbTmXRWkxeu7mji5rH/1d8tqt/o+MMES3sYg==
-From: =?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa=20=28Schneider=20Electric=29?= <joaomarcos.costa@bootlin.com>
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=x/FhB7+J;
+ spf=pass (domain: gmail.com, ip: 209.85.222.44, mailfrom: otavio.salvador@gmail.com)
+Received: by mail-ua1-f44.google.com with SMTP id a1e0cc1a2514c-9828fee1b4bso1830124241.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 06:21:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795616475; x=1796221275; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=PWmDepgj/D3E0vqCdJEUJGWLXQ+zaKuTlctSB4lQBfA=;
+        b=x/FhB7+JIE7PD7aKnY7p05JeR3fPP0oMTHWfZ3oAMHtKKs9C+paWXorXpVExT2WJaQ
+         G2xe7OORePh5uHrGEm0gDdjLaTpm0Ydb40muwU05pfuW2U392rDiNE7nqaUhd71BPAXp
+         LkRMPLZG0ie5GixGVy3O2OyMjHm23DJ0wIr48OXUrRTYis3FaLcuISc0hn4VCs6zeVJs
+         X4A9CFxTVC9Zd7w3pfMXUM1xM0N3U3WkvJ/TbYW5aV+7bcz2aXM2eXGzN4AVzvGneFpP
+         voSkXkBEaALbpobwityPsaS9Ksz1YEn47v0F9S7poXPGY7+wtVzYJ88Ui+/r7Df/fOTf
+         Fb0Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795616475; x=1796221275;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:sender:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=PWmDepgj/D3E0vqCdJEUJGWLXQ+zaKuTlctSB4lQBfA=;
+        b=OWPCuCD3ci+OgEnKNXH6gA9c8DMQXJyT5Y7gqn8kPkDzrhH826GmhPyNWE3VW2fOGW
+         +CZeiHjpXLJdzZL9AUwrsWTrUDlOoInAqiNY/bJNon3X/ESu8kgCp/IQxECov91/SHrK
+         6cLxLqbY4JKTm1uL2B7TDic7hq9BmAhnEyQ2fH89hws7t6v16vRoYdNYFiSN4ts0y3Po
+         ibrYkxLcWBmc0wz7k4FMoxMSWpDDiNwbWdJFvXTAEO0bDafXCSwQuKUeggkK6Wpeb4Lr
+         uVOquKBrBxwE51wZPreXAC0+WzgIlK340Z4NPFm7XlW4CB98L+tXl4NIfxt+QjBeqKO1
+         PH8Q==
+X-Gm-Message-State: APuU4Z8nw8BkFJY0Ihi+v9YYRVvrezJLNRuCR3yWVzFYN6hYhNw7QKFo
+	f1H2cMcCdytCvTRS1v7Jc85hF+oeWw5TrAB6hKYeQ/XefBq+8RApWlk9uvUvJpFG
+X-Gm-Gg: AZFdTZf/712AjZ2vxPFOOyH46L1KFOv5Z69IeX90SGshSms5DuxiJHY8MqH7or0O2tw
+	Gk7hNGWwKPZTtKOU/IKzM0NrJwrTf01r6rEhAFqU0A8mT/AG92h7rUUEEFtB2D5y8K1H445WEaB
+	49gVQCdG75XmNCn8S6Qt4hBXt70adMu+aAy4n48pSYzWqhW0GHXMCFNzdXCYdKowPw+qJ37Yltx
+	xM5nJ1gn8jm31T8vKmaIwH2LSNMEixei4zAtevxMcSzRO+AaJv813aopxohS8P6VBTPyeBbGkHh
+	PeAVqbUROFW3B5uwS+LXJttyaE1kWO9r5ZCLcGE93pPdeVbjrSEbgLXAT2sWHgW+thgo6KlhI21
+	MsoWjd97JMRVONPRwp2ypg5uYTDPOPIfb+U5KGa6zRK+HA1UBo43aGTyheegL40L0/qo8dntZfc
+	nPvu2NjrNz+tjNgEl0W4jCgBCaD8Ezt2a8mbm5okXgFMgOO48x1EKMW0YFJ4yAnyZOyCPWnA2j4
+	WMaJrLUSnd2oBxUGEcPldDWVEK9yG/oVwH2LoWBOtJajNmX3+zSNnyzzdjpJXWITaiVStDaYc0f
+	KAE7U8Ss3dvLZxvoDpWbEocFHJ7ZC/fD6xdxEtPx5xU1pwuOlOIRD7R82rhz5UB131LhIdczbWg
+	2Jdmlo8+25+7daIlHdfP1IutvK5uIEJPuT7Wgx+DuEKjy30xCvWfA7/sOeGKGoD2nhIjIcmr8ce
+	QoP8coXUXiwzFEBfVa7QIIAQbkTuiqYmBz
+X-Received: by 2002:a05:6122:628b:b0:5ec:e6b8:eb94 with SMTP id 71dfb90a1353d-5ee8aefcf60mr10614694e0c.12.1795616475272;
+        Wed, 25 Nov 2026 06:21:15 -0800 (PST)
+Return-Path: <otavio.salvador@gmail.com>
+Received: from localhost ([201.89.183.192])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5ee8b653081sm17473310e0c.16.2026.11.25.06.21.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2026 06:21:14 -0800 (PST)
+Sender: Otavio Salvador <otavio.salvador@gmail.com>
+From: Otavio Salvador <otavio.salvador@ossystems.tech>
+X-Google-Original-From: Otavio Salvador <otavio@ossystems.tech>
 To: openembedded-core@lists.openembedded.org
-Cc: thomas.petazzoni@bootlin.com,
-	yoann.congal@smile.fr,
-	=?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa=20=28Schneider=20Electric=29?= <joaomarcos.costa@bootlin.com>
-Subject: [blacksail][PATCH v2 4/4] curl: fix CVE-2026-94266
-Date: Wed, 25 Nov 2026 14:26:19 +0100
-Message-ID: <20261125132619.3518022-5-joaomarcos.costa@bootlin.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261125132619.3518022-1-joaomarcos.costa@bootlin.com>
-References: <20261125132619.3518022-1-joaomarcos.costa@bootlin.com>
+Cc: yoann.congal@smile.fr,
+	efe.canicoz@atlascopco.com
+Subject: [wrynose][PATCH] multilib: make preferred_provider mirroring deterministic
+Date: Wed, 25 Nov 2026 11:21:11 -0300
+Message-ID: <20261125142111.2917748-1-otavio@ossystems.tech>
+X-Mailer: git-send-email 2.54.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Last-TLS-Session-Version: TLSv1.3
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 13:27:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251187
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 14:21:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251188
+Content-Type: text/plain; charset="utf-8"
 
-This vulnerability, marked as High [1], was fixed upstream [2] since
-v8.23.0.
+From: Efe Can Icoz <efecanicoz@gmail.com>
 
-Backport the fix to curl v8.22.0.
+Sort PREFERRED_PROVIDER_ and PREFERRED_RPROVIDER_ lists before iterating over
+them to make multilib mirroring deterministic. Otherwise ordering becomes
+random and if base version comes after overriden version, new created
+multilib-base version is wiping previously created multilib-overriden versions
+in setVar function.
 
-[1] https://nvd.nist.gov/vuln/detail/cve-2026-94266
-[2] https://curl.se/docs/CVE-2026-94266.html
+Sorting providers and rproviders makes sure that base versions of any variable
+comes before any of it's override definitions.
 
-Signed-off-by: Jo=C3=A3o Marcos Costa (Schneider Electric) <joaomarcos.co=
-sta@bootlin.com>
+Signed-off-by: Efe Can Icoz <efe.canicoz@atlascopco.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 0b41c42c0258c005194ca8322a9b373e2f2e063d)
+Signed-off-by: Otavio Salvador <otavio@ossystems.tech>
 ---
- .../curl/curl/CVE-2026-94266.patch            | 220 ++++++++++++++++++
- meta/recipes-support/curl/curl_8.22.0.bb      |   1 +
- 2 files changed, 221 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-94266.patch
+ meta/classes/multilib_global.bbclass | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-94266.patch b/meta/r=
-ecipes-support/curl/curl/CVE-2026-94266.patch
-new file mode 100644
-index 0000000000..dc4d33c529
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-94266.patch
-@@ -0,0 +1,220 @@
-+From 48e89204f431dc7ae52cf4d02ce7a8f38209ff6b Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Mon, 21 Sep 2026 11:13:13 +0200
-+Subject: [PATCH] getinfo: make sure CURLINFO_EFFECTIVE_URL does not cont=
-ain
-+ creds
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Reported-by: Joshua Rogers
-+
-+Verified in test 1876
-+
-+Closes #23016
-+
-+CVE: CVE-2026-94266
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/7a6bd027d=
-0de2b6857472d35da090ef60cc29f19]
-+
-+Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
-+---
-+ lib/getinfo.c          | 47 +++++++++++++++++++++++++----
-+ lib/transfer.c         |  1 +
-+ lib/url.c              |  1 +
-+ lib/urldata.h          |  1 +
-+ tests/data/Makefile.am |  2 +-
-+ tests/data/test1876    | 67 ++++++++++++++++++++++++++++++++++++++++++
-+ 6 files changed, 113 insertions(+), 6 deletions(-)
-+ create mode 100644 tests/data/test1876
-+
-+diff --git a/lib/getinfo.c b/lib/getinfo.c
-+index 23f1de2..eda62da 100644
-+--- a/lib/getinfo.c
-++++ b/lib/getinfo.c
-+@@ -63,6 +63,7 @@ void Curl_initinfo(struct Curl_easy *data)
-+=20
-+   curlx_safefree(info->contenttype);
-+   curlx_safefree(info->wouldredirect);
-++  curlx_safefree(info->effective_url);
-+=20
-+   memset(&info->primary, 0, sizeof(info->primary));
-+   info->retry_after =3D 0;
-+@@ -76,15 +77,51 @@ void Curl_initinfo(struct Curl_easy *data)
-+ #endif
-+ }
-+=20
-++static CURLcode effective_url(struct Curl_easy *data,
-++                              const char **param_charp)
-++{
-++  const char *s =3D Curl_bufref_ptr(&data->state.url);
-++  *param_charp =3D s ? s : "";
-++  if(s) {
-++    char *url =3D NULL;
-++    /* Make a copy of the URL without credentials */
-++    CURLU *u =3D curl_url();
-++    CURLUcode uc;
-++    if(!u)
-++      return CURLE_OUT_OF_MEMORY;
-++
-++    uc =3D curl_url_set(u, CURLUPART_URL, s,
-++                      CURLU_NON_SUPPORT_SCHEME |
-++                      (data->set.path_as_is ? CURLU_PATH_AS_IS : 0));
-++    if(!uc)
-++      uc =3D curl_url_set(u, CURLUPART_USER, NULL, 0);
-++    if(!uc)
-++      uc =3D curl_url_set(u, CURLUPART_PASSWORD, NULL, 0);
-++    if(!uc)
-++      uc =3D curl_url_get(u, CURLUPART_URL, &url, CURLU_GET_EMPTY);
-++
-++    curl_url_cleanup(u);
-++
-++    if(uc || !url)
-++      return CURLE_OUT_OF_MEMORY;
-++    if(strcmp(url, s)) {
-++      /* they are different */
-++      curlx_free(data->info.effective_url);
-++      data->info.effective_url =3D url;
-++      *param_charp =3D url;
-++    }
-++    else
-++      curl_free(url);
-++  }
-++  return CURLE_OK;
-++}
-++
-+ static CURLcode getinfo_char(struct Curl_easy *data, CURLINFO info,
-+                              const char **param_charp)
-+ {
-+   switch(info) {
-+-  case CURLINFO_EFFECTIVE_URL: {
-+-    const char *s =3D Curl_bufref_ptr(&data->state.url);
-+-    *param_charp =3D s ? s : "";
-+-  }
-+-    break;
-++  case CURLINFO_EFFECTIVE_URL:
-++    return effective_url(data, param_charp);
-+   case CURLINFO_EFFECTIVE_METHOD: {
-+     const char *m =3D CURL_EASY_STR(data, STRING_CUSTOMREQUEST);
-+     if(!m) {
-+diff --git a/lib/transfer.c b/lib/transfer.c
-+index 3b6c5c0..d940f8d 100644
-+--- a/lib/transfer.c
-++++ b/lib/transfer.c
-+@@ -503,6 +503,7 @@ CURLcode Curl_pretransfer(struct Curl_easy *data)
-+   data->state.authhost.want =3D data->set.httpauth;
-+   data->state.authproxy.want =3D data->set.proxyauth;
-+   curlx_safefree(data->info.wouldredirect);
-++  curlx_safefree(data->info.effective_url);
-+   Curl_data_priority_clear_state(data);
-+   if(data->set.http_auto_referer)
-+     Curl_bufref_free(&data->state.referer);
-+diff --git a/lib/url.c b/lib/url.c
-+index 6eeae43..61126a1 100644
-+--- a/lib/url.c
-++++ b/lib/url.c
-+@@ -267,6 +267,7 @@ CURLcode Curl_close(struct Curl_easy **datap)
-+   curlx_safefree(data->state.most_recent_ftp_entrypath);
-+   curlx_safefree(data->info.contenttype);
-+   curlx_safefree(data->info.wouldredirect);
-++  curlx_safefree(data->info.effective_url);
-+=20
-+   /* No longer a dirty share, if it exists */
-+   if(Curl_share_easy_unlink(data))
-+diff --git a/lib/urldata.h b/lib/urldata.h
-+index 1c01018..fb6df86 100644
-+--- a/lib/urldata.h
-++++ b/lib/urldata.h
-+@@ -409,6 +409,7 @@ struct PureInfo {
-+   curl_off_t numconnects; /* how many new connections libcurl created *=
-/
-+   char *contenttype; /* the content type of the object */
-+   char *wouldredirect; /* URL this would have been redirected to if ask=
-ed to */
-++  char *effective_url; /* when needed */
-+   curl_off_t retry_after; /* info from Retry-After: header */
-+   const char *conn_scheme;
-+   int httpcode;  /* Recent HTTP, FTP, RTSP or SMTP response code */
-+diff --git a/tests/data/Makefile.am b/tests/data/Makefile.am
-+index e0ce23a..8cdeaf7 100644
-+--- a/tests/data/Makefile.am
-++++ b/tests/data/Makefile.am
-+@@ -1740,7 +1740,7 @@ TESTCASES =3D \
-+   test1849 \
-+   test1850 \
-+   test1851 \
-+-  \
-++  test1876 \
-+   test1900 \
-+   test1901 \
-+   test1902 \
-+diff --git a/tests/data/test1876 b/tests/data/test1876
-+new file mode 100644
-+index 0000000..4fc3b9f
-+--- /dev/null
-++++ b/tests/data/test1876
-+@@ -0,0 +1,67 @@
-++<?xml version=3D"1.0" encoding=3D"US-ASCII"?>
-++<testcase>
-++<info>
-++<keywords>
-++netrc
-++</keywords>
-++</info>
-++
-++# Server-side
-++<reply>
-++<data crlf=3D"headers" nocheck=3D"yes">
-++HTTP/1.1 301 redir
-++Content-Length: 0
-++Content-Type: text/html
-++Location: %TESTNUMBER0002
-++
-++</data>
-++
-++<data2 crlf=3D"headers">
-++HTTP/1.1 200 OK
-++Content-Length: 0
-++Content-Type: text/html
-++
-++</data2>
-++
-++</reply>
-++
-++# Client-side
-++<client>
-++<server>
-++http
-++</server>
-++<name>
-++verify no credentials present in effective URL after redirect
-++</name>
-++<file name=3D"%LOGDIR/netrc">
-++machine %HOSTIP
-++login netrcuser
-++password netrcSECRET123
-++</file>
-++
-++<command option=3D"no-include">
-++http://%HOSTIP:%HTTPPORT/%TESTNUMBER --netrc-optional --netrc-file %LOG=
-DIR/netrc -L -w 'EFFECTIVE_URL=3D%{url_effective}\n'
-++</command>
-++</client>
-++
-++# Verify data after the test has been "shot"
-++<verify>
-++<protocol crlf=3D"headers">
-++GET /%TESTNUMBER HTTP/1.1
-++Host: %HOSTIP:%HTTPPORT
-++Authorization: Basic %b64[netrcuser:netrcSECRET123]b64%
-++User-Agent: curl/%VERSION
-++Accept: */*
-++
-++GET /%TESTNUMBER0002 HTTP/1.1
-++Host: %HOSTIP:%HTTPPORT
-++Authorization: Basic %b64[netrcuser:netrcSECRET123]b64%
-++User-Agent: curl/%VERSION
-++Accept: */*
-++
-++</protocol>
-++<stdout>
-++EFFECTIVE_URL=3Dhttp://%HOSTIP:%HTTPPORT/%TESTNUMBER0002
-++</stdout>
-++</verify>
-++</testcase>
-diff --git a/meta/recipes-support/curl/curl_8.22.0.bb b/meta/recipes-supp=
-ort/curl/curl_8.22.0.bb
-index 6445aae426..64397f1a77 100644
---- a/meta/recipes-support/curl/curl_8.22.0.bb
-+++ b/meta/recipes-support/curl/curl_8.22.0.bb
-@@ -20,6 +20,7 @@ SRC_URI =3D " \
-     file://CVE-2026-87865.patch \
-     file://CVE-2026-92386.patch \
-     file://CVE-2026-92391.patch \
-+    file://CVE-2026-94266.patch \
- "
-=20
- SRC_URI:append:class-nativesdk =3D " \
---=20
-2.55.0
+diff --git a/meta/classes/multilib_global.bbclass b/meta/classes/multilib_global.bbclass
+index d9372d9ed1..d936dfe787 100644
+--- a/meta/classes/multilib_global.bbclass
++++ b/meta/classes/multilib_global.bbclass
+@@ -67,7 +67,7 @@ def preferred_ml_updates(d):
+     sort_versions(required_versions, "REQUIRED")
+     sort_versions(preferred_versions, "PREFERRED")
+ 
+-    for prov in providers:
++    for prov in sorted(providers):
+         val = d.getVar(prov, False)
+         pkg = prov.replace("PREFERRED_PROVIDER_", "")
+         if pkg.endswith("-native") or "-crosssdk-" in pkg or pkg.startswith(("nativesdk-", "virtual/nativesdk-")):
+@@ -112,7 +112,7 @@ def preferred_ml_updates(d):
+         if prov != provexp and d.getVar(prov, False):
+             d.renameVar(prov, provexp)
+ 
+-    for prov in rproviders:
++    for prov in sorted(rproviders):
+         val = d.getVar(prov, False)
+         pkg = prov.replace("PREFERRED_RPROVIDER_", "")
+         for p in prefixes:
+-- 
+2.54.0
 
