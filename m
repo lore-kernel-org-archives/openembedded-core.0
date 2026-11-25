@@ -1,304 +1,99 @@
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2242.1795642820380865347
+Received: from mail-dy1-f177.google.com (mail-dy1-f177.google.com [74.125.82.177])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4031.1795649403407342038
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Nov 2026 13:40:20 -0800
+ Wed, 25 Nov 2026 15:30:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=jELHqMtz;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-202611252140180bf16093c800020787-ypsyjf@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202611252140180bf16093c800020787
-        for <openembedded-core@lists.openembedded.org>;
-        Wed, 25 Nov 2026 22:40:18 +0100
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=5F9hzjf/uSjksO7Ol9CFsuwZ0MtmUyGfprvRsZt9+h4=;
- b=jELHqMtzo/86hPK0YQ4VAa4pebPy9dEFZUdRDwyYKEfFi9+ymsAcBKwSA6gMbyESS9TnY6
- Bgk5X88R4m7v2OUtgIlGU53v9aDxjiSJlgqHP8jATrGqCgRkd99f5TnnM1aLwcm559a0lf88
- jWqNwViMSa/87+2Y09CURwEqcQFvpKbmV4h5MW38/ozZLb4WQe8kG5Sx/vJqBzO3P0KsU9ku
- QyLC3UVF76BiO3iuGmCOLTmg73aT+9/SL1A00cUz98kTYb2g/Fnxqr01b9Zm60LU56SvGcyV
- vBr++iVp8pJwiNdsyHME2MEZ9DHCjOCe3OHjvWADVs9MfRdlA7zop5cA==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=QZuFJq77;
+ spf=pass (domain: gmail.com, ip: 74.125.82.177, mailfrom: raj.khem@gmail.com)
+Received: by mail-dy1-f177.google.com with SMTP id 5a478bee46e88-3282db206d3so1376095eec.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 15:30:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795649403; x=1796254203; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=CbfMPPaV4xUe5p1GkmGtIrUbqvRO0nUPPSf5ufiAa5Y=;
+        b=QZuFJq77mDMWRkQC6k1c8DCsOea+ixbLoUCE5BtVkb8pTfVB028bzgUJLUn63I+Gjn
+         sL/GKJgJxZahWUrlkM/BcdwNnbHFO8kFED2MbJYFcUD4d5ZgdEWjmAOaZufGHXGutm54
+         1Zpw+AiK4n6otzsReYyxa5vAwIEv8DyJ5LY8TmLUjmUM4JKHxuXvUQNK43khM0xToT+O
+         43DSuu1OWzt7Kz/PS/wAP5mzKf5GJcLGTVGtBzhHv/gUS5ygGF298FG8IkPA2bwbasF8
+         1TJXvBnaMBSV+KbLEUy6mPyWahWK3oPlFb5dK3qT/MqSTzMmSP/+3X7vexbR0kxdB6+C
+         RLQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795649403; x=1796254203;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=CbfMPPaV4xUe5p1GkmGtIrUbqvRO0nUPPSf5ufiAa5Y=;
+        b=K9d8C7FMeSlPCB+xfZTqvo+RtyowQSvOfLf0OI+cF9fzB+NyFkVTUY5JMrkkhEceyC
+         pbLOIKRbPqXC7WypX4Kb85Sy+wm3ISTTuSZ02olM7W5XW8lZCMXTI2K+6tmgLnvA/NWr
+         iYyFlWRWYTyvfS4OVd9IGhPT//9nPNvgb8dng4Z8EFdxwarxCTeX68bPPeRG/2yWfzKF
+         LxVnnhKFvd+4nC3n10LbfAYRcukACrRU08vxyVPWl6JBFZicSLs4nvZCaZl/Ee+FURrw
+         RREe0C7hjtqzdUOIVy9H+XTPrBZ0WlN3NFLo7iBRmJEPzketvyLqM4Lnb6de9ime6fkv
+         Ws8g==
+X-Gm-Message-State: APuU4Z/3+BgoJU+YoIhTr9aKVUroAd4xeEJSLB/Pu6FZC4yAR96cyFV6
+	LFNmoB+5kWdkd+D9qBmYrFhJY8bXzj/XslSGdoNvial1GScCVVYYdxKATkOS1QF+
+X-Gm-Gg: AZFdTZdClMXNRk0/koxq3gTFfsqxUONmBqm6BdLj0Ylm3imQsorLEijq6Q4H5kHrIDC
+	v1O3bkSlAR6PnWGTrc7WdRVQHPSndGB+JbxpgeVgGh2My7fILzRnmI4KbaRI5c3uFjI2TGd8ZPj
+	/oVojs1+kJ1m2Cw8iuSiH4L6qhYOnRG1QGmdAF9g1FA8f8INK5jzKNWnxqO0xGaeCbuUrMuskVJ
+	sM9PXrhQa4988TCQW7nmydn8IMsg0ahaURJKH116L6SOM3wBiGjfB6NNN9pwlyHhzhi75SmAaof
+	L5YPnQkN7sYTkNkZi1ZFkHQrGSjkN3PRhL9lbEzILAt7zxWa4W6qqQOOYUDIojF7baanQom5/fp
+	PPcbc3fTKf8tIVuBwt0p8Uwt952mBg21RU5neQn4LZdtcXX5+R4vYZOoEPFeAq6uIZbCKQ8EXMo
+	T1o4CbeR5TqmKbayLI1AKnPnx+PtwZZl8jJLkizbhvSn0sJz3smOp2BUOiHJGpHwc6r20ahAW0y
+	ZYJPs8mKOsYS9CKjDHmTvxfaSMSB9DU/tCw2HXL52zwYcS2WZFEMa6/VQP0AzeOt88KvaiBrkx0
+	g38P7HylFMGnpBIW4hM1xZPi/ehVWrRRuTsvtVsxice4+iz8WDHx8prUX8ZpGQ71wy+9uREjduY
+	/+inNla/AK8/EZTaLn927z4c5Iu4wc4yFWP7n3zCHLd1DOIwOr4bkUbVIFVvWpZ5YwQBjSh6qN7
+	es0jQO2R0/mfn3RqU/lHPxmYswwphTySSoMfBNgjKBu8Efw7BlmnVP0jQzHHiy0qGsxnwQJRh/s
+	IvrlfBkZw1P6QEDWUoves0aVXKeRZYZh7kWNTLYpRMB3gkmOo6nuFBTS/kvyeKec6XOz6ruaDmq
+	eMDrH9maDUi4JxVITnvkbgLIyQ==
+X-Received: by 2002:a05:693c:42c2:b0:386:bc8f:b603 with SMTP id 5a478bee46e88-386bc8fbce1mr8227615eec.38.1795649402477;
+        Wed, 25 Nov 2026 15:30:02 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-38567abb870sm47749444eec.25.2026.11.25.15.30.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2026 15:30:01 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [scarthgap][PATCH 3/3] zip: patch CVE-2026-130335
-Date: Wed, 25 Nov 2026 22:39:56 +0100
-Message-ID: <20261125213956.3585234-3-peter.marko@siemens.com>
-In-Reply-To: <20261125213956.3585234-1-peter.marko@siemens.com>
-References: <20261125213956.3585234-1-peter.marko@siemens.com>
+Cc: Khem Raj <khem.raj@oss.qualcomm.com>
+Subject: [PATCH] gettext: Use shared libunistring on musl
+Date: Wed, 25 Nov 2026 15:29:59 -0800
+Message-ID: <20261125232959.3962552-1-khem.raj@oss.qualcomm.com>
+X-Mailer: git-send-email 2.56.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 21:40:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251268
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 23:30:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251269
 Content-Type: text/plain; charset="utf-8"
 
-From: Peter Marko <peter.marko@siemens.com>
+libgettextpo is built with -DOMIT_SETLOCALE_LOCK=1 and relies on a
+dependency library to provide gl_get_setlocale_null_lock: GNU libintl or
+a shared libunistring. On musl there is no GNU libintl, and the bundled
+libunistring copy does not export it, so libgettextpo.so was left with an
+undefined symbol.
 
-Pick patch from [1].
-It references Debian bug 1143866 which is referenced in NVD CVE links.
-Zip is not maintained anymore, so there is no upstream
+Instead of patching gettext to define its own copy of the lock, which
+upstream considers a configuration problem
+(https://savannah.gnu.org/bugs/?62659), link against the shared
+libunistring on musl, which exports the lock, and drop the patch.
 
-[1] https://salsa.debian.org/lts-team/packages/zip/-/blob/debian/3.0-12+deb11u1/debian/patches/fix-command-injection.patch
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+AI-Generated: Uses Claude Code
+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
 ---
- .../zip/zip-3.0/CVE-2026-130335.patch         | 235 ++++++++++++++++++
- meta/recipes-extended/zip/zip_3.0.bb          |   1 +
- 2 files changed, 236 insertions(+)
- create mode 100644 meta/recipes-extended/zip/zip-3.0/CVE-2026-130335.patch
+ meta/recipes-core/gettext/gettext_1.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-extended/zip/zip-3.0/CVE-2026-130335.patch b/meta/recipes-extended/zip/zip-3.0/CVE-2026-130335.patch
-new file mode 100644
-index 00000000000..dc33f3c2b05
---- /dev/null
-+++ b/meta/recipes-extended/zip/zip-3.0/CVE-2026-130335.patch
-@@ -0,0 +1,235 @@
-+From: Paul Marquess <pmqs@outlook.com>
-+Subject: Fix command injection issue
-+Bug-Debian: https://bugs.debian.org/1143866
-+X-Debian-version: 3.0-16
-+
-+CVE: CVE-2026-130335
-+Upstream-Status: Inactive-Upstream [lastrelease: 2008]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+
-+--- a/zip.c
-++++ b/zip.c
-+@@ -122,6 +122,7 @@
-+ 
-+ local void freeup  OF((void));
-+ local int  finish  OF((int));
-++local char *quote_arg(char *instring);
-+ #if (!defined(MACOS) && !defined(WINDLL))
-+ local void handler OF((int));
-+ local void license OF((void));
-+@@ -1323,6 +1324,134 @@
-+   return 1;
-+ }
-+ 
-++
-++/* quote_arg()
-++ *
-++ * Add quotation and/or escapes to a shell (VMS: DCL) argument string
-++ * appropriate to the local operating system or shell  (Unix, Windows,
-++ * etc.).  This is mainly used to build the command line to pass to
-++ * UnZip (or other application when -TT used) to test an archive.
-++ * Return malloc()'d result.
-++ *
-++ *    All:     Add " at beginning and end.
-++ *    MSDOS:   % -> "^%"
-++ *             " -> \""
-++ *    Unix:    ! -> "'!'"
-++ *             $ -> \$
-++ *             \ -> \\
-++ *             ` -> \`
-++ *    Non-VMS: " -> \"
-++ *    VMS:     " -> """
-++ *
-++ * On VMS, quoted double apostrophes are also special.  Currently not
-++ * handled.  (How?  Quotation marks are needed for (upper-)case
-++ * preservation.  Double apostrophes in quotation marks are interpreted
-++ * (symbol evaluation).  SMS sees no way to handle "fr''ed".  "fr'""'ed"
-++ * becomes >fr'"'ed<, for example.)  Not a problem for file specs, but
-++ * imposes a restriction on passwords.
-++ */
-++#ifndef NO_PROTO
-++local char *quote_arg(char *instring)
-++#else
-++local char *quote_arg(instring)
-++  char *instring;
-++#endif
-++{
-++  int i;
-++  int j;
-++  char *tempstring;
-++  char *outstring;
-++  char c;
-++
-++  if (instring == NULL)
-++    return NULL;
-++
-++# ifdef MSDOS
-++#  define QA_FACTOR 4            /* Worst case (MSDOS): % -> "^%"  */
-++
-++# else /* not MSDOS */
-++#  ifdef VMS
-++#   define QA_FACTOR 3           /* Worst case (VMS): " -> """  */
-++
-++#  else /* not MSDOS or VMS */
-++#   define QA_FACTOR 5           /* Worst case (Unix): ! -> "'!'"  */
-++#  endif /* VMS [else] */
-++# endif /* MSDOS [else] */
-++
-++# define QA_INCR 2               /* Surrounding quotation marks. */
-++
-++  i = QA_FACTOR * (int)strlen(instring) + QA_INCR + 1;
-++  if ((tempstring = (char *)malloc(i)) == NULL) {
-++    ZIPERR(ZE_MEM, "quote_arg");
-++  }
-++
-++  j = 0;
-++
-++  tempstring[j++] = '\"';       /* Surrounding quotation mark (start). */
-++
-++  for (i = 0; instring[i]; i++) {
-++    c = instring[i];
-++
-++# ifdef MSDOS /* or Windows */
-++    if (c == '%')               /* Percent. */
-++    {
-++      tempstring[j++] = '"';    /* Add (closing) quotation mark. */
-++      tempstring[j++] = '^';    /* Add caret escape. */
-++      tempstring[j++] = '%';    /* Original character (%). */
-++      c = '"';                  /* Prepare (re-opening) quotation mark. */
-++    }
-++    else if (c == '"')          /* Quotation mark. */
-++    {
-++      tempstring[j++] = '\\';   /* Add backslash (escape). */
-++      tempstring[j++] = '"';    /* Add quote (acts as closing and literal). */
-++    }
-++# else /* not def MSDOS */
-++
-++#  ifdef VMS
-++    if (c == '"')               /* Quotation mark. */
-++    {
-++      tempstring[j++] = '"';    /* Add two quotation marks. */
-++      tempstring[j++] = '"';
-++    }
-++#  else /* not def VMS */
-++
-++    /* UNIX is default for others */
-++
-++    if (c == '"')               /* Quotation mark. */
-++    {
-++      tempstring[j++] = '\\';   /* Add backslash (escape). */
-++    }
-++    else if (c == '!')          /* Exclamation.  (Inefficient.) */
-++    {
-++      tempstring[j++] = '"';    /* Add (closing) quotation mark. */
-++      tempstring[j++] = '\'';   /* Add (opening) apostrophe. */
-++      tempstring[j++] = '!';    /* Original character (!). */
-++      tempstring[j++] = '\'';   /* Add (closing) apostrophe. */
-++      c = '"';                  /* Prepare (re-opening) quotation mark. */
-++    }
-++    else if ((c == '$') ||      /* Dollar sign. */
-++             (c == '`') ||      /* Grave accent (backtick). */
-++             (c == '\\'))       /* Backslash. */
-++    {
-++      tempstring[j++] = '\\';   /* Add backslash (escape). */
-++    }
-++
-++#  endif /* def VMS [else] */
-++# endif /* def MSDOS [else] */
-++
-++    tempstring[j++] = c;        /* Original (or other last) character. */
-++  }
-++
-++  tempstring[j++] = '\"';       /* Surrounding quotation mark (end). */
-++
-++  tempstring[j] = '\0';
-++  /* outstring = string_dup(tempstring, "quote_arg", NO_FLUFF); */
-++  outstring = strdup(tempstring);
-++  free(tempstring);
-++
-++  return outstring;
-++}
-++
-+ local void check_zipfile(zipname, zippath)
-+   char *zipname;
-+   char *zippath;
-+@@ -1424,11 +1553,15 @@
-+ 
-+ #else /* (MSDOS && !__GO32__) || __human68k__ */
-+   char *cmd;
-++  char *qzipname;
-+   int result;
-+ 
-+   /* Tell picky compilers to shut up about unused variables */
-+   zippath = zippath;
-+ 
-++  /* Quote each arg (and add appropriate escapes). */
-++  qzipname = quote_arg(zipname);
-++
-+   if (unzip_path) {
-+     /* user gave us a path to some unzip (may not be UnZip) */
-+     char *here;
-+@@ -1437,7 +1570,7 @@
-+     /* Replace first {} with archive name.  If no {} append name to string. */
-+     here = strstr(unzip_path, "{}");
-+ 
-+-    if ((cmd = malloc(strlen(unzip_path) + strlen(zipname) + 4)) == NULL) {
-++    if ((cmd = malloc(strlen(unzip_path) + strlen(qzipname) + 4)) == NULL) {
-+       ziperr(ZE_MEM, "building command string for testing archive");
-+     }
-+ 
-+@@ -1447,32 +1580,20 @@
-+       strcpy(cmd, unzip_path);
-+       cmd[len] = '\0';
-+       strcat(cmd, " ");
-+-# ifdef UNIX
-+-      strcat(cmd, "'");    /* accept space or $ in name */
-+-      strcat(cmd, zipname);
-+-      strcat(cmd, "'");
-+-# else
-+-      strcat(cmd, zipname);
-+-# endif
-++      strcat(cmd, qzipname);
-+       strcat(cmd, " ");
-+       strcat(cmd, here + 2);
-+     } else {
-+       /* No {} so append temp name to end */
-+       strcpy(cmd, unzip_path);
-+       strcat(cmd, " ");
-+-# ifdef UNIX
-+-      strcat(cmd, "'");    /* accept space or $ in name */
-+-      strcat(cmd, zipname);
-+-      strcat(cmd, "'");
-+-# else
-+-      strcat(cmd, zipname);
-+-# endif
-++      strcat(cmd, qzipname);
-+     }
-+     free(unzip_path);
-+     unzip_path = NULL;
-+ 
-+   } else {
-+-    if ((cmd = malloc(20 + strlen(zipname))) == NULL) {
-++    if ((cmd = malloc(20 + strlen(qzipname))) == NULL) {
-+       ziperr(ZE_MEM, "building command string for testing archive");
-+     }
-+ 
-+@@ -1484,15 +1605,12 @@
-+     if (check_unzip_version("unzip") == 0)
-+       ZIPERR(ZE_TEST, zipfile);
-+ 
-+-# ifdef UNIX
-+-    strcat(cmd, "'");    /* accept space or $ in name */
-+-    strcat(cmd, zipname);
-+-    strcat(cmd, "'");
-+-# else
-+-    strcat(cmd, zipname);
-+-# endif
-++    strcat(cmd, qzipname);
-+   }
-+ 
-++  if (qzipname)
-++    free(qzipname);
-++
-+   result = system(cmd);
-+ # ifdef VMS
-+   /* Convert success severity to 0, others to non-zero. */
-diff --git a/meta/recipes-extended/zip/zip_3.0.bb b/meta/recipes-extended/zip/zip_3.0.bb
-index 04ad5f87eba..178b5e5558e 100644
---- a/meta/recipes-extended/zip/zip_3.0.bb
-+++ b/meta/recipes-extended/zip/zip_3.0.bb
-@@ -21,6 +21,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/Zip%203.x%20%28latest%29/3.0/zip30.tar.
-            file://0001-configure-Include-dirent.h-for-closedir-opendir-APIs.patch \
-            file://0001-fileio.c-fix-a-buffer-overflow-detected-issue.patch \
-            file://CVE-2018-13410.patch \
-+           file://CVE-2026-130335.patch \
-            "
- UPSTREAM_VERSION_UNKNOWN = "1"
+diff --git a/meta/recipes-core/gettext/gettext_1.0.bb b/meta/recipes-core/gettext/gettext_1.0.bb
+index 8a93ce1b49..4bfcee20ee 100644
+--- a/meta/recipes-core/gettext/gettext_1.0.bb
++++ b/meta/recipes-core/gettext/gettext_1.0.bb
+@@ -61,6 +61,8 @@ EXTRA_OECONF:append:libc-musl = "\
+ PACKAGECONFIG ??= "glib libxml ${@bb.utils.filter('DISTRO_FEATURES', 'selinux', d)}"
+ PACKAGECONFIG:class-native = ""
+ PACKAGECONFIG:class-nativesdk = ""
++# musl has no GNU libintl, so libgettextpo needs gl_get_setlocale_null_lock from shared libunistring
++PACKAGECONFIG:append:libc-musl = " libunistring"
  
+ PACKAGECONFIG[glib] = "--without-included-glib,--with-included-glib,glib-2.0"
+ PACKAGECONFIG[libxml] = "--without-included-libxml,--with-included-libxml,libxml2"
