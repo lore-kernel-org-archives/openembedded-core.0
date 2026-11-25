@@ -1,35 +1,35 @@
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.43416.1795618524796082181
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.43430.1795618530126058736
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Nov 2026 06:55:25 -0800
+ Wed, 25 Nov 2026 06:55:31 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=I5s7/+tg;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: joaomarcos.costa@bootlin.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=AajS3HGO;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: joaomarcos.costa@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 1FD361A17EE;
-	Wed, 25 Nov 2026 14:55:23 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 39C334E4177F
+	for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 14:55:28 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E200960480;
-	Wed, 25 Nov 2026 14:55:22 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 21D8C11E6980C;
-	Wed, 25 Nov 2026 15:55:18 +0100 (CET)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 0826B60480;
+	Wed, 25 Nov 2026 14:55:28 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C222F11E69800;
+	Wed, 25 Nov 2026 15:55:22 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1795618518; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1795618523; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=6UbT4+0UyIUI5cIj3YeS7QpnP8XapU7B9HAHqeihNIg=;
-	b=I5s7/+tgp3kmhXLQGZQm+Oyvd59J8xuPnPe08thTqtHCH8evO5JpX0BXUTD7B4a2UNU1tx
-	ct+4tkcfk1XZEXPc3eRVqVMfc6u2QHCBNtnR/9+jhUcurVCeMvHq9ejbzWEUMfZCFzi/Q+
-	hsrvMiRh/gF+Y5NL4ZMVWjUNEuzvL7mSagwqd+kPUWZ9r5mNTerKf8+LJy5+4rJZJI0E32
-	GftKJzhFaNi7soO9cQ+FRMrGuVWZt+gJB60BX86+a9rkCpzyselryzAv+z/fovtoX5Lvlx
-	chlJGBwMdWTh4/lMgbs0V8eMryEAMgd7Are701CdT66DDd8+S3JrozF7T/Q29w==
+	bh=xsZ6JkmWIj39NbkRbmRSKPQNRpQNLWoSFBkghqizH0U=;
+	b=AajS3HGONSLjwsJsDjQ21lg9f1h2+emGJorh9q6eI02Mc5xSZp7VaY9RlPk9Dq/eGTlbqp
+	S8woCrWmHuG8UBJryH7jDS3a0ZKWHazNfI+VBWUuP/PTtR79/rYBcyY9qWNa8K9lIRC7F2
+	sfKE1Ur5yZ/tiqZATg5NmRAcueq0WbvRWqA02kHbzs60G/1p35CpkapkNZ7Ok7U8dU/zon
+	1wmQR+oGDUEPnqBWJJwje7qvviM5riWNWyjAu2AeXdkkqvI+BL3ntdiVPAXR3/Y+VrF/45
+	49XkgMBBUMGqpOXs89o2ve3C1Bzjw5gKecWgFoArYKh0PBfPPINy216oPkH56g==
 From: =?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa=20=28Schneider=20Electric=29?= <joaomarcos.costa@bootlin.com>
 To: openembedded-core@lists.openembedded.org
 Cc: thomas.petazzoni@bootlin.com,
 	yoann.congal@smile.fr,
 	=?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa=20=28Schneider=20Electric=29?= <joaomarcos.costa@bootlin.com>
-Subject: [scarthgap][PATCH v2 2/3] sqlite3: fix CVE-2026-119374
-Date: Wed, 25 Nov 2026 15:52:38 +0100
-Message-ID: <20261125145239.4173659-3-joaomarcos.costa@bootlin.com>
+Subject: [scarthgap][PATCH v2 3/3] sqlite3: fix CVE-2026-119379
+Date: Wed, 25 Nov 2026 15:52:39 +0100
+Message-ID: <20261125145239.4173659-4-joaomarcos.costa@bootlin.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261125145239.4173659-1-joaomarcos.costa@bootlin.com>
 References: <20261125145239.4173659-1-joaomarcos.costa@bootlin.com>
@@ -38,271 +38,124 @@ Content-Type: text/plain; charset=UTF-8
 X-Last-TLS-Session-Version: TLSv1.3
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 14:55:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251193
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 14:55:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251194
 
 This vulnerability, marked as High [1], was fixed upstream [2] since
 3.54.0.
 
 Backport the fix to sqlite v3.45.3.
 
-Some function/macro definitions are required to compile the backported
-code, and they are provided in the *-pre*.patch files.
-
-[1] https://nvd.nist.gov/vuln/detail/cve-2026-119374
-[2] https://github.com/sqlite/sqlite/commit/d9de6eedbe918c074c7556400fa21=
-df5960704d9
+[1] https://nvd.nist.gov/vuln/detail/cve-2026-119379
+[2] https://github.com/sqlite/sqlite/commit/64459c87cc702d600704fb77ee40c=
+a1782398a52
 
 Signed-off-by: Jo=C3=A3o Marcos Costa (Schneider Electric) <joaomarcos.co=
 sta@bootlin.com>
 ---
- .../sqlite/sqlite3/CVE-2026-119374-pre1.patch | 48 +++++++++++++
- .../sqlite/sqlite3/CVE-2026-119374-pre2.patch | 63 +++++++++++++++++
- .../sqlite/sqlite3/CVE-2026-119374.patch      | 67 +++++++++++++++++++
- meta/recipes-support/sqlite/sqlite3_3.45.3.bb |  3 +
- 4 files changed, 181 insertions(+)
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119374-p=
-re1.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119374-p=
-re2.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119374.p=
+ .../sqlite/sqlite3/CVE-2026-119379.patch      | 70 +++++++++++++++++++
+ meta/recipes-support/sqlite/sqlite3_3.45.3.bb |  1 +
+ 2 files changed, 71 insertions(+)
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119379.p=
 atch
 
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2026-119374-pre1.pat=
-ch b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119374-pre1.patch
+diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2026-119379.patch b/=
+meta/recipes-support/sqlite/sqlite3/CVE-2026-119379.patch
 new file mode 100644
-index 0000000000..9392163008
+index 0000000000..32fdbbc5d2
 --- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119374-pre1.patch
-@@ -0,0 +1,48 @@
-+From f9e6373f9cbd1d10d01441a03def5fa08b4202d1 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119379.patch
+@@ -0,0 +1,70 @@
++From 56618802689fc81664d5e461da93026998a6b6bb Mon Sep 17 00:00:00 2001
 +From: =3D?UTF-8?q?Jo=3DC3=3DA3o=3D20Marcos=3D20Costa?=3D <joaomarcos.cos=
 ta@bootlin.com>
-+Date: Wed, 25 Nov 2026 14:49:35 +0100
-+Subject: [PATCH] sqlite3.c: add sqlite3Fts5ConfigErrmsg helper
++Date: Thu, 5 Nov 2026 12:06:23 +0100
++Subject: [PATCH] Avoid a buffer overrun when processing a strategically
++ corrupted changeset. Report [bugs:/info/2026-08-16T10:15:25Z |
++ 2026-08-16T10:15:25Z].
 +MIME-Version: 1.0
 +Content-Type: text/plain; charset=3DUTF-8
 +Content-Transfer-Encoding: 8bit
 +
-+This function was introduced at [1], and it is required by the backport =
-patch for CVE-2026-119374.
++FossilOrigin-Name: 3f57024aecea0f3b565ed823cf94b085031c481fd6323c1f2e431=
+9a53500864f
 +
-+Please note this is a partial backport, whose sole purpose is to include
-+sqlite3Fts5ConfigErrmsg()'s definition.
-+
-+[1] https://github.com/sqlite/sqlite/commit/2ec78c0e4bab11ce288a830c3a13=
-fe34a9224c4a
-+
-+Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/2ec78=
-c0e4bab11ce288a830c3a13fe34a9224c4a]
++CVE: CVE-2026-119379
++Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/64459=
+c87cc702d600704fb77ee40ca1782398a52]
 +
 +Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
 +---
-+ sqlite3.c | 15 +++++++++++++++
-+ 1 file changed, 15 insertions(+)
++ sqlite3.c | 9 ++++-----
++ 1 file changed, 4 insertions(+), 5 deletions(-)
 +
 +diff --git a/sqlite3.c b/sqlite3.c
-+index 88b1810..1bf28ac 100644
++index 2b1e6b9..88b1810 100644
 +--- a/sqlite3.c
 ++++ b/sqlite3.c
-+@@ -239370,6 +239370,21 @@ struct Fts5SegIter {
-+   u8 bDel;                        /* True if the delete flag is set */
-+ };
-+=20
-++void sqlite3Fts5ConfigErrmsg(Fts5Config *pConfig, const char *zFmt, ...=
-){
-++  va_list ap;                     /* ... printf arguments */
-++  char *zMsg =3D 0;
-++
-++  va_start(ap, zFmt);
-++  zMsg =3D sqlite3_vmprintf(zFmt, ap);
-++  if( pConfig->pzErrmsg ){
-++    *pConfig->pzErrmsg =3D zMsg;
-++  }else{
-++    sqlite3_free(zMsg);
-++  }
-++
-++  va_end(ap);
-++}
-++
-+ /*
-+ ** Array of tombstone pages. Reference counted.
-+ */
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2026-119374-pre2.pat=
-ch b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119374-pre2.patch
-new file mode 100644
-index 0000000000..dec6044002
---- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119374-pre2.patch
-@@ -0,0 +1,63 @@
-+From 1fec121608ced287baed5feabc646d74c93abec6 Mon Sep 17 00:00:00 2001
-+From: =3D?UTF-8?q?Jo=3DC3=3DA3o=3D20Marcos=3D20Costa?=3D <joaomarcos.cos=
-ta@bootlin.com>
-+Date: Wed, 25 Nov 2026 14:58:50 +0100
-+Subject: [PATCH] sqlite3.c: add fts5IndexCorrupt* helpers
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+These macros/functions were introduced at [1], and they are required by =
-the backport patch for CVE-2026-119374.
-+
-+Please note this is a partial backport, whose sole purpose is to include
-+the definitions for FTS5_CORRUPT_ROWID, FTS5_CORRUPT_ITER, and
-+FTS5_CORRUPT_IDX.
-+
-+[1] https://github.com/sqlite/sqlite/commit/fe182f74b28db7db54656a19de97=
-069e1ac69470
-+
-+Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/fe182=
-f74b28db7db54656a19de97069e1ac69470]
-+
-+Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
-+---
-+ sqlite3.c | 29 +++++++++++++++++++++++++++++
-+ 1 file changed, 29 insertions(+)
-+
-+diff --git a/sqlite3.c b/sqlite3.c
-+index 1bf28ac..354f416 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -239385,6 +239385,35 @@ void sqlite3Fts5ConfigErrmsg(Fts5Config *pCon=
-fig, const char *zFmt, ...){
-+   va_end(ap);
-+ }
-+=20
-++static int fts5IndexCorruptRowid(Fts5Index *pIdx, i64 iRowid){
-++  pIdx->rc =3D FTS5_CORRUPT;
-++  sqlite3Fts5ConfigErrmsg(pIdx->pConfig,=20
-++      "fts5: corruption found reading blob %lld from table \"%s\"",=20
-++      iRowid, pIdx->pConfig->zName
-++  );
-++  return SQLITE_CORRUPT_VTAB;
-++}
-++#define FTS5_CORRUPT_ROWID(pIdx, iRowid) fts5IndexCorruptRowid(pIdx, iR=
-owid)
-++
-++static int fts5IndexCorruptIter(Fts5Index *pIdx, Fts5SegIter *pIter){
-++  pIdx->rc =3D FTS5_CORRUPT;
-++  sqlite3Fts5ConfigErrmsg(pIdx->pConfig,=20
-++      "fts5: corruption on page %d, segment %d, table \"%s\"",=20
-++      pIter->iLeafPgno, pIter->pSeg->iSegid, pIdx->pConfig->zName
-++  );
-++  return SQLITE_CORRUPT_VTAB;
-++}
-++#define FTS5_CORRUPT_ITER(pIdx, pIter) fts5IndexCorruptIter(pIdx, pIter=
-)
-++
-++static int fts5IndexCorruptIdx(Fts5Index *pIdx){
-++  pIdx->rc =3D FTS5_CORRUPT;
-++  sqlite3Fts5ConfigErrmsg(pIdx->pConfig,=20
-++      "fts5: corruption in table \"%s\"", pIdx->pConfig->zName
-++  );
-++  return SQLITE_CORRUPT_VTAB;
-++}
-++#define FTS5_CORRUPT_IDX(pIdx) fts5IndexCorruptIdx(pIdx)
-++
-+ /*
-+ ** Array of tombstone pages. Reference counted.
-+ */
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2026-119374.patch b/=
-meta/recipes-support/sqlite/sqlite3/CVE-2026-119374.patch
-new file mode 100644
-index 0000000000..34afed81b4
---- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119374.patch
-@@ -0,0 +1,67 @@
-+From 9145df76941bd1de6ad146346269b6fcac762233 Mon Sep 17 00:00:00 2001
-+From: =3D?UTF-8?q?Jo=3DC3=3DA3o=3D20Marcos=3D20Costa?=3D <joaomarcos.cos=
-ta@bootlin.com>
-+Date: Wed, 4 Nov 2026 17:07:06 +0100
-+Subject: [PATCH] Fix a problem in fts5 secure-delete code that could lea=
-d to a
-+ buffer overrun when dealing with a strategically corrupted database. Pr=
-oblem
-+ reported by YEONBA.
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+FossilOrigin-Name: 9cd4f9e9205c5a5096388397a39349db9ff5377d19095c6b20388=
-ff799969c31
-+
-+CVE: CVE-2026-119374
-+Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/d9de6=
-eedbe918c074c7556400fa21df5960704d9]
-+
-+Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
-+---
-+ sqlite3.c | 17 +++++++++++------
-+ 1 file changed, 11 insertions(+), 6 deletions(-)
-+
-+diff --git a/sqlite3.c b/sqlite3.c
-+index 354f416..9f4fe9d 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -244286,31 +244286,36 @@ static void fts5DoSecureDelete(
-+     const int nMove =3D nPg - iNextOff;     /* Number of bytes to move =
++@@ -228393,9 +228393,9 @@ static int sessionChangesetApply(
++   int schemaMismatch =3D 0;
++   int rc =3D SQLITE_OK;             /* Return code */
++   const char *zTab =3D 0;           /* Name of current table */
++-  int nTab =3D 0;                   /* Result of sqlite3Strlen30(zTab) =
 */
-+     int nShift =3D iNextOff - iOff;         /* Distance to move them */
++   SessionApplyCtx sApply;         /* changeset_apply() context object *=
+/
++   int bPatchset;
+++  int bNew =3D 0;                   /* True for first entry of new tabl=
+e */
 +=20
-++    int nNewPg =3D 0;
-+     int iPrevKeyOut =3D 0;
-+-    int iKeyIn =3D 0;
-++    i64 iKeyIn =3D 0;
++   assert( xConflict!=3D0 );
 +=20
-+     memmove(&aPg[iOff], &aPg[iNextOff], nMove);
-+     iPgIdx -=3D nShift;
-+-    nPg =3D iPgIdx;
-++    nNewPg =3D iPgIdx;
-+     fts5PutU16(&aPg[2], iPgIdx);
-+=20
-+     for(iIdx=3D0; iIdx<nIdx; /* no-op */){
-+       u32 iVal =3D 0;
-+       iIdx +=3D fts5GetVarint32(&aIdx[iIdx], iVal);
-+       iKeyIn +=3D iVal;
-++      if( iKeyIn>nPg ){
-++        FTS5_CORRUPT_IDX(p);
-++        break;
-++      }
-+       if( iKeyIn!=3DiDelKeyOff ){
-+         int iKeyOut =3D (iKeyIn - (iKeyIn>iOff ? nShift : 0));
-+-        nPg +=3D sqlite3Fts5PutVarint(&aPg[nPg], iKeyOut - iPrevKeyOut)=
++@@ -228411,15 +228411,16 @@ static int sessionChangesetApply(
++   if( rc=3D=3DSQLITE_OK ){
++     rc =3D sqlite3_exec(db, "PRAGMA defer_foreign_keys =3D 1", 0, 0, 0)=
 ;
-++        nNewPg +=3D sqlite3Fts5PutVarint(&aPg[nNewPg], iKeyOut - iPrevK=
-eyOut);
-+         iPrevKeyOut =3D iKeyOut;
++   }
++-  while( rc=3D=3DSQLITE_OK && SQLITE_ROW=3D=3Dsqlite3changeset_next(pIt=
+er) ){
+++  while( rc=3D=3DSQLITE_OK && SQLITE_ROW=3D=3DsessionChangesetNext(pIte=
+r, 0, 0,&bNew) ){
++     int nCol;
++     int op;
++     const char *zNew;
++=20
++     sqlite3changeset_op(pIter, &zNew, &nCol, &op, 0);
++=20
++-    if( zTab=3D=3D0 || sqlite3_strnicmp(zNew, zTab, nTab+1) ){
+++    if( bNew ){
++       u8 *abPK;
+++      bNew =3D 0;
++=20
++       rc =3D sessionRetryConstraints(
++           db, pIter->bPatchset, zTab, &sApply, xConflict, pCtx
++@@ -228454,7 +228455,6 @@ static int sessionChangesetApply(
++           rc =3D SQLITE_NOMEM;
++           break;
++         }
++-        nTab =3D (int)strlen(zTab);
++         sApply.azCol =3D (const char **)zTab;
++       }else{
++         int nMinCol =3D 0;
++@@ -228506,7 +228506,6 @@ static int sessionChangesetApply(
++             sApply.bStat1 =3D 0;
++           }
++         }
++-        nTab =3D sqlite3Strlen30(zTab);
 +       }
 +     }
 +=20
-+-    if( iPgIdx=3D=3DnPg && nIdx>0 && pSeg->iLeafPgno!=3D1 ){
-++    if( p->rc=3D=3DSQLITE_OK && iPgIdx=3D=3DnNewPg && nIdx>0 && pSeg->i=
-LeafPgno!=3D1 ){
-+       fts5SecureDeleteIdxEntry(p, iSegid, pSeg->iLeafPgno);
-+     }
-+=20
-+-    assert_nc( nPg>4 || fts5GetU16(aPg)=3D=3D0 );
-+-    fts5DataWrite(p, FTS5_SEGMENT_ROWID(iSegid,pSeg->iLeafPgno), aPg, n=
-Pg);
-++    assert_nc( nNewPg>4 || fts5GetU16(aPg)=3D=3D0 );
-++    fts5DataWrite(p, FTS5_SEGMENT_ROWID(iSegid,pSeg->iLeafPgno), aPg, n=
-NewPg);
-+   }
-+   sqlite3_free(aIdx);
-+ }
 diff --git a/meta/recipes-support/sqlite/sqlite3_3.45.3.bb b/meta/recipes=
 -support/sqlite/sqlite3_3.45.3.bb
-index e7c5bcdac4..1ff7c4f2ee 100644
+index 1ff7c4f2ee..9dceb63d98 100644
 --- a/meta/recipes-support/sqlite/sqlite3_3.45.3.bb
 +++ b/meta/recipes-support/sqlite/sqlite3_3.45.3.bb
-@@ -11,6 +11,9 @@ SRC_URI =3D "http://www.sqlite.org/2024/sqlite-autoconf=
+@@ -14,6 +14,7 @@ SRC_URI =3D "http://www.sqlite.org/2024/sqlite-autoconf=
 -${SQLITE_PV}.tar.gz \
-            file://CVE-2025-70873.patch \
-            file://CVE-2026-11822_CVE-2026-11824.patch \
-            file://CVE-2026-119373.patch \
-+           file://CVE-2026-119374-pre1.patch \
-+           file://CVE-2026-119374-pre2.patch \
-+           file://CVE-2026-119374.patch \
+            file://CVE-2026-119374-pre1.patch \
+            file://CVE-2026-119374-pre2.patch \
+            file://CVE-2026-119374.patch \
++           file://CVE-2026-119379.patch \
  "
  SRC_URI[sha256sum] =3D "b2809ca53124c19c60f42bf627736eae011afdcc205bb482=
 70a5ee9a38191531"
