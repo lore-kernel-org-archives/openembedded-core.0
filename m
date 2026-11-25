@@ -1,574 +1,690 @@
-Received: from aer-iport-5.cisco.com (aer-iport-5.cisco.com [173.38.203.67])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.36112.1795583576147279887
+Received: from aer-iport-3.cisco.com (aer-iport-3.cisco.com [173.38.203.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.36074.1795583576509514036
  for <openembedded-core@lists.openembedded.org>;
- Tue, 24 Nov 2026 21:12:57 -0800
+ Tue, 24 Nov 2026 21:12:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Ja4qTPWF;
- spf=pass (domain: cisco.com, ip: 173.38.203.67, mailfrom: asparmar@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=RzZy0i6a;
+ spf=pass (domain: cisco.com, ip: 173.38.203.53, mailfrom: asparmar@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=19803; q=dns/txt;
+  d=cisco.com; i=@cisco.com; l=22960; q=dns/txt;
   s=iport01; t=1795583577; x=1796793177;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=4ovlC5yRBzS4jRIZaePVaJ4GNnh7SpULvNhhAS2/7UA=;
-  b=Ja4qTPWFf6SJFRuFmB8xkqrThyvySDxo0oLZlg52TN3iya5oI/gwfOz6
-   AijhoTE8Z/GDyMXLYVVzI4XGwOluZL5YHu5imdInUzq6W39DkEbCCJLSf
-   lp80uf4SyPD8+RoGQJOKDSAkPMYk6RbzYcdTZpyb/Ccf9Kivbnu/RRTru
-   Btp+Q67+FOb60z7FEcK8zf3RGXkDoJgpMsIwtL/9rdw3l08NRFvw4ZGfp
-   cAK945XtGYKGbxZkP5wKeJjodBw1qXG6DPQ4p4lGD8MPKx2LGrkm2KB8N
-   tbZ9Fs327C9hZkGBqduArOYWd/pLgN4R3Yfup3S4PuGncBnnW+05S/cDf
-   Q==;
-X-CSE-ConnectionGUID: 5rdqmjGrRn6k+V5kNnFvZg==
-X-CSE-MsgGUID: V8tIHj2BTTqed3iUTS+6Ww==
-X-IPAS-Result: =?us-ascii?q?A0BJAgAhbQZr/8xK/pBQCh4BPAwCC4Flghg/dWFCSZQqg?=
- =?us-ascii?q?iGBFopTkkOBfg8BAQEPRA0EAQGCEpEXAiY0CQ4BAgQDAgMBAQEBAQEBAQEBA?=
- =?us-ascii?q?QEKAQEFAQEBAgEHBYEOE4ZPDZASAS0LARQEAVkDAQJPCyMhgwIBgjoDNwIBE?=
- =?us-ascii?q?Qa5fYF5M4EBgk9aAT8CQ1DYTA2CWgELFAGBOIFhg2GDAIUlXRgBhH4nGxuBc?=
- =?us-ascii?q?oEVgnR2gQWBGkICgTOGcwSCDRWBDIFUHjGCU4lxAoFJiFJIgR4DWSwBVRMNC?=
- =?us-ascii?q?gsHBYFoAzUSKhVuMh2BIzsXgQcbBgWBHIEegRKBA12BKyheIYEIgXUCglGCA?=
- =?us-ascii?q?AIBSUEOB0VTCSVDEkckIggSCQETGiwKgRo1PAkmPxUMZwsaBWEIAg0MdDkQM?=
- =?us-ascii?q?BwkLwUZJjwbCoEMJx0eGQ4CKQYWIQs0GA1IESw3FRkEPm4HlBODCRIBLARDB?=
- =?us-ascii?q?wkKASMIRj8bTAEQB0YELJJnCpAUAYIhn1NNcQoog3mMJI8+hXwaM6lMgSYLm?=
- =?us-ascii?q?H2OCoQKkV8bTYRqgWg8gVlwFYMiCUoZD44rDguBFAEJgkKGUMgLIzUCAQEBB?=
- =?us-ascii?q?jIBAQcCBw4DC4FokX4BAQ?=
-IronPort-Data: A9a23:tcquNa05yeJbr0tfH/bD5Ydwkn2cJEfYwER7XKvMYLTBsI5bpzcBz
- jcXWz+BO/7fNmLzLt1+bIm28UoBupTdzIQyG1Zq3Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
- 512huHodZ5yEzmE4Ef3b9ANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXX5
- rsen+WFYAX7gmcubzpNg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
- u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
- OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGUVs6JIga1fxNBz9Nt
- sJFKxYLQA6xiLfjqF67YrEEasULJcTxeYdasXZ6wHSBVrAtQIvIROPB4towMDUY35wSW6yDO
- 4xGNXw1NEiojx5nYj/7DLo3h/+hnHz2aRVTqUmeouw85G27IAlZjuC2a4SLJ4PiqcN9oBaEh
- 0LEpU7FPggXOIee9Aa+sSyTmbqa9c/8cMdIfFGizdZtmFCVy2kZBREaWFf+qv6jh2a6WslDM
- AoT4icooK04+UCnQ9W7WAe3yENopTYVVsAVF6gx7xuAj/KPpQ2YHWMDCDVGbbTKqfMLeNDj7
- XfR9/uBONClmOf9pa61nltMkQ6PBA==
-IronPort-HdrOrdr: A9a23:RklC/K+R6zU/YjDdfTNuk+DoI+orL9Y04lQ7vn2ZLiYlEPBw+P
- rBoB1273LJYVUqKRIdcK67WZVoKEm0nfUe3WB7B9iftWfd1FdAVLsD0aLShxv9Bib56ulRkY
- 1kc6R4FZnMKGISt7ee3OF9eOxQp+VuN8uT9IPj80s=
-X-Talos-CUID: 9a23:/8Nlo2xSkIA7NZDQnVZ3BgVJAMw8d3/y1k3WfUz7Nztqbru7V22frfY=
-X-Talos-MUID: 9a23:gdMmYQSIMmXQVuW4RXTS1C1DFMUyyZiSEU0BypQ7h/LHaxNvbmI=
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=Vpaobjtl18lfZOw6gtDfj6GP6NeEpAr383UObPLKzQM=;
+  b=RzZy0i6a6or/eY+XizbAnUhwU5/Yg6XeylaSUr0znIVT58GJG7BY9Shw
+   +FU55Pp66WLiAiQ94o07epDHO4L/k+cj1cVi0TVp40C8rMKS2s/S2+/qM
+   juA9IAy1NEBhBB3AG9AWn+XKpPrdaVd9DmP79rr0FkJ/oofqQgwb1FjLx
+   XtYHSeXorI2FX7S1SuA/GHWmd84Ha9O3ZXJ5J3gsGurCBukp6jhem3kMo
+   6qcs7ayCpPOpCUDI6tacSjJyhEPrI7ff4w0mlxYSXHUGL/H4/aE/DAX4X
+   bH77PeQu7if1iFD0VBHTcqKdlCoM4j1H+bbbINmsvSHAM11fxRyH+1LfE
+   A==;
+X-CSE-ConnectionGUID: IaDDQ3stS3+SGE4Gxae08w==
+X-CSE-MsgGUID: fO49JSbsQcaqQnoRu4xq1Q==
+X-IPAS-Result: =?us-ascii?q?A0AnAACpbAZr/89K/pBaHQEBAQEJARIBBQUBgXwIAQsBg?=
+ =?us-ascii?q?lZ1YUJJjHKHOIIhA4tmkkOBfg8BAQEPRA0EAQGCEoJzAo4iAiY0CQ4BAgQDA?=
+ =?us-ascii?q?gMBAQEBAQEBAQEBAQEKAQEFAQEBAgEHBYEOE4ZPDZASAQIBAxoNCwEYASgVH?=
+ =?us-ascii?q?AMBAi8gCyMIGYMCAYI6AzcCAREGuX2BeTOBAYMpAYFU2EwNgloBCxQBgTgBh?=
+ =?us-ascii?q?UGDAIUlXRgBhH4nGxuBcoR/gQWBGkICgTiGbgSCIoEMgVQeMYxEAoFJiFJIg?=
+ =?us-ascii?q?R4DWSwBVRMNCgsHBYFoAzUSKhVuMh2BIzsXgQcbBgWBHIEegRKBA12BKyheI?=
+ =?us-ascii?q?YEIgXUCglGCAAIBSUEOB0VTCSVDEkckIggSCQETGiwKgRo1PAkmPxUMZwsaB?=
+ =?us-ascii?q?WEIAg0MdDkQMBwkLwUZJjwbCoEMJx0eGQ4CKQYWIQs0GA1IESw3FRkEPm4Hl?=
+ =?us-ascii?q?BOCMUoZBwEwShMBCiEXgQFrCBUMky4JATmPY4IhgTWeHk1xCiiDeYwkjz6Ff?=
+ =?us-ascii?q?BozhASBV5JDklQLmH2OCoQKkgVChGqBaDyBWXAVgyIJShkPV41UAgELC4MCX?=
+ =?us-ascii?q?oZQyAsjNQIBAQEGMgEBBwIHDgMLgWiEYYsgASYHgU8BAQ?=
+IronPort-Data: A9a23:Pd3P9aDRyBAPiBVW/33iw5YqxClBgxIJ4kV8jS/XYbTApGgn0j0Dn
+ DQaC2iEM6vbMTChfo90YNmz8ExXusCDyYBkOVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
+ /02M4eGcYZsCC+G+39BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jXGthh
+ fuo+5eBYQb/hmYtWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
+ P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
+ 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TE4vxCIHhtJpEjoaVMLkwS2
+ uwRJWhdcUXW7w626OrTpuhEj8k5ac2uN4QFtzQ4k3fSDO0tRtbIRKCiCd1whWtswJoTQbCBO
+ 4xDMWUHgBfoO3WjPn8eE4o3huKhnFH0ciZTrxSeoq9fD237klQvieayb4G9ltqiS+IJz2Sjr
+ Hn/9G3gOxcdDsHD2SPcyyf57gPItWahMG4IL5W/7vNsjViZy2AfBRFTXlyhrNG9i1WiQJRYM
+ 0ES9y8koKQ++UDtScPyNyBUu1aNswRZX59bFPc3rVnTjKHV+A2eQGMDS1atdeAbiSP/fhRyv
+ nfhoj8jLWYHXGG9IZ5FyoqpkA==
+IronPort-HdrOrdr: A9a23:m8epVKxLnw03oGEHbDEzKrPwAL1zdoMgy1knxilNoHtuA6ilfq
+ +V8sjzuSWYtN9VYgBCpTniAtjkfZqjz/9ICOAqVN/INjUO+lHYTr2KhrGM/9SPIUHDH5ZmtZ
+ tIQuxZFMD6C0R8gILR5Qm1FMtl/fy8mZrY4ts3CxxWPHhXg2YK1XYeNjqm
+X-Talos-CUID: =?us-ascii?q?9a23=3AnRAFEGrqgZpfmFXFDY0/gJDmUeEsXlHkl2zMGBT?=
+ =?us-ascii?q?7MklEFJKFQFLIqLwxxg=3D=3D?=
+X-Talos-MUID: 9a23:n00QOQunjfJHFDSh9M2nihY+ZeVT6b+XA0kUqJMBgdTYJTUpAmLI
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,232,1787011200"; 
-   d="scan'208";a="60336657"
-Received: from aer-l-core-03.cisco.com ([144.254.74.204])
-  by aer-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 25 Nov 2026 05:12:54 +0000
+   d="scan'208";a="60616773"
+Received: from aer-l-core-06.cisco.com ([144.254.74.207])
+  by aer-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 25 Nov 2026 05:12:54 +0000
 Received: from sjc-ads-20495.cisco.com (sjc-ads-20495.cisco.com [171.70.188.248])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by aer-l-core-03.cisco.com (Postfix) with ESMTPS id B94D1180006E3
+	by aer-l-core-06.cisco.com (Postfix) with ESMTPS id BFEA9180001DA
 	for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 05:12:53 +0000 (GMT)
 Received: by sjc-ads-20495.cisco.com (Postfix, from userid 1877012)
-	id 6D800CC1634; Tue, 24 Nov 2026 21:12:52 -0800 (PST)
+	id 764DDCBF222; Tue, 24 Nov 2026 21:12:52 -0800 (PST)
 From: "Ashishkumar Parmar X (asparmar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <asparmar@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose][PATCH 1/6] git: fix CVE-2026-105437
-Date: Tue, 24 Nov 2026 21:12:41 -0800
-Message-Id: <20261125051246.3108822-1-asparmar@cisco.com>
+Subject: [OE-core][wrynose][PATCH 4/6] git: fix CVE-2026-111760
+Date: Tue, 24 Nov 2026 21:12:44 -0800
+Message-Id: <20261125051246.3108822-4-asparmar@cisco.com>
 X-Mailer: git-send-email 2.35.6
+In-Reply-To: <20261125051246.3108822-1-asparmar@cisco.com>
+References: <20261125051246.3108822-1-asparmar@cisco.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: VERIFIED;sjc-ads-20495.cisco.com [171.70.188.248];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 171.70.188.248, sjc-ads-20495.cisco.com
-X-Outbound-Node: aer-l-core-03.cisco.com
+X-Outbound-Node: aer-l-core-06.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 05:12:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251135
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 05:12:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251136
 Content-Type: text/plain; charset="utf-8"
 
 From: Ashishkumar Parmar <asparmar@cisco.com>
 
 This patch applies the upstream Git 2.53.1 backport for
-CVE-2026-105437. Use size_t for merge-output sizes and checked
-addition before allocating the merge buffer. The upstream fix
-series is referenced in [1] and the CVE advisory in [2].
-The Git 2.53.1 release notes are referenced in [3].
+CVE-2026-111760. The upstream fix merge is referenced in [1],
+and the security release notes are referenced in [2]. Individual
+fix links are recorded in the embedded patch headers.
 
-Preserve Git 2.53.0 and retain the upstream regression tests.
-The required st_add5() helper is included with the overflow fix.
-
-[1] https://github.com/git/git/commit/1c93cc03eaed7d3e830864c502aae49551421fd2
-[2] https://github.com/CVEProject/cvelistV5/blob/main/cves/2026/105xxx/CVE-2026-105437.json
-[3] https://github.com/git/git/blob/v2.53.1/Documentation/RelNotes/2.53.1.adoc
+[1] https://github.com/git/git/commit/74fe079482062f1df7c2b8dfa50950838d8fc19e
+[2] https://github.com/git/git/blob/v2.53.1/Documentation/RelNotes/2.50.2.adoc
 
 Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 ---
- .../git/git/CVE-2026-105437_p1.patch          | 235 ++++++++++++++++++
- .../git/git/CVE-2026-105437_p2.patch          | 211 ++++++++++++++++
- meta/recipes-devtools/git/git_2.53.0.bb       |   2 +
- 3 files changed, 448 insertions(+)
- create mode 100644 meta/recipes-devtools/git/git/CVE-2026-105437_p1.patch
- create mode 100644 meta/recipes-devtools/git/git/CVE-2026-105437_p2.patch
+ .../git/git/CVE-2026-111760_p1.patch          | 349 ++++++++++++++++++
+ .../git/git/CVE-2026-111760_p2.patch          |  47 +++
+ .../git/git/CVE-2026-111760_p3.patch          |  48 +++
+ .../git/git/CVE-2026-111760_p4.patch          | 102 +++++
+ meta/recipes-devtools/git/git_2.53.0.bb       |   4 +
+ 5 files changed, 550 insertions(+)
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2026-111760_p1.patch
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2026-111760_p2.patch
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2026-111760_p3.patch
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2026-111760_p4.patch
 
-diff --git a/meta/recipes-devtools/git/git/CVE-2026-105437_p1.patch b/meta/recipes-devtools/git/git/CVE-2026-105437_p1.patch
+diff --git a/meta/recipes-devtools/git/git/CVE-2026-111760_p1.patch b/meta/recipes-devtools/git/git/CVE-2026-111760_p1.patch
 new file mode 100644
-index 0000000000..f2e60f5a4a
+index 0000000000..f4b1c4afb6
 --- /dev/null
-+++ b/meta/recipes-devtools/git/git/CVE-2026-105437_p1.patch
-@@ -0,0 +1,235 @@
-+From 5a0e9915092ece3be3f7c06b409504c066950585 Mon Sep 17 00:00:00 2001
-+From: Kaartic Sivaraam <kaartic.sivaraam@gmail.com>
-+Date: Fri, 16 Oct 2026 15:30:01 +0530
-+Subject: [PATCH] xdiff: use size_t for merge buffer size computations
++++ b/meta/recipes-devtools/git/git/CVE-2026-111760_p1.patch
+@@ -0,0 +1,349 @@
++From d145010e6e2be3c8d73b5701f07b7af5ddf6b9ea Mon Sep 17 00:00:00 2001
++From: Elijah Newren <newren@gmail.com>
++Date: Fri, 16 Oct 2026 20:36:16 +0200
++Subject: [PATCH] read-cache: reject cache entries with over-long names
 +
-+libxdiff keeps some intermediate size computations in "long" and "int"
-+variables and then feeds the result to malloc(). These can overflow,
-+especially "int", which is 32 bits even on 64-bit platforms ("long" is
-+too, on Windows). Often this is harmless apart from a wrong answer:
-+when the same truncated value is passed both to malloc() and to the
-+memcpy() that fills the buffer, the copy stays inside the allocation
-+and the result is merely truncated.
++We intermix size_t and unsigned int when dealing with cache entries.  A
++cache entry's name length is stored in the 32-bit ce_namelen field, but
++the length is computed as a size_t; for example, create_ce_entry() in
++unpack-trees.c derives it from traverse_path_len() while flattening a
++tree during checkout:
 +
-+xdl_fill_merge_buffer() is different. It adds up the output size in an
-+int, allocates that much, then writes each piece at "dest + size". The
-+sum can overflow because a conflict-marker-size from .gitattributes
-+accepts any positive int and is added several times per conflict, and
-+because diff3 output of large inputs can exceed INT_MAX.
++   size_t len = traverse_path_len(...);        /* 64-bit, e.g. 2^32 + 4 */
++   ce = make_empty_cache_entry(istate, len);   /* ~4 GiB buffer */
++   ce->ce_namelen = len;                       /* truncates to N = 4 */
++   make_traverse_path(ce->name, len + 1, ...); /* writes 2^32 + 4 bytes */
 +
-+We considered both ways the sum can wrap:
++Consider crafted trees that build a path of the form
 +
-+  1. It ends up negative. malloc() sees a huge size_t and fails, which
-+     is a spurious error but not exploitable.
++   .gitz/z...z/z
 +
-+  2. It wraps back to a small positive value. malloc() succeeds with a
-+     buffer that is too small. Each addend is below 2^31, so the
-+     running offset passes through negative values on the way. Writes
-+     therefore first run past the end of the buffer and then land
-+     before its start.
++with 2^32 bytes following the ".git".  The full path is written into
++ce->name, but ce->ce_namelen wraps to (len % 2^32) = 4.  Our path-safety
++check,
 +
-+Convert these variables to size_t. The running sum can then no longer
-+go negative, and on 64-bit platforms it can no longer realistically
-+wrap either. Two holes remain, which the next commit closes by using
-+st_add*(): the marker addends (e.g. "marker_size + 1 + needs_cr +
-+marker1_size") are still computed as int and can overflow when
-+conflict-marker-size is close to INT_MAX, and on 32-bit platforms
-+size_t itself can still wrap.
++   verify_path_internal(ce->name, mode)
 +
-+Note that in xdl_do_merge(), the value returned by xdl_fill_merge_buffer()
-+is assigned to mmbuffer_t's size which is a long. This may result in
-+silent truncation on LLP64 platforms like Windows, where long is 32 bits.
-+Fixing this properly means converting the users of mmbuffer_t, which
-+pass its size on to functions taking an unsigned long, and the code
-+they call, to size_t. That is a larger effort for a separate series.
-+Until then, fail the merge when the result does not fit in a long.
-+This turns a silent truncation into an error the caller already
-+knows how to handle.
++walks the whole NUL-terminated name and finds nothing wrong with
++".gitz/z...z/z".  Yet when checkout_entry_ca() writes the entry to disk
++it uses
 +
-+CVE: CVE-2026-105437
-+Upstream-Status: Backport [https://github.com/git/git/commit/288266c11d91a01239e8e17f4bd90f1276e30030]
++   strbuf_add(&path, ce->name, ce_namelen(ce))
 +
-+Based-on-patch-by: Jeff King <peff@peff.net>
-+Helped-by: Toon Claes <toon@iotcl.com>
-+Helped-by: Christian Couder <christian@gitlab.com>
-+Signed-off-by: Kaartic Sivaraam <kaartic.sivaraam@gmail.com>
++which evaluates to
++
++   strbuf_add(&path, ".gitz/z...z/z", 4)
++
++A path that passed validation as ".gitz/z...z/z" is thus written as
++".git".  If the entry is a symlink, checking out such a tree tries to
++overwrite ".git" with a symlink pointing at a location that holds
++malicious hooks or config.  While cloning, git refuses to replace a
++".git" directory with a symlink, but a freshly cloned submodule's ".git"
++is a gitfile rather than a directory, so the symlink is written -- which
++can lead to arbitrary code execution if the symlinked directory has
++malicious hooks or config.
++
++Funnel every cache-entry allocation through a single check that refuses
++a name length larger than INT_MAX, and do so before allocating.  Widen
++the two strlen()-based helpers to size_t as well, so the length is not
++narrowed before the check runs.
++
++Additionally, reject paths longer than index.maxPathLen in
++verify_path_internal().  Default the limit to INT_MAX / 2 - 1024 to
++leave headroom for code that combines two path lengths.  Parse the
++configuration as unsigned and cap it at INT_MAX.
++
++Add a "test-tool cache-entry" helper that exercises the guard without
++having to materialize a multi-gigabyte name in memory, plus t1600 tests
++covering both the accepted and rejected cases.
++
++Add command-level tests for paths entering the index from both the
++filesystem and a tree, along with tests for invalid index.maxPathLen
++values.
++
++CVE: CVE-2026-111760
++Upstream-Status: Backport [https://github.com/git/git/commit/29411cf59fd417d8fce1be40ab2911e3e0885f26]
++
++Backport Changes:
++Place the unchanged index.maxpathlen configuration block in
++environment.c, where Git 2.53.0 defines git_default_config(). The
++original config.c hunk conflicts because the callback moved.
++
++Reported-by: Robert Chen <r@osec.io>
++Helped-by: Johannes Schindelin <Johannes.Schindelin@gmx.de>
++Helped-by: Jeff King <peff@peff.net>
++Co-authored-by: Toon Claes <toon@iotcl.com>
++Signed-off-by: Elijah Newren <newren@gmail.com>
++Signed-off-by: Toon Claes <toon@iotcl.com>
 +Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 +---
-+ t/t4300-merge-tree.sh | 74 +++++++++++++++++++++++++++++++++++++++++++
-+ xdiff/xmerge.c        | 45 ++++++++++++++------------
-+ 2 files changed, 99 insertions(+), 20 deletions(-)
++ Documentation/config/index.adoc |  5 +++++
++ Makefile                        |  1 +
++ environment.c                   | 11 ++++++++++
++ environment.h                   |  1 +
++ read-cache.c                    | 17 +++++++++++++--
++ t/helper/meson.build            |  1 +
++ t/helper/test-cache-entry.c     | 35 +++++++++++++++++++++++++++++++
++ t/helper/test-tool.c            |  1 +
++ t/helper/test-tool.h            |  1 +
++ t/t1600-index.sh                | 37 +++++++++++++++++++++++++++++++++
++ 10 files changed, 108 insertions(+), 2 deletions(-)
++ create mode 100644 t/helper/test-cache-entry.c
 +
-+diff --git a/t/t4300-merge-tree.sh b/t/t4300-merge-tree.sh
-+index 27fbe193bc..13e883c491 100755
-+--- a/t/t4300-merge-tree.sh
-++++ b/t/t4300-merge-tree.sh
-+@@ -378,4 +378,78 @@ test_expect_success 'merge-tree respects core.useReplaceRefs=false' '
-+ 	test valid = $merged
-+ '
-+ 
-++# A couple of tests to ensure merge-tree does not undergo a heap
-++# buffer overflow.
-++#
-++# Number of lines per file, and every Nth line is a conflict site.
-++# With N=5 and 2100 lines there are 420 independent conflict hunks per file.
-++# We use the specified MARKER_SIZE as it amounts to around 10MiB of conflict
-++# hunk text for each conflict in the file. This helps us to quickly trigger
-++# the heap buffer overflow with just 420 conflict hunks.
-++LINES=2100
-++STEP=5
-++MARKER_SIZE=3495254
++diff --git a/Documentation/config/index.adoc b/Documentation/config/index.adoc
++index 3eff4203..a23be914 100644
++--- a/Documentation/config/index.adoc
+++++ b/Documentation/config/index.adoc
++@@ -1,3 +1,8 @@
+++index.maxPathLen::
+++	Specify the maximum length of a pathname that Git will add to
+++	the index or check out. Longer pathnames are rejected. The default
+++	is 1073740799 bytes, and values larger than 2147483647 are rejected.
 ++
-++# gen_file <label>: emit a file whose conflict-site lines carry <label>.
-++# Context lines between sites contain alphanumerics so that xdiff does not
-++# coalesce neighbouring hunks into one large conflict.
-++gen_file () {
-++	n=1
-++	while test $n -le $LINES
-++	do
-++		if test $(($n % $STEP)) = 0
-++		then
-++			echo "$1 site $n"
-++		else
-++			echo "context line $n"
-++		fi
-++		n=$(($n + 1))
-++	done
++ index.recordEndOfIndexEntries::
++ 	Specifies whether the index file should include an "End Of Index
++ 	Entry" section. This reduces index load time on multiprocessor
++diff --git a/Makefile b/Makefile
++index 8aa489f3..cd111e2b 100644
++--- a/Makefile
+++++ b/Makefile
++@@ -804,6 +804,7 @@ TEST_BUILTINS_OBJS += test-advise.o
++ TEST_BUILTINS_OBJS += test-bitmap.o
++ TEST_BUILTINS_OBJS += test-bloom.o
++ TEST_BUILTINS_OBJS += test-bundle-uri.o
+++TEST_BUILTINS_OBJS += test-cache-entry.o
++ TEST_BUILTINS_OBJS += test-cache-tree.o
++ TEST_BUILTINS_OBJS += test-chmtime.o
++ TEST_BUILTINS_OBJS += test-config.o
++diff --git a/environment.c b/environment.c
++index 8ffbf92d..290a1938 100644
++--- a/environment.c
+++++ b/environment.c
++@@ -44,6 +44,7 @@ int trust_executable_bit = 1;
++ int trust_ctime = 1;
++ int check_stat = 1;
++ int has_symlinks = 1;
+++unsigned int max_ce_namelen = INT_MAX / 2 - 1024;
++ int minimum_abbrev = 4, default_abbrev = -1;
++ int ignore_case;
++ int assume_unchanged;
++@@ -724,6 +725,16 @@ int git_default_config(const char *var, const char *value,
++ 	if (starts_with(var, "sparse."))
++ 		return git_default_sparse_config(var, value);
++ 
+++	if (!strcmp(var, "index.maxpathlen")) {
+++		unsigned long maxlen = git_config_ulong(var, value, ctx->kvi);
+++
+++		if (maxlen > INT_MAX)
+++			return error(_("value for '%s' exceeds maximum of %d"),
+++				     var, INT_MAX);
+++		max_ce_namelen = maxlen;
+++		return 0;
+++	}
+++
++ 	/* Add other config variables here and to Documentation/config.adoc. */
++ 	return 0;
++ }
++diff --git a/environment.h b/environment.h
++index 27f657af..8dc5b5ed 100644
++--- a/environment.h
+++++ b/environment.h
++@@ -148,6 +148,7 @@ extern int trust_executable_bit;
++ extern int trust_ctime;
++ extern int check_stat;
++ extern int has_symlinks;
+++extern unsigned int max_ce_namelen;
++ extern int minimum_abbrev, default_abbrev;
++ extern int ignore_case;
++ extern int assume_unchanged;
++diff --git a/read-cache.c b/read-cache.c
++index 0c07c3ae..8a198ba9 100644
++--- a/read-cache.c
+++++ b/read-cache.c
++@@ -92,9 +92,17 @@ enum index_search_mode {
++ 	EXPAND_SPARSE = 1
++ };
++ 
+++static inline void verify_ce_namelen(size_t len)
+++{
+++	if (len > INT_MAX)
+++		die(_("index entry path is too long (%"PRIuMAX" bytes)"),
+++		    (uintmax_t)len);
 ++}
 ++
-++test_expect_success EXPENSIVE 'setup: base commit with attributes' '
-++	echo "big.txt conflict-marker-size=$MARKER_SIZE" >.gitattributes &&
-++	gen_file base >big.txt &&
-++	gen_file base >other.txt &&
-++	git add .gitattributes big.txt other.txt &&
-++	git commit -m base &&
-++	git branch -M main &&
++ static inline struct cache_entry *mem_pool__ce_alloc(struct mem_pool *mem_pool, size_t len)
++ {
++ 	struct cache_entry *ce;
+++	verify_ce_namelen(len);
++ 	ce = mem_pool_alloc(mem_pool, cache_entry_size(len));
++ 	ce->mem_pool_allocated = 1;
++ 	return ce;
++@@ -103,6 +111,7 @@ static inline struct cache_entry *mem_pool__ce_alloc(struct mem_pool *mem_pool,
++ static inline struct cache_entry *mem_pool__ce_calloc(struct mem_pool *mem_pool, size_t len)
++ {
++ 	struct cache_entry * ce;
+++	verify_ce_namelen(len);
++ 	ce = mem_pool_calloc(mem_pool, 1, cache_entry_size(len));
++ 	ce->mem_pool_allocated = 1;
++ 	return ce;
++@@ -821,6 +830,7 @@ struct cache_entry *make_empty_transient_cache_entry(size_t len,
++ {
++ 	if (ce_mem_pool)
++ 		return mem_pool__ce_calloc(ce_mem_pool, len);
+++	verify_ce_namelen(len);
++ 	return xcalloc(1, cache_entry_size(len));
++ }
++ 
++@@ -845,7 +855,7 @@ struct cache_entry *make_cache_entry(struct index_state *istate,
++ 				     unsigned int refresh_options)
++ {
++ 	struct cache_entry *ce, *ret;
++-	int len;
+++	size_t len;
++ 
++ 	if (verify_path_internal(path, mode) == PATH_INVALID) {
++ 		error(_("invalid path '%s'"), path);
++@@ -874,7 +884,7 @@ struct cache_entry *make_transient_cache_entry(unsigned int mode,
++ 					       struct mem_pool *ce_mem_pool)
++ {
++ 	struct cache_entry *ce;
++-	int len;
+++	size_t len;
++ 
++ 	if (!verify_path(path, mode)) {
++ 		error(_("invalid path '%s'"), path);
++@@ -992,6 +1002,9 @@ static enum verify_path_result verify_path_internal(const char *path,
++ 	if (!is_valid_path(path))
++ 		return PATH_INVALID;
++ 
+++	if (strlen(path) > max_ce_namelen)
+++		return PATH_INVALID;
 ++
-++	git checkout -b side1 main &&
-++	gen_file ours >big.txt &&
-++	gen_file ours >other.txt &&
-++	git commit -a -m side1 &&
++ 	goto inside;
++ 	for (;;) {
++ 		if (!c)
++diff --git a/t/helper/meson.build b/t/helper/meson.build
++index 675e64c0..0e38ca3a 100644
++--- a/t/helper/meson.build
+++++ b/t/helper/meson.build
++@@ -4,6 +4,7 @@ test_tool_sources = [
++   'test-bitmap.c',
++   'test-bloom.c',
++   'test-bundle-uri.c',
+++  'test-cache-entry.c',
++   'test-cache-tree.c',
++   'test-chmtime.c',
++   'test-config.c',
++diff --git a/t/helper/test-cache-entry.c b/t/helper/test-cache-entry.c
++new file mode 100644
++index 00000000..65e0bb91
++--- /dev/null
+++++ b/t/helper/test-cache-entry.c
++@@ -0,0 +1,35 @@
+++#define USE_THE_REPOSITORY_VARIABLE
+++#include "test-tool.h"
+++#include "read-cache-ll.h"
 ++
-++	git checkout -b side2 main &&
-++	gen_file theirs >big.txt &&
-++	gen_file theirs >other.txt &&
-++	git commit -a -m side2
+++/*
+++ * Exercise the cache-entry name-length guard without having to construct a
+++ * multi-gigabyte pathname in memory.  make_empty_cache_entry()
+++ * dies on any length that would not survive being stored in the 32-bit
+++ * "ce_namelen" field, and it does so before allocating, so an out-of-range
+++ * length is cheap to test.
+++ */
+++int cmd__cache_entry(int argc, const char **argv)
+++{
+++	size_t len;
+++	char *end;
+++	struct cache_entry *ce;
+++
+++	if (argc != 2)
+++		die("usage: test-tool cache-entry <namelen>");
+++
+++	errno = 0;
+++	len = strtoumax(argv[1], &end, 10);
+++	if (errno || *end)
+++		die("cannot parse namelen '%s'", argv[1]);
+++
+++	/* Dies here if 'len' is too large to be represented safely. */
+++	ce = make_empty_cache_entry(the_repository->index, len);
+++	if (!ce)
+++		die("failed to create cache entry");
+++
+++	printf("ok: allocated cache entry for namelen %"PRIuMAX"\n",
+++	       (uintmax_t)len);
+++	discard_cache_entry(ce);
+++	return 0;
+++}
++diff --git a/t/helper/test-tool.c b/t/helper/test-tool.c
++index a7abc618..feb5b6f4 100644
++--- a/t/helper/test-tool.c
+++++ b/t/helper/test-tool.c
++@@ -14,6 +14,7 @@ static struct test_cmd cmds[] = {
++ 	{ "bitmap", cmd__bitmap },
++ 	{ "bloom", cmd__bloom },
++ 	{ "bundle-uri", cmd__bundle_uri },
+++	{ "cache-entry", cmd__cache_entry },
++ 	{ "cache-tree", cmd__cache_tree },
++ 	{ "chmtime", cmd__chmtime },
++ 	{ "config", cmd__config },
++diff --git a/t/helper/test-tool.h b/t/helper/test-tool.h
++index 7f150fa1..669c7bef 100644
++--- a/t/helper/test-tool.h
+++++ b/t/helper/test-tool.h
++@@ -7,6 +7,7 @@ int cmd__advise_if_enabled(int argc, const char **argv);
++ int cmd__bitmap(int argc, const char **argv);
++ int cmd__bloom(int argc, const char **argv);
++ int cmd__bundle_uri(int argc, const char **argv);
+++int cmd__cache_entry(int argc, const char **argv);
++ int cmd__cache_tree(int argc, const char **argv);
++ int cmd__chmtime(int argc, const char **argv);
++ int cmd__config(int argc, const char **argv);
++diff --git a/t/t1600-index.sh b/t/t1600-index.sh
++index 03239e9f..93305d45 100755
++--- a/t/t1600-index.sh
+++++ b/t/t1600-index.sh
++@@ -122,6 +122,43 @@ test_index_version () {
++ 	)
++ }
++ 
+++test_expect_success 'cache entry with a representable name length is accepted' '
+++	test-tool cache-entry 100 >actual &&
+++	test_grep "^ok: allocated cache entry for namelen 100" actual
 ++'
 ++
-++# We have LONG_IS_64BIT as a prerequisite since we guard against downcasts
-++# from 64-bit size_t to 32-bit long (for example on Windows)
-++test_expect_success EXPENSIVE,SIZE_T_IS_64BIT,LONG_IS_64BIT 'no buffer overflow in merge-tree --write-tree' '
-++	test_expect_code 1 git merge-tree --write-tree side1 side2 >out &&
-++	tree=$(head -n 1 out) &&
-++	git cat-file -e "$tree^{tree}"
+++test_expect_success SIZE_T_IS_64BIT \
+++	'over-long cache entry name length is rejected rather than truncated' '
+++	# 4294967296 == 2^32
+++	test_must_fail test-tool cache-entry 4294967296 2>err &&
+++	test_grep "index entry path is too long" err
 ++'
 ++
-++test_expect_success EXPENSIVE,SIZE_T_IS_64BIT,LONG_IS_64BIT 'conflicted paths are listed without buffer overflow' '
-++	test_expect_code 1 git merge-tree --write-tree --name-only \
-++		side1 side2 >out &&
-++	sed -n "2,\$p" out | sed "/^\$/,\$d" | sort -u >actual &&
-++	cat >expect <<-\EOF &&
-++	big.txt
-++	other.txt
-++	EOF
+++test_expect_success 'path length enforced from filesystem to index' '
+++	name=a-somewhat-long-path-name &&
+++	echo foo >"$name" &&
+++	test_must_fail git -c index.maxPathLen=10 add "$name" 2>err &&
+++	test_grep "invalid path" err
+++'
+++
+++test_expect_success 'path length enforced from tree to index' '
+++	name=a-somewhat-long-path-name &&
+++	echo foo >"$name" &&
+++	git add "$name" &&
+++	git commit -m long-path &&
+++	test_when_finished "rm -rf long-clone.git" &&
+++	test_must_fail git -c index.maxPathLen=10 clone . long-clone.git 2>err &&
+++	test_grep "invalid path" err
+++'
+++
+++test_expect_success 'index.maxPathLen rejects out-of-range values' '
+++	test_must_fail git -c index.maxPathLen=-1 status 2>err &&
+++	test_grep "bad numeric config value" err &&
+++	test_must_fail git -c index.maxPathLen=2147483648 status 2>err &&
+++	test_grep "exceeds maximum" err
+++'
+++
+++# This must be the last test case because it deletes .git/config
++ test_expect_success 'index version config precedence' '
++ 	test_index_version 0 false 0 2 &&
++ 	test_index_version 2 false 0 2 &&
+diff --git a/meta/recipes-devtools/git/git/CVE-2026-111760_p2.patch b/meta/recipes-devtools/git/git/CVE-2026-111760_p2.patch
+new file mode 100644
+index 0000000000..76c4fec69c
+--- /dev/null
++++ b/meta/recipes-devtools/git/git/CVE-2026-111760_p2.patch
+@@ -0,0 +1,47 @@
++From 911c7c83ca72bbc9e4bacf32c18edbe65c101522 Mon Sep 17 00:00:00 2001
++From: Johannes Schindelin <johannes.schindelin@gmx.de>
++Date: Fri, 16 Oct 2026 20:36:17 +0200
++Subject: [PATCH] checkout: use size_t and st_add() for cache entry length in
++ update_some()
++
++In update_some(), the combined length of the base path and the pathname
++is computed as an int and then passed to make_empty_cache_entry().  For
++very long paths, this can truncate the result or overflow, causing us to
++allocate a smaller cache entry than needed and then copy more data than
++was allocated.
++
++Use size_t instead and compute the sum with st_add(), which catches
++overflow before it can lead to a heap overflow during checkout.
++
++CVE: CVE-2026-111760
++Upstream-Status: Backport [https://github.com/git/git/commit/fd48e6f35621ebd4657acb4a74d8638466a4dbbc]
++
++Assisted-by: Kimi-K2.7-Code
++Signed-off-by: Johannes Schindelin <johannes.schindelin@gmx.de>
++Signed-off-by: Toon Claes <toon@iotcl.com>
++Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
++---
++ builtin/checkout.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/builtin/checkout.c b/builtin/checkout.c
++index 0ba4f03f..bd2a67d2 100644
++--- a/builtin/checkout.c
+++++ b/builtin/checkout.c
++@@ -149,14 +149,14 @@ static int post_checkout_hook(struct commit *old_commit, struct commit *new_comm
++ static int update_some(const struct object_id *oid, struct strbuf *base,
++ 		       const char *pathname, unsigned mode, void *context UNUSED)
++ {
++-	int len;
+++	size_t len;
++ 	struct cache_entry *ce;
++ 	int pos;
++ 
++ 	if (S_ISDIR(mode))
++ 		return READ_TREE_RECURSIVE;
++ 
++-	len = base->len + strlen(pathname);
+++	len = st_add(base->len, strlen(pathname));
++ 	ce = make_empty_cache_entry(the_repository->index, len);
++ 	oidcpy(&ce->oid, oid);
++ 	memcpy(ce->name, base->buf, base->len);
+diff --git a/meta/recipes-devtools/git/git/CVE-2026-111760_p3.patch b/meta/recipes-devtools/git/git/CVE-2026-111760_p3.patch
+new file mode 100644
+index 0000000000..11fd19d8d1
+--- /dev/null
++++ b/meta/recipes-devtools/git/git/CVE-2026-111760_p3.patch
+@@ -0,0 +1,48 @@
++From 56064c42605275bed7d4101a42309413929cfd86 Mon Sep 17 00:00:00 2001
++From: Johannes Schindelin <johannes.schindelin@gmx.de>
++Date: Fri, 16 Oct 2026 20:36:18 +0200
++Subject: [PATCH] read-cache: use size_t and st_add() for cache entry size in
++ read_one_entry_opt()
++
++read_one_entry_opt() stores strlen(pathname) in a signed int, which can
++narrow or truncate the length.  The combined length passed to
++make_empty_cache_entry() can also overflow, and the signed type causes
++problems near the INT_MAX boundary.
++
++Switch to size_t and use st_add() when computing the allocation size,
++preventing truncation and signed overflow when reading tree entries with
++over-long basenames, such as those used by ls-files --with-tree and
++partial-commit overlays.
++
++CVE: CVE-2026-111760
++Upstream-Status: Backport [https://github.com/git/git/commit/df246839249110b852848db70501296d99bf1d7d]
++
++Assisted-by: Kimi-K2.7-Code
++Signed-off-by: Johannes Schindelin <johannes.schindelin@gmx.de>
++Signed-off-by: Toon Claes <toon@iotcl.com>
++Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
++---
++ read-cache.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
++
++diff --git a/read-cache.c b/read-cache.c
++index 8a198ba9..381ef3b2 100644
++--- a/read-cache.c
+++++ b/read-cache.c
++@@ -3769,14 +3769,14 @@ static int read_one_entry_opt(struct index_state *istate,
++ 			      const char *pathname,
++ 			      unsigned mode, int opt)
++ {
++-	int len;
+++	size_t len;
++ 	struct cache_entry *ce;
++ 
++ 	if (S_ISDIR(mode))
++ 		return READ_TREE_RECURSIVE;
++ 
++ 	len = strlen(pathname);
++-	ce = make_empty_cache_entry(istate, base->len + len);
+++	ce = make_empty_cache_entry(istate, st_add(base->len, len));
++ 
++ 	ce->ce_mode = create_ce_mode(mode);
++ 	ce->ce_flags = create_ce_flags(1);
+diff --git a/meta/recipes-devtools/git/git/CVE-2026-111760_p4.patch b/meta/recipes-devtools/git/git/CVE-2026-111760_p4.patch
+new file mode 100644
+index 0000000000..41ae73121f
+--- /dev/null
++++ b/meta/recipes-devtools/git/git/CVE-2026-111760_p4.patch
+@@ -0,0 +1,102 @@
++From a3e3e36920865b8b4fee6fd3a6c9bd98f5895ece Mon Sep 17 00:00:00 2001
++From: Johannes Schindelin <johannes.schindelin@gmx.de>
++Date: Fri, 16 Oct 2026 20:36:19 +0200
++Subject: [PATCH] t1600-index: add expensive tests for over-long tree paths
++
++The fixes for over-long cache entry names need regression coverage.
++Add helper functions make_large_tree and check_overlong_tree, along with
++four EXPENSIVE tests gated by SIZE_T_IS_64BIT and LONG_IS_64BIT that
++exercise the oversized-path boundary for checkout, restore, and ls-files,
++plus one more EXPENSIVE test for ls-files at the INT_MAX terminator
++boundary.
++
++These tests require 64-bit size_t/long and large allocations, so they are
++opt-in and only run when the appropriate EXPENSIVE prerequisites are
++satisfied.
++
++CVE: CVE-2026-111760
++Upstream-Status: Backport [https://github.com/git/git/commit/89048b48fb3acc7b24e38c42139b3a03fa54e09f]
++
++Assisted-by: Kimi-K2.7-Code
++Signed-off-by: Johannes Schindelin <johannes.schindelin@gmx.de>
++Signed-off-by: Toon Claes <toon@iotcl.com>
++Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
++---
++ t/t1600-index.sh | 64 ++++++++++++++++++++++++++++++++++++++++++++++++
++ 1 file changed, 64 insertions(+)
++
++diff --git a/t/t1600-index.sh b/t/t1600-index.sh
++index 93305d45..9c51cc04 100755
++--- a/t/t1600-index.sh
+++++ b/t/t1600-index.sh
++@@ -158,6 +158,70 @@ test_expect_success 'index.maxPathLen rejects out-of-range values' '
++ 	test_grep "exceeds maximum" err
++ '
++ 
+++make_large_tree () {
+++	{
+++		printf "100644 " &&
+++		test-tool genzeros "$1" | tr "\000" a &&
+++		printf "\0" &&
+++		test-tool genzeros "$(test_oid rawsz)"
+++	} >"tree-$1" &&
+++	git hash-object --literally -w -t tree "tree-$1"
+++}
+++
+++check_overlong_tree () {
+++	test_must_fail git -C overlong "$@" >actual 2>err &&
+++	test_cmp expect-overlong err &&
+++	test_must_be_empty actual
+++}
+++
+++test_expect_success EXPENSIVE,SIZE_T_IS_64BIT,LONG_IS_64BIT \
+++		"set up a tree path whose length wraps to a small int" '
+++	test_create_repo overlong &&
+++	(
+++		cd overlong &&
+++		subtree=$(make_large_tree 4294967294) &&
+++		printf "040000 tree %s\tabc\n" "$subtree" |
+++		git mktree >tree
+++	) &&
+++	overlong_tree=$(cat overlong/tree) &&
+++	echo "fatal: index entry path is too long" \
+++		"(4294967298 bytes)" >expect-overlong
+++'
+++
+++test_expect_success EXPENSIVE,SIZE_T_IS_64BIT,LONG_IS_64BIT \
+++		"checkout rejects a path before its length is truncated" '
+++	check_overlong_tree checkout "$overlong_tree" -- :/
+++'
+++
+++test_expect_success EXPENSIVE,SIZE_T_IS_64BIT,LONG_IS_64BIT \
+++		"restore rejects a path before its length is truncated" '
+++	check_overlong_tree restore --source="$overlong_tree" --staged -- :/
+++'
+++
+++test_expect_success EXPENSIVE,SIZE_T_IS_64BIT,LONG_IS_64BIT \
+++		"ls-files rejects a path before its length is truncated" '
+++	check_overlong_tree ls-files --with-tree="$overlong_tree"
+++'
+++
+++test_expect_success EXPENSIVE,SIZE_T_IS_64BIT,LONG_IS_64BIT \
+++		"clean up the large tree" '
+++	rm -rf overlong
+++'
+++
+++test_expect_success EXPENSIVE,SIZE_T_IS_64BIT \
+++		"ls-files includes the terminator without signed overflow" '
+++	test_create_repo boundary &&
+++	test_when_finished "rm -rf boundary" &&
+++	(
+++		cd boundary &&
+++		make_large_tree 2147483647 >tree
+++	) &&
+++	echo 100644 >expect &&
+++	git -C boundary ls-files --with-tree="$(cat boundary/tree)" \
+++		--format="%(objectmode)" >actual &&
 ++	test_cmp expect actual
 ++'
 ++
-++# Ensure we properly identify a downcast from 64-bit size_t to
-++# 32-bit long on Windows
-++test_expect_success EXPENSIVE,SIZE_T_IS_64BIT,!LONG_IS_64BIT 'merge-tree dies when merge buffer size does not fit long' '
-++	test_must_fail git merge-tree --write-tree side1 side2 2>err &&
-++	test_grep "failure to merge" err
-++'
-++
-+ test_done
-+diff --git a/xdiff/xmerge.c b/xdiff/xmerge.c
-+index 29dad98c49..d18c6f30be 100644
-+--- a/xdiff/xmerge.c
-++++ b/xdiff/xmerge.c
-+@@ -109,10 +109,10 @@ static int xdl_merge_cmp_lines(xdfenv_t *xe1, int i1, xdfenv_t *xe2, int i2,
-+ 	return 0;
-+ }
-+ 
-+-static int xdl_recs_copy_0(int use_orig, xdfenv_t *xe, int i, int count, int needs_cr, int add_nl, char *dest)
-++static size_t xdl_recs_copy_0(int use_orig, xdfenv_t *xe, int i, int count, int needs_cr, int add_nl, char *dest)
-+ {
-+ 	xrecord_t *recs;
-+-	int size = 0;
-++	size_t size = 0;
-+ 
-+ 	recs = (use_orig ? xe->xdf1.recs : xe->xdf2.recs) + i;
-+ 
-+@@ -139,12 +139,12 @@ static int xdl_recs_copy_0(int use_orig, xdfenv_t *xe, int i, int count, int nee
-+ 	return size;
-+ }
-+ 
-+-static int xdl_recs_copy(xdfenv_t *xe, int i, int count, int needs_cr, int add_nl, char *dest)
-++static size_t xdl_recs_copy(xdfenv_t *xe, int i, int count, int needs_cr, int add_nl, char *dest)
-+ {
-+ 	return xdl_recs_copy_0(0, xe, i, count, needs_cr, add_nl, dest);
-+ }
-+ 
-+-static int xdl_orig_copy(xdfenv_t *xe, int i, int count, int needs_cr, int add_nl, char *dest)
-++static size_t xdl_orig_copy(xdfenv_t *xe, int i, int count, int needs_cr, int add_nl, char *dest)
-+ {
-+ 	return xdl_recs_copy_0(1, xe, i, count, needs_cr, add_nl, dest);
-+ }
-+@@ -193,11 +193,11 @@ static int is_cr_needed(xdfenv_t *xe1, xdfenv_t *xe2, xdmerge_t *m)
-+ 	return needs_cr < 0 ? 0 : needs_cr;
-+ }
-+ 
-+-static int fill_conflict_hunk(xdfenv_t *xe1, const char *name1,
-+-			      xdfenv_t *xe2, const char *name2,
-+-			      const char *name3,
-+-			      int size, int i, int style,
-+-			      xdmerge_t *m, char *dest, int marker_size)
-++static size_t fill_conflict_hunk(xdfenv_t *xe1, const char *name1,
-++				 xdfenv_t *xe2, const char *name2,
-++				 const char *name3,
-++				 size_t size, int i, int style,
-++				 xdmerge_t *m, char *dest, int marker_size)
-+ {
-+ 	int marker1_size = (name1 ? strlen(name1) + 1 : 0);
-+ 	int marker2_size = (name2 ? strlen(name2) + 1 : 0);
-+@@ -280,14 +280,15 @@ static int fill_conflict_hunk(xdfenv_t *xe1, const char *name1,
-+ 	return size;
-+ }
-+ 
-+-static int xdl_fill_merge_buffer(xdfenv_t *xe1, const char *name1,
-+-				 xdfenv_t *xe2, const char *name2,
-+-				 const char *ancestor_name,
-+-				 int favor,
-+-				 xdmerge_t *m, char *dest, int style,
-+-				 int marker_size)
-++static size_t xdl_fill_merge_buffer(xdfenv_t *xe1, const char *name1,
-++				    xdfenv_t *xe2, const char *name2,
-++				    const char *ancestor_name,
-++				    int favor,
-++				    xdmerge_t *m, char *dest, int style,
-++				    int marker_size)
-+ {
-+-	int size, i;
-++	size_t size;
-++	int i;
-+ 
-+ 	for (size = i = 0; m; m = m->next) {
-+ 		if (favor && !m->mode)
-+@@ -664,10 +665,14 @@ static int xdl_do_merge(xdfenv_t *xe1, xdchange_t *xscr1,
-+ 	/* output */
-+ 	if (result) {
-+ 		int marker_size = xmp->marker_size;
-+-		int size = xdl_fill_merge_buffer(xe1, name1, xe2, name2,
-+-						 ancestor_name,
-+-						 favor, changes, NULL, style,
-+-						 marker_size);
-++		size_t size = xdl_fill_merge_buffer(xe1, name1, xe2, name2,
-++						    ancestor_name,
-++						    favor, changes, NULL, style,
-++						    marker_size);
-++		if (size > LONG_MAX) {
-++			xdl_cleanup_merge(changes);
-++			return -1;
-++		}
-+ 		result->ptr = xdl_malloc(size);
-+ 		if (!result->ptr) {
-+ 			xdl_cleanup_merge(changes);
-diff --git a/meta/recipes-devtools/git/git/CVE-2026-105437_p2.patch b/meta/recipes-devtools/git/git/CVE-2026-105437_p2.patch
-new file mode 100644
-index 0000000000..c430990dc5
---- /dev/null
-+++ b/meta/recipes-devtools/git/git/CVE-2026-105437_p2.patch
-@@ -0,0 +1,211 @@
-+From 101cf0f0ac86c6f0ffa6866cd139db2253af84b4 Mon Sep 17 00:00:00 2001
-+From: Kaartic Sivaraam <kaartic.sivaraam@gmail.com>
-+Date: Fri, 16 Oct 2026 15:30:02 +0530
-+Subject: [PATCH] xdiff: check for overflow when computing merge buffer size
-+
-+The previous commit switched the merge buffer size computation in
-+xdl_fill_merge_buffer() and its helpers to size_t. That keeps the
-+running sum from going negative, but two ways to overflow remain.
-+
-+First, the conflict marker addends (e.g. "marker_size + 1 + needs_cr +
-+marker1_size") are still summed as int before being added to "size".
-+When conflict-marker-size is close to INT_MAX, that int sum overflows
-+and goes negative. Converted to size_t and added, it makes "size"
-+smaller instead of larger, even on 64-bit platforms.
-+
-+Second, on platforms where size_t is 32 bits, the running sum itself
-+can still wrap, for example with a large conflict-marker-size.
-+
-+Either way, malloc() returns a buffer that is too small, and the
-+write pass, which replays the same sum, runs past its end.
-+
-+Use the st_add*() helpers to sum the sizes, adding each marker addend
-+separately, so an overflow dies instead of silently wrapping.
-+
-+Note that in fill_conflict_hunk() we do not cover all manipulations of
-+"size"; that's because the function is called twice: once with a NULL
-+dest to compute the size, and the second time to fill it (with the
-+assumption that the caller gave us "size" bytes). We need only perform
-+the overflow checks on the first round.
-+
-+CVE: CVE-2026-105437
-+Upstream-Status: Backport [https://github.com/git/git/commit/b1313872cefef5704a0acff14b7c0869a9d5dc7c]
-+
-+Backport Changes:
-+- Keep Git 2.53.0's struct-based records. Remove the record-length
-+  and final record-count casts to match Git 2.53.1.
-+- Fold the required st_add5() helper from upstream commit [1],
-+  which is absent in Git 2.53.0.
-+
-+[1] https://github.com/git/git/commit/0dc3b5c0224b985e48be513330f8d79e87db9a12
-+
-+Based-on-patch-by: Jeff King <peff@peff.net>
-+Signed-off-by: Kaartic Sivaraam <kaartic.sivaraam@gmail.com>
-+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
-+---
-+ git-compat-util.h     |  1 +
-+ t/t4300-merge-tree.sh |  9 +++++++++
-+ xdiff/xmerge.c        | 46 +++++++++++++++++++++----------------------
-+ 3 files changed, 33 insertions(+), 23 deletions(-)
-+
-+diff --git a/git-compat-util.h b/git-compat-util.h
-+index bebcf9f698..43fa765a44 100644
-+--- a/git-compat-util.h
-++++ b/git-compat-util.h
-+@@ -614,6 +614,7 @@ static inline size_t st_add(size_t a, size_t b)
-+ }
-+ #define st_add3(a,b,c)   st_add(st_add((a),(b)),(c))
-+ #define st_add4(a,b,c,d) st_add(st_add3((a),(b),(c)),(d))
-++#define st_add5(a,b,c,d,e) st_add(st_add4((a),(b),(c),(d)),(e))
-+ 
-+ static inline size_t st_mult(size_t a, size_t b)
-+ {
-+diff --git a/t/t4300-merge-tree.sh b/t/t4300-merge-tree.sh
-+index 13e883c491..41386d6025 100755
-+--- a/t/t4300-merge-tree.sh
-++++ b/t/t4300-merge-tree.sh
-+@@ -386,6 +386,10 @@ test_expect_success 'merge-tree respects core.useReplaceRefs=false' '
-+ # We use the specified MARKER_SIZE as it amounts to around 10MiB of conflict
-+ # hunk text for each conflict in the file. This helps us to quickly trigger
-+ # the heap buffer overflow with just 420 conflict hunks.
-++#
-++# The merged file comes out at just over 4GiB. On 64-bit builds merge-tree
-++# must produce it. On 32-bit builds it cannot fit in size_t, so merge-tree
-++# must die instead of wrapping the size and overflowing the buffer.
-+ LINES=2100
-+ STEP=5
-+ MARKER_SIZE=3495254
-+@@ -452,4 +456,9 @@ test_expect_success EXPENSIVE,SIZE_T_IS_64BIT,!LONG_IS_64BIT 'merge-tree dies wh
-+ 	test_grep "failure to merge" err
-+ '
-+ 
-++test_expect_success EXPENSIVE,!SIZE_T_IS_64BIT 'merge-tree dies when merge buffer size overflows size_t' '
-++	test_must_fail git merge-tree --write-tree side1 side2 2>err &&
-++	test_grep "size_t overflow" err
-++'
-++
-+ test_done
-+diff --git a/xdiff/xmerge.c b/xdiff/xmerge.c
-+index d18c6f30be..9844449a8e 100644
-+--- a/xdiff/xmerge.c
-++++ b/xdiff/xmerge.c
-+@@ -119,7 +119,7 @@ static size_t xdl_recs_copy_0(int use_orig, xdfenv_t *xe, int i, int count, int
-+ 	if (count < 1)
-+ 		return 0;
-+ 
-+-	for (i = 0; i < count; size += (int)recs[i++].size)
-++	for (i = 0; i < count; size = st_add(size, recs[i++].size))
-+ 		if (dest)
-+ 			memcpy(dest + size, recs[i].ptr, recs[i].size);
-+ 	if (add_nl) {
-+@@ -128,12 +128,12 @@ static size_t xdl_recs_copy_0(int use_orig, xdfenv_t *xe, int i, int count, int
-+ 			if (needs_cr) {
-+ 				if (dest)
-+ 					dest[size] = '\r';
-+-				size++;
-++				size = st_add(size, 1);
-+ 			}
-+ 
-+ 			if (dest)
-+ 				dest[size] = '\n';
-+-			size++;
-++			size = st_add(size, 1);
-+ 		}
-+ 	}
-+ 	return size;
-+@@ -208,11 +208,11 @@ static size_t fill_conflict_hunk(xdfenv_t *xe1, const char *name1,
-+ 		marker_size = DEFAULT_CONFLICT_MARKER_SIZE;
-+ 
-+ 	/* Before conflicting part */
-+-	size += xdl_recs_copy(xe1, i, m->i1 - i, 0, 0,
-+-			      dest ? dest + size : NULL);
-++	size = st_add(size, xdl_recs_copy(xe1, i, m->i1 - i, 0, 0,
-++					  dest ? dest + size : NULL));
-+ 
-+ 	if (!dest) {
-+-		size += marker_size + 1 + needs_cr + marker1_size;
-++		size = st_add5(size, marker_size, 1, needs_cr, marker1_size);
-+ 	} else {
-+ 		memset(dest + size, '<', marker_size);
-+ 		size += marker_size;
-+@@ -227,13 +227,13 @@ static size_t fill_conflict_hunk(xdfenv_t *xe1, const char *name1,
-+ 	}
-+ 
-+ 	/* Postimage from side #1 */
-+-	size += xdl_recs_copy(xe1, m->i1, m->chg1, needs_cr, 1,
-+-			      dest ? dest + size : NULL);
-++	size = st_add(size, xdl_recs_copy(xe1, m->i1, m->chg1, needs_cr, 1,
-++					  dest ? dest + size : NULL));
-+ 
-+ 	if (style == XDL_MERGE_DIFF3 || style == XDL_MERGE_ZEALOUS_DIFF3) {
-+ 		/* Shared preimage */
-+ 		if (!dest) {
-+-			size += marker_size + 1 + needs_cr + marker3_size;
-++			size = st_add5(size, marker_size, 1, needs_cr, marker3_size);
-+ 		} else {
-+ 			memset(dest + size, '|', marker_size);
-+ 			size += marker_size;
-+@@ -246,12 +246,12 @@ static size_t fill_conflict_hunk(xdfenv_t *xe1, const char *name1,
-+ 				dest[size++] = '\r';
-+ 			dest[size++] = '\n';
-+ 		}
-+-		size += xdl_orig_copy(xe1, m->i0, m->chg0, needs_cr, 1,
-+-				      dest ? dest + size : NULL);
-++		size = st_add(size, xdl_orig_copy(xe1, m->i0, m->chg0, needs_cr, 1,
-++						  dest ? dest + size : NULL));
-+ 	}
-+ 
-+ 	if (!dest) {
-+-		size += marker_size + 1 + needs_cr;
-++		size = st_add4(size, marker_size, 1, needs_cr);
-+ 	} else {
-+ 		memset(dest + size, '=', marker_size);
-+ 		size += marker_size;
-+@@ -261,10 +261,10 @@ static size_t fill_conflict_hunk(xdfenv_t *xe1, const char *name1,
-+ 	}
-+ 
-+ 	/* Postimage from side #2 */
-+-	size += xdl_recs_copy(xe2, m->i2, m->chg2, needs_cr, 1,
-+-			      dest ? dest + size : NULL);
-++	size = st_add(size, xdl_recs_copy(xe2, m->i2, m->chg2, needs_cr, 1,
-++					  dest ? dest + size : NULL));
-+ 	if (!dest) {
-+-		size += marker_size + 1 + needs_cr + marker2_size;
-++		size = st_add5(size, marker_size, 1, needs_cr, marker2_size);
-+ 	} else {
-+ 		memset(dest + size, '>', marker_size);
-+ 		size += marker_size;
-+@@ -301,25 +301,25 @@ static size_t xdl_fill_merge_buffer(xdfenv_t *xe1, const char *name1,
-+ 						  marker_size);
-+ 		else if (m->mode & 3) {
-+ 			/* Before conflicting part */
-+-			size += xdl_recs_copy(xe1, i, m->i1 - i, 0, 0,
-+-					      dest ? dest + size : NULL);
-++			size = st_add(size, xdl_recs_copy(xe1, i, m->i1 - i, 0, 0,
-++							  dest ? dest + size : NULL));
-+ 			/* Postimage from side #1 */
-+ 			if (m->mode & 1) {
-+ 				int needs_cr = is_cr_needed(xe1, xe2, m);
-+ 
-+-				size += xdl_recs_copy(xe1, m->i1, m->chg1, needs_cr, (m->mode & 2),
-+-						      dest ? dest + size : NULL);
-++				size = st_add(size, xdl_recs_copy(xe1, m->i1, m->chg1, needs_cr, (m->mode & 2),
-++								  dest ? dest + size : NULL));
-+ 			}
-+ 			/* Postimage from side #2 */
-+ 			if (m->mode & 2)
-+-				size += xdl_recs_copy(xe2, m->i2, m->chg2, 0, 0,
-+-						      dest ? dest + size : NULL);
-++				size = st_add(size, xdl_recs_copy(xe2, m->i2, m->chg2, 0, 0,
-++								  dest ? dest + size : NULL));
-+ 		} else
-+ 			continue;
-+ 		i = m->i1 + m->chg1;
-+ 	}
-+-	size += xdl_recs_copy(xe1, i, (int)xe1->xdf2.nrec - i, 0, 0,
-+-			      dest ? dest + size : NULL);
-++	size = st_add(size, xdl_recs_copy(xe1, i, xe1->xdf2.nrec - i, 0, 0,
-++					  dest ? dest + size : NULL));
-+ 	return size;
-+ }
-+ 
++ # This must be the last test case because it deletes .git/config
++ test_expect_success 'index version config precedence' '
++ 	test_index_version 0 false 0 2 &&
 diff --git a/meta/recipes-devtools/git/git_2.53.0.bb b/meta/recipes-devtools/git/git_2.53.0.bb
-index 5244891113..da8fe2fb00 100644
+index 3940fe8769..c5bf87e44f 100644
 --- a/meta/recipes-devtools/git/git_2.53.0.bb
 +++ b/meta/recipes-devtools/git/git_2.53.0.bb
-@@ -10,6 +10,8 @@ PROVIDES:append:class-native = " git-replacement-native"
- SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
-            file://fixsort.patch \
-            file://0001-config.mak.uname-do-not-force-RHEL-7-specific-build-.patch \
-+           file://CVE-2026-105437_p1.patch \
-+           file://CVE-2026-105437_p2.patch \
+@@ -17,6 +17,10 @@ SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
+            file://CVE-2026-113408_p3.patch \
+            file://CVE-2026-114466_p1.patch \
+            file://CVE-2026-114466_p2.patch \
++           file://CVE-2026-111760_p1.patch \
++           file://CVE-2026-111760_p2.patch \
++           file://CVE-2026-111760_p3.patch \
++           file://CVE-2026-111760_p4.patch \
             "
  
  SRC_URI:append:class-nativesdk = " \
