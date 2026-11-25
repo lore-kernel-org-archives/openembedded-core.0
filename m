@@ -1,92 +1,147 @@
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2019.1795642261025403322
+Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2120.1795642490659033736
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Nov 2026 13:31:01 -0800
+ Wed, 25 Nov 2026 13:34:51 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=d4NOHwCF;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=zX0PDKlW;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101a2149e7a7b-5ed6da8a-536f-49a9-bced-9d4f89108c38-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1795642260; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=HbqnD6M96VYQbnBRoGfA76lisDuk1J9Jl1v2xUUnG7U=;
-	b=d4NOHwCF7zqXOPX7dXuJAVoLe06GZ7LyuKspXVGZTQvGPuykowSRjSjzOjvyG6t6
-	QLuzTuOqIHbBVFhtvnbhqoVB/CA8pKy6yJuQWmBXW7274JrTqlriCNWZ/kQUz+wBQ/l
-	QRReI94qkZqbn/kTNbV09rLRa1SbNHK3CNiK1DSM=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1795642260;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=HbqnD6M96VYQbnBRoGfA76lisDuk1J9Jl1v2xUUnG7U=;
-	b=zX0PDKlWWSOMd7L8ORy5qCsCj1pz3sgEfW0qbYk4pENLWVj0almpelzxM3yNRF3/
-	P2s/hjCDQuDvFYzivB/SGSnBDX1eGMRXltW1WktszU8o0//rx1Gb5jbOQfte97qgp+s
-	dNJId8qut8s0KjuVu5Jt0chv8DVOEmap7QPKDr90=
-From: patchtest@automation.yoctoproject.org
-To: Mark Hatle <mark.hatle@amd.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v2] pseudo: Update to 1.99.2 version
-In-Reply-To: <20261125211617.1158515-1-mark.hatle@amd.com>
-References: <20261125211617.1158515-1-mark.hatle@amd.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a2149e7a7b-5ed6da8a-536f-49a9-bced-9d4f89108c38-000000@us-west-2.amazonses.com>
-Date: Wed, 25 Nov 2026 21:31:00 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.25-54.240.27.193
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=aiGAJg/P;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-202611252134461af62e9c6e00020757-ccnnui@rts-flowmailer.siemens.com)
+Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 202611252134461af62e9c6e00020757
+        for <openembedded-core@lists.openembedded.org>;
+        Wed, 25 Nov 2026 22:34:47 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=4KiW0AKJntjAeYeJctUtbGmLGUjGq8K5y56A9p4c0j8=;
+ b=aiGAJg/PJo7D3EgD3iSC+UsFw+KEHQODaaeVX37W4zUGi6pi2X2mEIL7pqMBVHQxmAoDcX
+ 3iDSUeswGfublziJxZ6bPStzfu3ojrONnU8+Zxoje7xcXZxrRYHb7PvIO/mCAT6LEvXIB3Tl
+ SUkpvhZpKzYhpbRalgbRu9PD0yFQelgmFWx7lobSrxpwkTE9QrUbcxOVubXmYqzEeNUi3eFl
+ aktMoan0w+zuWtvzhGha4eObJ2fcgsNLP8r34eRsR1HkG0pqPX99H4CmhSwGZgXv7iJz6lev
+ qXwUs2ymPEX38AuXYis6ge+GjwVA4uYEuw8MfMjyPGnfxIrEcWGiSsVw==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [PATCH] busybox: patch CVE-2026-136411
+Date: Wed, 25 Nov 2026 22:33:36 +0100
+Message-ID: <20261125213336.3584486-1-peter.marko@siemens.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 21:31:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251250
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 21:34:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251251
+Content-Type: text/plain; charset="utf-8"
 
---NextPart
-Content-Type: text/plain
+From: Peter Marko <peter.marko@siemens.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Pick commit mentioned as "patch" in NVD CVE links.
 
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
-Testing patch /home/patchtest/share/mboxes/v2-pseudo-Update-to-1.99.2-version.patch
+ .../busybox/busybox/CVE-2026-136411.patch     | 84 +++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.38.0.bb   |  1 +
+ 2 files changed, 85 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/CVE-2026-136411.patch
 
-FAIL: test src uri left files: Patches not removed from tree. Remove them and amend the submitted mbox (test_metadata.TestMetadata.test_src_uri_left_files)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/recipes-core/busybox/busybox/CVE-2026-136411.patch b/meta/recipes-core/busybox/busybox/CVE-2026-136411.patch
+new file mode 100644
+index 0000000000..048bb867c4
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/CVE-2026-136411.patch
+@@ -0,0 +1,84 @@
++From b67f7b7d14ac98ca84491718d364b955d21a9cd5 Mon Sep 17 00:00:00 2001
++From: Denys Vlasenko <vda.linux@googlemail.com>
++Date: Fri, 6 Nov 2026 20:33:51 +0100
++Subject: [PATCH] tftpd: make DIR argiment work for non-root too, strip leading
++ /
++
++function                                             old     new   delta
++tftpd_main                                           573     589     +16
++
++Signed-off-by: Denys Vlasenko <vda.linux@googlemail.com>
++
++CVE: CVE-2026-136411
++Upstream-Status: Backport [https://github.com/vda-linux/busybox_mirror/commit/b67f7b7d14ac98ca84491718d364b955d21a9cd5]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ networking/tftp.c | 29 +++++++++++++++++++++++------
++ 1 file changed, 23 insertions(+), 6 deletions(-)
++
++diff --git a/networking/tftp.c b/networking/tftp.c
++index 9771a8225..c617cb0eb 100644
++--- a/networking/tftp.c
+++++ b/networking/tftp.c
++@@ -362,8 +362,8 @@ static int tftp_protocol(
++ 	 * tftp -> "\0\4\0\1"
++ 	 * ...
++ 	 * Download with option of blksize 16384:
++-	 * tftp -> "\0\1FILENAME\0octet\0blksize\00016384\0"
++-	 *         "\0\6blksize\00016384\0" <- tftpd
+++	 * tftp -> "\0\1FILENAME\0octet\0blksize\0""16384\0"
+++	 *         "\0\6blksize\0""16384\0" <- tftpd
++ 	 * tftp -> "\0\4\0\0"
++ 	 *         "\0\3\0\1FILEDATA..." <- tftpd
++ 	 * tftp -> "\0\4\0\1"
++@@ -375,8 +375,8 @@ static int tftp_protocol(
++ 	 *         "\0\4\0\1" <- tftpd
++ 	 * ...
++ 	 * Upload with option of blksize 16384:
++-	 * tftp -> "\0\2FILENAME\0octet\0blksize\00016384\0"
++-	 *         "\0\6blksize\00016384\0" <- tftpd
+++	 * tftp -> "\0\2FILENAME\0octet\0blksize\0""16384\0"
+++	 *         "\0\6blksize\0""16384\0" <- tftpd
++ 	 * tftp -> "\0\3\0\1FILEDATA..."
++ 	 *         "\0\4\0\1" <- tftpd
++ 	 * ...
++@@ -916,7 +916,15 @@ int tftpd_main(int argc UNUSED_PARAM, char **argv)
++ 		G.pw = xgetpwnam(user_opt);
++ 	}
++ 	if (argv[0]) {
++-		xchroot(argv[0]);
+++		const char *DIR = argv[0];
+++		if (chroot(DIR) == 0)
+++			DIR = "/";
+++		/*
+++		 * If chroot failed, assume that we aren't root,
+++		 * and at least chdir to the specified DIR.
+++		 * If chroot worked, move current dir to new "/":
+++		 */
+++		xchdir(DIR);
++ 	}
++ 
++ 	result = recv_from_to(STDIN_FILENO,
++@@ -944,12 +952,21 @@ int tftpd_main(int argc UNUSED_PARAM, char **argv)
++ 	G.block_buf_tail[0] = '\0';
++ 
++ 	local_file = G.block_buf + 2;
+++
+++	/* If someone really wants to expose their entire filesystem, "tftpd /" is the way to do it.
+++	 * Most people don't want that.
+++	 * Prevent escape via absolute paths or /../:
+++	 */
+++	while (local_file[0] == '/')
+++		local_file++;
++ 	if (local_file[0] == '.' || strstr(local_file, "/.")) {
+++//TODO: disallow only ".."?
++ 		error_msg = "dot in file name";
++ 		goto err;
++ 	}
+++
++ 	mode = local_file + strlen(local_file) + 1;
++-	/* RFC 1350 says mode string is case independent */
+++	/* RFC 1350 says mode string is case insensitive */
++ 	if (mode >= G.block_buf + result || strcasecmp(mode, "octet") != 0) {
++ 		error_msg = "mode is not 'octet'";
++ 		goto err;
+diff --git a/meta/recipes-core/busybox/busybox_1.38.0.bb b/meta/recipes-core/busybox/busybox_1.38.0.bb
+index a75c6394e9..7a23054288 100644
+--- a/meta/recipes-core/busybox/busybox_1.38.0.bb
++++ b/meta/recipes-core/busybox/busybox_1.38.0.bb
+@@ -60,6 +60,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://CVE-2025-60876.patch \
+            file://CVE-2024-58251.patch \
+            file://CVE-2026-38754.patch \
++           file://CVE-2026-136411.patch \
+            "
+ SRC_URI:append:libc-musl = " file://musl.cfg"
+ SRC_URI:append:x86-64 = " file://sha_accel.cfg"
