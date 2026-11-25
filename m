@@ -1,92 +1,149 @@
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.46356.1795626087380052911
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.46865.1795627426415153813
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Nov 2026 09:01:27 -0800
+ Wed, 25 Nov 2026 09:23:47 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=TaYrliHT;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=zs3fm+hN;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101a213a7afe0-c2fc8989-f002-4421-9b55-c0623317e541-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1795626086; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=t7dCkCwhatGtzBmw+zmAf+tQJwhnfu4fYN7mtoQNiDs=;
-	b=TaYrliHTRDoeuLDjT+jk0p1OpkuvJZHYg+WEU/WWyGNb1/qIvNy8TzhtFtHB7BX/
-	0pi6z0BetUuEVzYsrJZNQZhO7NOUqWWXP91ASfBaen8tyDryxnPzdYI/6G0+ODsmmut
-	EJE9MDp6tLPs3IPgV5woHnn2s8T47imSqQhVDSDo=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1795626086;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=t7dCkCwhatGtzBmw+zmAf+tQJwhnfu4fYN7mtoQNiDs=;
-	b=zs3fm+hNDjCgollr7xU/NqRJBiYtrZqUr7DE3t5K15UxQW19FD8eKtIO4TrHzwys
-	z4k/fL3OIaTFXkSQ6yj++tJbDAeggdC0EpiRC7XvscG5smYmUbVqw27+hT68nuKeJDT
-	B6xU4Co8ZwPCS5by/b8Op3JRBVEGZ5qjGx7/1jw0=
-From: patchtest@automation.yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] gawk: Update printf patch status
-In-Reply-To: <20261125165606.2554824-1-khem.raj@oss.qualcomm.com>
-References: <20261125165606.2554824-1-khem.raj@oss.qualcomm.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a213a7afe0-c2fc8989-f002-4421-9b55-c0623317e541-000000@us-west-2.amazonses.com>
-Date: Wed, 25 Nov 2026 17:01:26 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.25-54.240.27.45
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=jG1Xrxep;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id E19144E4177F
+	for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 17:23:43 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id B651960480;
+	Wed, 25 Nov 2026 17:23:43 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 3247111E6A078;
+	Wed, 25 Nov 2026 18:23:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1795627423; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=ioxWuqD/Pe9OmgaBg6b3jYL9L0upiBK8Scrwg5Afv60=;
+	b=jG1XrxepYMzDAP0elCFYGkYr01iAY+Yo3zR8ae/u/lC504WO5IcWC8BotBiB8fQl56EvMx
+	oq3a5HJ4unpAqfZew/khnWD+3RDMttnyGpUw3/ATwaLcExkeoD77HO03Xbn1XeeZdPqdx5
+	4YOzw4Jgu+SKWMzPcTle02JmP39o8so4PmhAQr7EnWT7Z/3+oUU9/KPjo0+7iE1B792f32
+	JafNh8Yxg/RUEqDi0MVH8TLvnZ8/fGn/Edh0vfHp0QiOWjkFNcrfHVLbd24cYN20yfducF
+	8TazRDi5JqoXJDpIw5zKcj3/QQpwaKk9FdiRQV5nWSE4nibj5/7v6/SZoB+kqw==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 25 Nov 2026 18:23:41 +0100
+Message-Id: <DN4GSPC8PC44.2P1HUAAJ5VIH7@bootlin.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <mark.hatle@amd.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] pseudo: Update to 1.99.2 version
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20261124233615.95452-1-mark.hatle@amd.com>
+In-Reply-To: <20261124233615.95452-1-mark.hatle@amd.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 17:01:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251232
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 17:23:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251233
 
---NextPart
-Content-Type: text/plain
+On Wed Nov 25, 2026 at 12:36 AM CET, Mark Hatle via openembedded-core wrote=
+:
+> Changelog from last version:
+>
+>     Makefile.in: call this 1.99.2
+>     Replace FASTOP with requests that don't wait for a reply
+>     Send client requests over one shared datagram socket
+>     pseudo_server: Log when running in a confined SELinux domain
+>     ports/linux: Report SELinux as disabled under pseudo
+>     README.security: Describe io_uring refusal and the host fallback
+>     ports/linux: Refuse io_uring in the kernel rather than be bypassed by=
+ it
+>     ports/linux/pseudo_wrappers: Report io_uring as unsupported in syscal=
+l()
+>     openat2: Look at dirfd for an empty path
+>     ports/linux: Pass an empty openat() path to the kernel
+>     ports/linux: Wrap name_to_handle_at() and open_by_handle_at()
+>     pseudo_client: Fail when the local state directory isn't writable
+>     ports/linux/pseudo_wrappers: Fake seccomp strict mode in syscall()
+>     ports/linux/pseudo_wrappers: Fake seccomp filters set by prctl()
+>     test-seccomp: Check that seccomp is never really enabled
+>     ports/linux/pseudo_wrappers: Report Landlock as unsupported
+>     pseudo_client: Connect to the server without changing directory
+>     test-landlock: Add a Landlock sandbox test
+>     Wrap execvpe(), fexecve() and execveat()
+>     wrappers: Don't re-block signals in nested wrapper calls
+>     pseudo_util: Skip unneeded lstat calls when canonicalizing paths
+>     configure: Fix the --enable-profiling default
+>     doc: Update README and doc/ to match the code
+>     configure: Require GCC 5 or later
+>     ports/linux: Don't require <linux/mount.h>
+>     pseudo.1: Update to match the current code
+>     pseudo_util: Write the event log to PSEUDO_EVLOG_FILE
+>     pseudo: List -p in the usage message
+>     pseudo_util: Fix the date format in the event log dump
+>     AGENTS.md: Add to assist future developers
+>     pseudo_util: Make -v and numeric PSEUDO_DEBUG add debug flags
+>     pseudo: Fix the -k severity option
+>     pseudo_util: Store PSEUDO_SEVERITY as severity names
+>     pseudo_server: Set highest_client to the new client when growing
+>     pseudo_server: Lower highest_client when the highest client closes
+>     configure: Fix --disable-* options
+>     pseudo_server: Always use epoll
+>     pseudo_server: Drop an idle client when out of file descriptors
+>     pseudo_server: Skip events for clients closed earlier in the batch
+>     ports/linux: Drop redundant PSEUDO_LINK_SYMLINK_BEHAVIOR override
+>     ports/common/subports: Show the unknown OS name in the error
+>     pseudo_util: Remove stale with_libpseudo() comment
+>     Replace #if 0 strerror() debug messages with a comment
+>     Remove unused #if 0 debug code
+>     patches/yocto-older-glibc-symbols.patch: Update to latest YP version
+>     ports: Let the port define how pseudo stats files
+>     ports/unix: Remove guts overridden by the Linux port
+>     ports: Remove PSEUDO_NO_REAL_AT_FUNCTIONS
+>     test-parallel-ops: Add a parallel create/rename/link/chmod test
+>     ports: check created files under the path lock before recording them
+>     ports: hold the path lock in create and metadata wrappers
+>     pseudo_client: serialize path changes across clients
+>     Makefile.in: Declare 1.99.1
+>     README.security: Add information specific to file/process security
+>     test-chroot-proc-dev: Add /proc and /dev within a chroot test
+>     test-proc-fd: Add a stale directory descriptor case
+>     pseudo_client.h: remove dangling pseudo_client_fdpath declaration
+>     pseudo_client: resolve /proc/<pid>/fd/<n> to the descriptor
+>     makewrappers: Allow the wrapper architecture to be set for cross buil=
+ds
+>     makewrappers: Change 'Warning' to 'Info'
+>     makewrappers: Don't generate unused _int paths with noignore_path
+>     ports: Remove Darwin (macOS) support
+>     test: Skip open_tree tests when the function or syscall is unavailabl=
+e
+>     ports/linux/guts: Fix uninitialized pseudo_path in open_tree wrappers
+>
+> Signed-off-by: Mark Hatle <mark.hatle@amd.com>
+> ---
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Hi Mark,
 
----
-Testing patch /home/patchtest/share/mboxes/gawk-Update-printf-patch-status.patch
+Thanks for the upgrade. I believe we also need to drop or brease some
+patches:
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+ERROR: pseudo-native-1.99.2+git-r0 do_patch: Applying patch '/srv/pokybuild=
+/yocto-worker/qemux86-tc/build/layers/openembedded-core/meta/recipes-devtoo=
+ls/pseudo/files/0001-makewrappers-Allow-the-wrapper-architecture-to-be-se.p=
+atch' on target directory '/srv/pokybuild/yocto-worker/qemux86-tc/build/bui=
+ld-st-184298/tmp/work/x86_64-linux/pseudo-native/1.99.2+git/sources/pseudo-=
+1.99.2+git'
+CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/qemux86-tc/build/buil=
+d-st-184298/tmp/work/x86_64-linux/pseudo-native/1.99.2+git/recipe-sysroot-n=
+ative/etc/quiltrc push', 1, 'stdout: Applying patch 0001-makewrappers-Allow=
+-the-wrapper-architecture-to-be-se.patch
+patching file Makefile.in
+Hunk #1 FAILED at 34.
+...
+Patch 0001-makewrappers-Allow-the-wrapper-architecture-to-be-se.patch does =
+not apply (enforce with -f)
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/28/builds/5051
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping test (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+Can you have a look at the issue?
 
----
+Thanks,
+Mathieu
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
---NextPart
-
-
---NextPart--
