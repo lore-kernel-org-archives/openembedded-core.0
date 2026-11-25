@@ -1,35 +1,35 @@
 Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2111.1795642500576032025
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2115.1795642509293509544
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Nov 2026 13:35:00 -0800
+ Wed, 25 Nov 2026 13:35:09 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=iRyj3rc/;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20261125213458be32186d8c000207c5-ntsvhp@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20261125213458be32186d8c000207c5
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=qq7+MNP0;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20261125213506ca7f6a7587000207f9-qvywnl@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20261125213506ca7f6a7587000207f9
         for <openembedded-core@lists.openembedded.org>;
-        Wed, 25 Nov 2026 22:34:58 +0100
+        Wed, 25 Nov 2026 22:35:06 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=yf/oWx1g9RZVciWc4WoOwiYmkf3lMkv9lPqYaZXVt18=;
- b=iRyj3rc/aVRWn5AT1Pilruf8551kc4uk1M8ROg3IxooBPBvGEukZKx/yYbc2AYfMiAw8pg
- UpmOcKD+Wynk9FdKhRdkAaw4bn1ZYzMKEmaiUK7Bt9xwDnyJ7ZNxOmRQJ38OzTq5YXHpayEC
- Ovfu2TVKQOJfThp/UrvyF7vV6LSem5rHUEKDunszxNK6s9s6HXujeqgb1RHDvDTyIz5ovIVI
- TeZcmy56Ie57B3lpd3rtNYNkjOfiXYDbLMPZNIGOqpM7Irh/wn22hcsscO3/U9va/661XMV6
- bWmCtecJBeglimaTnELaNyfe+RocEVec8VL5vPFtGqWEMh3+rZmPMrFw==;
+ bh=avZAPM42AplpdsKdMqdItvNJ8m1DVqOkWJU0yhH3uxY=;
+ b=qq7+MNP0W0/sx+U82Be/xacVjm9LihfqJXfbnY9fu0JPZWXa/bfwjMo0arQzhtU+c/MNEo
+ 2Y+ISKEDBfaxSTtXGbCiIyVviYZlNzVd4LSKfKLMBctNscyNkcV/SOiVxesVs7YaG3h/kQTr
+ OEvUpgheMSFajp63K86VMzE6XDi0nid2j0JsdPMRz/QtTNUdDXHBziQdJ9GTcB4soLAyVn8J
+ 0CA+Sz7ZdGupwvwUa/o9X6wYmshcNgi4kftvMg89SS4B3+33TyyhQk4Ig5bzWc0KolzJiyas
+ Y5dVOTuSoTEGYFxVBgT144BVvshnG3OQYO6GSrl4x/tiTNatabEOEhDQ==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [blacksail][PATCH] busybox: patch CVE-2026-136411
-Date: Wed, 25 Nov 2026 22:33:51 +0100
-Message-ID: <20261125213351.3584523-1-peter.marko@siemens.com>
+Subject: [wrynose][PATCH] busybox: patch CVE-2026-136411
+Date: Wed, 25 Nov 2026 22:34:04 +0100
+Message-ID: <20261125213404.3584560-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 21:35:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251252
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 21:35:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251253
 Content-Type: text/plain; charset="utf-8"
 
 From: Peter Marko <peter.marko@siemens.com>
@@ -39,13 +39,13 @@ Pick commit mentioned as "patch" in NVD CVE links.
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
  .../busybox/busybox/CVE-2026-136411.patch     | 84 +++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.38.0.bb   |  1 +
+ meta/recipes-core/busybox/busybox_1.37.0.bb   |  1 +
  2 files changed, 85 insertions(+)
  create mode 100644 meta/recipes-core/busybox/busybox/CVE-2026-136411.patch
 
 diff --git a/meta/recipes-core/busybox/busybox/CVE-2026-136411.patch b/meta/recipes-core/busybox/busybox/CVE-2026-136411.patch
 new file mode 100644
-index 00000000000..048bb867c4f
+index 0000000000..048bb867c4
 --- /dev/null
 +++ b/meta/recipes-core/busybox/busybox/CVE-2026-136411.patch
 @@ -0,0 +1,84 @@
@@ -133,13 +133,13 @@ index 00000000000..048bb867c4f
 + 	if (mode >= G.block_buf + result || strcasecmp(mode, "octet") != 0) {
 + 		error_msg = "mode is not 'octet'";
 + 		goto err;
-diff --git a/meta/recipes-core/busybox/busybox_1.38.0.bb b/meta/recipes-core/busybox/busybox_1.38.0.bb
-index a75c6394e9b..7a230542880 100644
---- a/meta/recipes-core/busybox/busybox_1.38.0.bb
-+++ b/meta/recipes-core/busybox/busybox_1.38.0.bb
-@@ -60,6 +60,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://CVE-2025-60876.patch \
-            file://CVE-2024-58251.patch \
+diff --git a/meta/recipes-core/busybox/busybox_1.37.0.bb b/meta/recipes-core/busybox/busybox_1.37.0.bb
+index b020c923be..18be4af93d 100644
+--- a/meta/recipes-core/busybox/busybox_1.37.0.bb
++++ b/meta/recipes-core/busybox/busybox_1.37.0.bb
+@@ -67,6 +67,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
+            file://CVE-2026-29004-01.patch \
+            file://CVE-2026-29004-02.patch \
             file://CVE-2026-38754.patch \
 +           file://CVE-2026-136411.patch \
             "
