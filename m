@@ -1,72 +1,73 @@
-Received: from aer-iport-3.cisco.com (aer-iport-3.cisco.com [173.38.203.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.36074.1795583576509514036
+Received: from aer-iport-1.cisco.com (aer-iport-1.cisco.com [173.38.203.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.36075.1795583577828016614
  for <openembedded-core@lists.openembedded.org>;
  Tue, 24 Nov 2026 21:12:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=RzZy0i6a;
- spf=pass (domain: cisco.com, ip: 173.38.203.53, mailfrom: asparmar@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=icrhDb20;
+ spf=pass (domain: cisco.com, ip: 173.38.203.51, mailfrom: asparmar@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=22960; q=dns/txt;
-  s=iport01; t=1795583577; x=1796793177;
+  d=cisco.com; i=@cisco.com; l=15646; q=dns/txt;
+  s=iport01; t=1795583578; x=1796793178;
   h=from:to:subject:date:message-id:in-reply-to:references:
    mime-version:content-transfer-encoding;
-  bh=Vpaobjtl18lfZOw6gtDfj6GP6NeEpAr383UObPLKzQM=;
-  b=RzZy0i6a6or/eY+XizbAnUhwU5/Yg6XeylaSUr0znIVT58GJG7BY9Shw
-   +FU55Pp66WLiAiQ94o07epDHO4L/k+cj1cVi0TVp40C8rMKS2s/S2+/qM
-   juA9IAy1NEBhBB3AG9AWn+XKpPrdaVd9DmP79rr0FkJ/oofqQgwb1FjLx
-   XtYHSeXorI2FX7S1SuA/GHWmd84Ha9O3ZXJ5J3gsGurCBukp6jhem3kMo
-   6qcs7ayCpPOpCUDI6tacSjJyhEPrI7ff4w0mlxYSXHUGL/H4/aE/DAX4X
-   bH77PeQu7if1iFD0VBHTcqKdlCoM4j1H+bbbINmsvSHAM11fxRyH+1LfE
-   A==;
-X-CSE-ConnectionGUID: IaDDQ3stS3+SGE4Gxae08w==
-X-CSE-MsgGUID: fO49JSbsQcaqQnoRu4xq1Q==
-X-IPAS-Result: =?us-ascii?q?A0AnAACpbAZr/89K/pBaHQEBAQEJARIBBQUBgXwIAQsBg?=
- =?us-ascii?q?lZ1YUJJjHKHOIIhA4tmkkOBfg8BAQEPRA0EAQGCEoJzAo4iAiY0CQ4BAgQDA?=
- =?us-ascii?q?gMBAQEBAQEBAQEBAQEKAQEFAQEBAgEHBYEOE4ZPDZASAQIBAxoNCwEYASgVH?=
- =?us-ascii?q?AMBAi8gCyMIGYMCAYI6AzcCAREGuX2BeTOBAYMpAYFU2EwNgloBCxQBgTgBh?=
- =?us-ascii?q?UGDAIUlXRgBhH4nGxuBcoR/gQWBGkICgTiGbgSCIoEMgVQeMYxEAoFJiFJIg?=
- =?us-ascii?q?R4DWSwBVRMNCgsHBYFoAzUSKhVuMh2BIzsXgQcbBgWBHIEegRKBA12BKyheI?=
- =?us-ascii?q?YEIgXUCglGCAAIBSUEOB0VTCSVDEkckIggSCQETGiwKgRo1PAkmPxUMZwsaB?=
- =?us-ascii?q?WEIAg0MdDkQMBwkLwUZJjwbCoEMJx0eGQ4CKQYWIQs0GA1IESw3FRkEPm4Hl?=
- =?us-ascii?q?BOCMUoZBwEwShMBCiEXgQFrCBUMky4JATmPY4IhgTWeHk1xCiiDeYwkjz6Ff?=
- =?us-ascii?q?BozhASBV5JDklQLmH2OCoQKkgVChGqBaDyBWXAVgyIJShkPV41UAgELC4MCX?=
- =?us-ascii?q?oZQyAsjNQIBAQEGMgEBBwIHDgMLgWiEYYsgASYHgU8BAQ?=
-IronPort-Data: A9a23:Pd3P9aDRyBAPiBVW/33iw5YqxClBgxIJ4kV8jS/XYbTApGgn0j0Dn
- DQaC2iEM6vbMTChfo90YNmz8ExXusCDyYBkOVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
- /02M4eGcYZsCC+G+39BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jXGthh
- fuo+5eBYQb/hmYtWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
- P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
- 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TE4vxCIHhtJpEjoaVMLkwS2
- uwRJWhdcUXW7w626OrTpuhEj8k5ac2uN4QFtzQ4k3fSDO0tRtbIRKCiCd1whWtswJoTQbCBO
- 4xDMWUHgBfoO3WjPn8eE4o3huKhnFH0ciZTrxSeoq9fD237klQvieayb4G9ltqiS+IJz2Sjr
- Hn/9G3gOxcdDsHD2SPcyyf57gPItWahMG4IL5W/7vNsjViZy2AfBRFTXlyhrNG9i1WiQJRYM
- 0ES9y8koKQ++UDtScPyNyBUu1aNswRZX59bFPc3rVnTjKHV+A2eQGMDS1atdeAbiSP/fhRyv
- nfhoj8jLWYHXGG9IZ5FyoqpkA==
-IronPort-HdrOrdr: A9a23:m8epVKxLnw03oGEHbDEzKrPwAL1zdoMgy1knxilNoHtuA6ilfq
- +V8sjzuSWYtN9VYgBCpTniAtjkfZqjz/9ICOAqVN/INjUO+lHYTr2KhrGM/9SPIUHDH5ZmtZ
- tIQuxZFMD6C0R8gILR5Qm1FMtl/fy8mZrY4ts3CxxWPHhXg2YK1XYeNjqm
-X-Talos-CUID: =?us-ascii?q?9a23=3AnRAFEGrqgZpfmFXFDY0/gJDmUeEsXlHkl2zMGBT?=
- =?us-ascii?q?7MklEFJKFQFLIqLwxxg=3D=3D?=
-X-Talos-MUID: 9a23:n00QOQunjfJHFDSh9M2nihY+ZeVT6b+XA0kUqJMBgdTYJTUpAmLI
+  bh=D56cR06YGBoaV+57jsWheR40HSTopcpGRqz0fJLmrFw=;
+  b=icrhDb20e9RWmuIQFN/2EJUrcGGUGHaL5YDsA9+sSFRB0ByZhTN1l4vo
+   TW/yMYQd3t5HwrOFQ2lTVoDxrcwWIE9aCtcjHR+aak5sEvJlNxCBB6GTW
+   K6xHXZvCqerE+o9q7k9K0fX/bFIT/C2QabMrOFiQd6Xkj/XG9bQ5Kg6ij
+   r1wG+KUoLaZSnm3S1/qJPC4xFxABwsfiZ2O5/1Eg4tUM53oXhvVKZVqQz
+   BkNXHgwNigNPa2XBFG5gP5m2d1GBI7K6NnLo5ANckG6tweQz/ZQSrGLjn
+   nsZmt7lGYmEczpOwcefsw4XcuRvBkH96KZPxqkzxzKQMDY/PiQgKvyTDr
+   Q==;
+X-CSE-ConnectionGUID: 7FV+oMvcRdGKPk4GU7xInA==
+X-CSE-MsgGUID: so/VO1jIQi+P1rf+BWErKQ==
+X-IPAS-Result: =?us-ascii?q?A0BJAgCpbAZr/9VK/pBaglmCV3VhQkmUKoIhA4tmkkOBf?=
+ =?us-ascii?q?g8BAQEPRA0EAQGCEoJzAo4iAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQEKAQEFA?=
+ =?us-ascii?q?QEBAgEHBYEOE4ZPDZASAQIBAycLARgBPRwDAQIvIAsjCBmDAgGCOgM3AgERB?=
+ =?us-ascii?q?rl9gXkzgQGDKQGBVNhMDYJaAQsUAYE4hUKDAIUlXRgBhH4nGxuBcoEVg2qBB?=
+ =?us-ascii?q?YEaQgKIJgSCIoEMgVQehhyGWQKBSYhSSIEeA1ksAVUTDQoLBwWBaAM1EioVb?=
+ =?us-ascii?q?jIdgSM7F4EHGwYFgRyBHoESgQNdgSsoXiGBCIF1AoJRggACAUlBDgdFUwklQ?=
+ =?us-ascii?q?xJHJCIIEgkBExosCoEaNTwJJj8VDGcLGgVhCAINDHQ5EDAcJC8FGSY8GwqBD?=
+ =?us-ascii?q?CcdHhkOAikGFiELNBgNSBEsNxUZBD5uB5QTgjFqAXMHEwETGCJZgQkBJ0uSb?=
+ =?us-ascii?q?JAdgiGgIHEKKIN5jCSPPoV8GjOEBIFXkkOLJIcwC5h9jgqECpFeHE2EaoFoP?=
+ =?us-ascii?q?IFZcBWDIglKGQ9XjVQDCwuDAl6GUMgLIzUCAQEBBjIBAQcCBw4DC4FokAItg?=
+ =?us-ascii?q?U8BAQ?=
+IronPort-Data: A9a23:SxEYu6j3OmILFmPRVvOCU3a4X161NBEKZh0ujC45NGQN5FlHY01je
+ htvUDqBafneNjHyeY13Pt6xpx5UvMXWytdrT1FsrS8zFC5jpJueD7x1DKtf0wB+jyHnZBg6h
+ ynLQoCYdKjYdleF+FHwdOCn/SMhvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
+ vus5ZeAULOZ82QsaDxNsvjY8EkHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
+ 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
+ Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqVH1Ng0BkRQ/
+ sYUBxM1bUysur2m4bSSH7wEasQLdKEHPasWt2slyXTSCuwrBMmZBa7L/tRfmjw3g6iiH96HO
+ 5ZfM2czKkucJUcWYT/7C7pm9AusrnDkazRCrVuPjaE2+GPUigd21dABNfKLII3XH54Pxi50o
+ Erd+CPHJUgYFeWeigLc6HzvrNDihwDCDdd6+LqQs6QCbEeo7msLBRsbUFG2rfW0hgu1XMhSA
+ 0gV4TY1668q+UqmS9PwUxG1rDiDpBF0ZjZLO+Q38kSJj6HT+QvcXzJCRT9aY9tgv8gzLdA36
+ mK0cxrSLWQHmNWopbi1r994cRva1fApEFI/
+IronPort-HdrOrdr: A9a23:R34ANam2OhotxRgDLF0x1Y1ci7/pDfIA3DAbv31ZSRFFG/Fw8P
+ re+MjzuiWbtN98YhwdcJW7Scq9qBDnhPtICPcqXItKNTOO0ADDEGgh1/qB/9SKIULDH4BmuZ
+ uIC5IfNPTASX5nkM39/A60V/wkwNWB7eSUoN229QYLcemvAJsQljuQzW2gYytLeDU=
+X-Talos-CUID: =?us-ascii?q?9a23=3A3xRdMWrO1XbuKvkgHFd4ES7mUZ8LTD7a6WnbGUO?=
+ =?us-ascii?q?XKl5qFJKoFk+x/ooxxg=3D=3D?=
+X-Talos-MUID: =?us-ascii?q?9a23=3AXWp43g/9gNaCjtcDOUGKAxyQf9xvpJqJUUIsqJR?=
+ =?us-ascii?q?Fg5CeO29aBBqHrw3iFw=3D=3D?=
 X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.27,232,1787011200"; 
-   d="scan'208";a="60616773"
-Received: from aer-l-core-06.cisco.com ([144.254.74.207])
-  by aer-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 25 Nov 2026 05:12:54 +0000
+X-IronPort-AV: E=Sophos;i="6.27,230,1787011200"; 
+   d="scan'208";a="62952320"
+Received: from aer-l-core-12.cisco.com ([144.254.74.213])
+  by aer-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 25 Nov 2026 05:12:55 +0000
 Received: from sjc-ads-20495.cisco.com (sjc-ads-20495.cisco.com [171.70.188.248])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by aer-l-core-06.cisco.com (Postfix) with ESMTPS id BFEA9180001DA
-	for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 05:12:53 +0000 (GMT)
+	by aer-l-core-12.cisco.com (Postfix) with ESMTPS id 5010B18000232
+	for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 05:12:55 +0000 (GMT)
 Received: by sjc-ads-20495.cisco.com (Postfix, from userid 1877012)
-	id 764DDCBF222; Tue, 24 Nov 2026 21:12:52 -0800 (PST)
+	id 7C70ACBF224; Tue, 24 Nov 2026 21:12:52 -0800 (PST)
 From: "Ashishkumar Parmar X (asparmar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <asparmar@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose][PATCH 4/6] git: fix CVE-2026-111760
-Date: Tue, 24 Nov 2026 21:12:44 -0800
-Message-Id: <20261125051246.3108822-4-asparmar@cisco.com>
+Subject: [OE-core][wrynose][PATCH 6/6] git: fix CVE-2026-114469
+Date: Tue, 24 Nov 2026 21:12:46 -0800
+Message-Id: <20261125051246.3108822-6-asparmar@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20261125051246.3108822-1-asparmar@cisco.com>
 References: <20261125051246.3108822-1-asparmar@cisco.com>
@@ -74,617 +75,453 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: VERIFIED;sjc-ads-20495.cisco.com [171.70.188.248];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 171.70.188.248, sjc-ads-20495.cisco.com
-X-Outbound-Node: aer-l-core-06.cisco.com
+X-Outbound-Node: aer-l-core-12.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 05:12:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251136
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251137
 Content-Type: text/plain; charset="utf-8"
 
 From: Ashishkumar Parmar <asparmar@cisco.com>
 
 This patch applies the upstream Git 2.53.1 backport for
-CVE-2026-111760. The upstream fix merge is referenced in [1],
+CVE-2026-114469. The upstream fix merge is referenced in [1],
 and the security release notes are referenced in [2]. Individual
 fix links are recorded in the embedded patch headers.
 
-[1] https://github.com/git/git/commit/74fe079482062f1df7c2b8dfa50950838d8fc19e
+[1] https://github.com/git/git/commit/aaa715dbf8aef2feec550f232c22ceeaf4b0df47
 [2] https://github.com/git/git/blob/v2.53.1/Documentation/RelNotes/2.50.2.adoc
 
 Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 ---
- .../git/git/CVE-2026-111760_p1.patch          | 349 ++++++++++++++++++
- .../git/git/CVE-2026-111760_p2.patch          |  47 +++
- .../git/git/CVE-2026-111760_p3.patch          |  48 +++
- .../git/git/CVE-2026-111760_p4.patch          | 102 +++++
- meta/recipes-devtools/git/git_2.53.0.bb       |   4 +
- 5 files changed, 550 insertions(+)
- create mode 100644 meta/recipes-devtools/git/git/CVE-2026-111760_p1.patch
- create mode 100644 meta/recipes-devtools/git/git/CVE-2026-111760_p2.patch
- create mode 100644 meta/recipes-devtools/git/git/CVE-2026-111760_p3.patch
- create mode 100644 meta/recipes-devtools/git/git/CVE-2026-111760_p4.patch
+ .../git/git/CVE-2026-114469_p1.patch          | 282 ++++++++++++++++++
+ .../git/git/CVE-2026-114469_p2.patch          | 118 ++++++++
+ meta/recipes-devtools/git/git_2.53.0.bb       |   2 +
+ 3 files changed, 402 insertions(+)
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2026-114469_p1.patch
+ create mode 100644 meta/recipes-devtools/git/git/CVE-2026-114469_p2.patch
 
-diff --git a/meta/recipes-devtools/git/git/CVE-2026-111760_p1.patch b/meta/recipes-devtools/git/git/CVE-2026-111760_p1.patch
+diff --git a/meta/recipes-devtools/git/git/CVE-2026-114469_p1.patch b/meta/recipes-devtools/git/git/CVE-2026-114469_p1.patch
 new file mode 100644
-index 0000000000..f4b1c4afb6
+index 0000000000..02c0439e79
 --- /dev/null
-+++ b/meta/recipes-devtools/git/git/CVE-2026-111760_p1.patch
-@@ -0,0 +1,349 @@
-+From d145010e6e2be3c8d73b5701f07b7af5ddf6b9ea Mon Sep 17 00:00:00 2001
-+From: Elijah Newren <newren@gmail.com>
-+Date: Fri, 16 Oct 2026 20:36:16 +0200
-+Subject: [PATCH] read-cache: reject cache entries with over-long names
++++ b/meta/recipes-devtools/git/git/CVE-2026-114469_p1.patch
+@@ -0,0 +1,282 @@
++From 85022ddd6ccce9675911c1f6c256fa7c5304de75 Mon Sep 17 00:00:00 2001
++From: Karthik Nayak <karthik.188@gmail.com>
++Date: Wed, 25 Mar 2026 10:30:32 +0100
++Subject: [PATCH] apply: reject binary patches greater than MAX_APPLY_SIZE
 +
-+We intermix size_t and unsigned int when dealing with cache entries.  A
-+cache entry's name length is stored in the 32-bit ce_namelen field, but
-+the length is computed as a size_t; for example, create_ce_entry() in
-+unpack-trees.c derives it from traverse_path_len() while flattening a
-+tree during checkout:
++In f1c0e3946e (apply: reject patches larger than ~1 GiB, 2022-10-25) we
++added a check to skip patches greater than ~1 GiB. This was because the
++apply code does not work well with large files. It uses 'int' and
++'unsigned long' interchangeably for storing the size of the patch. For
++large patches whose size is stored in an 'unsigned long' and then moved
++to an 'int', the value can wrap around and cause issues.
 +
-+   size_t len = traverse_path_len(...);        /* 64-bit, e.g. 2^32 + 4 */
-+   ce = make_empty_cache_entry(istate, len);   /* ~4 GiB buffer */
-+   ce->ce_namelen = len;                       /* truncates to N = 4 */
-+   make_traverse_path(ce->name, len + 1, ...); /* writes 2^32 + 4 bytes */
++Unfortunately the fix applied earlier does not work for binary files.
++As the size of a binary diff is different from the actual on disk size
++since binary diffs are compressed with zlib and encoded with base85.
++Binary diffs whose inflated size is very large will crash with an
++out-of-bounds read in `patch_delta()` when the truncated `delta_size`
++exceeds the real buffer length.
 +
-+Consider crafted trees that build a path of the form
++Let's apply a similar fix by checking the final decoded length of a
++binary patch and fail if it is larger than MAX_APPLY_SIZE.
 +
-+   .gitz/z...z/z
++Add a simple test with data consisting of zeros that when compressed and
++encoded is less than MAX_APPLY_SIZE.
 +
-+with 2^32 bytes following the ".git".  The full path is written into
-+ce->name, but ce->ce_namelen wraps to (len % 2^32) = 4.  Our path-safety
-+check,
-+
-+   verify_path_internal(ce->name, mode)
-+
-+walks the whole NUL-terminated name and finds nothing wrong with
-+".gitz/z...z/z".  Yet when checkout_entry_ca() writes the entry to disk
-+it uses
-+
-+   strbuf_add(&path, ce->name, ce_namelen(ce))
-+
-+which evaluates to
-+
-+   strbuf_add(&path, ".gitz/z...z/z", 4)
-+
-+A path that passed validation as ".gitz/z...z/z" is thus written as
-+".git".  If the entry is a symlink, checking out such a tree tries to
-+overwrite ".git" with a symlink pointing at a location that holds
-+malicious hooks or config.  While cloning, git refuses to replace a
-+".git" directory with a symlink, but a freshly cloned submodule's ".git"
-+is a gitfile rather than a directory, so the symlink is written -- which
-+can lead to arbitrary code execution if the symlinked directory has
-+malicious hooks or config.
-+
-+Funnel every cache-entry allocation through a single check that refuses
-+a name length larger than INT_MAX, and do so before allocating.  Widen
-+the two strlen()-based helpers to size_t as well, so the length is not
-+narrowed before the check runs.
-+
-+Additionally, reject paths longer than index.maxPathLen in
-+verify_path_internal().  Default the limit to INT_MAX / 2 - 1024 to
-+leave headroom for code that combines two path lengths.  Parse the
-+configuration as unsigned and cap it at INT_MAX.
-+
-+Add a "test-tool cache-entry" helper that exercises the guard without
-+having to materialize a multi-gigabyte name in memory, plus t1600 tests
-+covering both the accepted and rejected cases.
-+
-+Add command-level tests for paths entering the index from both the
-+filesystem and a tree, along with tests for invalid index.maxPathLen
-+values.
-+
-+CVE: CVE-2026-111760
-+Upstream-Status: Backport [https://github.com/git/git/commit/29411cf59fd417d8fce1be40ab2911e3e0885f26]
++CVE: CVE-2026-114469
++Upstream-Status: Backport [https://github.com/git/git/commit/55c54fd375849d303ab71307fc8f79254877cc89]
 +
 +Backport Changes:
-+Place the unchanged index.maxpathlen configuration block in
-+environment.c, where Git 2.53.0 defines git_default_config(). The
-+original config.c hunk conflicts because the callback moved.
++- Fold the chunk encoder from [1] and the base85 test helper and
++  build registrations from [2] into this fix. Without these,
++  Git 2.53.0 test-tool fails with no tool named base85.
++- Retain the existing encode_85() interface and diff.c emission
++  path; their upstream refactor is not required by the tests.
 +
-+Reported-by: Robert Chen <r@osec.io>
-+Helped-by: Johannes Schindelin <Johannes.Schindelin@gmx.de>
-+Helped-by: Jeff King <peff@peff.net>
-+Co-authored-by: Toon Claes <toon@iotcl.com>
-+Signed-off-by: Elijah Newren <newren@gmail.com>
-+Signed-off-by: Toon Claes <toon@iotcl.com>
++[1] https://github.com/git/git/commit/f0f7ab0b68e59a793aae837fddcefd138e932ad3
++[2] https://github.com/git/git/commit/15b2d49c4d7920efcbf4baa2fa85b3d0836062b9
++
++Reported-by: pwn2addr <p2addr@gmail.com>
++Signed-off-by: Karthik Nayak <karthik.188@gmail.com>
 +Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
 +---
-+ Documentation/config/index.adoc |  5 +++++
-+ Makefile                        |  1 +
-+ environment.c                   | 11 ++++++++++
-+ environment.h                   |  1 +
-+ read-cache.c                    | 17 +++++++++++++--
-+ t/helper/meson.build            |  1 +
-+ t/helper/test-cache-entry.c     | 35 +++++++++++++++++++++++++++++++
-+ t/helper/test-tool.c            |  1 +
-+ t/helper/test-tool.h            |  1 +
-+ t/t1600-index.sh                | 37 +++++++++++++++++++++++++++++++++
-+ 10 files changed, 108 insertions(+), 2 deletions(-)
-+ create mode 100644 t/helper/test-cache-entry.c
++ Makefile                   |  1 +
++ apply.c                    | 13 +++++++++--
++ base85.c                   | 31 +++++++++++++++++++++++++++
++ base85.h                   | 10 +++++++++
++ t/helper/meson.build       |  1 +
++ t/helper/test-base85.c     | 44 ++++++++++++++++++++++++++++++++++++++
++ t/helper/test-tool.c       |  1 +
++ t/helper/test-tool.h       |  1 +
++ t/t4141-apply-too-large.sh | 19 ++++++++++++++++
++ 9 files changed, 119 insertions(+), 2 deletions(-)
++ create mode 100644 t/helper/test-base85.c
 +
-+diff --git a/Documentation/config/index.adoc b/Documentation/config/index.adoc
-+index 3eff4203..a23be914 100644
-+--- a/Documentation/config/index.adoc
-++++ b/Documentation/config/index.adoc
-+@@ -1,3 +1,8 @@
-++index.maxPathLen::
-++	Specify the maximum length of a pathname that Git will add to
-++	the index or check out. Longer pathnames are rejected. The default
-++	is 1073740799 bytes, and values larger than 2147483647 are rejected.
-++
-+ index.recordEndOfIndexEntries::
-+ 	Specifies whether the index file should include an "End Of Index
-+ 	Entry" section. This reduces index load time on multiprocessor
 +diff --git a/Makefile b/Makefile
-+index 8aa489f3..cd111e2b 100644
++index cd111e2b..ada0fba8 100644
 +--- a/Makefile
 ++++ b/Makefile
-+@@ -804,6 +804,7 @@ TEST_BUILTINS_OBJS += test-advise.o
++@@ -801,6 +801,7 @@ X =
++ PROGRAMS += $(patsubst %.o,git-%$X,$(PROGRAM_OBJS))
++ 
++ TEST_BUILTINS_OBJS += test-advise.o
+++TEST_BUILTINS_OBJS += test-base85.o
 + TEST_BUILTINS_OBJS += test-bitmap.o
 + TEST_BUILTINS_OBJS += test-bloom.o
 + TEST_BUILTINS_OBJS += test-bundle-uri.o
-++TEST_BUILTINS_OBJS += test-cache-entry.o
-+ TEST_BUILTINS_OBJS += test-cache-tree.o
-+ TEST_BUILTINS_OBJS += test-chmtime.o
-+ TEST_BUILTINS_OBJS += test-config.o
-+diff --git a/environment.c b/environment.c
-+index 8ffbf92d..290a1938 100644
-+--- a/environment.c
-++++ b/environment.c
-+@@ -44,6 +44,7 @@ int trust_executable_bit = 1;
-+ int trust_ctime = 1;
-+ int check_stat = 1;
-+ int has_symlinks = 1;
-++unsigned int max_ce_namelen = INT_MAX / 2 - 1024;
-+ int minimum_abbrev = 4, default_abbrev = -1;
-+ int ignore_case;
-+ int assume_unchanged;
-+@@ -724,6 +725,16 @@ int git_default_config(const char *var, const char *value,
-+ 	if (starts_with(var, "sparse."))
-+ 		return git_default_sparse_config(var, value);
++diff --git a/apply.c b/apply.c
++index 3de4aa4d..e04e81ba 100644
++--- a/apply.c
+++++ b/apply.c
++@@ -1968,6 +1968,7 @@ static struct fragment *parse_binary_hunk(struct apply_state *state,
++ 	char *data = NULL;
++ 	int hunk_size = 0;
++ 	struct fragment *frag;
+++	const char *error_msg = NULL;
 + 
-++	if (!strcmp(var, "index.maxpathlen")) {
-++		unsigned long maxlen = git_config_ulong(var, value, ctx->kvi);
-++
-++		if (maxlen > INT_MAX)
-++			return error(_("value for '%s' exceeds maximum of %d"),
-++				     var, INT_MAX);
-++		max_ce_namelen = maxlen;
-++		return 0;
++ 	llen = linelen(buffer, size);
++ 	used = llen;
++@@ -1985,6 +1986,11 @@ static struct fragment *parse_binary_hunk(struct apply_state *state,
++ 	else
++ 		return NULL;
++ 
+++	if (origlen >= MAX_APPLY_SIZE) {
+++		error_msg = _("patch too large");
+++		goto corrupt;
 ++	}
 ++
-+ 	/* Add other config variables here and to Documentation/config.adoc. */
-+ 	return 0;
++ 	state->linenr++;
++ 	buffer += llen;
++ 	size -= llen;
++@@ -2045,8 +2051,11 @@ static struct fragment *parse_binary_hunk(struct apply_state *state,
++  corrupt:
++ 	free(data);
++ 	*status_p = -1;
++-	error(_("corrupt binary patch at line %d: %.*s"),
++-	      state->linenr-1, llen-1, buffer);
+++	if (error_msg)
+++		error("%s", error_msg);
+++	else
+++		error(_("corrupt binary patch at line %d: %.*s"),
+++		      state->linenr - 1, llen - 1, buffer);
++ 	return NULL;
 + }
-+diff --git a/environment.h b/environment.h
-+index 27f657af..8dc5b5ed 100644
-+--- a/environment.h
-++++ b/environment.h
-+@@ -148,6 +148,7 @@ extern int trust_executable_bit;
-+ extern int trust_ctime;
-+ extern int check_stat;
-+ extern int has_symlinks;
-++extern unsigned int max_ce_namelen;
-+ extern int minimum_abbrev, default_abbrev;
-+ extern int ignore_case;
-+ extern int assume_unchanged;
-+diff --git a/read-cache.c b/read-cache.c
-+index 0c07c3ae..8a198ba9 100644
-+--- a/read-cache.c
-++++ b/read-cache.c
-+@@ -92,9 +92,17 @@ enum index_search_mode {
-+ 	EXPAND_SPARSE = 1
-+ };
 + 
-++static inline void verify_ce_namelen(size_t len)
++diff --git a/base85.c b/base85.c
++index 80e899a2..97fd0652 100644
++--- a/base85.c
+++++ b/base85.c
++@@ -101,6 +101,37 @@ void encode_85(char *buf, const unsigned char *data, int bytes)
++ 	*buf = 0;
++ }
++ 
+++/*
+++ * Split the provided data into chunks of at most 52 bytes. Each chunk
+++ * is base85-encoded into a line with the following format:
+++ *  - Byte 0: encodes the chunk size (1-52) as a letter: 'A'-'Z' for
+++ *    1-26 bytes, 'a'-'z' for 27-52 bytes.
+++ *  - Bytes 1 onwards: base85-encoded data (up to 65 bytes).
+++ *  - Followed by a newline and NUL terminator.
+++ * The output callback is called once per line.
+++ */
+++void chunk_and_encode85(const unsigned char *data, unsigned long len,
+++			each_encoded_line_fn output, void *output_data)
 ++{
-++	if (len > INT_MAX)
-++		die(_("index entry path is too long (%"PRIuMAX" bytes)"),
-++		    (uintmax_t)len);
+++	while (len) {
+++		int line_len;
+++		int bytes = (BASE85_CHUNK_SIZE < len) ? BASE85_CHUNK_SIZE : len;
+++		char line[71];
+++		len -= bytes;
+++		if (bytes <= 26)
+++			line[0] = bytes + 'A' - 1;
+++		else
+++			line[0] = bytes - 26 + 'a' - 1;
+++		encode_85(line + 1, data, bytes);
+++		data = data + bytes;
+++
+++		line_len = strlen(line);
+++		line[line_len++] = '\n';
+++		line[line_len] = '\0';
+++		output(line, line_len, output_data);
+++	}
 ++}
 ++
-+ static inline struct cache_entry *mem_pool__ce_alloc(struct mem_pool *mem_pool, size_t len)
++ #ifdef DEBUG_85
++ int main(int ac, char **av)
 + {
-+ 	struct cache_entry *ce;
-++	verify_ce_namelen(len);
-+ 	ce = mem_pool_alloc(mem_pool, cache_entry_size(len));
-+ 	ce->mem_pool_allocated = 1;
-+ 	return ce;
-+@@ -103,6 +111,7 @@ static inline struct cache_entry *mem_pool__ce_alloc(struct mem_pool *mem_pool,
-+ static inline struct cache_entry *mem_pool__ce_calloc(struct mem_pool *mem_pool, size_t len)
-+ {
-+ 	struct cache_entry * ce;
-++	verify_ce_namelen(len);
-+ 	ce = mem_pool_calloc(mem_pool, 1, cache_entry_size(len));
-+ 	ce->mem_pool_allocated = 1;
-+ 	return ce;
-+@@ -821,6 +830,7 @@ struct cache_entry *make_empty_transient_cache_entry(size_t len,
-+ {
-+ 	if (ce_mem_pool)
-+ 		return mem_pool__ce_calloc(ce_mem_pool, len);
-++	verify_ce_namelen(len);
-+ 	return xcalloc(1, cache_entry_size(len));
-+ }
++diff --git a/base85.h b/base85.h
++index c835086e..d3952aed 100644
++--- a/base85.h
+++++ b/base85.h
++@@ -1,7 +1,17 @@
++ #ifndef BASE85_H
++ #define BASE85_H
 + 
-+@@ -845,7 +855,7 @@ struct cache_entry *make_cache_entry(struct index_state *istate,
-+ 				     unsigned int refresh_options)
-+ {
-+ 	struct cache_entry *ce, *ret;
-+-	int len;
-++	size_t len;
-+ 
-+ 	if (verify_path_internal(path, mode) == PATH_INVALID) {
-+ 		error(_("invalid path '%s'"), path);
-+@@ -874,7 +884,7 @@ struct cache_entry *make_transient_cache_entry(unsigned int mode,
-+ 					       struct mem_pool *ce_mem_pool)
-+ {
-+ 	struct cache_entry *ce;
-+-	int len;
-++	size_t len;
-+ 
-+ 	if (!verify_path(path, mode)) {
-+ 		error(_("invalid path '%s'"), path);
-+@@ -992,6 +1002,9 @@ static enum verify_path_result verify_path_internal(const char *path,
-+ 	if (!is_valid_path(path))
-+ 		return PATH_INVALID;
-+ 
-++	if (strlen(path) > max_ce_namelen)
-++		return PATH_INVALID;
+++/*
+++ * We pick 52, a multiple of 4 so there are no partial groups and it
+++ * fits in the A-Za-z length prefix encoding.
+++ */
+++#define BASE85_CHUNK_SIZE 52
 ++
-+ 	goto inside;
-+ 	for (;;) {
-+ 		if (!c)
+++typedef void each_encoded_line_fn(char *line, int len, void *cb_data);
+++
++ int decode_85(char *dst, const char *line, int linelen);
++ void encode_85(char *buf, const unsigned char *data, int bytes);
+++void chunk_and_encode85(const unsigned char *data, unsigned long len,
+++			each_encoded_line_fn output, void *output_data);
++ 
++ #endif /* BASE85_H */
 +diff --git a/t/helper/meson.build b/t/helper/meson.build
-+index 675e64c0..0e38ca3a 100644
++index 0e38ca3a..eb821ef0 100644
 +--- a/t/helper/meson.build
 ++++ b/t/helper/meson.build
-+@@ -4,6 +4,7 @@ test_tool_sources = [
++@@ -1,6 +1,7 @@
++ test_tool_sources = [
++   '../unit-tests/test-lib.c',
++   'test-advise.c',
+++  'test-base85.c',
 +   'test-bitmap.c',
 +   'test-bloom.c',
 +   'test-bundle-uri.c',
-++  'test-cache-entry.c',
-+   'test-cache-tree.c',
-+   'test-chmtime.c',
-+   'test-config.c',
-+diff --git a/t/helper/test-cache-entry.c b/t/helper/test-cache-entry.c
++diff --git a/t/helper/test-base85.c b/t/helper/test-base85.c
 +new file mode 100644
-+index 00000000..65e0bb91
++index 00000000..98c591b4
 +--- /dev/null
-++++ b/t/helper/test-cache-entry.c
-+@@ -0,0 +1,35 @@
-++#define USE_THE_REPOSITORY_VARIABLE
+++++ b/t/helper/test-base85.c
++@@ -0,0 +1,44 @@
 ++#include "test-tool.h"
-++#include "read-cache-ll.h"
+++#include "base85.h"
 ++
-++/*
-++ * Exercise the cache-entry name-length guard without having to construct a
-++ * multi-gigabyte pathname in memory.  make_empty_cache_entry()
-++ * dies on any length that would not survive being stored in the 32-bit
-++ * "ce_namelen" field, and it does so before allocating, so an out-of-range
-++ * length is cheap to test.
-++ */
-++int cmd__cache_entry(int argc, const char **argv)
+++#define MAX_INPUT_BUF BASE85_CHUNK_SIZE * 1024
+++
+++static const char *base85_usage = "test-tool base85 chunk-encode";
+++
+++static void print_binary_diff_line(char line[71], int len, void *output_data UNUSED)
 ++{
-++	size_t len;
-++	char *end;
-++	struct cache_entry *ce;
+++	fwrite(line, 1, len, stdout);
+++}
 ++
+++static void base85_chunk(void)
+++{
+++	unsigned char *input = xmalloc(MAX_INPUT_BUF);
+++
+++	for (;;) {
+++		ssize_t len = read_in_full(0, input, MAX_INPUT_BUF);
+++		if (len < 0)
+++			die_errno("read error");
+++
+++		chunk_and_encode85(input, len, print_binary_diff_line, NULL);
+++		if (len < MAX_INPUT_BUF)
+++			break;
+++	}
+++
+++	putc('\n', stdout);
+++	free(input);
+++}
+++
+++int cmd__base85(int argc, const char **argv)
+++{
 ++	if (argc != 2)
-++		die("usage: test-tool cache-entry <namelen>");
+++		usage(base85_usage);
 ++
-++	errno = 0;
-++	len = strtoumax(argv[1], &end, 10);
-++	if (errno || *end)
-++		die("cannot parse namelen '%s'", argv[1]);
+++	if (!strcmp(argv[1], "chunk-encode")) {
+++		base85_chunk();
+++	} else {
+++		error("unknown subcommand: %s", argv[1]);
+++		usage(base85_usage);
+++	}
 ++
-++	/* Dies here if 'len' is too large to be represented safely. */
-++	ce = make_empty_cache_entry(the_repository->index, len);
-++	if (!ce)
-++		die("failed to create cache entry");
-++
-++	printf("ok: allocated cache entry for namelen %"PRIuMAX"\n",
-++	       (uintmax_t)len);
-++	discard_cache_entry(ce);
 ++	return 0;
 ++}
 +diff --git a/t/helper/test-tool.c b/t/helper/test-tool.c
-+index a7abc618..feb5b6f4 100644
++index feb5b6f4..aadfd4b7 100644
 +--- a/t/helper/test-tool.c
 ++++ b/t/helper/test-tool.c
-+@@ -14,6 +14,7 @@ static struct test_cmd cmds[] = {
++@@ -11,6 +11,7 @@ static const char * const test_tool_usage[] = {
++ 
++ static struct test_cmd cmds[] = {
++ 	{ "advise", cmd__advise_if_enabled },
+++	{ "base85", cmd__base85 },
 + 	{ "bitmap", cmd__bitmap },
 + 	{ "bloom", cmd__bloom },
 + 	{ "bundle-uri", cmd__bundle_uri },
-++	{ "cache-entry", cmd__cache_entry },
-+ 	{ "cache-tree", cmd__cache_tree },
-+ 	{ "chmtime", cmd__chmtime },
-+ 	{ "config", cmd__config },
 +diff --git a/t/helper/test-tool.h b/t/helper/test-tool.h
-+index 7f150fa1..669c7bef 100644
++index 669c7bef..996bfa64 100644
 +--- a/t/helper/test-tool.h
 ++++ b/t/helper/test-tool.h
-+@@ -7,6 +7,7 @@ int cmd__advise_if_enabled(int argc, const char **argv);
++@@ -4,6 +4,7 @@
++ #include "git-compat-util.h"
++ 
++ int cmd__advise_if_enabled(int argc, const char **argv);
+++int cmd__base85(int argc, const char **argv);
 + int cmd__bitmap(int argc, const char **argv);
 + int cmd__bloom(int argc, const char **argv);
 + int cmd__bundle_uri(int argc, const char **argv);
-++int cmd__cache_entry(int argc, const char **argv);
-+ int cmd__cache_tree(int argc, const char **argv);
-+ int cmd__chmtime(int argc, const char **argv);
-+ int cmd__config(int argc, const char **argv);
-+diff --git a/t/t1600-index.sh b/t/t1600-index.sh
-+index 03239e9f..93305d45 100755
-+--- a/t/t1600-index.sh
-++++ b/t/t1600-index.sh
-+@@ -122,6 +122,43 @@ test_index_version () {
-+ 	)
-+ }
-+ 
-++test_expect_success 'cache entry with a representable name length is accepted' '
-++	test-tool cache-entry 100 >actual &&
-++	test_grep "^ok: allocated cache entry for namelen 100" actual
-++'
-++
-++test_expect_success SIZE_T_IS_64BIT \
-++	'over-long cache entry name length is rejected rather than truncated' '
-++	# 4294967296 == 2^32
-++	test_must_fail test-tool cache-entry 4294967296 2>err &&
-++	test_grep "index entry path is too long" err
-++'
-++
-++test_expect_success 'path length enforced from filesystem to index' '
-++	name=a-somewhat-long-path-name &&
-++	echo foo >"$name" &&
-++	test_must_fail git -c index.maxPathLen=10 add "$name" 2>err &&
-++	test_grep "invalid path" err
-++'
-++
-++test_expect_success 'path length enforced from tree to index' '
-++	name=a-somewhat-long-path-name &&
-++	echo foo >"$name" &&
-++	git add "$name" &&
-++	git commit -m long-path &&
-++	test_when_finished "rm -rf long-clone.git" &&
-++	test_must_fail git -c index.maxPathLen=10 clone . long-clone.git 2>err &&
-++	test_grep "invalid path" err
-++'
-++
-++test_expect_success 'index.maxPathLen rejects out-of-range values' '
-++	test_must_fail git -c index.maxPathLen=-1 status 2>err &&
-++	test_grep "bad numeric config value" err &&
-++	test_must_fail git -c index.maxPathLen=2147483648 status 2>err &&
-++	test_grep "exceeds maximum" err
-++'
-++
-++# This must be the last test case because it deletes .git/config
-+ test_expect_success 'index version config precedence' '
-+ 	test_index_version 0 false 0 2 &&
-+ 	test_index_version 2 false 0 2 &&
-diff --git a/meta/recipes-devtools/git/git/CVE-2026-111760_p2.patch b/meta/recipes-devtools/git/git/CVE-2026-111760_p2.patch
-new file mode 100644
-index 0000000000..76c4fec69c
---- /dev/null
-+++ b/meta/recipes-devtools/git/git/CVE-2026-111760_p2.patch
-@@ -0,0 +1,47 @@
-+From 911c7c83ca72bbc9e4bacf32c18edbe65c101522 Mon Sep 17 00:00:00 2001
-+From: Johannes Schindelin <johannes.schindelin@gmx.de>
-+Date: Fri, 16 Oct 2026 20:36:17 +0200
-+Subject: [PATCH] checkout: use size_t and st_add() for cache entry length in
-+ update_some()
-+
-+In update_some(), the combined length of the base path and the pathname
-+is computed as an int and then passed to make_empty_cache_entry().  For
-+very long paths, this can truncate the result or overflow, causing us to
-+allocate a smaller cache entry than needed and then copy more data than
-+was allocated.
-+
-+Use size_t instead and compute the sum with st_add(), which catches
-+overflow before it can lead to a heap overflow during checkout.
-+
-+CVE: CVE-2026-111760
-+Upstream-Status: Backport [https://github.com/git/git/commit/fd48e6f35621ebd4657acb4a74d8638466a4dbbc]
-+
-+Assisted-by: Kimi-K2.7-Code
-+Signed-off-by: Johannes Schindelin <johannes.schindelin@gmx.de>
-+Signed-off-by: Toon Claes <toon@iotcl.com>
-+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
-+---
-+ builtin/checkout.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/builtin/checkout.c b/builtin/checkout.c
-+index 0ba4f03f..bd2a67d2 100644
-+--- a/builtin/checkout.c
-++++ b/builtin/checkout.c
-+@@ -149,14 +149,14 @@ static int post_checkout_hook(struct commit *old_commit, struct commit *new_comm
-+ static int update_some(const struct object_id *oid, struct strbuf *base,
-+ 		       const char *pathname, unsigned mode, void *context UNUSED)
-+ {
-+-	int len;
-++	size_t len;
-+ 	struct cache_entry *ce;
-+ 	int pos;
-+ 
-+ 	if (S_ISDIR(mode))
-+ 		return READ_TREE_RECURSIVE;
-+ 
-+-	len = base->len + strlen(pathname);
-++	len = st_add(base->len, strlen(pathname));
-+ 	ce = make_empty_cache_entry(the_repository->index, len);
-+ 	oidcpy(&ce->oid, oid);
-+ 	memcpy(ce->name, base->buf, base->len);
-diff --git a/meta/recipes-devtools/git/git/CVE-2026-111760_p3.patch b/meta/recipes-devtools/git/git/CVE-2026-111760_p3.patch
-new file mode 100644
-index 0000000000..11fd19d8d1
---- /dev/null
-+++ b/meta/recipes-devtools/git/git/CVE-2026-111760_p3.patch
-@@ -0,0 +1,48 @@
-+From 56064c42605275bed7d4101a42309413929cfd86 Mon Sep 17 00:00:00 2001
-+From: Johannes Schindelin <johannes.schindelin@gmx.de>
-+Date: Fri, 16 Oct 2026 20:36:18 +0200
-+Subject: [PATCH] read-cache: use size_t and st_add() for cache entry size in
-+ read_one_entry_opt()
-+
-+read_one_entry_opt() stores strlen(pathname) in a signed int, which can
-+narrow or truncate the length.  The combined length passed to
-+make_empty_cache_entry() can also overflow, and the signed type causes
-+problems near the INT_MAX boundary.
-+
-+Switch to size_t and use st_add() when computing the allocation size,
-+preventing truncation and signed overflow when reading tree entries with
-+over-long basenames, such as those used by ls-files --with-tree and
-+partial-commit overlays.
-+
-+CVE: CVE-2026-111760
-+Upstream-Status: Backport [https://github.com/git/git/commit/df246839249110b852848db70501296d99bf1d7d]
-+
-+Assisted-by: Kimi-K2.7-Code
-+Signed-off-by: Johannes Schindelin <johannes.schindelin@gmx.de>
-+Signed-off-by: Toon Claes <toon@iotcl.com>
-+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
-+---
-+ read-cache.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/read-cache.c b/read-cache.c
-+index 8a198ba9..381ef3b2 100644
-+--- a/read-cache.c
-++++ b/read-cache.c
-+@@ -3769,14 +3769,14 @@ static int read_one_entry_opt(struct index_state *istate,
-+ 			      const char *pathname,
-+ 			      unsigned mode, int opt)
-+ {
-+-	int len;
-++	size_t len;
-+ 	struct cache_entry *ce;
-+ 
-+ 	if (S_ISDIR(mode))
-+ 		return READ_TREE_RECURSIVE;
-+ 
-+ 	len = strlen(pathname);
-+-	ce = make_empty_cache_entry(istate, base->len + len);
-++	ce = make_empty_cache_entry(istate, st_add(base->len, len));
-+ 
-+ 	ce->ce_mode = create_ce_mode(mode);
-+ 	ce->ce_flags = create_ce_flags(1);
-diff --git a/meta/recipes-devtools/git/git/CVE-2026-111760_p4.patch b/meta/recipes-devtools/git/git/CVE-2026-111760_p4.patch
-new file mode 100644
-index 0000000000..41ae73121f
---- /dev/null
-+++ b/meta/recipes-devtools/git/git/CVE-2026-111760_p4.patch
-@@ -0,0 +1,102 @@
-+From a3e3e36920865b8b4fee6fd3a6c9bd98f5895ece Mon Sep 17 00:00:00 2001
-+From: Johannes Schindelin <johannes.schindelin@gmx.de>
-+Date: Fri, 16 Oct 2026 20:36:19 +0200
-+Subject: [PATCH] t1600-index: add expensive tests for over-long tree paths
-+
-+The fixes for over-long cache entry names need regression coverage.
-+Add helper functions make_large_tree and check_overlong_tree, along with
-+four EXPENSIVE tests gated by SIZE_T_IS_64BIT and LONG_IS_64BIT that
-+exercise the oversized-path boundary for checkout, restore, and ls-files,
-+plus one more EXPENSIVE test for ls-files at the INT_MAX terminator
-+boundary.
-+
-+These tests require 64-bit size_t/long and large allocations, so they are
-+opt-in and only run when the appropriate EXPENSIVE prerequisites are
-+satisfied.
-+
-+CVE: CVE-2026-111760
-+Upstream-Status: Backport [https://github.com/git/git/commit/89048b48fb3acc7b24e38c42139b3a03fa54e09f]
-+
-+Assisted-by: Kimi-K2.7-Code
-+Signed-off-by: Johannes Schindelin <johannes.schindelin@gmx.de>
-+Signed-off-by: Toon Claes <toon@iotcl.com>
-+Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
-+---
-+ t/t1600-index.sh | 64 ++++++++++++++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 64 insertions(+)
-+
-+diff --git a/t/t1600-index.sh b/t/t1600-index.sh
-+index 93305d45..9c51cc04 100755
-+--- a/t/t1600-index.sh
-++++ b/t/t1600-index.sh
-+@@ -158,6 +158,70 @@ test_expect_success 'index.maxPathLen rejects out-of-range values' '
-+ 	test_grep "exceeds maximum" err
++diff --git a/t/t4141-apply-too-large.sh b/t/t4141-apply-too-large.sh
++index eac6f7e1..7e311a5f 100755
++--- a/t/t4141-apply-too-large.sh
+++++ b/t/t4141-apply-too-large.sh
++@@ -19,4 +19,23 @@ test_expect_success EXPENSIVE 'git apply rejects patches that are too large' '
++ 	grep "patch too large" err
 + '
 + 
-++make_large_tree () {
+++test_expect_success EXPENSIVE 'git apply rejects binary patches that are too large' '
+++	sz=$((1024 * 1024 * 2048)) &&
+++	test-tool genzeros $sz | test-tool zlib deflate | test-tool base85 chunk-encode >payload &&
 ++	{
-++		printf "100644 " &&
-++		test-tool genzeros "$1" | tr "\000" a &&
-++		printf "\0" &&
-++		test-tool genzeros "$(test_oid rawsz)"
-++	} >"tree-$1" &&
-++	git hash-object --literally -w -t tree "tree-$1"
-++}
-++
-++check_overlong_tree () {
-++	test_must_fail git -C overlong "$@" >actual 2>err &&
-++	test_cmp expect-overlong err &&
-++	test_must_be_empty actual
-++}
-++
-++test_expect_success EXPENSIVE,SIZE_T_IS_64BIT,LONG_IS_64BIT \
-++		"set up a tree path whose length wraps to a small int" '
-++	test_create_repo overlong &&
-++	(
-++		cd overlong &&
-++		subtree=$(make_large_tree 4294967294) &&
-++		printf "040000 tree %s\tabc\n" "$subtree" |
-++		git mktree >tree
-++	) &&
-++	overlong_tree=$(cat overlong/tree) &&
-++	echo "fatal: index entry path is too long" \
-++		"(4294967298 bytes)" >expect-overlong
+++		# Although the patch requires the correct blob ID, blob ID validation
+++		# happens after the inflated content size check, so use $EMPTY_BLOB as
+++		# a filler.
+++		cat <<-EOF &&
+++		diff --git a/file b/file
+++		new file mode 100644
+++		index $ZERO_OID..$EMPTY_BLOB
+++		GIT binary patch
+++		literal $sz
+++		EOF
+++		cat payload
+++	} | test_must_fail git apply 2>err &&
+++	grep "patch too large" err
 ++'
 ++
-++test_expect_success EXPENSIVE,SIZE_T_IS_64BIT,LONG_IS_64BIT \
-++		"checkout rejects a path before its length is truncated" '
-++	check_overlong_tree checkout "$overlong_tree" -- :/
++ test_done
+diff --git a/meta/recipes-devtools/git/git/CVE-2026-114469_p2.patch b/meta/recipes-devtools/git/git/CVE-2026-114469_p2.patch
+new file mode 100644
+index 0000000000..d59eda7307
+--- /dev/null
++++ b/meta/recipes-devtools/git/git/CVE-2026-114469_p2.patch
+@@ -0,0 +1,118 @@
++From 89a65caa611bb2ca3e517447183d96719d06982a Mon Sep 17 00:00:00 2001
++From: Karthik Nayak <karthik.188@gmail.com>
++Date: Wed, 25 Mar 2026 10:30:33 +0100
++Subject: [PATCH] apply: add tests mismatch in binary patch size
++
++The previous commit added a check to ensure that the mentioned literal
++length of a given binary patch does not exceed 'MAX_APPLY_SIZE'.
++However, this doesn't mean an attacker cannot modify the literal patch
++size mentioned in the patch headers.
++
++Fortunately, we're already safeguarded against such attacks. Applying a
++binary patch includes the following steps:
++
++  1. Checking that the file size doesn't exceed 'MAX_APPLY_SIZE'.
++  2. Base85 decoding the content (reduces the size of the patch by 4/5).
++  3. Zlib inflating the decoded content (possibly increases the size).
++
++As we already check the file size in step 1 and step 2 will only reduce
++the given size, there is no chance that the content would exceed
++'MAX_APPLY_SIZE' at step 2.
++
++That means the only chance is that step 3 could inflate the size beyond
++'MAX_APPLY_SIZE'. While this is indeed possible, inflation is done using
++the `inflate_it()` command, which takes in the expected size. The
++expected size is the literal size mentioned in the patch header. If the
++inflated content doesn't match this provided size, we error out. So
++we're safe here too.
++
++Let's add two tests to capture these behaviors. First one to add a large
++binary patch which fails due to large file size. Second a binary patch
++with mismatched size, which fails during inflation.
++
++The second test also exposes two memory leaks. One where the initialized
++`struct fragment *` is not freed in such a scenario. Fix it, by free'ing
++it before we exit the function. The second where a large binary file is
++read but because it is too large, we throw an error. Here, we free the
++buffer the file is read into.
++
++CVE: CVE-2026-114469
++Upstream-Status: Backport [https://github.com/git/git/commit/dee1bb2a9fc75c3a1f7f1c6aaf86ff2c038bd436]
++
++Reported-by: pwn2addr <p2addr@gmail.com>
++Signed-off-by: Karthik Nayak <karthik.188@gmail.com>
++Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
++---
++ apply.c                    | 10 +++++++---
++ t/t4141-apply-too-large.sh | 31 +++++++++++++++++++++++++++++++
++ 2 files changed, 38 insertions(+), 3 deletions(-)
++
++diff --git a/apply.c b/apply.c
++index e04e81ba..704b5a9e 100644
++--- a/apply.c
+++++ b/apply.c
++@@ -2038,8 +2038,10 @@ static struct fragment *parse_binary_hunk(struct apply_state *state,
++ 	CALLOC_ARRAY(frag, 1);
++ 	frag->patch = inflate_it(data, hunk_size, origlen);
++ 	frag->free_patch = 1;
++-	if (!frag->patch)
+++	if (!frag->patch) {
+++		free(frag);
++ 		goto corrupt;
+++	}
++ 	free(data);
++ 	frag->size = origlen;
++ 	*buf_p = buffer;
++@@ -4814,8 +4816,10 @@ static int apply_patch(struct apply_state *state,
++ 	int flush_attributes = 0;
++ 
++ 	state->patch_input_file = filename;
++-	if (read_patch_file(&buf, fd) < 0)
++-		return -128;
+++	if (read_patch_file(&buf, fd) < 0) {
+++		res = -128;
+++		goto end;
+++	}
++ 	offset = 0;
++ 	while (offset < buf.len) {
++ 		struct patch *patch;
++diff --git a/t/t4141-apply-too-large.sh b/t/t4141-apply-too-large.sh
++index 7e311a5f..1cd5792b 100755
++--- a/t/t4141-apply-too-large.sh
+++++ b/t/t4141-apply-too-large.sh
++@@ -38,4 +38,35 @@ test_expect_success EXPENSIVE 'git apply rejects binary patches that are too lar
++ 	grep "patch too large" err
++ '
++ 
+++test_expect_success EXPENSIVE 'git apply rejects large binary patches with incorrect size' '
+++	sz=$((1024 * 1024 * 1023)) &&
+++	test-tool genrandom foo $sz | test-tool zlib deflate | test-tool base85 chunk-encode >payload &&
+++	{
+++		cat <<-EOF &&
+++		diff --git a/file b/file
+++		new file mode 100644
+++		index $ZERO_OID..$EMPTY_BLOB
+++		GIT binary patch
+++		literal 10
+++		EOF
+++		cat payload
+++	} | test_must_fail git apply 2>err &&
+++	grep "patch too large" err
 ++'
 ++
-++test_expect_success EXPENSIVE,SIZE_T_IS_64BIT,LONG_IS_64BIT \
-++		"restore rejects a path before its length is truncated" '
-++	check_overlong_tree restore --source="$overlong_tree" --staged -- :/
+++test_expect_success 'git apply rejects binary patches with incorrect size' '
+++	test-tool genrandom foo 100 | test-tool zlib deflate | test-tool base85 chunk-encode >payload &&
+++	{
+++		cat <<-EOF &&
+++		diff --git a/file b/file
+++		new file mode 100644
+++		index $ZERO_OID..$EMPTY_BLOB
+++		GIT binary patch
+++		literal 10
+++		EOF
+++		cat payload
+++	} | test_must_fail git apply 2>err &&
+++	grep "corrupt binary patch" err
 ++'
 ++
-++test_expect_success EXPENSIVE,SIZE_T_IS_64BIT,LONG_IS_64BIT \
-++		"ls-files rejects a path before its length is truncated" '
-++	check_overlong_tree ls-files --with-tree="$overlong_tree"
-++'
-++
-++test_expect_success EXPENSIVE,SIZE_T_IS_64BIT,LONG_IS_64BIT \
-++		"clean up the large tree" '
-++	rm -rf overlong
-++'
-++
-++test_expect_success EXPENSIVE,SIZE_T_IS_64BIT \
-++		"ls-files includes the terminator without signed overflow" '
-++	test_create_repo boundary &&
-++	test_when_finished "rm -rf boundary" &&
-++	(
-++		cd boundary &&
-++		make_large_tree 2147483647 >tree
-++	) &&
-++	echo 100644 >expect &&
-++	git -C boundary ls-files --with-tree="$(cat boundary/tree)" \
-++		--format="%(objectmode)" >actual &&
-++	test_cmp expect actual
-++'
-++
-+ # This must be the last test case because it deletes .git/config
-+ test_expect_success 'index version config precedence' '
-+ 	test_index_version 0 false 0 2 &&
++ test_done
 diff --git a/meta/recipes-devtools/git/git_2.53.0.bb b/meta/recipes-devtools/git/git_2.53.0.bb
-index 3940fe8769..c5bf87e44f 100644
+index 59bac1497f..5ea0c1033b 100644
 --- a/meta/recipes-devtools/git/git_2.53.0.bb
 +++ b/meta/recipes-devtools/git/git_2.53.0.bb
-@@ -17,6 +17,10 @@ SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
-            file://CVE-2026-113408_p3.patch \
-            file://CVE-2026-114466_p1.patch \
-            file://CVE-2026-114466_p2.patch \
-+           file://CVE-2026-111760_p1.patch \
-+           file://CVE-2026-111760_p2.patch \
-+           file://CVE-2026-111760_p3.patch \
-+           file://CVE-2026-111760_p4.patch \
+@@ -22,6 +22,8 @@ SRC_URI = "${KERNELORG_MIRROR}/software/scm/git/git-${PV}.tar.gz;name=tarball \
+            file://CVE-2026-111760_p3.patch \
+            file://CVE-2026-111760_p4.patch \
+            file://CVE-2026-114467.patch \
++           file://CVE-2026-114469_p1.patch \
++           file://CVE-2026-114469_p2.patch \
             "
  
  SRC_URI:append:class-nativesdk = " \
