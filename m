@@ -1,35 +1,35 @@
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2145.1795642575460812865
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2149.1795642583483965966
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Nov 2026 13:36:15 -0800
+ Wed, 25 Nov 2026 13:36:23 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=OcfNfsLt;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-2026112521361376d590929e0002078f-96ycax@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 2026112521361376d590929e0002078f
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=IokiteL6;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-202611252136216a2aa53ba80002073f-j3dia3@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 202611252136216a2aa53ba80002073f
         for <openembedded-core@lists.openembedded.org>;
-        Wed, 25 Nov 2026 22:36:13 +0100
+        Wed, 25 Nov 2026 22:36:21 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
  bh=QlNMMllnOxIRlKmi0tN4ZZTfwPt+Lmnd2Q/RLYrF8Ec=;
- b=OcfNfsLtranETQRPe+T3jKE1iBb7MsexgrJvpxtgvuwwASueG8PkX8iEkfRwz3p3LhvGTt
- JZQAnnnkMOfSKtsd3Q86aMLLct7PFmETMHVM2t1wcGWbgV3ey0KrVsZGPBKPLbyP/DsVJPHp
- V1tpxIP9fsanlVTA+AWggWx5DTPy9sebu0AEubw9OM+XsBXOmj96bF++UUYj4hSAn0YRsz9q
- M2sAb/42eWi+DG3plSAB82WBWHyOL5mt4e12KIvFmUR+IzBIHte+BGkO4dPtSYlW1z5O6r5Z
- ykgx+yktEW/STYXvfJEcTwZwrkKwOGwoP2IO4/gqOdGKR0UIpTx2Pk5w==;
+ b=IokiteL6U9unbX8YxPcDma+1xHBGL7IfRAaqE8Y2x/r8QB57MJHd9S0vIuW7Rkap6Axtj7
+ ZLTQ1cN6YSH9cNRUVwmb0Vco3rfhzixVphIjUaVnsDJ7tksRW4IX0fsVWPldvkTiglFLt8no
+ OR1kuIKt+aAK3fIspfHyZ94MjoAGzMBKFOl89QCyQagYTP/CJ9CGNREbcL2ZYHffRZ5hrxU3
+ ySWxvYm+DBIXS7ZsbgzJeJaUTfjuqu7f/OkKEpAq4YIUdkinWeU19FfMtDpQV8zR1d3daelH
+ Ne17C5xjU6Yumab4FTZxoLQGmCR+GPFWJTlpLGS+yJAEvUzaHZJ5DwKw==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH] inetutils: patch CVE-2026-95510
-Date: Wed, 25 Nov 2026 22:35:20 +0100
-Message-ID: <20261125213520.3584710-1-peter.marko@siemens.com>
+Subject: [blacksail][PATCH] inetutils: patch CVE-2026-95510
+Date: Wed, 25 Nov 2026 22:35:32 +0100
+Message-ID: <20261125213532.3584739-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 21:36:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251255
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 21:36:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251256
 Content-Type: text/plain; charset="utf-8"
 
 From: Peter Marko <peter.marko@siemens.com>
