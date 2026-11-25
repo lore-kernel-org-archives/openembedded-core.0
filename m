@@ -1,112 +1,101 @@
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2221.1795642805380756774
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2237.1795642813151885907
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Nov 2026 13:40:06 -0800
+ Wed, 25 Nov 2026 13:40:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=KWc+4NFo;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-2026112521400376395af116000207ab-3esl96@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 2026112521400376395af116000207ab
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=It/cajVl;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-20261125214011a36397982e0002073b-lb2jhg@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20261125214011a36397982e0002073b
         for <openembedded-core@lists.openembedded.org>;
-        Wed, 25 Nov 2026 22:40:03 +0100
+        Wed, 25 Nov 2026 22:40:11 +0100
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=a4uUw+r33TDbqiDYiXqTOc1UrujwxQqcjo7k2N3N/C0=;
- b=KWc+4NFokN5j1metXNknJKfaMeI27YHPSv0OYQMOb7sGDpSd9dEBPjzptUVPx31uUHspup
- NXm1xQ6uxHPAVCQ3D7qTxgPXqztv8tLuMBQXeOaBAeo9173i7QOJ6B0Lxa+ph43FjcT53EB/
- S6qVMnMr7OyFPJkOn6xsZ65UCvJKeWMkOGHSnA8pbcjyLkeVJgHelV76HNw36dO1tBM68iQE
- Wm1CryWmcstfO7O66jJ1Gxw83xXrxhyNNjebPA+tHktKRDaGTX4ZsLFkv3oMHQjnDjRnUVY2
- QR5oFBaqEJm+H64OjNg1G+CGtJqwKfdXZNxzNxNbGOabMrhSS3cxbYkw==;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=yY3jSIn62AaBbiYrITB1icjW1da+u21v+CA9famBL6M=;
+ b=It/cajVlK6lKC07oFRo29OSWXDw4YTc5aS0IOr9rT1V3C29V0Y9kmKeut1PDeI/ktvWcbW
+ ztUEF3jTuaQ+BTJO3/pK1YtyFPAmEk7nITTDvt68bv8FB6dBi0u2HI5W1iF2niAsl7DBC3cf
+ ieYzAzC40GJjSTCo4jeCm4dg8fUiP1QcauzcHDncq5XMjA00jxzifvJkok6hLkLGRPlUmSDV
+ u1G5aVWLoV1hz6SsDLOFMqJ2QIvZHeUoaYKqcFuY5NrLVj1xVuOkUY19c/56qUGD/AR02tDB
+ /USqVkLTOKeiJ3Li+9JQkMGoB/c//DLzOS7xk3Ab5+dghoqs7jgIl0CQ==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [scarthgap][PATCH 1/3] zip: fix a buffer overflow detected issue
-Date: Wed, 25 Nov 2026 22:39:54 +0100
-Message-ID: <20261125213956.3585234-1-peter.marko@siemens.com>
+Subject: [scarthgap][PATCH 2/3] zip: patch CVE-2018-13410
+Date: Wed, 25 Nov 2026 22:39:55 +0100
+Message-ID: <20261125213956.3585234-2-peter.marko@siemens.com>
+In-Reply-To: <20261125213956.3585234-1-peter.marko@siemens.com>
+References: <20261125213956.3585234-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 21:40:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251266
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Wed, 25 Nov 2026 21:40:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251267
 Content-Type: text/plain; charset="utf-8"
 
-From: Ming Liu <liu.ming50@gmail.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-A "buffer overflow detected" issue was observed as follows:
-| *** buffer overflow detected ***: terminated
-|
-| zip error: Interrupted (aborting)
+Pick patch from [1].
+This patch is a precondition for patching CVE-2026-130335.
+Remove related CVE_STATUS entry.
+Zip is not maintained anymore, so there is no upstream.
 
-This issue is addressed by:
-https://bugzilla.redhat.com/show_bug.cgi?id=2165653
+[1] https://salsa.debian.org/lts-team/packages/zip/-/blob/debian/3.0-12+deb11u1/debian/patches/15-buffer-overflow-cve-2018-13410.patch
 
-Port the fix.
-
-Signed-off-by: Ming Liu <liu.ming50@gmail.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-(From OE-Core rev: e2f3eeaedc0ea896f5f5b23f756056331b1647cf)
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- ...fix-a-buffer-overflow-detected-issue.patch | 38 +++++++++++++++++++
- meta/recipes-extended/zip/zip_3.0.bb          |  1 +
- 2 files changed, 39 insertions(+)
- create mode 100644 meta/recipes-extended/zip/zip-3.0/0001-fileio.c-fix-a-buffer-overflow-detected-issue.patch
+ .../zip/zip-3.0/CVE-2018-13410.patch          | 24 +++++++++++++++++++
+ meta/recipes-extended/zip/zip_3.0.bb          |  2 +-
+ 2 files changed, 25 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-extended/zip/zip-3.0/CVE-2018-13410.patch
 
-diff --git a/meta/recipes-extended/zip/zip-3.0/0001-fileio.c-fix-a-buffer-overflow-detected-issue.patch b/meta/recipes-extended/zip/zip-3.0/0001-fileio.c-fix-a-buffer-overflow-detected-issue.patch
+diff --git a/meta/recipes-extended/zip/zip-3.0/CVE-2018-13410.patch b/meta/recipes-extended/zip/zip-3.0/CVE-2018-13410.patch
 new file mode 100644
-index 00000000000..d760dfcec5a
+index 00000000000..81c1f13286e
 --- /dev/null
-+++ b/meta/recipes-extended/zip/zip-3.0/0001-fileio.c-fix-a-buffer-overflow-detected-issue.patch
-@@ -0,0 +1,38 @@
-+From 23b4ed82bff20c737fe2e95d5b035e92a9522ca2 Mon Sep 17 00:00:00 2001
-+From: Ming Liu <liu.ming50@gmail.com>
-+Date: Thu, 15 May 2025 13:58:45 +0200
-+Subject: [PATCH] fileio.c: fix a buffer overflow detected issue
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-extended/zip/zip-3.0/CVE-2018-13410.patch
+@@ -0,0 +1,24 @@
++From: Florent 'Skia' Jacquet <florent.jacquet@canonical.com>
++Subject: Fix buffer overflow when using '-T -TT'
++Bug-Debian: https://bugs.debian.org/1093629
++Bug-Ubuntu: https://launchpad.net/bugs/2093024
++Forwarded: https://sourceforge.net/p/infozip/bugs/81/
 +
-+Fix a following issue:
-+| *** buffer overflow detected ***: terminated
-+|
-+| zip error: Interrupted (aborting)
++strlen(unzip_path) + strlen(zipname) + " " + "'" + "'" + '\0'
++The additional space required in the `cmd` buffer is 4, not 3.
 +
-+Reference: https://bugzilla.redhat.com/show_bug.cgi?id=2165653
++CVE: CVE-2018-13410
++Upstream-Status: Inactive-Upstream [lastrelease: 2008]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +
-+Upstream-Status: Inactive-Upstream [the fix is from Redhat but not the official project]
-+
-+Signed-off-by: Ming Liu <liu.ming50@gmail.com>
-+---
-+ fileio.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/fileio.c b/fileio.c
-+index 1847e62..5a2959d 100644
-+--- a/fileio.c
-++++ b/fileio.c
-+@@ -3502,7 +3502,7 @@ zwchar *local_to_wide_string(local_string)
-+   if ((wc_string = (wchar_t *)malloc((wsize + 1) * sizeof(wchar_t))) == NULL) {
-+     ZIPERR(ZE_MEM, "local_to_wide_string");
-+   }
-+-  wsize = mbstowcs(wc_string, local_string, strlen(local_string) + 1);
-++  wsize = mbstowcs(wc_string, local_string, wsize + 1);
-+   wc_string[wsize] = (wchar_t) 0;
++--- a/zip.c
+++++ b/zip.c
++@@ -1437,7 +1437,7 @@
++     /* Replace first {} with archive name.  If no {} append name to string. */
++     here = strstr(unzip_path, "{}");
 + 
-+   /* in case wchar_t is not zwchar */
-+-- 
-+2.43.0
-+
++-    if ((cmd = malloc(strlen(unzip_path) + strlen(zipname) + 3)) == NULL) {
+++    if ((cmd = malloc(strlen(unzip_path) + strlen(zipname) + 4)) == NULL) {
++       ziperr(ZE_MEM, "building command string for testing archive");
++     }
++ 
 diff --git a/meta/recipes-extended/zip/zip_3.0.bb b/meta/recipes-extended/zip/zip_3.0.bb
-index 58144baa149..9ef9a9074f9 100644
+index 9ef9a9074f9..04ad5f87eba 100644
 --- a/meta/recipes-extended/zip/zip_3.0.bb
 +++ b/meta/recipes-extended/zip/zip_3.0.bb
-@@ -19,6 +19,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/Zip%203.x%20%28latest%29/3.0/zip30.tar.
-            file://0001-configure-Specify-correct-function-signatures-and-de.patch \
+@@ -20,13 +20,13 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/infozip/Zip%203.x%20%28latest%29/3.0/zip30.tar.
             file://0001-unix-configure-use-_Static_assert-to-do-correct-dete.patch \
             file://0001-configure-Include-dirent.h-for-closedir-opendir-APIs.patch \
-+           file://0001-fileio.c-fix-a-buffer-overflow-detected-issue.patch \
+            file://0001-fileio.c-fix-a-buffer-overflow-detected-issue.patch \
++           file://CVE-2018-13410.patch \
             "
  UPSTREAM_VERSION_UNKNOWN = "1"
  
+ SRC_URI[md5sum] = "7b74551e63f8ee6aab6fbc86676c0d37"
+ SRC_URI[sha256sum] = "f0e8bb1f9b7eb0b01285495a2699df3a4b766784c1765a8f1aeedf63c0806369"
+ 
+-CVE_STATUS[CVE-2018-13410] = "disputed: Disputed and also Debian doesn't consider a vulnerability"
+ CVE_STATUS[CVE-2018-13684] = "cpe-incorrect: Not for zip but for smart contract implementation for it"
+ 
+ # zip.inc sets CFLAGS, but what Makefile actually uses is
