@@ -1,132 +1,166 @@
-Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15322.1795704519942266772
+Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15367.1795704700149407477
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Nov 2026 06:48:40 -0800
+ Thu, 26 Nov 2026 06:51:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=Hh4JD5q1;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=slcD/8WP;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.159, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 077A614002DC
-	for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 09:48:39 -0500 (EST)
+ dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=AlNwQfWw;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=FdpvKSSB;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.151, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.phl.internal (Postfix) with ESMTP id 2D58FEC093A
+	for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 09:51:39 -0500 (EST)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-09.internal (MEProxy); Thu, 26 Nov 2026 09:48:39 -0500
+  by phl-compute-05.internal (MEProxy); Thu, 26 Nov 2026 09:51:39 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1795704518;
-	 x=1795790918; bh=9xUcsTkH29ugdPBTA78iOMv1Z18FD9QLlKb7lT8r/pI=; b=
-	Hh4JD5q1g7OTZDv+9tFkBax79x5lleAaLgFvGie+G/D1zHg0fAwWsHnQ+iBRIqJ9
-	7DZleOjr8RnqGHg9LS/WxeRxMPs8JbpesfVI/X00H9Lms8+8xcJOkbObSqY50Ymw
-	zl2yerUxxPOlxPoUScUit2Wdl6h3cfAMRkLUuGP5K/GehkpVKNZp/Yc1+mIzIht2
-	0T09HWXkfQy8KdXjtHEZccZ/vfQp/lD64EC5ce/nr40mXSor33OC2YFuiy+Yq5rf
-	LDNfp452TWVF+G+nkPdQXxWPhXdzv1/N3GqMfRYpHbujdg905vq4ZxIUjlaVVSWE
-	GitgAj5bVSGpD9e/G1vX1w==
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1795704699;
+	 x=1795791099; bh=pdxZzkgycGu5qjmML7x8o4zauadZ0k5JgIin7neQqNc=; b=
+	AlNwQfWwVSWkWNYjUJCfZP99/gzeqkaA+wPEYSRQVsH6BkSh2aknHTckrtBa2hfV
+	n5sc4T7sn/Tk56yj4VCRAVfDz5JCEhdmuauyOSyHH3jpiU5Fzz6oKe9bG1w+OvBD
+	M91aoh8oK1jeVyCdv5LwagzYrouxGl2lwRkK36EzdEZ15LTRy0d1lSZJmKTsL3Jc
+	ATIsa4L93bUC+qd1nhFvbCSG4etBb4SVEQ5ycKGBtft7tfTx4UtmqZcT2P4MJLpI
+	RVWMfM/zluiUZHNK3ptBgM6Tq1bnPrB4ICVfFIi4JInGZpJBHSxhz8pNmgIEq+4d
+	+ixRn8DaBnfIjtXOeKtDuw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795704518; x=
-	1795790918; bh=9xUcsTkH29ugdPBTA78iOMv1Z18FD9QLlKb7lT8r/pI=; b=s
-	lcD/8WPiiavFOJdJMS13n4T0LS2/mHbXjq1aZdZUN7zX4zDhGVYruck9+Pimx7zI
-	CTmV2HRSsryKB63vAUXrxRlvhsmjjMvZ4hHqj1OsnALOYwlgrARY8jZgRmU76nXU
-	yA/p4RKZV570mrV68en1T/+ToXZ/l7jOUCBjREIxJQIldTSEQN5w9rCTFr3dE/tf
-	vo4jXWLucyZ//SsNdu/h+Ekmc8KNPD76k6jLdjPL86CxFa0k2TOM0wjENzCDZBvR
-	xKtUSH5K5mgp/MILAC6OMT3fTePQ5PEvlm9EAQYZmus3EHIZFVuld/tEJDVYQ3z2
-	FmG2pyGE6qW06nzCldpLg==
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795704699; x=
+	1795791099; bh=pdxZzkgycGu5qjmML7x8o4zauadZ0k5JgIin7neQqNc=; b=F
+	dpvKSSBcivhLk4PSR+a7PoO6a2OwR1siemXLVIf5sqpu1jyKpXHR8PMtzg7PUSuI
+	PWuhSKb0CsAL4de7NjHTYMiGe/Xj1L6YTLgDLfJYonf/T9M+J/66twcB5xiK30Cs
+	mEzy6MZZaytDpESN66AXdfLVVfJ/40GOynLR0SZKGN+D13+cTcU6dPU5bX+T2+pp
+	RdRT0FlEUiJF1l6Hx2blEFDU1JV8uqvu1CFyv79ZyP3oHqH6tLTE4MPJcR8GpRrZ
+	7O0QIgmLVQSaavS4Yd7W35ks3BDsdwlD1odJ5lw//kY8zbPWpTulD09uRwzGflbY
+	DXlHYfmN3W09kiDtkh/WQ==
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
 	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
 	action=sign d=pbarker.dev a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1795704518; d=pbarker.dev;
+DKIM2-Signature: i=1; m=1; t=1795704699; d=pbarker.dev;
 	mf=PHBhdWxAcGJhcmtlci5kZXY+;
 	rt=PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+;
-	s=fm2:rsa-sha256:RVPCqea7YESRtJrlvd+JOZlBjOHl+/JGw/CnlmU9SLpEIHz
-	t5LhyuzYrLoAVNYjg5SuoQMed7ZhS4VQgnabjjwXH9NzC5LmdFhnxFAU7fR3m49q
-	njSY1KBJ4qN+7DZECMJmiTErJqf+rQJ7e9OM5m0iJORhZfHj90kuhhrnSX4OWqbC
-	YYjD9UVVMt+DScbjcAf+nNrd2maZIYQdNoBwNDQp4MzyEioV1fjx76uABlbrN4kU
-	zyhua4FP5tCrF522upecedqOf8+uXY+vGXL7D8UDdrkHW020A1dEUuhsktAEJIBB
-	S7X1zGXi+7T8HrUQBNLv4JjtYdQiH4LpvEP3Hyg==;
+	s=fm2:rsa-sha256:cXUr2Q34jtCT3me+h1xFPKXMm+lVNtN/NoUV/syxPqifpJ3
+	welllI98/dgmsf5aKiy4cRA44XTgMe3iAY0R/41oqEu7fTEwBVpW6A+WDuTlOQTS
+	Hm6W5HwXr4gqo/uFa392XY75jwX4241py3gkC5kD5xpG8w2iAXgp0yhzWpeawrJ/
+	1pXrxI/pzIBXWTgnaf1LvKj8KMq5xItF4wny1W0uZ3ihQC9jBYfiCHsgkkxqLvmH
+	G7vf/pCqOZmE2wPwzbOGjC+3NtyG7evOOUs8B328l3bjEOV0FVJU/WUJ0d/0qG8c
+	4js3dNmGpowx9a83Bp4WmREr1PUd2CkfuBlexYw==;
 X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
 	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
 	action=mi-m=1; hc=12;
 	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
 	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:atWmLjC5rIrRhnT6zHzg6FB6xPnX2KVMnvGCy3O/LYc=:42RQHfbFljNQ/YFtwO0jnJ7qfxw+F22U1Dymml0vJXc=;
-X-ME-Sender: <xms:xkYIa6LfXM5opkgHgSyVLFQXdXNYEk-a-ms1Iv5l9VqN0o0_ey_oow>
-    <xme:xkYIa5Cq-w7Dq2ijMXjPQRl47hcdHWNryEbmyMMLLMW25s7cQ-7A6AB1tO7GuAB4q
-    pdKiLugLgGQA2Oz6Cng7yZhJ2irj9Z2dW3YxZIrjMXvOrOhmzsr7sdH>
-X-ME-Received: <xmr:xkYIazCSNzymOT37Va0mUyIc9FZZpauD9TnYWoQG2yjgiz2cEy5Ka7T7_Kb5mz_RbaYtPmeQ3j-LhowBwc6JZwmM1O9E>
-X-ME-Proxy-Cause: dmFkZTFUj0PNzIBZxmhROHm/0+lwD8u1MACL9fQpeWnj7nP3kd6me04H5yeCDFJGNxi8Mx
-    FQENI+AUw+2b9b/abzAMm7E4zAyMGwzE6TlNlAmQiUZKuutGqIdjcPQarWgvWWLN9eN+0F
-    86hSyF6361cjhAjdn4jwGWm8dR7At8/ffqrceVCUWr8Z5MOhk01FGDgJ+882pKDbMGnDw7
-    VzA5gBWdCnu118svaeG3cIreij9Bl9t+aXuo4dOkEVYx5+HVpmFBXHwPnVrDqqiht0++zX
-    +K2+XEg/X6lkSkrA1NBlmliaVNDlcZYI5Tj8kkRg8/J/nrYNHLkwYmLCY6PH6lYfjWsUsY
-    meXLCKOqPVA/QdQicBCmPIZhE+TxJ977DFxn7TPwQwkDdLelI6Td1mVb4/mpLIi18Kr0qk
-    N7iin1Zf3oI2PjcCYde+1RiA3SBQZLh0bFHPgtvkADG2XqXgQ8yDIa1gkx1Tu8C2X3fViE
-    PuV642wYBfDEGkZVlpgAuRhqS0KhQi6toeVFCNBQ99Te993MKUJrYQbQWfQ5jPXc3larZ2
-    C9koLJyFzPDC70A0ZMtk+gZcYBZ8WEprDJ68H0MweNZdFFLy8n+dHwgNWrKi3Mb1LM3lOx
-    pMoZFk7L7DdsLTXN+g6DjjrbEMNEIN/4WdcRgAw03KwLMuzH1aCV31+LuqPA
-X-ME-Proxy: <xmx:xkYIa7CI4XoLaaLPsmRigCQvT7gF37ZBoYzztRvPz_QZWmH-T4t9fg>
-    <xmx:xkYIa-oPK8qsstQPfZJ-5gDbyxZ16xZ5ZAQp_xM-5JuGzD5m6T6dJw>
-    <xmx:xkYIa1lcVmAZQRTPkrOhY0Yt9OS1qfl8aIgJrnwkhmGFMje2G9vP0Q>
-    <xmx:xkYIa-yPAkK_TrRxZBBmYGmMfj_3UCjmz1sBHl1ZkY2v_qSAjrjhAw>
-    <xmx:xkYIa2folmu7xhrWVrQvjczg6rqqsi7UIpejP_TxOgphfj9nQzUZ22td>
+Message-Instance: m=1; h=sha256:SoV4t+sFfrtuzTDiPY/263vGRKYDS44AHK8MIqTOwPU=:/BL7iwBq1tOW3doz9e5S9Hio+v0Fg+wghzvXB/Stf8s=;
+X-ME-Sender: <xms:e0cIa_aHebAxmRbsW4g5M3fjJLHnWM2tOj4ZpqP2NLIx0UOCqnikFg>
+    <xme:e0cIa2JreOfKKtsOKwkW21ZCqgh5W7i12_DFqoRBB8SjuOmf2xsu1yxoHmBDSK57G
+    2UD7TAhg95zlGTMrvWBdQHywkoqr7jXoJg4RyU1jAy92mvbftvRHKLL>
+X-ME-Received: <xmr:e0cIa1BAeSMWhc6C7IJ1fpl6SAaLex4OkthipOWyVJDBanazNGAdBwTikPjm5tNqaEWHmPJZ-5efRZnfAbOp-f6f79jV>
+X-ME-Proxy-Cause: dmFkZTFWYLDmSpzBOG318LQAT68L7cTBodjYPu8AU+OQCHb7DAfpCRsKoeaB1kYRlh2gwM
+    7l2gi5NOtTC6NIBjbBVEZNd3e65cfjNzfZbilFFeY3KBN6TQPZRgxgSEuQMJjlGzEVxIpV
+    bKKSI0Z8xbzVYzbFHbOy1zGpnyvVhgJweew5OScTPC9ciAE1AL1JzSTfmjDl85MeqwHfkt
+    4SpSdRpqZWna5JShHf97jmmRkoTDgrzhracq6d8toS7VBfOgCedOkUh7+X4uqBIHcDpu2h
+    79xAsBUO46cLIm5AMeW97zpmYiZQLYy9eOWZ/Guap4duiFd0SMv+mmbYjTSJHla62ETkMY
+    BgJH0zHxzs/LaHh0TpD4u3wPIPWg7MH0jCzyY/AraNlEJeraPeUcixKDWGm50g4aDTz0Lq
+    i3eeNFgEdHOltYJJQJ1W3Am4fFx+VgGMppnN+MZ2LujDDWsNtxe7tOWXWSZEpw973jRzFm
+    JCd7KeLMtR7i8rmfG1wbV6rxaVbRszVdoZS6tlpbs7iCch3V6ldE4c7Lbmd9fH5K8otJxe
+    7x1GPD2Lo0YLF2CnVqaSpk4tLkYNfhmFd6HhXbcl7ZJfCDtp/J0eESlmcfj5Jp1Ch0FYYk
+    ogvnQiDauRNUjqfb39kInWvVsz0OS6ZAVHSmvKbjaMXvslDeLOCojh3sVCPA
+X-ME-Proxy: <xmx:e0cIazrDub4eYv5Yn2I4sh-eXto86lQs1MhAAAEiCocy-UrqfV3QwA>
+    <xmx:e0cIa4hFyc1gCQ0FpMtfVKYMlfJaI05qd_PI0mNMLl4tWtPpIuJLFg>
+    <xmx:e0cIa4CLud-UOnBHBXNsX2my1Bwfdg_-XLzPslsgf5pKnK2zej9C3w>
+    <xmx:e0cIa1FzP_2UXCZe8pCT19hiSct5O1LjE2MglWe0656pe9vKOBqhcw>
+    <xmx:e0cIa3Bb76qFRI3PQuW1neWCVDnmsQZYba_afInzbulWn2Dzkw_sOv2g>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 26 Nov 2026 09:48:38 -0500 (EST)
+ 26 Nov 2026 09:51:38 -0500 (EST)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 26 Nov 2026 14:48:36 +0000
-Message-Id: <DN584IMPJ2I4.1H8SGQSEPJQRA@pbarker.dev>
-Cc: "Chris Laplante" <chris.laplante@agilent.com>, "Peter Kjellerstedt"
- <peter.kjellerstedt@axis.com>, "Richard Purdie"
- <richard.purdie@linuxfoundation.org>
-Subject: Re: [PATCH] oeqa/selftest: clear SANITY_TESTED_DISTROS instead of
- failing
+Date: Thu, 26 Nov 2026 14:51:37 +0000
+Message-Id: <DN586TPOAFWC.N39E3XAGLMVS@pbarker.dev>
+Cc: "Khem Raj" <khem.raj@oss.qualcomm.com>
+Subject: Re: [PATCH] ptest, packagegroup-core-buildessential: Add clang with
+ clang toolchain
 From: "Paul Barker" <paul@pbarker.dev>
-To: "Babanpreet Singh" <bbnpreetsingh@gmail.com>,
+To: "Khem Raj" <raj.khem@gmail.com>,
  <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.22.0
-References: <20261114185520.6-1-bbnpreetsingh@gmail.com>
-In-Reply-To: <20261114185520.6-1-bbnpreetsingh@gmail.com>
+References: <20261108204650.3577385-1-khem.raj@oss.qualcomm.com>
+In-Reply-To: <20261108204650.3577385-1-khem.raj@oss.qualcomm.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 14:48:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251310
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 14:51:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251311
 
-On Sat Nov 14, 2026 at 6:55 PM GMT, Babanpreet Singh wrote:
-> oe-selftest refuses to run when SANITY_TESTED_DISTROS is set, and
-> poky.conf sets it:
+On Sun Nov 8, 2026 at 8:46 PM GMT, Khem Raj wrote:
+> When the target is built with the clang toolchain, python's sysconfig
+> and perl's Config record ${TARGET_PREFIX}clang as the C compiler, so
+> anything compiling on the target through them fails when only gcc is
+> installed:
 >
->   Please unset SANITY_TESTED_DISTROS in order to run oe-selftest
+>   FileNotFoundError: [Errno 2] No such file or directory: 'x86_64-yoe-lin=
+ux-clang'
 >
-> Clear it in the test build directory with :forcevariable, so a value
-> set through an override goes too, and drop the check.
+> The target clang package installs the ${TARGET_PREFIX}clang symlinks.
+> Add it to packagegroup-core-buildessential, and in ptest.bbclass append
+> it to the ptest RDEPENDS of any recipe built with clang whose ptest
+> already pulls in gcc, g++, their -symlinks packages or
+> packagegroup-core-buildessential. This covers python3, python3-cffi,
+> elfutils and others without per-recipe appends.
 >
-> [YOCTO #11933]
+> Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+> ---
+>  meta/classes-recipe/ptest.bbclass                         | 8 ++++++++
+>  .../packagegroups/packagegroup-core-buildessential.bb     | 1 +
+>  2 files changed, 9 insertions(+)
+>
+> diff --git a/meta/classes-recipe/ptest.bbclass b/meta/classes-recipe/ptes=
+t.bbclass
+> index 0f80fbc1d8..de77089002 100644
+> --- a/meta/classes-recipe/ptest.bbclass
+> +++ b/meta/classes-recipe/ptest.bbclass
+> @@ -136,6 +136,14 @@ python () {
+>      if not(d.getVar('PTEST_ENABLED') =3D=3D "1"):
+>          for i in ['do_configure_ptest_base', 'do_compile_ptest_base', 'd=
+o_install_ptest_base']:
+>              bb.build.deltask(i, d)
+> +
+> +    # On-target compile tests need the clang driver when built with clan=
+g
+> +    if d.getVar('TCOVERRIDE') =3D=3D 'toolchain-clang':
+> +        var =3D 'RDEPENDS:%s-ptest' % d.getVar('PN')
+> +        rdeps =3D bb.utils.explode_deps(d.getVar(var) or '')
+> +        if any(p in rdeps for p in ('gcc', 'gcc-symlinks', 'g++', 'g++-s=
+ymlinks',
+> +                                    'packagegroup-core-buildessential'))=
+:
+> +            d.appendVar(var, ' clang')
+>  }
+> =20
+>  QARECIPETEST[missing-ptest] =3D "package_qa_check_missing_ptest"
+> diff --git a/meta/recipes-core/packagegroups/packagegroup-core-buildessen=
+tial.bb b/meta/recipes-core/packagegroups/packagegroup-core-buildessential.=
+bb
+> index 2cd67ad05f..d33af54d26 100644
+> --- a/meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb
+> +++ b/meta/recipes-core/packagegroups/packagegroup-core-buildessential.bb
+> @@ -29,3 +29,4 @@ RDEPENDS:packagegroup-core-buildessential =3D "\
+>      pkgconfig \
+>      "
+> =20
+> +RDEPENDS:packagegroup-core-buildessential:append:toolchain-clang =3D " c=
+lang"
 
-Hi,
+Hi Khem,
 
-We discussed this during the patch review call. This is a minimal fix
-for the specific error message seen when SANITY_TESTED_DISTROS is set
-when running oe-selftest, but it's not a complete fix for the issues we
-have with oe-selftest repeatability.
+One comment in addition to what Ross has said.
 
-Ideally, oe-selftest should construct a new build environment from
-scratch and copy in only the specific configuration that it needs from
-the users existing conf directory. Implementing that is probably
-non-trivial as it requires understanding the selftest framework and
-figuring out what the tests actually need in different contexts. There
-are also open questions to resolve such as whether the user's site.conf
-file should be used as-is, even if we're dropping most of what's in
-their local.conf file.
-
-That is obviously a bigger set of changes and needs discussion. In the
-meantime we'd rather not take this patch as it would just mask actual
-problems.
-
-Apologies!
+When using clang, this patch is adding clang to the dependencies of
+packagegroup-core-buildessential in both ways. I think we can just keep
+the RDEPENDS append in packagegroup-core-buildessential.bb and drop
+packagegroup-core-buildessential from the list to be modified in
+ptest.bbclass.
 
 Best regards,
 
