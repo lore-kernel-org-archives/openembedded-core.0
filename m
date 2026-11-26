@@ -1,134 +1,139 @@
-Received: from fhigh-a3-smtp.messagingengine.com (fhigh-a3-smtp.messagingengine.com [103.168.172.154])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13765.1795699665877537761
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.71])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14290.1795701412551658694
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Nov 2026 05:27:46 -0800
+ Thu, 26 Nov 2026 05:56:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=SNGWnd3y;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=MOy2BmOh;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.154, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 0A62814002CF
-	for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 08:27:45 -0500 (EST)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-06.internal (MEProxy); Thu, 26 Nov 2026 08:27:45 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1795699664;
-	 x=1795786064; bh=9+hf7eek175MNvhJWb+QKO98/xMdM+Nnp1T6qk8nQCM=; b=
-	SNGWnd3yswDsNIpc9pXtvyPa60JvwoIKIX6fqPTxFnDajwTzsZKckxeOL9UZldPJ
-	N0mChHTz+bHJ/MltnJse7/NsRORrisO7a8sK7l2AeCIipe7xVDOXYykLLVRwryhB
-	xKB5i21GI5RIi1nnMKxnE3jF1GisRU/SSXfnLr+f0TBuCiyZtKthIHoeLTh358Tz
-	41LuVQ8JcF9e97E6cCn2U/iHYeJSL8CiyMBfLqcA/BtghOdlJJ8Am9fa615koMR9
-	jpRtJxGAs/YrqM8V/3rmkpnVtcBodR6I/Oq53Bx3k1oe6PvT3WTPX5Mlo8oRLN+Z
-	bsIwl+bjuZPiTBPmEYsegQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795699664; x=
-	1795786064; bh=9+hf7eek175MNvhJWb+QKO98/xMdM+Nnp1T6qk8nQCM=; b=M
-	Oy2BmOhZfKpmUy/XjTTiE3PyK6DlmkEkz9R+S3wCFvxnDUyJuQIXhDGPzBR/qcYy
-	mgFRz0YCOnNcdzKsu9b+7fG4DLomXTz2W6lqcjK8Za5/QkhCMsuE0oXnX9irl8z8
-	16/USxm3P/uot22gMkoqW/BM6n0wy69TYeSc+Vw+ZyJHA/ossyzJBgsNl5uCIaPO
-	g0AmwOBKvTNfNoMqzB5bp2OOMuL1IJEQQlRBhwK6Dz9z0e7bEZ4CK57TudkMpf4y
-	pgpbiofd5DsGAjM4StbdjhvjGK5aaEolTRNrxO1MyM9GxyXvkQ7L/TC8KcJUPqU7
-	rMgxNSqHFCY7nRCRc++aA==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=pbarker.dev a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1795699664; d=pbarker.dev;
-	mf=PHBhdWxAcGJhcmtlci5kZXY+;
-	rt=PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+;
-	s=fm2:rsa-sha256:MjfbA7YflAI+LfavAPnLJsbuKxeQbkPlzBUVtoHoWoApHL5
-	gg8Ae/wgXMU1lVzMQ0F7PFLWDVlamiD3eAljisLsS/m3wTuGRymSfry2g2J1GP4F
-	fkxdqUQvERtgzoIDh+V4TSLUmz2C3ol383+mGvOanuoKDuKl44Zg0Cy3yKQpys9Z
-	nJ1CXSfklZHUy7fPde88/tf+PqDys/2U172Yo9uXsiRvgK4xl5t9D2q0/0Z6WX+H
-	LfHqMqps80qg9jbvkweIB6z+ionxQAuvpqu9JHVENSYYOu3HPeVCuPE66+8dFbcd
-	cMm9VdS9R4pwKn7i3kt2uoWH0NVFXlrKuNkKUyw==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=12;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:b1FrCwui9LZhlZpBhOT7x9k4t0QPluIPB8EO763xDvQ=:oZSgXhxX/VmuZGg9Xia2wuWg8bWXYalzT29mwLhOcpc=;
-X-ME-Sender: <xms:0DMIa1GYUv6FyI1RcgJnr2NpGNt2MyiXWC2atAnNgG0tKl_dlJtQ6g>
-    <xme:0DMIa86AY1nS53bClmA31iL7tC5yxh8_keytstN48cmoVWpS3F0-20qev-25zvG2d
-    -nC9TYwf468ubK9kNGw4BRdW9rj6HFKZc7OWTrF3lIL2B1VLQEMRxQ>
-X-ME-Received: <xmr:0DMIa6zAHF5y2wZIyTn7EXEZClOKMw8SR_GH_6x_1uSR9JbFEplczQVsXs8S9ttS_hjr5ECoan5HV_WufwMsMakY1Os0>
-X-ME-Proxy-Cause: dmFkZTGb3hHqodZAWbg/EJ+vbA8mYM9EnLmPLJp6+vI+L3i2K389uOz49vLGjJr9WwEJ+l
-    5ugjO6+uXWte/Gj1U8woivII/LqJtuGfZRfTAL3dDrKaw9mQWEK/61WokSr8Kj2CYeqyBZ
-    cPRPKroedRZtErn4UJIDqgfx/98cLzyl391iU7+eovvd223eS4axVSehiROabFB0O3FNYn
-    LQyTOMnEzOkbG4VtufEoFl/PTwZjibShtGVT/wK4ZQ0wa8mHxfgpo0w62Qve34a3yqoe8M
-    mgesIqiffMfRNTND8dShW3qOFB6xUcfa26OLcLQ833UJiXEjSrYLxI8uB5YaG+7393XbgY
-    0tzJcryCWR8ie0QvicGZtEuXsjFcDE5LhFZ5bwGxWtQ/q+RT0KdgzUwT4NJIcLtsdUWZk8
-    DhrM/IdH/KT+h3WJq2R+Gky5SPkjsKOTvn2iYflh7lOYBaGTWVLOkeSrPWXr6/tzrnwACK
-    TMgVs59kyxc7tRO1pLUg160SZrqiQlIr9vW9geJLbgdPBXlbB0yCw+ynUubGtZg4jMmD+P
-    BGjRWVvp+UUfBjWP3s7P1W4cKL7vdmZLdvT/07O8Fkbucc+BI/IPobc/F5BrLmakDOszp8
-    Y0f2ORHPU6pYgEOmnEhrgsDxFZ6HXyaTYNsSCsTOzyekVe9d1U29qSR3sQpQ
-X-ME-Proxy: <xmx:0DMIa7NGdbvVboqoH6oN1x1dSi1XvnKfjjkHUkbKfYJQVRAXF9O3QQ>
-    <xmx:0DMIawkc-Bb6VPrfz99hURFkypqH5T6ULLo6xzUgXxML1q2re62mBQ>
-    <xmx:0DMIawS8wWiIVJ_om8LavXhqacQhlCDLupjukj7y5wjTdTI_BFZK-A>
-    <xmx:0DMIa_WhHz6aj340xu306InBkmV4U-cCYTn9UR-MAq539oT5fkU6kA>
-    <xmx:0DMIayIXJAPwPynetrHfsN-Ox4fzJLwdfO5KzScAokEsXm3Pyr_yLocN>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 26 Nov 2026 08:27:43 -0500 (EST)
-Mime-Version: 1.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=u0DvEaCW;
+ spf=pass (domain: est.tech, ip: 52.101.69.71, mailfrom: jaipaul.cheernam@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=eEAw7pYnay7Qnq+qNC6HWkGk/6M5xJnn/ur8wmN4bbagMdeonepr1XFky0hJJJQmV3ljIEUPEwkwpIiu1iT+yQI0qBuaONa3ZuqVdz4MTkCsi0xp36WV00J6TNrv85HmC6JPFqi/IPoGtM2maQuMM8dzrQjdYtzzQkPMpoSB0TYq83+7s4gMsWNW5B5NfZJc647abhRHIqyH70m/b5OO3DX+/RMzcsB3SALBBYZMEnRpLXUi7ViF1bZh+BHs2gCuRUQB1eTX/fueLGBhk+1HkxQ9LyCwMEB0dcvdww4aQTLiwb9msE58eSm8G1LpqPQKvRQulfR2sX7jVPwTb6mGoA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cpt/EmIFe9kvkp8qi05BOlZYd3rMtATu5HtfdRX/xu8=;
+ b=GVamz1WBtD+DFWzPvdQ1knYKvKh2KcN0UOMqqWldnx9Z5NyjjH88t1sOfzioVM+lWuUdl6R0yKakLi+CANkN1MBa/UgCU6y6qrOv50BPjp+2v9QxSDyLjPAG8Kt73R/Bof6UFzOQb5qXv76uejIvnhxxcYJNQkh8RZ01aq1dfuZJ928RPXL1H1ZJWmcl510WSTOTlExsowKY2BGe/uT0uuKK+hxgDL/Vf0a68wDB3K1BKGyoN8Kf6Sx822UwfZMYeOWnIaYsfxNSQ59POM52NHbIil8RfgT1NZYz4wno/qJy4ESSnTdyIZnehJ/o7946tGBzvDPSXnLl62/XLswveQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cpt/EmIFe9kvkp8qi05BOlZYd3rMtATu5HtfdRX/xu8=;
+ b=u0DvEaCWVpq+c2I6w0qv420Bm7V0hh3SwUQHoNZVxIUDTRK2E8ELJHmTzpbvRTFHl4z9MY9rQ3gp+5DFm3hNO4TWvI3sRY/w0/8OUkMQqYRy1r4NRzMKiIuNIQP1wGjtqK80s/9iHF7IkuGPjMqpMvNsW5uTiTzixVMlu7hT55ujbi6Kzo+pQMEy/sf9iYFrzedx7h+PnMfBxtRKhjZPxXbZADCHXq66JG5WU+zzv202HTMkoyS88D8RNd/Kyk+/UK54KZERi2B8MrXCNagopSnAwdyJ18hBTmlYEAOjC0qEQHt56ab6mHJcJjT6OHrsvqy4nMiHxVPh2t8NIRhMEw==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
+ by AM7P189MB1107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:17b::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.7; Thu, 26 Nov
+ 2026 13:56:48 +0000
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0662.004; Thu, 26 Nov 2026
+ 13:56:48 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/3] glib-2.0 upgrade and fix for meson
+Date: Thu, 26 Nov 2026 14:56:43 +0100
+Message-ID: <20261126135646.90796-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 26 Nov 2026 13:27:42 +0000
-Message-Id: <DN56EKP8RI3N.UY4F4DI6PFGI@pbarker.dev>
-To: "Stefano Tondo" <stondo@gmail.com>,
- <openembedded-core@lists.openembedded.org>
-Cc: "Joshua Watt" <JPEWhacker@gmail.com>, "Alexander Kanavin"
- <alex.kanavin@gmail.com>, "Stefan Herbrechtsmeier"
- <stefan.herbrechtsmeier@weidmueller.com>, "Paul Barker" <paul@pbarker.dev>,
- "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>, "Peter Marko"
- <peter.marko@siemens.com>, <stefano.tondo.ext@siemens.com>
-Subject: Re: [PATCH v4 4/4] oeqa/selftest: spdx: Test crate identity, scope
- and output PURLs
-From: "Paul Barker" <paul@pbarker.dev>
-X-Mailer: aerc 0.22.0
-References: <20261125183613.1335718-1-stondo@gmail.com>
- <20261125183613.1335718-5-stondo@gmail.com>
-In-Reply-To: <20261125183613.1335718-5-stondo@gmail.com>
+X-ClientProxiedBy: LO4P123CA0480.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:1a8::17) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:6c0::19)
+Return-Path: jaipaul.cheernam@est.tech
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|AM7P189MB1107:EE_
+X-MS-Office365-Filtering-Correlation-Id: ac9ee8ea-8846-4419-3c57-08df4bc51d3f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|23010399003|10067099003|11063799006|56012099006|261021121427099003|261021123027099003|261021135927099003|261026140227099003|261022075727099003|261022105027099003|261009221727099003|261009223027099003|261009223327099003|261009221227099003|261009220027099003|261028144727099003|261102123227099003|18002099003|6133799003|3023799007;
+X-Microsoft-Antispam-Message-Info: ryhXkhRMvjKlDI5CsdKCVR0NMe/fubq6668PCjuX78yxd77g04xBRYlcxEVgCPt1rjdFrUlhWknJsOz2YG8iC/GlWerlSGvnawNH/3Bf5eRk1Wr0nOzbNSx1g37MNYa3oLQRDKx89ts3mtiilYml3i/mhHalPG80vw7VjiJeXdOImARiR9YE8FSY59tp4uqeWRRBawM9VtB0U6hhULKUj164MnvsPdJ6jrdZWteV1fXcb2HcRJ9H0h0+e1vcw32HtzE3ULz1jg87Xu+JaXcINUrMTNNpPamWC7L7ezSRNm3MLVEBCkVCW/oTrPmiM0jdzij7te4zZpNnEeGnsxlGLwOIEYJvcxw+pMq33q0EHc29p+FI56KVCHGa53oH9Qh7t8/Sn8O2ZXPfRWQpyojxbjCXAHKKF0qjL9mxueZGGTt9syg3YQTffivozyiW8qmELER0gaqgzeGMxlZbVvx4oo01JM1Fmh3teW8GB7fn+1UGFng4KknTyyZtNf9uYr9ibfBVhLsjjzir1XyQjhaDC7N3KoZa6H01G+FkIa793MwHf7Qna6gIBcJJSEkQfu6afjgx0L6HfTABN2daDFcjLOueGeHW6c4hEgciQu7iekEzcI4YPvbKMSkTAHevmU2+
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(23010399003)(10067099003)(11063799006)(56012099006)(261021121427099003)(261021123027099003)(261021135927099003)(261026140227099003)(261022075727099003)(261022105027099003)(261009221727099003)(261009223027099003)(261009223327099003)(261009221227099003)(261009220027099003)(261028144727099003)(261102123227099003)(18002099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?EuHkEpyOuJ+YJ0rDZp/aN6bWiDcR7tf3XLn8MlH3Rgt3o8ZKkIeVBv1ZKx0L?=
+ =?us-ascii?Q?OLkLqgpXactIGg7cc3wQ7yTU5C9PI8scnd6kYFd36AA7aCeC+rZNgygdFp7a?=
+ =?us-ascii?Q?ePc/Mj9v89hCmMPitj/B2qygjwDSxvYDmc41RmHcGVj9geszWUifmYDUc1qe?=
+ =?us-ascii?Q?+DDaQv63QXhxDSSlAhMBTXfbvXHIQ6mD8RWEhi2hbp+FDbvmYvpmdBVs5sPl?=
+ =?us-ascii?Q?om35+OuSqwv4uLKQ74y7TmvqkLvGl+jLNsk10hT5LpOChBFJrz64KsJJRedj?=
+ =?us-ascii?Q?+qog8OHVr95hpQs0OBF5pRYaw0surie2D6joNFT7kje2J+84EYNe2IvWYVYE?=
+ =?us-ascii?Q?2haIYn8frzlkAk+EPo5YW1Rm0Vkmoy7ISAd4/jJXL6poWNhlvSRZvNz/f/sN?=
+ =?us-ascii?Q?/HaKom9zxl6zKsDjOBjPnZFkwNDTTHYUH0d+1fqZG22YrMoCO18Sd0oG3l0Y?=
+ =?us-ascii?Q?a3fD0et82jAipiBmruho43Oe5QGHvBheN+TTyjyC9QODoQ5RC5e4KYffBGpD?=
+ =?us-ascii?Q?lF4CYnIuPxGcXa+vvaLzf1PVm63K2Q7WaQfEDBff2XpMz180cQf9RRzgokEo?=
+ =?us-ascii?Q?wWFxMdW7oQnIdA2NQsCd0tsNbHlGBMYELqovhLzhHTfcAIf1JwfvdgHhyMc3?=
+ =?us-ascii?Q?XgvXa4QlHICYyz1g3fgOSsjvbgnoM08+JWpsfEg3ml6/sl+hVjk9+EldllQY?=
+ =?us-ascii?Q?l2xmwY0mN7ygE20rCq6scm5G8ErD5AQ8/iEDe8n/Fh9CV+Qpdk4F6OtKUcpb?=
+ =?us-ascii?Q?V/JXpoTgpMCMX61wYJNlvdlyhGR1vDEUttCozEmlyzKuKyvzWbNVsVYjvaGn?=
+ =?us-ascii?Q?5MM8r4cuYrjg3TBIv66f41om35wQsTB+YFWKKfGeO6GMjWhLfX06xsLMsJfi?=
+ =?us-ascii?Q?HCpLeRhvJ4SykXU1TPCpl3kvI69T68damtM09HuQlendOX5GwtFT0XhYIASB?=
+ =?us-ascii?Q?q0gDjQiWDQqrk7A/afVQhBNH8JvdsGBaRlL7QgZ86/Pgk+pZun0kVK0KQE6n?=
+ =?us-ascii?Q?7AVqeIgHyirRL5kcGdXR6Z3q2inqDeKkIOgiAGehrsRK01v+OvgGmjRPu1Mp?=
+ =?us-ascii?Q?DodVf+HOIK0/CqWB4FzuYEDVLpRdjNoggapftKT89goTWfXk+ZEbkCwPk6r1?=
+ =?us-ascii?Q?4VWwZN9HwQb47FdooWrKTsg5XDOG04OK/RtSd/DdtE2K6I8eV6BwcAg81DpY?=
+ =?us-ascii?Q?+frMBCau7ON7pTHufeyxJVKoXan8UmrOwkj0rk/bfQn5I1e/w7VGGMaLooKo?=
+ =?us-ascii?Q?hDI4Ph7l/5R6SFUfvxAFnH2bGjVcnQpFLVtSAXxuTiOCocOmDKi9uNd3/BTN?=
+ =?us-ascii?Q?dzV49JSJNCl24SE3UwLOEWMhZWFiwXbsya68HwyV8ieNQ4nm6i7kb/W0yN7D?=
+ =?us-ascii?Q?X6gEiqv9TZXxMkyUhqWJaEdYf4GPer4yPfe2tHVG6R2Cxpeos4klWsnX/pfX?=
+ =?us-ascii?Q?bxIpPfxJ2H3qji2v9Bs27vHHtvbZvFygjBLQY4DIDlsJ1y1cdchw1V5Y49pt?=
+ =?us-ascii?Q?eZHs8sfCJr7KuhRmTj92mcJfflKiRqwBRTZeFHKiWROV347QSTWR1W7DXKl5?=
+ =?us-ascii?Q?yhfdSr6PRivVotPg6mxsucEhAEBclIb/UZozmOjqHb7Rc0oxYsLq73StPRBT?=
+ =?us-ascii?Q?XuzAm3vg3U5tqqkKE9nCG3xrv7VhBsV94ClFGDbgshu+XRdUUlvvwiszs0y3?=
+ =?us-ascii?Q?65tKhvtTt5otBb8z2qWOcAAasdmxTD+ICs/cDa8LW6z2BBse3K5zP0Enb1Ay?=
+ =?us-ascii?Q?NyhGe7vatw=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: ac9ee8ea-8846-4419-3c57-08df4bc51d3f
+X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Nov 2026 13:56:48.2699
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yT8+pXF0guFJV6+1eA9/nzzTAZi/E0S1GAGCe0/Zvr8sB6J7D3cXglHDJ9sehDeCcsLNi/n1R/nyM/QOT9T9ND6KhgX7oSnvHUvzDepeBL8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7P189MB1107
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 13:27:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251302
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 13:57:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251303
+Content-Type: text/plain; charset="utf-8"
 
-On Wed Nov 25, 2026 at 6:36 PM GMT, Stefano Tondo wrote:
-> From: Stefano Tondo <stefano.tondo.ext@siemens.com>
->
-> python3-bcrypt fetches 42 crates. The new tests check three things:
->
-> - Each crate download has its name, version and PURL.
-> - Each crate download has a lifecycle scope, or an annotation that it
->   is not built.
-> - The output package gets the PURLs of the runtime crates only.
->
-> A fourth test checks rpm-sequoia, which builds with the feature
-> crypto-openssl instead of its default features: the download of
-> openssl-sys must have the runtime scope.
->
-> The tests name only crates that do not change on recipe upgrades.
-> blowfish is the cipher of bcrypt. Only the pyo3 proc-macros use syn,
-> at build time. openssl-sys is the OpenSSL binding of the
-> crypto-openssl backend. The other checks do not use crate names.
+In upstream [2] discussed about meason bug and fixed that also in this seri=
+es
 
-Hi Stefano,
+This series depends on [1] from Khem Raj otherwise ptest might fail.
 
-I think this needs to be a simpler test recipe, preferably one with a
-fixed version to avoid it failing due to future upgrades. I know you've
-already replied to my previous email, but I'm not so sure that the
-dependencies of python3-bcrypt will always remain as this test case
-expects.
+[1] https://lists.openembedded.org/g/openembedded-core/message/251248
+[2] https://gitlab.gnome.org/GNOME/glib/-/work_items/4068=20
 
-Perhaps we should use an artificial test recipe here instead.
+Jaipaul Cheernam (3):
+  meson: keep can_use_env when merging EnvironmentVariables
+  glib-2.0-initial,glib-2.0: upgrade 2.90.0 -> 2.90.1
+  glib-2.0, glib-2.0-initial: Upgrade 2.90.1 -> 2.90.2
 
-Best regards,
-
---=20
-Paul Barker
+ ...t-write-bindir-into-pkg-config-files.patch |  6 +--
+ ...0001-Fix-DATADIRNAME-on-uclibc-Linux.patch |  2 +-
+ ...-gio-querymodules-as-libexec_PROGRAM.patch |  6 +--
+ ...ng-about-deprecated-paths-in-schemas.patch |  2 +-
+ ...ces.c-comment-out-a-build-host-only-.patch |  6 +--
+ ...-prepend-library-path-for-g-ir-scann.patch | 50 +++++++++++++++++++
+ ...on-Run-atomics-test-on-clang-as-well.patch |  6 +--
+ ...ot-enable-pidfd-features-on-native-g.patch |  6 +--
+ ...dcode-python-path-into-various-tools.patch |  4 +-
+ .../glib-2.0/files/relocate-modules.patch     |  6 +--
+ .../files/skip-monotonic-time-similar.patch   |  6 +--
+ .../glib-2.0/files/skip-timeout.patch         |  2 +-
+ ...l_2.90.0.bb =3D> glib-2.0-initial_2.90.2.bb} |  0
+ ...{glib-2.0_2.90.0.bb =3D> glib-2.0_2.90.2.bb} |  0
+ meta/recipes-core/glib-2.0/glib.inc           |  3 +-
+ ...se_env-when-merging-EnvironmentVaria.patch | 36 +++++++++++++
+ meta/recipes-devtools/meson/meson_1.12.1.bb   |  1 +
+ 17 files changed, 115 insertions(+), 27 deletions(-)
+ create mode 100644 meta/recipes-core/glib-2.0/files/0001-girepository-Only=
+-prepend-library-path-for-g-ir-scann.patch
+ rename meta/recipes-core/glib-2.0/{glib-2.0-initial_2.90.0.bb =3D> glib-2.=
+0-initial_2.90.2.bb} (100%)
+ rename meta/recipes-core/glib-2.0/{glib-2.0_2.90.0.bb =3D> glib-2.0_2.90.2=
+.bb} (100%)
+ create mode 100644 meta/recipes-devtools/meson/meson/0003-utils-keep-can_u=
+se_env-when-merging-EnvironmentVaria.patch
 
