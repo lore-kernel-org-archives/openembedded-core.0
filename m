@@ -1,80 +1,69 @@
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12979.1795696670404432850
+Received: from mail-244106.protonmail.ch (mail-244106.protonmail.ch [109.224.244.106])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13293.1795698133676022108
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Nov 2026 04:37:51 -0800
+ Thu, 26 Nov 2026 05:02:14 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=n/nkOpwO;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id D3C7E4E41794;
-	Thu, 26 Nov 2026 12:37:47 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 9907D604ED;
-	Thu, 26 Nov 2026 12:37:47 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 853A211E6806D;
-	Thu, 26 Nov 2026 13:37:41 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1795696663; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=vqNELWFY4QYLX2meYH0Fjmuczidhp1bzD75+y7ARZ18=;
-	b=n/nkOpwOt16TSoddzoPfVMgoqIVoIjAiBpuWwn2GYNPHIq5LSVSWTg/gSBSVKmpZW3q7D1
-	eJ6nkRKzrThG5ahRfnoNV+RrIXIl5MkxjQq8Lwo2FixgsA19gdGVpRzDj6FjwSPKC96sAK
-	N4fx0kP74ytraDnMY+hxMmZcjB4psIDCYUNGMf9HQfYI0UYA6suv/xnWCxrJh22NIE6VnQ
-	9zyPO3idEhqDOMjZUtC/tCi+neN/20giVRy51EwL2vQfG2dj/WwGrEPw0YzTk2jUWqo0nc
-	P4PU5VNcSgzs6gIgZvSgkpADDicrNU5EkuSky69zOC0f4Nnv1o73OSacoV2p/w==
-Mime-Version: 1.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@geanix.com header.s=protonmail header.b=KUuJxJW7;
+ spf=pass (domain: geanix.com, ip: 109.224.244.106, mailfrom: sean@geanix.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=geanix.com;
+	s=protonmail; t=1795698129; x=1795957329;
+	bh=CHIlIy9Cegw1SkZkCLrZ+nmXXM9ZGZwu7EUvqglgVes=;
+	h=From:To:Cc:Subject:Date:Message-ID:From:To:Cc:Date:Subject:
+	 Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=KUuJxJW7Deom4UYJEY9cbOPh+1+YqcZ2h9ubPlByftubLerqKA9qxSi6KyCuyrbju
+	 9CGVDtqxagLTeMJGLHnJQo0ZYNijy8DMC6p11yLp9/2aQFJhmVK3Z8B1UOMUSN0Yl0
+	 a39izHtrJ2hnObk0z5bVlCajKxBwd8Xy1Tu7rFurSNzPJ5dK1lheMdVtSdx9N/0mZg
+	 BHZaiGtxnKQeV8Uejo3IlDS4GQuwqXgnGEDDl5qOud0fMtsFs/4QChi2gEygzIw+3N
+	 D1Nun/KkTXi66xkmR33yq7yQqrh17y0CmR1fJy7a++yn3dqvydlmrwVI8JWAy/VHBz
+	 0Eva48St58+gw==
+X-Pm-Submission-Id: 4jZxXG42m3z1DDrZ
+From: Sean Nyekjaer <sean@geanix.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Sean Nyekjaer <sean@geanix.com>
+Subject: [meta-oe][PATCH] erofs-utils: add lzma PACKAGECONFIG and enable it by default
+Date: Thu, 26 Nov 2026 14:01:59 +0100
+Message-ID: <20261126130159.2579764-1-sean@geanix.com>
+X-Mailer: git-send-email 2.56.0
+MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 26 Nov 2026 13:37:39 +0100
-Message-Id: <DN55C99MPJSJ.3T2UJVJK58BA8@bootlin.com>
-Subject: Re: [OE-core] [PATCH 06/11] ovmf: upgrade edk2-stable202605 ->
- edk2-stable202611
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Jaipaul Cheernam" <jaipaul.cheernam@est.tech>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20261124171807.74394-1-jaipaul.cheernam@est.tech>
- <20261124171807.74394-7-jaipaul.cheernam@est.tech>
- <1281564.1795692854389261236@lists.openembedded.org>
-In-Reply-To: <1281564.1795692854389261236@lists.openembedded.org>
-X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 12:37:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251294
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 13:02:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251295
+Content-Type: text/plain; charset="utf-8"
 
-On Thu Nov 26, 2026 at 12:34 PM CET, Jaipaul Cheernam wrote:
-> Hi Richard/Ross,
->
-> After patch review meeting, I checked my local branch and patch=C2=A0 loo=
-ks okay and same in patchwork also.
-> Looks like the patch we reviewed in oe-core-contrib master-next is broken=
- for this commit as its missed "0005-CryptoPkg-IntrinsicLib-fix-memcpy-alia=
-s-prototype-fo.patch" , I noticed its missing from Mathieu's branch also.
->
-> Complete change is present in here but somehow missed on those branches .
->
-> Can you take patch from here https://lists.openembedded.org/g/openembedde=
-d-core/message/251058 or https://patchwork.yoctoproject.org/project/oe-core=
-/patch/20261124171807.74394-7-jaipaul.cheernam@est.tech/
->
-> Regards,
-> Jaipaul
+configure enables LZMA support whenever it finds liblzma, but the recipe
+doesn't depend on xz. erofs-utils-native gets it only by accident:
+util-linux-libuuid unpacks a .tar.xz, so xz-native is added to its
+do_unpack and ends up in the native sysroot. Target and nativesdk builds
+never find liblzma, so their mkfs.erofs can't create LZMA compressed
+images, e.g. the Compression=3Dlzma DDIs of meta-oe's
+discoverable-disk-image class.
 
-Hi Jaipaul,
+Add an lzma PACKAGECONFIG and enable it by default, which keeps native
+as it is and makes target and nativesdk match it.
 
-This is probably my fault: picking ovmf patches from the mailing list is
-always a bit tricky, because of the Windows line breaks. This one looked
-fairly simple, so I tried to fix the issues manually, but obviously I
-failed.
+AI-Generated: Claude Opus 5.5 (Claude Code)
+Signed-off-by: Sean Nyekjaer <sean@geanix.com>
+---
+ meta/recipes-devtools/erofs-utils/erofs-utils_1.9.4.bb | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Is there a public git where you can push this patch? It will be easier
-for us.
-
-Thanks,
-Mathieu
-
+diff --git a/meta/recipes-devtools/erofs-utils/erofs-utils_1.9.4.bb b/met=
+a/recipes-devtools/erofs-utils/erofs-utils_1.9.4.bb
+index 9c0db7c2c0..1b05b3dbf7 100644
+--- a/meta/recipes-devtools/erofs-utils/erofs-utils_1.9.4.bb
++++ b/meta/recipes-devtools/erofs-utils/erofs-utils_1.9.4.bb
+@@ -13,8 +13,9 @@ DEPENDS =3D "util-linux-libuuid"
+=20
+ inherit pkgconfig autotools
+=20
+-PACKAGECONFIG ??=3D "lz4 zlib"
++PACKAGECONFIG ??=3D "lz4 lzma zlib"
+ PACKAGECONFIG[lz4] =3D "--enable-lz4,--disable-lz4,lz4"
++PACKAGECONFIG[lzma] =3D "--enable-lzma,--disable-lzma,xz"
+ PACKAGECONFIG[zlib] =3D "--with-zlib,--without-zlib,zlib"
+=20
+ # Would otherwise query the system the build is running on
 --=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+2.56.0
 
