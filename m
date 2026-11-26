@@ -1,128 +1,354 @@
-Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15735.1795705771604078394
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15832.1795706112684435776
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Nov 2026 07:09:31 -0800
+ Thu, 26 Nov 2026 07:15:13 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=SrKPZwsn;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=Nbi9W9hp;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.151, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.phl.internal (Postfix) with ESMTP id A754AEC092F
-	for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 10:09:30 -0500 (EST)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Thu, 26 Nov 2026 10:09:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-transfer-encoding:content-type:content-type:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1795705770;
-	 x=1795792170; bh=gFrDg8tmatn6bEG2mvv4FhBb3L/lkK9xc4c2D6TMQa8=; b=
-	SrKPZwsng0DmfuTQIvaCJBtHoxCQ9B5h+lwyjr8iCNpYMCFbKZ5ofBEW2i2oG8Lk
-	DB/mdckJoxITcW1o2pJ8PFjUY7oudlLZkUi0FAlRrxrwK/+vnzlUUnKcLoOd3bgc
-	/Mp1ejTY88TchJQzGn9OtAfOwbSUD5eCopgsja4ioc/13VGuZ8GsKuL+kpL1EaEH
-	nLH6l53LLdR/rkf8E/QDLgS9hBouFSnhyrpp7QhXTT6xMsL2PzlNV9WMoeVvjAk8
-	KwOoBEnFkvVeqvqsGQdJiftSUyZsz/QsxSx23s1iJLCcDtfPDVKCumJjmlmAKig2
-	qEY+RP56PKfx29GpAvS1aw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1795705770; x=1795792170; bh=g
-	FrDg8tmatn6bEG2mvv4FhBb3L/lkK9xc4c2D6TMQa8=; b=Nbi9W9hpIurzrHsZ0
-	SQtpUNM9bvqPcqW0EptX1RuQNfrd1bSDdNfs+vnJ263onKplROf37u+QRpAUtPkP
-	d/XDEPub4xGeBYIhMA4nccinjdSsH5gHE+zDAPjwIukCDHyUqJRLIlNW/y0ZBQUc
-	w6J+xSDHMf8RT+0NZWVYr7E97PscctEKftb4YHkhYMzyNmSPXyrMprjn+4vxdCEQ
-	V02OfkmX5s3ELWvXgrjBqqhC1Ge8kGST9KKPctlWIe/ioobsNMqqEeAaWZ667+E2
-	qWV/9nDV2edsX29c/Gv3cKVYUG4557G6NK89LvCNcV6A2vqreGXAaiKj80XEq8p+
-	8JvrQ==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=sign d=pbarker.dev a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1795705770; d=pbarker.dev;
-	mf=PHBhdWxAcGJhcmtlci5kZXY+;
-	rt=PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+;
-	s=fm2:rsa-sha256:BE8M8M52ZlKvmHNiGoN6m3wBz0WFCOhdiK+LhPSopIh6XRf
-	yi1TgQIJ1lLM8VlpHef9IfwMv/4xxZpEBMMj42qU7h8QtlJGIAq9aAL5dvAPVUb4
-	GFnBqftA4UZxLaVKYXz3aMZ//TtVjqvBqpFxeBNE6ROS+rYITJTRUfCRnd3kMMgF
-	6uex7zIJRq7PwZJVFYOoDyaBYlXl/RNdQKBusOXkFN4k6ktZt8hT7p11WflcrzaZ
-	E3nuqxT5tEaM2nDj0WYGRQFtngUBA8fSXcIaD2D1kzeMFexe1h5D21s1cMJ+hItZ
-	09xD4bK5UpeUn875Wb+RMNDtU848uA8bOxXjj5Q==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
-	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
-	action=mi-m=1; hc=11;
-	hn=content-transfer-encoding,content-type,date,feedback-id,from,
-	in-reply-to,message-id,mime-version,references,subject,to;
-Message-Instance: m=1; h=sha256:wn5kekF8Zfj3WedkMWtweCSsLDe1oPiEl79VIh/8J1w=:IQR0qG6m2ld5brke/S8Tl24Y4cmupwLLndH5fXOx7Bg=;
-X-ME-Sender: <xms:qksIa4lYsO3nn6oxi__2bSEap0wLMCklYyYc1CCOxZp23ExMKeYHGQ>
-    <xme:qksIa91ngOh_-2eTZqMMfVflrQt7Jxylcm41AzaT38tzTyIdzkaejuefaDYYFpmG4
-    DfjWPIz6UktMOSHSC1Km1eLfnYCyKXaVXd6c2fJDxCOljJvh0yL9okK>
-X-ME-Received: <xmr:qksIa0S9AfaNB1ed3N9ZQgkWluEC4RiZ46LG1IWr_qjNAd1HEvA_JVSFM7P70YAVzuqode1C33GA8rBl4C3RKvSLjshr>
-X-ME-Proxy-Cause: dmFkZTG1c//Mvyn2yNWID8bcNMjg5769jONwusPzKQxbri+2T4mCe1Ypj9ZF6QhndmskV7
-    uwJkJNKCIO3+qTE7cDmkNUWMRjQi8Ivnq8+oxJ9sUYAcs7NhvkbmQqMP7NVjN6wm9KFWRI
-    J1FOYsbixU2ludti7clsnCxBwJxS1FV8SkgHzhHxU5spsKKvkX+qeqDDD2QjBMO8uMg3ZS
-    07XPFqlNIqIjmNZhmjd4vVFuJvMRYveWP0UYSktfAalNIoyLfTV+foai5Fd51pl4G0HhYy
-    qeA/5YI9DCvpyZJp8tWTkz5cB36v0aLOmpUumgg5d/mSEfSvtJEIrjP6wUJuWUkqmqtHJB
-    GJHMkXL+k23UGdjoJEru16rmHFMHT87JnKxW4Q+dYTJW/Ypc8FDY4R8qYw4yk1MT73Q9ID
-    9Qg8CH7VSpRZdVJzL3a2RDewJIA2Fx+qNW2i3+3JFSyBDM9xcMOp8BfoH4qyWE4xfB+9oW
-    4JHcZVRkBWa6d9YPSNPZpHpgt3mBN42BQmXYp26C9QIFsOgb9ZOUmkjDfEEKGYaBDfBte8
-    B0GpUB2J0ET8CRkQBUeXaenMs/c5CnJ1/PZZ9WP4nJGWun7G8fVYPHhRB5BfNRUPInd/hO
-    oXY5dbV48BsSd2zvOXqn2Jav8t6jGkptYt+D+8J4CBoL1V707d2KlO2xaI6Q
-X-ME-Proxy: <xmx:qksIa_v2UunJBXdzoYCeyuXNsrcMbgcMdZODApJ05ob9_PUWsTSmmg>
-    <xmx:qksIa5YoYyWYrpJ-ju4rMVfEs_qjUw7GcbKKb8ltR1UBu6y95frEaQ>
-    <xmx:qksIa0v3jh2-8-zmDVYuIsBSm1Y347iGW-kCbtJCUsr30-w_A0c5zg>
-    <xmx:qksIa7FfxeZQU21BI8LFoDbr3YvKa6h6Jw20uaJFB2CVP6iP-B_SxA>
-    <xmx:qksIa0BRp1UDBAOSqjMmLSp0_ErUgnzACThHwcAeIRe9qukaCUVBCDQJ>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 26 Nov 2026 10:09:29 -0500 (EST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=YpAlR/eN;
+ spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-492f0a1b685so5029514f8f.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 07:15:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google2; t=1795706111; x=1796310911; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=7Qv+rkSfgkcTwLGKuPYTYg2o/btTVHVbqM2wnddZ7Dg=;
+        b=YpAlR/eNUYaNhk4OI/IfPBee8hPBjUeCVuPJP5J/bM8rzzocd5KbL7rPfcEW9QgaXu
+         6XAJlMbcJllqRn1pfPFysRpJG1FUCjOPvxb9/61BwyySbFFypj+d7WY7UC8DWIDBXgVD
+         WuY+iC4jqw9XdsXFfMu0y51ubI6keF8ht3OzGykNukU7p3au5f7TYRvVF8yt6rmFfnO/
+         XvX+AgI+gZ/FJhO6db/baj4xdd2NlTlncOgXYdNujY8xk6K2zNkslAm63fnr2Wtwydw5
+         cDUraR2yJANBMWWSu4CwcoWlQtCsmCN7sFzkENX7SwFKhd13eacmWHvh/fFTM1CxmsQY
+         Rppg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795706111; x=1796310911;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=7Qv+rkSfgkcTwLGKuPYTYg2o/btTVHVbqM2wnddZ7Dg=;
+        b=SqRlpkIy5cNoDI3Y8waiTf7KeXiHv6f1/8sbGKVTncBawVfX1zIeETlJjMr+r3/ucA
+         yGCapRGtUIYFR+uckGGld+vdxTUHuHQkwZvLZi/qXTUD8lgpQen64APTx2Zzu/X8Drrg
+         fd+TxGGSKOxXTHiOn7ip2nv/nt74hJQEs9gr8Ij3llPz4v9I9n1xmfYUY6FB8AOmvvdX
+         SWS1mhXWZvO8PewqHx1hYjSqyfiRo7kET3oNMy3fwRA957e2xIj5iUcOEsFWSTsw8wW2
+         SRspeho/bOJKwiBFvKSleO2oLiBiEePEGdGxkA0zdvrce9zCACnOnh/6wrKXvCCJ9Ns7
+         LyoQ==
+X-Forwarded-Encrypted: i=1; AL+hErGz1kx19JmjHUd1GyIQoHHWPyZp6j0ab1dQlWuVnLlvsOVj/MEc6LJpmpHKQisHOwxoaP7kX98vipOmzXbsQu15EQ==@lists.openembedded.org
+X-Gm-Message-State: APuU4Z/5cjV47SiSm2eveoMwd+qdbOqH1nDWvDDIjyxdIKuiY441Cv5F
+	P2VjRSwyCGGCcC7cy1E1Orw8HfmdVNW7iZl04wNla0GMbsa2n8+nXEyrp49q7vWcWm8=
+X-Gm-Gg: AZFdTZfTBhBJtfHbIYtN+mfbFnkh/oJVPRk34GrQwdIbwV7prtPTnIi7VTo5WSdC/3K
+	SgrOEb6BuPM2ijEVPX5C8j0AcxA6xFK7hSIHG8TIC2TcC5DjP6hwsN+KOSCEYYFxUhQXLaMDotn
+	d/BwNSzww+IStiw+Holk4sexh88VnrXt1RYMsAqzJG5FqREw3Rcgnxkg0VyywcsE4+mEBljg2Zw
+	95+HAzc7Adm/kodGkIHgodiTSgp2o24I3qA6BhDwDFzh5y2Cqb3qjqJ0VexCTGG8ssC7XzhOIpm
+	yW+H23S5Iw2dYxNjl1rdi7isvZXy/0yPYz5KnadT93If3JGkqrzEBlSmsPuMzoNwRI0IWa+loiz
+	4qd6uJhafRIISWVmXCYZWpoRfugWMXeAgZbdnOsQf0WvAaX6KA+5MLXjl9VyCLjQG/aqysSVBuH
+	45YRw9tl5DFmYr4BGWHg7BDnpGHQtjG2HeqUtmcO0UmjJg3l1R64w/Sn7ovzXLzRnMt/YWz5beI
+	FfnbPOc9u3ixTjOWr92mbvmLeitJgWhIzmAlNbKymxL4rPA1kDzolZycyjvu6AjPaN0yZbw3Xtl
+	LzuE40nrcfq40/AQwY27tzHKnOVI6BmbLq6ycF6BCrDiTYoklonjHTQLKsqhksQUNC0LWtM1YQk
+	J1NXk8RkUR8iKkyOdfw==
+X-Received: by 2002:a5d:584f:0:b0:4b9:8ac3:f5fa with SMTP id ffacd0b85a97d-4b98ac3f6d5mr11976408f8f.48.1795706110650;
+        Thu, 26 Nov 2026 07:15:10 -0800 (PST)
+Return-Path: <yoann.congal@smile.fr>
+Received: from localhost (2a01cb001331aa006c84c8cd12b797e5.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:6c84:c8cd:12b7:97e5])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab5ffcad11sm39643616f8f.0.2026.11.26.07.15.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 26 Nov 2026 07:15:10 -0800 (PST)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 26 Nov 2026 15:09:29 +0000
-Message-Id: <DN58KHZSPJW5.37L7ERKRY60B1@pbarker.dev>
-Subject: Re: [PATCH] systemd-serialgetty: Fix do_install for mixed baud
- rates
-From: "Paul Barker" <paul@pbarker.dev>
-To: "Niko Mauno" <niko.mauno@vaisala.com>,
+Date: Thu, 26 Nov 2026 16:15:09 +0100
+Message-Id: <DN58OUJGUFE1.1NS2QSHQ709AG@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCH 1/2] cve-check: keep global CVE
+ exclusions out of unrelated reports
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <peter.tatrai.ext@siemens.com>,
  <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.22.0
-References: <20261120163326.6114-1-niko.mauno@vaisala.com>
-In-Reply-To: <20261120163326.6114-1-niko.mauno@vaisala.com>
+X-Mailer: aerc 0.20.0
+References: <20261120092309.4056817-1-peter.tatrai.ext@siemens.com>
+ <20261120092309.4056817-2-peter.tatrai.ext@siemens.com>
+In-Reply-To: <20261120092309.4056817-2-peter.tatrai.ext@siemens.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 15:09:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251313
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 15:15:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251314
 
-On Fri Nov 20, 2026 at 4:33 PM GMT, Niko Mauno wrote:
-> Since commit b6a7617145c3 ("systemd-serialgetty: use existing unit
-> files in systemd") removed the recipe's own serial-getty@.service, any
-> SERIAL_CONSOLES entry whose baud rate differs from the first one fails
-> do_install, as the unit template it copies no longer exists:
+Hello,
+
+On Fri Nov 20, 2026 at 10:23 AM CET, Peter via openembedded-core Tatrai wro=
+te:
+> From: Peter Tatrai <peter.tatrai.ext@siemens.com>
 >
->   install: cannot stat '.../serial-getty@.service': No such file or direc=
-tory
+> The Scarthgap SPDX 3.0 backport [1] did not bring over product
+> filtering for CVE_STATUS assessments. The follow-up [2] made SPDX
+> export all CVE_STATUS assessments, exposing the same problem in SPDX
+> that already affected CVE-check reports.
 >
-> Enable systemd's serial-getty@.service for every console instead, as is
-> already done for the first one. That unit runs agetty with --keep-baud,
-> so a console's configured rate takes effect only where the kernel has
-> set it up, i.e. on a kernel console. Since b6a7617145c3 this has been
-> true of the first entry as well; say so in the recipe.
+> Global exclusion lists are loaded for every recipe. Without product
+> filtering, assessments intended for one product can appear in the
+> CVE-check and SPDX/VEX reports of unrelated packages.
+
+Can you put an extracts/examples of that please? Like before/after this
+patch?
+
+That sounds like a good bug to fix but I need more details since the
+backport is not trivial.
+
+> Backport the scoped parser from OE-Core commit abca80a716e9 and the
+> product matcher from 452e605b55ad as they appear in Wrynose. Preserve
+> Scarthgap's tuple and set APIs and the behavior of unscoped entries.
+
+I have no idea if that makes sense but I suspect this would be easier to
+review if the 2 squashed commit were backported separately (one in each
+scarthgap patch): That way, I could compare the merged wrynose ones
+with yours.
+
+If applicable, please split the 2 commits for the next iteration.
+
+> [1] Scarthgap SPDX 3.0 backport:
+> https://git.openembedded.org/openembedded-core/commit/?id=3D9c9b9545049a
+> [2] Export all CVE_STATUS assessments:
+> https://git.openembedded.org/openembedded-core/commit/?id=3D9a204670b1c0
 >
-> Tested on master and wrynose with mixed-rate SERIAL_CONSOLES: both
-> consoles get a getty, and on a qemux86-64 boot with "115200;ttyS0
-> 38400;ttyS1", ttyS1, not a kernel console, runs at the 9600 default.
+> Signed-off-by: Peter Tatrai <peter.tatrai.ext@siemens.com>
+> ---
+>  meta/classes/vex.bbclass                  |  1 -
+>  meta/lib/oe/cve_check.py                  | 76 ++++++++++++++++++++---
+>  meta/lib/oe/spdx30_tasks.py               |  1 -
+>  meta/lib/oeqa/selftest/cases/cve_check.py | 48 ++++++++++++++
+>  4 files changed, 117 insertions(+), 9 deletions(-)
 >
-> Fixes: b6a7617145c3 ("systemd-serialgetty: use existing unit files in sys=
-temd")
-> AI-Generated: Uses Claude Code (Claude Opus 5.5)
-> Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
+> diff --git a/meta/classes/vex.bbclass b/meta/classes/vex.bbclass
+> index 97213ea..3c44dbb 100644
+> --- a/meta/classes/vex.bbclass
+> +++ b/meta/classes/vex.bbclass
+> @@ -141,7 +141,6 @@ python do_generate_vex () {
+>      for cve_id in (d.getVarFlags("CVE_STATUS") or {}):
+>          mapping, detail, description =3D decode_cve_status(d, cve_id)
+>          if not mapping or not detail:
+> -            bb.warn(f"Skipping {cve_id} =E2=80=94 missing or unknown CVE=
+ status")
 
-Hi,
+Was this warn removal voluntary? If yes, then this should be explained
+in the commit message.
 
-This seems like a step backwards as we're dropping support for
-non-default baud rates. Can we fix this support instead of removing it?
+>              continue
+>          cve_data[cve_id] =3D {
+>              "abbrev-status": mapping,
+> diff --git a/meta/lib/oe/cve_check.py b/meta/lib/oe/cve_check.py
+> index 7c09b78..9620dc5 100644
+> --- a/meta/lib/oe/cve_check.py
+> +++ b/meta/lib/oe/cve_check.py
+> @@ -227,22 +227,84 @@ def convert_cve_version(version):
+> =20
+>  def decode_cve_status(d, cve):
+>      """
+> -    Convert CVE_STATUS into status, detail and description.
+> +    Convert a matching CVE_STATUS into status, detail and description.
+> +
+> +    Keep the Scarthgap tuple API for cve-check and existing SPDX consume=
+rs.
 
-Best regards,
+While referencing scarthgap in the commit message is fair, I don't think
+it's necessary in the code itself, where the "Scarthgap tuple API" is
+simply the current API. And you won't document a change you won't make
+in the code.
 
+This looks like a LLM output. Please review our AI-Assisted Contribution
+Policy[0] and update your contribution if that apply.
+
+>      """
+> -    status =3D d.getVarFlag("CVE_STATUS", cve)
+> +    status =3D decode_cve_status_scoped(d, cve)
+>      if not status:
+>          return ("", "", "")
+> +    # Scarthgap applies unscoped statuses even when CVE_PRODUCT is empty=
+.
+
+(Same: scarthgap reference in code)
+
+> +    unscoped =3D status["vendor"] =3D=3D status["product"] =3D=3D "*"
+> +    if not unscoped and not has_cve_product_match(status, d.getVar("CVE_=
+PRODUCT") or ""):
+> +        return ("", "", "")
+> +    return (status["mapping"], status["detail"], status["description"])
+> +
+> +
+> +def has_cve_product_match(detailed_status, products):
+> +    """
+> +    Check product/vendor match between detailed_status from decode_cve_s=
+tatus and a string of
+> +    products (like from CVE_PRODUCT)
+> +    """
+> +    for product in products.split():
+> +        vendor =3D "*"
+> +        if ":" in product:
+> +            vendor, product =3D product.split(":", 1)
+> +
+> +        if (vendor =3D=3D detailed_status["vendor"] or detailed_status["=
+vendor"] =3D=3D "*") and \
+> +            (product =3D=3D detailed_status["product"] or detailed_statu=
+s["product"] =3D=3D "*"):
+> +            return True
+> =20
+> -    status_split =3D status.split(':', 1)
+> -    detail =3D status_split[0]
+> -    description =3D status_split[1].strip() if (len(status_split) > 1) e=
+lse ""
+> +    #if no match, return False
+> +    return False
+> =20
+> +
+> +def decode_cve_status_scoped(d, cve):
+> +    """
+> +    Convert CVE_STATUS into status, vendor, product, detail and descript=
+ion.
+> +    """
+> +    status =3D d.getVarFlag("CVE_STATUS", cve)
+> +    if not status:
+> +        return {}
+> +
+> +    status_split =3D status.split(':', 4)
+> +    status_out =3D {}
+> +    status_out["detail"] =3D status_split[0]
+> +    product =3D "*"
+> +    vendor =3D "*"
+> +    description =3D ""
+> +    if len(status_split) >=3D 4 and status_split[1].strip() =3D=3D "cpe"=
+:
+> +        # Both vendor and product are mandatory if cpe: present, the syn=
+tax is then:
+> +        # detail: cpe:vendor:product:description
+> +        vendor =3D status_split[2].strip()
+> +        product =3D status_split[3].strip()
+> +        description =3D status_split[4].strip()
+> +    elif len(status_split) >=3D 2 and status_split[1].strip() =3D=3D "cp=
+e":
+> +        # Malformed CPE
+> +        bb.warn(
+> +            'Invalid CPE information for CVE_STATUS[%s] =3D "%s", not se=
+tting CPE'
+> +            % (cve, status)
+> +        )
+> +    else:
+> +        # Other case: no CPE, the syntax is then:
+> +        # detail: description
+> +        description =3D status.split(':', 1)[1].strip() if (len(status_s=
+plit) > 1) else ""
+> +
+> +    status_out["vendor"] =3D vendor
+> +    status_out["product"] =3D product
+> +    status_out["description"] =3D description
+> +
+> +    detail =3D status_out["detail"]
+>      status_mapping =3D d.getVarFlag("CVE_CHECK_STATUSMAP", detail)
+>      if status_mapping is None:
+> -        bb.warn('Invalid detail "%s" for CVE_STATUS[%s] =3D "%s", fallba=
+ck to Unpatched' % (detail, cve, status))
+> +        bb.warn(
+> +            'Invalid detail "%s" for CVE_STATUS[%s] =3D "%s", fallback t=
+o Unpatched'
+> +            % (detail, cve, status)
+> +        )
+>          status_mapping =3D "Unpatched"
+> +    status_out["mapping"] =3D status_mapping
+> =20
+> -    return (status_mapping, detail, description)
+> +    return status_out
+> =20
+>  def extend_cve_status(d):
+>      # do this only once in case multiple classes use this
+> diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+> index 0e9c6fa..539901f 100644
+> --- a/meta/lib/oe/spdx30_tasks.py
+> +++ b/meta/lib/oe/spdx30_tasks.py
+> @@ -470,7 +470,6 @@ def _get_cves_info(d):
+>      for cve_id in (d.getVarFlags("CVE_STATUS") or {}):
+>          mapping, detail, description =3D oe.cve_check.decode_cve_status(=
+d, cve_id)
+>          if not mapping or not detail:
+> -            bb.warn(f"Skipping {cve_id} =E2=80=94 missing or unknown CVE=
+ status")
+
+(same: undocumented warn() removal)
+
+>              continue
+>          yield cve_id, mapping, detail, description
+>          patched_cves.discard(cve_id)
+> diff --git a/meta/lib/oeqa/selftest/cases/cve_check.py b/meta/lib/oeqa/se=
+lftest/cases/cve_check.py
+> index 60cecd1..8cd5eb9 100644
+> --- a/meta/lib/oeqa/selftest/cases/cve_check.py
+> +++ b/meta/lib/oeqa/selftest/cases/cve_check.py
+> @@ -11,6 +11,54 @@ from oeqa.utils.commands import bitbake, get_bb_vars
+> =20
+>  class CVECheck(OESelftestTestCase):
+> =20
+> +    def test_scoped_status(self):
+> +        import bb
+> +        from oe.cve_check import decode_cve_status, extend_cve_status, g=
+et_patched_cves
+> +        from unittest.mock import patch
+> +
+> +        d =3D bb.data.init()
+> +        cve =3D "CVE-2020-0001"
+> +        d.setVarFlag("CVE_CHECK_STATUSMAP", "fixed-version", "Patched")
+> +        d.setVarFlag("CVE_CHECK_STATUSMAP", "ignored", "Ignored")
+> +        d.setVarFlag("CVE_STATUS", cve, "fixed-version: cpe:oracle:berke=
+ley_db: Fixed: see upstream")
+> +        for product, expected in (
+> +            ("oracle:berkeley_db", ("Patched", "fixed-version", "Fixed: =
+see upstream")),
+> +            ("other:berkeley_db", ("", "", "")),
+> +            ("oracle:zlib", ("", "", "")),
+> +            ("zlib:zlib oracle:berkeley_db", ("Patched", "fixed-version"=
+, "Fixed: see upstream")),
+> +        ):
+> +            with self.subTest(product=3Dproduct):
+> +                d.setVar("CVE_PRODUCT", product)
+> +                self.assertEqual(decode_cve_status(d, cve), expected)
+> +                with patch("oe.patch.src_patches", return_value=3D[]):
+> +                    self.assertEqual(get_patched_cves(d), {cve} if expec=
+ted[0] else set())
+> +
+> +        d.setVar("CVE_PRODUCT", "zlib")
+> +        d.setVarFlag("CVE_STATUS", cve, "ignored: Existing unscoped reas=
+on: unchanged")
+> +        self.assertEqual(decode_cve_status(d, cve),
+> +                         ("Ignored", "ignored", "Existing unscoped reaso=
+n: unchanged"))
+> +        d.setVar("CVE_STATUS_GROUPS", "SCOPED_GROUP")
+> +        d.setVar("SCOPED_GROUP", cve)
+> +        d.setVarFlag("SCOPED_GROUP", "status", "ignored: cpe:*:zlib: Mat=
+ching group")
+> +        extend_cve_status(d)
+> +        self.assertEqual(decode_cve_status(d, cve), ("Ignored", "ignored=
+", "Matching group"))
+> +        d.setVar("CVE_PRODUCT", "glibc")
+> +        self.assertEqual(decode_cve_status(d, cve), ("", "", ""))
+> +
+> +    def test_scoped_status_spdx(self):
+> +        import bb
+> +        import oe.spdx30_tasks
+> +        from unittest.mock import patch
+> +
+> +        d =3D bb.data.init()
+> +        d.setVar("CVE_PRODUCT", "zlib:zlib")
+> +        d.setVarFlag("CVE_CHECK_STATUSMAP", "ignored", "Ignored")
+> +        d.setVarFlag("CVE_STATUS", "CVE-2020-0001", "ignored: cpe:*:berk=
+eley_db: Not zlib")
+> +        d.setVarFlag("CVE_STATUS", "CVE-2020-0002", "ignored: cpe:*:zlib=
+: Matches zlib")
+> +        with patch("oe.patch.src_patches", return_value=3D[]):
+> +            self.assertEqual(list(oe.spdx30_tasks._get_cves_info(d)),
+> +                             [("CVE-2020-0002", "Ignored", "ignored", "M=
+atches zlib")])
+> +
+>      def test_version_compare(self):
+>          from oe.cve_check import Version
+> =20
+
+Regards,
+
+[0]: https://docs.yoctoproject.org/dev/contributor-guide/ai-assisted-contri=
+bution-policy.html
 --=20
-Paul Barker
+Yoann Congal
+Smile ECS
 
