@@ -1,116 +1,97 @@
-Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9176.1795675979362981177
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9197.1795676088169830351
  for <openembedded-core@lists.openembedded.org>;
- Wed, 25 Nov 2026 22:53:00 -0800
+ Wed, 25 Nov 2026 22:54:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pengutronix.de header.s=20260414 header.b=QbN7IDMP;
- spf=pass (domain: pengutronix.de, ip: 185.203.200.13, mailfrom: mfe@pengutronix.de)
-Received: from ptx.office.stw.pengutronix.de (ptx.office.stw.4.pengutronix.de [10.9.0.3])
-	(Authenticated sender: relay-from-ptx.office.stw.pengutronix.de)
-	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id D0B62202001;
-	Thu, 26 Nov 2026 07:52:56 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1795675976;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rEczK2K0q04XQK8svw+c0eTO2oAgaPnvf5sSaGM6Okg=;
-	b=QbN7IDMP5wqxtW61iIChaPSQ4MKb7YMZwiz5TrpJisSF/n5mzs8sP7jwwtZ+s/VMzDKrbQ
-	4Cei/GjFAVYFdd+S+4ILH1g5whZqrx+2B6CrXFmR08PjfEsYXRQhlkckfZQ/arHqSsMWyB
-	OZhB58fBkbtesbL9vIAHS7Qc2WkOqhiZpqM6OAUKng42LPma+fXsu/8bTJeL+B8VGNDXK9
-	S0/gyQVddpFSTo2tJj3x4vBzF5/VAqcBYDmICCDA5edO9VgFOhRa/TWULeMdSKo0RzJXVr
-	biF7rhaux5RK4ojkpktr95Qh6FvL/kpQbshbtEmqqlywVrwM1YCC2EGjPETT1Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1795675976;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=rEczK2K0q04XQK8svw+c0eTO2oAgaPnvf5sSaGM6Okg=;
-	b=eLqtOXBcUbfd4iFMnyKDQ/weyCZGKdzaoUqTHy/yilUjr7dRjXo4pRFOAcifyOnZSmFG9y
-	bpLlgZq/DBZrQTlUUOy1vutPnCTaK3hSi+P5B8+ieUgSrQh1Ujtc878xm46tZMzZ1PIU2d
-	MGxvrpChVIuJ1yitJOxhTTR9Uur9YEh3Zb7cqD2hl56VyrvaXCa74GzIDC8f9V47aeeTcC
-	beWkNXEKyNtheZz1dZRvI2/RYbU6M/cNlR8JGJtFBmmkrDa1NBD0HLavlpW6FdJwMHBiTQ
-	rOTE3HiOm2o63sZTiR4Dir4YBGZ5uNBdlis1WethJrl9Q74sQPPGOtk/SrwrHQ==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=relay-from-ptx.office.stw.pengutronix.de smtp.mailfrom=mfe@pengutronix.de
-ARC-Seal: i=1; s=20260414; d=pengutronix.de; t=1795675976; a=rsa-sha256;
-	cv=none;
-	b=W6Eu8b8nAQoaLpMdGxuxw8Y1C9Gm7rZCu8MFBB8qJ066hCY26yuP2cjUH094x4wvMgSR3e
-	z4AJ13lNW59JU/lKDqUW+CbXdv4uRhQMYfsVogJUf3d6ecKZQXj+i+b4jKL3egE3ah7dEx
-	hYdz4NF79bulbj7EYDKmTGxcE+cZ0QSuF5cLO+Y0lGChEieC97ftLJ2oPWOF2KH0j4aSfs
-	3jOP9CbbBo/8LjNIA+KsLaJNt3NRBeL8t4JuBgjJ6CmcBRM9emADZcy9VpzvBamMIfaLGb
-	tIfVmWQeXSgniqa5qxXmDsNCwkal5pXEbkpgm4UhTy0W82ALfOjBZxfuMDysaw==
-Received: by ptx.office.stw.pengutronix.de (Postfix, from userid 1064)
-	id B267D1BF383; Thu, 26 Nov 2026 07:52:56 +0100 (CET)
-Date: Thu, 26 Nov 2026 07:52:56 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
-	"yocto@pengutronix.de" <yocto@pengutronix.de>
-Subject: Re: [OE-core] [PATCH v2] classes/cargo-update-recipe-crates: support
- multiple Cargo.lock search directories
-Message-ID: <cstxpjsty6wf4cjk37nk474txxkwxims4csjha7z72oeyshggu@3cwiz5etuhea>
-References: <20261124-mfe-multi-cargo-lock-files-v2-1-8fd15cf316aa@pengutronix.de>
- <DB5PR02MB10213B2EC40B63599E3F09C4BEF422@DB5PR02MB10213.eurprd02.prod.outlook.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DB5PR02MB10213B2EC40B63599E3F09C4BEF422@DB5PR02MB10213.eurprd02.prod.outlook.com>
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=rF5YFcUc;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id B81764E41775
+	for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 06:54:45 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 7CD5C60237;
+	Thu, 26 Nov 2026 06:54:45 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 383AA11E6B098;
+	Thu, 26 Nov 2026 07:54:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1795676085; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=Z1b+VEQdQ3y68SsARd3q9qE3qjRhhX7KfOMvjsVy3UU=;
+	b=rF5YFcUcxaOiWVBN7uR6VkkqwRZNNWmXJW1bJVxB0Eztkl2H3JEFV0lqAPjcyDczQbI/Ti
+	uLkmwI+DvarlmQc5XkNQJIhxgJe3S8S4PHEnkGF/1kx8/AxbTbWMEV96m1kfJIgMseCFDN
+	Tkzcc+/CnPPYFnYkPMszmyhWdbv4LjcyWtxo2C4MFXAp8JQYlurMS/vY9jlahF3BicdJuw
+	3WvIQzVCB4QxLJpZ07odhu+498V6Bh/2KE5WDla1kW4GPOxfwFerjUWMbi5iyNRxKc1V6/
+	t9xYOAFXIy6j4fZR/QKI6mMYx8MO2SnKFPfTMGTCKq6gOFUdblWapXRh9AcM2w==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 26 Nov 2026 07:54:42 +0100
+Message-Id: <DN4Y1O8L620L.BPN15JQFEOTB@bootlin.com>
+To: <ross.burton@arm.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 01/18] python3: fix packaging of
+ libdir/python3.15/config/
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20261125163927.1835785-1-ross.burton@arm.com>
+In-Reply-To: <20261125163927.1835785-1-ross.burton@arm.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 06:53:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251280
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 06:54:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251281
 
-Hi Peter,
+On Wed Nov 25, 2026 at 5:39 PM CET, Ross Burton via openembedded-core wrote=
+:
+> The manifest explicitly used ${prefix}/lib/ instead of ${libdir}, which
+> may have either been correct historically or a mistake.
+>
+> Either way, if ${libdir} is not "lib" then this means config/ is packaged
+> into -misc instead of -core.  Use ${libdir} for reliable packaging.
+>
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
 
-thanks for the review.
+Hi Ross,
 
-On 26-11-26 01:41, Peter Kjellerstedt wrote:
-> > -----Original Message-----
-> > From: openembedded-core@lists.openembedded.org <openembedded-core@lists.openembedded.org> On Behalf Of Marco Felsch
-> > Sent: den 24 november 2026 22:22
-> > To: openembedded-core@lists.openembedded.org
-> > Cc: yocto@pengutronix.de; Marco Felsch <m.felsch@pengutronix.de>
-> > Subject: [OE-core] [PATCH v2] classes/cargo-update-recipe-crates: support multiple Cargo.lock search directories
-> > 
-> > Recipes using cargo's -Z build-std must also vendor the standard
-> > library's dependencies. The std sources staged by rust-native
-> > (.../rustlib/src/rust/library) ship a Cargo.lock but no vendor
-> > directory, so those crates need crate:// entries in SRC_URI as well.
-> > Until now only a single directory could be scanned (CARGO_LOCK_SRC_DIR),
-> > which forced the std crate list to be maintained by hand and go stale on
-> > toolchain upgrades, breaking do_compile with:
-> > 
-> >   error: failed to select a version for the requirement
-> >   `cfg-if = "^1.0"` (locked to 1.0.4)
-> > 
-> > Keep the existing CARGO_LOCK_SRC_DIR and extend it to support a
-> > comma-separated list of directories, to allow:
-> 
-> Why comma-separated? From a bitbake perspective, working with whitespace-
-> separated lists is preferred as it, e.g., allows :remove to work.
+Thanks for your series. One of these patches is triggering this error:
 
-Because no one questioned it during my v1. Good point regarding the
-:append syntax!
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/qemux86-64-ltp/build/layers/openembedde=
+d-core/meta/lib/oeqa/runtime/cases/ltp.py", line 81, in test_ltp_help
+    self.assertEqual(status, 0, msg=3Dmsg)
+AssertionError: 1 !=3D 0 : Failed to get ltp help. Output: Traceback (most =
+recent call last):
+  File "/usr/bin/kirk", line 8, in <module>
+    sys.exit(run())
+             ~~~^^
+  File "/usr/lib/python3.15/site-packages/libkirk/main.py", line 422, in ru=
+n
+    libkirk.com.discover(os.path.join(currdir, "channels"))
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.15/site-packages/libkirk/com.py", line 175, in dis=
+cover
+    obj =3D libkirk.plugin.discover(ComChannel, path)
+  File "/usr/lib/python3.15/site-packages/libkirk/plugin.py", line 105, in =
+discover
+    spec.loader.exec_module(module)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+  File "<frozen importlib._bootstrap_external>", line 751, in exec_module
+  File "<frozen importlib._bootstrap>", line 491, in _call_with_frames_remo=
+ved
+  File "/usr/lib/python3.15/site-packages/libkirk/channels/qemu.py", line 1=
+4, in <module>
+    import secrets
+ModuleNotFoundError: Standard library module 'secrets' was not found
 
-Is this the only change requested?
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/63/builds/4855
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/98/builds/4911
 
-Regards,
-  Marco
+Can you have a look at the issue?
 
-> 
-> > 
-> >   CARGO_LOCK_SRC_DIR = "${S},${STAGING_LIBDIR_NATIVE}/rustlib/src/rust/library"
-> > 
-> > This way the behavior can be backported.
-> > 
-> > Crates found in multiple lockfiles are listed only once, in the section
-> > of the first Cargo.lock containing them; conflicting checksums for the
-> > same crate version now fail the task. The crates.io warning now names the
-> > lockfile it came from. Output for recipes with a single lockfile is
-> > unchanged.
-> > 
-> > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> 
-> //Peter
-> 
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
