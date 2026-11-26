@@ -1,145 +1,161 @@
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.12])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13018.1795771034253337509
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12899.1795770123207800400
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Nov 2026 01:17:14 -0800
+ Fri, 27 Nov 2026 01:02:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=gAQ+2Tqi;
- dkim=pass header.i=@arm.com header.s=selector1 header.b=gAQ+2Tqi;
- spf=pass (domain: arm.com, ip: 52.101.84.12, mailfrom: ross.burton@arm.com)
-ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
- b=AWtR1E+3tsKpOx9HdwOnkdTb8fpGd2y+iJrY2TOML9jocQxFFPNgu9QUslDgoSB2+aS+/nZEeH7AUhGO3bMxIbGQSuK1opJEf8A6k3r8Q3tbfn3JtMyFtdM0v8kt3nmH4di0AlnuBYp3sul1xgWcDQDDocBFe6VMpdwDT/lYGNNGO4Rwo6kD9Avje5iLaTwp5rRFDZ0TDQQdKtOjiOCI/vfCz4iobYOEmizSxUFkPm6DJTN8UXpzsQ69ULV1Oen24+Am94ECnqAmBn/5aKVkyA06w1wEd0qekm/tEfPBEmzCJstV0lqPpiGxK4TmtKvqmpqdwPzEFhTMZAX0Ujccpw==
-ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=I0WNkqMKh0X9Rbod+zR/8vBgZ8fsJVz1Maf1dwAwUGg=;
- b=mNNlpHC9FfnteotX/mYfbmVwE2KPfFXFyUJxD32hpuw6JSIG7DiTZTa4bN5I8LQ2A2m2EGsKIYzmOdBE2Y9TE2ExfVO/R/k7qM1wH7ITquW+Uqk4wIQb5oZAf/bBCBFC1NEgZjYt1fgDUY57vGLcK1LYJ5h6vJggKu8SPwSGBsCtBTsVL7tUZrCY9Z7LqFcBvu3GVO0dK2b/P1UB5876/9cbSR2Up9imkr46ulBi8RpBPvQvHH8LMJq2qsQX/Dlv4T3/RXsDaVUWoAPC3PdnTKMk6LGj6XIEk3RS526b0UkoLCmnz2sr3Pe7PGmCmSk3PsM1putLp63i49TG5BLlyw==
-ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
- 4.158.2.129) smtp.rcpttodomain=est.tech smtp.mailfrom=arm.com; dmarc=pass
- (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
- (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
- spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
- dmarc=[1,1,header.from=arm.com])
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I0WNkqMKh0X9Rbod+zR/8vBgZ8fsJVz1Maf1dwAwUGg=;
- b=gAQ+2Tqi77YjP5dBAelpqjJTX2gLXRSWJCqQdyjkJ6i8hOfoacRIdxSdD1VBoIL82V6KRbn9hHtzaRlFEAWG6/ciZZugoWgxvdEctsAS3f8S9Lc+KZq6CdXqWy/KsFgtKiHJUEZU1rxyBE4uj7H/1+4nhc7VUcQHYp+iVl4l4I0=
-Received: from AS9PR05CA0064.eurprd05.prod.outlook.com (2603:10a6:20b:499::14)
- by PR3PR08MB5802.eurprd08.prod.outlook.com (2603:10a6:102:8a::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.7; Fri, 27 Nov
- 2026 09:17:09 +0000
-Received: from CPH1EPF0000051D.eurprd04.prod.outlook.com
- (2603:10a6:20b:499:cafe::28) by AS9PR05CA0064.outlook.office365.com
- (2603:10a6:20b:499::14) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.662.9 via Frontend Transport; Fri, 27
- Nov 2026 09:17:09 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 4.158.2.129) smtp.mailfrom=arm.com; dkim=pass (signature was verified)
- header.d=arm.com;dmarc=pass action=none header.from=arm.com;
-Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
- 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
- client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
-Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
- CPH1EPF0000051D.mail.protection.outlook.com (10.167.241.232) with Microsoft
- SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.688.5
- via Frontend Transport; Fri, 27 Nov 2026 09:17:08 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hxkIAKcX/IVkqbhQ/CPPuQd1FykHRl1K9pPDfx/3+RygoxPyU/M2MsHVSFaG7WyLDMGK2MdS/BgXOUkjohnY6gh3o+oiglzipNpc+YMYw00lbnQc8IiLm8vQUL2uOik+B2ghBA1IvF9QkQFZu48AY5CLvHBKll9k6fUmRa32mSpVR7f4ronwv0QL4lqYsCMkXMq/HlSc930CjcveUK+lhTDaxrYHJ85L1GQ9/HQmpb5Db6bWPhqex/wT1+dLGnKKDg5SO/L9F0IQZ3ZHi09RQk+0AL7zEo/OUz46Ep5LsZYUsTYL8EP1IaBeR/tvDgmqa5vOKUD7Zjne/fpJaB5e2g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=I0WNkqMKh0X9Rbod+zR/8vBgZ8fsJVz1Maf1dwAwUGg=;
- b=BNWNuavi2bidfLrMUfQi1ufSxoxxhQdhCPbZz0LrdLeHw7wZAq1AgN8zdY90LBfyO9SSfXnONeiYtxdcTIyKufVL0k2eKA9R0NE9gHHM9Ydp+ionqhTSERrGO2WeF5bl1rkHOx5AbpYDGHk8sCbJQ9I9CFNvw51HckWV0n+9ZJKJ0qJtF9YhxquC4Ox1kfUf5uR3mFDJiZiM/MUrc4BWkJx2bgYe2C7xEFtHUEUnN/fDewzVqM0bfxYnQ7Aav1f2MRozKRGfAmjijOrf0SH1N85MsfZQm5IJsmAuiQoQwoHHfr1oOUJGEGznBX0HPamCpiDZUdu9O6msK/qiV+s3pA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
- header.d=arm.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=I0WNkqMKh0X9Rbod+zR/8vBgZ8fsJVz1Maf1dwAwUGg=;
- b=gAQ+2Tqi77YjP5dBAelpqjJTX2gLXRSWJCqQdyjkJ6i8hOfoacRIdxSdD1VBoIL82V6KRbn9hHtzaRlFEAWG6/ciZZugoWgxvdEctsAS3f8S9Lc+KZq6CdXqWy/KsFgtKiHJUEZU1rxyBE4uj7H/1+4nhc7VUcQHYp+iVl4l4I0=
-Received: from AS8PR08MB9410.eurprd08.prod.outlook.com (2603:10a6:20b:5a9::13)
- by AS2PR08MB8477.eurprd08.prod.outlook.com (2603:10a6:20b:55b::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.9; Fri, 27 Nov
- 2026 09:16:34 +0000
-Received: from AS8PR08MB9410.eurprd08.prod.outlook.com
- ([fe80::1f2c:bae7:a4d3:fefb]) by AS8PR08MB9410.eurprd08.prod.outlook.com
- ([fe80::1f2c:bae7:a4d3:fefb%5]) with mapi id 15.21.0662.007; Fri, 27 Nov 2026
- 09:16:33 +0000
-From: Ross Burton <Ross.Burton@arm.com>
-To: "jaipaul.cheernam@est.tech" <jaipaul.cheernam@est.tech>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 08/11] blueprint-compiler: upgrade 0.20.4 ->
- 0.22.2
-Thread-Topic: [OE-core] [PATCH 08/11] blueprint-compiler: upgrade 0.20.4 ->
- 0.22.2
-Thread-Index: AQHdfDgHklYZ9cAIUkK9yrBXr3vYQrdBp4GA
-Date: Fri, 27 Nov 2026 09:16:33 +0000
-Message-ID: <76377E90-D91B-4B16-9764-28857F6C8385@arm.com>
-References: <20261124171807.74394-1-jaipaul.cheernam@est.tech>
- <20261124171807.74394-9-jaipaul.cheernam@est.tech>
-In-Reply-To: <20261124171807.74394-9-jaipaul.cheernam@est.tech>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Apple Mail (2.3901.200.71.1.16)
-Authentication-Results-Original: mx.microsoft.com 1; dkim=none (message not
- signed) header.d=none;dmarc=none action=none header.from=arm.com;
-x-ms-traffictypediagnostic: AS8PR08MB9410:EE_|AS2PR08MB8477:EE_|CPH1EPF0000051D:EE_|PR3PR08MB5802:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6bf32c7d-8bc1-4b9b-b653-08df4c673651
-x-checkrecipientrouted: true
-nodisclaimer: true
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam-Untrusted: BCL:0;ARA:13230040|1800799024|376014|23010399003|366016|4143699003|261009223027099003|22082099003|18002099003|11063799006|10067099003|56012099006|261028144727099003|261026140227099003|261022105027099003|38070700021;
-X-Microsoft-Antispam-Message-Info-Original: pA/g/OU9SJtpUHm97GxU5SfUg831NMcEYC7KuOcapymVYSTVEFmcrg3x56K8jFYYJwOYbKJ8kyYg5zx9x05mX+mE2dNne+enJafVUKOVcktw48TAJ1iPLs+iPNa2dkZ4PsG96abp+Ydlq3/wmQHizjCvqZa6tniwOdbxuNWWQLG8ZYapzNDJoMLRSC/lI+cSt48mLfKo/IpEQY1M7p80rZylebeZD78rx4rz2LizilNKhkmDkU172MfpcDeh1MQZ4RVjwSQCbmsVorh8SQhy42LxuAgPbphJeoSjIBtn9Y5WrNYItUn2pvQTj8Qdnx67o5IE5ltoncLljwmb2xDzuvA99MzP8/sguwrguNoogMvmTu3ds1l0u9h5yyL7BwNotyF24IHwGMzHHZQ+Omu1mAVFT2sNMlVNsaZLYLTPTLGMasMYkoS8h6GLOcdCrdHPivHfIdIAB0Nidb5Kqq9iWU/T5Qj3dkgoXb05B0AvjYOlaYmzO+nZmUNOaU6TycLpsDwoGPWiVtUhyUmT1BYMoJqK2WquKGUQu7qv5jf929+ure5ziefzf5ZTkrubjn0myLIbONB57UuRZAJOOFgaMHOoSiXQo+o0aXqAGC0tVKO6lfHDUwo/iqUGEzgGVXG1+utZ/aXgYN8PkEKUF+JcykElysfZTDXgI7Sz6dcbGUc=
-X-Forefront-Antispam-Report-Untrusted: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR08MB9410.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(366016)(4143699003)(261009223027099003)(22082099003)(18002099003)(11063799006)(10067099003)(56012099006)(261028144727099003)(261026140227099003)(261022105027099003)(38070700021);DIR:OUT;SFP:1101;
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <DEB43E4C60B27840AD5DB9BDD73EFB0E@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@kernel.org header.s=k20260515 header.b=fqmJSbhK;
+ spf=pass (domain: kernel.org, ip: 172.105.4.254, mailfrom: devnull+dickson.wu.certik.com@kernel.org)
+Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
+	by tor.source.kernel.org (Postfix) with ESMTP id DDD9C61132;
+	Fri, 27 Nov 2026 08:54:11 +0000 (UTC)
+Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
+ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
+	t=1795769651;
+	b=iRUKfJf6/E3drvOvpKhQKbLLDdP5v991xf2GMzlaLLrcyJbajB6kFMXlT76peY927JFl
+	 4Xdawkoo3Eu27bQjJwCgkpnDc0/nAE3zPeBGJkh+O86l7olKZAVlNEJWxPn5CqPEGJP1Q
+	 yjPUBRBzi2etuHmolS13+Edomoi2f+pFwUfhtTLHFNgFg9TY9doaTw2NiY/LlUPeE9fVc
+	 keuArJhXUk4V9ppq+TdecDvaDTWvLJG7ntbJ2h3yF2ez8Kde7/2Pcp3geHSoL4micseGL
+	 q4j+nIZExoj7hkwjr4ktACluljLLY9Q+kX+zxPhF0qdVEnXDp+6VLrjNWdaCJxDfPSQ==
+ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
+	c=relaxed/relaxed; t=1795769651;
+	h=DKIM-Signature:Received:MIME-Version:Content-Type:Message-Id:
+	 References:In-Reply-To:From:Date:Subject:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=MozgWAmJiYZelXYhRlQQS57cavLfGnfmbdl0C8Y8WkA=;
+	b=r4+KZk32gZOV5Mfj3PyVh1S1XsdTfPoVgXU7rOsldG04/h+aZWJQHBik5TxM9lL1rq19
+	 t5r44XebcAaijhablh3a1tiK9m/N7uRp7L7H11kswPavBysynYGsHk6zcHdMC1tO+x1FS
+	 jDnu2qxyEHni4ZTeytXHnY9YN+4pDHlwPZJtSV8NCnPGGmhdbDnRLHJxwQlUd9OLFffip
+	 duN2AosG5Q+XCqiIjXwDvt1Hxnksf5LplIpYiNF2khCx6Vw7h3zt1IYDD0fSypAcEhdN2
+	 Y1o1R7S8a6I8Go2yjznEFxKZcU61vavQGLXdNnqe3iEy9YZR987De2des0iI0Pd3Feg==
+ARC-Authentication-Results: i=1; smtp.kernel.org; 
+	arc=none smtp.remote-ip=100.80.115.77
+Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
+	(No client certificate requested)
+	by smtp.kernel.org (Postfix) with ESMTPS id 9AE001F0089A;
+	Fri, 27 Nov 2026 08:54:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
+	s=k20260515; t=1795769651;
+	bh=MozgWAmJiYZelXYhRlQQS57cavLfGnfmbdl0C8Y8WkA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:Reply-To;
+	b=fqmJSbhKqn+A1eNR9bROOOAr2exT8ZcmYqClmdZiEXzR9u2OXNqkJ7rjt+AucVbam
+	 woNsySZ2Th4t2CvTI9SknMgwppm6M8UEQW6tGIFghAzRJkXeEauWrjtvew87sRYmq2
+	 /9kGXWBL0wp77QsyKLzGGj5EU0DpLDVEX0BGbEYIuXYOL9aGOoM36SV8tlt+DSXXUo
+	 kxP6MOhlVcMrM/8kKqeWDXObTaUjrJgRi2UkInbyvMp8sjXzoGPy6FzCzWbY6efnmB
+	 NalQ0zTv8ZjtESG0eNh+HcfY3LTaYDxip8cfU8PRuq1GktkjTd4AIeGlJlfNHKbVTy
+	 QPu9gpdUitcQg==
+Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
+	by lkml.kernel.org (Postfix) with ESMTP id 293DF4B64E;
+	Fri, 27 Nov 2026 08:54:06 +0000 (UTC)
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: Y9EZH+2tuegcIkNq5oWbHHh3EJP03nS0u57C28xs8cVMFhl9O10HvvynUXRN2Dx+4AUB4KAckuFkz7nhMp4ZFbxGgmCx85IWSMH4tTt6Yz5EkBmj9hzJ8CSajOdUdsT6vgynpudQ65qVXX6rXMoLRpCUpAXp8TTyJHtUM4ExiBk9LSKPLOF+sJROf2SJhLxkdLAZ4DCx+6dlYpfCu2kDzi8BEtFTg1aIq/5+0gjDi11C1agzNxeQfzb9ffRcnY8To1niOQ7wQLwE1ooD8pHoCSPTJsYBYdCqd3nFXbvstVNwZ+7TqzhY19lzUGLyoP5xVKuAoUJIKOKz+z76RRLctw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR08MB8477
-Return-Path: Ross.Burton@arm.com
-X-EOPAttributedMessage: 0
-X-MS-Exchange-Transport-CrossTenantHeadersStripped: CPH1EPF0000051D.eurprd04.prod.outlook.com
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id-Prvs: e6197ff4-69b7-4fd8-0f1b-08df4c672191
-X-Microsoft-Antispam: BCL:0;ARA:13230040|82310400026|376014|35042699022|14060799003|36860700016|1800799024|23010399003|4143699003|11063799006|261009223027099003|18002099003|22082099003|13003099007|10067099003|56012099006|261028144727099003|261022105027099003|261026140227099003;
-X-Microsoft-Antispam-Message-Info: qv59aeer+5II2pYUruVbIhbP2RKEuONgME7sB4Fe24SXDBEowv6dWihY14pXMLmf85nayvqhxe8w4G/qwcWUsIxt8EetBvHcUvEfTV6Z17J0t7GncMfOzwp8M+S8/KAZgT0gOvi9GHM/6F+I8gEqi1Osclj60NfWws2FF3dtomdyJ+N1w8Mvb14rh6A17qC6jzfb5NCHX6WHlF/J7ZUiK28eMHwdoO7QCFA7TVKdbQk/NQpyqrnACpFDmZ46dvcWb276hUyXodvEyPX7f896zdIPwTHkRnIQJIlDFNJg6NpMqxQ7x9Vtt63YkzwgLOsO5Nx9HS2zQCwIDMCf6awv5Ptl0Ki6U9XPlE4Z6oZV7MbuLnd109SPVThTW8IJUcvDAgcbIoux9T4eHPwd1zrHzsrQHvkgrC5Scx6Giqj52CRmS6X8j8SLuOooOqjcvsX4X0KAkUhHNuUCgS9tTw0WG+OxZdi8QL7hEA5l8F1UzVC0KGZjUGsPoKrN1d31hSlE9A6gQR+DYvUutrA6OaIldz0xNTzW/bN/nhmSTr9tn9mHE2Y+FmzDpv0PSSnmyaJw9Wj41lwVJ2vj9YeRhhMhlMNTA+pPAaf+03vJGHgd2DDb4B9KWfLc4gc0QfgGnOnIXdxkoZl713tN+Cvqnwn4HQ==
-X-Forefront-Antispam-Report: CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(35042699022)(14060799003)(36860700016)(1800799024)(23010399003)(4143699003)(11063799006)(261009223027099003)(18002099003)(22082099003)(13003099007)(10067099003)(56012099006)(261028144727099003)(261022105027099003)(261026140227099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: z9OtwfhkWmprKF1TCPIj24DwwdLgdtlgqG4EvNO8XmzIVvdrLygZ08DCOjtUN7EDpQjd4M2kY+9MFaQws6Iw2lHvE0dNwyMj2yHw8zj1I5Q7qSIHvRUy5Prqdx1NjveXTQMtxTR9trK6VfG+Yp2x0nGtsI5YK6GxfarTMSh/0FK8L59V7csQvRfxJ+XTVK5niDXdW5CfzaqrsCIuDiZ3HBxdcHFsVRG0ciHHULbeUEEsfQk6bbKUsQcxcVVdid3CWdDNdFHnYz8R7iVj26yS+zXbyhWPh2+2+aed8EHUL2wxrBNLtgIWhytE/VPmJ+zyoLHfoZN6UgLig+T0SrpKRx9NTbq3PR32qLCxWdGkAH9dWiOkh0NqqMM1vv8wmXKW4Qb1sI2jI8l7F3XQz1bJzv9eV/hB5Gdz+Sng9RakS1HBw3v9KZE1DFCZNRDZPMnr
-X-OriginatorOrg: arm.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2026 09:17:08.5690
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6bf32c7d-8bc1-4b9b-b653-08df4c673651
-X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
-X-MS-Exchange-CrossTenant-AuthSource: CPH1EPF0000051D.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR08MB5802
+Message-Id: <20261127-yoc1s-ffmpeg-v1-1-f01fec79468b@certik.com>
+References: <20261127-yoc1s-ffmpeg-v1-0-f01fec79468b@certik.com>
+In-Reply-To: <20261127-yoc1s-ffmpeg-v1-0-f01fec79468b@certik.com>
+From: Dickson Wu via B4 Relay <devnull+dickson.wu.certik.com@kernel.org>
+Date: Thu, 26 Nov 2026 23:02:05 +0000
+Subject: [scarthgap][PATCH 1/7] ffmpeg: fix CVE-2026-135736
+To: openembedded-core@lists.openembedded.org
+Cc: Yoann Congal <yoann.congal@smile.fr>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795769564; l=2986;
+ i=dickson.wu@certik.com; s=dickson-b4; h=from:subject:message-id;
+ bh=GuxqvwhgVspx+ChWbJMq5zFQuumStwuxwgjYy0uKo0M=;
+ b=Vnm50eIBmXI/K4HU+lRY3Qts8bT2U2tUsOuP6B9zieKkAqDEhJMrzdCgPlxo9FZyPLDUS2Qlz
+ xyqETFIbPd6BpjVAAWLUdf+cE+w1UmqM1BuMZtjF6cvDAj25k9trQQG
+X-Developer-Key: i=dickson.wu@certik.com; a=ed25519;
+ pk=fxH7FS4FdojeJSGLJzgKdfO51Rvr4EW30yinj2mc1vg=
+X-Endpoint-Received: by B4 Relay for dickson.wu@certik.com/dickson-b4 with
+ auth_id=1647
+X-Original-From: Dickson Wu <dickson.wu@certik.com>
+Reply-To: dickson.wu@certik.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 09:17:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251358
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 09:23:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251359
 
-Hi Jaipaul,
+From: Dickson Wu <dickson.wu@certik.com>
 
-On 24 Nov 2026, at 17:18, Jaipaul Cheernam via openembedded-core <jaipaul.c=
-heernam=3Dest.tech@lists.openembedded.org> wrote:
->=20
-> Compare Log: https://gitlab.gnome.org/GNOME/blueprint-compiler/-/compare/=
-v0.20.4...v0.22.2
->=20
-> - The release commit is only on the tag, so use nobranch=3D1.
+The deband filter allowed the runtime coupling option for subsampled
+pixel formats, which could access outside chroma planes. Backport the
+upstream fix.
 
-I spoke to upstream and the branch has now been pushed, so this can be remo=
-ved now.
+https://github.com/FFmpeg/FFmpeg/commit/24ad423d908c
 
-https://gitlab.gnome.org/GNOME/blueprint-compiler/-/commit/ed35ac74de0c1bb1=
-f5e852410b97edd1f08904c9
+AI-Generated: OpenAI Codex, gpt-6.2-sol
+Signed-off-by: Dickson Wu <dickson.wu@certik.com>
+---
+ .../ffmpeg/ffmpeg/CVE-2026-135736.patch       | 45 +++++++++++++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb |  1 +
+ 2 files changed, 46 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-135736.patch
 
-Ross=
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-135736.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-135736.patch
+new file mode 100644
+index 00000000..6abf259f
+--- /dev/null
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-135736.patch
+@@ -0,0 +1,45 @@
++From 24ad423d908cd595c983b6c503ddb0ee94901ba2 Mon Sep 17 00:00:00 2001
++From: Michael Niedermayer <michael@niedermayer.cc>
++Date: Sat, 14 Nov 2026 05:23:08 +0100
++Subject: [PATCH] avfilter/vf_deband: reject the coupling command for
++ subsampled formats
++
++Fixes: out of array access
++Fixes: QJKTLuAvDBVR
++Fixes: AISLE-2026-0166-00123
++
++Found-by: Joshua Rogers (AISLE)
++
++Out of array read and write Replicated through UnModified FFmpeg with ASAN
++
++CVE: CVE-2026-135736
++Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/24ad423d908cd595c983b6c503ddb0ee94901ba2]
++
++Signed-off-by: Dickson Wu <dickson.wu@certik.com>
++---
++ libavfilter/vf_deband.c | 7 +++++++
++ 1 file changed, 7 insertions(+)
++
++diff --git a/libavfilter/vf_deband.c b/libavfilter/vf_deband.c
++index 2ff4fca6fa4de..6dd08dd10f80e 100644
++--- a/libavfilter/vf_deband.c
+++++ b/libavfilter/vf_deband.c
++@@ -438,11 +438,18 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
++ static int process_command(AVFilterContext *ctx, const char *cmd, const char *args,
++                            char *res, int res_len, int flags)
++ {
+++    DebandContext *s = ctx->priv;
++     int ret = ff_filter_process_command(ctx, cmd, args, res, res_len, flags);
++ 
++     if (ret < 0)
++         return ret;
++ 
+++    if (s->coupling && (s->shift[0] || s->shift[1])) {
+++        av_log(ctx, AV_LOG_ERROR, "coupling needs a pixel format without chroma subsampling\n");
+++        s->coupling = 0;
+++        return AVERROR(EINVAL);
+++    }
+++
++     return config_input(ctx->inputs[0]);
++ }
++ 
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb
+index 849835c8..a44b407b 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb
+@@ -32,6 +32,7 @@ SRC_URI = " \
+     file://CVE-2024-35369.patch \
+     file://CVE-2025-25473.patch \
+     file://CVE-2025-22921.patch \
++    file://CVE-2026-135736.patch \
+ "
+ 
+ SRC_URI[sha256sum] = "a231e3d5742c44b1cdaebfb98ad7b6200d12763e0b6db9e1e2c5891f2c083a18"
+-- 
+2.43.0
+
+
