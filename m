@@ -1,146 +1,160 @@
-Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1694.1795712427056286353
+Received: from mail-dy1-f180.google.com (mail-dy1-f180.google.com [74.125.82.180])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5437.1795726315676129869
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Nov 2026 09:00:27 -0800
+ Thu, 26 Nov 2026 12:51:55 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=fYazb2CG;
- spf=pass (domain: konsulko.com, ip: 209.85.216.46, mailfrom: tim.orling@konsulko.com)
-Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-3b413d04c93so4193681a91.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 09:00:26 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=KyHjiWRN;
+ spf=pass (domain: gmail.com, ip: 74.125.82.180, mailfrom: raj.khem@gmail.com)
+Received: by mail-dy1-f180.google.com with SMTP id 5a478bee46e88-38190551625so14249704eec.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 12:51:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1795712426; x=1796317226; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=KwXJMzrf5rRkoV+FyVx0ksHHEtWEr6baXL5ZchVtiQ0=;
-        b=fYazb2CGLrVt6yIeCkYAydhoAvsqDCaEk8bje/cC73y0ekB0MuI8LWibTze0b9DaxB
-         pnFHYC9ImezHkBiEE3E55OE1ogV45WbhKA5+MRZCZ1vNQ8kcjTVMQZtc/4+/iJUItqFv
-         s7BftBDUpu/gJA9brGMo83Xf5+KUHEiGcKZME=
+        d=gmail.com; s=20260707; t=1795726315; x=1796331115; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=NEGWOtkPHfyJNqinGDruADJ5xdp+9jKY9k9J5M4a8v0=;
+        b=KyHjiWRNv68xW4C1UZM/nyIpSOPTlpw1xFV5wXyOW207LUxsLSe2OEgeJHBIQLkOKp
+         iFIUjrmNZcNCAQngAu6nwXjjjuV+AwiMpV71rF3+YjUQAvDBBom1r6iy2hc8iG711F0u
+         TlfXNKZQdHUFbJzaOuHffxtfWzENkPT4G876A5lPboHLBeyaj4fjL4zLjQAN/bqVhVjT
+         KEEqL/YHstfOWvOVkvF0AzZzNhSOL+VxXqhgz8NNQAzC8XgmWyNkQCi0B65TgKCkHnw2
+         NlMoaZhSbmDIP6FbAV2uscRabK8zARhvmDfN0LCzHnM9IluxxQUysKsE6bYbvz6Rp+9p
+         IQXQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795712426; x=1796317226;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=KwXJMzrf5rRkoV+FyVx0ksHHEtWEr6baXL5ZchVtiQ0=;
-        b=CY5iRYgAfit8r4LcRJ60WSfmYxc4DqJ1KZ3vBfcaupj1AeQkfEZXVQEu/tx3sFGhpS
-         9tBEC7mtyXLnXb4kQm1EbOuxGGhA/1L6SVifkZK3lHZau/mWgnxiUk+1QPA0e7aoLnmw
-         XvdzoMWYkA0M0b7yguvRJSXpS5juGudRLPc3LGzs2wrZqUAHn9BXHQEv9nOecf2mKqmB
-         NhiZqOvE4A5WM1qW0SjG2mlGvQFhLJgPSIrRI4OsaoXQcDwnBzbeBmGNUHNyQoVU4Lio
-         7t0DEK5w8XK0UzRGXeKXc5oL2OeJaK511Y6QlJerP5h/GI9KKasxmsybF30qh7Bv4Gmh
-         DBFg==
-X-Gm-Message-State: APuU4Z/+vwp3GleZoKZG5gaRfWQUm4y1iaKSgiSHe7YflXScKdvs6goL
-	2M1grSHp2/FPe+5vIoc+JO2d4SK0mzh+3YI96V0eX+OMpWTmCuyXZwHSSEMFE/6yv7vbldsKTRh
-	lzCtt
-X-Gm-Gg: AZFdTZcwlJVdRSMlRj6jGr8tohZlrBxdAdR0neDccLvOZcoXsa2DNvaNKUc9V56zNWy
-	rhUc5iHXveb0/c71DpF0EY33fHxtBmhWV1U6weQySlCI46cmbf4U8xgTksI6vQJWFMKjfiuCp0Y
-	gUwgHMaedW+EI4S6zlk1bIeBtnbo686B1dN4Lu3QzVofExb5c5EyXjs/mT1zax2P8PNBhdE5FzE
-	UneGXA5jpUpOsGchBbmyECbd8qOAY5Ed4aYtoN5+3+/3JqyWWhK2tAxWwTDm56OilI7PCucvZ6D
-	NwKITL0lcOYmwLf3gjDhF/Hx8YVVTtiKNtdqZYnxfN5jZX8WrHCRSipBQC14vHc3WqxHJSADJQg
-	wYk1lof49poqomN+vHZvWX9locrRI26y5O3QnJc5BRhQ6fTVgW7PZUiIf30uAti3c3xQ2KKbKZV
-	2rmDfSXWKuALe1TphT8byeYgsTR13ceCpfo10828winpzQWosQt+y/J9OlV25ShmjoTvWXABCB+
-	LdeJbcbkkGvaVcZ+BVLHBlErzk6BjB6dMmUMvlSFCAtxIAJ+iBrScPRlyh/Hd1W0vlejV67U5h+
-	pGHHBcr4nPK0uCy6wh4/gue9mcsqM/PR0F6lcete/j8pszGFWjLXnbrtwo9OmIMPNvHR755nMdO
-	hj+5j4oL76fR0Dnv3t215N92hCG2wWdLxt2iJXG+jSESg4Kim3Ema3Y5Q/0w5eTKrsCo=
-X-Received: by 2002:a17:90b:1802:b0:3b4:e19:e127 with SMTP id 98e67ed59e1d1-3b41cb5009emr20695414a91.63.1795712426242;
-        Thu, 26 Nov 2026 09:00:26 -0800 (PST)
-Return-Path: <tim.orling@konsulko.com>
-Received: from localhost (c-24-20-171-118.hsd1.or.comcast.net. [24.20.171.118])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b41ad0b52dsm36344349a91.5.2026.11.26.09.00.25
+        d=1e100.net; s=20260707; t=1795726315; x=1796331115;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=NEGWOtkPHfyJNqinGDruADJ5xdp+9jKY9k9J5M4a8v0=;
+        b=uGT0tLOdETWfKSEes3MUrpzimSEuxu3DyyknOzwniQbRhIomM5gcePOGl+crpRuzi/
+         /+RPoS/eWlpXhX7PtnpAlHPnd9qiaJApkyEauo+yHQuDJ6+Ox1ssld/N9OlaHmctTmSp
+         mutwb0qLIwkB6HtKzVUgxJmlfOuiY6IoLv9FUmdxySJBmG8vdegs57SxHcpE1WpiHjUn
+         1XYmWWKf3WV0RstmTUDc0OkmV8jbRTghI1kJRpHeeB6GlzYUgUqVsm90ruvKZxDz2f10
+         ABhb8hV/VrNv9FrfRS1Et8cW+kkF7C5hmx1/RLmZ/VoneKR4mVS/qVwAU+e0SU7w2jia
+         jJjQ==
+X-Gm-Message-State: APuU4Z+d55orimaStSYdg9f7yULaDY1qA/uWAQg1AO05X/uhv+4Gi5Dy
+	th4MHxoTG7I2E1c7Vl8xFeNvL6MBwRSjcSut/8bBrgSTyKx6DY5POVcUqjusv7UB
+X-Gm-Gg: AZFdTZeaFj8KHvxd4TXvGTyMUWsJekFQqr03S37RlSycpMsYIJY9lLm2Opa8w9TzGUO
+	R+cPT0M9kKptZHms7yHCTBkb2YncXAtSTOLMtbXEafBvzsCPcb5wmO/ArRMlrb6qYqNgl95V78h
+	5bWqWRS91W+nCIVhNi4/R+IvGHUt3ZsbVvykoHKPNcKAHGfo34PfB2HL5o80QoNayY1JUiWomE1
+	ZVIvn1jdpTESpbIp/SY1ZTdGbr2M0z8qUD7XTAaknV02Raok+MkVUEzUh4Gf0d6YEoem7rSUxCV
+	PamPNF8LDhV6QwggFqDMXpw1Aa6nBINnY9uYE1vMGRQDjY4rDipb6DHxTRnu4CCnM0pJMIGK/IJ
+	0jd6RBHxvHWSCWEjLUkec6Mz23+YhMiut0t2vC3hIfHv6kP2G1RCY6qLAqexmD5T8ZInvM1b6JI
+	bpmPNWBLt+MUyHlyEpjusZPp7GNOMm0pHqS3bDqSIi2FGc1cWKPsjngj1MEGN44gn6r1HjYXGJw
+	fu+2xj4k2iIl8bjFwaK73JYRAAXGpJjvIfe53SO9GEtYcNxltJfhY4TSf5UP6f8J78TdB2vqCfC
+	93btgTLfBO+qhacut/W9hg8FEFt8UFtF8Lrwjqqm/PeVfn9cO8h4ZocqPrkFS1svRaG/3XRCDfu
+	bGhZljZLvgUdyRE0384CSn6wb3fOSgh80gNpHuwXTwg+9iKgXgXZwpwtz5CuJv/PZSWltV7CNfe
+	l9PX25r1X96NnaNm+ovDs9W+Pl8E6oiqzFdXsoXX5eBLczGbAu4WQ+1/+H1gIyVtu2qu+pI6SS0
+	UFuqqSvFO7fSMKlijGmGbKKfOgjUM5S4+HUjgcRud/oDiJ+0pVHVrJUZnhVueyucadI5jBybcw4
+	8FSu3fkVPlE6uQ9TDoNejz84Hg==
+X-Received: by 2002:a05:7301:1402:b0:36e:b3e6:ebe7 with SMTP id 5a478bee46e88-3857025f297mr20505945eec.26.1795726314823;
+        Thu, 26 Nov 2026 12:51:54 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-386c7c62a91sm25002969eec.17.2026.11.26.12.51.53
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2026 09:00:25 -0800 (PST)
-From: Tim Orling <tim.orling@konsulko.com>
+        Thu, 26 Nov 2026 12:51:54 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Alejandro Hernandez <alejandro@enedino.org>,
-	Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH 2/2] picolibc-helloworld: fix qemuarm hang with a virt memory layout
-Date: Thu, 26 Nov 2026 09:00:11 -0800
-Message-ID: <20261126170011.30593-2-tim.orling@konsulko.com>
+Cc: Khem Raj <khem.raj@oss.qualcomm.com>
+Subject: [PATCH] musl: Fix local time before the first transition of a zone
+Date: Thu, 26 Nov 2026 12:51:51 -0800
+Message-ID: <20261126205151.830763-1-khem.raj@oss.qualcomm.com>
 X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261126170011.30593-1-tim.orling@konsulko.com>
-References: <20261126170011.30593-1-tim.orling@konsulko.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 17:00:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251328
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 20:51:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251329
 Content-Type: text/plain; charset="utf-8"
 
-On qemuarm the hello-world image hung without output. Upstream's
-hello-world/arm.ld targets Cortex-M boards with RAM at 0x20000000, but
-on the QEMU "virt" board used by qemuarm that address is PCIe MMIO, not
-RAM. The startup code faults when it copies initialized data there, and
-picolibc's default exception handler loops forever, so the image hangs
-before main(). arm.ld has had this layout since it was added upstream in
-2021, so qemuarm never booted.
+When a zoneinfo file has exactly one transition, scan_trans() applies
+the footer's POSIX TZ rule to times before that transition instead of the
+first time type. Slim zoneinfo files, which tzdata builds by default,
+often have a single transition: Antarctica/Troll reported +02 summer
+time in 1970 and Antarctica/Rothera -03 before 1976, where both should be
+-00 with a zero offset. Python's zoneinfo gets these right, so the
+python3-time-machine fuzz ptests failed on musl.
 
-Add a 32-bit linker script with the virt memory map (RAM at 0x40000000)
-and use it for qemuarm.
+A scan of every zone from 1970 to 2038 comparing localtime() against
+zoneinfo finds no remaining file-based mismatches with this fix.
 
-Tested by building picolibc-helloworld for qemuarm, qemuarm64,
-qemuriscv32 and qemuriscv64 and running each ELF under QEMU with
-semihosting; all print "hello, world" and exit 0.
-
-AI-Generated: Uses Claude Code (Claude Opus 5.5)
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+AI-Generated: Uses Claude Code
+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
 ---
- .../picolibc-helloworld/qemuarm-virt.ld        | 18 ++++++++++++++++++
- .../picolibc/picolibc-helloworld_git.bb        | 13 ++++++++-----
- 2 files changed, 26 insertions(+), 5 deletions(-)
- create mode 100644 meta/recipes-core/picolibc/picolibc-helloworld/qemuarm-virt.ld
+ ...ime-type-before-the-first-transition.patch | 54 +++++++++++++++++++
+ meta/recipes-core/musl/musl_git.bb            |  1 +
+ 2 files changed, 55 insertions(+)
+ create mode 100644 meta/recipes-core/musl/musl/0006-time-use-first-time-type-before-the-first-transition.patch
 
-diff --git a/meta/recipes-core/picolibc/picolibc-helloworld/qemuarm-virt.ld b/meta/recipes-core/picolibc/picolibc-helloworld/qemuarm-virt.ld
+diff --git a/meta/recipes-core/musl/musl/0006-time-use-first-time-type-before-the-first-transition.patch b/meta/recipes-core/musl/musl/0006-time-use-first-time-type-before-the-first-transition.patch
 new file mode 100644
-index 0000000000..e255c18469
+index 0000000000..c5127237be
 --- /dev/null
-+++ b/meta/recipes-core/picolibc/picolibc-helloworld/qemuarm-virt.ld
-@@ -0,0 +1,18 @@
-+/*
-+ * Memory layout for running picolibc hello-world on the 32-bit qemuarm
-+ * MACHINE (QEMU "virt" board, Cortex-A15). Upstream's hello-world/arm.ld
-+ * targets Cortex-M boards (flash at 0x0, RAM at 0x20000000); on "virt"
-+ * 0x20000000 is PCIe MMIO, so writing .data there aborts. RAM on "virt"
-+ * starts at 0x40000000.
-+ *
-+ * AI-generated with Claude Code.
-+ *
-+ * SPDX-License-Identifier: MIT
-+ */
-+__flash =      0x40000000;
-+__flash_size = 0x00400000;
-+__ram =        0x40400000;
-+__ram_size   = 0x00200000;
-+__stack_size = 8k;
++++ b/meta/recipes-core/musl/musl/0006-time-use-first-time-type-before-the-first-transition.patch
+@@ -0,0 +1,54 @@
++From fdc1a798a6450803ebc08c3b66518bd8feba1c85 Mon Sep 17 00:00:00 2001
++From: Khem Raj <khem.raj@oss.qualcomm.com>
++Date: Wed, 18 Nov 2026 05:16:17 +0000
++Subject: [PATCH] time: use first time type before the first transition with
++ one transition
 +
-+INCLUDE picolibc.ld
-diff --git a/meta/recipes-core/picolibc/picolibc-helloworld_git.bb b/meta/recipes-core/picolibc/picolibc-helloworld_git.bb
-index 573a571c24..7fe1e319d2 100644
---- a/meta/recipes-core/picolibc/picolibc-helloworld_git.bb
-+++ b/meta/recipes-core/picolibc/picolibc-helloworld_git.bb
-@@ -15,16 +15,19 @@ QB_OPT_APPEND:append = " -semihosting-config enable=on"
++scan_trans() checks whether the binary search ended on the last
++transition before it checks whether t lies before the first one. When a
++zoneinfo file has exactly one transition, both are index 0, so times
++before that transition are handled by the POSIX TZ string in the footer
++instead of the lowest-index non-DST type, as RFC 8536 specifies.
++
++"Slim" zoneinfo files, as zic writes by default since tzdata 2020b,
++often have a single transition. For example Antarctica/Troll (footer
++"<+00>0<+02>-2,M3.5.0/1,M10.5.0/3") reported +02 summer time in 1970,
++and Antarctica/Rothera (footer "<-03>3") reported -03 before it was
++founded in 1976, where both should be "-00" with a zero offset.
++
++Check for t before the first transition first.
++
++Upstream-Status: Submitted [https://www.openwall.com/lists/musl/2026/11/26/5]
++Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
++---
++ src/time/__tz.c | 6 ++++--
++ 1 file changed, 4 insertions(+), 2 deletions(-)
++
++diff --git a/src/time/__tz.c b/src/time/__tz.c
++index df57fec1..0f57a1d9 100644
++--- a/src/time/__tz.c
+++++ b/src/time/__tz.c
++@@ -288,9 +288,10 @@ static size_t scan_trans(long long t, int local, size_t *alt)
++ 	}
++ 
++ 	/* First and last entry are special. First means to use lowest-index
++-	 * non-DST type. Last means to apply POSIX-style rule if available. */
+++	 * non-DST type. Last means to apply POSIX-style rule if available.
+++	 * Check for t before the first transition before checking for the
+++	 * last entry, since with only one transition they are the same. */
++ 	n = (index-trans)>>scale;
++-	if (a == n-1) return -1;
++ 	if (a == 0) {
++ 		x = zi_read32(trans);
++ 		if (scale == 3) x = x<<32 | zi_read32(trans + 4);
++@@ -308,6 +309,7 @@ static size_t scan_trans(long long t, int local, size_t *alt)
++ 			return j/6;
++ 		}
++ 	}
+++	if (a == n-1) return -1;
++ 
++ 	/* Try to find a neighboring opposite-DST-status rule. */
++ 	if (alt) {
++-- 
++2.43.0
++
+diff --git a/meta/recipes-core/musl/musl_git.bb b/meta/recipes-core/musl/musl_git.bb
+index fa5cbb04f5..cbdb7178f9 100644
+--- a/meta/recipes-core/musl/musl_git.bb
++++ b/meta/recipes-core/musl/musl_git.bb
+@@ -16,6 +16,7 @@ SRC_URI = "git://git.musl-libc.org/musl;branch=master \
+            file://0003-tools-version.sh-fall-back-to-VERSION-when-git-descr.patch \
+            file://0004-math-enable-FENV_ACCESS-in-expm1-expm1f-hypot-and-hy.patch \
+            file://0005-math-disable-FP-contraction-in-jn.c.patch \
++           file://0006-time-use-first-time-type-before-the-first-transition.patch \
+            file://ldd \
+           "
  
- # picolibc comes with a set of linker scripts, set the file
- # according to the architecture being built.
--PICOLIBC_LINKERSCRIPT:qemuarm64 = "aarch64.ld"
--PICOLIBC_LINKERSCRIPT:qemuarm = "arm.ld"
--PICOLIBC_LINKERSCRIPT:qemuriscv32 = "riscv.ld"
--PICOLIBC_LINKERSCRIPT:qemuriscv64 = "riscv.ld"
-+PICOLIBC_LINKERSCRIPT:qemuarm64 = "${S}/hello-world/aarch64.ld"
-+PICOLIBC_LINKERSCRIPT:qemuriscv32 = "${S}/hello-world/riscv.ld"
-+PICOLIBC_LINKERSCRIPT:qemuriscv64 = "${S}/hello-world/riscv.ld"
-+# Upstream's arm.ld is laid out for Cortex-M boards, not the QEMU "virt"
-+# board used by qemuarm, so use our own memory layout instead.
-+SRC_URI:append:qemuarm = " file://qemuarm-virt.ld"
-+PICOLIBC_LINKERSCRIPT:qemuarm = "${UNPACKDIR}/qemuarm-virt.ld"
- 
- # Simple compile function that manually exemplifies usage; as noted,
- # use a custom linker script, the GCC specs provided by picolibc
- # and semihost to be able to test via QEMU's monitor
- do_compile(){
--    ${CC} ${CFLAGS} ${LDFLAGS} --verbose -T${S}/hello-world/${PICOLIBC_LINKERSCRIPT} -specs=picolibc.specs --oslib=semihost -o ${BAREMETAL_BINNAME}.elf ${S}/hello-world/hello-world.c
-+    ${CC} ${CFLAGS} ${LDFLAGS} --verbose -T${PICOLIBC_LINKERSCRIPT} -specs=picolibc.specs --oslib=semihost -o ${BAREMETAL_BINNAME}.elf ${S}/hello-world/hello-world.c
-     ${OBJCOPY} -O binary ${BAREMETAL_BINNAME}.elf ${BAREMETAL_BINNAME}.bin
- }
- 
--- 
-2.56.1
-
