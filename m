@@ -1,69 +1,69 @@
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12899.1795770123207800400
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12897.1795770123184149586
  for <openembedded-core@lists.openembedded.org>;
  Fri, 27 Nov 2026 01:02:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kernel.org header.s=k20260515 header.b=fqmJSbhK;
+ dkim=pass header.i=@kernel.org header.s=k20260515 header.b=GHpmwokq;
  spf=pass (domain: kernel.org, ip: 172.105.4.254, mailfrom: devnull+dickson.wu.certik.com@kernel.org)
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id DDD9C61132;
-	Fri, 27 Nov 2026 08:54:11 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id EF2DD62409;
+	Fri, 27 Nov 2026 08:54:22 +0000 (UTC)
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795769651;
-	b=iRUKfJf6/E3drvOvpKhQKbLLDdP5v991xf2GMzlaLLrcyJbajB6kFMXlT76peY927JFl
-	 4Xdawkoo3Eu27bQjJwCgkpnDc0/nAE3zPeBGJkh+O86l7olKZAVlNEJWxPn5CqPEGJP1Q
-	 yjPUBRBzi2etuHmolS13+Edomoi2f+pFwUfhtTLHFNgFg9TY9doaTw2NiY/LlUPeE9fVc
-	 keuArJhXUk4V9ppq+TdecDvaDTWvLJG7ntbJ2h3yF2ez8Kde7/2Pcp3geHSoL4micseGL
-	 q4j+nIZExoj7hkwjr4ktACluljLLY9Q+kX+zxPhF0qdVEnXDp+6VLrjNWdaCJxDfPSQ==
+	t=1795769662;
+	b=PvY1b95W2mkHQbNYG8xg0q+DdLcs7fQO7e4VNS1cdpY42AU8b3OFuB0X18y6V9dQEgQV
+	 UzMlzAapHw3EE/tJ60/P5ev4h7iS5YP5DIHT89hFwHmVeRj+Mzfr6/rZVUh3kQ29KoRrM
+	 9fApiBGppeN8gAdjK4tPkGBgFnt1j9i+/+NrZd589Sw628mHfBzTHQt4HpiroQ7Mgk9nH
+	 6nvq30HgeV4ZmhwylrRhWqKaKA0HCH5J/qqf7ejiOmiDtVjn6CU6pqK9CZ/bDy+fJpRRG
+	 Qj2A2GGPCEAkZ8y+/1QarkDZu222NkD5UXsgG3C94P5fGUHIgzi6P2fFhH45YbnYkTA==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795769651;
+	c=relaxed/relaxed; t=1795769662;
 	h=DKIM-Signature:Received:MIME-Version:Content-Type:Message-Id:
 	 References:In-Reply-To:From:Date:Subject:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=MozgWAmJiYZelXYhRlQQS57cavLfGnfmbdl0C8Y8WkA=;
-	b=r4+KZk32gZOV5Mfj3PyVh1S1XsdTfPoVgXU7rOsldG04/h+aZWJQHBik5TxM9lL1rq19
-	 t5r44XebcAaijhablh3a1tiK9m/N7uRp7L7H11kswPavBysynYGsHk6zcHdMC1tO+x1FS
-	 jDnu2qxyEHni4ZTeytXHnY9YN+4pDHlwPZJtSV8NCnPGGmhdbDnRLHJxwQlUd9OLFffip
-	 duN2AosG5Q+XCqiIjXwDvt1Hxnksf5LplIpYiNF2khCx6Vw7h3zt1IYDD0fSypAcEhdN2
-	 Y1o1R7S8a6I8Go2yjznEFxKZcU61vavQGLXdNnqe3iEy9YZR987De2des0iI0Pd3Feg==
+	bh=F2b0ehpmsNK6mt/ZugdpsGEMMdwYACb+vlVMYmwenGQ=;
+	b=RcIG6ThnLw1GtCx2kfEnt5lyKy6NzgiP29csYD9Od1PH/+Cc8WMv4H36OCq1RVbeeZ5v
+	 PjKLYfn9xpLmneIbafOQ6Hk+99TCN3HQKYstbnac80SjqUOIihnhAYXpmMxiri8xsspiP
+	 m3A1O9oevMBzSLc2Y+48R6eMelrcLBibhyvm5O7JFnmwW/wqvjvDv6ZRXj78sW0GfHKDV
+	 7v1d3JR4+zXDq0v9TFDt5vE1Rrcc5HExnBEKwDUYGZyxsd5By3Wu1Ykjv5OEbwGZ99Dcr
+	 wVFjzTDb7b46ahbVCSPiy7+57tRZ6eawN34wNZG8scpefRdjymjQ91BDJgOIWXyb8Jw==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 9AE001F0089A;
-	Fri, 27 Nov 2026 08:54:06 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id AE0771F0089F;
+	Fri, 27 Nov 2026 08:54:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795769651;
-	bh=MozgWAmJiYZelXYhRlQQS57cavLfGnfmbdl0C8Y8WkA=;
+	s=k20260515; t=1795769662;
+	bh=F2b0ehpmsNK6mt/ZugdpsGEMMdwYACb+vlVMYmwenGQ=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:Reply-To;
-	b=fqmJSbhKqn+A1eNR9bROOOAr2exT8ZcmYqClmdZiEXzR9u2OXNqkJ7rjt+AucVbam
-	 woNsySZ2Th4t2CvTI9SknMgwppm6M8UEQW6tGIFghAzRJkXeEauWrjtvew87sRYmq2
-	 /9kGXWBL0wp77QsyKLzGGj5EU0DpLDVEX0BGbEYIuXYOL9aGOoM36SV8tlt+DSXXUo
-	 kxP6MOhlVcMrM/8kKqeWDXObTaUjrJgRi2UkInbyvMp8sjXzoGPy6FzCzWbY6efnmB
-	 NalQ0zTv8ZjtESG0eNh+HcfY3LTaYDxip8cfU8PRuq1GktkjTd4AIeGlJlfNHKbVTy
-	 QPu9gpdUitcQg==
+	b=GHpmwokqoDMCedxGuS+M70b/i385vlcaxMTGKlUcmaUUCEvHOWX8nz7pKIjTeylAT
+	 k2rekF8nk5Mgz07sWTaxLe+q/h5XW0mG6Tgf0/mj9YzAdljzeIibTCf7y28mv8m9Z/
+	 hOis7qTlSCfE7nww2uzd++xp2SnxAVnbNRrzH/i94g7rzgGKwg5APmae1FrKVMsDX9
+	 1FcsTZUUaWSRbDahyOs4vyOxc/zQr/v+H5v3fQWL5qT3vWqCIZf/6M7mWojiB54AtX
+	 iVP01XVH4KdLHD29grAazGQ0/he05sr3XHoR9k6hn2wv8GYkBWFh7eC7P4FwUQQcip
+	 Olq3Qe2PG04lw==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id 293DF4B64E;
+	by lkml.kernel.org (Postfix) with ESMTP id E39854B681;
 	Fri, 27 Nov 2026 08:54:06 +0000 (UTC)
 MIME-Version: 1.0
-Message-Id: <20261127-yoc1s-ffmpeg-v1-1-f01fec79468b@certik.com>
+Message-Id: <20261127-yoc1s-ffmpeg-v1-7-f01fec79468b@certik.com>
 References: <20261127-yoc1s-ffmpeg-v1-0-f01fec79468b@certik.com>
 In-Reply-To: <20261127-yoc1s-ffmpeg-v1-0-f01fec79468b@certik.com>
 From: Dickson Wu via B4 Relay <devnull+dickson.wu.certik.com@kernel.org>
 Date: Thu, 26 Nov 2026 23:02:05 +0000
-Subject: [scarthgap][PATCH 1/7] ffmpeg: fix CVE-2026-135736
+Subject: [scarthgap][PATCH 7/7] ffmpeg: fix CVE-2026-135740
 To: openembedded-core@lists.openembedded.org
 Cc: Yoann Congal <yoann.congal@smile.fr>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795769564; l=2986;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795769565; l=2695;
  i=dickson.wu@certik.com; s=dickson-b4; h=from:subject:message-id;
- bh=GuxqvwhgVspx+ChWbJMq5zFQuumStwuxwgjYy0uKo0M=;
- b=Vnm50eIBmXI/K4HU+lRY3Qts8bT2U2tUsOuP6B9zieKkAqDEhJMrzdCgPlxo9FZyPLDUS2Qlz
- xyqETFIbPd6BpjVAAWLUdf+cE+w1UmqM1BuMZtjF6cvDAj25k9trQQG
+ bh=zdkqaBc9YVASTYHuvTkigBjoFyQo3qq7mR75JEq5aMo=;
+ b=KS0YTqgSro11Cup1gsmQVjh4GZWh6stJOpe3Lv3AbMAAhyJBArLgd5PUqfoWnj2ffaaGb2t/I
+ whSCuFXH+xsBNkFSZcmYmtWUzJGnH8zEMdweIS6v0p0iyi32egJ/D+c
 X-Developer-Key: i=dickson.wu@certik.com; a=ed25519;
  pk=fxH7FS4FdojeJSGLJzgKdfO51Rvr4EW30yinj2mc1vg=
 X-Endpoint-Received: by B4 Relay for dickson.wu@certik.com/dickson-b4 with
@@ -73,85 +73,74 @@ Reply-To: dickson.wu@certik.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 09:23:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251359
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 09:24:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251360
 
 From: Dickson Wu <dickson.wu@certik.com>
 
-The deband filter allowed the runtime coupling option for subsampled
-pixel formats, which could access outside chroma planes. Backport the
-upstream fix.
+The readeia608 filter could index its histogram with high-bit-depth
+samples outside its bounds. Backport the upstream fix.
 
-https://github.com/FFmpeg/FFmpeg/commit/24ad423d908c
+https://github.com/FFmpeg/FFmpeg/commit/df1ddf75db9a
 
 AI-Generated: OpenAI Codex, gpt-6.2-sol
 Signed-off-by: Dickson Wu <dickson.wu@certik.com>
 ---
- .../ffmpeg/ffmpeg/CVE-2026-135736.patch       | 45 +++++++++++++++++++
+ .../ffmpeg/ffmpeg/CVE-2026-135740.patch       | 35 +++++++++++++++++++
  .../recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb |  1 +
- 2 files changed, 46 insertions(+)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-135736.patch
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-135740.patch
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-135736.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-135736.patch
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-135740.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-135740.patch
 new file mode 100644
-index 00000000..6abf259f
+index 00000000..ef18e212
 --- /dev/null
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-135736.patch
-@@ -0,0 +1,45 @@
-+From 24ad423d908cd595c983b6c503ddb0ee94901ba2 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-135740.patch
+@@ -0,0 +1,35 @@
++From df1ddf75db9a1ff36a35019511e17f795cf20c55 Mon Sep 17 00:00:00 2001
 +From: Michael Niedermayer <michael@niedermayer.cc>
-+Date: Sat, 14 Nov 2026 05:23:08 +0100
-+Subject: [PATCH] avfilter/vf_deband: reject the coupling command for
-+ subsampled formats
++Date: Sat, 14 Nov 2026 00:36:46 +0100
++Subject: [PATCH] avfilter/vf_readeia608: clip high bit depth samples to the
++ histogram
 +
-+Fixes: out of array access
-+Fixes: QJKTLuAvDBVR
-+Fixes: AISLE-2026-0166-00123
++Fixes: out of array write
++Fixes: 1gH0Fg8kXAvn
++Fixes: AISLE-2026-0166-00264
 +
 +Found-by: Joshua Rogers (AISLE)
 +
-+Out of array read and write Replicated through UnModified FFmpeg with ASAN
++Out of array write Replicated through UnModified FFmpeg with ASAN
 +
-+CVE: CVE-2026-135736
-+Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/24ad423d908cd595c983b6c503ddb0ee94901ba2]
++CVE: CVE-2026-135740
++Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/df1ddf75db9a1ff36a35019511e17f795cf20c55]
 +
 +Signed-off-by: Dickson Wu <dickson.wu@certik.com>
 +---
-+ libavfilter/vf_deband.c | 7 +++++++
-+ 1 file changed, 7 insertions(+)
++ libavfilter/vf_readeia608.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/libavfilter/vf_deband.c b/libavfilter/vf_deband.c
-+index 2ff4fca6fa4de..6dd08dd10f80e 100644
-+--- a/libavfilter/vf_deband.c
-++++ b/libavfilter/vf_deband.c
-+@@ -438,11 +438,18 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
-+ static int process_command(AVFilterContext *ctx, const char *cmd, const char *args,
-+                            char *res, int res_len, int flags)
-+ {
-++    DebandContext *s = ctx->priv;
-+     int ret = ff_filter_process_command(ctx, cmd, args, res, res_len, flags);
++diff --git a/libavfilter/vf_readeia608.c b/libavfilter/vf_readeia608.c
++index 86e9019356aa8..2d23afdf196f9 100644
++--- a/libavfilter/vf_readeia608.c
+++++ b/libavfilter/vf_readeia608.c
++@@ -173,7 +173,7 @@ static void build_histogram(ReadEIA608Context *s, ScanItem *scan, const LineItem
++     memset(scan->histogram, 0, (s->max + 1) * sizeof(*scan->histogram));
 + 
-+     if (ret < 0)
-+         return ret;
-+ 
-++    if (s->coupling && (s->shift[0] || s->shift[1])) {
-++        av_log(ctx, AV_LOG_ERROR, "coupling needs a pixel format without chroma subsampling\n");
-++        s->coupling = 0;
-++        return AVERROR(EINVAL);
-++    }
-++
-+     return config_input(ctx->inputs[0]);
++     for (int i = LAG; i < len + LAG; i++)
++-        scan->histogram[line[i].input]++;
+++        scan->histogram[FFMIN(line[i].input, s->max)]++;
 + }
 + 
++ static void find_black_and_white(ReadEIA608Context *s, ScanItem *scan)
 diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb
-index 849835c8..a44b407b 100644
+index 2c06762b..99585cd5 100644
 --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb
 +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb
-@@ -32,6 +32,7 @@ SRC_URI = " \
-     file://CVE-2024-35369.patch \
-     file://CVE-2025-25473.patch \
-     file://CVE-2025-22921.patch \
-+    file://CVE-2026-135736.patch \
+@@ -38,6 +38,7 @@ SRC_URI = " \
+     file://CVE-2026-135725.patch \
+     file://CVE-2026-135734.patch \
+     file://CVE-2026-135738.patch \
++    file://CVE-2026-135740.patch \
  "
  
  SRC_URI[sha256sum] = "a231e3d5742c44b1cdaebfb98ad7b6200d12763e0b6db9e1e2c5891f2c083a18"
