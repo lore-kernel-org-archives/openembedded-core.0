@@ -1,104 +1,135 @@
-Received: from mail-qk1-f182.google.com (mail-qk1-f182.google.com [209.85.222.182])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15198.1795704158583041744
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15322.1795704519942266772
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Nov 2026 06:42:38 -0800
+ Thu, 26 Nov 2026 06:48:40 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre.com header.s=google header.b=MBarolXM;
- spf=pass (domain: baylibre.com, ip: 209.85.222.182, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk1-f182.google.com with SMTP id af79cd13be357-93f2f2edb19so592143685a.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 06:42:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1795704157; x=1796308957; darn=lists.openembedded.org;
-        h=in-reply-to:references:subject:from:to:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=CQOOduICbj6gJDRl8DNp9TgUdlOo40h814sg6df3lj8=;
-        b=MBarolXMbj+oN8Fzr3kvNMyIqb8lG26mzWJqu5anss8ORCwr/MN8RolSD+Yw3Unwaq
-         20aWXKQG3ipFYFTj7PGjbhWknaN/d+nX5eSTUty7thvxJ2Xu0GRzNH6mZHG615H5F/K1
-         D9tmExqWLWHZ14oEA7IVnEEZcS11VUy7qFWuXL2a9FXGy68exNiI3sPvZkVpQyxy2XaW
-         CbmTq5kgQYa+GIs8M+ThUMmJUtUa6V6T3QgXJx+J5NcP8NtXpGxuP0yeCkxWwQ+cj9ec
-         bqPi45MSMRW8nPw7CU4TEr42/elZG3wwzTJaF7pmWz2FdyAQdx83rt/8/c4kSEQYcZDl
-         ka/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795704157; x=1796308957;
-        h=in-reply-to:references:subject:from:to:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=CQOOduICbj6gJDRl8DNp9TgUdlOo40h814sg6df3lj8=;
-        b=q12AXJ53LAU4NdTxxF3BcXwTLv3vpAyFLYTakB5CQL66eSUSbCiBSgZFPWwEKoAIla
-         EH66shqLvI2tD6+FfDzPJXVE+jC2nP25+r8OGTMNNVLjIGLtv27sb1VsJCvSHM0/KkFb
-         Yvj0Nsk7GTDy2ySjeAd0t3SgLFcplwyKiPLiQc36sNDmJQ/DCaTmK1mYQGvAR8KceuPr
-         veSJmTl7Lcg5IrJwhVp6w3suZ4BbVrv+HSB9cNXphgsBQj5isdHsR/+LYKr5DW2Gydms
-         t9dJQ5TgH6VQCO4yrSR+RWhBqQ0Aa//vT8yJQldx1nEJ5ajq9AvoCccbW7YlrsN/t1zx
-         XIKg==
-X-Forwarded-Encrypted: i=1; AL+hErH6B/gwa1VC9/78o8nc03g+61aSzS150k2VyvX3q3Kb/2w68JPHi4bMnacjmWGpwBra45Xl0JsOx7MBFf3V3sNiFw==@lists.openembedded.org
-X-Gm-Message-State: APuU4Z+cfapyvsz0WaAEDkLc1k8DBNuckLloYibXJtB4YaL9rmNmpefH
-	3BZVqKvGiYUf1+qrDh29c7Z/7n2Csh+thJTuYzRUWeLZXQMZI/spZt4CyCFkytz8VoQ=
-X-Gm-Gg: AZFdTZdGmA6FYZpahSg3Qnaf8WIcqZVxSz5lb5e+1nUOD/O26wrAHFO/1OQ9TsRYWZk
-	C/Sy7BPvD8gW2rp30awBrjVV3Lm5V0ft4KKDPq6ulyzXBR13caanzthKMCg506/AYRcMU9dNmbi
-	9vjCDmhOeGDEXSCV6rJJUnb8iHudGl+0n7gyLlO0UfKC3I3TiFU688QZK7ycSn0t5TbxsZCJbdz
-	wt3PH+ivhjj72mIVcGeYYLrlGe93WJ+OglE/czizdhv/1xWbZo0SeMAQ9scS+Zqb5UdhbUP7DVF
-	BWb9kWAdOcfEGMfZ0mVDJsq62a4NrtFhJR5BKNSQ0AASFMlSgQXJ2Ju6yjSdGCcpWTUKKw2o8Zd
-	PQ8hGW5Y4+ns/sDVHJe+dGKkw1hka5Wd6qYNLBCa9e8ee7B9iVO+wWtLKBG8QKmSxa+7iGxdt81
-	MGMpeo2Padz84QE78yHRZEH8lsvtkZ9WxxMYXgl/wb9q3m0Fm3FUGf4AItdnUe1+YQC4cN7xYsB
-	96bj3jrYCxAPnIjiYo5FYKIPX+1iB9hoCL2KsiG1JhjjQIfLa5bZe2tttewOe9lAyyKrBzDL5zx
-	NcNYPWtkhipb3ujVaMYnHbleGnsPIYtzA99bknIqLrq3LnomdLKo8daGFab6rAnz
-X-Received: by 2002:a05:620a:8398:b0:93f:22f4:f0cb with SMTP id af79cd13be357-949bab1dae7mr3892821585a.43.1795704157409;
-        Thu, 26 Nov 2026 06:42:37 -0800 (PST)
-Return-Path: <tgamblin@baylibre.com>
-Received: from localhost ([2001:1970:3847:e000:1977:be2f:4a71:2892])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-949bb031601sm1582488285a.6.2026.11.26.06.42.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Nov 2026 06:42:36 -0800 (PST)
+ dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=Hh4JD5q1;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=slcD/8WP;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.159, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 077A614002DC
+	for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 09:48:39 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-09.internal (MEProxy); Thu, 26 Nov 2026 09:48:39 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1795704518;
+	 x=1795790918; bh=9xUcsTkH29ugdPBTA78iOMv1Z18FD9QLlKb7lT8r/pI=; b=
+	Hh4JD5q1g7OTZDv+9tFkBax79x5lleAaLgFvGie+G/D1zHg0fAwWsHnQ+iBRIqJ9
+	7DZleOjr8RnqGHg9LS/WxeRxMPs8JbpesfVI/X00H9Lms8+8xcJOkbObSqY50Ymw
+	zl2yerUxxPOlxPoUScUit2Wdl6h3cfAMRkLUuGP5K/GehkpVKNZp/Yc1+mIzIht2
+	0T09HWXkfQy8KdXjtHEZccZ/vfQp/lD64EC5ce/nr40mXSor33OC2YFuiy+Yq5rf
+	LDNfp452TWVF+G+nkPdQXxWPhXdzv1/N3GqMfRYpHbujdg905vq4ZxIUjlaVVSWE
+	GitgAj5bVSGpD9e/G1vX1w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795704518; x=
+	1795790918; bh=9xUcsTkH29ugdPBTA78iOMv1Z18FD9QLlKb7lT8r/pI=; b=s
+	lcD/8WPiiavFOJdJMS13n4T0LS2/mHbXjq1aZdZUN7zX4zDhGVYruck9+Pimx7zI
+	CTmV2HRSsryKB63vAUXrxRlvhsmjjMvZ4hHqj1OsnALOYwlgrARY8jZgRmU76nXU
+	yA/p4RKZV570mrV68en1T/+ToXZ/l7jOUCBjREIxJQIldTSEQN5w9rCTFr3dE/tf
+	vo4jXWLucyZ//SsNdu/h+Ekmc8KNPD76k6jLdjPL86CxFa0k2TOM0wjENzCDZBvR
+	xKtUSH5K5mgp/MILAC6OMT3fTePQ5PEvlm9EAQYZmus3EHIZFVuld/tEJDVYQ3z2
+	FmG2pyGE6qW06nzCldpLg==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=pbarker.dev a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1795704518; d=pbarker.dev;
+	mf=PHBhdWxAcGJhcmtlci5kZXY+;
+	rt=PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+;
+	s=fm2:rsa-sha256:RVPCqea7YESRtJrlvd+JOZlBjOHl+/JGw/CnlmU9SLpEIHz
+	t5LhyuzYrLoAVNYjg5SuoQMed7ZhS4VQgnabjjwXH9NzC5LmdFhnxFAU7fR3m49q
+	njSY1KBJ4qN+7DZECMJmiTErJqf+rQJ7e9OM5m0iJORhZfHj90kuhhrnSX4OWqbC
+	YYjD9UVVMt+DScbjcAf+nNrd2maZIYQdNoBwNDQp4MzyEioV1fjx76uABlbrN4kU
+	zyhua4FP5tCrF522upecedqOf8+uXY+vGXL7D8UDdrkHW020A1dEUuhsktAEJIBB
+	S7X1zGXi+7T8HrUQBNLv4JjtYdQiH4LpvEP3Hyg==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:atWmLjC5rIrRhnT6zHzg6FB6xPnX2KVMnvGCy3O/LYc=:42RQHfbFljNQ/YFtwO0jnJ7qfxw+F22U1Dymml0vJXc=;
+X-ME-Sender: <xms:xkYIa6LfXM5opkgHgSyVLFQXdXNYEk-a-ms1Iv5l9VqN0o0_ey_oow>
+    <xme:xkYIa5Cq-w7Dq2ijMXjPQRl47hcdHWNryEbmyMMLLMW25s7cQ-7A6AB1tO7GuAB4q
+    pdKiLugLgGQA2Oz6Cng7yZhJ2irj9Z2dW3YxZIrjMXvOrOhmzsr7sdH>
+X-ME-Received: <xmr:xkYIazCSNzymOT37Va0mUyIc9FZZpauD9TnYWoQG2yjgiz2cEy5Ka7T7_Kb5mz_RbaYtPmeQ3j-LhowBwc6JZwmM1O9E>
+X-ME-Proxy-Cause: dmFkZTFUj0PNzIBZxmhROHm/0+lwD8u1MACL9fQpeWnj7nP3kd6me04H5yeCDFJGNxi8Mx
+    FQENI+AUw+2b9b/abzAMm7E4zAyMGwzE6TlNlAmQiUZKuutGqIdjcPQarWgvWWLN9eN+0F
+    86hSyF6361cjhAjdn4jwGWm8dR7At8/ffqrceVCUWr8Z5MOhk01FGDgJ+882pKDbMGnDw7
+    VzA5gBWdCnu118svaeG3cIreij9Bl9t+aXuo4dOkEVYx5+HVpmFBXHwPnVrDqqiht0++zX
+    +K2+XEg/X6lkSkrA1NBlmliaVNDlcZYI5Tj8kkRg8/J/nrYNHLkwYmLCY6PH6lYfjWsUsY
+    meXLCKOqPVA/QdQicBCmPIZhE+TxJ977DFxn7TPwQwkDdLelI6Td1mVb4/mpLIi18Kr0qk
+    N7iin1Zf3oI2PjcCYde+1RiA3SBQZLh0bFHPgtvkADG2XqXgQ8yDIa1gkx1Tu8C2X3fViE
+    PuV642wYBfDEGkZVlpgAuRhqS0KhQi6toeVFCNBQ99Te993MKUJrYQbQWfQ5jPXc3larZ2
+    C9koLJyFzPDC70A0ZMtk+gZcYBZ8WEprDJ68H0MweNZdFFLy8n+dHwgNWrKi3Mb1LM3lOx
+    pMoZFk7L7DdsLTXN+g6DjjrbEMNEIN/4WdcRgAw03KwLMuzH1aCV31+LuqPA
+X-ME-Proxy: <xmx:xkYIa7CI4XoLaaLPsmRigCQvT7gF37ZBoYzztRvPz_QZWmH-T4t9fg>
+    <xmx:xkYIa-oPK8qsstQPfZJ-5gDbyxZ16xZ5ZAQp_xM-5JuGzD5m6T6dJw>
+    <xmx:xkYIa1lcVmAZQRTPkrOhY0Yt9OS1qfl8aIgJrnwkhmGFMje2G9vP0Q>
+    <xmx:xkYIa-yPAkK_TrRxZBBmYGmMfj_3UCjmz1sBHl1ZkY2v_qSAjrjhAw>
+    <xmx:xkYIa2folmu7xhrWVrQvjczg6rqqsi7UIpejP_TxOgphfj9nQzUZ22td>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 26 Nov 2026 09:48:38 -0500 (EST)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 26 Nov 2026 09:42:35 -0500
-Message-Id: <DN57ZWGII9NM.2M4OO011CBHS5@baylibre.com>
-To: "Paul Barker" <paul@pbarker.dev>, "Trevor Gamblin"
- <tgamblin@baylibre.com>, <openembedded-core@lists.openembedded.org>
-From: "Trevor Gamblin" <tgamblin@baylibre.com>
-Subject: Re: [OE-core][PATCH 1/6 v2] hyperfine: add recipe
+Date: Thu, 26 Nov 2026 14:48:36 +0000
+Message-Id: <DN584IMPJ2I4.1H8SGQSEPJQRA@pbarker.dev>
+Cc: "Chris Laplante" <chris.laplante@agilent.com>, "Peter Kjellerstedt"
+ <peter.kjellerstedt@axis.com>, "Richard Purdie"
+ <richard.purdie@linuxfoundation.org>
+Subject: Re: [PATCH] oeqa/selftest: clear SANITY_TESTED_DISTROS instead of
+ failing
+From: "Paul Barker" <paul@pbarker.dev>
+To: "Babanpreet Singh" <bbnpreetsingh@gmail.com>,
+ <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.22.0
-References: <20261125160821.3028875-1-tgamblin@baylibre.com>
- <20261125160821.3028875-2-tgamblin@baylibre.com>
- <DN561RGMU8LL.30LI4VXRH7MOV@pbarker.dev>
-In-Reply-To: <DN561RGMU8LL.30LI4VXRH7MOV@pbarker.dev>
+References: <20261114185520.6-1-bbnpreetsingh@gmail.com>
+In-Reply-To: <20261114185520.6-1-bbnpreetsingh@gmail.com>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 14:42:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251309
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 14:48:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251310
 
-On Thu Nov 26, 2026 at 8:10 AM EST, Paul Barker wrote:
-> On Wed Nov 25, 2026 at 4:08 PM GMT, Trevor Gamblin wrote:
->> hyperfine is a command-line tool for benchmarking commands across
->> multiple runs, written in Rust. It supports configuring the number of
->> runs, enabling 'warmups', parameterizing runs, and more, with reasonable
->> defaults (e.g.  running at least 10 passes of a command when the
->> '--runs' argument is not given).
->>
->> More info at:
->>
->> https://github.com/sharkdp/hyperfine
+On Sat Nov 14, 2026 at 6:55 PM GMT, Babanpreet Singh wrote:
+> oe-selftest refuses to run when SANITY_TESTED_DISTROS is set, and
+> poky.conf sets it:
 >
-> Hi Trevor,
+>   Please unset SANITY_TESTED_DISTROS in order to run oe-selftest
 >
-> Hyperfine is incredibly useful during development, but probably isn't
-> going to be shipped in most production images. Nothing else in OE-core
-> depends on it, and it's unlikely that anything else will depend on it in
-> the future as we typically disable benchmarking tests in ptests.
+> Clear it in the test build directory with :forcevariable, so a value
+> set through an override goes too, and drop the check.
 >
-> I think this recipe is probably better suited for meta-oe, unless I'm
-> missing the reason for including it in OE-core.
+> [YOCTO #11933]
 
-I can submit it there. My motivation for submitting it to oe-core first was
-because I wondered if it might be useful for us to have an option to enable
-using hyperfine in ptests/testimage runs for triage purposes.
+Hi,
 
-I think patches 3-6 should still go in, since they apply more generally to
-recipes using ptest-cargo.bbclass.
+We discussed this during the patch review call. This is a minimal fix
+for the specific error message seen when SANITY_TESTED_DISTROS is set
+when running oe-selftest, but it's not a complete fix for the issues we
+have with oe-selftest repeatability.
 
-Trevor
->
-> Best regards,
+Ideally, oe-selftest should construct a new build environment from
+scratch and copy in only the specific configuration that it needs from
+the users existing conf directory. Implementing that is probably
+non-trivial as it requires understanding the selftest framework and
+figuring out what the tests actually need in different contexts. There
+are also open questions to resolve such as whether the user's site.conf
+file should be used as-is, even if we're dropping most of what's in
+their local.conf file.
 
+That is obviously a bigger set of changes and needs discussion. In the
+meantime we'd rather not take this patch as it would just mask actual
+problems.
+
+Apologies!
+
+Best regards,
+
+--=20
+Paul Barker
 
