@@ -1,143 +1,470 @@
-Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10853.1795686686731934081
- for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Nov 2026 01:51:27 -0800
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pengutronix.de header.s=20260414 header.b=RJXhdKV/;
- spf=pass (domain: pengutronix.de, ip: 185.203.200.13, mailfrom: mfe@pengutronix.de)
-Received: from ptx.office.stw.pengutronix.de (ptx.office.stw.pengutronix.de [IPv6:2a0a:edc0:0:900:1d::109])
-	(Authenticated sender: relay-from-ptx.office.stw.pengutronix.de)
-	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id E6834201941;
-	Thu, 26 Nov 2026 10:51:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1795686682;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FDmitCSsaZEi2r7cUYILwCnVA0oGn2Oqq7htHei5VuQ=;
-	b=RJXhdKV/Ded1vxEScZ2Z2ZQq8m59aHauLKZbJYwqACUkfArocyeOBfwLeSoH/3KiKFrOn4
-	GxbZgvJpld1pAlenj2bp4wy/AxWwMAjqQKPXHxAZl2YRxAoofLgc9Eac/+Ae+vgVw88J1G
-	tya9NG6VTomUO2kejZtFLzO8l3xw6J2v+gYA0huab4/xd2O9U3WJJVBX8QGEjGjXRcky/c
-	Uq7kuXMseI2IVzMlr2u5dukmLy1TL2mip+DW4TgViS+QmuUVc7zPA9+NCjEawRm9efupWK
-	LW/v1vom4auJfr1Eomf7bVvt11ifxfAZD4ID/15VVySX9UZ9U5uvLKWtcUDNtw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1795686682;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=FDmitCSsaZEi2r7cUYILwCnVA0oGn2Oqq7htHei5VuQ=;
-	b=VgsgTGmrC0LRGm4lFwfWu6VC5CyV1VYKXVo+WYis/oftkbeBH43c76sAfP77HO/DkGMphh
-	ahO3+XG25IDzfZQjBmGrVzUxb6SltbV0f637fKWX5t/t5Ej3qTmVSgJBcFpbmi4bsC6ss4
-	5ZQjGDsSNbE/t7mZxwb/M5+yz6HbK06p411srITZSoRlvUYI+epQveGPCLIkgQfl7+Ue7X
-	Taun0G2gcbZbgQAusFjfAlasA0daiqe7XkMpdTBkk+Du6f+u88+V5jBdaPI0pqNeGOLhLn
-	4jYJHMIKEbsOyaQ/TtXqxRIvSpVgu5WIcKDiRv+bCK7wDMMy1y0iKVZ3lC9KtQ==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=relay-from-ptx.office.stw.pengutronix.de smtp.mailfrom=mfe@pengutronix.de
-ARC-Seal: i=1; s=20260414; d=pengutronix.de; t=1795686682; a=rsa-sha256;
-	cv=none;
-	b=UnR7Mh6OUaeyz7KIxp+4m0Dy4q6YubbONTkETKuAtQNXlbcz0FUhumxK3Khx8XoFGTw5a+
-	mtW8KOrA6JTFKYVcPQWHk2HXY+g9+5R+R4E85WmB9m48eygd3916pMcxhsOonvBoGmkH3D
-	zhu2ZrBCvOpFBZc7mRNpS9xr0hnkwg0MQg6fTqQwJMuVvInMEzPDoy77u9ZNPkYtv8Eu+D
-	TvZh/PHKpC2DIht+3ydHJ9wZzax7a9kk6G/Q0o/LiJrXFH+qk6RCM1TQiZnSrJwQVEHn5T
-	ebQyq1qUMIeSqXG6Cp0/pq0g2vCXKAkq19H6iU+/Ky2QqQP1K5enl7RE3+jrmA==
-Received: by ptx.office.stw.pengutronix.de (Postfix, from userid 1064)
-	id C99E71BF383; Thu, 26 Nov 2026 10:51:22 +0100 (CET)
-Date: Thu, 26 Nov 2026 10:51:22 +0100
-From: Marco Felsch <m.felsch@pengutronix.de>
-To: Paul Barker <paul@pbarker.dev>
-Cc: openembedded-core@lists.openembedded.org, peter.kjellerstedt@axis.com, 
-	yocto@pengutronix.de
-Subject: Re: [PATCH v3] classes/cargo-update-recipe-crates: support multiple
- Cargo.lock search directories
-Message-ID: <mgcpigspsivy5garwzkiya6f3mrrscheag6kgy2ejumly7j7ea@mhcday4eyien>
-References: <20261126-mfe-multi-cargo-lock-files-v3-1-7ee885214204@pengutronix.de>
- <DN512WUV1N5T.37DXG9FP6FCI6@pbarker.dev>
+Subject: Re: [blacksail][PATCH v2 1/4] curl: fix CVE-2026-87865
+To: openembedded-core@lists.openembedded.org
+From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
+X-Originating-Location: Mumbai, Maharashtra, IN (151.186.177.21)
+X-Originating-Platform: Windows Edge 158
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <DN512WUV1N5T.37DXG9FP6FCI6@pbarker.dev>
+Date: Thu, 26 Nov 2026 02:30:14 -0800
+References: <20261125132619.3518022-1-joaomarcos.costa@bootlin.com> <20261125132619.3518022-2-joaomarcos.costa@bootlin.com>
+In-Reply-To: <20261125132619.3518022-2-joaomarcos.costa@bootlin.com>
+Message-ID: <1290473.1795689014694184643@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="B60ctxgXdFHNgrnJnHtP"
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 09:51:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251290
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 10:30:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251291
 
-On 26-11-26 09:17, Paul Barker wrote:
-> On Thu Nov 26, 2026 at 8:37 AM GMT, Marco Felsch wrote:
-> > Recipes using cargo's -Z build-std must also vendor the standard
-> > library's dependencies. The std sources staged by rust-native
-> > (.../rustlib/src/rust/library) ship a Cargo.lock but no vendor
-> > directory, so those crates need crate:// entries in SRC_URI as well.
-> > Until now only a single directory could be scanned (CARGO_LOCK_SRC_DIR),
-> > which forced the std crate list to be maintained by hand and go stale on
-> > toolchain upgrades, breaking do_compile with:
-> >
-> >   error: failed to select a version for the requirement
-> >   `cfg-if = "^1.0"` (locked to 1.0.4)
-> >
-> > Keep the existing CARGO_LOCK_SRC_DIR and extend it to support a
-> > space-separated list of directories, to allow:
-> >
-> >   CARGO_LOCK_SRC_DIR = "${S} ${STAGING_LIBDIR_NATIVE}/rustlib/src/rust/library"
-> >
-> > This way the behavior can be backported.
-> >
-> > Crates found in multiple lockfiles are listed only once, in the section
-> > of the first Cargo.lock containing them; conflicting checksums for the
-> > same crate version now fail the task. The crates.io warning now names the
-> > lockfile it came from. Output for recipes with a single lockfile is
-> > unchanged.
-> >
-> > Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
-> > ---
-> > Hi,
-> >
-> > this patch adds the support to reference multiple Cargo.lock files which
-> > is handy once a recipe want to rebuild the std-crate for minimized
-> > special purpose builds.
-> > ---
-> > Changes in v3:
-> > - Link to v2: https://lore.kernel.org/r/20261124-mfe-multi-cargo-lock-files-v2-1-8fd15cf316aa@pengutronix.de
-> > - Convert to space-separated list to simplify :remove handling and align
-> >   with standard bitbake behavior
-> >
-> > Changes in v2:
-> > - Link to v1: https://lore.kernel.org/r/20261021-mfe-multi-cargo-lock-files-v1-0-d3510d4ad963@pengutronix.de
-> > - Drop mainlined fixes patch
-> > - Re-use CARGO_LOCK_SRC_DIR to make it backportable
-> > - Add support for v1 Cargo.lock file format
-> > ---
-> >  .../cargo-update-recipe-crates.bbclass             | 87 ++++++++++++++++------
-> >  1 file changed, 65 insertions(+), 22 deletions(-)
-> >
-> > diff --git a/meta/classes-recipe/cargo-update-recipe-crates.bbclass b/meta/classes-recipe/cargo-update-recipe-crates.bbclass
-> > index 0767b566ee287d11dc2e1e6d0aeea0a0d3b225b8..092dce21fe27bd1c693e8e68c4d6405ad2f03c71 100644
-> > --- a/meta/classes-recipe/cargo-update-recipe-crates.bbclass
-> > +++ b/meta/classes-recipe/cargo-update-recipe-crates.bbclass
-> > @@ -9,6 +9,10 @@
-> >  ## This class is used to update the list of crates in SRC_URI
-> >  ## by reading Cargo.lock in the source tree.
-> >  ##
-> > +## Both the current Cargo.lock format (checksum stored per [[package]])
-> > +## and the old v1 format (checksums stored in the [metadata] table as
-> > +## "checksum <name> <version> (<source>)" checksum-val) are supported.
-> 
-> Hi,
-> 
-> It looks like this patch is making two changes at once: Adding support
-> for multiple Cargo.lock dirs and adding support for multiple Cargo.lock
-> format versions. There's no mention of the second change in the commit
-> message.
-> 
-> This would be better as two separate patches.
+--B60ctxgXdFHNgrnJnHtP
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Sure, I hoped that it can go in one patch since it's only a minor
-addition. However, I get your point.
+Hi Joao, Yoann,
 
-Regards,
-  Marco
+I noticed that test3500 invokes %SRCDIR/libtest/test3500.pl in its precheck=
+,
+but the Blacksail recipe does not install this script into the ptest packag=
+e.
 
-> Best regards,
-> 
-> -- 
-> Paul Barker
-> 
+Adding it to EXTRA_DIST includes it in the source distribution;
+the recipe still needs to install it explicitly. Otherwise, the
+precheck cannot run when libssh2/SFTP support is enabled.
+
+Could you include the following in do_install_ptest() , after
+creating the tests/libtest directory?
+
+My Wrynose v2 backport already includes this installation:
+https://lists.openembedded.org/g/openembedded-core/message/250999
+
+Thanks,
+Darsh
+
+On Wed, Nov 25, 2026 at 06:57 PM, Joao Marcos Costa wrote:
+
+>=20
+> This vulnerability, marked as High [1], was fixed upstream [2] since
+> v8.23.0.
+>=20
+> Backport the fix to curl v8.22.0.
+>=20
+> [1] https://nvd.nist.gov/vuln/detail/cve-2026-87865
+> [2] https://curl.se/docs/CVE-2026-87865.html
+>=20
+> Signed-off-by: Jo=C3=A3o Marcos Costa (Schneider Electric)
+> <joaomarcos.costa@bootlin.com>
+> ---
+> .../curl/curl/CVE-2026-87865.patch | 216 ++++++++++++++++++
+> meta/recipes-support/curl/curl_8.22.0.bb | 1 +
+> 2 files changed, 217 insertions(+)
+> create mode 100644 meta/recipes-support/curl/curl/CVE-2026-87865.patch
+>=20
+> diff --git a/meta/recipes-support/curl/curl/CVE-2026-87865.patch
+> b/meta/recipes-support/curl/curl/CVE-2026-87865.patch
+> new file mode 100644
+> index 0000000000..32a7441c95
+> --- /dev/null
+> +++ b/meta/recipes-support/curl/curl/CVE-2026-87865.patch
+> @@ -0,0 +1,216 @@
+> +From a7622dc02ccc01f7438227f1920db08268a6ccb0 Mon Sep 17 00:00:00 2001
+> +From: Bobbeh Rhino <bobbeh@rhino.Rhino>
+> +Date: Tue, 8 Sep 2026 06:33:27 -0400
+> +Subject: [PATCH] libssh2: match hashed known_hosts entries by host
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=3DUTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +libssh2 does not expose the plaintext name for hashed entries. Check
+> +each entry key against the requested hostname before using its key type.
+> +Otherwise an unrelated hashed entry can select the wrong algorithm.
+> +
+> +Add an SFTP regression test 3500 with an unrelated hashed entry before
+> +the requested host.
+> +
+> +Closes #22874
+> +
+> +CVE: CVE-2026-87865
+> +Upstream-Status: Backport [ https://github.com/curl/curl/commit/323c184b=
+6bdf5b1988a10c0a61560
+> ]
+> +
+> +Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
+> +---
+> + lib/vssh/libssh2.c | 16 +++++++--
+> + tests/data/Makefile.am | 2 ++
+> + tests/data/test3500 | 47 +++++++++++++++++++++++++
+> + tests/libtest/Makefile.am | 3 +-
+> + tests/libtest/test3500.pl | 72 +++++++++++++++++++++++++++++++++++++++
+> + 5 files changed, 136 insertions(+), 4 deletions(-)
+> + create mode 100644 tests/data/test3500
+> + create mode 100755 tests/libtest/test3500.pl
+> +
+> +diff --git a/lib/vssh/libssh2.c b/lib/vssh/libssh2.c
+> +index 24a651d30e..cd28cde76f 100644
+> +--- a/lib/vssh/libssh2.c
+> ++++ b/lib/vssh/libssh2.c
+> +@@ -685,9 +685,19 @@ static CURLcode ssh_force_knownhost_key_type(struct
+> Curl_easy *data,
+> + break;
+> + }
+> + }
+> +- else {
+> +- found =3D TRUE;
+> +- break;
+> ++ else if(store->key) {
+> ++ int keycheck =3D libssh2_knownhost_checkp(
+> ++ sshc->kh, conn->origin->hostname,
+> ++ (conn->origin->port !=3D PORT_SSH) ? conn->origin->port : -1,
+> ++ store->key, strlen(store->key),
+> ++ LIBSSH2_KNOWNHOST_TYPE_PLAIN |
+> ++ LIBSSH2_KNOWNHOST_KEYENC_BASE64 |
+> ++ (store->typemask & LIBSSH2_KNOWNHOST_KEY_MASK),
+> ++ NULL);
+> ++ if(keycheck =3D=3D LIBSSH2_KNOWNHOST_CHECK_MATCH) {
+> ++ found =3D TRUE;
+> ++ break;
+> ++ }
+> + }
+> + }
+> + }
+> +diff --git a/tests/data/Makefile.am b/tests/data/Makefile.am
+> +index 3b32fce7bb..4a27927b1c 100644
+> +--- a/tests/data/Makefile.am
+> ++++ b/tests/data/Makefile.am
+> +@@ -2090,6 +2090,8 @@ TESTCASES =3D \
+> + test3400 \
+> + test3401 \
+> + \
+> ++ test3500 \
+> ++ \
+> + test4000 \
+> + test4001 \
+> + \
+> +diff --git a/tests/data/test3500 b/tests/data/test3500
+> +new file mode 100644
+> +index 0000000000..1bcf3bc17d
+> +--- /dev/null
+> ++++ b/tests/data/test3500
+> +@@ -0,0 +1,47 @@
+> ++<?xml version=3D"1.0" encoding=3D"US-ASCII"?>
+> ++<testcase>
+> ++<info>
+> ++<keywords>
+> ++SFTP
+> ++known_hosts
+> ++libssh2
+> ++</keywords>
+> ++</info>
+> ++
+> ++# Server-side
+> ++<reply>
+> ++<data>
+> ++Test data
+> ++for hashed known hosts
+> ++</data>
+> ++</reply>
+> ++
+> ++# Client-side
+> ++<client>
+> ++<server>
+> ++sftp
+> ++</server>
+> ++<features>
+> ++sftp
+> ++libssh2
+> ++!badlibssh
+> ++</features>
+> ++<precheck>
+> ++%PERL %SRCDIR/libtest/test3500.pl %LOGDIR/server/curl_host_key.pub
+> %LOGDIR/known%TESTNUMBER "[%HOSTIP]:%SSHPORT"
+> ++</precheck>
+> ++<name>
+> ++SFTP matches requested hashed known_hosts entry
+> ++</name>
+> ++<command>
+> ++--knownhosts %LOGDIR/known%TESTNUMBER --key
+> %LOGDIR/server/curl_client_key --pubkey %LOGDIR/server/curl_client_key.pu=
+b
+> -u %USER: sftp://%HOSTIP:%SSHPORT%SFTP_PWD/%LOGDIR/file%TESTNUMBER.txt
+> ++</command>
+> ++<file name=3D"%LOGDIR/file%TESTNUMBER.txt">
+> ++Test data
+> ++for hashed known hosts
+> ++</file>
+> ++</client>
+> ++
+> ++# Verify data after the test has been "shot"
+> ++<verify>
+> ++</verify>
+> ++</testcase>
+> +diff --git a/tests/libtest/Makefile.am b/tests/libtest/Makefile.am
+> +index 74eb150742..8fdf484b55 100644
+> +--- a/tests/libtest/Makefile.am
+> ++++ b/tests/libtest/Makefile.am
+> +@@ -49,7 +49,8 @@ EXTRA_DIST =3D CMakeLists.txt $(FIRST_C) $(FIRST_H)
+> $(UTILS_C) $(UTILS_H) $(TESTS_
+> + test1022.pl \
+> + test307.pl \
+> + test610.pl \
+> +- test613.pl
+> ++ test613.pl \
+> ++ test3500.pl
+> +
+> + CFLAGS +=3D @CURL_CFLAG_EXTRAS@
+> +
+> +diff --git a/tests/libtest/test3500.pl b/tests/libtest/test3500.pl
+> +new file mode 100755
+> +index 0000000000..d95f54cecf
+> +--- /dev/null
+> ++++ b/tests/libtest/test3500.pl
+> +@@ -0,0 +1,72 @@
+> ++#!/usr/bin/env perl
+> ++#**********************************************************************=
+*****
+>=20
+> ++# _ _ ____ _
+> ++# Project ___| | | | _ \| |
+> ++# / __| | | | |_) | |
+> ++# | (__| |_| | _ <| |___
+> ++# \___|\___/|_| \_\_____|
+> ++#
+> ++# Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
+> ++#
+> ++# This software is licensed as described in the file COPYING, which
+> ++# you should have received as part of this distribution. The terms
+> ++# are also available at https://curl.se/docs/copyright.html.
+> ++#
+> ++# You may opt to use, copy, modify, merge, publish, distribute and/or
+> sell
+> ++# copies of the Software, and permit persons to whom the Software is
+> ++# furnished to do so, under the terms of the COPYING file.
+> ++#
+> ++# This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF
+> ANY
+> ++# KIND, either express or implied.
+> ++#
+> ++# SPDX-License-Identifier: curl
+> ++#
+> ++#######################################################################=
+####
+>=20
+> ++use strict;
+> ++use warnings;
+> ++
+> ++use Digest::SHA qw(hmac_sha1);
+> ++use MIME::Base64 qw(encode_base64);
+> ++
+> ++sub errout {
+> ++ print $_[0] . "\n";
+> ++ exit 1;
+> ++}
+> ++
+> ++if(@ARGV !=3D 3) {
+> ++ errout "Usage: $0 host-public-key known-hosts-file target";
+> ++}
+> ++
+> ++my ($hostkey_file, $knownhosts_file, $target) =3D @ARGV;
+> ++open(my $hostkey, "<", $hostkey_file) or errout "$!";
+> ++my $hostkey_line =3D <$hostkey>;
+> ++close($hostkey) or errout "$!";
+> ++
+> ++my ($hostkey_algo, $hostkey_data) =3D split(/\s+/, $hostkey_line);
+> ++if(!$hostkey_algo || !$hostkey_data) {
+> ++ errout "Failed parsing SSH host public key";
+> ++}
+> ++
+> ++my $rsa_key =3D
+> ++ "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCgSyqrUP2xhqLqkyopVapoKeucYIp" =
+.
+>=20
+> ++ "ZXeUqj+Q9WLWyXka5re62Y3R/lxZUXtkJjlpdD2LNMFenNlDQvPaXH5Utllt+c3z" .
+> ++ "wOkOLy7RXX5S37SfQFm/0fPkZqoZfMDB6XDcwA4cakjCRn4oZyKs8dWAxoNaTtYc" .
+> ++ "nKKMJ6rmc8PttykJw9fwiKAjPyYf21/BMvWIzu9req+TrDA/Jcd2UAug94CikJIX" .
+> ++ "uwKmSYleAOo4eJWx8GyujgEgZn05eq+K1LSg9RqRVIxOdqjoE5K3abBfs0rmUuLd" .
+> ++ "MFh7nHseTFXYbKzpz46V7iZMfFuoyURrzVsqGUm+/m7dxBM98In12kOm3";
+> ++my $ed25519_key =3D
+> ++ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAqmXRY8k+W9GtpWxYru6ELAXYHdXq" .
+> ++ "jf33ziITGTiJUN";
+> ++my $other_key =3D $hostkey_algo eq "ssh-ed25519" ? $rsa_key :
+> $ed25519_key;
+> ++
+> ++my $salt =3D "curl-knownhosts-test";
+> ++my $salt64 =3D encode_base64($salt, "");
+> ++my $hash64 =3D encode_base64(hmac_sha1("unrelated.invalid", $salt), "")=
+;
+> ++my $target_hash64 =3D encode_base64(hmac_sha1($target, $salt), "");
+> ++
+> ++open(my $knownhosts, ">", $knownhosts_file) or errout "$!";
+> ++print $knownhosts "|1|$salt64|$hash64 $other_key\n";
+> ++print $knownhosts "|1|$salt64|$target_hash64 $hostkey_algo
+> $hostkey_data\n";
+> ++close($knownhosts) or errout "$!";
+> ++
+> ++exit 0;
+> diff --git a/meta/recipes-support/curl/curl_8.22.0.bb
+> b/meta/recipes-support/curl/curl_8.22.0.bb
+> index 95d5801ad5..979e416249 100644
+> --- a/meta/recipes-support/curl/curl_8.22.0.bb
+> +++ b/meta/recipes-support/curl/curl_8.22.0.bb
+> @@ -17,6 +17,7 @@ SRC_URI =3D " \
+> file://CVE-2026-92388-1.patch \
+> file://CVE-2026-92388-2.patch \
+> file://CVE-2026-92389.patch \
+> + file://CVE-2026-87865.patch \
+> "
+>=20
+> SRC_URI:append:class-nativesdk =3D " \
+> --
+> 2.55.0
+
+--B60ctxgXdFHNgrnJnHtP
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>Hi Joao, Yoann,<br /><br />
+<p><span>I noticed that test3500 invokes %SRCDIR/libtest/test3500.pl</span>=
+<span> in its precheck,<br /></span><span>but the Blacksail </span><span>re=
+cipe does not install this script into the ptest package.</span></p>
+<p><span>Adding it to EXTRA_DIST includes it in the source distribution;</s=
+pan><br /><span>the recipe still needs to install it explicitly. Otherwise,=
+ the</span><br /><span>precheck cannot run when libssh2/SFTP support is ena=
+bled.</span></p>
+<p><span>Could you include the following in do_install_ptest()</span><span>=
+, after</span><br /><span>creating the tests/libtest </span><span>directory=
+?<br /><br />My Wrynose v2 backport already includes this installation:<br =
+/><a href=3D"https://lists.openembedded.org/g/openembedded-core/message/250=
+999" target=3D"_blank" rel=3D"noopener">https://lists.openembedded.org/g/op=
+enembedded-core/message/250999</a><br /><br />Thanks,<br />Darsh</span></p>
+On Wed, Nov 25, 2026 at 06:57 PM, Joao Marcos Costa wrote:</div>
+<div>
+<blockquote>This vulnerability, marked as High [1], was fixed upstream [2] =
+since<br />v8.23.0.<br /><br />Backport the fix to curl v8.22.0.<br /><br /=
+>[1] <a href=3D"https://nvd.nist.gov/vuln/detail/cve-2026-87865" target=3D"=
+_blank" rel=3D"noopener">https://nvd.nist.gov/vuln/detail/cve-2026-87865</a=
+><br />[2] <a href=3D"https://curl.se/docs/CVE-2026-87865.html" target=3D"_=
+blank" rel=3D"noopener">https://curl.se/docs/CVE-2026-87865.html</a><br /><=
+br />Signed-off-by: Jo&atilde;o Marcos Costa (Schneider Electric) &lt;joaom=
+arcos.costa@bootlin.com&gt;<br />---<br />.../curl/curl/CVE-2026-87865.patc=
+h | 216 ++++++++++++++++++<br />meta/recipes-support/curl/curl_8.22.0.bb | =
+1 +<br />2 files changed, 217 insertions(+)<br />create mode 100644 meta/re=
+cipes-support/curl/curl/CVE-2026-87865.patch<br /><br />diff --git a/meta/r=
+ecipes-support/curl/curl/CVE-2026-87865.patch b/meta/recipes-support/curl/c=
+url/CVE-2026-87865.patch<br />new file mode 100644<br />index 0000000000..3=
+2a7441c95<br />--- /dev/null<br />+++ b/meta/recipes-support/curl/curl/CVE-=
+2026-87865.patch<br />@@ -0,0 +1,216 @@<br />+From a7622dc02ccc01f7438227f1=
+920db08268a6ccb0 Mon Sep 17 00:00:00 2001<br />+From: Bobbeh Rhino &lt;bobb=
+eh@rhino.Rhino&gt;<br />+Date: Tue, 8 Sep 2026 06:33:27 -0400<br />+Subject=
+: [PATCH] libssh2: match hashed known_hosts entries by host<br />+MIME-Vers=
+ion: 1.0<br />+Content-Type: text/plain; charset=3DUTF-8<br />+Content-Tran=
+sfer-Encoding: 8bit<br />+<br />+libssh2 does not expose the plaintext name=
+ for hashed entries. Check<br />+each entry key against the requested hostn=
+ame before using its key type.<br />+Otherwise an unrelated hashed entry ca=
+n select the wrong algorithm.<br />+<br />+Add an SFTP regression test 3500=
+ with an unrelated hashed entry before<br />+the requested host.<br />+<br =
+/>+Closes #22874<br />+<br />+CVE: CVE-2026-87865<br />+Upstream-Status: Ba=
+ckport [<a href=3D"https://github.com/curl/curl/commit/323c184b6bdf5b1988a1=
+0c0a61560" target=3D"_blank" rel=3D"noopener">https://github.com/curl/curl/=
+commit/323c184b6bdf5b1988a10c0a61560</a>]<br />+<br />+Signed-off-by: Jo&at=
+ilde;o Marcos Costa &lt;joaomarcos.costa@bootlin.com&gt;<br />+---<br />+ l=
+ib/vssh/libssh2.c | 16 +++++++--<br />+ tests/data/Makefile.am | 2 ++<br />=
++ tests/data/test3500 | 47 +++++++++++++++++++++++++<br />+ tests/libtest/M=
+akefile.am | 3 +-<br />+ tests/libtest/test3500.pl | 72 +++++++++++++++++++=
+++++++++++++++++++++<br />+ 5 files changed, 136 insertions(+), 4 deletions=
+(-)<br />+ create mode 100644 tests/data/test3500<br />+ create mode 100755=
+ tests/libtest/test3500.pl<br />+<br />+diff --git a/lib/vssh/libssh2.c b/l=
+ib/vssh/libssh2.c<br />+index 24a651d30e..cd28cde76f 100644<br />+--- a/lib=
+/vssh/libssh2.c<br />++++ b/lib/vssh/libssh2.c<br />+@@ -685,9 +685,19 @@ s=
+tatic CURLcode ssh_force_knownhost_key_type(struct Curl_easy *data,<br />+ =
+break;<br />+ }<br />+ }<br />+- else {<br />+- found =3D TRUE;<br />+- bre=
+ak;<br />++ else if(store-&gt;key) {<br />++ int keycheck =3D libssh2_known=
+host_checkp(<br />++ sshc-&gt;kh, conn-&gt;origin-&gt;hostname,<br />++ (co=
+nn-&gt;origin-&gt;port !=3D PORT_SSH) ? conn-&gt;origin-&gt;port : -1,<br /=
+>++ store-&gt;key, strlen(store-&gt;key),<br />++ LIBSSH2_KNOWNHOST_TYPE_PL=
+AIN |<br />++ LIBSSH2_KNOWNHOST_KEYENC_BASE64 |<br />++ (store-&gt;typemask=
+ &amp; LIBSSH2_KNOWNHOST_KEY_MASK),<br />++ NULL);<br />++ if(keycheck =3D=
+=3D LIBSSH2_KNOWNHOST_CHECK_MATCH) {<br />++ found =3D TRUE;<br />++ break;=
+<br />++ }<br />+ }<br />+ }<br />+ }<br />+diff --git a/tests/data/Makefil=
+e.am b/tests/data/Makefile.am<br />+index 3b32fce7bb..4a27927b1c 100644<br =
+/>+--- a/tests/data/Makefile.am<br />++++ b/tests/data/Makefile.am<br />+@@=
+ -2090,6 +2090,8 @@ TESTCASES =3D \<br />+ test3400 \<br />+ test3401 \<br =
+/>+ \<br />++ test3500 \<br />++ \<br />+ test4000 \<br />+ test4001 \<br /=
+>+ \<br />+diff --git a/tests/data/test3500 b/tests/data/test3500<br />+new=
+ file mode 100644<br />+index 0000000000..1bcf3bc17d<br />+--- /dev/null<br=
+ />++++ b/tests/data/test3500<br />+@@ -0,0 +1,47 @@<br />++&lt;?xml versio=
+n=3D"1.0" encoding=3D"US-ASCII"?&gt;<br />++&lt;testcase&gt;<br />++&lt;inf=
+o&gt;<br />++&lt;keywords&gt;<br />++SFTP<br />++known_hosts<br />++libssh2=
+<br />++&lt;/keywords&gt;<br />++&lt;/info&gt;<br />++<br />++# Server-side=
+<br />++&lt;reply&gt;<br />++&lt;data&gt;<br />++Test data<br />++for hashe=
+d known hosts<br />++&lt;/data&gt;<br />++&lt;/reply&gt;<br />++<br />++# C=
+lient-side<br />++&lt;client&gt;<br />++&lt;server&gt;<br />++sftp<br />++&=
+lt;/server&gt;<br />++&lt;features&gt;<br />++sftp<br />++libssh2<br />++!b=
+adlibssh<br />++&lt;/features&gt;<br />++&lt;precheck&gt;<br />++%PERL %SRC=
+DIR/libtest/test3500.pl %LOGDIR/server/curl_host_key.pub %LOGDIR/known%TEST=
+NUMBER "[%HOSTIP]:%SSHPORT"<br />++&lt;/precheck&gt;<br />++&lt;name&gt;<br=
+ />++SFTP matches requested hashed known_hosts entry<br />++&lt;/name&gt;<b=
+r />++&lt;command&gt;<br />++--knownhosts %LOGDIR/known%TESTNUMBER --key %L=
+OGDIR/server/curl_client_key --pubkey %LOGDIR/server/curl_client_key.pub -u=
+ %USER: sftp://%HOSTIP:%SSHPORT%SFTP_PWD/%LOGDIR/file%TESTNUMBER.txt<br />+=
++&lt;/command&gt;<br />++&lt;file name=3D"%LOGDIR/file%TESTNUMBER.txt"&gt;<=
+br />++Test data<br />++for hashed known hosts<br />++&lt;/file&gt;<br />++=
+&lt;/client&gt;<br />++<br />++# Verify data after the test has been "shot"=
+<br />++&lt;verify&gt;<br />++&lt;/verify&gt;<br />++&lt;/testcase&gt;<br /=
+>+diff --git a/tests/libtest/Makefile.am b/tests/libtest/Makefile.am<br />+=
+index 74eb150742..8fdf484b55 100644<br />+--- a/tests/libtest/Makefile.am<b=
+r />++++ b/tests/libtest/Makefile.am<br />+@@ -49,7 +49,8 @@ EXTRA_DIST =3D=
+ CMakeLists.txt $(FIRST_C) $(FIRST_H) $(UTILS_C) $(UTILS_H) $(TESTS_<br />+=
+ test1022.pl \<br />+ test307.pl \<br />+ test610.pl \<br />+- test613.pl<b=
+r />++ test613.pl \<br />++ test3500.pl<br />+ <br />+ CFLAGS +=3D @CURL_CF=
+LAG_EXTRAS@<br />+ <br />+diff --git a/tests/libtest/test3500.pl b/tests/li=
+btest/test3500.pl<br />+new file mode 100755<br />+index 0000000000..d95f54=
+cecf<br />+--- /dev/null<br />++++ b/tests/libtest/test3500.pl<br />+@@ -0,=
+0 +1,72 @@<br />++#!/usr/bin/env perl<br />++#*****************************=
+**********************************************<br />++# _ _ ____ _<br />++#=
+ Project ___| | | | _ \| |<br />++# / __| | | | |_) | |<br />++# | (__| |_|=
+ | _ &lt;| |___<br />++# \___|\___/|_| \_\_____|<br />++#<br />++# Copyrigh=
+t (C) Daniel Stenberg, &lt;daniel@haxx.se&gt;, et al.<br />++#<br />++# Thi=
+s software is licensed as described in the file COPYING, which<br />++# you=
+ should have received as part of this distribution. The terms<br />++# are =
+also available at <a href=3D"https://curl.se/docs/copyright.html" target=3D=
+"_blank" rel=3D"noopener">https://curl.se/docs/copyright.html</a>.<br />++#=
+<br />++# You may opt to use, copy, modify, merge, publish, distribute and/=
+or sell<br />++# copies of the Software, and permit persons to whom the Sof=
+tware is<br />++# furnished to do so, under the terms of the COPYING file.<=
+br />++#<br />++# This software is distributed on an "AS IS" basis, WITHOUT=
+ WARRANTY OF ANY<br />++# KIND, either express or implied.<br />++#<br />++=
+# SPDX-License-Identifier: curl<br />++#<br />++###########################=
+################################################<br />++use strict;<br />++=
+use warnings;<br />++<br />++use Digest::SHA qw(hmac_sha1);<br />++use MIME=
+::Base64 qw(encode_base64);<br />++<br />++sub errout {<br />++ print $_[0]=
+ . "\n";<br />++ exit 1;<br />++}<br />++<br />++if(@ARGV !=3D 3) {<br />++=
+ errout "Usage: $0 host-public-key known-hosts-file target";<br />++}<br />=
+++<br />++my ($hostkey_file, $knownhosts_file, $target) =3D @ARGV;<br />++o=
+pen(my $hostkey, "&lt;", $hostkey_file) or errout "$!";<br />++my $hostkey_=
+line =3D &lt;$hostkey&gt;;<br />++close($hostkey) or errout "$!";<br />++<b=
+r />++my ($hostkey_algo, $hostkey_data) =3D split(/\s+/, $hostkey_line);<br=
+ />++if(!$hostkey_algo || !$hostkey_data) {<br />++ errout "Failed parsing =
+SSH host public key";<br />++}<br />++<br />++my $rsa_key =3D<br />++ "ssh-=
+rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCgSyqrUP2xhqLqkyopVapoKeucYIp" .<br />++ =
+"ZXeUqj+Q9WLWyXka5re62Y3R/lxZUXtkJjlpdD2LNMFenNlDQvPaXH5Utllt+c3z" .<br />+=
++ "wOkOLy7RXX5S37SfQFm/0fPkZqoZfMDB6XDcwA4cakjCRn4oZyKs8dWAxoNaTtYc" .<br /=
+>++ "nKKMJ6rmc8PttykJw9fwiKAjPyYf21/BMvWIzu9req+TrDA/Jcd2UAug94CikJIX" .<br=
+ />++ "uwKmSYleAOo4eJWx8GyujgEgZn05eq+K1LSg9RqRVIxOdqjoE5K3abBfs0rmUuLd" .<=
+br />++ "MFh7nHseTFXYbKzpz46V7iZMfFuoyURrzVsqGUm+/m7dxBM98In12kOm3";<br />+=
++my $ed25519_key =3D<br />++ "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAqmXRY8k=
++W9GtpWxYru6ELAXYHdXq" .<br />++ "jf33ziITGTiJUN";<br />++my $other_key =3D=
+ $hostkey_algo eq "ssh-ed25519" ? $rsa_key : $ed25519_key;<br />++<br />++m=
+y $salt =3D "curl-knownhosts-test";<br />++my $salt64 =3D encode_base64($sa=
+lt, "");<br />++my $hash64 =3D encode_base64(hmac_sha1("unrelated.invalid",=
+ $salt), "");<br />++my $target_hash64 =3D encode_base64(hmac_sha1($target,=
+ $salt), "");<br />++<br />++open(my $knownhosts, "&gt;", $knownhosts_file)=
+ or errout "$!";<br />++print $knownhosts "|1|$salt64|$hash64 $other_key\n"=
+;<br />++print $knownhosts "|1|$salt64|$target_hash64 $hostkey_algo $hostke=
+y_data\n";<br />++close($knownhosts) or errout "$!";<br />++<br />++exit 0;=
+<br />diff --git a/meta/recipes-support/curl/curl_8.22.0.bb b/meta/recipes-=
+support/curl/curl_8.22.0.bb<br />index 95d5801ad5..979e416249 100644<br />-=
+-- a/meta/recipes-support/curl/curl_8.22.0.bb<br />+++ b/meta/recipes-suppo=
+rt/curl/curl_8.22.0.bb<br />@@ -17,6 +17,7 @@ SRC_URI =3D " \<br />file://C=
+VE-2026-92388-1.patch \<br />file://CVE-2026-92388-2.patch \<br />file://CV=
+E-2026-92389.patch \<br />+ file://CVE-2026-87865.patch \<br />"<br /><br /=
+>SRC_URI:append:class-nativesdk =3D " \<br />-- <br />2.55.0</blockquote>
+</div>
+
+--B60ctxgXdFHNgrnJnHtP--
