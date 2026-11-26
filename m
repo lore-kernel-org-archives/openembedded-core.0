@@ -1,333 +1,146 @@
-Received: from mail-pg1-f179.google.com (mail-pg1-f179.google.com [209.85.215.179])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1881.1795712425303301225
+Received: from mail-pj1-f46.google.com (mail-pj1-f46.google.com [209.85.216.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1694.1795712427056286353
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Nov 2026 09:00:25 -0800
+ Thu, 26 Nov 2026 09:00:27 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=JnBY0HN8;
- spf=pass (domain: konsulko.com, ip: 209.85.215.179, mailfrom: tim.orling@konsulko.com)
-Received: by mail-pg1-f179.google.com with SMTP id 41be03b00d2f7-cdb2dfcca94so3005459a12.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 09:00:25 -0800 (PST)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=fYazb2CG;
+ spf=pass (domain: konsulko.com, ip: 209.85.216.46, mailfrom: tim.orling@konsulko.com)
+Received: by mail-pj1-f46.google.com with SMTP id 98e67ed59e1d1-3b413d04c93so4193681a91.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 09:00:26 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1795712424; x=1796317224; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=358G/s8+EecErUgtnvoNA4DlQvVTu07WLvHPzrEdqRY=;
-        b=JnBY0HN8tPNs4YN4qX6OAHD3HYTkno7IZpih16/bUNU2VPEOVUF9ypB3JkvTvjAMcp
-         ZhLXJ+yCiWvuZLs5e+a2AgsQqySucb/CIO+kXY9AR0ZsvdJUYuhbCeWXWdDsnVR0mEXA
-         8B0Wk1V8gI/9HuhAdVqZMnVcIow7qcqL47oQU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795712424; x=1796317224;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=konsulko.com; s=google; t=1795712426; x=1796317226; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=358G/s8+EecErUgtnvoNA4DlQvVTu07WLvHPzrEdqRY=;
-        b=Kx6vxCyac/47pzD84a1sxCllLzhmHzBmbkWv8f5eqOrZEd7dkD6rzlP5IudATdR0zR
-         ZfNv2rGHkpMSr2v6uxfWCmH1lZnFrvcBsc//nFsLZqsRtEFN5JtusQc9TdbDn4JZkcl3
-         3hrUQZGmgU/li9EndE1b89Oy96p9j+1JY7C8eDIlRch4uQmyxCPH3gbjrxNUkPI9B4J3
-         uU/0I5ACseMmCbNWaH9j04LmzUn1BlRP63z73RjWYl4AmwkfFXrpaZW+/qh7n3t4KrQj
-         VKZLf6Pm0b3QjbyfXDZ2zRV/grY86tSZn4ZsFcxrPtFohVCImlx1rryd5BNgkIkclT3Z
-         XnUg==
-X-Gm-Message-State: APuU4Z/k1L6+GceStrqbHNqERgyfH/pt52DZX0CiAZ5YuiX5jdPfoxkF
-	AXBFnZ4pqkYKjLEbIkOu8aKJq+UpEx7Jff69YXCkQKTA3N1I/Dy5jmreVw1prcKBbM/xeNmjvWm
-	8diRo8zQ=
-X-Gm-Gg: AZFdTZcdcmwQRFdV3v5moNc19RfqiIfEMfxGBo3s4vTM7hi0XujgUl124i/VLb6Okfa
-	NCu1L2c+J5UWY4kRC0goenEdo9drYTSSqbAR6qLp0AyfH2lzX4gMevvP+6rfvyOXKknLK9jWlCy
-	3Bhcve5QP1peunAKIL0aP1rCxa2u9Qg3AJxi8PEn+PUT3edHPHCG59VEsLkB7RNDCMwaVlDQBBZ
-	kA7/AKEUulOGCJ2XYDRyxQBUo0a3MMtXfMNknZAm8FMXDtIi+reCN5n+PBoy5pA9LPmyJdqbDcX
-	VoZqO8rKskB0xi7E5OtOy9mwYhL84h2CdsnK58+RKyPjYxh1PwpGhx01FY5LfozYfU9hiAoUUZy
-	caHeTmz3qrdNM3yan+3Gbz2MK40V7OjQhBI1n2DeWn2e4QbZlulTErF3M6K39d6d1nmElQFBk7s
-	CnxT4zyH+47FfNi84tjzCYMASflA7K3A4bOrd40KWB2+jqr64tweksm8c4N8sDr07D8Ajr6GcSG
-	u8zRofJOf8p8F3ws2hxNtBVwQ3eT2HwOICfv4EWiaaJhWKtB3JblpFKVPBB1vvGAwhvzJP4clis
-	JxS8ax6vPoxWJmuD4CZV0sndtL9BsdGgSZqAS+8DkFacLC9GSIWHUtuIuSy+sqt6UAadd7jPZec
-	LC446Cko5rYRNzVZdb50NtjniPxmnbaHpxtOEsCQoXr5NHCrvKhfBA5xFfSZJ6yS6Mw==
-X-Received: by 2002:a17:90b:2cce:b0:3b0:a7b5:c046 with SMTP id 98e67ed59e1d1-3b41c9759cbmr21790961a91.54.1795712422976;
-        Thu, 26 Nov 2026 09:00:22 -0800 (PST)
+        bh=KwXJMzrf5rRkoV+FyVx0ksHHEtWEr6baXL5ZchVtiQ0=;
+        b=fYazb2CGLrVt6yIeCkYAydhoAvsqDCaEk8bje/cC73y0ekB0MuI8LWibTze0b9DaxB
+         pnFHYC9ImezHkBiEE3E55OE1ogV45WbhKA5+MRZCZ1vNQ8kcjTVMQZtc/4+/iJUItqFv
+         s7BftBDUpu/gJA9brGMo83Xf5+KUHEiGcKZME=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795712426; x=1796317226;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=KwXJMzrf5rRkoV+FyVx0ksHHEtWEr6baXL5ZchVtiQ0=;
+        b=CY5iRYgAfit8r4LcRJ60WSfmYxc4DqJ1KZ3vBfcaupj1AeQkfEZXVQEu/tx3sFGhpS
+         9tBEC7mtyXLnXb4kQm1EbOuxGGhA/1L6SVifkZK3lHZau/mWgnxiUk+1QPA0e7aoLnmw
+         XvdzoMWYkA0M0b7yguvRJSXpS5juGudRLPc3LGzs2wrZqUAHn9BXHQEv9nOecf2mKqmB
+         NhiZqOvE4A5WM1qW0SjG2mlGvQFhLJgPSIrRI4OsaoXQcDwnBzbeBmGNUHNyQoVU4Lio
+         7t0DEK5w8XK0UzRGXeKXc5oL2OeJaK511Y6QlJerP5h/GI9KKasxmsybF30qh7Bv4Gmh
+         DBFg==
+X-Gm-Message-State: APuU4Z/+vwp3GleZoKZG5gaRfWQUm4y1iaKSgiSHe7YflXScKdvs6goL
+	2M1grSHp2/FPe+5vIoc+JO2d4SK0mzh+3YI96V0eX+OMpWTmCuyXZwHSSEMFE/6yv7vbldsKTRh
+	lzCtt
+X-Gm-Gg: AZFdTZcwlJVdRSMlRj6jGr8tohZlrBxdAdR0neDccLvOZcoXsa2DNvaNKUc9V56zNWy
+	rhUc5iHXveb0/c71DpF0EY33fHxtBmhWV1U6weQySlCI46cmbf4U8xgTksI6vQJWFMKjfiuCp0Y
+	gUwgHMaedW+EI4S6zlk1bIeBtnbo686B1dN4Lu3QzVofExb5c5EyXjs/mT1zax2P8PNBhdE5FzE
+	UneGXA5jpUpOsGchBbmyECbd8qOAY5Ed4aYtoN5+3+/3JqyWWhK2tAxWwTDm56OilI7PCucvZ6D
+	NwKITL0lcOYmwLf3gjDhF/Hx8YVVTtiKNtdqZYnxfN5jZX8WrHCRSipBQC14vHc3WqxHJSADJQg
+	wYk1lof49poqomN+vHZvWX9locrRI26y5O3QnJc5BRhQ6fTVgW7PZUiIf30uAti3c3xQ2KKbKZV
+	2rmDfSXWKuALe1TphT8byeYgsTR13ceCpfo10828winpzQWosQt+y/J9OlV25ShmjoTvWXABCB+
+	LdeJbcbkkGvaVcZ+BVLHBlErzk6BjB6dMmUMvlSFCAtxIAJ+iBrScPRlyh/Hd1W0vlejV67U5h+
+	pGHHBcr4nPK0uCy6wh4/gue9mcsqM/PR0F6lcete/j8pszGFWjLXnbrtwo9OmIMPNvHR755nMdO
+	hj+5j4oL76fR0Dnv3t215N92hCG2wWdLxt2iJXG+jSESg4Kim3Ema3Y5Q/0w5eTKrsCo=
+X-Received: by 2002:a17:90b:1802:b0:3b4:e19:e127 with SMTP id 98e67ed59e1d1-3b41cb5009emr20695414a91.63.1795712426242;
+        Thu, 26 Nov 2026 09:00:26 -0800 (PST)
 Return-Path: <tim.orling@konsulko.com>
 Received: from localhost (c-24-20-171-118.hsd1.or.comcast.net. [24.20.171.118])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b4b3c71192sm17542544a91.5.2026.11.26.09.00.20
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3b41ad0b52dsm36344349a91.5.2026.11.26.09.00.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 26 Nov 2026 09:00:20 -0800 (PST)
+        Thu, 26 Nov 2026 09:00:25 -0800 (PST)
 From: Tim Orling <tim.orling@konsulko.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alejandro Hernandez <alejandro@enedino.org>,
 	Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH 1/2] picolibc: upgrade 1.8.11 -> 1.8.12
-Date: Thu, 26 Nov 2026 09:00:10 -0800
-Message-ID: <20261126170011.30593-1-tim.orling@konsulko.com>
+Subject: [PATCH 2/2] picolibc-helloworld: fix qemuarm hang with a virt memory layout
+Date: Thu, 26 Nov 2026 09:00:11 -0800
+Message-ID: <20261126170011.30593-2-tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261126170011.30593-1-tim.orling@konsulko.com>
+References: <20261126170011.30593-1-tim.orling@konsulko.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 17:00:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251327
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 17:00:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251328
 Content-Type: text/plain; charset="utf-8"
 
-Upstream reworked the specs generation in meson.build and added libgcc
--L paths (libgccdir option), so avoid_polluting_cross_directories.patch
-is rebased and the -sysroot arm extended to the new libgcc and
-multilib libgcc paths; every specs_option_format() call now takes four
-arguments.
+On qemuarm the hello-world image hung without output. Upstream's
+hello-world/arm.ld targets Cortex-M boards with RAM at 0x20000000, but
+on the QEMU "virt" board used by qemuarm that address is PCIe MMIO, not
+RAM. The startup code faults when it copies initialized data there, and
+picolibc's default exception handler loops forever, so the image hangs
+before main(). arm.ld has had this layout since it was added upstream in
+2021, so qemuarm never booted.
 
-License-Update: COPYING.picolibc lists newly covered files and renumbers
-stanzas; license families unchanged.
+Add a 32-bit linker script with the virt memory map (RAM at 0x40000000)
+and use it for qemuarm.
+
+Tested by building picolibc-helloworld for qemuarm, qemuarm64,
+qemuriscv32 and qemuriscv64 and running each ELF under QEMU with
+semihosting; all print "hello, world" and exit 0.
 
 AI-Generated: Uses Claude Code (Claude Opus 5.5)
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- meta/recipes-core/picolibc/picolibc.inc       |   6 +-
- .../avoid_polluting_cross_directories.patch   | 198 ++++++++++--------
- 2 files changed, 117 insertions(+), 87 deletions(-)
+ .../picolibc-helloworld/qemuarm-virt.ld        | 18 ++++++++++++++++++
+ .../picolibc/picolibc-helloworld_git.bb        | 13 ++++++++-----
+ 2 files changed, 26 insertions(+), 5 deletions(-)
+ create mode 100644 meta/recipes-core/picolibc/picolibc-helloworld/qemuarm-virt.ld
 
-diff --git a/meta/recipes-core/picolibc/picolibc.inc b/meta/recipes-core/picolibc/picolibc.inc
-index 750098ca60..4e93136d64 100644
---- a/meta/recipes-core/picolibc/picolibc.inc
-+++ b/meta/recipes-core/picolibc/picolibc.inc
-@@ -7,12 +7,12 @@ SECTION = "libs"
- # are GPLv2 and GeneratePicolibcCrossFile.sh is AGPL3 but not part of the artifacts.
- LICENSE = "BSD-2-Clause AND BSD-3-Clause"
- LIC_FILES_CHKSUM = " \
--		file://COPYING.picolibc;md5=e44132dded508048efb22b15ccd40d7d \
-+		file://COPYING.picolibc;md5=3e890b5a298befbadf25f805ad23f341 \
- 		"
+diff --git a/meta/recipes-core/picolibc/picolibc-helloworld/qemuarm-virt.ld b/meta/recipes-core/picolibc/picolibc-helloworld/qemuarm-virt.ld
+new file mode 100644
+index 0000000000..e255c18469
+--- /dev/null
++++ b/meta/recipes-core/picolibc/picolibc-helloworld/qemuarm-virt.ld
+@@ -0,0 +1,18 @@
++/*
++ * Memory layout for running picolibc hello-world on the 32-bit qemuarm
++ * MACHINE (QEMU "virt" board, Cortex-A15). Upstream's hello-world/arm.ld
++ * targets Cortex-M boards (flash at 0x0, RAM at 0x20000000); on "virt"
++ * 0x20000000 is PCIe MMIO, so writing .data there aborts. RAM on "virt"
++ * starts at 0x40000000.
++ *
++ * AI-generated with Claude Code.
++ *
++ * SPDX-License-Identifier: MIT
++ */
++__flash =      0x40000000;
++__flash_size = 0x00400000;
++__ram =        0x40400000;
++__ram_size   = 0x00200000;
++__stack_size = 8k;
++
++INCLUDE picolibc.ld
+diff --git a/meta/recipes-core/picolibc/picolibc-helloworld_git.bb b/meta/recipes-core/picolibc/picolibc-helloworld_git.bb
+index 573a571c24..7fe1e319d2 100644
+--- a/meta/recipes-core/picolibc/picolibc-helloworld_git.bb
++++ b/meta/recipes-core/picolibc/picolibc-helloworld_git.bb
+@@ -15,16 +15,19 @@ QB_OPT_APPEND:append = " -semihosting-config enable=on"
  
--BASEVER = "1.8.11"
-+BASEVER = "1.8.12"
- PV = "${BASEVER}+git"
- SRC_URI = "git://github.com/picolibc/picolibc.git;protocol=https;branch=main"
--SRCREV = "f7edb0869e64b9d687f46961adeef7154921fe92"
-+SRCREV = "2ae376c6cdf4fef90ca2388ecf7a07457fa63cff"
+ # picolibc comes with a set of linker scripts, set the file
+ # according to the architecture being built.
+-PICOLIBC_LINKERSCRIPT:qemuarm64 = "aarch64.ld"
+-PICOLIBC_LINKERSCRIPT:qemuarm = "arm.ld"
+-PICOLIBC_LINKERSCRIPT:qemuriscv32 = "riscv.ld"
+-PICOLIBC_LINKERSCRIPT:qemuriscv64 = "riscv.ld"
++PICOLIBC_LINKERSCRIPT:qemuarm64 = "${S}/hello-world/aarch64.ld"
++PICOLIBC_LINKERSCRIPT:qemuriscv32 = "${S}/hello-world/riscv.ld"
++PICOLIBC_LINKERSCRIPT:qemuriscv64 = "${S}/hello-world/riscv.ld"
++# Upstream's arm.ld is laid out for Cortex-M boards, not the QEMU "virt"
++# board used by qemuarm, so use our own memory layout instead.
++SRC_URI:append:qemuarm = " file://qemuarm-virt.ld"
++PICOLIBC_LINKERSCRIPT:qemuarm = "${UNPACKDIR}/qemuarm-virt.ld"
  
- B = "${WORKDIR}/build"
-diff --git a/meta/recipes-core/picolibc/picolibc/avoid_polluting_cross_directories.patch b/meta/recipes-core/picolibc/picolibc/avoid_polluting_cross_directories.patch
-index 54f17a1b62..46edff3eec 100644
---- a/meta/recipes-core/picolibc/picolibc/avoid_polluting_cross_directories.patch
-+++ b/meta/recipes-core/picolibc/picolibc/avoid_polluting_cross_directories.patch
-@@ -28,111 +28,141 @@ first place.
+ # Simple compile function that manually exemplifies usage; as noted,
+ # use a custom linker script, the GCC specs provided by picolibc
+ # and semihost to be able to test via QEMU's monitor
+ do_compile(){
+-    ${CC} ${CFLAGS} ${LDFLAGS} --verbose -T${S}/hello-world/${PICOLIBC_LINKERSCRIPT} -specs=picolibc.specs --oslib=semihost -o ${BAREMETAL_BINNAME}.elf ${S}/hello-world/hello-world.c
++    ${CC} ${CFLAGS} ${LDFLAGS} --verbose -T${PICOLIBC_LINKERSCRIPT} -specs=picolibc.specs --oslib=semihost -o ${BAREMETAL_BINNAME}.elf ${S}/hello-world/hello-world.c
+     ${OBJCOPY} -O binary ${BAREMETAL_BINNAME}.elf ${BAREMETAL_BINNAME}.bin
+ }
  
- Signed-off-by: Alejandro Enedino Hernandez Samaniego <alejandro@enedino.org>
- ---
-- meson.build | 31 +++++++++++++++++++++++++------
-- 1 file changed, 25 insertions(+), 6 deletions(-)
-+ meson.build | 41 +++++++++++++++++++++++++++++++++--------
-+ 1 file changed, 33 insertions(+), 8 deletions(-)
- 
- diff --git a/meson.build b/meson.build
--index 3323741c2..0df0768df 100644
-+index 93daa5dae..86f15441b 100644
- --- a/meson.build
- +++ b/meson.build
--@@ -622,12 +622,13 @@ crt0_expr = '%{-crt0=*:crt0-%*%O; :crt0%O}'
-- #
-- picolibc_prefix_format = '-picolibc-prefix=*:@0@'
-- picolibc_buildtype_format = '-picolibc-buildtype=*:@0@'
--+sysroot_format = '-sysroot=*:@0@'
-- gen_format = '@0@'
-- 
-- #
-- # How to glue the three options together
-- #
---specs_option_format = '%{@0@; @1@; :@2@}'
--+specs_option_format = '%{@0@; @1@; @2@; :@3@}'
-- 
-- #
-- # Build the -isystem value
--@@ -639,10 +640,13 @@ isystem_prefix = picolibc_prefix_format.format(prefix_include_dir)
-- buildtype_include_dir = specs_prefix_format.format(get_option('includedir') / '%*')
-- isystem_buildtype = picolibc_buildtype_format.format(buildtype_include_dir)
-- 
--+sysroot_include_dir = '%*'
--+isystem_sysroot = sysroot_format.format(sysroot_include_dir)
-+@@ -2057,12 +2057,13 @@ else
-+   #
-+   picolibc_prefix_format = '-picolibc-prefix=*:@0@'
-+   picolibc_buildtype_format = '-picolibc-buildtype=*:@0@'
-++  sysroot_format = '-sysroot=*:@0@'
-+   gen_format = '@0@'
-+ 
-+   #
-+   # How to glue the three options together
-+   #
-+-  specs_option_format = '%{@0@; @1@; :@2@}'
-++  specs_option_format = '%{@0@; @1@; @2@; :@3@}'
-+ 
-+   #
-+   # Build the -isystem value
-+@@ -2074,10 +2075,13 @@ else
-+   buildtype_include_dir = specs_prefix_format.format(get_option('includedir') / '%*')
-+   isystem_buildtype = picolibc_buildtype_format.format(buildtype_include_dir)
-+ 
-++  sysroot_include_dir = '%*'
-++  isystem_sysroot = sysroot_format.format(sysroot_include_dir)
- +
-- gen_include_dir = specs_prefix_format.format(get_option('includedir'))
-- isystem_gen = gen_format.format(gen_include_dir)
-+   gen_include_dir = specs_prefix_format.format(get_option('includedir'))
-+   isystem_gen = gen_format.format(gen_include_dir)
-  
---specs_isystem = '-isystem ' + specs_option_format.format(isystem_prefix, isystem_buildtype, isystem_gen)
--+specs_isystem = '-isystem ' + specs_option_format.format(isystem_prefix, isystem_buildtype, isystem_sysroot, isystem_gen)
-+-  specs_isystem = '-isystem ' + specs_option_format.format(isystem_prefix, isystem_buildtype, isystem_gen)
-++  specs_isystem = '-isystem ' + specs_option_format.format(isystem_prefix, isystem_buildtype, isystem_sysroot, isystem_gen)
-  
-- gcc_dumpmachine = run_command(cc.cmd_array() + ['-dumpmachine'], check : true).stdout().split('\n')[0]
-+   gcc_dumpmachine = run_command(cc.cmd_array() + ['-dumpmachine'], check : true).stdout().split('\n')[0]
-  
--@@ -651,7 +655,10 @@ cxxconfig_isystem_prefix = isystem_prefix / cxxconfig_path_postfix
-- cxxconfig_isystem_buildtype = isystem_buildtype / cxxconfig_path_postfix
-- cxxconfig_isystem_gen = isystem_gen / cxxconfig_path_postfix
-+@@ -2086,7 +2090,10 @@ else
-+   cxxconfig_isystem_buildtype = isystem_buildtype / cxxconfig_path_postfix
-+   cxxconfig_isystem_gen = isystem_gen / cxxconfig_path_postfix
-  
---specs_isystem = specs_isystem + ' -isystem ' + specs_option_format.format(cxxconfig_isystem_prefix, cxxconfig_isystem_buildtype, cxxconfig_isystem_gen)
--+sysroot_cxx_dir = '%*'
--+cxx_sysroot = sysroot_format.format(sysroot_cxx_dir)
-+-  specs_isystem = specs_isystem + ' -isystem ' + specs_option_format.format(cxxconfig_isystem_prefix, cxxconfig_isystem_buildtype, cxxconfig_isystem_gen)
-++  sysroot_cxx_dir = '%*'
-++  cxx_sysroot = sysroot_format.format(sysroot_cxx_dir)
- +
--+specs_isystem = specs_isystem + ' -isystem ' + specs_option_format.format(cxxconfig_isystem_prefix, cxxconfig_isystem_buildtype, cxx_sysroot, cxxconfig_isystem_gen)
-++  specs_isystem = specs_isystem + ' -isystem ' + specs_option_format.format(cxxconfig_isystem_prefix, cxxconfig_isystem_buildtype, cxx_sysroot, cxxconfig_isystem_gen)
-  
-- #
-- # Build the non-multilib -L value
--@@ -663,10 +670,13 @@ lib_prefix = picolibc_prefix_format.format(prefix_lib_dir)
-- buildtype_lib_dir = specs_prefix_format.format(get_option('libdir') / '%*')
-- lib_buildtype = picolibc_buildtype_format.format(buildtype_lib_dir)
-+   #
-+   # Build the non-multilib -L value
-+@@ -2098,10 +2105,13 @@ else
-+   buildtype_lib_dir = specs_prefix_format.format(get_option('libdir') / '%*')
-+   lib_buildtype = picolibc_buildtype_format.format(buildtype_lib_dir)
-  
--+sysroot_lib_dir = '%*'
--+lib_sysroot = sysroot_format.format(sysroot_lib_dir)
-++  sysroot_lib_dir = '%*'
-++  lib_sysroot = sysroot_format.format(sysroot_lib_dir)
- +
-- gen_lib_dir = specs_prefix_format.format(get_option('libdir'))
-- lib_gen = gen_format.format(gen_lib_dir)
-+   gen_lib_dir = specs_prefix_format.format(get_option('libdir'))
-+   lib_gen = gen_format.format(gen_lib_dir)
-  
---specs_libpath = '-L' + specs_option_format.format(lib_prefix, lib_buildtype, lib_gen)
--+specs_libpath = '-L' + specs_option_format.format(lib_prefix, lib_buildtype, lib_sysroot, lib_gen)
-+-  specs_libpath = '-L' + specs_option_format.format(lib_prefix, lib_buildtype, lib_gen)
-++  specs_libpath = '-L' + specs_option_format.format(lib_prefix, lib_buildtype, lib_sysroot, lib_gen)
-  
-- #
-- # Build the non-multilib *startfile options
--@@ -678,6 +688,9 @@ crt0_prefix = picolibc_prefix_format.format(prefix_crt0_path)
-- buildtype_crt0_path = specs_prefix_format.format(get_option('libdir') / '%*' / crt0_expr)
-- crt0_buildtype = picolibc_buildtype_format.format(buildtype_crt0_path)
-+   #
-+   # Build the non-multilib libgcc -L value
-+@@ -2119,10 +2129,13 @@ else
-+   buildtype_libgcc_dir = specs_prefix_format.format(libgcc_dir / '%*')
-+   libgcc_buildtype = picolibc_buildtype_format.format(buildtype_libgcc_dir)
-  
--+sysroot_crt0_path = '%*' + '/' + get_option('libdir') + '/' + '%*' + '/' + crt0_expr
--+crt0_sysroot = picolibc_buildtype_format.format(sysroot_crt0_path)
-++  sysroot_libgcc_dir = '%*'
-++  libgcc_sysroot = sysroot_format.format(sysroot_libgcc_dir)
- +
-- gen_crt0_path = specs_prefix_format.format(get_option('libdir') / crt0_expr)
-- crt0_gen = gen_format.format(gen_crt0_path)
-+   gen_libgcc_dir = specs_prefix_format.format(libgcc_dir)
-+   libgcc_gen = gen_format.format(gen_libgcc_dir)
-  
--@@ -695,10 +708,13 @@ if enable_multilib
--   buildtype_multilib_dir = specs_prefix_format.format(get_option('libdir') / '%*/%M')
--   multilib_buildtype = picolibc_buildtype_format.format(buildtype_multilib_dir)
-+-  specs_libgccpath = '-L' + specs_option_format.format(libgcc_prefix, libgcc_buildtype, libgcc_gen)
-++  specs_libgccpath = '-L' + specs_option_format.format(libgcc_prefix, libgcc_buildtype, libgcc_sysroot, libgcc_gen)
-  
--+  sysroot_multilib_dir = '%*' + '/' + get_option('libdir') + '/' + '%*/%M'
--+  multilib_sysroot = sysroot_format.format(sysroot_multilib_dir)
--+  
--   gen_multilib_dir = specs_prefix_format.format(get_option('libdir') / '%M')
--   multilib_gen = gen_format.format(gen_multilib_dir)
-+   #
-+   # Build the non-multilib *startfile options
-+@@ -2134,6 +2147,9 @@ else
-+   buildtype_crt0_path = specs_prefix_format.format(get_option('libdir') / '%*' / crt0_expr)
-+   crt0_buildtype = picolibc_buildtype_format.format(buildtype_crt0_path)
-+ 
-++  sysroot_crt0_path = '%*' + '/' + get_option('libdir') + '/' + '%*' + '/' + crt0_expr
-++  crt0_sysroot = picolibc_buildtype_format.format(sysroot_crt0_path)
-++
-+   gen_crt0_path = specs_prefix_format.format(get_option('libdir') / crt0_expr)
-+   crt0_gen = gen_format.format(gen_crt0_path)
-  
---  specs_multilibpath = '-L' + specs_option_format.format(multilib_prefix, multilib_buildtype, multilib_gen)
--+  specs_multilibpath = '-L' + specs_option_format.format(multilib_prefix, multilib_buildtype, multilib_sysroot, multilib_gen)
-+@@ -2151,10 +2167,13 @@ else
-+     buildtype_multilib_dir = specs_prefix_format.format(get_option('libdir') / '%*/%M')
-+     multilib_buildtype = picolibc_buildtype_format.format(buildtype_multilib_dir)
-  
-++    sysroot_multilib_dir = '%*' + '/' + get_option('libdir') + '/' + '%*/%M'
-++    multilib_sysroot = sysroot_format.format(sysroot_multilib_dir)
-++
-+     gen_multilib_dir = specs_prefix_format.format(get_option('libdir') / '%M')
-+     multilib_gen = gen_format.format(gen_multilib_dir)
-+ 
-+-    specs_multilibpath = '-L' + specs_option_format.format(multilib_prefix, multilib_buildtype, multilib_gen)
-++    specs_multilibpath = '-L' + specs_option_format.format(multilib_prefix, multilib_buildtype, multilib_sysroot, multilib_gen)
-+ 
-+     #
-+     # Build the multilib libgcc -L value
-+@@ -2165,10 +2184,13 @@ else
-+     buildtype_multilibgcc_dir = specs_prefix_format.format(libgcc_dir / '%*/%M')
-+     multilibgcc_buildtype = picolibc_buildtype_format.format(buildtype_multilibgcc_dir)
-+ 
-++    sysroot_multilibgcc_dir = '%*'
-++    multilibgcc_sysroot = sysroot_format.format(sysroot_multilibgcc_dir)
-++
-+     gen_multilibgcc_dir = specs_prefix_format.format(libgcc_dir / '%M')
-+     multilibgcc_gen = gen_format.format(gen_multilibgcc_dir)
-+ 
-+-    specs_multilibgccpath = '-L' + specs_option_format.format(multilibgcc_prefix, multilibgcc_buildtype, multilibgcc_gen)
-++    specs_multilibgccpath = '-L' + specs_option_format.format(multilibgcc_prefix, multilibgcc_buildtype, multilibgcc_sysroot, multilibgcc_gen)
-+ 
-+     #
-+     # Prepend the multilib -L option to the non-multilib option
-+@@ -2185,6 +2207,9 @@ else
-+     buildtype_multilib_crt0_path = specs_prefix_format.format(get_option('libdir') / '%*/%M' / crt0_expr)
-+     crt0_buildtype = picolibc_buildtype_format.format(buildtype_multilib_crt0_path)
-+ 
-++    sysroot_multilib_crt0_path = '%*' + prefix + '/' + get_option('libdir') + '/' + '/%M' + '/' + crt0_expr
-++    crt0_sysroot = sysroot_format.format(sysroot_multilib_crt0_path)
-++
-+     gen_multilib_crt0_path = specs_prefix_format.format(get_option('libdir') / '%M' / crt0_expr)
-+     crt0_gen = gen_format.format(gen_multilib_crt0_path)
-+   endif
-+@@ -2194,7 +2219,7 @@ else
-+   # above. As there's only one value, it's either the
-+   # multilib path or the non-multilib path
-    #
--   # Prepend the multilib -L option to the non-multilib option
--@@ -714,6 +730,9 @@ if enable_multilib
--   buildtype_multilib_crt0_path = specs_prefix_format.format(get_option('libdir') / '%*/%M' / crt0_expr)
--   crt0_buildtype = picolibc_buildtype_format.format(buildtype_multilib_crt0_path)
-- 
--+  sysroot_multilib_crt0_path = '%*' + prefix + '/' + get_option('libdir') + '/' + '/%M' + '/' + crt0_expr
--+  crt0_sysroot = sysroot_format.format(sysroot_multilib_crt0_path)
--+  
--   gen_multilib_crt0_path = specs_prefix_format.format(get_option('libdir') / '%M' / crt0_expr)
--   crt0_gen = gen_format.format(gen_multilib_crt0_path)
-- endif
--@@ -723,7 +742,7 @@ endif
-- # above. As there's only one value, it's either the
-- # multilib path or the non-multilib path
-- #
---specs_startfile = specs_option_format.format(crt0_prefix, crt0_buildtype, crt0_gen)
--+specs_startfile = specs_option_format.format(crt0_prefix, crt0_buildtype, crt0_sysroot, crt0_gen)
-+-  specs_startfile = specs_option_format.format(crt0_prefix, crt0_buildtype, crt0_gen)
-++  specs_startfile = specs_option_format.format(crt0_prefix, crt0_buildtype, crt0_sysroot, crt0_gen)
-+ 
-  endif
-  
-- specs_data = configuration_data()
 -- 
 2.56.1
 
