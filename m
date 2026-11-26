@@ -1,69 +1,69 @@
 Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12897.1795770123184149586
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12898.1795770123184383801
  for <openembedded-core@lists.openembedded.org>;
  Fri, 27 Nov 2026 01:02:03 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kernel.org header.s=k20260515 header.b=GHpmwokq;
+ dkim=pass header.i=@kernel.org header.s=k20260515 header.b=l5DuK/zl;
  spf=pass (domain: kernel.org, ip: 172.105.4.254, mailfrom: devnull+dickson.wu.certik.com@kernel.org)
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by tor.source.kernel.org (Postfix) with ESMTP id EF2DD62409;
-	Fri, 27 Nov 2026 08:54:22 +0000 (UTC)
+	by tor.source.kernel.org (Postfix) with ESMTP id 66CF860138;
+	Fri, 27 Nov 2026 08:54:12 +0000 (UTC)
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795769662;
-	b=PvY1b95W2mkHQbNYG8xg0q+DdLcs7fQO7e4VNS1cdpY42AU8b3OFuB0X18y6V9dQEgQV
-	 UzMlzAapHw3EE/tJ60/P5ev4h7iS5YP5DIHT89hFwHmVeRj+Mzfr6/rZVUh3kQ29KoRrM
-	 9fApiBGppeN8gAdjK4tPkGBgFnt1j9i+/+NrZd589Sw628mHfBzTHQt4HpiroQ7Mgk9nH
-	 6nvq30HgeV4ZmhwylrRhWqKaKA0HCH5J/qqf7ejiOmiDtVjn6CU6pqK9CZ/bDy+fJpRRG
-	 Qj2A2GGPCEAkZ8y+/1QarkDZu222NkD5UXsgG3C94P5fGUHIgzi6P2fFhH45YbnYkTA==
+	t=1795769651;
+	b=cf8ypyUenWEx/GGY4fJKuibkXPE/xolhItNoZPl7Ue1SYLMW79WU3M6AN2V+9HnwoA/6
+	 qoWz6J2XgcibouYVCGYusyThxYqL2sAe+QunBsyylw46m+iuNuBEbyXZp5WBMxjz1IbCb
+	 MIdOMy8NmYTVUmphobGmmPGCQaDhQ5MUpIjOAALV6paJUXA8CrWVL6k3+zCN5SdkS5sXg
+	 mysytpIOWMs2pYVkcPqWFmnLwwMLcg/nORA3apJx3ZNuHLUUqkkfn7JOktWBseRc2n9hE
+	 XECIDVHSImDKUM5KfBQDsqrzxscx6+mE2b2FWfbEcmm7qf+TLWAw16bKAIdGvPU5Ghg==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795769662;
+	c=relaxed/relaxed; t=1795769651;
 	h=DKIM-Signature:Received:MIME-Version:Content-Type:Message-Id:
 	 References:In-Reply-To:From:Date:Subject:To:Cc:X-Mailer:
 	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
 	 X-Original-From:Reply-To:Content-Transfer-Encoding;
-	bh=F2b0ehpmsNK6mt/ZugdpsGEMMdwYACb+vlVMYmwenGQ=;
-	b=RcIG6ThnLw1GtCx2kfEnt5lyKy6NzgiP29csYD9Od1PH/+Cc8WMv4H36OCq1RVbeeZ5v
-	 PjKLYfn9xpLmneIbafOQ6Hk+99TCN3HQKYstbnac80SjqUOIihnhAYXpmMxiri8xsspiP
-	 m3A1O9oevMBzSLc2Y+48R6eMelrcLBibhyvm5O7JFnmwW/wqvjvDv6ZRXj78sW0GfHKDV
-	 7v1d3JR4+zXDq0v9TFDt5vE1Rrcc5HExnBEKwDUYGZyxsd5By3Wu1Ykjv5OEbwGZ99Dcr
-	 wVFjzTDb7b46ahbVCSPiy7+57tRZ6eawN34wNZG8scpefRdjymjQ91BDJgOIWXyb8Jw==
+	bh=crlDBtGd6l5+IHzsqXtUv4hP4F/lLXOFVvhVPqoGQBM=;
+	b=Pw3UqJ0RnFz4Lij3VCtT95ec+7xJQQBGA9lmzO3McSh//TbyEsnxTj2GLVT6Yi9WkmMj
+	 5iiMghIOH8yYfoWDETWaNjS3nYBfV3/vpS9tTm4HVimBFvgFLXQY2svKZXbUsoar/mQOL
+	 CBQJmusMFpDqVX7FjDjwJU8LeNXOcd3/Vijfn7GK2p+ehlSl1pSnxvhoyQvJac/FEihJm
+	 1zovxFrfI8E3or8MbBSUY8DVBwEFPmzxoYNwVYX+DUJ1Zi8YIjqX4mZNa4OmtSQM1RlFk
+	 B1nZFa4hBweuHjfIMI9yuK7TLMbfP0/PIZNZHIeFuXmVPLSp4xCW65W4SaiCLfgwi6g==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id AE0771F0089F;
-	Fri, 27 Nov 2026 08:54:12 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id D43FB1F0089F;
+	Fri, 27 Nov 2026 08:54:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795769662;
-	bh=F2b0ehpmsNK6mt/ZugdpsGEMMdwYACb+vlVMYmwenGQ=;
+	s=k20260515; t=1795769651;
+	bh=crlDBtGd6l5+IHzsqXtUv4hP4F/lLXOFVvhVPqoGQBM=;
 	h=References:In-Reply-To:From:Date:Subject:To:Cc:Reply-To;
-	b=GHpmwokqoDMCedxGuS+M70b/i385vlcaxMTGKlUcmaUUCEvHOWX8nz7pKIjTeylAT
-	 k2rekF8nk5Mgz07sWTaxLe+q/h5XW0mG6Tgf0/mj9YzAdljzeIibTCf7y28mv8m9Z/
-	 hOis7qTlSCfE7nww2uzd++xp2SnxAVnbNRrzH/i94g7rzgGKwg5APmae1FrKVMsDX9
-	 1FcsTZUUaWSRbDahyOs4vyOxc/zQr/v+H5v3fQWL5qT3vWqCIZf/6M7mWojiB54AtX
-	 iVP01XVH4KdLHD29grAazGQ0/he05sr3XHoR9k6hn2wv8GYkBWFh7eC7P4FwUQQcip
-	 Olq3Qe2PG04lw==
+	b=l5DuK/zlfz2nrY11djKXfCw/83qV7HGyBoaR/631WIVd3Db1oNr91D91ruH8rXUM8
+	 lgn6z5JGU99603x4L7FeAMbGYcb/Npp+F4T+0qiw3Bz53cDFinclDkpkcmZHUel/7J
+	 1VaF2KiwMA5Bok1wyr2589AmE4rbkxJJqO8jCOdJYHlGLvDlOE5BNBJB2mDdJqb5Wi
+	 EB8mMakULcIqJE24bNLnMwHm52VQ9oTqDszB4cX8Egt9/qIAIZtHnSS3qQUad4KJfB
+	 iBe4FHqCk7dSYL0UMNUnVjM3Ij8U/8WhLl5AXPxWfhtu4KmlE/FtAiL4o6o5+yy0Fs
+	 rMFMH9C0sztZw==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id E39854B681;
+	by lkml.kernel.org (Postfix) with ESMTP id 631C34B671;
 	Fri, 27 Nov 2026 08:54:06 +0000 (UTC)
 MIME-Version: 1.0
-Message-Id: <20261127-yoc1s-ffmpeg-v1-7-f01fec79468b@certik.com>
+Message-Id: <20261127-yoc1s-ffmpeg-v1-3-f01fec79468b@certik.com>
 References: <20261127-yoc1s-ffmpeg-v1-0-f01fec79468b@certik.com>
 In-Reply-To: <20261127-yoc1s-ffmpeg-v1-0-f01fec79468b@certik.com>
 From: Dickson Wu via B4 Relay <devnull+dickson.wu.certik.com@kernel.org>
 Date: Thu, 26 Nov 2026 23:02:05 +0000
-Subject: [scarthgap][PATCH 7/7] ffmpeg: fix CVE-2026-135740
+Subject: [scarthgap][PATCH 3/7] ffmpeg: fix CVE-2026-135722
 To: openembedded-core@lists.openembedded.org
 Cc: Yoann Congal <yoann.congal@smile.fr>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795769565; l=2695;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795769564; l=2853;
  i=dickson.wu@certik.com; s=dickson-b4; h=from:subject:message-id;
- bh=zdkqaBc9YVASTYHuvTkigBjoFyQo3qq7mR75JEq5aMo=;
- b=KS0YTqgSro11Cup1gsmQVjh4GZWh6stJOpe3Lv3AbMAAhyJBArLgd5PUqfoWnj2ffaaGb2t/I
- whSCuFXH+xsBNkFSZcmYmtWUzJGnH8zEMdweIS6v0p0iyi32egJ/D+c
+ bh=L9rq1+XOH4O3jSXzFB1Vq1HtolZutvodyYP1EcWSOYg=;
+ b=y0XaEm2orP4i6TbZJOCc44RRMT+01LQrD0IbkIrqWHGMUlYPBhXM3v/ieGFra5xTyEXpimBBQ
+ n5Bi+1d+r6kDglUoZdQcpXBMzutvG3lZh2Mv2V+tvAxjLn7S02Xihmd
 X-Developer-Key: i=dickson.wu@certik.com; a=ed25519;
  pk=fxH7FS4FdojeJSGLJzgKdfO51Rvr4EW30yinj2mc1vg=
 X-Endpoint-Received: by B4 Relay for dickson.wu@certik.com/dickson-b4 with
@@ -73,74 +73,75 @@ Reply-To: dickson.wu@certik.com
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 09:24:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251360
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 09:24:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251361
 
 From: Dickson Wu <dickson.wu@certik.com>
 
-The readeia608 filter could index its histogram with high-bit-depth
-samples outside its bounds. Backport the upstream fix.
+The WAV muxer could write peak-envelope data without audio channels and
+access outside its channel array. Backport the upstream fix.
 
-https://github.com/FFmpeg/FFmpeg/commit/df1ddf75db9a
+https://github.com/FFmpeg/FFmpeg/commit/0b1c279b62af
 
 AI-Generated: OpenAI Codex, gpt-6.2-sol
 Signed-off-by: Dickson Wu <dickson.wu@certik.com>
 ---
- .../ffmpeg/ffmpeg/CVE-2026-135740.patch       | 35 +++++++++++++++++++
+ .../ffmpeg/ffmpeg/CVE-2026-135722.patch       | 36 +++++++++++++++++++
  .../recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb |  1 +
- 2 files changed, 36 insertions(+)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-135740.patch
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-135722.patch
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-135740.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-135740.patch
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-135722.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-135722.patch
 new file mode 100644
-index 00000000..ef18e212
+index 00000000..6a063254
 --- /dev/null
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-135740.patch
-@@ -0,0 +1,35 @@
-+From df1ddf75db9a1ff36a35019511e17f795cf20c55 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-135722.patch
+@@ -0,0 +1,36 @@
++From 0b1c279b62af82e422e3fc21ba6cc2fc3154dc76 Mon Sep 17 00:00:00 2001
 +From: Michael Niedermayer <michael@niedermayer.cc>
-+Date: Sat, 14 Nov 2026 00:36:46 +0100
-+Subject: [PATCH] avfilter/vf_readeia608: clip high bit depth samples to the
-+ histogram
++Date: Tue, 6 Oct 2026 07:19:23 +0200
++Subject: [PATCH] avformat/wavenc: Reject peak envelope writing without
++ channels
++
++The fix is the one recommended in the report.
 +
 +Fixes: out of array write
-+Fixes: 1gH0Fg8kXAvn
-+Fixes: AISLE-2026-0166-00264
-+
-+Found-by: Joshua Rogers (AISLE)
-+
++Fixes: LHiad3FmdAmI
++Fixes: AISLE-2026-0111-00337
 +Out of array write Replicated through UnModified FFmpeg with ASAN
++Found-by: Joshua Rogers <joshua.rogers@aisle.com>
 +
-+CVE: CVE-2026-135740
-+Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/df1ddf75db9a1ff36a35019511e17f795cf20c55]
++CVE: CVE-2026-135722
++Upstream-Status: Backport [https://github.com/FFmpeg/FFmpeg/commit/0b1c279b62af82e422e3fc21ba6cc2fc3154dc76]
 +
 +Signed-off-by: Dickson Wu <dickson.wu@certik.com>
 +---
-+ libavfilter/vf_readeia608.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
++ libavformat/wavenc.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
 +
-+diff --git a/libavfilter/vf_readeia608.c b/libavfilter/vf_readeia608.c
-+index 86e9019356aa8..2d23afdf196f9 100644
-+--- a/libavfilter/vf_readeia608.c
-++++ b/libavfilter/vf_readeia608.c
-+@@ -173,7 +173,7 @@ static void build_histogram(ReadEIA608Context *s, ScanItem *scan, const LineItem
-+     memset(scan->histogram, 0, (s->max + 1) * sizeof(*scan->histogram));
++diff --git a/libavformat/wavenc.c b/libavformat/wavenc.c
++index c9ced4a1bdf4f..9de3f7b7890a8 100644
++--- a/libavformat/wavenc.c
+++++ b/libavformat/wavenc.c
++@@ -194,7 +194,8 @@ static av_cold int peak_init_writer(AVFormatContext *s)
++                "Writing 16 bit peak for 8 bit audio does not make sense\n");
++         return AVERROR(EINVAL);
++     }
++-    if (par->ch_layout.nb_channels > INT_MAX / (wav->peak_bps * wav->peak_ppv))
+++    if (par->ch_layout.nb_channels <= 0 ||
+++        par->ch_layout.nb_channels > INT_MAX / (wav->peak_bps * wav->peak_ppv))
++         return AVERROR(ERANGE);
++     wav->size_increment = par->ch_layout.nb_channels * wav->peak_bps * wav->peak_ppv;
 + 
-+     for (int i = LAG; i < len + LAG; i++)
-+-        scan->histogram[line[i].input]++;
-++        scan->histogram[FFMIN(line[i].input, s->max)]++;
-+ }
-+ 
-+ static void find_black_and_white(ReadEIA608Context *s, ScanItem *scan)
 diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb
-index 2c06762b..99585cd5 100644
+index 9d92115b..a9b42303 100644
 --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb
 +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb
-@@ -38,6 +38,7 @@ SRC_URI = " \
-     file://CVE-2026-135725.patch \
-     file://CVE-2026-135734.patch \
-     file://CVE-2026-135738.patch \
-+    file://CVE-2026-135740.patch \
+@@ -34,6 +34,7 @@ SRC_URI = " \
+     file://CVE-2025-22921.patch \
+     file://CVE-2026-135736.patch \
+     file://CVE-2026-135743.patch \
++    file://CVE-2026-135722.patch \
  "
  
  SRC_URI[sha256sum] = "a231e3d5742c44b1cdaebfb98ad7b6200d12763e0b6db9e1e2c5891f2c083a18"
