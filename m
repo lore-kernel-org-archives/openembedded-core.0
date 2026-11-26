@@ -1,261 +1,174 @@
-Received: from mx1.white.stw.pengutronix.de (mx1.white.stw.pengutronix.de [185.203.200.13])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10176.1795682248526700945
+Received: from fhigh-a6-smtp.messagingengine.com (fhigh-a6-smtp.messagingengine.com [103.168.172.157])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10620.1795684646541581744
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Nov 2026 00:37:29 -0800
+ Thu, 26 Nov 2026 01:17:26 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pengutronix.de header.s=20260414 header.b=Z/JlLTjM;
- spf=pass (domain: pengutronix.de, ip: 185.203.200.13, mailfrom: m.felsch@pengutronix.de)
-Received: from dude06.red.stw.pengutronix.de (dude06.red.stw.4.pengutronix.de [10.17.1.27])
-	(Authenticated sender: relay-from-dude06.red.stw.pengutronix.de)
-	by mx1.white.stw.pengutronix.de (Postfix) with ESMTPSA id E75FA201A64;
-	Thu, 26 Nov 2026 09:37:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1795682245;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=I3kop2VMn4KRb6VzxEopr5pPxyvAuOqAm+xw3+0DjNk=;
-	b=Z/JlLTjMzlnOOnSQaIbgfrGC1Fg21WzrWkWFe5EGlND8Kf94/gdzlBiOsWcYygeByNl6iD
-	0A5XnB1FTvoClTL5hqF1rcVOBGYAB5tFkjLfOeA6SchWuPEcxy7Od+7h1zPAlpbgdVWuIT
-	88Ql/yc0wk2LeoUM2RjY96RgS02h1kqoLYVlSDnjTDX7B+zqZg+QaeB5CCvyuVCOvJMcOP
-	t1U9Y6aimpW57ORoN7Bo6y77ebv4QtSkT1+C3kuv58LJohZXJHiOUwjq+3Xjipra59zFFh
-	5AciO6X9NcoUAIH8MxtMAv8y7JIgBl2bOofSE5YDSI0lHwempZtkgVDlS2JNqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=pengutronix.de;
-	s=20260414; t=1795682245;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=I3kop2VMn4KRb6VzxEopr5pPxyvAuOqAm+xw3+0DjNk=;
-	b=DWwr6EDQMHfIUMbWW7Zp1z64Oxo5Is6VaZ3zS0Y+okAgygfcDOlhCul+64nUUhRbMClpIN
-	a0HpUFbPxdmgYFxPSafEmaWP0RSASG4k/+TcDlU3Q27oyditIxcvBKuwn/oYNlFBxYDt8s
-	Dd3Q4Lp7k7ZkVZ3xMUL0x6kx3qPu2lw9ZY6Mnu2/hWMgY3trR0cFV05IO+ZZzPsl1M9lL6
-	X2mQNFq+Qs1OIRVw22REVB7rRzVF6bnWrltrXM5cnuMDTgwcoR5sMNNJZYQGX9PXRTwQUO
-	PFzyOKgLCP3WN0BjrLpGQqP50qok8BdAvD1WIv2vsoAt/JGB6Qumi7b7BpQYbw==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=relay-from-dude06.red.stw.pengutronix.de smtp.mailfrom=m.felsch@pengutronix.de
-ARC-Seal: i=1; s=20260414; d=pengutronix.de; t=1795682245; a=rsa-sha256;
-	cv=none;
-	b=IGPV+c9C745OhwimWe0wIrKJECtq/28mWI9EPRKHI/Fx/emyvzmdsZUczVJCMZInx+Ddts
-	gfZrbKntlnVIxKvjnDZodjM6IWxCyVdXx6+z7hxCRFJ2CM6FHPM7+PGIfgq+3Un3UAk6/C
-	SrwrG3102zWfwHY2WtsX7zgsQ1fZFoEi6PMuQSa42r0H4XSlNCo4Q87TfUYKYSgtV1t5gU
-	9Ltk4wMrLHvYpJRpmTfGO/F4rdc82JDTql8nF3AZLDHUYGzeMSdb0bshiqqAJSY/bxzJoR
-	EzBUHSZhW8dAt/qdYSGxnLjO6V1Wu3dM/UGSW2VBsfH01fZDzrzNYrnys5Z1Ag==
-Received: from dude06.red.stw.pengutronix.de (localhost [IPv6:::1])
-	by dude06.red.stw.pengutronix.de (Postfix) with ESMTP id DBD23643817;
-	Thu, 26 Nov 2026 09:37:25 +0100 (CET)
-From: Marco Felsch <m.felsch@pengutronix.de>
-Date: Thu, 26 Nov 2026 09:37:20 +0100
-Subject: [PATCH v3] classes/cargo-update-recipe-crates: support multiple
+ dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=hldj6VCy;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=PdiHj8p2;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.157, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 86507140026E
+	for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 04:17:25 -0500 (EST)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Thu, 26 Nov 2026 04:17:25 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1795684645;
+	 x=1795771045; bh=zSBYbC2yRtCeHtRWxyMvqxn9S3Gm2pIyhCf+vVUZEZQ=; b=
+	hldj6VCyMiOqzvNCuzI4S/HSuLY2RmDxmkQKdmke6y8AHa0WegcO4cGKE5wrU709
+	yVRWx/F1qvA+LEt8CxF1NM9DKRnrtKuQCvFAUAWeunncKN0xCfGxx0+9qQDiuo1c
+	954bTnGFdyJWAujmNdMycmO7zuVXFxSOY2p1agzZ31fBE3Jv8kWDFQIqUOdOVpiu
+	2TWDQaJQkU0j7JOU6CciHkw9UO+XUQhgYM3XT2v00CZ5Gv9T5Iy5TYNzyJGmQOY5
+	0YRNbmMVUUjpUNfz0Dnu52u2xVlgF8xohmblf4XoLx+/Jeym5iXj7SQkIhckv4Np
+	d64tmsEWkF3RZkLSqeboXw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1795684645; x=
+	1795771045; bh=zSBYbC2yRtCeHtRWxyMvqxn9S3Gm2pIyhCf+vVUZEZQ=; b=P
+	diHj8p26kD6gi5l9clI4NhhEExUc/4ygNyATr4tpHZ2zRBEFhli4uwjHolFSXSSz
+	qNP0fDjGOWfujOCljL+3Kkr9wEhJRKKwIEGtxs+v1i8eqhjNHCYeF8ZwwtRHfUKs
+	ZBv4IlfACwWs4eIbLQnnUp5/CZYv5z6QbWe6ds7RbzykA7TqeHxnx27nsTnrIP89
+	ZRL23Ds0iDp8e1f8BBe221xs3uG6Ncnnit5ifWAcNNIxqdS5NzVDQzay86Aq1038
+	qeDzSJUTZy99E1eIBlQvldq3M7sraqLWRGZgrKE1KmFSBLGlhH599auniNqgroQE
+	rMVHTTqFW+xu0Kze6FTrQ==
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=sign d=pbarker.dev a=rsa-sha256;
+DKIM2-Signature: i=1; m=1; t=1795684645; d=pbarker.dev;
+	mf=PHBhdWxAcGJhcmtlci5kZXY+;
+	rt=PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+;
+	s=fm2:rsa-sha256:TbbwOie/oJ4SUaNiNZPAInPDZNBlcTo2PkAs3w/jKji8gBG
+	ouAzt33wudiSL6e7rdQKw2Y3iTZ4O3rU117zjIKgjBhXjQD0G2+FFBuxAiXmhPl+
+	XmZseqPRnkEqKeecWmjboDHPNxVoULF33v/DMkxxYlg1ZxSmAeQoFuICz1KU/go9
+	BDSuwF4W3Ll2udg2YtBo/iwGlQTqAQJNGr5syMa1W5fr2j3JwRuNQueyS3tNu/Gy
+	5I+hJukGeafWiOWIn2Zoq1wqtM8LFAgUS1rKgPjdAydi47x5OA/aQU0NMSv76D1J
+	LNO9JY51//qu4paIIfVR8WJ5JPOl7CF6cycXfIA==;
+X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-09;
+	repo=github.com/dkim2wg/interop; date=2026-11-03; sw=lmtpprox;
+	action=mi-m=1; hc=12;
+	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
+	from,in-reply-to,message-id,mime-version,references,subject,to;
+Message-Instance: m=1; h=sha256:LtdJ6YPB7PCCqJWPwtJEZNdi8Mztw//zzoxtjoJgsGs=:ClPSuOxiGTedt9EnAslnU9VC9xJV7pWBwkElSCMiESk=;
+X-ME-Sender: <xms:JfkHa1iO4SPm5Nu0kX26c0DAS6WHJx5VsS7Wyn2VyqMXOQdFv-TDvA>
+    <xme:JfkHaxBsO9kIXc11lbS95GC6EnBGqThYWFmb-gMsm9bkpNxqGN4C6D5VlNkvJCFKJ
+    aMjad1bTMyHxafvmSCkotbptOFb2-wvqKDuc8cNkKHaV-O0wl4B10n2>
+X-ME-Received: <xmr:JfkHa6FwDc4ltXb3eB1DxMMn0zsE8lQ7fTiaIDC7JP9WmvPrYro1oIb-CM8aEYMpFwJ1EYOxOJVDMy7s8GgNj65jy_I6>
+X-ME-Proxy-Cause: dmFkZTFY+ICz8QyYW6zNOtjBhcZrpEw1y8OZGxs8kDyjnZXK0/AflQ3m3PIGiQm0ZSpbV/
+    SM0gzTvpppOMkZc85oNMtzKQu9MiPwG7bCsTc8I/nzlrHLZaU5QwbHa2YL4vj2iqvqpfvQ
+    YamaObJlwZ9hvPkXMydVFKsoPKVWAnvzJknHUK9a4MGHI0PeJ1UxzecyjhoURfmoaMVjpK
+    gJd4gh8tgBOZvSy5dsWjCU+CHFB4ctQrRFtt9V7i8VCpuHTC30eUo0v30jG1BKsq05Dq+y
+    SVq1GJDlyJYbZ98BEZt2qnRCc7vAxhxret4nhxtD6EE22C4oT/gv23SGBddMAfIs98dLPo
+    YOMyokvXtyJk1kVZnL+19EOw4u9GwIyZ+r/7v3uatiBIdnopBS28mSP8+ZvRB5S5LfaTRh
+    BD60oy5hV7iaSygRCmswu5/cd2tl1o7uslw4gJYg51nSVL+hHJ6kJZyYf4VqMmkfM8glNH
+    WioAUsXXGtzIlf67yWr9HXJ4WiWkCdQRm1QBBixvmLiMMpNlutbJmPXFwsO5E4I6zlCOcn
+    2Dv7r6uLokW7YK+AE9wun0MeQJDiCt4NmOjql5Uc/jToaMkawrJjRi01AjUNsfmoUhwsvB
+    q7lr//FGX6OtWcAIX4xK7FT1l6NWg433Ulzq9v1wnDCrg+71Qf0RMau6Awrw
+X-ME-Proxy: <xmx:JfkHa5KodRoW4BsgPc75Xp4_yk94CuTP3Fo5laHhV5xHq5lrtFxxhQ>
+    <xmx:JfkHa-knZanc4sBF6JGPXqVpr5EhfQD6e09CbLkwr4hWiJLoMvP3Dw>
+    <xmx:JfkHaxSiTynhkCwmJjPygiDBxgyz0v9dgAdmAYtLCE74rFB4N_vZFA>
+    <xmx:JfkHawIO4Wzii_XxMAQ6jTzLuXUqu9fI5LMwrZLanGVlilZGresTeQ>
+    <xmx:JfkHa-Yr6DLBjIrI5Njj6vjdHwsU40Uz3advLgbLkHminQKzq5W0gp36>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 26 Nov 2026 04:17:24 -0500 (EST)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 26 Nov 2026 09:17:23 +0000
+Message-Id: <DN512WUV1N5T.37DXG9FP6FCI6@pbarker.dev>
+Subject: Re: [PATCH v3] classes/cargo-update-recipe-crates: support multiple
  Cargo.lock search directories
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20261126-mfe-multi-cargo-lock-files-v3-1-7ee885214204@pengutronix.de>
-X-B4-Tracking: v=1; b=H4sIAL/vB2sC/43Nyw6CMBCF4VchXTuGKZeIK9/DuKjtFEaRkhYIh
- vDuAi5cmBiXf3LynUkE8kxBHKNJeBo4sGuWSHaR0JVqSgI2SwsZyxxjifCwBI++7hi08qWD2uk
- 7WK4pQIq2UKQkZkUmFqD1ZHnc8PPl3aG/3kh3q7guKg6d88/tfcB199fRgBCDSTKMTapMkSenl
- pqy77xreNwbEuvbID8eyvSnJwHhYA1m2iaYK/XlzfP8ApQ0aSwrAQAA
-X-Change-ID: 20261021-mfe-multi-cargo-lock-files-41f9aea21595
-To: openembedded-core@lists.openembedded.org
-Cc: peter.kjellerstedt@axis.com, yocto@pengutronix.de, 
- Marco Felsch <m.felsch@pengutronix.de>
-X-Mailer: b4 0.14.2
+From: "Paul Barker" <paul@pbarker.dev>
+To: "Marco Felsch" <m.felsch@pengutronix.de>,
+ <openembedded-core@lists.openembedded.org>
+Cc: <peter.kjellerstedt@axis.com>, <yocto@pengutronix.de>
+X-Mailer: aerc 0.22.0
+References: <20261126-mfe-multi-cargo-lock-files-v3-1-7ee885214204@pengutronix.de>
+In-Reply-To: <20261126-mfe-multi-cargo-lock-files-v3-1-7ee885214204@pengutronix.de>
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 08:37:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251288
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 09:17:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251289
 
-Recipes using cargo's -Z build-std must also vendor the standard
-library's dependencies. The std sources staged by rust-native
-(.../rustlib/src/rust/library) ship a Cargo.lock but no vendor
-directory, so those crates need crate:// entries in SRC_URI as well.
-Until now only a single directory could be scanned (CARGO_LOCK_SRC_DIR),
-which forced the std crate list to be maintained by hand and go stale on
-toolchain upgrades, breaking do_compile with:
+On Thu Nov 26, 2026 at 8:37 AM GMT, Marco Felsch wrote:
+> Recipes using cargo's -Z build-std must also vendor the standard
+> library's dependencies. The std sources staged by rust-native
+> (.../rustlib/src/rust/library) ship a Cargo.lock but no vendor
+> directory, so those crates need crate:// entries in SRC_URI as well.
+> Until now only a single directory could be scanned (CARGO_LOCK_SRC_DIR),
+> which forced the std crate list to be maintained by hand and go stale on
+> toolchain upgrades, breaking do_compile with:
+>
+>   error: failed to select a version for the requirement
+>   `cfg-if =3D "^1.0"` (locked to 1.0.4)
+>
+> Keep the existing CARGO_LOCK_SRC_DIR and extend it to support a
+> space-separated list of directories, to allow:
+>
+>   CARGO_LOCK_SRC_DIR =3D "${S} ${STAGING_LIBDIR_NATIVE}/rustlib/src/rust/=
+library"
+>
+> This way the behavior can be backported.
+>
+> Crates found in multiple lockfiles are listed only once, in the section
+> of the first Cargo.lock containing them; conflicting checksums for the
+> same crate version now fail the task. The crates.io warning now names the
+> lockfile it came from. Output for recipes with a single lockfile is
+> unchanged.
+>
+> Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
+> ---
+> Hi,
+>
+> this patch adds the support to reference multiple Cargo.lock files which
+> is handy once a recipe want to rebuild the std-crate for minimized
+> special purpose builds.
+> ---
+> Changes in v3:
+> - Link to v2: https://lore.kernel.org/r/20261124-mfe-multi-cargo-lock-fil=
+es-v2-1-8fd15cf316aa@pengutronix.de
+> - Convert to space-separated list to simplify :remove handling and align
+>   with standard bitbake behavior
+>
+> Changes in v2:
+> - Link to v1: https://lore.kernel.org/r/20261021-mfe-multi-cargo-lock-fil=
+es-v1-0-d3510d4ad963@pengutronix.de
+> - Drop mainlined fixes patch
+> - Re-use CARGO_LOCK_SRC_DIR to make it backportable
+> - Add support for v1 Cargo.lock file format
+> ---
+>  .../cargo-update-recipe-crates.bbclass             | 87 ++++++++++++++++=
+------
+>  1 file changed, 65 insertions(+), 22 deletions(-)
+>
+> diff --git a/meta/classes-recipe/cargo-update-recipe-crates.bbclass b/met=
+a/classes-recipe/cargo-update-recipe-crates.bbclass
+> index 0767b566ee287d11dc2e1e6d0aeea0a0d3b225b8..092dce21fe27bd1c693e8e68c=
+4d6405ad2f03c71 100644
+> --- a/meta/classes-recipe/cargo-update-recipe-crates.bbclass
+> +++ b/meta/classes-recipe/cargo-update-recipe-crates.bbclass
+> @@ -9,6 +9,10 @@
+>  ## This class is used to update the list of crates in SRC_URI
+>  ## by reading Cargo.lock in the source tree.
+>  ##
+> +## Both the current Cargo.lock format (checksum stored per [[package]])
+> +## and the old v1 format (checksums stored in the [metadata] table as
+> +## "checksum <name> <version> (<source>)" checksum-val) are supported.
 
-  error: failed to select a version for the requirement
-  `cfg-if = "^1.0"` (locked to 1.0.4)
-
-Keep the existing CARGO_LOCK_SRC_DIR and extend it to support a
-space-separated list of directories, to allow:
-
-  CARGO_LOCK_SRC_DIR = "${S} ${STAGING_LIBDIR_NATIVE}/rustlib/src/rust/library"
-
-This way the behavior can be backported.
-
-Crates found in multiple lockfiles are listed only once, in the section
-of the first Cargo.lock containing them; conflicting checksums for the
-same crate version now fail the task. The crates.io warning now names the
-lockfile it came from. Output for recipes with a single lockfile is
-unchanged.
-
-Signed-off-by: Marco Felsch <m.felsch@pengutronix.de>
----
 Hi,
 
-this patch adds the support to reference multiple Cargo.lock files which
-is handy once a recipe want to rebuild the std-crate for minimized
-special purpose builds.
----
-Changes in v3:
-- Link to v2: https://lore.kernel.org/r/20261124-mfe-multi-cargo-lock-files-v2-1-8fd15cf316aa@pengutronix.de
-- Convert to space-separated list to simplify :remove handling and align
-  with standard bitbake behavior
+It looks like this patch is making two changes at once: Adding support
+for multiple Cargo.lock dirs and adding support for multiple Cargo.lock
+format versions. There's no mention of the second change in the commit
+message.
 
-Changes in v2:
-- Link to v1: https://lore.kernel.org/r/20261021-mfe-multi-cargo-lock-files-v1-0-d3510d4ad963@pengutronix.de
-- Drop mainlined fixes patch
-- Re-use CARGO_LOCK_SRC_DIR to make it backportable
-- Add support for v1 Cargo.lock file format
----
- .../cargo-update-recipe-crates.bbclass             | 87 ++++++++++++++++------
- 1 file changed, 65 insertions(+), 22 deletions(-)
-
-diff --git a/meta/classes-recipe/cargo-update-recipe-crates.bbclass b/meta/classes-recipe/cargo-update-recipe-crates.bbclass
-index 0767b566ee287d11dc2e1e6d0aeea0a0d3b225b8..092dce21fe27bd1c693e8e68c4d6405ad2f03c71 100644
---- a/meta/classes-recipe/cargo-update-recipe-crates.bbclass
-+++ b/meta/classes-recipe/cargo-update-recipe-crates.bbclass
-@@ -9,6 +9,10 @@
- ## This class is used to update the list of crates in SRC_URI
- ## by reading Cargo.lock in the source tree.
- ##
-+## Both the current Cargo.lock format (checksum stored per [[package]])
-+## and the old v1 format (checksums stored in the [metadata] table as
-+## "checksum <name> <version> (<source>)" checksum-val) are supported.
-+##
- ## See meta/recipes-devtools/python/python3-bcrypt_*.bb for an example
- ##
- ## To perform the update: bitbake -c update_crates recipe-name
-@@ -19,38 +23,75 @@ do_update_crates[doc] = "Update the recipe by reading Cargo.lock and write in ${
- 
- RECIPE_UPGRADE_EXTRA_TASKS += "do_update_crates"
- 
--# The directory where to search for Cargo.lock files
-+# Space-separated list of directories where to search for Cargo.lock files.
-+# Crates found in multiple Cargo.lock files are listed only once, in the
-+# section of the first Cargo.lock file that contains them.
- CARGO_LOCK_SRC_DIR ??= "${S}"
- 
- python do_update_crates() {
--    cargo_lock_src_dir = d.getVar("CARGO_LOCK_SRC_DIR")
--
--    def get_crates(filename):
-+    def get_legacy_checksums(crates, filename):
-+        # Old (v1) Cargo.lock files do not carry a 'checksum' field per
-+        # [[package]]; instead they are collected in the [metadata] table:
-+        #   "checksum <name> <version> (<source>)" = "<sha256>"
-+        # Packages without a checksum (e.g. git sources) use "<none>".
-+        checksums = {}
-+        for key, value in crates.get('metadata', {}).items():
-+            if not key.startswith('checksum '):
-+                continue
-+            parts = key.split(' ', 3)
-+            if len(parts) != 4 or not (parts[3].startswith('(') and parts[3].endswith(')')):
-+                print("WARNING: Unable to parse metadata entry '%s' in %s" % (key, filename))
-+                continue
-+            name, version, source = parts[1], parts[2], parts[3][1:-1]
-+            if value == '<none>':
-+                continue
-+            checksums[(name, version, source)] = value
-+        return checksums
-+
-+    def get_crates(filename, src_dir, seen):
-         try:
-             import tomllib
-         except ImportError:
-             import bb._vendor.tomli as tomllib
- 
--        c_list = '# from %s' % os.path.relpath(filename, cargo_lock_src_dir)
-+        c_list = '# from %s' % os.path.relpath(filename, src_dir)
-         c_list += '\nSRC_URI += " \\'
-         with open(filename, 'rb') as fp:
-             crates = tomllib.load(fp)
- 
-+        legacy_checksums = get_legacy_checksums(crates, filename)
-+
-         # Build a list with crates info that have crates.io in the source
-         crates_candidates = list(filter(lambda c: 'crates.io' in c.get('source', ''), crates['package']))
- 
-         if not crates_candidates:
--            print("WARNING: Unable to find any candidate crates that use crates.io")
-+            print("WARNING: Unable to find any candidate crates that use crates.io in %s" % filename)
-             return None
- 
-         # Update crates uri and their checksum, to avoid name clashing on the checksum
-         # we need to rename crates with name and version to have a unique key
-+        # Crates already emitted for a previous Cargo.lock are skipped.
-         cksum_list = ''
-+        ncrates = 0
-         for c in crates_candidates:
-             rename = "%s-%s" % (c['name'], c['version'])
-+            checksum = c.get('checksum')
-+            if checksum is None:
-+                checksum = legacy_checksums.get((c['name'], c['version'], c['source']))
-+            if rename in seen:
-+                if seen[rename] != checksum:
-+                    raise ValueError(f"Conflicting checksums for crate {rename}")
-+                continue
-+            seen[rename] = checksum
-             c_list += '\n    crate://crates.io/%s/%s \\' % (c['name'], c['version'])
--            if 'checksum' in c:
--                cksum_list += '\nSRC_URI[%s.sha256sum] = "%s"' % (rename, c['checksum'])
-+            if checksum is not None:
-+                cksum_list += '\nSRC_URI[%s.sha256sum] = "%s"' % (rename, checksum)
-+            else:
-+                print("WARNING: No checksum found for crate %s in %s" % (rename, filename))
-+            ncrates += 1
-+
-+        if not ncrates:
-+            return None
- 
-         c_list += '\n"\n'
-         c_list += cksum_list
-@@ -62,23 +103,25 @@ python do_update_crates() {
-     pn = d.getVar("PN")
-     crates = f"# Autogenerated with 'bitbake -c update_crates {pn}'\n\n"
- 
-+    seen = {}
-     found = False
--    for root, dirs, files in os.walk(cargo_lock_src_dir):
--        # ignore git and patches directories
--        if root.startswith(os.path.join(cargo_lock_src_dir, '.pc')):
--            continue
--        if root.startswith(os.path.join(cargo_lock_src_dir, '.git')):
--            continue
--        for file in files:
--            if file == 'Cargo.lock':
--                cargo_lock_path = os.path.join(root, file)
--                c = get_crates(cargo_lock_path)
--                if c is not None:
--                    crates += c
--                    found = True
-+    for cargo_lock_src_dir in d.getVar("CARGO_LOCK_SRC_DIR").split():
-+        for root, dirs, files in os.walk(cargo_lock_src_dir):
-+            # ignore git and patches directories
-+            if root.startswith(os.path.join(cargo_lock_src_dir, '.pc')):
-+                continue
-+            if root.startswith(os.path.join(cargo_lock_src_dir, '.git')):
-+                continue
-+            for file in files:
-+                if file == 'Cargo.lock':
-+                    cargo_lock_path = os.path.join(root, file)
-+                    c = get_crates(cargo_lock_path, cargo_lock_src_dir, seen)
-+                    if c is not None:
-+                        crates += c
-+                        found = True
- 
-     if not found:
--        raise ValueError(f"Unable to find any Cargo.lock in {cargo_lock_src_dir}")
-+        raise ValueError(f"Unable to find any Cargo.lock in '{d.getVar('CARGO_LOCK_SRC_DIR')}'")
- 
-     target_file = d.expand("${THISDIR}/${BPN}-crates.inc")
-     with open(target_file, 'w') as f:
-
----
-base-commit: 7412d08ab2ee94354a93f3765b94479d84c6b034
-change-id: 20261021-mfe-multi-cargo-lock-files-41f9aea21595
+This would be better as two separate patches.
 
 Best regards,
--- 
-Marco Felsch <m.felsch@pengutronix.de>
+
+--=20
+Paul Barker
 
