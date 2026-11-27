@@ -1,142 +1,133 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1551.1795801796951232095
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1498.1795801857759245988
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Nov 2026 09:49:57 -0800
+ Fri, 27 Nov 2026 09:50:58 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=AoreOG62;
- spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-4bb64ef5a14so81842875e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 09:49:56 -0800 (PST)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ePwWnhkM;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4b467581b98so80462505e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 09:50:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795801795; x=1796406595; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=0jEMJWIFzk//wt4/s7u1H0mJ+xn8zBL2gb6AosflASg=;
-        b=AoreOG629F6atg8dZZINawuZuGzusaPlEyeZpdjW7PCUi1RIos8rJ+6L6I9Ua5yC0I
-         wsTqt18XwZ3LrIENMs4uddHBJlHoVo4jWZFFP3NiiDGQTSEiL79kLE1R98BwbnXUuaDt
-         0tnz8M+lz0hLjD4k1z1XgeB0LpSm6+eWc74BtqpAzMa78bAeFbkm7hu0Mii6BqcYoHoO
-         LsGvRisIwHb943X7ANP/+XbKG1LGJmsOPMwyq31H95veGWJXl8/ktHKqh7Ff8fPdYMMd
-         1mZWRgqB/Un1aS8HL+7sSA702DTlAUcbq5vXxzpfLbS6hm3mntNAD88MQZZAzO3vKl4z
-         hrCg==
+        d=linuxfoundation.org; s=google; t=1795801856; x=1796406656; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/5ViKgSaSaHfP3NDZkBbw/HFils9ks/dEC6ihDtnjVU=;
+        b=ePwWnhkM8gAzSnSMvhE1RBrymk8m2JnTQTlqzZE48FFOcjJPpZEahEiektAlGytSmg
+         KAEmQA8mYdOCeNA7PLcDvB2ztZkQ1FkiML9i69T50NCOJaBHeegbj2v5G5HEmyR7VKcf
+         eImYHBoyOogCHHqlXpkn6S+bLsnxTEB4NmI4Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795801795; x=1796406595;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=0jEMJWIFzk//wt4/s7u1H0mJ+xn8zBL2gb6AosflASg=;
-        b=WrhaV8ZHeHugX49whPr8mxMGsYVmGnFMO7ExlJD1Iu89NRjiQXzrJdjP18R4lSfSNW
-         +JBwa+zc+SxYlZLoT+HwL85pxcW4RS7M09ftcUBqU60PO56bD7ySSnNHWTOzD21Ih4SZ
-         lpnssHxP30KLf8T/h36i9I64SmNG25hzKApuQ63HNDVDm3/jLelMMwAT/vUm4/X2kocg
-         Ykwcc1nU+g5d3s15Bvdbs4uRg2Dsq+0XMX/o17d5ZgI0jcMvWRMHNlPXYGXkM+feW2Ik
-         M8q4lbdJuySbK+Xc+o1p42ClMRUDkAV17DjxAF/ejYYWxjL0K15OQHCMjg+GpEld7GkV
-         IyfA==
-X-Gm-Message-State: APuU4Z/hB9sl9bO5Hs3OXlm82yODSWPTALMZ+39Be0IYC8dqZX+NugHa
-	GQSWYh1KdbgzFfxAMvzWgT7xd+OHBKqmr3HzEpiynR+7A3hgt52xY73g85j52MEJfzyCRvY/pBH
-	lnP/lTY4=
-X-Gm-Gg: AZFdTZfdx3F0SC4RWzOniDPUUO57EXFnb8LVV5JdZswN2PDPr9lazjozp8m7NYRk29J
-	/sdhzXHwunrkxuLkm7vPoWNUMqmIdnq20nt+xIWWhN2IQC/s2xK7EjQHM7+0VSxP/4YVfLtAONn
-	50lGePEHzVn9/bPAmm5SJWlUGPboEL7+vqWCNm5hgKpAEjQsl6Xqz6njNN219uEdjek2YwjeaYe
-	xr+0NzltDS9HhlO8A62UlXrqoMKF4kw8sF35pe+ivQD+kh0Bk0Q111rIO6DjVK7gHRVAn83XuF6
-	RD0jAutjZ7TPWrg1JxPEdWe2p0n39QGpss/d6MCj5zKsfni73p2dYBkrmv86rW5bx3FTBcRQ+Rb
-	SeiWP0uWZ0YcEy2tqW3uulNuEGigFiZrpHBFqZmdypsVAO5qKHb8qPvhq3X95njDimLLCbkl37Q
-	8YWwbRnRPQz8606Yy+PrWa76XzKmCpoqKlaDuCX0kAaScxq+0DW4vDsCR9dfeMr1bxRjZvfP5jp
-	v7DQ5ujJxSKGC13F6eP+SxLjvV8ByjtIVoC/ZWuHEO6Fzc6hBlaMo6Dpcjd49G9qH6BV5jacuge
-	d10tlTo3OrR451lN6+6Ho7jlySY4DzB/7nEWKhdinOgG00qv26wlgoFRtAbdO5JVgYkb4kBXO6R
-	WAfHrnZwBYve+cZqLkJU+E9hzZyBF
-X-Received: by 2002:a05:600c:3ac9:b0:4a2:a3b:7aa8 with SMTP id 5b1f17b1804b1-4bb887e068emr533349275e9.3.1795801795027;
-        Fri, 27 Nov 2026 09:49:55 -0800 (PST)
-Return-Path: <yoann.congal@smile.fr>
-Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab69bf630esm49374624f8f.16.2026.11.27.09.49.54
+        d=1e100.net; s=20260707; t=1795801856; x=1796406656;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=/5ViKgSaSaHfP3NDZkBbw/HFils9ks/dEC6ihDtnjVU=;
+        b=VD1aYR5tzfakQLZdlB34hQ4vqHv4lSPFnwUrLMNIcKiaeuS7+I6GY1cIVaEfsSGv+8
+         QctFUjL3sTwnKgP6IiaUTDgcOkueFNPH6e0MLP+jJ5K5dDP8T1d2lCvVwUykrXUGcqdL
+         iReuUKPQqs8OlBE354yJT7c+osk9DskapiDcBWSOqNpOyiP6m9i5X7knz+Ztrt8gmiNY
+         aYZbs69YYulfSYK9idU1NclXqnkxpq81QJ5kL7fSD5X1WdBw/3ScW6vJpcZJsPBuE+Jx
+         Zspz7FtB3CbznDfww07rDOn0x/XuJRD3k6CE20sIUQ60CXUtbPURBGqmC430Qb44+Ief
+         3wHw==
+X-Gm-Message-State: APuU4Z9zoIWhallSghemZg15HNNauMvVDyYTHYuCJ7o8eB4HcDogU7CL
+	54s0WRaytYBkl7tPyL5KJpT0BqV2ffMplWH/A+tUsF3FARkRlcV42lLcgIJXqkCjegiOjlL3Mlf
+	6sNcZwRs=
+X-Gm-Gg: AZFdTZfvhPDTcGGa1kpLPzMx1Zrqlq8VcYyerw3j1xmSvO2WiaErREFx85oSB5fOt1A
+	ieDPhPEIEEzl80Csg6P+Z6mohY/b08gPsi7OGCooORJtiVd5Hr0FBhpAzTkmqvTqP7apSjq/fYb
+	gseg7OIL9k+v4vMRHPYLXOL863IPOouin3pqjV8FLf3ZrxN0cOdpI+SXeHWtyXLBjI3ucGTo2bE
+	pVXgmJ4AdflOFs+SxJGef5alt4q2ea11vZAv+THmD0Wb0CTlqndoOUME2Qd6arKsumvuCFs9W4n
+	gsRONQUbcjdHgfgjPTDXvcge/b6raCkp6Rr4p5XUZhxxX9mJlTyPnfO51lV9Ot+MG1VLdrZqQPP
+	kcIQNtDWhZVn9cJVLiM5GuKwB+Q7NyMkNhOGUNPMnJRreGvr3/vUX1qEzxrXczMF7ebk1kSCO9M
+	ZxqJoIgxck0cQW62+PXaNXMotDMs2P9BHp4EzVAZjAoQU6+3zmp0AJ82aP75uPyXG/hS9obS0O6
+	TROe6t2vV/LsB7Oys4FxhkrV/Z42qZ1klh83QXZ8EC5jOv/DHbpI45nQZuF+UKppSxF4b6hdK1/
+	EiCCV13kXCQA8u+yQeyNFBdcbF5RYoLkmvtMT4hdvbb/tXFGH3+0sdrQgw==
+X-Received: by 2002:a05:600c:4e8e:b0:4ba:59fa:510e with SMTP id 5b1f17b1804b1-4bb8893014dmr519761205e9.23.1795801855782;
+        Fri, 27 Nov 2026 09:50:55 -0800 (PST)
+Return-Path: <richard.purdie@linuxfoundation.org>
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:47cb:b596:3be3:8f97])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884b8429sm1105410965e9.14.2026.11.27.09.50.54
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 09:49:54 -0800 (PST)
-From: Yoann Congal <yoann.congal@smile.fr>
+        Fri, 27 Nov 2026 09:50:55 -0800 (PST)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 37/37] rust: enable dynamic LLVM linking by default
-Date: Fri, 27 Nov 2026 18:49:20 +0100
-Message-ID: <3948efd5497c7ad5dcb71aedc47cae6dfb72d65b.1795798718.git.yoann.congal@smile.fr>
+Subject: [PATCH 1/2] bitbake/base: Implement RECIPE_HOSTTOOLS
+Date: Fri, 27 Nov 2026 17:50:53 +0000
+Message-ID: <20261127175054.2271255-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <cover.1795798718.git.yoann.congal@smile.fr>
-References: <cover.1795798718.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 17:50:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251443
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 17:51:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251444
 Content-Type: text/plain; charset="utf-8"
 
-From: Sunil Dora <sunilkumar.dora@windriver.com>
+Being able to have hosttools added within specific recipes would be useful rather than
+always in the global hosttools directory. Add support for this, impementing it within
+the TaskStarted event.
 
-Backport of master "rust: enable dynamic LLVM linking by default" [1].
-On master rust links against the llvm recipe, here against rust-llvm
-which provides libLLVM-17.so now.
+We need to use a lockfile to ensure the function doesn't race against other tasks
+also trying to create the same thing.
 
-rustc segfaults (e.g. in llvm::X86ReadAdvanceTable) when
-rust-llvm-native comes from sstate built on a host with binutils >= 2.45
-and rust-native is linked on a host with an older ld.
-This is binutils PR ld/32991 [2]: newer gas emits R_X86_64_GOTPCRELX for
-"push foo@GOTPCREL(%rip)" and an ld without the fix rewrites the push
-into a call, so the statically linked LLVM code in librustc_driver jumps
-into data at runtime. scarthgap links the static rust-llvm libs the same
-way master did before the fix.
+This directory builds on top of HOSTTOOLS which is left as existing so that we don't have
+to do any work for recipes which don't need specific additional tools.
 
-With dynamic linking the host ld only sees the exported symbols of
-libLLVM and does not relink any LLVM code.
-
-Add llvm-shared PACKAGECONFIG, default on for native, nativesdk and
-target like master. Native only is not enough, target rust bootstraps
-its own rustc with the target settings and crashes the same way. Remove
-llvm-shared to get the static build back.
-
-Selftest image installs rust-llvm-libllvm now, the test binaries need
-it (master installs llvm there).
-
-[1] https://git.openembedded.org/openembedded-core/commit/?id=d0671c3dad87a063b3a41dd07cde89b5684e692c
-[2] https://sourceware.org/bugzilla/show_bug.cgi?id=32991
-
-[YOCTO #16058]
-
-Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/lib/oeqa/selftest/cases/rust.py      | 2 +-
- meta/recipes-devtools/rust/rust_1.75.0.bb | 4 ++++
- 2 files changed, 5 insertions(+), 1 deletion(-)
+ meta/classes-global/base.bbclass | 11 ++++++++++-
+ meta/conf/bitbake.conf           |  1 +
+ meta/conf/layer.conf             |  2 +-
+ 3 files changed, 12 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/selftest/cases/rust.py
-index 26f132edc4d..b2ad7c099f2 100644
---- a/meta/lib/oeqa/selftest/cases/rust.py
-+++ b/meta/lib/oeqa/selftest/cases/rust.py
-@@ -51,7 +51,7 @@ class RustSelfTestSystemEmulated(OESelftestTestCase, OEPTestResultTestCase):
-         bitbake("{} -c test_compile".format(recipe))
-         builddir = get_bb_var("RUSTSRC", "rust")
-         # build core-image-minimal with required packages
--        default_installed_packages = ["libgcc", "libstdc++", "libatomic", "libgomp"]
-+        default_installed_packages = ["libgcc", "libstdc++", "libatomic", "libgomp", "rust-llvm-libllvm"]
-         features = []
-         features.append('IMAGE_FEATURES += "ssh-server-dropbear"')
-         features.append('CORE_IMAGE_EXTRA_INSTALL += "{0}"'.format(" ".join(default_installed_packages)))
-diff --git a/meta/recipes-devtools/rust/rust_1.75.0.bb b/meta/recipes-devtools/rust/rust_1.75.0.bb
-index b9348bf0507..b2fac124288 100644
---- a/meta/recipes-devtools/rust/rust_1.75.0.bb
-+++ b/meta/recipes-devtools/rust/rust_1.75.0.bb
-@@ -20,6 +20,9 @@ DEPENDS += "rust-llvm (=${PV})"
+diff --git a/meta/classes-global/base.bbclass b/meta/classes-global/base.bbclass
+index 9553f004325..3163db55195 100644
+--- a/meta/classes-global/base.bbclass
++++ b/meta/classes-global/base.bbclass
+@@ -153,7 +153,7 @@ def setup_hosttools_dir(dest, toolsvar, d, fatal=True):
+                 notfound.append(tool)
  
- RDEPENDS:${PN}:append:class-target = " gcc g++ binutils"
+     if notfound and fatal:
+-        bb.fatal("The following required tools (as specified by HOSTTOOLS) appear to be unavailable in PATH, please install them in order to proceed:\n  %s" % " ".join(notfound))
++        bb.fatal("The following required tools (as specified by %s) appear to be unavailable in PATH, please install them in order to proceed:\n  %s" % (toolsvar, " ".join(notfound)))
  
-+PACKAGECONFIG ??= "llvm-shared"
-+PACKAGECONFIG[llvm-shared] = ",,,"
+ # We can't use vardepvalue against do_fetch directly since that would overwrite
+ # the other task dependencies so we use an indirect function.
+@@ -289,6 +289,15 @@ def buildcfg_neededvars(d):
+     if pesteruser:
+         bb.fatal('The following variable(s) were not set: %s\nPlease set them directly, or choose a MACHINE or DISTRO that sets them.' % ', '.join(pesteruser))
+ 
++addhandler base_task_eventhandler
++base_task_eventhandler[eventmask] = "bb.build.TaskStarted"
++python base_task_eventhandler() {
++    if d.getVar('RECIPE_HOSTTOOLS'):
++        toolsdir = d.getVar('RECIPE_HOSTTOOLS_DIR')
++        with bb.utils.fileslocked([toolsdir + ".lock"]):
++            setup_hosttools_dir(toolsdir, 'RECIPE_HOSTTOOLS', d)
++}
 +
- # Otherwise we'll depend on what we provide
- INHIBIT_DEFAULT_RUST_DEPS:class-native = "1"
- # We don't need to depend on gcc-native because yocto assumes it exists
-@@ -128,6 +131,7 @@ python do_configure() {
+ addhandler base_eventhandler
+ base_eventhandler[eventmask] = "bb.event.ConfigParsed bb.event.MultiConfigParsed bb.event.BuildStarted bb.event.RecipePreFinalise bb.event.RecipeParsed bb.event.RecipePreDeferredInherits"
+ python base_eventhandler() {
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index d353a7cd2c3..31b3f6243b6 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -524,6 +524,7 @@ export PATH
  
-     # [llvm]
-     config.add_section("llvm")
-+    config.set("llvm", "link-shared", e(bb.utils.contains('PACKAGECONFIG', 'llvm-shared', True, False, d)))
-     config.set("llvm", "static-libstdcpp", e(False))
-     if "llvm" in (d.getVar('TC_CXX_RUNTIME') or ""):
-         config.set("llvm", "use-libcxx", e(True))
+ # Directory with symlinks to host tools used by build
+ HOSTTOOLS_DIR = "${TMPDIR}/hosttools"
++RECIPE_HOSTTOOLS_DIR = "${WORKDIR}/recipe-hosttools"
+ 
+ # Tools needed to run builds with OE-Core
+ HOSTTOOLS += " \
+diff --git a/meta/conf/layer.conf b/meta/conf/layer.conf
+index 67fef791545..04bceadddee 100644
+--- a/meta/conf/layer.conf
++++ b/meta/conf/layer.conf
+@@ -138,7 +138,7 @@ DUMMY_PACKAGE_ARCHS_TARGET += "sdk-provides-dummy-target"
+ # We need to keep bitbake tools in PATH
+ # Avoid empty path entries
+ BITBAKEPATH := "${@os.path.dirname(bb.utils.which(d.getVar('PATH'),'bitbake'))}"
+-PATH := "${@'${BITBAKEPATH}:' if '${BITBAKEPATH}' != '' else ''}${HOSTTOOLS_DIR}"
++PATH := "${@'${BITBAKEPATH}:' if '${BITBAKEPATH}' != '' else ''}${RECIPE_HOSTTOOLS_DIR}:${HOSTTOOLS_DIR}"
+ 
+ # Only OE-Core should set/change this
+ BB_GLOBAL_PYMODULES = "os sys time"
