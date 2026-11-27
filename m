@@ -1,179 +1,139 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1926.1795803045167112316
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3714.1795810326810160537
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Nov 2026 10:10:45 -0800
+ Fri, 27 Nov 2026 12:12:07 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=dxMYOwWv;
- spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-4a358881793so4445406f8f.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 10:10:44 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=mmPgXHXj;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a2153c8525so69041155e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 12:12:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795803043; x=1796407843; darn=lists.openembedded.org;
+        d=gmail.com; s=20260707; t=1795810325; x=1796415125; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=0HAW8NA/MQSzwb/dGpqQZ6Wst9irsF+n+k9Pz6nYeVQ=;
-        b=dxMYOwWvjjwikvP6VnRCs0Z9zBk0kppbOc4m39gW3VDzcNP4v0wVUUKBHbwcC2MuY8
-         t72TW7tMVGMhYqKy1RuDzTkcCwGXFB1oHU9kP1pEa2qWbA4fs4e0ZJpFTB4kIBdx8yLJ
-         y3VOs8Yf4p6sJ/Jql0mLKA99XOSM3aEicgeKBmmA9boXspmo7uRhl6T6UoiA0eN49msu
-         3xoKzUPbnuPK59NFWddQZUdw518AQJTp/fOMs6V/WErgkqNdJ+JLZqQC3ySHct3YeI1W
-         f4zfiLskNO+LJ7WNTYN67dp/rL94qWmpZ1TQZQDg8Fi4Y2XmsxJowouSsJXHYu1fvwqR
-         zzDw==
+        bh=rvbvhKs7HbK7Mb/c5vuWkKgvd2f+wxMqiKJYOlm+AAw=;
+        b=mmPgXHXj3Mwd4uxvgTkLNdzvUHykrOqOAbaAiKMDQPVpFNNaGgusfET0fNRmd8fVVj
+         zqq+eaEGHdJ5kAuVGImI+kPe3+kDvQQ9wneW1i2tc/l9+ofbMV6I6Rnt3oYP2+v3MMYa
+         VXlO2t15aLinOssMk8NEy8hvqa3elHyHyWYIYnOS35cLp/EO0tjxcMfoUS5lRR6WgG+A
+         e23Vd/5JJKQsSlx2E6B/s0Z2bWhB9xV3PxYedG7i6iwTgDH5QEIFP+ZhnvPE0EklZUIv
+         JwBbowTfP1BDyQf9d8PZC0swFGGqzBguc27MquvbY5G39i1hU33u8Hqd3xv17lQW4P7t
+         BHqw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795803043; x=1796407843;
+        d=1e100.net; s=20260707; t=1795810325; x=1796415125;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=0HAW8NA/MQSzwb/dGpqQZ6Wst9irsF+n+k9Pz6nYeVQ=;
-        b=zXLuJqem5RqpcGi8kbyu9EWPWhKmlUQ5zEtKBtXFwxDh5E/RhiaA6eS9GzrXO1cAfz
-         Kyh85gvDlAAk5LzXDF19otCEfHKI2xngXaW8BQWw8FMPxn6rRLmsWi1HEHQEupILadiK
-         dGCvU5AV36/XF6ok0stXpLoUIt8DoPOOPuql5+/deRq+wCht494FfA9Dvdm8/DPBkZQZ
-         6RkA8y9i26UzJw6UV6+ZZgzQs/5/UXDQAWPxLKejitEWmoKMDBXOOgobDr3EFzl+SHUh
-         ZtEUpE6WMDtQUy8Yh4ch0FkJOkd5TUVxCFYsAqFH8Y1Zr5P4czjkk9vUIQnbK/neMZS8
-         PUvg==
-X-Gm-Message-State: APuU4Z+pMOR2Bj2pPwxAcuo5vrbaL+R3Q4LJARQOtnqiNr4ZO9PXltwa
-	AAdM3wYOj6gDEAE7WHrp9UDpDXZxW9/AnLgUiJFiHTtBDsWXwKQa+7WqeFNGr4Qf5dMWFa6YXVF
-	yh317Des=
-X-Gm-Gg: AZFdTZe1M4fwiYZtL/jnGLlqpNbvmreVwkPbPMd4omOoHc/KCO/ayNl8x6UcPuC6Jsn
-	hNnaSnABwoFdS8F3PVJ+H+TanoWE6uPFqCk5rm4JQmI6NbVBUv3pNproQBY39LBHg1yMNkCx4m9
-	BcTL9Rzjtn/TcPvUo0o5RY2IeJX4AhAbVfkhgzkgXzWQSfMMJSNzIomMg+BNoOFDlrlYX+xbvpG
-	FkWQS9q/vI4QDYpfLPGP/p8VxtMQB6HPu/G6GHblKelwvOB1y9FhF1eWh2qpPT7pizGj51rQbtX
-	alFCsLfIZ1y3GbHmvhjBwk+n9NIJIYq90y8AfzLk5OZnsBbuRsYK39tybVWIvm8Xq636k4CKStL
-	oXo9yyGAsn5l2t65vlfkFekrOwEoqsuCnSilByMOX5KjfgICSg9xqsnYrBqomXO3c5AUJykq3Lw
-	0dXAKv6LDAjU2WM88AGESIG0nZAbiEzhhK+lAl7st9I7/3cb+0CEk7MP/idxcoPO+31+h6lyJKX
-	zyfl4a2X738mSc415bp83YKv3bW7lU7UJEY14dypfl3rZrPeOMIfVfGAsn1jk+0vGj8Q7w/GwHC
-	vN37UxgP9PPEJC09QFHsNd/1nRo3xb7hxC1Lz4yDo1DdsoucQCDbr/uMUBimcD+FBIfBckbbOqk
-	2TQAj5lm2x/Lp2nogJB538hNvIJeK
-X-Received: by 2002:a05:6000:2310:b0:4a2:ee0f:4fa3 with SMTP id ffacd0b85a97d-4abad6a4224mr52152226f8f.8.1795803043355;
-        Fri, 27 Nov 2026 10:10:43 -0800 (PST)
-Return-Path: <yoann.congal@smile.fr>
-Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab6b110d56sm47949362f8f.40.2026.11.27.10.10.42
+        bh=rvbvhKs7HbK7Mb/c5vuWkKgvd2f+wxMqiKJYOlm+AAw=;
+        b=EJzfPzlBuPIDg6eU7XHDmFjDLu9gERS/nqKwTXdAUhjQbcwLBgGTrpT2nkzv9NfO+Z
+         ywT1KEjN0/d0FvhiBfZ7c8paLfFWJ0eXWL1Gt+DaiSOpqEELBD2Mjs7Qq40iuLsI8CMK
+         bYUWyyZz4qdwHQpNDpLn6wRTveYMbU9xMbm/h2POmyshbazn5tPw6UJ0FqY9lEhUWvVU
+         E0iZtzVQ4Z8WqrpKivDsjkc122U9b3HUgWPGVu7dDsFc3x6CgtGnoPJgukk+blMFa0Bl
+         C3KQ5BkK9FBSwDP/41S5uhQ0rTahRFmIz8Jnht0HJFhL3kWsMi7pGC/ztZ9kYGBGU58J
+         yrnw==
+X-Gm-Message-State: APuU4Z/dU5oOO4cNc1zf8r1VcZkFu+5fWBUDQxbwwGZX/SYf5Ses2ehY
+	fiEyGI1N9m8M6K5Jt+5zWj35H0z/EMQeFOt7PQ53Q/BTEUZhODwR2S0e/eI/VA==
+X-Gm-Gg: AZFdTZfqIkU5gxRXTN1IpIGCb0zWsZW+OCezFU1b0L0a3Eg8uRgavKPh0lkrGiFVUfB
+	cVJOmWm+ICpVQ6cG8F4QoleEhiNybx3ApZV7Jfp7KeIzIIFNF975Z5cQhzheSb+isVYiabhd5dA
+	ziipokBILt1Gucx1whlXDuf6K9WnmAmdS3Xc/5BGBTdgWSNHdRhpXI3K2lMNsDPIFAQc4tm59/F
+	8K6aAg5UV5mqKSwHQlYYxHyC3vYc0XVGvLg9BpqIJCn7UztC8KLwVx7Tawcxcdcjrm4bZsblFjN
+	yWknj+V05Em5Tr2hhfsRVw5LjXDH+kWiVBxR4V8Fyz6fyrWfkeDgzstA3Kf2PkLXS6+/CavEwRg
+	Ike4uAVr7kAbBkeSBjrM0PvVrtN4sKpD7jhBZfjEUYs/GF+6tPYGDpq0W17HzfveigqlBs+irH9
+	lZ6PSjP+6cCnl9jZm74j6URluWu/u3bdiJ2M7EZ/hPvIalS/FqzRA6cCkOlRV5E49W9RS7iiVib
+	8VHZqR5j65oNpR1pcieA8UMiz5C6a1lYtmpAZHHlsOF8qUFKFnnWHXuIrv1RRgMGo+ID0lMymJq
+	//DkpNBFc2bXhyeXv+PSfc/9JD8WNOtaV6GBDjshptIzTKz0DnGIlWCMxi7DRYdkCw==
+X-Received: by 2002:a05:600c:a55:b0:49f:ce78:356d with SMTP id 5b1f17b1804b1-4bb88827db0mr559261785e9.30.1795810324844;
+        Fri, 27 Nov 2026 12:12:04 -0800 (PST)
+Return-Path: <alex.kanavin@gmail.com>
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884ab091sm994530835e9.11.2026.11.27.12.12.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 10:10:42 -0800 (PST)
-From: Yoann Congal <yoann.congal@smile.fr>
+        Fri, 27 Nov 2026 12:12:03 -0800 (PST)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Paul Barker <paul@pbarker.dev>
-Subject: [OE-core][wrynose 00/21] Pull request (cover letter only)
-Date: Fri, 27 Nov 2026 19:10:40 +0100
-Message-ID: <cover.1795802959.git.yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.55.0
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 1/6] doxygen: move a recipe from meta-oe
+Date: Fri, 27 Nov 2026 21:11:54 +0100
+Message-ID: <20261127201159.914833-1-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 18:10:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251447
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 20:12:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251448
 Content-Type: text/plain; charset="utf-8"
 
-Those are the patches from the last patch review:
-https://lore.kernel.org/all/cover.1795560372.git.yoann.congal@smile.fr/
-(No review, no change)
+From: Alexander Kanavin <alex@linutronix.de>
 
-Passed a-full on autobuilder:
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/5180
+doxygen is used by wireplumber (pipewire session manager) documentation
+in a way that is closely intertwined with gobject introspection support
+and is difficult to separate. I thought it's easier to just move doxygen
+to core, given that it does not itself require additional dependencies.
 
-The following changes since commit 16a03ed6c2db2fa1d7edac4f288a74958a00eb9f:
+The only change in recipe is renaming DESCRIPTION to SUMMARY, as oe-core
+requires presence of SUMMARY.
 
-  build-appliance-image: Update to wrynose head revisions (2026-11-20 10:24:35 +0000)
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+---
+ meta/conf/distro/include/maintainers.inc      |  1 +
+ .../doxygen/doxygen_1.18.0.bb                 | 37 +++++++++++++++++++
+ 2 files changed, 38 insertions(+)
+ create mode 100644 meta/recipes-devtools/doxygen/doxygen_1.18.0.bb
 
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/wrynose-next
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/wrynose-next
-
-for you to fetch changes up to 1dc4b90903b014a610c753ce0cc65b343a17796b:
-
-  python3-certifi: correct license to MPL-2.0 (2026-11-24 14:36:27 +0100)
-
-----------------------------------------------------------------
-
-Anders Heimer (1):
-  python3-certifi: correct license to MPL-2.0
-
-Ankur Tyagi (2):
-  aspell: upgrade 0.60.8.2 -> 0.60.8.3
-  tzdata/tzcode-native: upgrade 2026e -> 2026f
-
-Arpit Patel (10):
-  sqlite3: Fix CVE-2026-119377
-  sqlite3: fix CVE-2026-119373
-  sqlite3: fix CVE-2026-119374
-  sqlite3: fix CVE-2026-119375
-  sqlite3: fix CVE-2026-119379
-  sqlite3: fix CVE-2026-119372
-  sqlite3: fix CVE-2026-119378
-  sqlite3: fix CVE-2026-119376
-  sqlite3: fix CVE-2026-119371
-  sqlite3: fix CVE-2026-119591
-
-Hetvi Thakar (1):
-  glibc: stable 2.43 branch updates to 124e9adcd4
-
-Peter Marko (6):
-  popt: correct CVE-2026-18739.patch metadata
-  popt: patch CVE-2026-18839
-  libsndfile1: patch CVE-2024-50613
-  libsndfile1: patch CVE-2025-52194
-  libsndfile1: patch CVE-2026-109828
-  speex: patch CVE-2026-116741
-
-Yogita Urade (1):
-  bison: Fix CVE-2026-56390
-
- meta/recipes-core/glibc/glibc-version.inc     |   2 +-
- meta/recipes-core/glibc/glibc_2.43.bb         |   1 +
- .../bison/bison/CVE-2026-56390.patch          | 233 ++++++++++
- meta/recipes-devtools/bison/bison_3.8.2.bb    |   1 +
- .../python/python3-certifi_2026.10.19.bb      |   2 +-
- meta/recipes-extended/timezone/timezone.inc   |   6 +-
- .../libsndfile1/CVE-2024-50613.patch          | 348 +++++++++++++++
- .../libsndfile1/CVE-2025-52194.patch          |  27 ++
- .../libsndfile1/CVE-2026-109828-01.patch      | 234 ++++++++++
- .../libsndfile1/CVE-2026-109828-02.patch      |  26 ++
- .../libsndfile/libsndfile1_1.2.2.bb           |   4 +
- .../speex/speex/CVE-2026-116741.patch         |  29 ++
- meta/recipes-multimedia/speex/speex_1.2.1.bb  |   5 +-
- ...{aspell_0.60.8.2.bb => aspell_0.60.8.3.bb} |   2 +-
- .../popt/popt/CVE-2026-18739.patch            |   2 +-
- .../popt/popt/CVE-2026-18839-01.patch         |  89 ++++
- .../popt/popt/CVE-2026-18839-02.patch         | 419 ++++++++++++++++++
- meta/recipes-support/popt/popt_1.19.bb        |   4 +-
- .../sqlite3/CVE-2026-119371-dependent.patch   | 109 +++++
- .../sqlite/sqlite3/CVE-2026-119371.patch      | 103 +++++
- .../sqlite/sqlite3/CVE-2026-119372.patch      |  56 +++
- .../sqlite/sqlite3/CVE-2026-119373.patch      |  56 +++
- .../sqlite/sqlite3/CVE-2026-119374.patch      |  76 ++++
- .../sqlite/sqlite3/CVE-2026-119375.patch      |  47 ++
- .../sqlite/sqlite3/CVE-2026-119376.patch      |  75 ++++
- .../CVE-2026-119377-dependent_p1.patch        |  86 ++++
- .../CVE-2026-119377-dependent_p2.patch        |  59 +++
- .../sqlite/sqlite3/CVE-2026-119377_p1.patch   |  52 +++
- .../sqlite/sqlite3/CVE-2026-119377_p2.patch   |  51 +++
- .../sqlite/sqlite3/CVE-2026-119378.patch      |  52 +++
- .../sqlite/sqlite3/CVE-2026-119379.patch      |  79 ++++
- .../sqlite/sqlite3/CVE-2026-119591.patch      |  40 ++
- meta/recipes-support/sqlite/sqlite3_3.51.3.bb |  14 +
- 33 files changed, 2380 insertions(+), 9 deletions(-)
- create mode 100644 meta/recipes-devtools/bison/bison/CVE-2026-56390.patch
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2024-50613.patch
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2025-52194.patch
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2026-109828-01.patch
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2026-109828-02.patch
- create mode 100644 meta/recipes-multimedia/speex/speex/CVE-2026-116741.patch
- rename meta/recipes-support/aspell/{aspell_0.60.8.2.bb => aspell_0.60.8.3.bb} (93%)
- create mode 100644 meta/recipes-support/popt/popt/CVE-2026-18839-01.patch
- create mode 100644 meta/recipes-support/popt/popt/CVE-2026-18839-02.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119371-dependent.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119371.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119372.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119373.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119374.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119375.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119376.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119377-dependent_p1.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119377-dependent_p2.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119377_p1.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119377_p2.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119378.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119379.patch
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119591.patch
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 62de04001e4..6e92380c592 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -162,6 +162,7 @@ RECIPE_MAINTAINER:pn-docbook-xml-dtd4 = "Kanksha Paturi <Kanksha.Paturi@windrive
+ RECIPE_MAINTAINER:pn-docbook-xsl-stylesheets = "Kanksha Paturi <Kanksha.Paturi@windriver.com>"
+ RECIPE_MAINTAINER:pn-dos2unix = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-dosfstools = "Yi Zhao <yi.zhao@windriver.com>"
++RECIPE_MAINTAINER:pn-doxygen = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-dpkg = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-dropbear = "Harish Kore <harish.kore@windriver.com>"
+ RECIPE_MAINTAINER:pn-dtc = "Wang Mingyu <wangmy@fujitsu.com>"
+diff --git a/meta/recipes-devtools/doxygen/doxygen_1.18.0.bb b/meta/recipes-devtools/doxygen/doxygen_1.18.0.bb
+new file mode 100644
+index 00000000000..222d7766205
+--- /dev/null
++++ b/meta/recipes-devtools/doxygen/doxygen_1.18.0.bb
+@@ -0,0 +1,37 @@
++SUMMARY = "Doxygen is the de facto standard tool for generating documentation from annotated C++ sources."
++HOMEPAGE = "http://www.doxygen.org/"
++
++LICENSE = "GPL-2.0-only"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263"
++
++DEPENDS = "bison-native flex-native"
++
++SRC_URI = "\
++    git://github.com/doxygen/doxygen.git;branch=master;protocol=https \
++"
++
++SRCREV = "8e760943e5d9581a444cf327f43a0b4d20d29482"
++
++
++UPSTREAM_CHECK_GITTAGREGEX = "Release_(?P<pver>\d+(\_\d+)+)"
++
++inherit cmake python3native
++
++EXTRA_OECMAKE += "\
++    -DFLEX_TARGET_ARG_COMPILE_FLAGS='--noline' \
++    -DBISON_TARGET_ARG_COMPILE_FLAGS='--no-lines' \
++"
++
++do_install:append() {
++    find ${B}/generated_src -type f -exec sed -i -e 's;${B}/;;g' -e 's;${S}/;;g' {} +
++
++    sed -i -e 's;^#ifndef.*GENERATED_SRC_MSCGEN_LANGUAGE_HPP_INCLUDED$;#ifndef GENERATED_SRC_MSCGEN_LANGUAGE_HPP_INCLUDED;g' ${B}/generated_src/mscgen_language.hpp
++    sed -i -e 's;^# define.*GENERATED_SRC_MSCGEN_LANGUAGE_HPP_INCLUDED$;# define GENERATED_SRC_MSCGEN_LANGUAGE_HPP_INCLUDED;g' ${B}/generated_src/mscgen_language.hpp
++    sed -i -e 's;^#endif.*GENERATED_SRC_MSCGEN_LANGUAGE_HPP_INCLUDED.*$;#endif;g' ${B}/generated_src/mscgen_language.hpp
++
++    sed -i -e 's;^#ifndef.*GENERATED_SRC_CE_PARSE_HPP_INCLUDED$;#ifndef GENERATED_SRC_CE_PARSE_HPP_INCLUDED;g' ${B}/generated_src/ce_parse.hpp
++    sed -i -e 's;^# define.*GENERATED_SRC_CE_PARSE_HPP_INCLUDED$;# define GENERATED_SRC_CE_PARSE_HPP_INCLUDED;g' ${B}/generated_src/ce_parse.hpp
++    sed -i -e 's;^#endif.*GENERATED_SRC_CE_PARSE_HPP_INCLUDED.*$;#endif;g' ${B}/generated_src/ce_parse.hpp
++}
++
++BBCLASSEXTEND = "native nativesdk"
+-- 
+2.47.3
 
