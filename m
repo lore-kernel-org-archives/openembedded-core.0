@@ -1,62 +1,62 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1454.1795801777981853658
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1529.1795801776917061748
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Nov 2026 09:49:38 -0800
+ Fri, 27 Nov 2026 09:49:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=jS4gDIFU;
- spf=pass (domain: smile.fr, ip: 209.85.221.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-492f0a1b685so5990811f8f.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 09:49:37 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=Z8XfZ1f9;
+ spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4bb77a462c6so67413775e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 09:49:36 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795801776; x=1796406576; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1795801775; x=1796406575; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=Qze8TGD39EwA/ZSc30P7g6YCamVIHrEvXqJ+djnkIkc=;
-        b=jS4gDIFUVwTl5W77QiYeo7R4RL6W+zcSySwwgOkZV8rKAnccagYDNoEZws5Icd4XTf
-         d1/nv4RF6phwru9wfvdUoDnuAMaOrxJVbKYmGe5OBu0wyC8QCZsW6jYVTLNdhB3fQZvc
-         v2YLtpXBVhk/4i884oMseNFyeSChPrZQETrs90shWatH4V/zp2CYtI8uBQ2jzQPLkgzi
-         ErWpfWCnaS0FpblOCYC6Cosj2cKvVIq1fYCaK0ZJOXwWqnX1PyeogReul+IR9QkNhpMX
-         Mf4gCmymbH/TgS5QPkTL1Za/VQYKmti3oGQFHbSJCpkUlQ/sTDkQvzIneEZhIJ7PXXeU
-         3dCQ==
+        bh=+yFtZ7f/8nUbxETlaiRZgIzl5UgTriJG572+eceFqcc=;
+        b=Z8XfZ1f99X6nuIyVinUWDy7W5itca0IuHU1GoSytGxxv+OXGfHci0yOY+5YLsyk5zZ
+         MkuDLGm8GMh2mZkKU7uKkY0W8VHpod9Qr9T316ANHyjTx8AOEvwylQ0BeSVDN+P2uNto
+         pMh0r1xKUILQi9USAt9P7/wYA7pELFlgn/ZlGDgQdvFXf0/TLLkRvaCjGrLHB+OE08iA
+         bleDBur5phX+SCYgfDD/gthhU7tTL+V47Rz95JMXfXQskOvlsNU18qAraTumcUQfcn30
+         xTx+Jsz+cl2zr4ixMoTETYY2qXrGABkANYTPGbNwDuo04fZEavur+yX8Yqg4W3RI8E7h
+         c1uA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795801776; x=1796406576;
+        d=1e100.net; s=20260707; t=1795801775; x=1796406575;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=Qze8TGD39EwA/ZSc30P7g6YCamVIHrEvXqJ+djnkIkc=;
-        b=fnOi5NlFP2XOH0i/xk9jt1Xr5NFk0eQtO01Fe38gE6seXfQwknKCtHOC7YmxpvoIcg
-         KrQX5C+W0yXcY6utNQKacTnSc7usrDaIWvLjBgUpfAT/9SFRBW7IR/uD5VFG8dmSEW2V
-         vLDBYv3tQYA2bzekGOhp3SsjdUOD3cBtixvezHeAaq+/YtIRUAJMIf9PRUmRR+/Br+og
-         y0MVwPK2aqCRX2wbGBxg6ET8DEhxDdSWnHbVUcEUvvYWhAX8yUoEdya5OKgu1K/S8EGj
-         hKwWJQka3WB0rJ9p1XsrM37UiwWKbZGg/FVC+q1rRt8J61l9k1S6A5gftdgaVzjDOTxZ
-         qUog==
-X-Gm-Message-State: APuU4Z+TixS6tVTn+MCK78IAilNDfW5FQK0km3kK3akP1ffRdDTpMZeV
-	6t0pd91GRzkk2YtmFE5oQmVjwQoQbIxNa/c4oHPFrfDV0HrBDIw/ux0AIlqZo4WyES1hOorBXv/
-	We/2HeoA=
-X-Gm-Gg: AZFdTZe7g99HTWb+1guQdHMo9oYJ5258cIfVJGE68h5zqGmY+Z12noCN32Hu3RK/5ZL
-	hZZDnXcSBOUvWqs4rRyNZSWE+cJg8w5o+JRcqGEqcYKeD8zfGADba1oqStRMOf4UxVNy34S9eu9
-	FT73x8us0Ax66pgz0fHtS/QEl7L8yG3xGReGrGSBrKMdtMEfdQ4MVeeysf4Xl5wsGUUrNQieiv5
-	jHHINAlPRsz3nOgsd/mziv71/nHISbg5ILakZ8u3ZZG6Kem6Y8KsmG9LnwrpH4bvsbZV+zoeHaD
-	QvcUlU9TId1PQXZPyiqX4SESOqpszfXqH69l9+SsAd7BMVv087wJOu0gOCkVl6MxIlep8xCUxqL
-	AoKfkgdGebvAS/xPGP96Fug0M63KfZWuSVyJNNBV/QACCFbrZbA/Ql+C3rh56kAjMIM6KCUALDz
-	t9oD+dSat6weWoNk2PT4VJaLuCwHzjOGYS7wcKb0CLzv7qQaa8RGcsMJkcSiCPsWszayiJ50T+S
-	aW1/T1E3kndmVfisEuvDfcp/xZes+BIDJE4CX+UOogBaPFRqf5s2pV//82zLIekdT5jqiYJpzF0
-	4sFxp1WJ1ZWdqUKzGlGHYJau/ggeZPYnqhOKZULXX7T4XQ5qwbF+A7zSpHePdpbfukRPEepyD9r
-	aOL+sJlzZeU8cddgMkxlU0FlLFF3FPg==
-X-Received: by 2002:a05:6000:2c05:b0:4a9:df02:6040 with SMTP id ffacd0b85a97d-4abaac57bf5mr47230783f8f.3.1795801776191;
-        Fri, 27 Nov 2026 09:49:36 -0800 (PST)
+        bh=+yFtZ7f/8nUbxETlaiRZgIzl5UgTriJG572+eceFqcc=;
+        b=IxYEc9IEnOEzTzXBNY/3KTzt+jbblyofrBylB4zuH/8A3ayJAz5x0jMPIjuv8V+SkT
+         3txfThM9CUXZqsKaLdTN60VPFTUj/N8B+wJ91Zprs3mfikz4hCD2wGPINoeA6+kcvp38
+         EBCz1kS6qwYGHOE/trhHZg/nQgF8cE77FJOWgr9Ybjx3oQgoC8y6vKCDa8dSR73k0ynK
+         P+Wh9igmFmZ97es5PD3U8JoaxRXq7lJk6ibCQHYfhQTx7xRiaO58AbIxeALceVT12GpN
+         9V1NQGC0OW0GNG8MIit88Av8Ji+1EvDZEZx0qxEfCq7ahlUH0LFS9DrCF8z06i70uyml
+         qdfw==
+X-Gm-Message-State: APuU4Z/kn+9WoI5eIm7QQltRWI27JINmfpng53sV/KRLFm6oweNVlEM0
+	5O8ABDDyG95joHwetISYPk23OCIIMKeg5kTgfxczq0meQQ3tiL5OdMy4qlAbo32a+5M/rXL2d9I
+	OXKj6/CY=
+X-Gm-Gg: AZFdTZdkN9eaXhq+xIgq7/M5c2GF5CTy+C1LhTILVWAVmpxh9vWVyKFuh3DbmPW6zkI
+	mW0llke9V6wLSuQEZJZo1+OF1HsqERbdu6VY9IQ0y0fzknWizFzTGHPZLzrXAwSXP0lw7GsQndv
+	l4IzEscLyGezS7EwfroCghrAUj6FWkEGLrr/LNaTUiGoqg7IpACp4EqWy5PoMMLhZtozl0M3Cem
+	2aoOZPRcyzDEru4U4b8MbiWhfZST4r/+N+WPxg5gPh3DwW7CUC7lBGStJnoueaeLx6LulpD3GGQ
+	KWXqWyl4Z9N8L7uVHQm+i7/llr2CbngmlFwVstD98DZOZ1JL2RXXebqK3uhrlgSioTfBEzzdODA
+	DatGmEdmcSL4Q0MCHSQi0Z4WhJQp7FUverf2DJtsn/hUkyJCosGWU4vOtWwzyPiMiMQ8cjoKCT/
+	w2tCtkrtaouTPAuKV6PI1Rpv4oBi7OUiApWWYQMuKJOkhWpctCPC57mVeVACLehJMWfWgRuliP9
+	/3aG+iULTf5Apy7iXLzOemO1llxcjQ9J9S4pctVzGISctb8ksGzOeBizwwILfs0Ub474I7UUt8x
+	sxsN7fRI7aWWD733/JFo2uDmYfsbxySXpppMxxaKP9foFnbvyg3V62cW7wFeL+de6dH4hQoUcp0
+	CnQCWCLCgQUn5Cwev5DmD0Q3JHmiLKQ==
+X-Received: by 2002:a7b:cbc8:0:b0:4a1:d49e:9ce with SMTP id 5b1f17b1804b1-4bb860f6ae9mr423649445e9.2.1795801774996;
+        Fri, 27 Nov 2026 09:49:34 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab69bf630esm49374624f8f.16.2026.11.27.09.49.35
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab69bf630esm49374624f8f.16.2026.11.27.09.49.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 09:49:35 -0800 (PST)
+        Fri, 27 Nov 2026 09:49:34 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 05/37] sqlite3: fix CVE-2026-119374
-Date: Fri, 27 Nov 2026 18:48:48 +0100
-Message-ID: <b633bf9ef64d0b9c4352fcfe509d5231a765f1c6.1795798718.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 02/37] boost: patch CVE-2023-34399
+Date: Fri, 27 Nov 2026 18:48:45 +0100
+Message-ID: <f4e4d2136a547e020c11c96250f13834e2ac21cc.1795798718.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1795798718.git.yoann.congal@smile.fr>
 References: <cover.1795798718.git.yoann.congal@smile.fr>
@@ -64,123 +64,72 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 17:49:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251411
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251408
 Content-Type: text/plain; charset="utf-8"
 
-From: Arpit Patel <arpitpa@cisco.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-This patch applies the upstream fix [1], which addresses an FTS5
-secure-delete buffer overrun when handling a corrupted database.
-The GitHub mirror commit [1] corresponds to the SQLite Fossil
-check-in shown in [2].
+Pick patch referencing this CVE.
 
-[1] https://github.com/sqlite/sqlite/commit/d9de6eedbe918c074c7556400fa21df5960704d9
-[2] https://sqlite.org/src/info/9cd4f9e920
-
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2026-119374
-
-Signed-off-by: Arpit Patel <arpitpa@cisco.com>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit ba56fd3e9258e2351c31a402d63ac470d43c8d54)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../sqlite/sqlite3/CVE-2026-119374.patch      | 78 +++++++++++++++++++
- meta/recipes-support/sqlite/sqlite3_3.45.3.bb |  1 +
- 2 files changed, 79 insertions(+)
- create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119374.patch
+ .../boost/boost/CVE-2023-34399.patch          | 35 +++++++++++++++++++
+ meta/recipes-support/boost/boost_1.84.0.bb    |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-support/boost/boost/CVE-2023-34399.patch
 
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2026-119374.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119374.patch
+diff --git a/meta/recipes-support/boost/boost/CVE-2023-34399.patch b/meta/recipes-support/boost/boost/CVE-2023-34399.patch
 new file mode 100644
-index 00000000000..cf4dd9cb322
+index 00000000000..f2dbccd67e9
 --- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119374.patch
-@@ -0,0 +1,78 @@
-+From 6875e24f0c0612feccb97ab4c3f92c8444833373 Mon Sep 17 00:00:00 2001
-+From: dan <Dan Kennedy>
-+Date: Tue, 11 Aug 2026 14:16:12 +0000
-+Subject: [PATCH] Fix a problem in fts5 secure-delete code that could lead to a
-+ buffer overrun when dealing with a strategically corrupted database. Problem
-+ reported by YEONBA.
++++ b/meta/recipes-support/boost/boost/CVE-2023-34399.patch
+@@ -0,0 +1,35 @@
++From d772add4873bb2501d67554190c4272294d659f9 Mon Sep 17 00:00:00 2001
++From: Johnathan <39648915+TrebledJ@users.noreply.github.com>
++Date: Wed, 19 Aug 2026 16:50:08 +0200
++Subject: [PATCH] Reject a negative class id when loading a pointer (#332)
 +
-+FossilOrigin-Name: 9cd4f9e9205c5a5096388397a39349db9ff5377d19095c6b20388ff799969c31
++A pointer carries the class id of what it points at, and a null pointer
++carries -1.  On the way back in, only -1 was recognised as the null tag,
++and the id then indexed the class table with an upper bound check but no
++lower bound one, so an archive carrying any other negative id read that
++table at an offset of its own choosing.  This is CVE-2023-34399.
 +
-+CVE: CVE-2026-119374
-+Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/d9de6eedbe918c074c7556400fa21df5960704d9]
++Treat every negative id as the null tag.  No archive a released version
++ever wrote carries one other than -1, so nothing that used to load stops
++loading.
 +
-+Backport Changes:
-+- Applied the fix from ext/fts5/fts5_index.c to sqlite3.c because the
-+  recipe uses SQLite's amalgamated source.
-+- Used p->rc = FTS5_CORRUPT; because current version of SQLite does
-+  not define the newer FTS5_CORRUPT_IDX(p) helper.
-+- Omitted ext/fts5/test/fts5corruptB.test because the extracted source
-+  does not include the upstream Tcl test tree.
-+- Omitted manifest and manifest.uuid because they are Fossil metadata
-+  and are not needed for this source patch.
-+
-+Signed-off-by: Arpit Patel <arpitpa@cisco.com>
++CVE: CVE-2023-34399
++Upstream-Status: Backport [https://github.com/boostorg/serialization/commit/d772add4873bb2501d67554190c4272294d659f9]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ sqlite3.c | 18 +++++++++++-------
-+ 1 file changed, 11 insertions(+), 7 deletions(-)
++ libs/serialization/src/basic_iarchive.cpp | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/sqlite3.c b/sqlite3.c
-+index 9d5790a0d9..a397e4d36b 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -244270,32 +244270,36 @@ static void fts5DoSecureDelete(
-+   if( p->rc==SQLITE_OK ){
-+     const int nMove = nPg - iNextOff;     /* Number of bytes to move */
-+     int nShift = iNextOff - iOff;         /* Distance to move them */
-+-
-++    int nNewPg = 0;
-+     int iPrevKeyOut = 0;
-+-    int iKeyIn = 0;
-++    i64 iKeyIn = 0;
++diff --git a/libs/serialization/src/basic_iarchive.cpp b/libs/serialization/src/basic_iarchive.cpp
++index 1c6eb2047..b5c63c9ad 100644
++--- a/libs/serialization/src/basic_iarchive.cpp
+++++ b/libs/serialization/src/basic_iarchive.cpp
++@@ -427,7 +427,7 @@ basic_iarchive_impl::load_pointer(
++     class_id_type cid;
++     load(ar, cid);
 + 
-+     memmove(&aPg[iOff], &aPg[iNextOff], nMove);
-+     iPgIdx -= nShift;
-+-    nPg = iPgIdx;
-++    nNewPg = iPgIdx;
-+     fts5PutU16(&aPg[2], iPgIdx);
-+ 
-+     for(iIdx=0; iIdx<nIdx; /* no-op */){
-+       u32 iVal = 0;
-+       iIdx += fts5GetVarint32(&aIdx[iIdx], iVal);
-+       iKeyIn += iVal;
-++      if( iKeyIn>nPg ){
-++        p->rc = FTS5_CORRUPT;
-++        break;
-++      }
-+       if( iKeyIn!=iDelKeyOff ){
-+         int iKeyOut = (iKeyIn - (iKeyIn>iOff ? nShift : 0));
-+-        nPg += sqlite3Fts5PutVarint(&aPg[nPg], iKeyOut - iPrevKeyOut);
-++        nNewPg += sqlite3Fts5PutVarint(&aPg[nNewPg], iKeyOut - iPrevKeyOut);
-+         iPrevKeyOut = iKeyOut;
-+       }
++-    if(BOOST_SERIALIZATION_NULL_POINTER_TAG == cid){
+++    if(/* BOOST_SERIALIZATION_NULL_POINTER_TAG */ cid < 0){
++         t = NULL;
++         return bpis_ptr;
 +     }
-+ 
-+-    if( iPgIdx==nPg && nIdx>0 && pSeg->iLeafPgno!=1 ){
-++    if( p->rc==SQLITE_OK && iPgIdx==nNewPg && nIdx>0 && pSeg->iLeafPgno!=1 ){
-+       fts5SecureDeleteIdxEntry(p, iSegid, pSeg->iLeafPgno);
-+     }
-+ 
-+-    assert_nc( nPg>4 || fts5GetU16(aPg)==0 );
-+-    fts5DataWrite(p, FTS5_SEGMENT_ROWID(iSegid,pSeg->iLeafPgno), aPg, nPg);
-++    assert_nc( nNewPg>4 || fts5GetU16(aPg)==0 );
-++    fts5DataWrite(p, FTS5_SEGMENT_ROWID(iSegid,pSeg->iLeafPgno), aPg, nNewPg);
-+   }
-+   sqlite3_free(aIdx);
-+ }
-+-- 
-+2.35.6
-+
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.45.3.bb b/meta/recipes-support/sqlite/sqlite3_3.45.3.bb
-index e7c5bcdac4e..c1e2006a6fe 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.45.3.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.45.3.bb
-@@ -11,6 +11,7 @@ SRC_URI = "http://www.sqlite.org/2024/sqlite-autoconf-${SQLITE_PV}.tar.gz \
-            file://CVE-2025-70873.patch \
-            file://CVE-2026-11822_CVE-2026-11824.patch \
-            file://CVE-2026-119373.patch \
-+           file://CVE-2026-119374.patch \
- "
- SRC_URI[sha256sum] = "b2809ca53124c19c60f42bf627736eae011afdcc205bb48270a5ee9a38191531"
- 
+diff --git a/meta/recipes-support/boost/boost_1.84.0.bb b/meta/recipes-support/boost/boost_1.84.0.bb
+index 4b580d078be..c66f182384d 100644
+--- a/meta/recipes-support/boost/boost_1.84.0.bb
++++ b/meta/recipes-support/boost/boost_1.84.0.bb
+@@ -4,4 +4,5 @@ require boost.inc
+ SRC_URI += "file://boost-math-disable-pch-for-gcc.patch \
+            file://0001-Don-t-set-up-arch-instruction-set-flags-we-do-that-o.patch \
+            file://0001-dont-setup-compiler-flags-m32-m64.patch \
++           file://CVE-2023-34399.patch \
+            "
