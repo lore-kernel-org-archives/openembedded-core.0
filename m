@@ -1,123 +1,140 @@
 Received: from sea.source.kernel.org (sea.source.kernel.org [172.234.252.31])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12939.1795770235750845430
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13158.1795772141085148907
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Nov 2026 01:03:55 -0800
+ Fri, 27 Nov 2026 01:35:41 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@kernel.org header.s=k20260515 header.b=HZ7EwE0k;
- spf=pass (domain: kernel.org, ip: 172.234.252.31, mailfrom: devnull+dickson.wu.certik.com@kernel.org)
+ dkim=pass header.i=@kernel.org header.s=k20260515 header.b=Q7P5KQI0;
+ spf=pass (domain: kernel.org, ip: 172.234.252.31, mailfrom: devnull+paul.pbarker.dev@kernel.org)
 Received: from smtp.kernel.org (quasi.space.kernel.org [100.103.45.18])
-	by sea.source.kernel.org (Postfix) with ESMTP id D64DC43684;
-	Fri, 27 Nov 2026 08:54:16 +0000 (UTC)
+	by sea.source.kernel.org (Postfix) with ESMTP id 3E26644717;
+	Fri, 27 Nov 2026 09:35:40 +0000 (UTC)
 Authentication-Results: smtp.kernel.org; arc=none smtp.remote-ip=100.80.115.77
 ARC-Seal: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256; cv=none;
-	t=1795769656;
-	b=xkiJ3Q1n+eLbaJbWKYMpNjGuFEbKb1LMW6RmV99nP2THOils+K6rbWlUatJ4yNWBygBd
-	 fZXDAiB6mJ93bzUVUcjyH+gwvRUB1Towp816uJpQWYBJjIwN250jbL1XujhUPd1UXdJ4+
-	 uajR0/DQOmzigEYa4IqccwRvJVYClGXki3StlebXItfouPZz5G5rMxTMWHWzI7RP45H5B
-	 xbp9Pi+M2F87h7Aw/TBsSX93pOlDloBKMriv4Fv/3vtN3s7zXqIqS3BYWalpotQ5aNiPR
-	 EiOfbnY74YSnPGQBpRmTrtKTzKWrKb38PP+Uq48Di2f/5mihG+zCQXR1KfOo1KO8Ksw==
+	t=1795772140;
+	b=PKxHNKoxarJ9qGIATTXDMlceDBq5N4oDO3TfA43+5ech1lLhKsO6ED+HiOh483oHLYHW
+	 SlcGm9qsG4NB6Vn8fnrAgZzI1Jkv6OW6ib9RHd4I9XLNeRE913Mk60zIRgMSweGpN7mYt
+	 mJCXLPth5X3XF/ejpYfqwJEXpMovvi3P3Mo0S2PadKudyBZqGT3XFSfQc7hiCR/DQbwVn
+	 SKJPc9GlxZnjA7YHpZrvxIYLHVSdHagHbbfgQVnlDrDB8xMvN87zT/ddkuk6ziQ8yDMkO
+	 cQQpPyb62+UdA1k/qZ1yBNMVD0/fBBEMlzS4qskwnZsEsQPFNg5lyG+roCM7lEXN7Fw==
 ARC-Message-Signature: i=1; d=kernel.org; s=arc20260519; a=rsa-sha256;
-	c=relaxed/relaxed; t=1795769656;
-	h=DKIM-Signature:Received:From:Date:Message-Id:MIME-Version:
-	 Content-Type:Content-Transfer-Encoding:X-B4-Tracking:X-Change-ID:
-	 Subject:To:Cc:X-Mailer:X-Developer-Signature:X-Developer-Key:
-	 X-Endpoint-Received:X-Original-From:Reply-To;
-	bh=kuqOxnM5IWHN2revzjpRiHinhN0aByvT6CupOdpKmq8=;
-	b=V7eM63HcvrpHFyRNZXZ3/WBvlsDem9Prz2wJ6Q/VQzUnJ5Rg9cqReHWzrTGIua79jAHM
-	 jLBm1b8HMJBdFymtOnAy3vOeztOc2x3qXLYoWAbBMd7FJjxJtSL20nHTfNk1AeS6p5WmI
-	 Vnbb6pn4FqBSSOWnUYEnRdvh6ng9HG0NWlRekueWRMW5GQKMVtCLSMaKviTNcpa+qwPOq
-	 1yMNbFc+6/eMHr6obWZbFBSsV7f4YLS58uoASIncX2DT+bjw36cFk0EpfHBW2bkVZRVZE
-	 ijKz+bU7bfy21lWU1cBaVfbDoVkxLIjefviK/gH9bIAHXVj8ZtMogIRvQsltlUfL75w==
+	c=relaxed/relaxed; t=1795772140;
+	h=DKIM-Signature:Received:From:Date:Subject:MIME-Version:Content-Type:
+	 Message-Id:X-B4-Tracking:X-Change-ID:To:Cc:X-Mailer:
+	 X-Developer-Signature:X-Developer-Key:X-Endpoint-Received:
+	 X-Original-From:Reply-To:Content-Transfer-Encoding;
+	bh=8AwRX1ZLKwh3r/wu3job9mJ2Ezmg97RbN0+houRbSYo=;
+	b=2UZrWIiRUmZvgbCnVNbKtdER7EEa0GNPj5lSXVB/Rf2IhncKFyAgX5BwiQSByhamz+2/
+	 dQlr+SFxdkjkGYJvcHldtN3K44IoJllwY6uaV1pt9p7ooPFRlymsfXLc8deBk36INO+9g
+	 PjYK+kA0WxDKbqU/05Yevx9tjH2y9FlEsVgQUaaS+XB1IhQ28jFFcobDaQAA2lL90ebsz
+	 QISk9dBiyt1WcrtzlsMsLpJLjSqWgPDQ/Em1taU2W93FWrGaxtm/3xxGBaKVnx5X/RXLj
+	 815jqhELgc00ykJxwR5kwBENrhOzhsSa0wU1etXxvQCZFLoR0a4Mz7qBL8/Fe03U/XA==
 ARC-Authentication-Results: i=1; smtp.kernel.org; 
 	arc=none smtp.remote-ip=100.80.115.77
 Received: from lkml.kernel.org (nexus.subspace.kernel.org [100.80.115.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature ECDSA (prime256v1) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.kernel.org (Postfix) with ESMTPS id 71E901F00899;
-	Fri, 27 Nov 2026 08:54:06 +0000 (UTC)
+	by smtp.kernel.org (Postfix) with ESMTPS id 1EE701F00899;
+	Fri, 27 Nov 2026 09:35:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kernel.org;
-	s=k20260515; t=1795769656;
-	bh=kuqOxnM5IWHN2revzjpRiHinhN0aByvT6CupOdpKmq8=;
+	s=k20260515; t=1795772140;
+	bh=8AwRX1ZLKwh3r/wu3job9mJ2Ezmg97RbN0+houRbSYo=;
 	h=From:Date:Subject:To:Cc:Reply-To;
-	b=HZ7EwE0kqs1+ZvzqNR+sEtWJikhLguRlnR4ZMAMqhGaJSc2jveOx3C7W9SOtBbias
-	 3p/Zd0HGIMTz2xMbpU742WmotNtuG9ssXDD22sNzcO+rl7n4/HNEOaMTreYHG4lIur
-	 3Hi0qMS/0vMWyAUpQnNSMHWRStPtKR35G+qinKX/p7Q4Bk6uqRKB9RLpEIXTYoaJfq
-	 AaWQB6KnYVK86Q38cLECo0n+Avu0g0QnPOuwWuqKa4AOrJ3QKriwFt6mHWY5FjKePh
-	 rkyzJUskatTUZC8yg2BGbYew2aSO2MdPEdCBrX/rIa3ma0TmpkuzKb0yMC5IC8zEdS
-	 SZdYZdfahEdvQ==
+	b=Q7P5KQI0TlTVjch4MSV5krhOUHAiBTeEhlI8GBm5uiRPbVZVCFGX+fBi+fXNWywg6
+	 eR1ohwwQQwl2TRO9pFwHIKQH+rbS9p9PCVBsr8gp2WVhWJ0BzSn75+0q4ag6FBIMQt
+	 meU0p16Z6wGXJ191q5vc72esxJYhaVblhbiu5BMDky/Suka4dRI7gic7ty1orZL+h5
+	 Omm8NxRtbkneuQxFUekFDXTQF13m/Y6cVYgowt3QPKg2+RuK4d6+zUR7euwoj39KcZ
+	 yCnrC53Q7V0s0up+Km0w+FqYgaAWamY/B5ZUDx+fsIKCir/G/GUm2HMYIGN5rhlfVN
+	 iCvUtdB10Vhtg==
 Received: from nexus.subspace.kernel.org (localhost [IPv6:::1])
-	by lkml.kernel.org (Postfix) with ESMTP id F404A4B666;
-	Fri, 27 Nov 2026 08:54:05 +0000 (UTC)
-From: Dickson Wu via B4 Relay <devnull+dickson.wu.certik.com@kernel.org>
-Date: Fri, 27 Nov 2026 08:52:44 +0000
-Message-Id: <20261127-yoc1s-ffmpeg-v1-0-f01fec79468b@certik.com>
+	by lkml.kernel.org (Postfix) with ESMTP id 97AFD4B691;
+	Fri, 27 Nov 2026 09:35:29 +0000 (UTC)
+From: Paul Barker via B4 Relay <devnull+paul.pbarker.dev@kernel.org>
+Date: Fri, 27 Nov 2026 09:35:17 +0000
+Subject: [PATCH] Revert "oeqa: selftest: signing: Fix use of gnupg-native
+ sysroot"
 MIME-Version: 1.0
-X-B4-Tracking: v=1; b=H4sIANxECWsC/yWMSw4CIRBErzLptSRAdD5exbgApvkYBUKj0Uzm7
- oIu61XV24CwBCQ4DxsUfAUKKbYgDgMYr6JDFtaWQXI5CiEn9klGELP2kdExsZzmcTrOC+cK2iU
- XtOH9012AjCrVO5Xh+q/oqW9oatf1sVaETBcVje+IMK41pTvrHPb9C7oZCvubAAAA
-X-Change-ID: 20261127-yoc1s-ffmpeg-19586748900a
-Subject: [scarthgap][PATCH 0/7] ffmpeg: backport seven security fixes
-To: openembedded-core@lists.openembedded.org
-Cc: Yoann Congal <yoann.congal@smile.fr>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1795769564; l=1956;
- i=dickson.wu@certik.com; s=dickson-b4; h=from:subject:message-id;
- bh=+GiepgD4KymWaju/DEF38E1uqESug8md6EBjxCGlDwk=;
- b=SQhEgVkysTAgEhXzlhcHZe4QqVZMu0AeJPY5kU944iupyayOJ6Pye/1Soa9gGfZfmT5TnjSak
- EDLCswIiZ2xAcd7tWkIncHdNP8ffXkv0bP7XRfyNzf0rsu4VOz11Iov
-X-Developer-Key: i=dickson.wu@certik.com; a=ed25519;
- pk=fxH7FS4FdojeJSGLJzgKdfO51Rvr4EW30yinj2mc1vg=
-X-Endpoint-Received: by B4 Relay for dickson.wu@certik.com/dickson-b4 with
- auth_id=1647
-X-Original-From: Dickson Wu <dickson.wu@certik.com>
-Reply-To: dickson.wu@certik.com
 Content-Type: text/plain; charset="utf-8"
+Message-Id: <20261127-revert-v1-1-27e7fff6c17a@pbarker.dev>
+X-B4-Tracking: v=1; b=H4sIANROCWsC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDIzNDQyNzXaCi1KISXQsDA0MzQ6NkE4u0RCWg4oKi1LTMCrBB0bEQfnFpUlZ
+ qcglIt1JtLQAtfv2+agAAAA==
+X-Change-ID: 20261127-revert-8001612c48fa
+To: openembedded-core@lists.openembedded.org
+Cc: Paul Barker <paul@pbarker.dev>
+X-Mailer: b4 0.16.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1795772129; l=2588;
+ i=paul@pbarker.dev; s=20261127; h=from:subject:message-id;
+ bh=21sPu30c4Lw69OmhHcZFv7CMjRjiCodWQi/tO/5H/WA=;
+ b=EKKjVqCAaW2cI/BvSEfA//yJuCqiUzBTbLhoV3od5nslk5pQlZ2hvoYdKZe/s5Y3+L/nwOqNY
+ x5qA+r/2fPNC086rkaL16t2LDURQMo+zUnHWEyQ2nxAxnY9AKvJ4nUK
+X-Developer-Key: i=paul@pbarker.dev; a=ed25519;
+ pk=WqW1DI8ojKsslrA2FOhJuBZUdddRnjQP2xjPNaop5PU=
+X-Endpoint-Received: by B4 Relay for paul@pbarker.dev/20261127 with
+ auth_id=1665
+X-Original-From: Paul Barker <paul@pbarker.dev>
+Reply-To: paul@pbarker.dev
 Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 09:24:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251366
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 09:35:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251367
 
-Backport seven upstream FFmpeg fixes to Scarthgap's FFmpeg 6.1.4.
+From: Paul Barker <paul@pbarker.dev>
 
-Tested: git am on current OE-Core Scarthgap and zero-fuzz SRC_URI
-application. Reused Pilot-YOC1 sandbox results for the same FFmpeg
-recipe and patch stack: baseline and patched BitBake builds, patched
-do_patch, and 1,520 passing patched FATE tests with FATE_SAMPLES empty.
+This reverts commit 89daeb7edf0bbc76bdde40ba0381ad75d242945f.
 
-The backports and test runs were prepared with AI coding tools (OpenAI
-Codex agents, with review by Claude). I went over the result before
-signing off.
+We can't use the native_sysroot argument of runCmd() to run gpg here
+because we are within a self.create_new_builddir() context block. i.e.
+we are in a different build environment to the one where gnupg-native
+was built and so its sysroot doesn't exist in this build environment.
 
-Dickson Wu (7):
-  ffmpeg: fix CVE-2026-135736
-  ffmpeg: fix CVE-2026-135743
-  ffmpeg: fix CVE-2026-135722
-  ffmpeg: fix CVE-2026-135725
-  ffmpeg: fix CVE-2026-135734
-  ffmpeg: fix CVE-2026-135738
-  ffmpeg: fix CVE-2026-135740
+Modification of os.environ in a test case should actually be safe, there
+are several other test cases which do this.
 
- .../ffmpeg/ffmpeg/CVE-2026-135722.patch       | 36 +++++++++++++
- .../ffmpeg/ffmpeg/CVE-2026-135725.patch       | 34 ++++++++++++
- .../ffmpeg/ffmpeg/CVE-2026-135734.patch       | 36 +++++++++++++
- .../ffmpeg/ffmpeg/CVE-2026-135736.patch       | 45 ++++++++++++++++
- .../ffmpeg/ffmpeg/CVE-2026-135738.patch       | 52 +++++++++++++++++++
- .../ffmpeg/ffmpeg/CVE-2026-135740.patch       | 35 +++++++++++++
- .../ffmpeg/ffmpeg/CVE-2026-135743.patch       | 49 +++++++++++++++++
- .../recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb |  7 +++
- 8 files changed, 294 insertions(+)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-135722.patch
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-135725.patch
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-135734.patch
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-135736.patch
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-135738.patch
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-135740.patch
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-135743.patch
+This should fix [YOCTO #16483].
 
+Signed-off-by: Paul Barker <paul@pbarker.dev>
+---
+ meta/lib/oeqa/selftest/cases/signing.py | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-base-commit: d521a7d8364fe038ce5205003170e80de218a83a
--- 
-2.43.0
+diff --git a/meta/lib/oeqa/selftest/cases/signing.py b/meta/lib/oeqa/selftest/cases/signing.py
+index 6269536d1d61..e36a5cd0f671 100644
+--- a/meta/lib/oeqa/selftest/cases/signing.py
++++ b/meta/lib/oeqa/selftest/cases/signing.py
+@@ -37,7 +37,7 @@ class Signing(OESelftestTestCase):
+             f.write("auto-expand-secmem\n")
+ 
+         runCmd('gpg --batch --homedir %s --import %s %s' % (self.gpg_dir, self.pub_key_path, self.secret_key_path), native_sysroot=nsysroot)
+-        return nsysroot
++        return nsysroot + get_bb_var("bindir_native")
+ 
+ 
+     @contextmanager
+@@ -158,6 +158,7 @@ class Signing(OESelftestTestCase):
+ 
+         with self.create_new_builddir(os.environ['BUILDDIR'], builddir):
+ 
++            os.environ["PATH"] = nsysroot + ":" + os.environ["PATH"]
+             self.add_command_to_tearDown('bitbake -c clean %s' % test_recipe)
+             self.add_command_to_tearDown('rm -rf %s' % sstatedir)
+             self.add_command_to_tearDown('rm -rf %s' % builddir)
+@@ -171,7 +172,7 @@ class Signing(OESelftestTestCase):
+             self.assertEqual(len(recipe_sig), 1, 'Failed to find .sig file.')
+             self.assertEqual(len(recipe_archive), 1, 'Failed to find .tar.zst file.')
+ 
+-            ret = runCmd('gpg --homedir %s --verify %s %s' % (self.gpg_dir, recipe_sig[0], recipe_archive[0]), native_sysroot=nsysroot)
++            ret = runCmd('gpg --homedir %s --verify %s %s' % (self.gpg_dir, recipe_sig[0], recipe_archive[0]))
+             # gpg: Signature made Thu 22 Oct 2015 01:45:09 PM EEST using RSA key ID 61EEFB30
+             # gpg: Good signature from "testuser (nocomment) <testuser@email.com>"
+             self.assertIn('gpg: Good signature from', ret.output, 'Package signed incorrectly.')
+
+---
+base-commit: 39019629a4ad25557f120ec98305a4a2ad6a8558
+change-id: 20261127-revert-8001612c48fa
+
+Best regards,
+--  
+Paul Barker <paul@pbarker.dev>
 
 
