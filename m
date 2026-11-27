@@ -1,135 +1,212 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17799.1795793272309716807
+Received: from CO1PR03CU002.outbound.protection.outlook.com (CO1PR03CU002.outbound.protection.outlook.com [52.101.46.31])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17719.1795793317259165793
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Nov 2026 07:27:52 -0800
+ Fri, 27 Nov 2026 07:28:37 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=XODoYwxL;
- dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=FYrDp9PQ;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: daiane.angolini@oss.qualcomm.com)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ARE1FnA2683810
-	for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 15:27:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=7y7vIVV/ZkN2OloLL/z+c2+nVSWAycZ76/e
-	WnT/V2ZU=; b=XODoYwxLNqT/jzYrVtVVudnqAc/fvfLXWwFWneDkZsAJ0s8oexF
-	mjeSJFB4IB4SA0z/pq0uCw5saNswouLO5Bh9XFdH+GQRvX61zV3Us/la/xjqAwgc
-	VHbVNAaUdnjffIUGhskfisj0BpejK4mzO2GrBJXHfAnXYeo/tsbN3PqlZ9HehklZ
-	34PvqI6GExW1zI6/OYxdRTi8+vwxvAGeClgXZC7IWzJY6npaGNrEuRn57Qg4e/Wb
-	2rg5wcqEeX0cM68FQtgpVJ/8spwOoEvz5qOhpnatMkdRXxyFpVja04SczC840naA
-	vqsIumL4EWxnNe0rNWGD8vxoVZiDsZqE6aQ==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j73uhj81n-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 15:27:51 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2f074b87307so51216875ad.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 07:27:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=oss.qualcomm.com; s=google; t=1795793271; x=1796398071; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=7y7vIVV/ZkN2OloLL/z+c2+nVSWAycZ76/eWnT/V2ZU=;
-        b=FYrDp9PQle206bjrt2j7ioSk7UXVT+JzEriqBVG1KiGjOAUxaWfCc0pwTWwwMmf4Nk
-         IQwybuIuCmmOfRzrXvrHkVma4Ef4lgg8ZrzRI1aZIgYgqB1daN7YIIKMUKgvMUiGPXFh
-         oFvUdyiQPozpbg5U3NyHC7ztvKRlG89s/VlJGy1iI3u594m/RkhIbKd/RKi92TMctaaN
-         5ouZRjhf2e0rNR5w5R07tdHdkLlqe4vwQwfCdMMPzLoTLl/biEMK2JWnwT0K7I5qnUOH
-         CKzuDm/hx8eB7anI8MPJtmLEXhnb0GxDXvva2ajJxzNco+SzXtUQBa4y8mVjd8EPRBBV
-         LEmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795793271; x=1796398071;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=7y7vIVV/ZkN2OloLL/z+c2+nVSWAycZ76/eWnT/V2ZU=;
-        b=V/dN0zF/LyfryNWTOzASer5a3R0hHfXD/dgKd/Coa85w+NXtfmWFMPI5WwTI2IR0lX
-         FTwrJSKPqKKcdHuooA8puyVmTvG+MEJG7xqYG5m5mI9zKs0cPulvnDexka9ev497LmnR
-         2mVRW3FOenq4RWooh+SjeKUJ8aS/OEC7BOuo9gHyp2gIoqDJnuOEyWmK55P9uCWhjRIo
-         fzyMPAPlzF3oR6UCxyXjOAML05LEqtvBMUU68V2XiW/al93WJ6syRoqVkGPlmQM7qE39
-         ppwkiA+HANQWfI+XXlT/BlUHaA6tusKxs8moKcGR8lzAvXeJ8BGa7JuY5BFz+izxhvg/
-         hKGA==
-X-Gm-Message-State: APuU4Z83iZhdsr8vG4h40nTuWxl19ePElpfLKmFdo7O1A1wzcarYwJ2t
-	e+Re3R+go8l5YVcfHqRKoic5znlbUp0C9uPooXVu0+EmXvshCnensH/hKM/vOvKX0g3fEYAY0s7
-	7Uhi+O+IKibfPWW8MhroLd2xaK9fSypnobuixlQ8s/XTdDZwh8cGhOTRayH8gpHf9hKncUgaya7
-	YJefd4ndd7BMR7PgjVlg==
-X-Gm-Gg: AZFdTZcJlfTuVSjLlJtQfSSgMrEL69hl3Uh7mbS01upOUP0IgU7NZNBc3WxvgVFNGRr
-	VkH3ud1gnUd5DDM/OYX/v/uy3h2Q00oy3mvTVahnuY4Dnkh3h3xepZ73aE/J4RZ2p82bQEcKVgO
-	Pdj5BUD8/pk1oop5dplEdV3ero0usakk8GezlqNUx3Tbr6+VSdpW4UMZZmsd7+fe6cHYpsePeSW
-	94CPKKd0+Lh20UMAxNjoycG8wBMAqWTBz8GE0PPhoAEmrwn2+bo7SXp2xIl1xrgY3FLrnZ1EAjf
-	yhUatp2bcJegYoOxhLrxb295fJQ6X2qciSVU1X8U1FlehvSKoUGJB4pJbKTRKVsl7LGVrLRiyi9
-	IwIGzJwmvK7Q5xxq9eF3eYA0tZByqUQp5yW6zO/Ij0yb5mx4GfSbBprApmTBBQk2LEBGU/iwRQ9
-	P5MKGvFU6WocYMQpqgpMCq5DA=
-X-Received: by 2002:a17:903:32ce:b0:2ef:d0b0:c386 with SMTP id d9443c01a7336-2f03f170cb6mr274649815ad.32.1795793270702;
-        Fri, 27 Nov 2026 07:27:50 -0800 (PST)
-X-Received: by 2002:a17:903:32ce:b0:2ef:d0b0:c386 with SMTP id d9443c01a7336-2f03f170cb6mr274649425ad.32.1795793270189;
-        Fri, 27 Nov 2026 07:27:50 -0800 (PST)
-Received: from duda.lan ([187.183.48.203])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f105b66sm123607145ad.51.2026.11.27.07.27.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 07:27:49 -0800 (PST)
-From: Daiane Angolini <daiane.angolini@oss.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Daiane Angolini <daiane.angolini@oss.qualcomm.com>
-Subject: [PATCH] meta/conf/fragments/yocto/rm-work.conf: add fragment
-Date: Fri, 27 Nov 2026 12:27:12 -0300
-Message-ID: <20261127152712.3705004-1-daiane.angolini@oss.qualcomm.com>
-X-Mailer: git-send-email 2.53.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@amd.com header.s=selector1 header.b=z5hCNjPQ;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: amd.com, ip: 52.101.46.31, mailfrom: mark.hatle@amd.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mYRy3sqP5xKj3GDn5CLQXYt6LBDK9+eY74TJQkT5jHkHfz6BUmb1lHxSJhXewYQfcQ4TxJvFD9MDS/2E1ZGYuaTAQ2HbJhHUCG03VRLyHjkRxJjEh6eC8NP/u/Gm3e9Vx/htxY+UWujVc0LKuIQa/HsUp61CfE7YouDBrUBmWdgUSqYa7Ti0usgiyBvrcecRRsZI4OTGiKlaWIiEgbs7Mpn1s5AnoZqYC7DLkkLeM411H3RJN0qZvH4Gpuy9djmCR2wZIhqv5+Q0l79tldCigizohfRVPvT42ehkua1/BsSHERH2/Oh+rGyJdZcQttzAmHs3abHT5rgva02G3FNdIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=9U8Wa9qdS7C0RhS+9E1aBgeVkMyvPRayS6qEN/QeVy8=;
+ b=goTBJMAyx+4Bj7zSKLOnOfRVh44uNY3x86K8Jvn4F+Ot4qBfmETLETAp+jEUfGHJGMaikLEz0DIKGqAdzd+XIxG3ZN6//ffgL7p6vH5BOP2IeNfx0tHRXcS+067pFhQtbZ2fAhzXZO5eH1rCxUXM0w9OBbzX3zUw3WW5izcfik2LbF7TbfRTj642JBR0Cj2uUxNAK8ojmPrIB9LILCs5lndt86/6qAUScVg0RLxpetMIWLltxWAUxxVaKblu+BleBTYSAAMP8lfrdeeEdvVmIPfa/Sxx7YQJ8477CGL1sJYL77Mt3y3/k/gtLWjLFLxUWD2ciE9DVkqjA0189M4jLw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=9U8Wa9qdS7C0RhS+9E1aBgeVkMyvPRayS6qEN/QeVy8=;
+ b=z5hCNjPQpntVOGc9AyDjx+++V6wyuutBMYAqOxITAGmktDxzxeYLVOPnftevF0eiylRBFcsw7pxwHwCCJlDlweg029sTipyvE2K4fYwVdHE8i6J/+3i4DDU3KUn2uZiqCBc8JSwxgzrgPsosZuk7UpAiBWQi7vBoPCRQvtpx1Ps=
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB7018.namprd12.prod.outlook.com (2603:10b6:510:1b8::14)
+ by CH3PR12MB504406.namprd12.prod.outlook.com (2603:10b6:610:34b::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.9; Fri, 27 Nov
+ 2026 15:28:32 +0000
+Received: from PH7PR12MB7018.namprd12.prod.outlook.com
+ ([fe80::e2bd:c56f:ea1d:9a11]) by PH7PR12MB7018.namprd12.prod.outlook.com
+ ([fe80::e2bd:c56f:ea1d:9a11%2]) with mapi id 15.21.0662.007; Fri, 27 Nov 2026
+ 15:28:32 +0000
+Message-ID: <b88fee85-9692-4641-ba5a-db63b5bf5fa0@amd.com>
+Date: Fri, 27 Nov 2026 09:28:29 -0600
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH v3] pseudo: Update to 1.99.2 version
+To: =?UTF-8?Q?David_Nystr=C3=B6m?= <david.nystrom@est.tech>,
+ mathieu.dubois-briand@bootlin.com
+CC: openembedded-core@lists.openembedded.org
+References: <20261126021504.2712290-1-mark.hatle@amd.com>
+ <DN5SYWCJICB9.I7N9C1C4DHZI@bootlin.com>
+ <8e691720-8af7-37ce-efb7-bfd1fbbbdba2@est.tech>
+Content-Language: en-US
+From: Mark Hatle <mark.hatle@amd.com>
+In-Reply-To: <8e691720-8af7-37ce-efb7-bfd1fbbbdba2@est.tech>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: CH0PR13CA0006.namprd13.prod.outlook.com
+ (2603:10b6:610:b1::11) To PH7PR12MB7018.namprd12.prod.outlook.com
+ (2603:10b6:510:1b8::14)
+Return-Path: mark.hatle@amd.com
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI3MDA2MSBTYWx0ZWRfX6Ao2xKybEQ66
- C7pMtRwmNXUlJOZ5P14hl6mQiWeTK7ESqYBzUbat1hGe7Rn6ZmCuV1F/isvmWhxtOBKbPt46eCb
- k5DLKQ714iSEOOFIciVo8T9nu4Uf7Qc=
-X-Proofpoint-ORIG-GUID: DSvnKxTXVKOs0JErFfJpBsKlTVJIwASQ
-X-Proofpoint-GUID: DSvnKxTXVKOs0JErFfJpBsKlTVJIwASQ
-X-Authority-Analysis: v=2.4 cv=BbBNQbt2 c=1 sm=1 tr=0 ts=6b09a177 cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=XAuqcxNhqWdpT/c4fHa+Hw==:17
- a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=EUspDBNiAAAA:8
- a=eOFwdvGiUY5CkF_VzuwA:9 a=GvdueXVYPmCkWapjIL-Q:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI3MDA2MSBTYWx0ZWRfX+EBtHC2JLGRs
- 2MMfdfDEAp7geFfnSgrzZpZf3WlFeHK4tp815J8+fiKUAVUg27U0OM17w8cSKFUwoHFKALCBLQR
- gnnGeWIgW62Blgqjvi+xCkhd96Lbbm0E5hXMJmsnYmd5+UYV68wSPb2iRcVa0PQrWZeAJjmLlyw
- lfg04JVMB5MA5dxLo4xot2DciGrV1hvs44zWuAVGBr2UEazzdhV/a0w6ZJOV06aC8z8LwZv5BNa
- X6akux+O51q0ObhMzgDfBkdnEo0MgS8Ke2Ba3442CekNgzd7ZuGssRrCKSYkCo+3jBH6Y8gVFdB
- coWqDi5jEHXjpcOHbLK/5DHFY7vGPBL92JLfKUC/tvKpWOOz+NEtB4TbRmSjUjObNcwof//P47X
- 4J+Rjg6hnK9Rpl+ZmXJYLquISBL9gJ13yMucLfC0sMWPNjwszgDN3qldV1jtne7PcTCFN4afKFt
- 1P1+cOwIFdRCrpRskXw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
- definitions=2026-11-27_02,2026-11-27_03,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0 lowpriorityscore=0 bulkscore=0 adultscore=0
- priorityscore=1501 phishscore=0 spamscore=0 impostorscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611270061
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB7018:EE_|CH3PR12MB504406:EE_
+X-MS-Office365-Filtering-Correlation-Id: ed73eb7d-b6a4-4583-6159-08df4c9b1832
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|1800799024|366016|376014|11063799006|4143699003|6133799003|261009223027099003|22082099003|18002099003|10067099003|56012099006|261102123227099003|261028144727099003|261026121527099003|261026140227099003|261021121427099003|261022105027099003|261022075727099003;
+X-Microsoft-Antispam-Message-Info: FP3wxo/G4JXPcv3Vf4woE16JLTSzKaQniHMJS0pmj5Anaro2c1kAvPUhzYvIP/ZGHZ6CRrTcI/X9c4WI3DzUB2UT39yL8KhpNBRV5bqvcfWaQ2VVsplmXxmj7FktRQOm48DBDYUdYUk0mQMOw3YBz9YqyWp4B5oXN2i5QtdLBMNi+RfuiaSFsYNOXYTy3Ows2IXvHdGD17tfUitrx+uhbwXtLi6Dpxq+o8GmMl/RL0eAMQOH+9Jx1P6OwGlMGjNkGWMqedkIHRP27xGwx2BYxhMBJb+ffurB7Q1zQM93lF4CgMeBYs92QMbQdYfwpWx7vTsXXFDwthJpPrxIwdzj4WivD3+QN8v1hpwobFZVRYG6ehAizgaLhhl3rg+Q4+HA/hrURkKPGLCzQ7oXwBrdbtXGkfu7u98HgJ/LEz8JwnllDkUUbLxBYE60sY3lWOaMNxK6q4HtLKsSskq8P4xkdstWtn7Ky1iFdpFqo70mT5za1nKBKjYw1hmt+YKkaD5QNCfCD2Z+QlfNGBmqmIt5K/8BuMDzWRRdUf1ISOezbyhCS9fkUQKOD2Hm4PZScJq/vhnLxaf8wdSbbC5LC6CtM4O7S3VwTfBSAl2byJ5Xah0=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB7018.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(366016)(376014)(11063799006)(4143699003)(6133799003)(261009223027099003)(22082099003)(18002099003)(10067099003)(56012099006)(261102123227099003)(261028144727099003)(261026121527099003)(261026140227099003)(261021121427099003)(261022105027099003)(261022075727099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?ZQncrKPbektX9vonwWUV6TqhpLGzelkirg4hykIaFiwtMumuMc5lTSdxEGFp?=
+ =?us-ascii?Q?XJnLpQqCIeIQHpz1Pof1QSkxy6cEjxr9+AL4/92Z3dbQTUybQW7YN4JE+KP2?=
+ =?us-ascii?Q?xzZ4JgbRtjADH769PZ6sGSlMJTN2qI7Mww3EPJ7cVugwb6tD+7NWXOatxa+V?=
+ =?us-ascii?Q?WCfsHOPsRY0v20qZ5qoPX8acYnAaUVenxN9pDpJmIWYqA1WN030adpFHFOUc?=
+ =?us-ascii?Q?Re80TxR7RMQHBTr0UluzZvG/ctyW7zCDEENVqOVA5wDEti+WvDJ/GmH8qPTN?=
+ =?us-ascii?Q?8iyRNCZx0yhJgPEpdaBmV13DQgAx7ULsgy9NkjSnxaCHu4aI4lpsoeV6GNmV?=
+ =?us-ascii?Q?GxxmRxcFRYLqIQbPxddofrA5IRZnMVN52PYZiTR3fhv2XqX5hAvleugAwCi5?=
+ =?us-ascii?Q?9eDjp3Kj8FSgk76XPGZNUrCOq8JnOl4NPdrHjqYyRVcWVekLikeq3/dJqbhK?=
+ =?us-ascii?Q?A/UpPC7mzXu700LtQ4pTq1ohCZIS/6ZkFnGUo5vSB3ahAp7MmxBdcr4iGvtV?=
+ =?us-ascii?Q?X69LowX6AbdFslZ6UoRhb1pia1UGVv/urhomCmyzuRSXOVSlQLkG/3lUM4qx?=
+ =?us-ascii?Q?jvZtdFhR8u6zE720M/yJKDx2B+yuBzhanWv7aD8sir+eLh5AfZPnkiXtc6wf?=
+ =?us-ascii?Q?/oaG8CtRE4jyKOvpYzalQbXtnYPztitUW+XCeSU0ZG7N1phKNM5B/Q+RChg6?=
+ =?us-ascii?Q?bIypxxouojsYA7VoA8oyQnyAt5fPpZDSOcyutKp0T8ZWI3Z2t03R6mylbi+5?=
+ =?us-ascii?Q?aSYkjBfr3XJvAmPc9IAgo0E2UAC1wHOHJuzRiJne0Pl1sFJZxaAMgLSbE/G8?=
+ =?us-ascii?Q?hCn7ieoUwG+VMH/TXS65PKPL7VNhExfhEAace3SpGBvZnWQGiQlTpHMeObU2?=
+ =?us-ascii?Q?1FwxLWv6vtqO23R66VRfSASl/4JmLRmL66Z4dY7FHni/ZpnRY8Um0s9Ql3Qu?=
+ =?us-ascii?Q?MkJtxgIjO8UMOZdCIpu/Mu6ppljCw6dBvIrQlm4sMFyW+Y44eUGSIsoJ17Lw?=
+ =?us-ascii?Q?iIql4/K3KA9jSwsCJrTnMypHVOWY1mwXrYz9Ruc8ac++5LLXFCUYI2wG1s8+?=
+ =?us-ascii?Q?4fJ1AUFHqfEoutSwBuaAiFt2VqMxZS01SRVWNuVjDUzm2cuDgo4Ke68PRRBd?=
+ =?us-ascii?Q?MbcuYa0+9gwZcZCmV61MzFG9CVvUY9h2GyOonw3OWDqBDSRxYV3oXv/CmIbM?=
+ =?us-ascii?Q?7f5FLsUVkwd8Dfa8tnYtyHtPIgeYZj8OkZ5aJnn8qf8FmOe5wIS6utx/2V9j?=
+ =?us-ascii?Q?6AaApPnmqb8d6XICFzTpiIHTRwIEehEGZjDztRA08jH3X9Huf9SSpE6w6HQv?=
+ =?us-ascii?Q?xYj1yVrKqnTH9a5Jr6iv6oBb3PeubUIEGlOkdLwC0CIiUQCjb3ZxEWXMoOHu?=
+ =?us-ascii?Q?gFsrIbwavfWPOU6BNYrj9ZdGD16o7q6mqelb5DX+fQ3yUJ6yEbv8WjkPRn6n?=
+ =?us-ascii?Q?KVQswH5Y3YnqWaQpEwaV2aRNuJevfn5tMEqIMJiydherUBYsTVrBu7XZKRHG?=
+ =?us-ascii?Q?2+YiOoTCDuQ3xFhN0JsA6LkMIG9scvZZF8Ig3WA/SS78iOEeFcVxudz42xuG?=
+ =?us-ascii?Q?PehRMF4DBzwRMK0Exs2nvx6NMhcrigiR/litLdwT1+O1nbOoaSEk0DuQRTN4?=
+ =?us-ascii?Q?JJfZJu9UomnjcTlyfdCXZaNl0AXrhKIwYrHgegtKojIYHBoddTVoQiZHdhE3?=
+ =?us-ascii?Q?m0D1isNoZpKZv5/M0qMGjZq3qYB/1mcFMpuXUTpAfpnc15bC?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ed73eb7d-b6a4-4583-6159-08df4c9b1832
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB7018.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2026 15:28:32.1500
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: th3Pf1IetbRPAo+/saY8GzYDIvuZa8QL3NMYreO98f6sfHPRPL7pjauUoE0400sN
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB504406
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 15:27:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251400
-Content-Type: text/plain; charset="utf-8"
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 15:28:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251401
 
-Add a fragment to enable rm_work with bitbake-config-build instead of
-adding it to INHERIT in the conf/local.conf.
+Ya, I had no idea about strtol.  I've updated master-next with this version=
+, but I don't have a way to run it across the build system.
 
-Tested by enabling and disabling the fragment.
+@Mathieu Dubois-Briand is this something you can run as a test?
 
-AI-Generated: Uses Claude Code
-Signed-off-by: Daiane Angolini <daiane.angolini@oss.qualcomm.com>
----
- meta/conf/fragments/yocto/rm-work.conf | 6 ++++++
- 1 file changed, 6 insertions(+)
- create mode 100644 meta/conf/fragments/yocto/rm-work.conf
+The branch is 'master-next', commit is '3a6fc1521198fd2cbbb63e607e379a65387=
+2ca6b'
 
-diff --git a/meta/conf/fragments/yocto/rm-work.conf b/meta/conf/fragments/yocto/rm-work.conf
-new file mode 100644
-index 0000000000..068223f643
---- /dev/null
-+++ b/meta/conf/fragments/yocto/rm-work.conf
-@@ -0,0 +1,6 @@
-+BB_CONF_FRAGMENT_SUMMARY = "Remove recipe work directories after the build to save disk space"
-+BB_CONF_FRAGMENT_DESCRIPTION = "Remove the work directory of each recipe once its tasks \
-+complete, keeping only the logs in temp, to reduce disk usage. Use RM_WORK_EXCLUDE to keep \
-+the work directory of recipes you need to inspect or debug."
-+
-+INHERIT += "rm_work"
--- 
-2.53.0
+Changes from the v3 version:
+
+commit 3a6fc1521198fd2cbbb63e607e379a653872ca6b
+Author: Mark Hatle <mark.hatle@amd.com>
+Date:   Fri Nov 27 09:05:06 2026 -0600
+
+     ports/linux: pseudo_io_uring_seccomp: Fix strtol usage
+    =20
+     Suggested by David Nystr=C3=B6m on the openembedded-core mailing list.
+    =20
+     Thread:
+     https://lists.openembedded.org/g/openembedded-core/topic/122456464
+    =20
+     Signed-off-by: Mark Hatle <mark.hatle@amd.com>
+
+commit f260db8ad5f5ad1b25f2d9fde7e6fe907f42a345
+Author: Mark Hatle <mark.hatle@amd.com>
+Date:   Fri Nov 27 09:02:02 2026 -0600
+
+     AGENTS.md: Add rules around __isoc23_* funcs
+    =20
+     Make sure that an LLM does not directly generate any functions that ma=
+y
+     be switched to the __isoc23_* versions when _GNU_SOURCE is enabled.
+     This will cause problem with glibc 2.38 and later, especially if we're
+     re-using a pseudo binary on newer and older systems.
+    =20
+     AI-Generated: Use GitHub Copilot
+     Signed-off-by: Mark Hatle <mark.hatle@amd.com>
+
+
+On 11/27/26 8:49 AM, David Nystr=C3=B6m wrote:
+>=20
+>=20
+> On Fri, 27 Nov 2026, Mathieu Dubois-Briand via openembedded-core wrote:
+>=20
+>> On Thu Nov 26, 2026 at 3:15 AM CET, Mark Hatle via openembedded-core wro=
+te:
+>>> Changelog from last version:
+>>
+>> ...
+>>
+>>> Signed-off-by: Mark Hatle <mark.hatle@amd.com>
+>>> ---
+>>> V3:
+>>> Remove obsolete 0001-makewrappers-Allow-the-wrapper-architecture-to-be-=
+se.patch
+>>> missed in the V2 patch and detected by patchtest.
+>>>
+>>> V2:
+>>> Corrects the V1 by removing the makewrappers patch
+>>>
+>>
+>> Hi Mark,
+>>
+>> Thanks for the new version. Now I can see build errors with other
+>> components. I can't remember if we need to do anything specific on
+>> pseudo upgrade, do you have any clue about this one?
+>>
+>> ERROR: Failed to spawn fakeroot worker to run /srv/pokybuild/yocto-worke=
+r/qemuarm64-alt/build/layers/openembedded-core/meta/recipes-kernel/linux-li=
+bc-headers/linux-libc-headers_7.2.bb:do_install: [Errno 32] Broken pipe
+>>
+>> I can see that one in most builds, with a few variations.
+>>
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/9/builds/5039
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/10/builds/5059
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/20/builds/5033
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/22/builds/5085
+>> https://autobuilder.yoctoproject.org/valkyrie/#/builders/60/builds/5071
+>> ...
+>=20
+> Hi,
+>=20
+> I wonder if this is a cross machine sstate pseudo-native reuse issue.
+> Tried to reprod locally, without success.
+> But I did find an inconsistency in glibc version dependencies.
+> the io_uring commit is using an unwrapped strtol, which is frowned upon.
+>=20
+> pseudo_io_uring_wanted_mode()
+> -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 value =3D strtol(env, &end, 10);
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* _GNU_SOURCE turns this into __is=
+oc23_strtol() on
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 * glibc 2.38 and later
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 */
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 value =3D pseudo_strtol_wrapper(env=
+, &end, 10);
+>=20
+>=20
+>> Thanks,
+>> Mathieu
+>>
+>> --=20
+>> Mathieu Dubois-Briand, Bootlin
+>> Embedded Linux and Kernel engineering
+>> https://bootlin.com
+>>
+>>
 
