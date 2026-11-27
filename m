@@ -1,62 +1,62 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1543.1795801791938800871
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1535.1795801784424049121
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Nov 2026 09:49:52 -0800
+ Fri, 27 Nov 2026 09:49:44 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=pqgJmkNU;
- spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-4a2f4ca0dcfso4805815f8f.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 09:49:51 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=SrzCNx0w;
+ spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-492fcbfaa88so5707609f8f.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 09:49:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795801790; x=1796406590; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1795801783; x=1796406583; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=GX/8I1zWbhbODowbkCrd86ptE6O8hTlGU1WoHxPlDlc=;
-        b=pqgJmkNUqxLQB4oExyyCQIR3dL3WkB2684Flg9+DJxby3xNm2NNy2iUxCYFjcjRD6Y
-         7Ham11cUZU9dEsxZtiFvRAIr7tXX0REFfpDp5yZjH3TszjMSIhByYe0JQfk1LHQmFqfp
-         ttmjg8LG9AGrwzK3Sprsh78iSXE/NmXOM6QOMfLWVrLWHla6SgOwusYFOm8LcR2393lU
-         LhnHYNdLiRIddH9laCFOXuo4/GlQB4EunzCi4ycWvg/BjoDc0UN1E0QDhF1QQKjLRh0/
-         RvzDq+iKOGGc4Xhe/WdXqVebIhDNmzdRuiKrF52GgWUkL66V98vScFa3Id++ksbBZcFP
-         Fe6g==
+        bh=TquP3LS4C9Y+uC3J8C+p63AmpZstWe8gvcKOq5CzlPI=;
+        b=SrzCNx0w9Vl7eeRAKoINLNrFoOGBIi2gd4hj/mQZC/T4Z6iw4+bd4aNJJ34Yq4YDHO
+         P22TGv64D+jzeuZmN9jJZxBJUx6L6VIdEeuxnPk19z8+tJBdRZxAjbHYCFIeSwbjPShj
+         38pUUIOSUzcf8FGHwEO7pI6kOQk2cXVXUR8zS9UwrsLZ6PSeb6WvZI+m5nLJV5PLbeaN
+         KKo6Svi2CgA9SRLSIK++dRccTcA38VUiA/br5w6EtD6rp4WorXQ9L6VYvNFKzJt7HvZR
+         44X7Oci7/JX7ejJncGi+uVuw0+LWtQlW0Xcx3ckL2AAgGXpJ4hJTsWfokv83Eo2cnIA+
+         8OHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795801790; x=1796406590;
+        d=1e100.net; s=20260707; t=1795801783; x=1796406583;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=GX/8I1zWbhbODowbkCrd86ptE6O8hTlGU1WoHxPlDlc=;
-        b=vAAplZyvnMkn7t3q3JmX79rEMOiiavmNlPp0kx5+OK4OgkLDE1Mc7DaawU2zPrukWL
-         4Z6V3+G9WIE744+NBu/WUQ/Rcx5S1TpOihg4Z/YHoVfSmcPObAngX+rsH1BCadYiFD2a
-         46ISf3hkpoqF/Ofjxs/jc6Z8S20JvV6Xcuv57TH904qGIWK8Dvbc4HEyYcnI6YbfQdIo
-         8fWHOi8es38OiAWF4CPeGBFzxmgfJ964kG9CLACCWoSEynVsqKFV0pMYLuGOQ3wD38Yg
-         0JpoZSX+6osM2nBnJlYO6IaGD6bEm8MTQsGnjjPPadEjlXW+I3q6RUgo6XAmb7HvVEtc
-         Ao1w==
-X-Gm-Message-State: APuU4Z99n4s9Rcj5KnBLdWA6A5965uP3RbnBa42jGP4/1qAl/meqvhmu
-	yD6+UoY6OYDuZjL4S7rIa1ZHqys6QgvQArSS9lf/nvXHhDtsCafXoW/pfPuueyrSd3Xga8i9U7E
-	BnjjyjLg=
-X-Gm-Gg: AZFdTZe96eZnazdajWhI/CpMQcmq3ei6tQ/WSpFeKxEa6MwaVHgacHx/uiM+/nKle6B
-	GcWOu+uz5BxmElqHO0jOLz4YeOxLPwwRuyT5G6kWBDl27fDMzBCFu61FxlMvoQjE6OUvGyYEA5v
-	nVI3qrtXlVAq3SB3/nR+ivso2AVb+zevX4QavPsQswPDiaejLg3CBJuWKvbtwE3b02LVRBFs7aT
-	oyTGXms+nXXe/kWwDNBHaj/airVO4ZG+oOVMtyoCQA/GsvhHT7QT8ZFiQBPU+uCOejRRKU21dy+
-	xpdtl3qEDN4x2ZlCTeSNHH1hncS7uj1bOHR9h7TL64Wb5JAwcU4S0afyBCdH19tuZEFy7hx+ykv
-	TacRImSmkcdJ0M2ySunWh1pCcd0V+tcYKDzrEkmgFES1GdQBWwL58kuhkeg9F+KyBzd0bt1sWvv
-	pW81CpzKeBgw775sBKeyQcATYJXGXow9ai0n8n1Dxi/gaWhqi6iNACXIEZ4WOboIPb4d24KaS0z
-	rFTAlEp4C3KLZtB5XtVXebwPkm1MJpB6KbBCfGHm/MvqZ3Wh1lNYqVZ2B5qic0ixKrMdQOjW7Bd
-	9z0aMTG80l5FnTGgvXl57Ih2bGycAE7YUfiqGJTNtLwWHQCD68a/lndtSD4YATouK3fx4Qbg0+w
-	rhU/+x8v+yAOC5DbqAF4eVwFvugHx
-X-Received: by 2002:a05:6000:4616:b0:4a8:cf12:6f34 with SMTP id ffacd0b85a97d-4abaab6318fmr49264033f8f.4.1795801790102;
-        Fri, 27 Nov 2026 09:49:50 -0800 (PST)
+        bh=TquP3LS4C9Y+uC3J8C+p63AmpZstWe8gvcKOq5CzlPI=;
+        b=u7V4v9LILxIw6F3MxVzCyU7IDmY5G1UFlkRXRnQ0ejezbs+qNLaccx/UN4PHLTvUSx
+         aP51Lj0OLex2ct5va3BOXy5aBPOZmseFI9nnUzsD4/6j9n6K2vt3xKCPGq8PhPdcuixA
+         SZR3WWfiFpwF6tABEpkOLzThJ90or1V+xIONfEfABbpA18Uc1qit/O4Av5cGT0Ys2V0q
+         hMnuYnU9/2Vyd1qkwLKOSiyof4WDmHkT4tB8IqvR/k/+qYOYAL7HC2QRMMyzbi701PIo
+         CBoeV/mYHfOQwQeZOqLbSmwRJFgJEiPp5EVfTF0fNj3BRwPGw9jzs77kgO4pDqXqQG2U
+         gX+g==
+X-Gm-Message-State: APuU4Z+i5pzJBBAv3v5hlkCpiN5X/iAy1ibpsEwf4dKrT9Wg/S/Rf2sa
+	Sb9+GqXDBktVdf0qhHc4sYETBGfTStDHjrmmBJ9Y/MsGkbNkpjgKeFBge23MP2+zeJ038NX3HQE
+	13MaE0/M=
+X-Gm-Gg: AZFdTZe911Rlf5z5VhuiO781M3ko9ofEmQku5RhMi7aQkPg9D2A2vmngQVmiG4+CzhG
+	wNaB26SYG2bllyqNxg0rxCzpV1fA7AOw7yfzAuW5wzfWEO149zc6vBI4KWGfWoa2qnPgfjHpI+9
+	fI592TTM1uBxmKFaHzujURr3J325ZHucXUlZVsivCAj2ZBYxvj6UtCWuL1AU29NYuJGK+F5fpj0
+	tDLKmHpTYo1eJHWNnZovhv5DeG0VbJKpDUnAt5MbWcOO6Ja/WYCUkHbA2AvSHnlyuJBrWNXtbpq
+	OlXRuSyr2BVw9CQK7dQ5Ugxccg7t5GKL94eYjYv1CQh4v18hrt0rElzE3/33MF9YVLVelwTERRV
+	O15cNiLhnJMH6tiyqQ5oZNKid+tMenjl8T6Dii4eIA/wjuy68FhLX5ZmcqqHyegcP3BEUWLZs3q
+	RQuS1oxiiMhNWfHoAg1ec3h9lE0h8tHC5h65DhE/ALvRQk4MoMA3JqaxVYuao9UydXSUkO836ib
+	6EUz/Yf5TvkSHIkiETHqBNEkjxvVnaco1ilPhcgYB+X07JdXyQwofaQNZ7kIQCNSxExchnceSOy
+	Dbez9oT9+7pbffeRmzrUizdLriM+AjygEWaPSJcNOwI/sOSc90nOg1zirdOMW5wI2uOVfAh8Gng
+	tmLShHcZs3adSLG2oGOxxApQmLCk1
+X-Received: by 2002:a05:6000:461a:b0:491:1e3f:a427 with SMTP id ffacd0b85a97d-4abb4b84d2cmr47537610f8f.42.1795801782694;
+        Fri, 27 Nov 2026 09:49:42 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab69bf630esm49374624f8f.16.2026.11.27.09.49.49
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab69bf630esm49374624f8f.16.2026.11.27.09.49.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 09:49:49 -0800 (PST)
+        Fri, 27 Nov 2026 09:49:42 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 28/37] gnupg: fix CVE-2026-105712
-Date: Fri, 27 Nov 2026 18:49:11 +0100
-Message-ID: <89fcace08b898610ac3bd9035fb0106db3176d86.1795798718.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 15/37] aspell: upgrade 0.60.8.2 -> 0.60.8.3
+Date: Fri, 27 Nov 2026 18:48:58 +0100
+Message-ID: <27ff53c5d4a32bea0acca55fde2528137f839af4.1795798718.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1795798718.git.yoann.congal@smile.fr>
 References: <cover.1795798718.git.yoann.congal@smile.fr>
@@ -64,282 +64,40 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 17:49:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251434
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251421
 Content-Type: text/plain; charset="utf-8"
 
-From: Prasanth R <ragaprasanth@gmail.com>
+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
 
-gpgtar does not check the output directory given with --directory.
-Backport the upstream fix and its follow-up, as done for wrynose. The
-follow-up uses gnupg_access() since 2.4.9 lacks COMPAT_NO_DIR_CHECK.
+- Fix CVE-2026-75818, CVE-2026-75819, CVE-2026-75820 and CVE-2026-103658.
+- Fix various other memory problems.
+- Fix various typos in documentation.
+- Remove unused MySpell example code.
 
-AI-Generated: Uses Claude
-Signed-off-by: Prasanth R <prasanth.r@lineo.co.jp>
+Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(From OE-Core rev: 05baab915b146a19776cd292962e2cf4edfc6f20)
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../gnupg/CVE-2026-105712-regression.patch    |  40 ++++
- .../gnupg/gnupg/CVE-2026-105712.patch         | 194 ++++++++++++++++++
- meta/recipes-support/gnupg/gnupg_2.4.9.bb     |   2 +
- 3 files changed, 236 insertions(+)
- create mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2026-105712-regression.patch
- create mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2026-105712.patch
+ .../aspell/{aspell_0.60.8.2.bb => aspell_0.60.8.3.bb}           | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/aspell/{aspell_0.60.8.2.bb => aspell_0.60.8.3.bb} (93%)
 
-diff --git a/meta/recipes-support/gnupg/gnupg/CVE-2026-105712-regression.patch b/meta/recipes-support/gnupg/gnupg/CVE-2026-105712-regression.patch
-new file mode 100644
-index 00000000000..d2b49b74fef
---- /dev/null
-+++ b/meta/recipes-support/gnupg/gnupg/CVE-2026-105712-regression.patch
-@@ -0,0 +1,40 @@
-+From 1bdd1f5bb4d192d9700dd6ab2540b0a940c23dd5 Mon Sep 17 00:00:00 2001
-+From: NIIBE Yutaka <gniibe@fsij.org>
-+Date: Tue, 14 Apr 2026 04:32:00 +0000
-+Subject: [PATCH] tools:gpgtar: Fix for a case of non existing dir with -C.
-+
-+* tools/gpgtar-extract.c (gpgtar_extract): Call the
-+check_output_directory function only when DIRNAME exists.
-+
-+--
-+GnuPG-bug-id: 8159
-+
-+CVE: CVE-2026-105712
-+Upstream-Status: Backport [https://github.com/gpg/gnupg/commit/1bdd1f5bb4d192d9700dd6ab2540b0a940c23dd5]
-+
-+Backport Changes:
-+- Used gnupg_access() for the existence check because 2.4.9 does not
-+  have the upstream COMPAT_NO_DIR_CHECK compatibility flag.
-+
-+Signed-off-by: NIIBE Yutaka <gniibe@fsij.org>
-+(cherry picked from commit 1bdd1f5bb4d192d9700dd6ab2540b0a940c23dd5)
-+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-+Signed-off-by: Prasanth R <prasanth.r@lineo.co.jp>
-+---
-+ tools/gpgtar-extract.c | 3 ++-
-+ 1 file changed, 2 insertions(+), 1 deletion(-)
-+
-+diff --git a/tools/gpgtar-extract.c b/tools/gpgtar-extract.c
-+index 5ca80cb..a5a925c 100644
-+--- a/tools/gpgtar-extract.c
-++++ b/tools/gpgtar-extract.c
-+@@ -504,7 +504,8 @@ gpgtar_extract (const char *filename, int decrypt)
-+           goto leave;
-+         }
-+ 
-+-      if (!check_output_directory (dirname))
-++      if (gnupg_access (dirname, F_OK) == 0
-++          && !check_output_directory (dirname))
-+         {
-+           err = gpg_error (GPG_ERR_INV_ARG);
-+           goto leave;
-diff --git a/meta/recipes-support/gnupg/gnupg/CVE-2026-105712.patch b/meta/recipes-support/gnupg/gnupg/CVE-2026-105712.patch
-new file mode 100644
-index 00000000000..9b0bc1ca663
---- /dev/null
-+++ b/meta/recipes-support/gnupg/gnupg/CVE-2026-105712.patch
-@@ -0,0 +1,194 @@
-+From 8df56dd913f3c910c9b265691efaac6c36a007a1 Mon Sep 17 00:00:00 2001
-+From: NIIBE Yutaka <gniibe@fsij.org>
-+Date: Fri, 20 Mar 2026 13:33:00 +0900
-+Subject: [PATCH] tool:gpgtar: Check the output directory with --directory.
-+
-+* doc/tools.texi (gpgtar): Clarify about the --directory option.
-+* tools/gpgtar-extract.c (check_output_directory): New.
-+(gpgtar_extract): Call check_output_directory.
-+
-+--
-+
-+GnuPG-bug-id: 8159
-+
-+CVE: CVE-2026-105712
-+Upstream-Status: Backport [https://github.com/gpg/gnupg/commit/7a2692fe5e580ae3bbb2a47abc4baaf1af65aa88]
-+
-+Signed-off-by: NIIBE Yutaka <gniibe@fsij.org>
-+(cherry picked from commit 7a2692fe5e580ae3bbb2a47abc4baaf1af65aa88)
-+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-+---
-+ doc/tools.texi         |  11 ++--
-+ tools/gpgtar-extract.c | 123 ++++++++++++++++++++++++++++++++++++++++-
-+ 2 files changed, 128 insertions(+), 6 deletions(-)
-+
-+diff --git a/doc/tools.texi b/doc/tools.texi
-+index 45f3e897d..691b7dc9c 100644
-+--- a/doc/tools.texi
-++++ b/doc/tools.texi
-+@@ -2024,11 +2024,12 @@ Do not actually output the extracted files.
-+ @item --directory @var{dir}
-+ @itemx -C @var{dir}
-+ @opindex directory
-+-Extract the files into the directory @var{dir}.  The default is to
-+-take the directory name from the input filename.  If no input filename
-+-is known a directory named @file{GPGARCH} is used.  For tarball
-+-creation, switch to directory @var{dir} before performing any
-+-operations.
-++Extract the files into the directory @var{dir}.  It raises an error
-++when @var{dir} is not empty, or @var{dir} is a symlink to other
-++directory.  When this option is not given, the default is to take the
-++directory name from the input filename.  If no input filename is known
-++a directory, named @file{GPGARCH} is used.  For tarball creation,
-++switch to directory @var{dir} before performing any operations.
-+ 
-+ @item --files-from @var{file}
-+ @itemx -T @var{file}
-+diff --git a/tools/gpgtar-extract.c b/tools/gpgtar-extract.c
-+index d23ccc579..5ca80cb89 100644
-+--- a/tools/gpgtar-extract.c
-++++ b/tools/gpgtar-extract.c
-+@@ -24,6 +24,8 @@
-+ #include <errno.h>
-+ #include <stdio.h>
-+ #include <stdlib.h>
-++#include <dirent.h>
-++#include <fcntl.h>
-+ #include <string.h>
-+ #include <sys/types.h>
-+ #include <sys/stat.h>
-+@@ -369,6 +371,112 @@ create_directory (const char *dirprefix)
-+ }
-+ 
-+ 
-++/* Check the output directory DIRNAME if it's not symlink and empty.
-++   Return 1 if good, 0 otherwise.  */
-++static int
-++check_output_directory (const char *dirname)
-++{
-++#ifdef HAVE_W32_SYSTEM
-++#define dirent _wdirent
-++#define DIR _WDIR
-++#define readdir _wreaddir
-++#define closedir _wclosedir
-++#endif
-++  DIR *d;
-++  struct dirent *dent;
-++  int count = 0;
-++
-++#ifdef HAVE_W32_SYSTEM
-++  wchar_t *wdirname;
-++  DWORD attr;
-++
-++  wdirname = utf8_to_wchar (dirname);
-++  if (!wdirname)
-++    return 0;
-++
-++  attr = GetFileAttributesW (wdirname);
-++
-++  if (attr == INVALID_FILE_ATTRIBUTES)
-++    {
-++      log_error ("error getting attributes '%s': %s\n", dirname, w32_strerror (-1));
-++      xfree (wdirname);
-++      return 0;
-++    }
-++  else if ((attr & FILE_ATTRIBUTE_REPARSE_POINT))
-++    {
-++      /* It's reparse point (possibly symlink), not good.  */
-++      log_error ("Not a regular directory (may be symlink): %s\n", dirname);
-++      xfree (wdirname);
-++      return 0;
-++    }
-++
-++  d = _wopendir (wdirname);
-++  xfree (wdirname);
-++#else
-++# if O_NOFOLLOW == 0
-++  struct stat sbuf;
-++
-++  if (lstat (dirname, &sbuf))
-++    return 0;
-++
-++  if (S_ISLNK (sbuf.st_mode))
-++    {
-++      /* It's symlink, not good.  */
-++      log_error ("It's symbolic link: %s\n", dirname);
-++      return 0;
-++    }
-++
-++  d = opendir (dirname);
-++# else
-++  int fd;
-++
-++  /* With O_NOFOLLOW, make sure it's not symlink.  */
-++  fd = open (dirname, (O_RDONLY | O_NOFOLLOW));
-++  if (fd < 0)
-++    {
-++      log_error ("Can't open (symlink?): %s\n", dirname);
-++      return 0;
-++    }
-++
-++  d = fdopendir (fd);
-++# endif
-++#endif
-++
-++  if (d == NULL)
-++    return 0;
-++
-++  while ((dent = readdir (d)) != NULL)
-++    {
-++      if (dent->d_name[0] == '.' && dent->d_name[1] == 0)
-++        continue;
-++
-++      if (dent->d_name[0] == '.' && dent->d_name[1] == '.'
-++          && dent->d_name[2] == 0)
-++        continue;
-++
-++      count++;
-++    }
-++
-++  /* In case of fdopendir, FD is released by closedir. */
-++  closedir (d);
-++
-++  if (count)
-++    {
-++      /* It's not empty, not good.  */
-++      log_error ("Directory not empty: %s\n", dirname);
-++      return 0;
-++    }
-++
-++  /* Good.  */
-++  return 1;
-++}
-++
-++#ifdef HAVE_W32_SYSTEM
-++#undef dirent
-++#undef DIR
-++#undef readdir
-++#undef closedir
-++#endif
-+ 
-+ gpg_error_t
-+ gpgtar_extract (const char *filename, int decrypt)
-+@@ -388,7 +496,20 @@ gpgtar_extract (const char *filename, int decrypt)
-+   memset (&tarinfo_buffer, 0, sizeof tarinfo_buffer);
-+ 
-+   if (opt.directory)
-+-    dirname = xtrystrdup (opt.directory);
-++    {
-++      dirname = xtrystrdup (opt.directory);
-++      if (!dirname)
-++        {
-++          err = gpg_error_from_syserror ();
-++          goto leave;
-++        }
-++
-++      if (!check_output_directory (dirname))
-++        {
-++          err = gpg_error (GPG_ERR_INV_ARG);
-++          goto leave;
-++        }
-++    }
-+   else
-+     {
-+       if (opt.filename)
-diff --git a/meta/recipes-support/gnupg/gnupg_2.4.9.bb b/meta/recipes-support/gnupg/gnupg_2.4.9.bb
-index 57f918b75f3..f211dcd2aa9 100644
---- a/meta/recipes-support/gnupg/gnupg_2.4.9.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.4.9.bb
-@@ -21,6 +21,8 @@ SRC_URI = "${GNUPG_MIRROR}/${BPN}/${BPN}-${PV}.tar.bz2 \
-            file://CVE-2026-24882-0001.patch \
-            file://CVE-2026-24882-0002.patch \
-            file://CVE-2026-57062.patch \
-+           file://CVE-2026-105712.patch \
-+           file://CVE-2026-105712-regression.patch \
-            "
- SRC_URI:append:class-native = " file://0001-configure.ac-use-a-custom-value-for-the-location-of-.patch \
-                                 file://relocate.patch"
+diff --git a/meta/recipes-support/aspell/aspell_0.60.8.2.bb b/meta/recipes-support/aspell/aspell_0.60.8.3.bb
+similarity index 93%
+rename from meta/recipes-support/aspell/aspell_0.60.8.2.bb
+rename to meta/recipes-support/aspell/aspell_0.60.8.3.bb
+index 5b4fab7c354..6ac547887b0 100644
+--- a/meta/recipes-support/aspell/aspell_0.60.8.2.bb
++++ b/meta/recipes-support/aspell/aspell_0.60.8.3.bb
+@@ -14,7 +14,7 @@ LICENSE = "LGPL-2.0-only | LGPL-2.1-only"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=7fbc338309ac38fefcd64b04bb903e34"
+ 
+ SRC_URI = "${GNU_MIRROR}/aspell/aspell-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "57fe4863eae6048f72245a8575b44b718fb85ca14b9f8c0afc41b254dfd76919"
++SRC_URI[sha256sum] = "0534eae11132405120d11e46bf595bd5dd189bc124ba77a5dd6aae861b48a162"
+ 
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[curses] = "--enable-curses,--disable-curses,ncurses"
