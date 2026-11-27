@@ -1,34 +1,34 @@
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11653.1795762052732859407
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11644.1795762049613533400
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Nov 2026 22:47:32 -0800
+ Thu, 26 Nov 2026 22:47:29 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=DqLFsdv3;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=eJLxnKvB;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=57914e973c=omkarabaji.patil@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AR2nJml119412
-	for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 22:47:32 -0800
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AR0XTbW3706326
+	for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 22:47:29 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=PPS06212021;
-	 bh=124Tw+SZ1y0dLcAvvENHcsC1l/E843/lrjOIT8nF1bc=; b=DqLFsdv3nXNN
-	Vh/GXOb6q15F1YFObXv4aCgtbY/1fPynha/5UgdgDWkMXGrsSml86TE02WwQzg3T
-	uNUrv352w8CZpyX7kFJl+Gx9tVtm3HOOvBjyMITuG57hpiR7doFcq7tavwKsLeeM
-	vRoD2NeFV2pf4VG0LO5YtTVVMslZeRltUU0E0idSMc5jF4FCyeK5lotWB07xELJe
-	8ksHMr2Rtv/Bbmnfaa/mb4UBJuI21CYoXIR49hSeeDwe0d/z/RT+iZVGLASw0IjI
-	l8hPuKDL+RjOKE1cRlJL2YWhdWByo6T9NNwadGPY8DFhUfy+T/Njf8uzr1flvxD7
-	JpLGOBsp6Q==
-Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11023115.outbound.protection.outlook.com [40.93.201.115])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4j516wym5q-1
+	 bh=jWzj0c9zJdoZDcbIeixPVvmNjlCd27CORcJiXMdF1u8=; b=eJLxnKvBJlaO
+	TC2JiWNNtPuUu27LCmysWnSqF4YVd2Fo94oVKfth5VjqxIOIe+5ZhlbrmQ8v5rcg
+	de117Lxt9bTi8O2FIb+g8y4eAHHgMgF2JoJFAXspCj0sZWP9/BtiwUD4mk1mZSCm
+	xtcUgyDv9u0GjOzFd2TPW4xYApV4je6ihEkpIJcyYGWJ9qulzdxjz6Pai/UEVnMo
+	KRCwr95T1zl/lb2x//t1ksOAEz43Be9hPhSTCFbYlEAPlg8xdh0rdQzODpbMZ51g
+	ezs9OjXUCsZugKva8HJbrnVP67YEZxUysSzoiAvxQz9CScgPn60vGNFVGqRXV94o
+	p/jcD7cpRA==
+Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11023076.outbound.protection.outlook.com [40.93.201.76])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4j60gh3x7r-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 22:47:32 -0800 (PST)
+	for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 22:47:29 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=zNiEJvevEECixPNhsg28W/PWSo4UcJ++X6hINO7es+rz79auJBh4NZyORTSRN9rcEt1M5W94dOo03cCwk3Y+M+7CwgRxMx0vu1aejapSICeJ0h7aFv0j1R27k/FmEs83RM3cJVdfO+we+J9yELKuiFMPk09RwSwrHpSyTghOXgdIkRfTm6TfgJtInQvQz3SufXmO5NBhySpRadR4AXJFcIUy6OApsbvJ/GBkwTRMa8ZWajGTstNc+vaUGXbXr8YPEW6ltpbq12POU31rbnH9J1Nw3filQPVj0Q/L5t9T9DzRufFs3bAEgtHRAYH5mbfBh3Lkj7dirYX9f76BIa7Opg==
+ b=xqL+VZDU1GjyVTtG5znZEsmz4RiJn2ihtQX6Y1/OddpKgSKug6nroTbWGFOXCJ21GIx97uNUa6/k30q1BcO4qPKnPvHTSyPfSEDS4F3DpcBHMGcmFJNdHTSHoaX+aWQDQz2oOTtOoeSRGrGQ6MWvtqkyGG8OWHevt8/EqXvbWkEj05ctyRP1AW/xLnNlqZFfrHJtuxTse4NRFTY8cP/dc30eE75cCLJ1iB+lt1oVemzFXcE7IFkbD2DwmvuC6AR/VVDbhty/ZqaMShkhWDe9EOL/Xm0f3+gq6rwBvULUKZxhqMkLMZg+Iue2XqAkSjkNCUiwJMReWTsVtm7FMWXp0A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=124Tw+SZ1y0dLcAvvENHcsC1l/E843/lrjOIT8nF1bc=;
- b=SxGiUjuA+fq2ipl2evJDui/v3x84E3ZxH1ifaGwJ1l+LUr4U7p+cUnGX5oUD7qoVsxxQKg2gQ+pLk9swrH7RqoOfVhJx+bfeJNC9Kx2aJX5fCkrpn9+3T3VdF+n/qyGBLvTapNftPgzl9mWLnYeCsIvZX4O5Juq6zBEod/A9qR61fgHYYg1wdYqBunP0C5F6I6HccXEmVDrRSPA2TaHIlYVXq1EF4ni5N/jiqMr46ISMZtKWpnEazJNfqpE1sftjcrz5F/+zHeHY2V4BOlJDAG/XHV2Vt7TXE/c/LlekqS4obgHPH46Fh7ZHcxVgkEuF9osF1ceUL34KjsR4Ynkc7Q==
+ bh=jWzj0c9zJdoZDcbIeixPVvmNjlCd27CORcJiXMdF1u8=;
+ b=oXi0ewI4OFr6/IAA3P3OqP5mkvtYUd8VNksGXXvd1PTxFa57KeZ9Q2CN57aem6o2pL9dEDcV9dEr4B6eEbtRN67snkBgFO+mU8p2rK5Wujr5fszTu/DfeEIzpcAC+GehgePmFkA/4K4Ru0U6ZqdfjMEY6OTECQAhKycyG+9/YxgFJH3yAYiGJySr/6xZvELMPAOQr2/EgejXsmseB5w32W6tKm91ga7BSuT99hgTxLg1y7s3tm4dzimewJWnkVIiWUJO/gUR+LMwC4ZNAToxpxGSueFu4klbzjQYTxnw55FqgtGWpABaiJ+A5n1OV+NCgEZMClQpE+knBgKJ0WNU2w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -38,16 +38,16 @@ Received: from DM6PR11MB3243.namprd11.prod.outlook.com (2603:10b6:5:e::19) by
  FT1PR11MB780136.namprd11.prod.outlook.com (2603:10b6:170:2d::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.10; Fri, 27 Nov
- 2026 06:47:30 +0000
+ 2026 06:47:27 +0000
 Received: from DM6PR11MB3243.namprd11.prod.outlook.com
  ([fe80::6c83:d3c:7952:3ee1]) by DM6PR11MB3243.namprd11.prod.outlook.com
  ([fe80::6c83:d3c:7952:3ee1%4]) with mapi id 15.21.0662.004; Fri, 27 Nov 2026
- 06:47:30 +0000
+ 06:47:27 +0000
 From: Omkar Patil <OmkarAbaji.Patil@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [wrynose][PATCH 5/8] libconvert-asn1-perl: fix CVE-2026-126819
-Date: Fri, 27 Nov 2026 12:16:56 +0530
-Message-Id: <20261127064659.2169695-6-OmkarAbaji.Patil@windriver.com>
+Subject: [wrynose][PATCH 3/8] libconvert-asn1-perl: fix CVE-2026-126576
+Date: Fri, 27 Nov 2026 12:16:54 +0530
+Message-Id: <20261127064659.2169695-4-OmkarAbaji.Patil@windriver.com>
 X-Mailer: git-send-email 2.40.0
 In-Reply-To: <20261127064659.2169695-1-OmkarAbaji.Patil@windriver.com>
 References: <20261127064659.2169695-1-OmkarAbaji.Patil@windriver.com>
@@ -58,213 +58,249 @@ X-ClientProxiedBy: SL2P216CA0194.KORP216.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM6PR11MB3243:EE_|FT1PR11MB780136:EE_
-X-MS-Office365-Filtering-Correlation-Id: e1e138a8-de96-41fb-0d14-08df4c524ef9
+X-MS-Office365-Filtering-Correlation-Id: 92fa0a00-2a01-4821-b246-08df4c524d28
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|52116014|23010399003|38350700014|10067099003|56012099006|260925022911599003|260925021911599003|260925021311599003|261026121527099003|261026140227099003|261028144727099003|261022105027099003|261021121427099003|261102123227099003|261009223027099003|22082099003|18002099003|11063799006|13003099007;
-X-Microsoft-Antispam-Message-Info: iowvsoltZfjvg7M/MQs/OJhbszqaU1sxJ+vLgmOJ9J+lIiXqZaBvXr4ulUP9nxwAjMcQkq4X0zo48ZXyxNkVecHUl1dIpPCKnfJBsw/5XUe0J3cISPvxro/G/669NpnqHAX4rI9vP7fktpPIPLff44E4MlWzNYNF73tkLyjnkfhKDMGaX3DyLtquOVFcdIQSzboKghsQosIxm5lrJ5ff3jAL5G2MV3dvCC6ZI9trmpA15WvwhIGDfppTlpXk/94Iqjw+kH4mn1W3dH7/cRmTWa+t5agr1v5dbY64/5bnu9TT7VACVyU54vhCO6zlL9VlbWcDMB/vsgFAIONttx+lsdDB3hlQkbR++R7Yvy0yN+caN4f4zmZaMPjpKqaS92ZrrmzcLyNOnfaK5uXPJFXk5PgWkvf5Blzic4P7f7Jj44HVv+nAETXjEjv5NauxNLT2HSKAV6sdW0XX5atcUE+Xj6m+35r12YexlWGS+btFacWfggubv8r23syTa3KdvtPijur17XLpAw7fFV0kw7nKsC3MVW/3x5jxfSfrC4Lq/0hVqDak47DG6ImkxfL/uz7QZ3R8aVdqvhJdJwnzDX161p/fllMtalJP3IXBcrO+GaW/A16Xn5pZWmPkWINSTXot5yL4gUrEpA4jZI3Qrg3tt/diqTKolgD2CcjCv4MqmaOMdTgQQFpN11L8HnPLFRASf3z4WQf7Hd1NwIYhhqax/uYHJBAbgVEOSxOIsYk5HK0=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3243.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(23010399003)(38350700014)(10067099003)(56012099006)(260925022911599003)(260925021911599003)(260925021311599003)(261026121527099003)(261026140227099003)(261028144727099003)(261022105027099003)(261021121427099003)(261102123227099003)(261009223027099003)(22082099003)(18002099003)(11063799006)(13003099007);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|52116014|23010399003|38350700014|10067099003|56012099006|260925022911599003|260925021911599003|260925021311599003|261026121527099003|261026140227099003|261028144727099003|261022105027099003|261022075727099003|261021121427099003|261021123027099003|261102123227099003|261009223027099003|22082099003|18002099003|11063799006|13003099007|3023799007;
+X-Microsoft-Antispam-Message-Info: OR+c2tjsXheBU5X75bFlcvAa7YJpnAE/D+bxNBuyKB9ZnvKiY4TE9YrQVO+ayQ2YmGAqVFC5A3SGrel15spXjwQya1tt8kHkU1jy43dt2YxPpMTy3QP8LekXYPBXqcFoVxQot1RL2VG1m84snJfqrCm4NOMXwvFuLPyVhSd2NC7beB/vfZxER1U3ac5PTmsAnG2gnnROlFquKFlI0xnPbMXPMVijGr/3/zdq2oufDroJYnqm09O8sRRjQjCa4GQi1xBtFPoRSEOwzVuMoWvr2xb5bIEXIia2M7uR7cl+NdMrTjaPswOkigtX6WQaM8/eXUNFEbvKtuZAOED6owgAVAgJM6H1VE9QHGozXQMuIdOFoBUMv6u05s86+uyxOfubQcpqUCy49VxnLJ4tzMJE5ysKcm8SKV6wTmBHcHvxUZ0fqkMnS62OYGjJE3mG4rr1mqEkQfKmi9NlKy+CVole3StVwtn56lsm0uzrokWZFln+LNTyYVY7d9N6MOuCo5MYXVwq0W8ebj4Qv/SIVYYqOJB37UNhXs7mmBADEGPi03BDRLFZKa5FCP9HnxRp8+ZVq4MqdkGdqVHD1Qow111TzQxirp5RRnVE0j4Ac73UtnBgIeEfYl3wwdTkA+1uv3kY3rxbLmCwjyV8Vf6hlw2XTr7rYtd5cN9RWYNy/+Y2+Xd36h8RFfUXSICUZBDod3mWGEj+QhcVTyMS6zZ84QmnuudJUC7gFDmGdg7vqQy2QRQ=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3243.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(23010399003)(38350700014)(10067099003)(56012099006)(260925022911599003)(260925021911599003)(260925021311599003)(261026121527099003)(261026140227099003)(261028144727099003)(261022105027099003)(261022075727099003)(261021121427099003)(261021123027099003)(261102123227099003)(261009223027099003)(22082099003)(18002099003)(11063799006)(13003099007)(3023799007);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?RNiHpcXGpLU2bdZwlHlG387oN/qcm2fgMV346XB+JT4MhF2HVbN1AQCYO1Rr?=
- =?us-ascii?Q?sHBa6DmqJycexdJDuwMp6EL6wJeDqEvzl1APN1LfLnLnOsMd9oc3QRNerIHg?=
- =?us-ascii?Q?rlCS3EpsFKAD9CjCwMio9lWQVRsh3gA+1ebw527rjPr1NEXzv8YRVVTK0Jxq?=
- =?us-ascii?Q?N3urrhViF8rlG4gRImInb+EKTE/sot6TB871VEGBbDjJWuD6CuadGX73ZOGp?=
- =?us-ascii?Q?Tt4MbgcZjAzMY0O/+tr2pB+rrKicTML5Q2UOtxOkphpl0TiiIWkf9Pmw+nZf?=
- =?us-ascii?Q?1LDEXVTJ/LQQQmbVrxhP1jiLfVSPupLlIKA+CEHCqRCs0raCblFcU7sVAls/?=
- =?us-ascii?Q?f7JyzIxyJSVNHNnWC5VKRJZDEAAOC5mMt9aY+GSUUF/Mew+yVQrmLaKwK7rz?=
- =?us-ascii?Q?7pEtm+86jo1tW38lE++a4fzrymt0ydPl7/Zik9gfRPTW+GjTUkx7gXPpGNFd?=
- =?us-ascii?Q?kkeXBWMXSMIH4vQOTv6xs9mdTZn9J+roltO2MBqvra1nqsV/3CyUEed7PU/d?=
- =?us-ascii?Q?3eLXXZjZPFFvawU/01BJFSpcqBDO1jIc5MS1tPvwH5JCMCnb28EBQTME60Jw?=
- =?us-ascii?Q?y63t0U/C7fgOb3f5eU0vODoRO5QSPOvw6SzQe73mW4cVp62BKs5pteWlTrAg?=
- =?us-ascii?Q?R+ZirKWZHhyqcQxKXLbKKrEvZg52qjYROBdEqcAfCBIaeQZjR/294weL+c/M?=
- =?us-ascii?Q?FmYzEWq2NDNOWZrUzUVJvPVlGCtzR9Lztz/QlimQd7aH5urYC5EbrYsQFaHj?=
- =?us-ascii?Q?42rrSo72B6ItPios2/r01KMYfwKAaz/5X8xNd7PB6VTrpTPSmT5Xk67SsmtT?=
- =?us-ascii?Q?PWTDhTaQOQl/bzfj+rDKOgrdvtwUpavuCvQgSnzzoJTCQs1X7X4Ni3obTnj8?=
- =?us-ascii?Q?LrZp3dXPHWz22MnPbP+E5UpRYWXhmFqxHR9qAMtjy3+IvaJ26emhh+X+9Vfk?=
- =?us-ascii?Q?YT8wQ0HYaKpwVa/iNB6weKRI1XgPIium1i71as62AMfqAwQ+lLNBP9yvd19W?=
- =?us-ascii?Q?o/RRigfhltIp5zPEuOmAh43ZTopojXFhzp/x3aJTG3nGxu6LKSIk3kUERsng?=
- =?us-ascii?Q?xkvUqVcwxZHbIIgkUM+y+GyWvAOlfZCpdkbK/gO8ITW9WTjYJUkiex7xTkT1?=
- =?us-ascii?Q?oy3EJ7R1s/vQbtbx793ZZUJ95hT4OOQX+cZiEFjgUudh6WsgWOI+omGt3ZeR?=
- =?us-ascii?Q?TPWOZwoBPF/zl36Cxfb4VRUngiSsTlYtd5P6z+pxQRbn+Ur0QYqIouAR8eH5?=
- =?us-ascii?Q?RVcLv9XpbTEM1dbpPqKmOXvM35dFMAVM0QUeiTsh3WzR34voV65Jb4PtT2yb?=
- =?us-ascii?Q?Zgkxp+5CRkzXEP03ocpd6TyVRedY+lxjg7IRo7NQbjUdg6l55hojQwmuSYMp?=
- =?us-ascii?Q?yHk6phasawiitQUKAiRcC9bBsYQSNwtI4S8XArjCiYSZnQGw6qKhrxJLqAZw?=
- =?us-ascii?Q?LzJ4K3X6oGEgdaNOPgIZCdPPT2Pk+JKWIMMFErXH101uSw0Ug2NB+WJOK2Vm?=
- =?us-ascii?Q?gN7HiNfSDZ1Km396YeGk8ILqQvwnVWgGXSlfQXwv9NpoOSm+z1y8vvM8U2JZ?=
- =?us-ascii?Q?e6X0qe6fU7wvPH57uJEXAfcvSjE2k0ZMagWB9cb7CVdmiVPVbOhhUL5R9crR?=
- =?us-ascii?Q?27kdQ4B1sd9h99Ra9k7VR80ORiNjDl/aPcy67vUfSCSGQqT/2voHKvO0Yk+l?=
- =?us-ascii?Q?mmJrCzsBQjl0E/2zf8Pvn7JvWQ3sLjvTc1AqTNSsfG30o0aJrBqABugEzrFw?=
- =?us-ascii?Q?fqV37UHkvBrzVK/7AULM4t1pg6FobSA=3D?=
-X-Exchange-RoutingPolicyChecked: b5QOln+tN8E7KWmhlyFZ3nyNhk4NTLARKxLqT1gBaE9n+R8IG8aVszhpA8b2rOG9u8w7CeGOtcH3PAJ42+e8P0AxZxK46NRjXhkM8mJqsy7KG3l7bEKLfggfSbUx+xlv8TPEp6ePqLmiqbkIpnqMVn40Yxenm9vvu5Qn2mh4MUyUwRYvokk1Sj0PfMC9W7SIom8eURE32EBIQRvzGYYo8o00nSqmisZ4Kk89PCJ7NJ54HPXgFzptWdCzot5mdPLTQlfRe690yodL70TOAU2304QbkIZXQve0gajRTonzoDJG3oSId9kj6XkPBl/UWRoL6ff0iHivIcc8CvctEJ/4gw==
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?bAZRXT2CX2M/hHLWIsDmtdy6ynapbBxzehSJpPq+8KOxAkuTQMT1m/5QJWTz?=
+ =?us-ascii?Q?BqzVpPsg9hf4uCat9drZB5pupEKXxThT3pPHlHEYiRIQEDpQXWNL/4oyVP8N?=
+ =?us-ascii?Q?um0bOy5qczSnFShoRN/FriwzFnkuWQPLXUyLNaHL1qTh3AkrPs8fAY8sy4el?=
+ =?us-ascii?Q?U8qY+GJjJxMAripEP2Akub7s7TZ15oR1kHec+70Wht2fknt1sPFuchzuu1O0?=
+ =?us-ascii?Q?iAjUla/WqXJOQY83S4hm9wM05udeqXWk9EZrlDJdhVU9jPuFGE+mr5QWHwHa?=
+ =?us-ascii?Q?5wDgoiwDtDKu+XgJHkT+nBG0wg1FqgxINZX4T/IhwNy4SaZC8R2/iO3B4u9R?=
+ =?us-ascii?Q?g3kbecIcMitbu1omIpAgDvW1DKf89fhZqKisUGJaj90Mu6vEumFeqiNTw47M?=
+ =?us-ascii?Q?WlXzuge4hXrtByFvfJZUkg+nk/c7ev5Dodwg5A0u82nSPEBeRdj9XqiJalk5?=
+ =?us-ascii?Q?x0DRIaCiDweCTckCkpc6cKROekoOQCWhVtRg0FRv5zoZ8MQUnefoCWJZpXRW?=
+ =?us-ascii?Q?mwGp5K2CgT1GJiLZnUn3vKQdsqt+Ft+DMARyccLKlf03rV0IFwWMEk3WIbl7?=
+ =?us-ascii?Q?MA3jJJ9gA5qXwqphgk+cMH1V5lyZyB7zSfKVtMw0lbo7P0dU72kaz9HqeafI?=
+ =?us-ascii?Q?5rdBfNFdJxPmc8lyeI6ibaSY8BfzHr8Of/jl1SdDciRmNsbaikNOap5W1VFU?=
+ =?us-ascii?Q?2vYz/K3/IwrFGaPrYy60gwJzDUPGUnBT4B3vDoIW7AS7iV6N+U3xMIMrdBnf?=
+ =?us-ascii?Q?XH08f2Z2v0tUGmglD1SE140W2Ls4tgHuHQhxkSVtLMk+z9bWm3QV+8VMxe47?=
+ =?us-ascii?Q?ln3aBlcxA2FE7j6am22MPXMHXEv48jyPFSlJBHu8wFrHpDvVInGd13nokyT4?=
+ =?us-ascii?Q?/YM76t7KjNjE2N3+dL6gocmrC9GNgMGIIFwQvVv9JAiijN2tWhy8scuq1Vmo?=
+ =?us-ascii?Q?bUDE4qyMZEL020aeNCq4en6/aj/4uATwAODYSP1wVitCKT8Tn9ODXz5fMKRj?=
+ =?us-ascii?Q?1LnOlX+kLmC1cHU6AYBFjTLEu0T/EJPCXSHB1oOzoojT9oiGvw2QVaNs+YRW?=
+ =?us-ascii?Q?2KtHpMuJgZytD61J4l29xp9uAoBjAzTfTJmPZlMCpw0ukPonhlHiOunyfNYl?=
+ =?us-ascii?Q?AnaUY3CQ19Mm8iLrC1kIlhrsmY/XI/Gu0N5DfaUM2Db/KITAFf9dCdbxxki+?=
+ =?us-ascii?Q?BG4xxKpn+mvQ7q7Ig5KRxTe2sJNWc++apdDzQ67gwrPkjHqHY1pSnYtB/s0y?=
+ =?us-ascii?Q?sKZS5GF5WdYqvpoXm5wD64XCes3MgdDwP+v2LSshZCTaUm/r0a9K7MkbyysP?=
+ =?us-ascii?Q?QlA0o1dBifVXugXR4PB5kkI5NnjqgTb4oG1UiEJCpDkKO6ra4yg1tfDiQj3n?=
+ =?us-ascii?Q?39/TuOekZc1/rU40cPp7Q20+V7z7k0Yh2JlLMqja6hPlTRVi/O/ddDQE9nUA?=
+ =?us-ascii?Q?6BhIJXXvkQmk98QEVl2h61LTQBFhauHMiTYOyplXI1NcyTQEPaCmG9yWl40T?=
+ =?us-ascii?Q?5PF46r64H+Pmt78pQmaQTfRm5Vajr0bsB7pgCn8gYc1tOSIFcmVnw2l5U6jU?=
+ =?us-ascii?Q?BkQzxnwVF3UyK4XLqxDQcOSRbO9z3w6Nfe6FmvMW7N/LSHD06P9CKcRPrIRP?=
+ =?us-ascii?Q?BgfB31DQki2pGLAMzrXjovqoyZOYmPhgW5vZWVKVTzWKVIKwUJLhVbxEY8JZ?=
+ =?us-ascii?Q?X4HjV3VXT2C6HtyBV4VqxpIlkwO1CRqyzdwTyeRfJqoUpxK6rgFVTCTM3/uD?=
+ =?us-ascii?Q?oXU5gbRzIOfeKwYrbRFSzjUHHKAe67o=3D?=
+X-Exchange-RoutingPolicyChecked: BDqwpl+3hMgdH58zLg2rPMu1wjFR3Vosp1py263e2dVyQQSfE7Y1vlVhhLjUsRYf9R1K6gxPd4X4YreGp3jY5xFUqwGCTXLq5MzzeqEl7A1fNpIa8bQD7WhhyyCuvNXmUFPn3I0DwsRqkubkrdk0fFG9lfLRRwXf+0XNZXqxBkdVwkcPhOG6p5FuwW/si2eTHYoftAz9XQ8bMm/y0EFj4QG2VVQ5ZeLVVTw14jRwweR4cdxXShwesqsRsuG7TsKqpCwAKWJyyQdGixziG4stpUWRFXhhjYngLXv2p14wqh5KFU6HvsUlzFKS5sgAqQRFBWxSqTSfZJvqvkrRBt4qDw==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e1e138a8-de96-41fb-0d14-08df4c524ef9
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92fa0a00-2a01-4821-b246-08df4c524d28
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3243.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2026 06:47:30.8485
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2026 06:47:27.7882
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: f0YwNkzUYEivaXv01z7GUxe64pu+/7/dEmNVTe4A6FkxerA8HkSsEwiG7Wd/zb4hhvShnrcldZKhnkjXbml7ko3JgpOen0V0Y4BGyGrqrkA=
+X-MS-Exchange-CrossTenant-UserPrincipalName: K/5zZ0V2GPcVnMUz78hT4Dm0nZQi2AxAJ/eDfbRVkHcetjHmYkWSuKe3pNbkbuVEXJ20cDnlBBC0piR4KupCIgY9mjFLaMdyiah6LOeIUt4=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: FT1PR11MB780136
-X-Proofpoint-ORIG-GUID: pGYlkxE7BrZ8uxevBKgtkkKu3w2IrJSR
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI3MDAyNiBTYWx0ZWRfX5kRnNzArMhCi
- mNXZy/aFcU17LlsvHVcDhUauepaZyU0neNO6GC+dN+20IPURsekSGNDBtSdHKBLvaWCGkkIPvC3
- 0fp9v6bBMQtKOloc94EMLQ6ZyUjq2AkRc41b7A0UEuLbB2mH0L6i
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI3MDAyNiBTYWx0ZWRfX8SkmxL7fTGUV
- njhYsYrEQw9iB1M7sdjU8rB00eo1kya2Gm0p3Moj1EOOdDdCFV58bipStmSgwh7J81uH+GfWlSW
- FiI4pNRJZk5Fh3XT43lgZnSsP1qcvVofrUOIgCu9kjkdyIJwwGAC+jycVWCoYXOZ31i25g6aYk6
- LL63B8tLBA/5hdSye5lzWDnUM2+JVZxejPCuiAM/EWKlBG7Z0xabBB8ec+jXIYWce5v50DeN7mo
- RQBWqwaHsE39DZ8Xwcm5GtFyyWkNiTLef1BH/7JSKkZoLp4CpyJSz71buWHfzs3Y4osKlZ2PIlm
- 724UjrRNPOCk/Iot2XG3DQu8ffbmwyR3GJANtlnwLp1JhOT6JTCcA0KasbD1wN/fGPzvDUE7LKB
- L+pj3fz6+nDJWVlq5UItNWLXLwj3R2NS5/E/ZbfHUh8wwXMGPEtFF8AI/sPe6Z6TOZ1tWbGnADh
- D/AYq/tIUkdpKWTiEXw==
-X-Authority-Analysis: v=2.4 cv=bofZl0ai c=1 sm=1 tr=0 ts=6b092784 cx=c_pps
- a=y6Sm6l44Xb9uyrH0UefkHw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-Authority-Analysis: v=2.4 cv=R5SWitRX c=1 sm=1 tr=0 ts=6b092781 cx=c_pps
+ a=TLRaRVVo73tAgr2tZ40rpQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22 a=PYnjg3YJAAAA:8
- a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=Aszx6E9rKxf-qG8e45gA:9
+ a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=PYnjg3YJAAAA:8
+ a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=sZr9-Sand4_KaS_hrTMA:9
  a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: pGYlkxE7BrZ8uxevBKgtkkKu3w2IrJSR
+X-Proofpoint-GUID: kG2Y9d7CUgJoxJOk4cEvAbAbGxEhL7Ft
+X-Proofpoint-ORIG-GUID: kG2Y9d7CUgJoxJOk4cEvAbAbGxEhL7Ft
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI3MDAyNiBTYWx0ZWRfX7dpZ3yEBLVl+
+ B9vNwiU+5i2pPN/VHFIv6HoI0d8F3Shl6gGyQZJQvkVJ0bDIjO+48tEivsZ2AZUQGMXfvsgi38x
+ ElDuWGe6Sq7ihAwFMBrvGN3pPiyNv4MlTIL11dNgtNqptn2ts+8b
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI3MDAyNiBTYWx0ZWRfX8d20A5rYzhWC
+ 6mIj/mImwW8CVSnDoYXi441cAOMfuMOnH3hwuXYHzBIbWGcDAW8Y1FIm8MPSSdv4zlKKh+8zKlI
+ SyV7enevTWHbMVYJVtLJ4Ot7geobf7doqLnNgeUceYQHFa4TZkMOLXgXsjE4jdCCBq0STvJ7JBi
+ eVvj89ezmCuVfm2Blt/Px59D9TMh4+QpNK/dVHoJFNvqiOv0TCK5e64IplU0NZsnXm4lNpCBetc
+ 2lDc+VmQ243C5mE0Nepvd9i+xqexhb7gDlT9+HEp2CZgJ9s68F71HDtdNvOek6PxMYhUODBz4Zw
+ WyM9MqBjfoXxSx0+z61yAS1JsFYAYfE2LUHkf3dDRDq/Lk2LfUdN7GIawr/L+XZAaHtfwwW6r5X
+ +N8cyeYHN8+ftV8CA/0f9v2ARg3C4QlGC2029NdR5ZXb+h3Y1r3KSB976S5VA9rbIGgHa2aQvVJ
+ dv1XGemEsFd9+xW5+Qg==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-11-26_05,2026-11-26_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0
- phishscore=0 bulkscore=0 spamscore=0 suspectscore=0 priorityscore=1501
+ adultscore=0 clxscore=1015 malwarescore=0 impostorscore=0 bulkscore=0
+ phishscore=0 priorityscore=1501 lowpriorityscore=0 spamscore=0 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611270026
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 06:47:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251348
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251345
 Content-Type: text/plain; charset="utf-8"
 
-Convert::ASN1 versions before 0.37 contain a flaw in BIT
-STRING decoding that can lead to memory exhaustion (DoS).
-A specially crafted zero-length BIT STRING can cause the
-decoder to copy large portions of input repeatedly, resulting
-in excessive memory consumption and potentially crashing the
-application.
+Convert::ASN1 versions before 0.37 contain a
+flaw in binary REAL decoding that can lead to
+CPU exhaustion (DoS). A specially crafted ASN.1
+value can cause the decoder to process large
+portions of the input repeatedly due to improper
+exponent length validation, resulting in excessive
+CPU consumption.
 
 Reference:
-[https://nvd.nist.gov/vuln/detail/cve-2026-126819]
+[https://nvd.nist.gov/vuln/detail/cve-2026-126576]
 
 Upstream patch:
-[https://github.com/cpan-authors/perl-Convert-ASN1/commit/a369bb1c39061d67454216a6a1d0eae11932806e]
+[https://github.com/cpan-authors/perl-Convert-ASN1/commit/6158dbb33cc3d248a95b4ab4948a135e18141b51]
 
 Signed-off-by: Omkar Patil <OmkarAbaji.Patil@windriver.com>
 ---
- .../CVE-2026-126819.patch                     | 90 +++++++++++++++++++
- .../perl/libconvert-asn1-perl_0.34.bb         |  1 +
- 2 files changed, 91 insertions(+)
- create mode 100644 meta/recipes-extended/perl/libconvert-asn1-perl/CVE-2026-126819.patch
+ .../CVE-2026-126576.patch                     | 125 ++++++++++++++++++
+ .../perl/libconvert-asn1-perl_0.34.bb         |   1 +
+ 2 files changed, 126 insertions(+)
+ create mode 100644 meta/recipes-extended/perl/libconvert-asn1-perl/CVE-2026-126576.patch
 
-diff --git a/meta/recipes-extended/perl/libconvert-asn1-perl/CVE-2026-126819.patch b/meta/recipes-extended/perl/libconvert-asn1-perl/CVE-2026-126819.patch
+diff --git a/meta/recipes-extended/perl/libconvert-asn1-perl/CVE-2026-126576.patch b/meta/recipes-extended/perl/libconvert-asn1-perl/CVE-2026-126576.patch
 new file mode 100644
-index 0000000000..58d2f2c324
+index 0000000000..147f8dfcad
 --- /dev/null
-+++ b/meta/recipes-extended/perl/libconvert-asn1-perl/CVE-2026-126819.patch
-@@ -0,0 +1,90 @@
-+From 51c154f2922c268bae7498016607776c8b5333bf Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-extended/perl/libconvert-asn1-perl/CVE-2026-126576.patch
+@@ -0,0 +1,125 @@
++From 6515eb600911c846c0e98651825d8583ff99e689 Mon Sep 17 00:00:00 2001
 +From: Timothy Legge <timlegge@gmail.com>
-+Date: Wed, 11 Nov 2026 20:42:29 +0000
-+Subject: [PATCH 5/8] Fix CVE-2026-126819: zero-length BIT STRING decodes to
-+ rest of input buffer
++Date: Wed, 11 Nov 2026 03:43:20 +0000
++Subject: [PATCH 3/8] Fix CVE-2026-126576: _dec_real bounds-check expLen and
++ fix mantissa length
 +
-+A zero-length content field caused _dec_bitstring to compute a negative
-+substr length, returning the remainder of the input buffer as the bit
-+string value. Add an early return of ["", 0] for zero-length content, and
-+reject unused-bits values greater than 7 (invalid per DER/BER). Add tests
-+covering both cases including a 500-fragment constructed BIT STRING PoC.
++Add a guard rejecting expLen values that exceed available content bytes,
++preventing buffer overread. Fix the mantissa length calculation to use
++the actual header overhead (1 for short-form, 2 for long-form exponent)
++instead of a hard-coded 1. Add tests covering both cases and correct an
++off-by-one in the max_int_len pod comment (4096 bytes = 32767 bits).
 +
-+CVE: CVE-2026-126819
-+Upstream-Status: Backport [https://github.com/cpan-authors/perl-Convert-ASN1/commit/a369bb1c39061d67454216a6a1d0eae11932806e]
++Reject exponents longer than 4 bytes; they were decoded as a bigint
++and made pow() compute an unbounded exact power.
++
++CVE: CVE-2026-126576
++Upstream-Status: Backport [https://github.com/cpan-authors/perl-Convert-ASN1/commit/6158dbb33cc3d248a95b4ab4948a135e18141b51]
 +Signed-off-by: Omkar Patil <OmkarAbaji.Patil@windriver.com>
 +---
-+ lib/Convert/ASN1/_decode.pm  |  5 ++++
-+ t/25dec_bitstring_zero_len.t | 44 ++++++++++++++++++++++++++++++++++++
-+ 2 files changed, 49 insertions(+)
-+ create mode 100644 t/25dec_bitstring_zero_len.t
++ lib/Convert/ASN1.pod        |  2 +-
++ lib/Convert/ASN1/_decode.pm |  7 ++++-
++ t/23dec_real.t              | 57 +++++++++++++++++++++++++++++++++++++
++ 3 files changed, 64 insertions(+), 2 deletions(-)
++ create mode 100644 t/23dec_real.t
 +
++diff --git a/lib/Convert/ASN1.pod b/lib/Convert/ASN1.pod
++index 3e9614b..dc98a8c 100644
++--- a/lib/Convert/ASN1.pod
+++++ b/lib/Convert/ASN1.pod
++@@ -167,7 +167,7 @@ value. Defaults to C<1025> (enough for an RSA-8192 modulus, which requires a
++ leading sign byte). Set to C<0> to disable the limit; negative values are
++ rejected as invalid.
++ 
++-  $asn->configure(decode => { max_int_len => 4096 });   # allow up to 32768-bit
+++  $asn->configure(decode => { max_int_len => 4096 });   # allow up to 32767-bit
++   $asn->configure(decode => { max_int_len => 0    });   # no limit (not recommended)
++ 
++ =item null
 +diff --git a/lib/Convert/ASN1/_decode.pm b/lib/Convert/ASN1/_decode.pm
-+index 72db28e..3e1978d 100644
++index 3d10bb3..72db28e 100644
 +--- a/lib/Convert/ASN1/_decode.pm
 ++++ b/lib/Convert/ASN1/_decode.pm
-+@@ -300,6 +300,11 @@ sub _dec_bitstring {
-+ # 0      1    2       3     4     5     6
-+ # $optn, $op, $stash, $var, $buf, $pos, $len
++@@ -369,10 +369,15 @@ sub _dec_real {
++     else {
++       $expLen++;
++     }
+++
+++    my $overhead = $estart - $_[5];   # 1 short-form, 2 long-form
+++    # an exponent over 4 bytes would become a bigint and make pow() run unbounded
+++    die "REAL decode error\n" if $expLen > 4 || $expLen > $_[6] - $overhead;
+++
++     _dec_integer(undef, undef, undef, $exp, $_[4],$estart,$expLen);
 + 
-++  if ($_[6] < 1) {
-++    $_[3] = ["", 0];
-++    return 1;
-++  }
-++  die "BIT STRING decode error\n" if unpack("C", substr($_[4],$_[5],1)) > 7;
-+   $_[3] = [ substr($_[4],$_[5]+1,$_[6]-1), ($_[6]-1)*8-unpack("C",substr($_[4],$_[5],1)) ];
-+   1;
-+ }
-+diff --git a/t/25dec_bitstring_zero_len.t b/t/25dec_bitstring_zero_len.t
++     my $mant = 0.0;
++-    for (reverse unpack("C*",substr($_[4],$estart+$expLen,$_[6]-1-$expLen))) {
+++    for (reverse unpack("C*",substr($_[4],$estart+$expLen,$_[6]-$overhead-$expLen))) {
++       $exp +=8, $mant = (($mant+$_) / 256) ;
++     }
++ 
++diff --git a/t/23dec_real.t b/t/23dec_real.t
 +new file mode 100644
-+index 0000000..c8ae4d1
++index 0000000..6d7d1ef
 +--- /dev/null
-++++ b/t/25dec_bitstring_zero_len.t
-+@@ -0,0 +1,44 @@
+++++ b/t/23dec_real.t
++@@ -0,0 +1,57 @@
 ++#!/usr/bin/perl
-++# Tests for _dec_bitstring zero-length content guard (F6).
+++# Tests for _dec_real exponent bounds fix (F4).
 ++
 ++use strict;
 ++use warnings;
 ++use lib 'lib';
-++use Convert::ASN1 qw(asn_encode_length);
+++use Convert::ASN1;
 ++BEGIN { require './t/funcs.pl' }
 ++
-++print "1..10\n";
-++
-++sub make_bitstring {
-++    my $content = shift;
-++    return pack("C", 0x03) . asn_encode_length(length $content) . $content;
-++}
+++print "1..15\n";
 ++
 ++my ($asn, $ret);
+++
 ++btest 1, $asn = Convert::ASN1->new;
-++btest 2, $asn->prepare('b BIT STRING') or warn $asn->error;
+++btest 2, $asn->prepare('r REAL') or warn $asn->error;
 ++
-++# --- 3-4: zero-length BIT STRING decodes to empty string with 0 bits ---
-++my $zero = make_bitstring('');
-++btest 3, $ret = $asn->decode($zero) or warn $asn->error;
-++btest 4, defined($ret) && $ret->{b}[0] eq '' && $ret->{b}[1] == 0;
+++# Helper: build a BER REAL from raw content bytes.
+++sub make_real { "\x09" . chr(length $_[0]) . $_[0] }
 ++
-++# --- 5-6: a valid non-empty BIT STRING still decodes correctly ---
-++# content: 0x00 (0 unused bits) + 0xA0 (data byte)
-++my $valid = make_bitstring("\x00\xA0");
-++btest 5, $ret = $asn->decode($valid) or warn $asn->error;
-++btest 6, defined($ret) && $ret->{b}[0] eq "\xA0" && $ret->{b}[1] == 8;
+++# --- 3: zero-length REAL decodes to 0.0 ---
+++btest 3, $ret = $asn->decode(make_real('')) or warn $asn->error;
+++btest 4, $ret->{r} == 0.0;
 ++
-++# --- 7-8: constructed BIT STRING (tag 0x23) with 500 zero-length fragments
-++# doesn't cause quadratic memory (mini-PoC scenario) ---
-++btest 7, $asn->prepare('x BIT STRING') or warn $asn->error;
-++my $frags = make_bitstring('') x 500;
-++my $cbs = pack("C", 0x23) . asn_encode_length(length $frags) . $frags;
+++# --- 5: valid binary REAL (1.0 base-2: first=0x80, exp=0, mant=1) ---
+++# 09 03 80 00 01  -> binary, exp=0, mant=1 -> 1.0
+++my $one = make_real("\x80\x00\x01");
+++btest 5, $ret = $asn->decode($one) or warn $asn->error;
+++btest 6, $ret->{r} == 1.0;
+++
+++# --- 7: expLen > content length is rejected (buffer overread / quadratic) ---
+++# 09 01 80  -> binary, expLen=1, but content is only 1 byte (the first byte) -> invalid
+++my $overread = make_real("\x80");
+++btest 7, !defined($asn->decode($overread));
+++btest 8, ($asn->error || '') =~ /REAL decode error/;
+++
+++# --- 9: long-form exponent off-by-one fix: valid encoding gives correct value ---
+++# Binary REAL, long-form exponent (bits 0-1 = 11 = 3 -> long form):
+++# first = 0x83 (binary, base-2, long-exp), expLen-byte = 0x01, exp = 0x00, mant = 0x01
+++# -> 1.0
+++my $longexp = make_real("\x83\x01\x00\x01");
+++btest 9, $ret = $asn->decode($longexp) or warn $asn->error;
+++btest 10, $ret->{r} == 1.0;
+++
+++# --- 11-12: a 4-byte long-form exponent still decodes ---
+++# first = 0x83, expLen-byte = 0x04, exp = 0, mant = 0x01 -> 1.0
+++btest 11, $ret = $asn->decode(make_real("\x83\x04\x00\x00\x00\x00\x01")) or warn $asn->error;
+++btest 12, $ret && $ret->{r} == 1.0;
+++
+++# --- 13-15: an exponent longer than 4 bytes is rejected; decoding it as a
+++# bigint would make pow() compute an enormous exact power ---
 ++my $t = time;
-++$ret = $asn->decode($cbs);
-++btest 8, time - $t < 5;
-++
-++# --- 9-10: unused-bits byte > 7 is rejected ---
-++my $bad_unused = make_bitstring("\x08\xFF");   # 8 unused bits = invalid
-++btest 9, !defined($asn->decode($bad_unused));
-++btest 10, ($asn->error || '') =~ /BIT STRING decode error/;
+++local $SIG{ALRM} = sub { die "timeout\n" };
+++eval { alarm 10 };    # fail rather than hang if the check is lost
+++btest 13, !defined($asn->decode(make_real("\x83\x05\x01\x01\x01\x01\x01\xff")));
+++eval { alarm 0 };
+++btest 14, ($asn->error || '') =~ /REAL decode error/;
+++btest 15, time - $t < 2;
 +-- 
 +2.40.0
 +
 diff --git a/meta/recipes-extended/perl/libconvert-asn1-perl_0.34.bb b/meta/recipes-extended/perl/libconvert-asn1-perl_0.34.bb
-index 40bb779c03..4615a1a90e 100644
+index f4460bf324..9de25f3f73 100644
 --- a/meta/recipes-extended/perl/libconvert-asn1-perl_0.34.bb
 +++ b/meta/recipes-extended/perl/libconvert-asn1-perl_0.34.bb
-@@ -10,6 +10,7 @@ SRC_URI = "${CPAN_MIRROR}/authors/id/T/TI/TIMLEGGE/Convert-ASN1-${PV}.tar.gz \
+@@ -8,6 +8,7 @@ LIC_FILES_CHKSUM = "file://README.md;beginline=91;endline=97;md5=ceff7fd286eb6d8
+ SRC_URI = "${CPAN_MIRROR}/authors/id/T/TI/TIMLEGGE/Convert-ASN1-${PV}.tar.gz \
+ 	   file://CVE-2026-126540.patch \
  	   file://CVE-2026-126568.patch \
- 	   file://CVE-2026-126576.patch \
- 	   file://CVE-2026-126682.patch \
-+	   file://CVE-2026-126819.patch \
++	   file://CVE-2026-126576.patch \
  	   "
  
  SRC_URI[sha256sum] = "a628d7c9d390568fb76359975fa03f626ce57f10dc17980e8e3587d7713e4ee7"
