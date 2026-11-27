@@ -1,96 +1,158 @@
-Received: from mail-dl1-f53.google.com (mail-dl1-f53.google.com [74.125.82.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.18616.1795796098441087249
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1457.1795801779591701480
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Nov 2026 08:14:58 -0800
+ Fri, 27 Nov 2026 09:49:39 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=YokIpvaj;
- spf=pass (domain: gmail.com, ip: 74.125.82.53, mailfrom: raj.khem@gmail.com)
-Received: by mail-dl1-f53.google.com with SMTP id a92af1059eb24-1a2761c69fbso11993186c88.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 08:14:58 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=WhuAuK6T;
+ spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-492fcbfaa88so5707550f8f.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 09:49:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795796098; x=1796400898; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=1sVv2BKRhH96Zt03n3eyITGPKss143bEoLWfaNDsmZ4=;
-        b=YokIpvajVGuYAZuNNQRwbu67kG6zHffPRTFTGTAe6O81CQel5MLb+7W+vQ8plz8zJi
-         v8LoVPz/8bpvP0ors5DV7Y4QAoBegYNAwmxf8oTsTxtyO1iLx0B525kVCbhC9u121swc
-         lfUtyGNs6U6kN89Ihr5SoVPIR/0nWkrDFvEif4jTJ18VEeiEEsE/8VBIH2x9vSKeKjed
-         mrmHNYl4mBJACZbFApDx0dxamWaBgVJ8Z6nNzqZpZ2AcHH+3odU1olofaozrIytzFQs5
-         12GeldfGrIAgJ8VfDYYDItpG1/S2OqBgT0CWh40M7G5wWwbFQeLtS6+VYwi0rLNb0xgH
-         gXhg==
+        d=smile.fr; s=google2; t=1795801778; x=1796406578; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=QeiR33halZP+z4o5YxfcQeiN3mXpVz0IIa+5cl7oweg=;
+        b=WhuAuK6T/a8lrTZfmUJRaW+ZXc2P4vZY35nC/1Dmhm9SYGR6/FEBFQpb7EWRYZV7uC
+         2bJctN0kEJCbXSidiMcB1n4pvuhLiqBmVLwvWXOxJQoMWR1IweBFINAejr/l65LEiV6l
+         wCf0+ICg7P6LdRAin4QmD2hO8Ji/Ai91ZcxuL8CzMZZIPqZ1qSd48pKP1Gv73w5lPXKX
+         Y/A7qR0G6M4SH3hvL9d56LC6ujc9v3rlebPwPziIW3Mj82okBvDKI9f0kQE4q7B+/HQW
+         +hVEWEyDrzn5dth97tXGcGNLDhsvJIni3z6KsMN2D3XXK1nKOgjukKZ8G0mysa6P4hX3
+         Qstg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795796098; x=1796400898;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=1sVv2BKRhH96Zt03n3eyITGPKss143bEoLWfaNDsmZ4=;
-        b=w7jtgMfP0pFAFZlNeJ+OYcIrgh6yr5wVb2o4xUdQ6PAXulk/5n4XwroISd235b0exp
-         BB+dvX1to0xri9XA2SLHbhuXQGLTp4Ia4MkK4FdDonfr7fyGBMPKT1GTzbiZzxB+hsGi
-         Z9hoVJ5ZDKxTxwAtUogVDexXxxd/Gcumjt/ZV57UJY2nOBJk6xDyl+QhpSUcgO2Y0Gqv
-         h4vxC9/e2od2r0NB3F/vq3VNfC4tpni5cjbI6sHN8uF/iOGPckAtmdtmQ7zdC0/7Xrjw
-         dRcfibLlD28nWkOrld3I0rU504Vi26VISnXBG6PaIeS8ZO27TD3Y24dX2GGFOBQzc1sS
-         gQcg==
-X-Gm-Message-State: APuU4Z+mjaYq0BmBucICriplBHBOumnZV2obXmr6MOTW2Kr/oFMTFt2P
-	hHtlD+mI4z296KkFpU7Biu35lOuSzjfM7+2R3sDYMNV6SGhvazvUStpQHejwGcEM
-X-Gm-Gg: AZFdTZcI5IxitJfOfK1+69WT0kc8tMSg0aWkothrFPuYhB028pPfF4eQ2Ih069329cO
-	UhsdW8KtAZppJSzszBnED5L0FEB1e9oGiEDteeW+z7XAnrezKp5jFE0wfWskQfmJnf2YhhvPrsG
-	+GhWrsEDrWcFYriIMzIy7ErTOjgDxAxz2RJXkgPCIFE8x57TRNz2W8j14ppgGL/W6vyrv2jBVIS
-	F6WuFlP2KiPYBN11QS/X0jHzIXOTt9WSRLlhhvqCmrxQx3iI+m/TfcSfaXVzgl+2tey+WXVmgO4
-	2relAlTEJBRTu+y0vpWIw0kGiAwX7nLTR6nzJG7ndUaFm/RCQ4NmnIY3Vd0PF3D8EFpig2VVVI9
-	9/CCkkykZ6eDGxQKEnjv2PhWoijZk2Z+D50JoLOr973cOeEU7s9yZxV1bytPqhTkpgijikM6bFJ
-	68TD2pRWlEN2xNd26pfo7mnu0lqL3WgtoFcEOkgcExLVRgFCjVC9pDM3TXthhMlZuh6lhqs+7xm
-	Ds19ZvBmNzh+GPaT4Db3efVtmIuIr52WtjhraSs9t87BD2habzmBHPbuJs5nyN/YzwMWdjlWM7F
-	njo3YQSTcPKWNEtzLYWFHlxjWXhK/ddErJnbCS1BkryIAT0YB52jjYjQKQiKKjDd0wk1Ce9nAsF
-	rFo5NNZ7CKL7yIkCShgBY+IwYXND0/UOP554FKmLHkvcvI58ASljNZXg1A6yLp24aZdS5Jc39gJ
-	QeUhwluOfoNH1JSHf15NrwFfGfZGwJF9/XEcuyt8+i9EbE9FvCito1t36m0peTeWB9lOApTPE4/
-	s/5gJS/JzbEIopqEwdPyxNATJVX4Z6bWXSGv1Sm2Pw2ii2Bqit+3OYOAR2eL8sCz2bzqpwLIDPf
-	vhfX
-X-Received: by 2002:a05:7022:e80e:b0:1b5:3b6e:e1ed with SMTP id a92af1059eb24-1b55690bcf3mr28927016c88.32.1795796097580;
-        Fri, 27 Nov 2026 08:14:57 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b556840494sm58515970c88.12.2026.11.27.08.14.56
+        d=1e100.net; s=20260707; t=1795801778; x=1796406578;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=QeiR33halZP+z4o5YxfcQeiN3mXpVz0IIa+5cl7oweg=;
+        b=onDGQueuPt9HJCeZi2aCu3NYtGODHXJmoFKJTJiAYtCfHLkk4YdeIxWCyKMnhGNlhI
+         ClKSMSpiT9jff+7v8RTpEBfJ3kyxs0aXvyWCFpzqNEhST1PYWa1AnXC5RE33wkvl273S
+         UKEGvEIM/ZqXVen19Np8IeU9SX16hzMunyyHtwZf13XidRzIH5McpuWyT3KNsB4ANrOU
+         dOkx76F54TjBdIAd+atrLSKsWoslEatOSIuvD1TBM7J4lpBrQej6RiD0zp8pfGcQBYGE
+         u4pMpjfzkaQgSJBV4cFYxWM4RZOyc3hiXaIQnMkZFXa9pDf0o5NQ2rmt6Bt31ts+aWnw
+         qebg==
+X-Gm-Message-State: APuU4Z93z+OdLMDColF+IxBZEUDTVr9bq2K8cblVk/AvgSSOfb/Pyg9T
+	bQX+XlAZyhyda1JgHgEGvornS2B4+pxPuZbMfknh9SxppjBbX4jKBT/vgha9PCevFu13SYrF74h
+	hoD7a0U0=
+X-Gm-Gg: AZFdTZfQmi7EPHDJc4xJyVd6D3ZUpyxg9TF2IIQ6ffkyu7NoFHZxfAs0QAxPnXhdJam
+	980gB0ftAHRZm4xpdiBf5a9LzQedWFHUDvxT5fHjw7UXF1PxKi24pGkECplY+YKYI1NH6SBECyx
+	awqblpeMW6ibzG3Ty4H7CILGoHfY00G/THaMHg1TKSawLJ6EAGJ5o76Yhj0/oUizC06UILNajx4
+	bp4eDAfNx1pOZAmb9bDd3nTcL4Tx1gAlIxTv8LfH0Ve1e00zhNIbmH2cDo0vNdC6IbBnKyxl4A0
+	H9IpexHmx5u9Zj6V8CQs7wl19LcRzgyjzYw86KEwAmKFlBEmwTOgbcdGB8ekqHL3Ny0u2PXRT0a
+	J5dqjJsrNndILofpB+NLgpphGcejwxXShUpMxOElIknYOCc6CDtRzl3ReOcZYotbLGCfVF5o+yQ
+	Nx58+aBXru+QgC/ekmRz64+oEjscxRuNxRMZFdQY56MCMUPCNiZBciZjAzopUXgLLoE1TjpFDca
+	b5SAhWv+1WUSgJvwigiUkW83yVjIYn5qU6pzoXK5ExzkNEHAWFLIH2JyBzEJTsiLAvkob8b2KUB
+	DpDyaLQ+nX4l5vCNwoMkkJ07Pi6q8IbbSpQG/V59uZIyUck164oyiDoYb4mpY9+LY/UoEBgx+nT
+	3eR3L4ZEES8yNeFrRGf/qGJxKjpPv
+X-Received: by 2002:a05:6000:4705:b0:48d:f851:ee5f with SMTP id ffacd0b85a97d-4abb225e5f9mr51749941f8f.24.1795801777801;
+        Fri, 27 Nov 2026 09:49:37 -0800 (PST)
+Return-Path: <yoann.congal@smile.fr>
+Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab69bf630esm49374624f8f.16.2026.11.27.09.49.37
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 08:14:57 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
+        Fri, 27 Nov 2026 09:49:37 -0800 (PST)
+From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <khem.raj@oss.qualcomm.com>
-Subject: [PATCH] ffmpeg: Use the external assembler for RISC-V with clang
-Date: Fri, 27 Nov 2026 08:14:54 -0800
-Message-ID: <20261127161454.2880456-1-khem.raj@oss.qualcomm.com>
-X-Mailer: git-send-email 2.56.1
+Subject: [OE-core][scarthgap 08/37] sqlite3: fix CVE-2026-119375
+Date: Fri, 27 Nov 2026 18:48:51 +0100
+Message-ID: <993996e8219dd868818edd4a790d0c4f1baf903e.1795798718.git.yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <cover.1795798718.git.yoann.congal@smile.fr>
+References: <cover.1795798718.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 16:14:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251405
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 17:49:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251414
 Content-Type: text/plain; charset="utf-8"
 
-ffmpeg's RISC-V assembly is not ready for the LLVM integrated
-assembler; for example libavcodec/riscv/h264_intrapred_rvv.S uses .irp
-without a comma after the symbol name, which GNU as accepts and the
-integrated assembler rejects with "expected comma". Pass
--fno-integrated-as for riscv32 and riscv64 when building with clang.
+From: Arpit Patel <arpitpa@cisco.com>
 
-AI-Generated: Uses Claude Code
-Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+This patch applies the upstream fix [1], which fully initializes the
+page read when the WAL and database page sizes differ, preventing
+disclosure of uninitialized page data. The GitHub mirror commit [1]
+corresponds to the SQLite Fossil check-in shown in [2].
+
+[1] https://github.com/sqlite/sqlite/commit/e5bf119821f25be1d7f10ef0a2edbe175289166e
+[2] https://sqlite.org/src/info/f9b4ee369557c36c
+
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2026-119375
+
+Signed-off-by: Arpit Patel <arpitpa@cisco.com>
+Signed-off-by: Bastien Jauny <bastien.jauny@smile.fr>
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-multimedia/ffmpeg/ffmpeg_9.1.bb | 4 ++++
- 1 file changed, 4 insertions(+)
+ .../sqlite/sqlite3/CVE-2026-119375.patch      | 47 +++++++++++++++++++
+ meta/recipes-support/sqlite/sqlite3_3.45.3.bb |  3 ++
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119375.patch
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_9.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_9.1.bb
-index 8413b16c25..5d58ae4b90 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_9.1.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_9.1.bb
-@@ -33,6 +33,10 @@ ARM_INSTRUCTION_SET:armv4 = "arm"
- ARM_INSTRUCTION_SET:armv5 = "arm"
- ARM_INSTRUCTION_SET:armv6 = "arm"
- 
-+# ASM code for RISCV is not internal assembler ready
-+CFLAGS:append:toolchain-clang:riscv64 = " -fno-integrated-as"
-+CFLAGS:append:toolchain-clang:riscv32 = " -fno-integrated-as"
+diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2026-119375.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119375.patch
+new file mode 100644
+index 00000000000..390a3f5234b
+--- /dev/null
++++ b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119375.patch
+@@ -0,0 +1,47 @@
++From c9e05db641c387aad309081b35afa3e703aa075d Mon Sep 17 00:00:00 2001
++From: drh <>
++Date: Sun, 16 Aug 2026 10:49:39 +0000
++Subject: [PATCH] When reading a frame from a WAL file where the WAL pagesize
++ and the database pagesize disagree, be sure to fully initialize the page that
++ is read.
 +
- # Should be API compatible with libav (which was a fork of ffmpeg)
- PROVIDES = "libav"
++FossilOrigin-Name: f9b4ee369557c36c606666bd7e6d8dc4685d87531993d3ce4e7a718aa814a5ac
++
++CVE: CVE-2026-119375
++Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/e5bf119821f25be1d7f10ef0a2edbe175289166e]
++
++Backport Changes:
++- Applied the src/wal.c change to sqlite3.c because the recipe source
++  uses the amalgamated SQLite layout.
++- Omitted manifest and manifest.uuid because they are Fossil
++  repository metadata and are not needed in this source patch.
++
++Signed-off-by: Arpit Patel <arpitpa@cisco.com>
++---
++ sqlite3.c | 6 +++++-
++ 1 file changed, 5 insertions(+), 1 deletion(-)
++
++diff --git a/sqlite3.c b/sqlite3.c
++index a397e4d36b..afcf2b1969 100644
++--- a/sqlite3.c
+++++ b/sqlite3.c
++@@ -68201,11 +68201,15 @@ SQLITE_PRIVATE int sqlite3WalReadFrame(
++   i64 iOffset;
++   sz = pWal->hdr.szPage;
++   sz = (sz&0xfe00) + ((sz&0x0001)<<16);
+++  if( nOut>sz ){
+++    memset(pOut+sz, 0, nOut-sz);
+++    nOut = sz;
+++  }
++   testcase( sz<=32768 );
++   testcase( sz>=65536 );
++   iOffset = walFrameOffset(iRead, sz) + WAL_FRAME_HDRSIZE;
++   /* testcase( IS_BIG_INT(iOffset) ); // requires a 4GiB WAL */
++-  return sqlite3OsRead(pWal->pWalFd, pOut, (nOut>sz ? sz : nOut), iOffset);
+++  return sqlite3OsRead(pWal->pWalFd, pOut, nOut, iOffset);
++ }
++ 
++ /*
++-- 
++2.35.6
++
+diff --git a/meta/recipes-support/sqlite/sqlite3_3.45.3.bb b/meta/recipes-support/sqlite/sqlite3_3.45.3.bb
+index 84d67ce977f..d5d5f101b0a 100644
+--- a/meta/recipes-support/sqlite/sqlite3_3.45.3.bb
++++ b/meta/recipes-support/sqlite/sqlite3_3.45.3.bb
+@@ -17,6 +17,9 @@ SRC_URI = "http://www.sqlite.org/2024/sqlite-autoconf-${SQLITE_PV}.tar.gz \
+            file://CVE-2026-119377-dependent_p2.patch \
+            file://CVE-2026-119377_p1.patch \
+            file://CVE-2026-119377_p2.patch \
++           file://CVE-2026-119373.patch \
++           file://CVE-2026-119374.patch \
++           file://CVE-2026-119375.patch \
+           "
+ SRC_URI[sha256sum] = "b2809ca53124c19c60f42bf627736eae011afdcc205bb48270a5ee9a38191531"
  
