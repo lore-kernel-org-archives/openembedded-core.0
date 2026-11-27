@@ -1,139 +1,111 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3714.1795810326810160537
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3715.1795810328342066033
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Nov 2026 12:12:07 -0800
+ Fri, 27 Nov 2026 12:12:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=mmPgXHXj;
- spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4a2153c8525so69041155e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 12:12:06 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=G1AxPAx9;
+ spf=pass (domain: gmail.com, ip: 209.85.128.42, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4bb6ba3b244so87131285e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 12:12:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795810325; x=1796415125; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rvbvhKs7HbK7Mb/c5vuWkKgvd2f+wxMqiKJYOlm+AAw=;
-        b=mmPgXHXj3Mwd4uxvgTkLNdzvUHykrOqOAbaAiKMDQPVpFNNaGgusfET0fNRmd8fVVj
-         zqq+eaEGHdJ5kAuVGImI+kPe3+kDvQQ9wneW1i2tc/l9+ofbMV6I6Rnt3oYP2+v3MMYa
-         VXlO2t15aLinOssMk8NEy8hvqa3elHyHyWYIYnOS35cLp/EO0tjxcMfoUS5lRR6WgG+A
-         e23Vd/5JJKQsSlx2E6B/s0Z2bWhB9xV3PxYedG7i6iwTgDH5QEIFP+ZhnvPE0EklZUIv
-         JwBbowTfP1BDyQf9d8PZC0swFGGqzBguc27MquvbY5G39i1hU33u8Hqd3xv17lQW4P7t
-         BHqw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795810325; x=1796415125;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1795810326; x=1796415126; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=rvbvhKs7HbK7Mb/c5vuWkKgvd2f+wxMqiKJYOlm+AAw=;
-        b=EJzfPzlBuPIDg6eU7XHDmFjDLu9gERS/nqKwTXdAUhjQbcwLBgGTrpT2nkzv9NfO+Z
-         ywT1KEjN0/d0FvhiBfZ7c8paLfFWJ0eXWL1Gt+DaiSOpqEELBD2Mjs7Qq40iuLsI8CMK
-         bYUWyyZz4qdwHQpNDpLn6wRTveYMbU9xMbm/h2POmyshbazn5tPw6UJ0FqY9lEhUWvVU
-         E0iZtzVQ4Z8WqrpKivDsjkc122U9b3HUgWPGVu7dDsFc3x6CgtGnoPJgukk+blMFa0Bl
-         C3KQ5BkK9FBSwDP/41S5uhQ0rTahRFmIz8Jnht0HJFhL3kWsMi7pGC/ztZ9kYGBGU58J
-         yrnw==
-X-Gm-Message-State: APuU4Z/dU5oOO4cNc1zf8r1VcZkFu+5fWBUDQxbwwGZX/SYf5Ses2ehY
-	fiEyGI1N9m8M6K5Jt+5zWj35H0z/EMQeFOt7PQ53Q/BTEUZhODwR2S0e/eI/VA==
-X-Gm-Gg: AZFdTZfqIkU5gxRXTN1IpIGCb0zWsZW+OCezFU1b0L0a3Eg8uRgavKPh0lkrGiFVUfB
-	cVJOmWm+ICpVQ6cG8F4QoleEhiNybx3ApZV7Jfp7KeIzIIFNF975Z5cQhzheSb+isVYiabhd5dA
-	ziipokBILt1Gucx1whlXDuf6K9WnmAmdS3Xc/5BGBTdgWSNHdRhpXI3K2lMNsDPIFAQc4tm59/F
-	8K6aAg5UV5mqKSwHQlYYxHyC3vYc0XVGvLg9BpqIJCn7UztC8KLwVx7Tawcxcdcjrm4bZsblFjN
-	yWknj+V05Em5Tr2hhfsRVw5LjXDH+kWiVBxR4V8Fyz6fyrWfkeDgzstA3Kf2PkLXS6+/CavEwRg
-	Ike4uAVr7kAbBkeSBjrM0PvVrtN4sKpD7jhBZfjEUYs/GF+6tPYGDpq0W17HzfveigqlBs+irH9
-	lZ6PSjP+6cCnl9jZm74j6URluWu/u3bdiJ2M7EZ/hPvIalS/FqzRA6cCkOlRV5E49W9RS7iiVib
-	8VHZqR5j65oNpR1pcieA8UMiz5C6a1lYtmpAZHHlsOF8qUFKFnnWHXuIrv1RRgMGo+ID0lMymJq
-	//DkpNBFc2bXhyeXv+PSfc/9JD8WNOtaV6GBDjshptIzTKz0DnGIlWCMxi7DRYdkCw==
-X-Received: by 2002:a05:600c:a55:b0:49f:ce78:356d with SMTP id 5b1f17b1804b1-4bb88827db0mr559261785e9.30.1795810324844;
-        Fri, 27 Nov 2026 12:12:04 -0800 (PST)
+        bh=khjDybmGBqbhpSsrnzIt+KoV8/Ap+drtflUOe4TyF38=;
+        b=G1AxPAx95IjkBxNalNP9Rn2V+1mOjOI3QIJvWOWUg8d5PwVqzYRK7FYMMY3FtCo991
+         K+sp4vueARPnOfhtgRhOvZNAyJgs+kG9FFtCkoul5rtyP/vKyYqrVPops+jPwmN1DCv5
+         ffkmrxPLU6r1N81AACNyYWGXbaNOxyBMfIunuZ2pEwTDEPkimw7jE/No8tsBI+xSXUJ2
+         RTTOcVfoaWmKfJx1EfAy7ZSzDXxHXKuitmSyo2Bgis5ZJVeHleeH2PszkUJ2GN6DLoRD
+         Jt8WbVhrI1W7PLVdwI2KZy+g2WHFssIB/YcThpNlc1dAKm0usW0up0cpS6oNP0cMTw72
+         j/xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795810326; x=1796415126;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=khjDybmGBqbhpSsrnzIt+KoV8/Ap+drtflUOe4TyF38=;
+        b=UROy4+J2sBXe7Hv5WJN9c/jWgvBcs1ze7+nzoxDAAyUcZOg4ETDm8D6TB+mMdnWU7v
+         abW95P6xrVg3k2ODCSiGmiyD0rkkuBHxyqI+ltfYAvQpod3JrvQbO6nlrGev55d1IZEz
+         epyuWrX3eIbvyTbOEQimf68AGvZsU9+U9WukkVADuVL8FwbtyJr04jscWuSPaWM6VkrC
+         yVsSL5JO1GlJUdSY5VVFEL8b3Vsb1yPna58nNVZx72N06xhEWKwKc4vb14HDjb1Lzdzh
+         opAX6mUrmOoEUU5G4+nds8ogTZMdm8k+kgpqUgPv5In3hUmzafUcaLaZjm38z8RUfckz
+         IG1Q==
+X-Gm-Message-State: APuU4Z8QYGix5d9FnTtlJiYmG/woH6dswZrMUOwuoDJV/RAZ6Ma3RNO2
+	2g0TbJlyD6pqAN2c+SWbXKGmQG+cY/mrVKTReb2pBf7Uzw29ETnMj7qofBTK3w==
+X-Gm-Gg: AZFdTZe1RhK01wX27ts7HcxMxCAFOMJTdyywHyincdPq2YZKdQGoidnQEcMt7IGj2fL
+	S8cj2H7hqJiNl+oFpbba59mHB7z/HM+hkzU1lOqFbK2+2zg5xEqHeDyXFa5yL8J5fI4aJD9Z0fn
+	euvcqNJtbXOfR2Huyp6OvnduOjPDSaS1YTp/YeHpT7wZrYTE9yudhPqF1u3CjTAW4axoWvjLrpg
+	6uSrrdAcmHL0M38Y6328jhIFkcVgtmVeKaKUCrvp6ZI1qkhZYGx7TAIDDzNyvasMFNJrzYcoE7q
+	VZldXe+hgIBwdlMBsNnvIkBT4ncsr5FBkRwd1jrf9HZhOjR6uC+LupJOOTqRpX2lmaRLSmaRBrO
+	3oVp/fYks35kXqP0IUVuZ7P/B5weCGOqybyM0qivu8GpRJOKq7NkDltYk7ZcjhqBIXTi5D8KPl8
+	jkScIagPwBfGAx81LmM/dgcdIBNxhFh6fAnoa00T0d5XwA43l4sLDWH4zaI3GY82gtlPL876bK3
+	A8DB3MnqJNrsOw8DQzt/AsmLy/eXu/mH68bb8xlIpSN7vj6aCdC7meY/JXmFoN+E6i0XqVwmZ6P
+	iz34GgBTD+DIqZ+Zk44qB3qiv3S02amMXkGcD2DWh7oWbNYBY09H1wSUWmh/o1W8sIxXs8gJKj2
+	49bTh0goD/3c=
+X-Received: by 2002:a05:600c:b8a:b0:4bb:7007:4a5a with SMTP id 5b1f17b1804b1-4bb88817772mr535775205e9.23.1795810326467;
+        Fri, 27 Nov 2026 12:12:06 -0800 (PST)
 Return-Path: <alex.kanavin@gmail.com>
 Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884ab091sm994530835e9.11.2026.11.27.12.12.03
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4bb884ab091sm994530835e9.11.2026.11.27.12.12.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 12:12:03 -0800 (PST)
+        Fri, 27 Nov 2026 12:12:06 -0800 (PST)
 From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 1/6] doxygen: move a recipe from meta-oe
-Date: Fri, 27 Nov 2026 21:11:54 +0100
-Message-ID: <20261127201159.914833-1-alex.kanavin@gmail.com>
+Subject: [PATCH 3/6] qemu: add a pipewire PACKAGECONFIG
+Date: Fri, 27 Nov 2026 21:11:56 +0100
+Message-ID: <20261127201159.914833-3-alex.kanavin@gmail.com>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20261127201159.914833-1-alex.kanavin@gmail.com>
+References: <20261127201159.914833-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 20:12:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251448
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251449
 Content-Type: text/plain; charset="utf-8"
 
 From: Alexander Kanavin <alex@linutronix.de>
 
-doxygen is used by wireplumber (pipewire session manager) documentation
-in a way that is closely intertwined with gobject introspection support
-and is difficult to separate. I thought it's easier to just move doxygen
-to core, given that it does not itself require additional dependencies.
+I've reviewed everything that mentions pulseaudio in oe-core;
+qemu is the only component with pulseaudio support that also has
+pipewire support, but does not (yet) include that in the recipe.
 
-The only change in recipe is renaming DESCRIPTION to SUMMARY, as oe-core
-requires presence of SUMMARY.
+Everything else either already has enabled pipewire (subject
+to DISTRO_FEATURE) or has only pulseaudio.
 
 Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- meta/conf/distro/include/maintainers.inc      |  1 +
- .../doxygen/doxygen_1.18.0.bb                 | 37 +++++++++++++++++++
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-devtools/doxygen/doxygen_1.18.0.bb
+ meta/recipes-devtools/qemu/qemu.inc       | 1 +
+ meta/recipes-devtools/qemu/qemu_11.1.3.bb | 2 +-
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 62de04001e4..6e92380c592 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -162,6 +162,7 @@ RECIPE_MAINTAINER:pn-docbook-xml-dtd4 = "Kanksha Paturi <Kanksha.Paturi@windrive
- RECIPE_MAINTAINER:pn-docbook-xsl-stylesheets = "Kanksha Paturi <Kanksha.Paturi@windriver.com>"
- RECIPE_MAINTAINER:pn-dos2unix = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-dosfstools = "Yi Zhao <yi.zhao@windriver.com>"
-+RECIPE_MAINTAINER:pn-doxygen = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-dpkg = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-dropbear = "Harish Kore <harish.kore@windriver.com>"
- RECIPE_MAINTAINER:pn-dtc = "Wang Mingyu <wangmy@fujitsu.com>"
-diff --git a/meta/recipes-devtools/doxygen/doxygen_1.18.0.bb b/meta/recipes-devtools/doxygen/doxygen_1.18.0.bb
-new file mode 100644
-index 00000000000..222d7766205
---- /dev/null
-+++ b/meta/recipes-devtools/doxygen/doxygen_1.18.0.bb
-@@ -0,0 +1,37 @@
-+SUMMARY = "Doxygen is the de facto standard tool for generating documentation from annotated C++ sources."
-+HOMEPAGE = "http://www.doxygen.org/"
-+
-+LICENSE = "GPL-2.0-only"
-+LIC_FILES_CHKSUM = "file://LICENSE;md5=b234ee4d69f5fce4486a80fdaf4a4263"
-+
-+DEPENDS = "bison-native flex-native"
-+
-+SRC_URI = "\
-+    git://github.com/doxygen/doxygen.git;branch=master;protocol=https \
-+"
-+
-+SRCREV = "8e760943e5d9581a444cf327f43a0b4d20d29482"
-+
-+
-+UPSTREAM_CHECK_GITTAGREGEX = "Release_(?P<pver>\d+(\_\d+)+)"
-+
-+inherit cmake python3native
-+
-+EXTRA_OECMAKE += "\
-+    -DFLEX_TARGET_ARG_COMPILE_FLAGS='--noline' \
-+    -DBISON_TARGET_ARG_COMPILE_FLAGS='--no-lines' \
-+"
-+
-+do_install:append() {
-+    find ${B}/generated_src -type f -exec sed -i -e 's;${B}/;;g' -e 's;${S}/;;g' {} +
-+
-+    sed -i -e 's;^#ifndef.*GENERATED_SRC_MSCGEN_LANGUAGE_HPP_INCLUDED$;#ifndef GENERATED_SRC_MSCGEN_LANGUAGE_HPP_INCLUDED;g' ${B}/generated_src/mscgen_language.hpp
-+    sed -i -e 's;^# define.*GENERATED_SRC_MSCGEN_LANGUAGE_HPP_INCLUDED$;# define GENERATED_SRC_MSCGEN_LANGUAGE_HPP_INCLUDED;g' ${B}/generated_src/mscgen_language.hpp
-+    sed -i -e 's;^#endif.*GENERATED_SRC_MSCGEN_LANGUAGE_HPP_INCLUDED.*$;#endif;g' ${B}/generated_src/mscgen_language.hpp
-+
-+    sed -i -e 's;^#ifndef.*GENERATED_SRC_CE_PARSE_HPP_INCLUDED$;#ifndef GENERATED_SRC_CE_PARSE_HPP_INCLUDED;g' ${B}/generated_src/ce_parse.hpp
-+    sed -i -e 's;^# define.*GENERATED_SRC_CE_PARSE_HPP_INCLUDED$;# define GENERATED_SRC_CE_PARSE_HPP_INCLUDED;g' ${B}/generated_src/ce_parse.hpp
-+    sed -i -e 's;^#endif.*GENERATED_SRC_CE_PARSE_HPP_INCLUDED.*$;#endif;g' ${B}/generated_src/ce_parse.hpp
-+}
-+
-+BBCLASSEXTEND = "native nativesdk"
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index e16fd86c915..02f782ef8e1 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -224,6 +224,7 @@ PACKAGECONFIG[pie] = "--enable-pie,--disable-pie,,"
+ PACKAGECONFIG[seccomp] = "--enable-seccomp,--disable-seccomp,libseccomp"
+ # libnfs is currently provided by meta-kodi
+ PACKAGECONFIG[libnfs] = "--enable-libnfs,--disable-libnfs,libnfs"
++PACKAGECONFIG[pipewire] = "--enable-pipewire,--disable-pipewire,pipewire"
+ PACKAGECONFIG[pmem] = "--enable-libpmem,--disable-libpmem,pmdk"
+ PACKAGECONFIG[pulseaudio] = "--enable-pa,--disable-pa,pulseaudio"
+ PACKAGECONFIG[selinux] = "--enable-selinux,--disable-selinux"
+diff --git a/meta/recipes-devtools/qemu/qemu_11.1.3.bb b/meta/recipes-devtools/qemu/qemu_11.1.3.bb
+index b9646e51791..286ad622fed 100644
+--- a/meta/recipes-devtools/qemu/qemu_11.1.3.bb
++++ b/meta/recipes-devtools/qemu/qemu_11.1.3.bb
+@@ -17,7 +17,7 @@ EXTRA_OECONF:append:class-nativesdk = " --target-list=${@get_qemu_target_list(d)
+ 
+ PACKAGECONFIG ??= " \
+     fdt sdl pixman kvm pie slirp \
+-    ${@bb.utils.filter('DISTRO_FEATURES', 'alsa pulseaudio xen', d)} \
++    ${@bb.utils.filter('DISTRO_FEATURES', 'alsa pipewire pulseaudio xen', d)} \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'opengl', 'virglrenderer epoxy', '', d)} \
+     ${@bb.utils.filter('DISTRO_FEATURES', 'seccomp', d)} \
+ "
 -- 
 2.47.3
 
