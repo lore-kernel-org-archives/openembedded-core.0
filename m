@@ -1,33 +1,34 @@
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11642.1795762047627327133
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11646.1795762054417194727
  for <openembedded-core@lists.openembedded.org>;
- Thu, 26 Nov 2026 22:47:29 -0800
+ Thu, 26 Nov 2026 22:47:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=sJKMHt0b;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=QR8+aRwz;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=57914e973c=omkarabaji.patil@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AR6RFvw505046
-	for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 22:47:27 -0800
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6AR0XTbX3706326
+	for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 22:47:34 -0800
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=PPS06212021; bh=X4amSbaK0cSTque+DCMb
-	nTUiNd9H3B234ZkEKw0GjEc=; b=sJKMHt0bjliiy8yFls9CaXjeEGwyUSrH+hgQ
-	jUMC19xsiduxkiXpFj3vwYAJUYFivVbbGbK+t7bFZxXQOgP2o5XemCoZnu3590fQ
-	NpBk6n8crV6QMWiMDynACuFaKtLyFf6nPkfJYg58zJvyfnHJWaTi1UQ41ChLIyxj
-	KJEDTOxYBa4t5DTS3a8g4sFa/RX2OY5MhRLzQK+kdrM8luhy+4nMsHsJbAk0dEJe
-	7w5tcXCXO6OsSdPs7Z0nb+omdahmEof/u822Z0NqIc6ZXVom7ujZyS4mQT/Hjmia
-	89UvbZhw1EWEqWldTLQkUsXOv85LEPXgJykF1Pmh8R/7m5/k5w==
-Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11023099.outbound.protection.outlook.com [40.93.201.99])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4j516wym5h-1
+	 h=content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=PPS06212021;
+	 bh=pw2CmwXKWrt+S+Oce+OVM3npA6S3HhMfpZguRZsZI2A=; b=QR8+aRwzc+2d
+	ttrL7AbXNmYc6fIdmqz3Gc1/eiEKs/OucnJ02ihkx4S/ia4QjT3Tg88CLJMU0byT
+	3PO8eRr9HvQfLMNirkCmAXNYsB6wRB9V48wTb6VlYZXYFOQwX+K2ivdDZ6Kkl7a6
+	xd9W1s+tSb6jcBSnbjoG6hAGmHFVgRupYVpzdoBNzmXjkbL8YG1lYIoFEFjwcNF2
+	6LhK4KOXPC68OGAaBkJmKCfsFTvgeDhkHdqpNyv4knAQMCljoAfoheLyMvHHPxKc
+	8w4QPy6EZqKBqMaGWSK3WTvHS5FDszUIgd1z0H8SgXncfnAhpObIbefoPATkRhHe
+	XQ9WOWxwaw==
+Received: from cy3pr05cu001.outbound.protection.outlook.com (mail-westcentralusazon11023090.outbound.protection.outlook.com [40.93.201.90])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4j60gh3x7y-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 22:47:26 -0800 (PST)
+	for <openembedded-core@lists.openembedded.org>; Thu, 26 Nov 2026 22:47:33 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=q/MEIdtG/U0wRxQnjULgfsiD4g/LzHKqKyv4PkqJRu4W9Tvpc4+ylIkHHY4Arn0yDKIMavB2637oL7XyplrMXHCzECljxJGRnlftfB3W59gKYiW7lxQD6OyFc9p1sG64kTffC/Rb7xWMQImJG9U4DhLhCOiMP3CZMA5VupNOp36u9Zzt/dwgMxXAjvGuIoJWKD4QoPbD7TEb4zniVygdDmThNL67oq4WJeZsvOUCSvDrIm7aJZF1mBh9TjsHZdPHxnIQl47E0nhtdYcHlQjtkGFzzvjl/pV0Yetb0xV1mViwzrGjfGGI1D81vjA8FBH3q8VBdd4MisQuLBD0fzbEMA==
+ b=RatCWaXBp5SRgNEsZ/2pweoBaoxXNA3TPPUzdVkYLpkJN5sZTtLpa13nwhDx/iBy5qNAxRlisco+LBSOOf8SPm2mqnZDW79M+xhXyIp48R9cmGqrMM0xBBWrp343fgbPXoYdPwtoj98qz0HBdmuu+ERVPR+9dBsUTo49RzX+VKCcL8PPW1XupKKFvEctXGiTbmdixafzOe6LWtqf7+bHLKZRNc48iGHt+QQX9Y3OLQ1flbhecd8JFlRLI33T2KRGuVLrSB0ZIxMh6tl35ZH37t420U+gvjHpd4Jv6qGIkyiBZimiErLY4BqjSf6QGykhRgAOVJeulIEAFJq/EcRH2Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=X4amSbaK0cSTque+DCMbnTUiNd9H3B234ZkEKw0GjEc=;
- b=ZRwgZB4LlpvqwQUsdAv1gyt+tFGHJ8sor2Lq5VqyGoupC3FE25EQmq3fhgx4E6Lx+ggFD4/5l3CJIemJOgVnMMTt6dTmXFXM39KmrfLn/w/9/mv7GgHFDEtQlSkg28mMz1OXQsYCl60NpskL0OJp/RzqBw0+Rhj8pC3/EtrqhzSMNCp88FCAlhxe2jr6vwADsDFMoTTDb8oYMW+7H6ZrFqWcHp/UAb2D/fBK9sf+KQ9bvd+jHj45DQSbv/AgHfN/56SOjPMugUyUfUeXGlx7eFk3u0QNWr8DVyidWI4j8XWcAPITYbczjIG8x7TlNN9XDjs5UYVMsilTB6zCQpqleA==
+ bh=pw2CmwXKWrt+S+Oce+OVM3npA6S3HhMfpZguRZsZI2A=;
+ b=kApcK1CV1pxaggernTv35E7IBESeqKqAh1oAhPFxt6y907ZPvyDAoD+2fQvEOIIPhvMA215C6VCOd4OS2qgXG10a/0BCfG/plVmZ0X6G3deYrX2Rq1t96deX5m2YObMvSs7+mQkcvH0TUKq/YoGifj8r1/Uyks+fVQDuS0oPmyYBIILY43TC7LKgXuY8HhU8GJh7eKz9thRIX2VLiNc0LhItnaX9pYaw5Kuxtq3LuXeLU1muLDh73pxW9o+3Tz4Rebk0nh2piqqtJbnj4hLfFm05bCPOhShPtXWmjUuIqPotmd083cFhRaK+B9pt9DHBF7mBM3q+3IVE5coeeiQrlA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -37,17 +38,19 @@ Received: from DM6PR11MB3243.namprd11.prod.outlook.com (2603:10b6:5:e::19) by
  FT1PR11MB780136.namprd11.prod.outlook.com (2603:10b6:170:2d::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.10; Fri, 27 Nov
- 2026 06:47:23 +0000
+ 2026 06:47:32 +0000
 Received: from DM6PR11MB3243.namprd11.prod.outlook.com
  ([fe80::6c83:d3c:7952:3ee1]) by DM6PR11MB3243.namprd11.prod.outlook.com
  ([fe80::6c83:d3c:7952:3ee1%4]) with mapi id 15.21.0662.004; Fri, 27 Nov 2026
- 06:47:23 +0000
+ 06:47:32 +0000
 From: Omkar Patil <OmkarAbaji.Patil@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [wrynose][PATCH 0/8] libconvert-asn1-perl: fix 8 CVEs
-Date: Fri, 27 Nov 2026 12:16:51 +0530
-Message-Id: <20261127064659.2169695-1-OmkarAbaji.Patil@windriver.com>
+Subject: [wrynose][PATCH 6/8] libconvert-asn1-perl: fix CVE-2026-126956
+Date: Fri, 27 Nov 2026 12:16:57 +0530
+Message-Id: <20261127064659.2169695-7-OmkarAbaji.Patil@windriver.com>
 X-Mailer: git-send-email 2.40.0
+In-Reply-To: <20261127064659.2169695-1-OmkarAbaji.Patil@windriver.com>
+References: <20261127064659.2169695-1-OmkarAbaji.Patil@windriver.com>
 Content-Transfer-Encoding: 8bit
 X-ClientProxiedBy: SL2P216CA0194.KORP216.PROD.OUTLOOK.COM
  (2603:1096:101:1a::19) To DM6PR11MB3243.namprd11.prod.outlook.com
@@ -55,156 +58,308 @@ X-ClientProxiedBy: SL2P216CA0194.KORP216.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DM6PR11MB3243:EE_|FT1PR11MB780136:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7a3a3fb9-c56f-475b-a526-08df4c524a5e
+X-MS-Office365-Filtering-Correlation-Id: 7e78c622-f41f-4616-49ff-08df4c524fe4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|52116014|23010399003|38350700014|10067099003|56012099006|261026140227099003|261028144727099003|261022105027099003|261021121427099003|261021123027099003|261102123227099003|261009223027099003|18002099003|11063799006|3023799007;
-X-Microsoft-Antispam-Message-Info: G0NQKGJG9BWJT6ibeyYeJul5yae6eDnL5nsOjkU51RFDgnKt6Ww5aqoHY5Krj1hFn7YowtRBDfmuLJA8lfBmuiwRmuffNjLwPgbYqoY3LLtWZc2nfwNqx5qbrtC+h9YP/tBWlJUiYstGtz8GfY0Gy9gTjdnbeYp0vRilA2u1J9CgXbJpkRJ0HdWLcgWLDcWxsvZodekMs0wfmZ109mV/rsaFuyd5vbNePIJL8uP4N6dWtnWYYP8ZRVcg+ZdGj059R4G/INFqS68bQy0GjqWv4U1c6+B0EmL6A3qNTeOjPkBMEdrNBhB97+Mjs3Q9l537YdNhqx0ypnAXZfHKKVuY0kTRooWeDYdLn7OngWD98O3lpxxitCAy336lBeGMC87pZ5aOIsSMVHNTIKthKkkWuM5W30KjoRSQUrEX/RYnjPcfJclb/LLeTjaSC9h5NZsbJjvMbed+FF8FVF5WtF8I014PNtBym6dBtzM6Lg0jQug1YaJctCp+QM+1miNJrVrBscK+mb4umae/4VLCVV4JRRUIzqULmUwhgEChSYV+OBQgAKYRRjUObFs+zYKzEvlfRfmx8KzhMupbdH8UGKN/LIEvfcyAM9Xy3bO1hNxxGnwh1jPWJ0i7OrbgG0//1UeMjftEA9Yf1/D8HpgEFL2Hh9j5cNa8uHV2tCF7vT3uya4oOMDFiSvz81kpf8KcMDpgfgXNzd6FrB3OH1pNQb+6IQ==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3243.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(23010399003)(38350700014)(10067099003)(56012099006)(261026140227099003)(261028144727099003)(261022105027099003)(261021121427099003)(261021123027099003)(261102123227099003)(261009223027099003)(18002099003)(11063799006)(3023799007);DIR:OUT;SFP:1102;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|52116014|23010399003|38350700014|10067099003|56012099006|260925022911599003|260925021911599003|260925021311599003|261026121527099003|261026140227099003|261028144727099003|261022113327099003|261022105027099003|261022075727099003|261021121427099003|261021123027099003|261102123227099003|261009223027099003|22082099003|18002099003|5023799004|11063799006|6133799003|13003099007|3023799007;
+X-Microsoft-Antispam-Message-Info: YBggj4C3tht2PFK51MmCr0bQNQ7OY31fxiTUMzH0lh8HvucbNAgDxWw+qfx9km4SJDfzQeCN7WkKaW/oa8CeN1H2Vs22A0at5fzotBKRch1JyoySqY3sOdGOvvZ6YvsD8kwpqXV0aFuDaw7zg/5v/wdwBYPLdgCfG8KP3rOHfC9iGrbL0NficcQoZ8j6SWQYrgpvrB9m+rP4aNStcC3yCcl8T2rSY+1/X0e9b5KH3IfR7MpaA4BLNGAayTRRNAT+we6mWoXZm87kspxge2AByKHPwuywWQyCMf7ZJ5VKO5L7LwWSI/hdKLvxwYCVSyjn786Wz3fZjxfJpPqPSmYcL7RVEgmehZ9KOcKR9R0+o4IdrHxiz2DLkogtuiXLsMBU4R8M0M1QYj6BVpXIHlR2IHYsayi1361UwnlpdKsMlwCehcxs2yfDq2Bk77hcEaggGbTFxmpafgWMd6AqfLDBupVIWLJm5hBCyykc5I3R6hQyPdcT7xxb9fScbimvENyqPJg8OSqvDmUvD3829hsDF2THwLsM2MzSpkyoeuNZMn11/XMKPfvhpC9pyH6nQzFr9O+LRoejdt05L0tCP1Xy/tJL14zpLW9lyMJXuwXz27GCpGcBGWzXp8N5Bgn+bE2iinDft4jJaPk0vai4c28s/6gUQ1YVUCdXOVwRsoo5MzDZypZDbZ702ccguLFR0Vpr8RBuY3euP8UsMIWrqL7C3P0FLxF27S6fgoH04HgpDr8=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3243.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(23010399003)(38350700014)(10067099003)(56012099006)(260925022911599003)(260925021911599003)(260925021311599003)(261026121527099003)(261026140227099003)(261028144727099003)(261022113327099003)(261022105027099003)(261022075727099003)(261021121427099003)(261021123027099003)(261102123227099003)(261009223027099003)(22082099003)(18002099003)(5023799004)(11063799006)(6133799003)(13003099007)(3023799007);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?kC3hNQgjIdOGSff/+8Y5YrLNKxNNorlQhkE42dwesptBRY1NuKiXkhZ9Mov8?=
- =?us-ascii?Q?LMvWG0Xc+vNT9Tt5+schSSbcv8FK5S/UCZMtD6mUTgbif2ZjFXb/kkyK3Rp9?=
- =?us-ascii?Q?I95vBaY04gbpj4YJ4/+No4MBQRdGhDMtWQmJjmM2CILrGN8Wl7++IGh4lZZk?=
- =?us-ascii?Q?aUWFphEN9wnj2/TU8PCkBEwmqdP6+lNN2milD25jQKmFrMrNu+5HdWD0JFll?=
- =?us-ascii?Q?4+ybxXb0YYX0wkVuTNNKtlea3nUqSaR68Q6WcKlWJcSYD+0dHFXRV790Rhz0?=
- =?us-ascii?Q?LA6pUlPLQeCqbSoeTTT++2bTKGPwI93jGbDxkRhvZLFRa3ddmHarfh1FNWK1?=
- =?us-ascii?Q?rqD+qDbGHidMbeyODCTW+5n7Yllb0rtELaWhL58OVBVURHgFnu/mQvK5dfVT?=
- =?us-ascii?Q?1TH2h4eTbNI/9yEbQN+UFTfgahyOwAKAWJYKfM2jN66dBEAlHPK/0Gy1AxBJ?=
- =?us-ascii?Q?/n2jLjsht/xfabYCVhIPbNsaKR4QJkGoDgLfoOfTaQW+6lJkMYiRglt2vLOG?=
- =?us-ascii?Q?8jf1FKZXaj++LlUmNfAN+VACLf/NMzjBNJnNWi8f71nffC7QVbfUlwW//aeX?=
- =?us-ascii?Q?EjPCrmZgkB6WqKP71bbx33x7U5L8r0G/7qR0PJs0eN+zlRjoPI1wbN0JTA7v?=
- =?us-ascii?Q?bjjDFJgb7rSTPamyMQmhH9PUoNLSbpSSbdOEYRHsxOBdShtffHr5tDD7ogPF?=
- =?us-ascii?Q?9L8egWIP0qF4t7kauyHiuk+DEdM950RwFY5vciL1NfBohJr8xZuQKq44OzB/?=
- =?us-ascii?Q?4V3stAZ2a37tI+CrWIFAISclNpxEedyknE1ffWScrOcTqKH36Cy2Pdrh0OFg?=
- =?us-ascii?Q?HH/0olw1fUB2tBQsWbFZd8Jk/p9P8YOGkWAletqWrLy1pMFqEqlfmUYxwA3Y?=
- =?us-ascii?Q?1rviQcJDOnMvGgKShyv73gq0iNII8dVtgVwU3ztwjexCcF4HtTJq8u5DSXJR?=
- =?us-ascii?Q?vT5fX6kSkNqsFzxOEicY1HMR80CF23F6pvnxTbuDdJmPEE4l5mbTr1x2+Jqo?=
- =?us-ascii?Q?WH2NpEAZXu6XrDwnU4l9YjMrz0ZA7TO6ubCKstQlnWrinR3uo3z169+COClg?=
- =?us-ascii?Q?qFJM9IkXiQx8W36VgBt9pzhDvIXuwaes8O5BhpF1bKmzl8juZ+9gQJitaVGM?=
- =?us-ascii?Q?TRi6jhEnym4NbXcnpVRvRstQVSWaJ1xlxK2UJOwhdaJMYzVYWmpIkASe5AG/?=
- =?us-ascii?Q?0VKPui0A6OjRiUSdhP3IA4mHnHcGOvQSjDjbgSIcKkdsUJpXHW+MM0Yw4QAf?=
- =?us-ascii?Q?TGJWLAbp0UI2fpBTHn18dmqmrCh6DoD8fSVsuPnGKKa4TgWkOHeXazz32gpH?=
- =?us-ascii?Q?5tbUdIQBKFG1CmRshAZZ/bKPZPjSjtejAdV4XBfwb55FZkVGBgkeytS2f2CE?=
- =?us-ascii?Q?F+PBU3PX6kTs8qnN/Agl5rcnzGPIiAhEw0RvN7olnHIHD4UsjpzPETbe90LK?=
- =?us-ascii?Q?ASfZ1DEVisFITkdQDh3NLrhGUeP0baTJC3fmOG+xHZXNIqoorbhMVmk8OwDm?=
- =?us-ascii?Q?9MUr5A15EetbeuldwQ7qCN01lrBPZKO+ujbOc3xtq7mGCA+9OIQjwJRqKnBV?=
- =?us-ascii?Q?G+zVMIRcWdgpRK1WFl6e4RdKfDNyjdVhbRsA0XsxrovEvI22irIMDmzb1bBs?=
- =?us-ascii?Q?AOZeqbwCSCcRk65msc1Rl2YuW7/buHG4RwXrWaQEdA/++6ZC/8ZpxBkZq88h?=
- =?us-ascii?Q?UbN8NzVjfhbERszaQ26z1MP9ZOyXVj2/WIxP/TYh0P9tj1yE5n+GQRetvW9w?=
- =?us-ascii?Q?LGrfsWIu5eF7aDO71KGjncmndWyHxQM=3D?=
-X-Exchange-RoutingPolicyChecked: OjY75JMbPH2Fp8P49eGGGulOBuBqiWZPn++UGU76g+4hlh8A3e4t4HalnUC6UJAEuUMPU5jqIA/qg+XwisaBelDX8dLkbRy8mEZ2b1E593b8qEycJS0AuPnSIlMTBLcbCJBZv69fyYv3GJAA0c4KQpst4Sx3meFS6v8qXkEEdJvufwSwc9QqeWPef5dLDoJf13tUlpFFJeJVUNAOeknE47ul5O+9LJkOW4hqY1pj/Fa8e0+wvSEo9g/tcarCmIN0LRYAwO/ApPgo7csn39NCtIaupAxv62yGiUge6CHBVpDJS5LL5siTIxV9j4t6kZe3egfbBwLmLMVxXfyLDHLwow==
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?kgw5G5JrbKgpXueogSNLCQbNodTuKaGuhF3wj05AJ83LINKt6fx2qLDEYhii?=
+ =?us-ascii?Q?Hb3UVe4liutRlvySduWLspSDiQnq+lbLRZA+groWc7voUC0TvQWuZ7Y36pbG?=
+ =?us-ascii?Q?8P7o6ffSyvjjFD9Bzv2D+cDEtng89JtQZ5DYm9EjapRA1UZSn9qBH01XNh3L?=
+ =?us-ascii?Q?Pc798BO2Dx2XOl4y/RNlTz0Eg7Dw6k/qSSaLKfrTjkOB5+g69rc4D8GSmITe?=
+ =?us-ascii?Q?yDL3h8iQ/R5WO0f//xnGI1z8TB5o8pbSWKFoQ6ooVWCUuRhURJD/UpwPd6YZ?=
+ =?us-ascii?Q?S0uO4U5MRCHvZ+nRelAGhWyXhR2j34Uj8t7shDsQtMK2KhcGlJaSCbkc7ivQ?=
+ =?us-ascii?Q?YRBWXE6oNKjRy5sRcrdUNJlrPs4ogxUsGAaqHDMQmE7O0VpPixtAhdxU0D26?=
+ =?us-ascii?Q?NWR1dWeEObKZA5HQ3QwBNHFRRpMDWhVAnf+RaxrOlnC73ltD8iHM0TFIMoc7?=
+ =?us-ascii?Q?xtuxEtTdAaO2QVK318plR8nOB7s0SJEYtMe7FMZbsK71E0d+owwmmR2hp3PQ?=
+ =?us-ascii?Q?HOx8TDEG+w1d+lZ5wmTCP4XjvG/y0NvwryZNCNuPBBPM+VLQ8zS+UOks5kDl?=
+ =?us-ascii?Q?9HG7pTGgc9soFAIGg3aQpVQuSrWA1Ywkj3vgHyD3xsbL1M527e8/IZl9GN7/?=
+ =?us-ascii?Q?VI0WK3LkbWCKzNSrqZ3I8FZJ1y+QDN1SemminvUz7GVj62LHvFECZEhhaybP?=
+ =?us-ascii?Q?RDacUX64++yA8D1ACfNFEnMn9r80PBej4a/qkrTQmSZt9sMqoJWbDzDhNFQC?=
+ =?us-ascii?Q?ALKlTZSLyX9L02GQTunQYgP1lQUQC92wT3QmaBCHAsyGDurNokY+R79z2I0+?=
+ =?us-ascii?Q?OTDvtvoExxioZa0O1BUItLsq/RyF0lENiHZTTs0c64hiJ90xd5OQxwXPn4N0?=
+ =?us-ascii?Q?i4z3wVV1L+62jpMvnkJg4xcyF95tXKf6u7EPEeSdDOGhxrfyVU4UPvFP0Sm+?=
+ =?us-ascii?Q?8Ii+BEiUh1yez4fVeML5TjhbKuuXmf1acCq/RGBOzbFKOqUm9vFe1j4sby8+?=
+ =?us-ascii?Q?cmxMJeO7D4dSezo0v/S98jmqB1mkfaQkyonr4bmxPMOPOktp2H/gztrR42bh?=
+ =?us-ascii?Q?ZEMGKWyJTYS3JZ6f1l2frNkkv3pzZqPvijI4RNTV7yT729pPqEJRNk3gcM1l?=
+ =?us-ascii?Q?ahuTTimv/TDshik5JUktfg9BsnxxCwmdvGMJtJ1/BZcvVqNvxvODyXwhwtHJ?=
+ =?us-ascii?Q?YZOzCuAd2vwX+piQfO/YpY9V9r/+H6hKMC0/rYzoofmucBH+q6f/Es/1f0U9?=
+ =?us-ascii?Q?P4Aj6hN+fRILQ6CYFsdd7vU7bXPjgl47T70DJui2LS0xg+54dQdIVm/x1cUa?=
+ =?us-ascii?Q?CA4Ejy/Q8+F2UNUrNTGTsssa4YP4lAtqWDE6eVA7N5hCRGulwI5p1htrGnTW?=
+ =?us-ascii?Q?qY0j+dUKe1plhove1YrvESSol+WD+38yFZivh+yrPqSvA7NgmpBVrXzRHAQN?=
+ =?us-ascii?Q?B3BoVyfVpC8UJBbtXPVjWrvDB8CjcD+dRJz9O7MbL8id4pprFHuQ6roHTgue?=
+ =?us-ascii?Q?OlNS89X/sslS9Bo962ULLV76M4hVgDwodoXAH5LfXQYXRmbudIU7i0FKWzev?=
+ =?us-ascii?Q?GCq/1AarEDAvD+3Pk4B0brpWAX+4wU6R4Frd88fAZ2HUDbxCrGU6OTxpEUoT?=
+ =?us-ascii?Q?GDtMjnWcurFNX9eoGdMv6JgoTU007/XzxoFmicfSi0X9JYI311yPIDmGoy6N?=
+ =?us-ascii?Q?xwWf+LLTKdrRDrABxSfA76uwCyuEhN9TrM3EkAQv+cNcSaXKuRDZr9xQ/O9S?=
+ =?us-ascii?Q?z5sgTRN4NoaPIRDZKXJ8NTXUvHWZ0r4=3D?=
+X-Exchange-RoutingPolicyChecked: eTF41eN9pxajo27YNwVps64vhYsRd53oY3AnAq6p8d5fZOpXoiH0OrnnDcLn+K4YKtsGhIj25YkkvZnGzF58HKp7xTiR3UrlqKQ/B8SinOY+8jvMhwFhh/IbDaOSXfWdEBC8MWmKF0YJ7Zr8eaUc6Hw9Aqr0lz60k8y2X8X1CM0VBDoD0lfs1HOvV4HBFV/UQlircH0sH4m454cZYYa1fB4Sj4wpbDtfjcNRqlHj5hQxlwUkewrtxKHO1nfdZXgrczNJ7UNhyLqpcrnWpjnJKiNijOnmj9U8WOJtGcBWhlNP+YeXCz96JlpWyx8X/mCVvnYxwPmz+AFFRTs/Lb0B2w==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7a3a3fb9-c56f-475b-a526-08df4c524a5e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e78c622-f41f-4616-49ff-08df4c524fe4
 X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3243.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2026 06:47:23.2061
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2026 06:47:32.4027
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NsBVYXb/+DX2EorENjv+VqSvUIHpGpQeylgQc639KTjIdhSQAC8lT947Q8+oeEASOeM/xvNkowS3VOHDcnPLXd8rhX3S2GhS6eOMVapTTjQ=
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ic706gxXDOZQ0lFHs362PXy030Ey6/k/Dy9IYphYEBBSttRGpx+ha8BNxWpgL7wzc8HrgaYqo/lhWmh8bsP4Nav6Of23V8TUcN9F/IPc268=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: FT1PR11MB780136
-X-Proofpoint-ORIG-GUID: DgpiKJ8f5CBQ60fD0BRk7jYeBqy4Po1n
-X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI3MDAyNiBTYWx0ZWRfX2RF3fJ8kZxJ0
- cPitUC2BeCuwpx2WuLc51/3IsmTo6cTclbk4jlFzDb++Lr0LTJNrOP9TUgcqwaQoVefRfZW+62o
- kw004OWPKiXFNrXcGaanCIb6mXbLvVDCn37Q0RKafRObRSVR87it
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI3MDAyNiBTYWx0ZWRfX1iqnMxWTbrTr
- W9/dGFfh1PUx2Gk8Pt9atxwe2T+XaO7RC3EbKI/bMZtYl0xlIMmMPIavbG1UcS4CBI8KRyzP0WS
- ygnvRTUhCC48U4TE8/YoIn4/0+goM9Jb3JnoPIMMRgaCgJaiL8CZKTxpk9FtjOnaMi8dRrwH2CH
- XK1Do/KRlq7aM9LAO+5uV44wqrHAW8xd0GvcdWjvYbsZr2S66ugjwkzdcubvDN1ZE6/34rW7maG
- ITzbh8TK2/qudRymg00Y3FyXjt7WiGUBN8MN+wJCQOOpx3/6NVGzEITfgLWb950qEao4F9kHcz4
- MzcPRy0jSJ3UXqkNUr0dNtp9MsGlzj8Kqxuor6S09An8Dh8mH0cq3vI7gZELVwL2V0Iwh7C8ar2
- 70X2VRcVk0SJiGi63jGPNZWROLTngXv7VZsKgAKKrruUIQq9zhs6VAax4WvVUWdfYKhKi8vY1xx
- pLO18Ph2eMctKMFZkLg==
-X-Authority-Analysis: v=2.4 cv=bofZl0ai c=1 sm=1 tr=0 ts=6b09277e cx=c_pps
- a=ajv5h6Eily4lkhfMD1AUMQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-Authority-Analysis: v=2.4 cv=R5SWitRX c=1 sm=1 tr=0 ts=6b092786 cx=c_pps
+ a=krMX4SE5d8na1K7/klQVLg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=zJRp6_cAMcgA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22 a=t7CeM3EgAAAA:8
- a=4hqPhvaRloSZ4r_MruoA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-GUID: DgpiKJ8f5CBQ60fD0BRk7jYeBqy4Po1n
+ a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=PYnjg3YJAAAA:8
+ a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=3Dy-BMkK3IvYsCc2IQAA:9
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-GUID: XXLl5Ndo9uSFkNPOGKH9JNLGNmcxnQ_g
+X-Proofpoint-ORIG-GUID: XXLl5Ndo9uSFkNPOGKH9JNLGNmcxnQ_g
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI3MDAyNiBTYWx0ZWRfXwc/bZESayGoD
+ yO4Pz/ow/I6aGaEfMfkwIXAN3Qhb1nftP/uACZC889y4VMg+B5wNTsmetzZCpvcU+pJx3O2b34Q
+ TPEAImgbdy/jQ7gKtlYuHzrcE7aF9ITMVesXEKxpPkdlZH71RY9F
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI3MDAyNiBTYWx0ZWRfX4evxAZcd7UMl
+ OFhdIwR7tYt32Xt5P6gTLE6ijYfIHuQ7c2GmNyZHH5n9xpj5u672ddodjU6i3Oyn1nZqkJvjL3B
+ PyXjvwtTCr5RhpoohsKUP5a9/giFx5pc8ebXUCh2xORxH6Chkb/xz79UCENBjQVf1qrcwfbu5wu
+ DieZABeA2pKZhOULOzF1geOKacq92IwgFF0ZrqJS1TJwr4HyeRDugVaAt6tQ4hGZNcHDMHhuKY9
+ 3vSZtBaxMA5gsIl7585pFhBYMw9fiUzdqqJGvfkiln6N5JGvoahUrrxYk4YIkin4YA/1cFFA3yA
+ NmTLuNyt75urKt69DRZQuBZR+vGZ4uXsGINk9dtFCjAu0tx44EdSGgQ2E17OS6VFEN+aXyUz40C
+ AbPQtf/3VfCbDi+d2bZPwr1aSNimQDYvlkDq0wKcfNpgB032WNqRcK95BVVoTwRXn/wRNllQY/Y
+ EziejfZrmV0oqVHyVlw==
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
  definitions=2026-11-26_05,2026-11-26_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 impostorscore=0 malwarescore=0 lowpriorityscore=0 adultscore=0
- phishscore=0 bulkscore=0 spamscore=0 suspectscore=0 priorityscore=1501
+ adultscore=0 clxscore=1015 malwarescore=0 impostorscore=0 bulkscore=0
+ phishscore=0 priorityscore=1501 lowpriorityscore=0 spamscore=0 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
  reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611270026
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 06:47:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251344
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251349
 Content-Type: text/plain; charset="utf-8"
 
-From: Omkar Patil <OmkarAbaji.Ptil@windriver.com>
+Convert::ASN1 versions before 0.37 contain a flaw
+in constructed-form string decoding that can lead
+to memory exhaustion (DoS). A specially crafted ASN.1
+message with deeply nested constructed strings can
+trigger unlimited recursion, causing excessive memory
+consumption and potentially crashing the application.
 
-This series backports the upstream fixes for 8 CVEs in Convert::ASN1
-  to the 0.34 recipe on wrynose:
+Reference:
+[https://nvd.nist.gov/vuln/detail/cve-2026-126956]
 
-    CVE-2026-126540  cap INTEGER/ENUMERATED decode size
-    CVE-2026-126568  fix asn_recv OOM on truncated header or huge length
-    CVE-2026-126576  bounds-check REAL exponent length
-    CVE-2026-126682  cap INTEGER/ENUMERATED encode size
-    CVE-2026-126819  fix zero-length BIT STRING reading past end of buffer
-    CVE-2026-126956  add configurable decode depth limit
-    CVE-2026-131868  prevent huge allocations in asn_read and asn_get
-    CVE-2026-131877  limit OBJECT IDENTIFIER arc size
+Upstream patch:
+[https://github.com/cpan-authors/perl-Convert-ASN1/commit/99a96139a322ba0a5183c7e40a8857f3550daace]
 
-Why backport instead of upgrading to 0.37:
-
-The fixes are released upstream only in 0.37. The 0.35-0.37 releases
-also contain changes that are not suitable for a stable branch:
-  -The fixes are released upstream only in 0.37. The 0.35/0.36
-   releases change the year interpretation when decoding UTCTime and
-   GeneralizedTime (upstream commit 1d6fb48), so some dates decode to a
-   different year than with 0.34. That change is not suitable for a
-   stable branch and is not included in this series.
-  -Note that the fixes for CVE-2026-126540, CVE-2026-126682,
-   CVE-2026-126956 and CVE-2026-131877 add new default limits
-   (max_int_len, max_depth, max_oid_arc_len), which the 0.37 ChangeLog
-   lists under "Incompatible Changes". They are part of the fixes and
-   are included; each limit can be changed with configure(), and 0
-   disables it.
-
-NOTE:
- CVE-2026-126682.patch has its context refreshed against the CPAN
- tarball, which has a $Convert::ASN1::VERSION line that is not in
- the git tag. Only context and line numbers changed; the code changes
- the same as upstream.
-
-Testing:
-  - bitbake libconvert-asn1-perl builds with no patch-fuzz errors.
-  - ptest passes on qemux86-64.
-
-Omkar Patil (8):
-  libconvert-asn1-perl: fix CVE-2026-126540
-  libconvert-asn1-perl: fix CVE-2026-126568
-  libconvert-asn1-perl: fix CVE-2026-126576
-  libconvert-asn1-perl: fix CVE-2026-126682
-  libconvert-asn1-perl: fix CVE-2026-126819
-  libconvert-asn1-perl: fix CVE-2026-126956
-  libconvert-asn1-perl: fix CVE-2026-131868
-  libconvert-asn1-perl: fix CVE-2026-131877
-
- .../CVE-2026-126540.patch                     | 147 ++++++++++++
- .../CVE-2026-126568.patch                     |  88 +++++++
- .../CVE-2026-126576.patch                     | 125 ++++++++++
- .../CVE-2026-126682.patch                     | 204 +++++++++++++++++
- .../CVE-2026-126819.patch                     |  90 ++++++++
- .../CVE-2026-126956.patch                     | 182 +++++++++++++++
- .../CVE-2026-131868.patch                     | 190 +++++++++++++++
- .../CVE-2026-131877.patch                     | 216 ++++++++++++++++++
- .../perl/libconvert-asn1-perl_0.34.bb         |  11 +-
- 9 files changed, 1252 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/perl/libconvert-asn1-perl/CVE-2026-126540.patch
- create mode 100644 meta/recipes-extended/perl/libconvert-asn1-perl/CVE-2026-126568.patch
- create mode 100644 meta/recipes-extended/perl/libconvert-asn1-perl/CVE-2026-126576.patch
- create mode 100644 meta/recipes-extended/perl/libconvert-asn1-perl/CVE-2026-126682.patch
- create mode 100644 meta/recipes-extended/perl/libconvert-asn1-perl/CVE-2026-126819.patch
+Signed-off-by: Omkar Patil <OmkarAbaji.Patil@windriver.com>
+---
+ .../CVE-2026-126956.patch                     | 182 ++++++++++++++++++
+ .../perl/libconvert-asn1-perl_0.34.bb         |   1 +
+ 2 files changed, 183 insertions(+)
  create mode 100644 meta/recipes-extended/perl/libconvert-asn1-perl/CVE-2026-126956.patch
- create mode 100644 meta/recipes-extended/perl/libconvert-asn1-perl/CVE-2026-131868.patch
- create mode 100644 meta/recipes-extended/perl/libconvert-asn1-perl/CVE-2026-131877.patch
 
+diff --git a/meta/recipes-extended/perl/libconvert-asn1-perl/CVE-2026-126956.patch b/meta/recipes-extended/perl/libconvert-asn1-perl/CVE-2026-126956.patch
+new file mode 100644
+index 0000000000..99bdc249d4
+--- /dev/null
++++ b/meta/recipes-extended/perl/libconvert-asn1-perl/CVE-2026-126956.patch
+@@ -0,0 +1,182 @@
++From a2d8d2dab891fd5e7795eb34f14e903b0c8e8795 Mon Sep 17 00:00:00 2001
++From: Timothy Legge <timlegge@gmail.com>
++Date: Wed, 11 Nov 2026 22:25:08 +0000
++Subject: [PATCH 6/8] Fix CVE-2026-126956: constructed-form strings allow
++ unbounded recursion
++
++Add a configurable nesting depth limit at the top of _decode, covering
++all recursive call sites: constructed strings, SEQUENCE, SET, EXPLICIT
++tags, and CHOICE. Default is 99 (below Perl's built-in deep-recursion
++warning threshold); zero disables; negative values are rejected.
++
++Propagate depth counter into ANY DEFINED BY sub-decoders. The handler
++call at _decode.pm:148 invokes a separate ASN1 object whose $optn would
++otherwise reset the counter to zero; seeding _decode_depth and
++decode_max_depth with local before the call closes that bypass path.
++
++Rethrow the depth error from the eval around untagged CHOICE
++alternatives. Treating it as a non-match made each level retry every
++alternative, so nested CHOICEs could cost up to 2**max_depth work.
++
++  $asn->configure(decode => { max_depth => N });
++
++CVE: CVE-2026-126956
++Upstream-Status: Backport [https://github.com/cpan-authors/perl-Convert-ASN1/commit/99a96139a322ba0a5183c7e40a8857f3550daace]
++Signed-off-by: Omkar Patil <OmkarAbaji.Patil@windriver.com>
++---
++ lib/Convert/ASN1.pod        | 13 +++++++
++ lib/Convert/ASN1/_decode.pm | 25 ++++++++++++--
++ t/26dec_depth_limit.t       | 67 +++++++++++++++++++++++++++++++++++++
++ 3 files changed, 102 insertions(+), 3 deletions(-)
++ create mode 100644 t/26dec_depth_limit.t
++
++diff --git a/lib/Convert/ASN1.pod b/lib/Convert/ASN1.pod
++index 898f124..e52d8b9 100644
++--- a/lib/Convert/ASN1.pod
+++++ b/lib/Convert/ASN1.pod
++@@ -185,6 +185,19 @@ rejected as invalid.
++   $asn->configure(decode => { max_int_len => 4096 });   # allow up to 32767-bit
++   $asn->configure(decode => { max_int_len => 0    });   # no limit (not recommended)
++ 
+++=item max_depth
+++
+++Maximum number of nested C<_decode> calls permitted before decoding is aborted
+++with an error. Each SEQUENCE, SET, EXPLICIT tag, constructed string, or CHOICE
+++without a tag adds one level. Prevents a remote peer from causing unbounded
+++stack growth by sending deeply nested structures. Defaults to C<99>, which is
+++sufficient for any real-world X.509 certificate, LDAP message, or SNMP PDU,
+++and stays below Perl's built-in deep-recursion warning threshold of 100.
+++Set to C<0> to disable the limit; negative values are rejected as invalid.
+++
+++  $asn->configure(decode => { max_depth => 256 });   # allow deeper nesting
+++  $asn->configure(decode => { max_depth => 0   });   # no limit (not recommended)
+++
++ =item null
++ 
++ The value to decode ASN.1 NULL types into.
++diff --git a/lib/Convert/ASN1/_decode.pm b/lib/Convert/ASN1/_decode.pm
++index 3e1978d..0450471 100644
++--- a/lib/Convert/ASN1/_decode.pm
+++++ b/lib/Convert/ASN1/_decode.pm
++@@ -44,6 +44,13 @@ my @ctr;
++ 
++ sub _decode {
++   my ($optn, $ops, $stash, $pos, $end, $seqof, $larr) = @_;
+++
+++  my $max_depth = exists $optn->{decode_max_depth} ? $optn->{decode_max_depth} : 99;
+++  local $optn->{_decode_depth} = ($optn->{_decode_depth} || 0) + 1;
+++  die "decode: max_depth must not be negative\n" if $max_depth < 0;
+++  die "decode error (nesting depth limit exceeded)\n"
+++      if $max_depth > 0 && $optn->{_decode_depth} > $max_depth;
+++
++   my $idx = 0;
++ 
++   # we try not to copy the input buffer at any time
++@@ -137,8 +144,16 @@ sub _decode {
++               $handler ||= $optn->{handlers}{$op->[cVAR]}{$stash->{$op->[cDEFINE]}};
++             }
++ 
++-	    ($seqof ? $seqof->[$idx++] : ref($stash) eq 'SCALAR' ? $$stash : $stash->{$var})
++-	      = $handler ? $handler->decode(substr($buf,$pos,$len)) : substr($buf,$pos,$len);
+++	    if ($handler) {
+++	      local $handler->{options}{_decode_depth} = $optn->{_decode_depth};
+++	      local $handler->{options}{decode_max_depth} = $max_depth
+++	          unless exists $handler->{options}{decode_max_depth};
+++	      ($seqof ? $seqof->[$idx++] : ref($stash) eq 'SCALAR' ? $$stash : $stash->{$var})
+++	        = $handler->decode(substr($buf,$pos,$len));
+++	    } else {
+++	      ($seqof ? $seqof->[$idx++] : ref($stash) eq 'SCALAR' ? $$stash : $stash->{$var})
+++	        = substr($buf,$pos,$len);
+++	    }
++ 
++ 	    $pos += $len;
++ 
++@@ -206,7 +221,11 @@ sub _decode {
++ 
++ 		  @{$nstash}{keys %tmp_stash} = values %tmp_stash;
++ 
++-		} or next;
+++		} or do {
+++		  die $@ if $@ =~ /nesting depth limit exceeded/;
+++		  next;
+++		};
+++
++ 
++ 		$pos = $npos+$len+$indef;
++ 
++diff --git a/t/26dec_depth_limit.t b/t/26dec_depth_limit.t
++new file mode 100644
++index 0000000..dba346e
++--- /dev/null
+++++ b/t/26dec_depth_limit.t
++@@ -0,0 +1,67 @@
+++#!/usr/bin/perl
+++# Tests for _decode nesting depth limit (F7).
+++
+++use strict;
+++use warnings;
+++use lib 'lib';
+++use Convert::ASN1 qw(asn_encode_length);
+++BEGIN { require './t/funcs.pl' }
+++
+++print "1..12\n";
+++
+++# Build a schema with $depth levels of SEQUENCE nesting around an INTEGER.
+++sub make_schema {
+++    my $depth = shift;
+++    my $s = 'n INTEGER';
+++    $s = "x SEQUENCE { $s }" for 1 .. $depth;
+++    return $s;
+++}
+++
+++# Build matching BER input: $depth levels of SEQUENCE wrapping INTEGER value $v.
+++sub make_input {
+++    my ($depth, $v) = @_;
+++    my $buf = "\x02\x01" . chr($v);
+++    $buf = pack("C", 0x30) . asn_encode_length(length $buf) . $buf for 1 .. $depth;
+++    return $buf;
+++}
+++
+++my ($asn, $ret);
+++btest 1, $asn = Convert::ASN1->new;
+++
+++# --- 2-3: 2 levels passes max_depth => 3 ---
+++$asn->configure(decode => { max_depth => 3 });
+++btest 2, $asn->prepare(make_schema(2)) or warn $asn->error;
+++btest 3, defined($asn->decode(make_input(2, 7))) or warn $asn->error;
+++
+++# --- 4-6: 3 levels exceeds max_depth => 3 (depth reaches 4) ---
+++btest 4, $asn->prepare(make_schema(3)) or warn $asn->error;
+++btest 5, !defined($asn->decode(make_input(3, 7)));
+++btest 6, ($asn->error || '') =~ /depth/;
+++
+++# --- 7: max_depth => 0 disables the limit ---
+++$asn->configure(decode => { max_depth => 0 });
+++btest 7, defined($asn->decode(make_input(3, 7))) or warn $asn->error;
+++
+++# --- 8: raising max_depth to 10 allows 3 levels ---
+++$asn->configure(decode => { max_depth => 10 });
+++btest 8, defined($asn->decode(make_input(3, 7))) or warn $asn->error;
+++
+++# --- 9: negative max_depth is a hard error ---
+++$asn->configure(decode => { max_depth => -1 });
+++btest 9, !defined($asn->decode(make_input(3, 7))) && ($asn->error || '') =~ /max_depth must not be negative/;
+++
+++# --- 10-12: depth error inside an untagged CHOICE alternative aborts the decode
+++# rather than being treated as a non-match; otherwise each level retries every
+++# alternative and the work grows as 2**max_depth ---
+++{
+++    my $levels = 30;
+++    my $schema = "L0 ::= INTEGER\n";
+++    $schema .= "L$_ ::= CHOICE { a L" . ($_ - 1) . ", b L" . ($_ - 1) . " }\n" for 1 .. $levels;
+++    my $choice = Convert::ASN1->new;
+++    $choice->configure(decode => { max_depth => 22 });
+++    btest 10, $choice->prepare($schema) or warn $choice->error;
+++    my $top = $choice->find("L$levels");
+++    my $t = time;
+++    btest 11, !defined($top->decode("\x04\x01\x41")) && ($top->error || '') =~ /depth/;
+++    btest 12, time - $t < 2;
+++}
++-- 
++2.40.0
++
+diff --git a/meta/recipes-extended/perl/libconvert-asn1-perl_0.34.bb b/meta/recipes-extended/perl/libconvert-asn1-perl_0.34.bb
+index 4615a1a90e..fc47ccf8d7 100644
+--- a/meta/recipes-extended/perl/libconvert-asn1-perl_0.34.bb
++++ b/meta/recipes-extended/perl/libconvert-asn1-perl_0.34.bb
+@@ -11,6 +11,7 @@ SRC_URI = "${CPAN_MIRROR}/authors/id/T/TI/TIMLEGGE/Convert-ASN1-${PV}.tar.gz \
+ 	   file://CVE-2026-126576.patch \
+ 	   file://CVE-2026-126682.patch \
+ 	   file://CVE-2026-126819.patch \
++	   file://CVE-2026-126956.patch \
+ 	   "
+ 
+ SRC_URI[sha256sum] = "a628d7c9d390568fb76359975fa03f626ce57f10dc17980e8e3587d7713e4ee7"
 -- 
 2.40.0
 
