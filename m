@@ -1,62 +1,62 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1537.1795801786845820744
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1464.1795801785414809352
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Nov 2026 09:49:47 -0800
+ Fri, 27 Nov 2026 09:49:45 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=PtR66235;
- spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-4ba013938d7so79124655e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 09:49:46 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=SRk0RjBg;
+ spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-4a2f4ca0dcfso4805758f8f.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 09:49:45 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795801785; x=1796406585; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1795801784; x=1796406584; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=tpcfcrqshWZGzOLyNaN1+lnwIUycqwQ4MNhmFFMb98A=;
-        b=PtR66235n25bpJ3+Lu77MkfVeQZdReT01k2PfErgxWoQkYpx3OkDEL2wv9VzFHebJt
-         QVd5dhtz+TwfgxE80b32VMFxKJxbBDcW+/y4ptnbkfNSZmDdE9qDk7Gd7tdU4bQA9cu0
-         tGHMOuM9bBXkMD7sK8nru5R5GJ7asrj8RNzVSu3uD4NyDYWELbgPEyNi8tUwGhHHrNKH
-         hDs1D5WLoAjo2sp/xNP3D54WStQbzkakmuhG29JOm2u+KT0FJtfBcIcq8Mwt2TvZgeY9
-         ZtPHcnkArxkYl2Y4RSgIVECs2V6pcrl4BkmFhTzO8teBgWHTyDtMS3TzaiR4kB/c4sMX
-         xqbQ==
+        bh=U3zdXl246ZAeqhmsJPKbcVVJh4PcW5otftcz8YhOfPc=;
+        b=SRk0RjBgHK+GejCClfl1ycQuBVYtkixnB8wyDy23BYZEnIO4gntyoBS2UGygkKh4e2
+         3kmHcU+/VcpQepDoe2BUC1KNwgl7XIgXx023TLQ2R2GhMxofNnW12vmcZ2awBqvp70MI
+         dZ2vy71wQnl7d9uToAZpZCZOV7I/Nq2eJebcaVOD9gakDL32+YnCWvrROtuTAg8d4ZAw
+         C+Uu5ldaEbRvZ4iazOcVJ9eZHYa/ZtEnCza0KLfRuY9QZiU6/U69j+WBh+e9izy5jcD+
+         0AKSR3Z4wiLQsOHePCOcS4kI+P4wiIveNPnCcSrP92EU/ulTHUs5CcMyvZByPQYtsxDj
+         QgMA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795801785; x=1796406585;
+        d=1e100.net; s=20260707; t=1795801784; x=1796406584;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=tpcfcrqshWZGzOLyNaN1+lnwIUycqwQ4MNhmFFMb98A=;
-        b=iSOEv6eYTnKynlHpWFevV9XANQHXSNNI457lDajdPbRFjTAm7Or/VeuuPvaApT+Vzg
-         c17yT/bNmk0gR+4jub1mcIfcaTkhyepoaChi1UCQkb/WUvwztcbug1ri1m+JiSW8B5/S
-         16m1UsU8He8mcUXYQyGmXcPaCLMDfxExNXhCG90Oobza2Ak/XRAu1Kz5VWFViEReOP53
-         64kPmjAOSN2rqcvoQgBBSYdBM2FnJIqTsIIy1HTS4RoFLwDbbCip/F7RXUB7Lr1A5QDB
-         Elgl2UxKobequs7JwyDwygyv0u1mM6JL67BzKbHWu0pwVR1ft5nGhovWPJYm0rHNBRn4
-         2tmQ==
-X-Gm-Message-State: APuU4Z8iqhjzSYiFWKtPyGikMOWjDPf85sZhZ4lKppF1wPReKcMdMcrD
-	yLpWBmnXhzMSAc+cSbKjf3nI7rCN/V7IxxK/MsqNPxEG6Q5YuMaWyg3/YA6DgSpWErwiNuE5HMT
-	O6gZmO44=
-X-Gm-Gg: AZFdTZdvKyCmngDarZwdrFfB4xHE7VHDLYcDvp5EW3TgE9NZTxY+ABHXTGR+eCok7VQ
-	RyRqy3qtUWXDPETnqhEf/aoq5zbios4CL1h5xCJAR8oeYvGSbzGHJVy19n41JcDd97ALhXQK8ps
-	K8+/m2ycDzLJX9vLXMox+PuUYg/acy0CXTive/ljoLzLDim0yV4cqGt3sUlsBDIiJnGt+mLpxzo
-	By9fntQQlTh5OPKObqtVrXUgfaptkc1j0ObJIP/1FsqEDSU2xdPNCY8fn6oNXEhV4GKOEqg1Hxq
-	EuauQ92WHf/O7rhSdHTVoxySMTvJcOYsEigb+EuvyYHyeeLMql3TZkyl30WDsYYKQNMYqQmHaIq
-	ZGmIVBxAOT64mTLY9r+/0Q6gfRxApEr8IZ0d4xvLTZo0Nn9mC+TN/dWFC4kX3U10+WeO6d39BmS
-	yjrp169oAD+opi9jDBYoJxWIao/1SbFszAUXz97BJ+uCgvf6DTo+/kbakcPZS/0GX91YZ5uTGhX
-	ZbU8N1+uvGU7V5a4QTaA8T+PaUhKDlKw969z9dBJlMISDpVF4yP3GZZrYt0/ZC2rHgDrlXj7FKq
-	XAHJs+yqNlDkC0N6QLi8fAePSD3Dx7IxzEGZmFynMr5pChoW6QmxWbA+JYMUy5rqvlkzUMsWOwg
-	LsdIxgYYKVcO9JtLlcFR5qIE4SVNU
-X-Received: by 2002:a05:600c:a08e:b0:4a1:fae5:f2e2 with SMTP id 5b1f17b1804b1-4bb887e0682mr520918965e9.4.1795801784896;
-        Fri, 27 Nov 2026 09:49:44 -0800 (PST)
+        bh=U3zdXl246ZAeqhmsJPKbcVVJh4PcW5otftcz8YhOfPc=;
+        b=aetofijYJYmW6X1o1KD5r/flzK2pavbKTOcdn5vxd75dZBZBlpbyOeGd78nT7pz6Yt
+         MqYYqNRIC8x/fb6IX4grK9atlP8pbUHf1JTeGWEv0M0OTpeykprpZF+ERF+vdWrLcmsu
+         JONq/biHrC9y4oq2yePbAjipsfbNbf5Uf0OnVtX5aCmvvhA/FQuEdswahMnk2sRR7uYv
+         jb1r3yDI6InLfLAeVnQL5gZWOkQLie8nWwMbT3+yzcCb4eCXNJsX2r/+C3v+HZ6Uyplm
+         O50XGwecv/4rtEdfEtFIuC75rGvt7gwqBqW601p5dZ5CvAxT0B90oJpyhv2LGnLovnTP
+         ZPgw==
+X-Gm-Message-State: APuU4Z+nWiyDPYu0QpbOthUarqC4JFzbVl4LRgoRXmu/xCs6RgO4CjK+
+	ZIOoys7uvAvvrtuWZrOZKbT5OhC3h2FKZZp4c+zgdbKTpymFxdjdHZDGEw0kNLlP+hQ15ehoUbY
+	kAwpNlQ8=
+X-Gm-Gg: AZFdTZf7zWMp2j5APP0P5N4KwaIZSvmg3BXwlA+PjDsQxnyKD4sRC63V1bIQ2M76yZ1
+	mJikE2JpQVH6W823cHFNuiS1KlQrby1mWQ7wZ+BIZWa1tMmZmEbEY+/zFiooSkFREVldsSfac6D
+	qUZZ9b0bSe7iJnXAkuKIEQzRPPsSNfYikYhYwWqviEdrpk3ktSjtJythi6gojz+9b8tAaCBWbRF
+	Rk5pGGcdS91tSH6IKPd4e126+uj4EM2Gu/C91Vv00IAzp777ogRFvDapP/DKVZpEJ/FwteOp6SV
+	rCVtRd5W0Wi2NpEVFClzAYf/jieotUVlSUY6JDt81CM+J0u8NLubVe74C6xsqOTsUgeEYt0K6Wv
+	LlrJB0jrxEfM8FtJyQEoQlEjcUYB7p/D0eMdm/tx0PS2DewJrYrKSBJeqPYCgXv3bLIZSetDj0t
+	wRz4anu75VpXAoAuIsyeMOuZeossygRwPYDD/2cNB2Il1r4Rf+0p9+YD/WfDmHSIX6SBTNXCsTk
+	fb+kcJrN71JkpxwUosZxKzfag35KeO0d1Q4B34GfdqxzpVRgcaV9J35Kkk5iv9gr7UQfmHQB7+5
+	wV97kcmipOTO1a6nFokqQ8xm1PrMa9Q9cag9Y5vayB+zqWpboM+T6IkcjBQB2WKBMmn5S5ssMQT
+	bnRG2TIRh0RgFCV4RoElb5KXY/Kfc
+X-Received: by 2002:a05:6000:4704:b0:4a8:5a5b:3b7d with SMTP id ffacd0b85a97d-4abb5eacf4fmr51125702f8f.56.1795801783337;
+        Fri, 27 Nov 2026 09:49:43 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab69bf630esm49374624f8f.16.2026.11.27.09.49.44
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab69bf630esm49374624f8f.16.2026.11.27.09.49.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 09:49:44 -0800 (PST)
+        Fri, 27 Nov 2026 09:49:42 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 19/37] libsndfile1: patch CVE-2024-50613
-Date: Fri, 27 Nov 2026 18:49:02 +0100
-Message-ID: <0a710aa4c7e39ea5e711c065368907f8c6330af2.1795798718.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 16/37] dropbear: add follow-up patches for CVE-2019-6111
+Date: Fri, 27 Nov 2026 18:48:59 +0100
+Message-ID: <9e1988bd3789d2bfaf32265559770f296cc0f604.1795798718.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1795798718.git.yoann.congal@smile.fr>
 References: <cover.1795798718.git.yoann.congal@smile.fr>
@@ -64,389 +64,560 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 17:49:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251425
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251422
 Content-Type: text/plain; charset="utf-8"
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patch from [1] which linked this CVE.
-
-[1] https://github.com/libsndfile/libsndfile/pull/1198
+Pick additional patches referencing this CVE from 2026.90 or 2026.91
+releases.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e56fdd1720050fbd2107ff48bb8d24e24dff72b9)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+[YC: Note: this might change user-visible behavior:
+     a Remote to local "scp -r" into an existing directory will now
+     return an error.
+]
 ---
- .../libsndfile1/CVE-2024-50613.patch          | 348 ++++++++++++++++++
- .../libsndfile/libsndfile1_1.2.2.bb           |   1 +
- 2 files changed, 349 insertions(+)
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2024-50613.patch
+ ...2019-6111.patch => CVE-2019-6111-01.patch} |   0
+ .../dropbear/dropbear/CVE-2019-6111-02.patch  | 364 ++++++++++++++++++
+ .../dropbear/dropbear/CVE-2019-6111-03.patch  |  43 +++
+ .../dropbear/dropbear/CVE-2019-6111-04.patch  |  34 ++
+ .../dropbear/dropbear/CVE-2019-6111-05.patch  |  43 +++
+ .../recipes-core/dropbear/dropbear_2022.83.bb |   6 +-
+ 6 files changed, 489 insertions(+), 1 deletion(-)
+ rename meta/recipes-core/dropbear/dropbear/{CVE-2019-6111.patch => CVE-2019-6111-01.patch} (100%)
+ create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2019-6111-02.patch
+ create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2019-6111-03.patch
+ create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2019-6111-04.patch
+ create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2019-6111-05.patch
 
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2024-50613.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2024-50613.patch
+diff --git a/meta/recipes-core/dropbear/dropbear/CVE-2019-6111.patch b/meta/recipes-core/dropbear/dropbear/CVE-2019-6111-01.patch
+similarity index 100%
+rename from meta/recipes-core/dropbear/dropbear/CVE-2019-6111.patch
+rename to meta/recipes-core/dropbear/dropbear/CVE-2019-6111-01.patch
+diff --git a/meta/recipes-core/dropbear/dropbear/CVE-2019-6111-02.patch b/meta/recipes-core/dropbear/dropbear/CVE-2019-6111-02.patch
 new file mode 100644
-index 00000000000..9b7302b2316
+index 00000000000..3b73659d1da
 --- /dev/null
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2024-50613.patch
-@@ -0,0 +1,348 @@
-+From ecbccc2f23de6cefd2d97842fc0333bb742a0625 Mon Sep 17 00:00:00 2001
-+From: Capsize Security <contact@capsize.online>
-+Date: Mon, 26 Oct 2026 17:28:12 -0600
-+Subject: [PATCH] mpeg: sanitize float/double input to LAME ieee entry points
++++ b/meta/recipes-core/dropbear/dropbear/CVE-2019-6111-02.patch
+@@ -0,0 +1,364 @@
++From 143291baca6ebb3407a0c25c85bd53bf041a6ab7 Mon Sep 17 00:00:00 2001
++From: Matt Johnston <matt@ucc.asn.au>
++Date: Mon, 20 Apr 2026 20:57:11 +0800
++Subject: [PATCH] scp: more CVE-2019-6111 fix
 +
-+Crafted files can deliver NaNs, infinities, or huge finite values through sf_writef_float / sf_writef_double into the MP3 encoder. Passing those straight to LAME trips assertions inside LAME (psymodel.c: calc_energy: `el >= 0') and aborts the host application.
++Cherrypicked from OpenSSH portable
 +
-+Clamp encoder input to the [-1, 1] range LAME's ieee_float / ieee_double entry points document ("data must be scaled to +/- 1 full scale", lame/lame.h); non-finite samples become silence. All four float/double x mono/stereo paths funnel through the sanitizing normalize_float / normalize_double helpers, including the non-normalized paths via a 1/0x8000 pre-scale (the stereo path already did this). The mono non-normalized path previously used lame_encode_buffer_float; routing it through the scaled ieee_float entry instead changes its gain by ~0.003% (1 part in 32768).
++commit 3d896c157c722bc47adca51a58dca859225b5874
++djm Sun Feb 10 11:15:52 2019 +0000
 +
-+Note: clamping to +/-1 intentionally changes output for valid slightly-over-full-scale input (e.g. a constant 2.0), which LAME's ieee entries never accepted in-contract; in-range audio passes through unchanged.
++upstream: when checking that filenames sent by the server side
 +
-+CVE-2024-50613 Issue: https://github.com/libsndfile/libsndfile/issues/1034
++match what the client requested, be prepared to handle shell-style brace
++alternations, e.g. "{foo,bar}".
 +
-+Signed-off-by: Capsize Security <contact@capsize.online>
++"looks good to me" millert@ + in snaps for the last week courtesy
++deraadt@
 +
-+CVE: CVE-2024-50613
-+Upstream-Status: Backport [https://github.com/libsndfile/libsndfile/commit/ecbccc2f23de6cefd2d97842fc0333bb742a0625]
++CVE: CVE-2019-6111
++Upstream-Status: Backport [https://github.com/mkj/dropbear/commit/143291baca6ebb3407a0c25c85bd53bf041a6ab7]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ src/mpeg_l3_encode.c |  91 ++++++++++++++++++-------
-+ tests/mpeg_test.c    | 158 +++++++++++++++++++++++++++++++++++++++++++
-+ 2 files changed, 226 insertions(+), 23 deletions(-)
++ scp.c | 281 +++++++++++++++++++++++++++++++++++++++++++++++++++++++---
++ 1 file changed, 269 insertions(+), 12 deletions(-)
 +
-+diff --git a/src/mpeg_l3_encode.c b/src/mpeg_l3_encode.c
-+index aba22394..c712e6e7 100644
-+--- a/src/mpeg_l3_encode.c
-++++ b/src/mpeg_l3_encode.c
-+@@ -596,22 +596,77 @@ mpeg_l3_encode_write_int_stereo (SF_PRIVATE *psf, const int *ptr, sf_count_t len
++diff --git a/scp.c b/scp.c
++index bf98986c..d151587c 100644
++--- a/scp.c
+++++ b/scp.c
++@@ -74,7 +74,6 @@
++  */
++ 
++ #include "includes.h"
++-/*RCSID("$OpenBSD: scp.c,v 1.130 2006/01/31 10:35:43 djm Exp $");*/
++ 
++ #include <fnmatch.h>
++ 
++@@ -600,6 +599,253 @@ tolocal(int argc, char **argv)
++ 	}
 + }
 + 
-+ 
-++/* LAME's ieee_float / ieee_double entry points require input samples in the
-++** range [-1.0, +1.0] ("data must be scaled to +/- 1 full scale", lame/lame.h).
-++** Crafted input files can deliver NaNs, infinities, or huge finite values
-++** through the public sf_writef_float / sf_writef_double API ; passing those
-++** straight to LAME trips assertions inside LAME (psymodel.c : calc_energy :
-++** `el >= 0') and aborts the host application (CVE-2024-50613,
-++** https://github.com/libsndfile/libsndfile/issues/1034). Clamp here so the
-++** encoder only ever sees in-contract input. Samples already in range pass
-++** through unchanged.
-++*/
+++/* Appends a string to an array; returns 0 on success, -1 on alloc failure */
+++static int
+++append(char *cp, char ***ap, size_t *np)
+++{
+++	char **tmp;
 ++
-++static inline float
-++sanitize_float_sample (float x)
-++{	if (!isfinite (x))
-++		return 0.0f ;
-++	if (x > 1.0f)
-++		return 1.0f ;
-++	if (x < -1.0f)
-++		return -1.0f ;
-++	return x ;
-++} /* sanitize_float_sample */
+++	if ((tmp = reallocarray(*ap, *np + 1, sizeof(*tmp))) == NULL)
+++		return -1;
+++	tmp[(*np)] = cp;
+++	(*np)++;
+++	*ap = tmp;
+++	return 0;
+++}
 ++
-++static inline double
-++sanitize_double_sample (double x)
-++{	if (!isfinite (x))
-++		return 0.0 ;
-++	if (x > 1.0)
-++		return 1.0 ;
-++	if (x < -1.0)
-++		return -1.0 ;
-++	return x ;
-++} /* sanitize_double_sample */
+++/*
+++ * Finds the start and end of the first brace pair in the pattern.
+++ * returns 0 on success or -1 for invalid patterns.
+++ */
+++static int
+++find_brace(const char *pattern, int *startp, int *endp)
+++{
+++	int i;
+++	int in_bracket, brace_level;
 ++
-++static inline void
-++normalize_float (float *dest, const float *src, sf_count_t count, float norm_fact)
-++{	while (--count >= 0)
-++		dest [count] = sanitize_float_sample (src [count] * norm_fact) ;
-++} /* normalize_float */
-++
-++static inline void
-++normalize_double (double *dest, const double *src, sf_count_t count, double norm_fact)
-++{	while (--count >= 0)
-++		dest [count] = sanitize_double_sample (src [count] * norm_fact) ;
-++} /* normalize_double */
-++
-++
-+ static sf_count_t
-+ mpeg_l3_encode_write_float_mono (SF_PRIVATE *psf, const float *ptr, sf_count_t len)
-+-{	MPEG_L3_ENC_PRIVATE *pmpeg = (MPEG_L3_ENC_PRIVATE*) psf->codec_data ;
-++{	BUF_UNION ubuf ;
-++	MPEG_L3_ENC_PRIVATE *pmpeg = (MPEG_L3_ENC_PRIVATE*) psf->codec_data ;
-+ 	sf_count_t total = 0 ;
-+ 	int nbytes, writecount, writen ;
-+ 
-+ 	if ((psf->error = mpeg_l3_encoder_construct (psf)))
-+ 		return 0 ;
-+ 
-++	const sf_count_t max_samples = SF_MIN (ARRAY_LEN (ubuf.fbuf), pmpeg->frame_samples) ;
-+ 	while (len)
-+-	{	writecount = SF_MIN (len, (sf_count_t) pmpeg->frame_samples) ;
-++	{	writecount = SF_MIN (len, max_samples) ;
-+ 
-+ 		if (psf->norm_float)
-+-			nbytes = lame_encode_buffer_ieee_float (pmpeg->lamef, ptr + total, NULL, writecount, pmpeg->block, pmpeg->block_len) ;
-++		{	normalize_float (ubuf.fbuf, ptr + total, writecount, 1.0f) ;
-++			nbytes = lame_encode_buffer_ieee_float (pmpeg->lamef, ubuf.fbuf, NULL, writecount, pmpeg->block, pmpeg->block_len) ;
+++	*startp = *endp = -1;
+++	in_bracket = brace_level = 0;
+++	for (i = 0; i < INT_MAX && *endp < 0 && pattern[i] != '\0'; i++) {
+++		switch (pattern[i]) {
+++		case '\\':
+++			/* skip next character */
+++			if (pattern[i + 1] != '\0')
+++				i++;
+++			break;
+++		case '[':
+++			in_bracket = 1;
+++			break;
+++		case ']':
+++			in_bracket = 0;
+++			break;
+++		case '{':
+++			if (in_bracket)
+++				break;
+++			if (pattern[i + 1] == '}') {
+++				/* Protect a single {}, for find(1), like csh */
+++				i++; /* skip */
+++				break;
 ++			}
-+ 		else
-+-			nbytes = lame_encode_buffer_float (pmpeg->lamef, ptr + total, NULL, writecount, pmpeg->block, pmpeg->block_len) ;
-++		{	/* Lame lacks a non-normalized mono float write, so scale to
-++			** ieee full scale here, mirroring the stereo path below.
-++			*/
-++			normalize_float (ubuf.fbuf, ptr + total, writecount, 1.0 / (float) 0x8000) ;
-++			nbytes = lame_encode_buffer_ieee_float (pmpeg->lamef, ubuf.fbuf, NULL, writecount, pmpeg->block, pmpeg->block_len) ;
+++			if (*startp == -1)
+++				*startp = i;
+++			brace_level++;
+++			break;
+++		case '}':
+++			if (in_bracket)
+++				break;
+++			if (*startp < 0) {
+++				/* Unbalanced brace */
+++				return -1;
 ++			}
-+ 		if (nbytes < 0)
-+ 		{	psf_log_printf (psf, "lame_encode_buffer returned %d\n", nbytes) ;
-+ 			break ;
-+@@ -632,14 +687,6 @@ mpeg_l3_encode_write_float_mono (SF_PRIVATE *psf, const float *ptr, sf_count_t l
-+ }
-+ 
-+ 
-+-static inline void
-+-normalize_float (float *dest, const float *src, sf_count_t count, float norm_fact)
-+-{	while (--count >= 0)
-+-	{	dest [count] = src [count] * norm_fact ;
-+-		} ;
-+-}
-+-
-+-
-+ static sf_count_t
-+ mpeg_l3_encode_write_float_stereo (SF_PRIVATE *psf, const float *ptr, sf_count_t len)
-+ {	BUF_UNION ubuf ;
-+@@ -655,7 +702,9 @@ mpeg_l3_encode_write_float_stereo (SF_PRIVATE *psf, const float *ptr, sf_count_t
-+ 	{	writecount = SF_MIN (len, max_samples) ;
-+ 
-+ 		if (psf->norm_float)
-+-			nbytes = lame_encode_buffer_interleaved_ieee_float (pmpeg->lamef, ptr + total, writecount / 2, pmpeg->block, pmpeg->block_len) ;
-++		{	normalize_float (ubuf.fbuf, ptr + total, writecount, 1.0f) ;
-++			nbytes = lame_encode_buffer_interleaved_ieee_float (pmpeg->lamef, ubuf.fbuf, writecount / 2, pmpeg->block, pmpeg->block_len) ;
-++			}
-+ 		else
-+ 		{	/* Lame lacks a non-normalized interleaved float write. Bummer. */
-+ 			normalize_float (ubuf.fbuf, ptr + total, writecount, 1.0 / (float) 0x8000) ;
-+@@ -682,14 +731,6 @@ mpeg_l3_encode_write_float_stereo (SF_PRIVATE *psf, const float *ptr, sf_count_t
-+ }
-+ 
-+ 
-+-static inline void
-+-normalize_double (double *dest, const double *src, sf_count_t count, double norm_fact)
-+-{	while (--count >= 0)
-+-	{	dest [count] = src [count] * norm_fact ;
-+-		} ;
-+-}
-+-
-+-
-+ static sf_count_t
-+ mpeg_l3_encode_write_double_mono (SF_PRIVATE *psf, const double *ptr, sf_count_t len)
-+ {	BUF_UNION ubuf ;
-+@@ -705,7 +746,9 @@ mpeg_l3_encode_write_double_mono (SF_PRIVATE *psf, const double *ptr, sf_count_t
-+ 	{	writecount = SF_MIN (len, max_samples) ;
-+ 
-+ 		if (psf->norm_double)
-+-			nbytes = lame_encode_buffer_ieee_double (pmpeg->lamef, ptr + total, NULL, writecount, pmpeg->block, pmpeg->block_len) ;
-++		{	normalize_double (ubuf.dbuf, ptr + total, writecount, 1.0) ;
-++			nbytes = lame_encode_buffer_ieee_double (pmpeg->lamef, ubuf.dbuf, NULL, writecount, pmpeg->block, pmpeg->block_len) ;
-++			}
-+ 		else
-+ 		{	/* Lame lacks non-normalized double writing */
-+ 			normalize_double (ubuf.dbuf, ptr + total, writecount, 1.0 / (double) 0x8000) ;
-+@@ -747,7 +790,9 @@ mpeg_l3_encode_write_double_stereo (SF_PRIVATE *psf, const double *ptr, sf_count
-+ 	{	writecount = SF_MIN (len, max_samples) ;
-+ 
-+ 		if (psf->norm_double)
-+-			nbytes = lame_encode_buffer_interleaved_ieee_double (pmpeg->lamef, ptr + total, writecount / 2, pmpeg->block, pmpeg->block_len) ;
-++		{	normalize_double (ubuf.dbuf, ptr + total, writecount, 1.0) ;
-++			nbytes = lame_encode_buffer_interleaved_ieee_double (pmpeg->lamef, ubuf.dbuf, writecount / 2, pmpeg->block, pmpeg->block_len) ;
-++			}
-+ 		else
-+ 		{	/* Lame lacks interleaved non-normalized double writing */
-+ 			normalize_double (ubuf.dbuf, ptr + total, writecount, 1.0 / (double) 0x8000) ;
-+diff --git a/tests/mpeg_test.c b/tests/mpeg_test.c
-+index fe7f53d1..87adf2ac 100644
-+--- a/tests/mpeg_test.c
-++++ b/tests/mpeg_test.c
-+@@ -258,6 +258,162 @@ mpeg_double_test (void)
-+ 	unlink (filename) ;
-+ } /* mpeg_double_test */
-+ 
-++/* Hostile input (CVE-2024-50613) : NaNs, infinities and huge finite values
-++** must be sanitized before reaching LAME, not abort it. One helper covers
-++** mono and stereo (channels == 2 exercises the interleaved_ieee paths),
-++** with float normalization on or off.
-++*/
-++static void
-++mpeg_hostile_float_case (int channels, int normalize)
-++{	char filename [64] ;
-++	SNDFILE * file ;
-++	SF_INFO sfinfo ;
-++	unsigned k ;
-++	size_t samples = ARRAY_LEN (data_out.f) ;
-++
-++	snprintf (filename, sizeof (filename), "mpeg_hostile_float_%dch_%s.mp3",
-++		channels, normalize ? "norm" : "nonorm") ;
-++
-++	print_test_name ("mpeg_hostile_float_test", filename) ;
-++
-++	if (channels == 1)
-++	{	gen_windowed_sine_float (data_out.f, samples, normalize ? 0.95 : 1.0 * 0x7F00) ;
+++			if (--brace_level <= 0)
+++				*endp = i;
+++			break;
 ++		}
-++	else
-++	{	/* Interleave two mirrored channels. data_in.f is scratch here ;
-++		** it is overwritten by the read-back below.
-++		*/
-++		gen_windowed_sine_float (data_in.f, samples / 2, normalize ? 0.95 : 1.0 * 0x7F00) ;
-++		for (k = 0 ; k < samples / 2 ; k++)
-++		{	data_out.f [2 * k] = data_in.f [k] ;
-++			data_out.f [2 * k + 1] = data_in.f [samples / 2 - k - 1] ;
-++			} ;
-++		} ;
+++	}
+++	/* unbalanced brackets/braces */
+++	if (*endp < 0 && (*startp >= 0 || in_bracket))
+++		return -1;
+++	return 0;
+++}
 ++
-++	data_out.f [0] = NAN ;
-++	data_out.f [1] = INFINITY ;
-++	data_out.f [2] = -INFINITY ;
-++	data_out.f [3] = 1.0e30f ;
-++	data_out.f [4] = -1.0e30f ;
+++/*
+++ * Assembles and records a successfully-expanded pattern, returns -1 on
+++ * alloc failure.
+++ */
+++static int
+++emit_expansion(const char *pattern, int brace_start, int brace_end,
+++    int sel_start, int sel_end, char ***patternsp, size_t *npatternsp)
+++{
+++	char *cp;
+++	int o = 0, tail_len = strlen(pattern + brace_end + 1);
 ++
-++	memset (&sfinfo, 0, sizeof (sfinfo)) ;
+++	if ((cp = malloc(brace_start + (sel_end - sel_start) +
+++	    tail_len + 1)) == NULL)
+++		return -1;
 ++
-++	/* Set up output file type. */
-++	sfinfo.format = SF_FORMAT_MPEG | SF_FORMAT_MPEG_LAYER_III ;
-++	sfinfo.channels = channels ;
-++	sfinfo.samplerate = SAMPLE_RATE ;
+++	/* Pattern before initial brace */
+++	if (brace_start > 0) {
+++		memcpy(cp, pattern, brace_start);
+++		o = brace_start;
+++	}
+++	/* Current braced selection */
+++	if (sel_end - sel_start > 0) {
+++		memcpy(cp + o, pattern + sel_start,
+++		    sel_end - sel_start);
+++		o += sel_end - sel_start;
+++	}
+++	/* Remainder of pattern after closing brace */
+++	if (tail_len > 0) {
+++		memcpy(cp + o, pattern + brace_end + 1, tail_len);
+++		o += tail_len;
+++	}
+++	cp[o] = '\0';
+++	if (append(cp, patternsp, npatternsp) != 0) {
+++		free(cp);
+++		return -1;
+++	}
+++	return 0;
+++}
 ++
-++	/* Write the output file. */
-++	file = test_open_file_or_die (filename, SFM_WRITE, &sfinfo, SF_FALSE, __LINE__) ;
-++	if (! normalize)
-++		sf_command (file, SFC_SET_NORM_FLOAT, NULL, SF_FALSE) ;
-++	test_write_float_or_die (file, 0, data_out.f, samples, __LINE__) ;
-++	sf_close (file) ;
+++/*
+++ * Expand the first encountered brace in pattern, appending the expanded
+++ * patterns it yielded to the *patternsp array.
+++ *
+++ * Returns 0 on success or -1 on allocation failure.
+++ *
+++ * Signals whether expansion was performed via *expanded and whether
+++ * pattern was invalid via *invalid.
+++ */
+++static int
+++brace_expand_one(const char *pattern, char ***patternsp, size_t *npatternsp,
+++    int *expanded, int *invalid)
+++{
+++	int i;
+++	int in_bracket, brace_start, brace_end, brace_level;
+++	int sel_start, sel_end;
 ++
-++	/* Read the file in again. */
-++	memset (&sfinfo, 0, sizeof (sfinfo)) ;
+++	*invalid = *expanded = 0;
 ++
-++	file = test_open_file_or_die (filename, SFM_READ, &sfinfo, SF_FALSE, __LINE__) ;
-++	test_read_float_or_die (file, 0, data_in.f, samples, __LINE__) ;
-++	sf_close (file) ;
+++	if (find_brace(pattern, &brace_start, &brace_end) != 0) {
+++		*invalid = 1;
+++		return 0;
+++	} else if (brace_start == -1)
+++		return 0;
 ++
-++	/* The decoded output must be finite and within a sane range. MP3 is
-++	** lossy so decoded peaks may overshoot the encoder's +/-1 clamp
-++	** slightly ; a generous bound catches scale errors without
-++	** false-failing on codec noise. Explicit checks (no assert.h
-++	** dependency) match the surrounding test style.
-++	*/
-++	for (k = 0 ; k < samples ; k++)
-++		if (! isfinite (data_in.f [k]) || fabsf (data_in.f [k]) > 4.0f)
-++		{	printf ("\n\nLine %d : bad decoded sample at index %u : %f.\n\n", __LINE__, k, data_in.f [k]) ;
-++			exit (1) ;
-++			} ;
-++
-++	puts ("ok") ;
-++
-++	unlink (filename) ;
-++} /* mpeg_hostile_float_case */
-++
-++static void
-++mpeg_hostile_float_test (void)
-++{	mpeg_hostile_float_case (1, SF_TRUE) ;
-++	mpeg_hostile_float_case (1, SF_FALSE) ;
-++	mpeg_hostile_float_case (2, SF_TRUE) ;
-++	mpeg_hostile_float_case (2, SF_FALSE) ;
-++} /* mpeg_hostile_float_test */
-++
-++/* Double-precision version of the helper above. */
-++static void
-++mpeg_hostile_double_case (int channels, int normalize)
-++{	char filename [64] ;
-++	SNDFILE * file ;
-++	SF_INFO sfinfo ;
-++	unsigned k ;
-++	size_t samples = ARRAY_LEN (data_out.d) ;
-++
-++	snprintf (filename, sizeof (filename), "mpeg_hostile_double_%dch_%s.mp3",
-++		channels, normalize ? "norm" : "nonorm") ;
-++
-++	print_test_name ("mpeg_hostile_double_test", filename) ;
-++
-++	if (channels == 1)
-++	{	gen_windowed_sine_double (data_out.d, samples, normalize ? 0.95 : 1.0 * 0x7F00) ;
+++	in_bracket = brace_level = 0;
+++	for (i = sel_start = brace_start + 1; i < brace_end; i++) {
+++		switch (pattern[i]) {
+++		case '{':
+++			if (in_bracket)
+++				break;
+++			brace_level++;
+++			break;
+++		case '}':
+++			if (in_bracket)
+++				break;
+++			brace_level--;
+++			break;
+++		case '[':
+++			in_bracket = 1;
+++			break;
+++		case ']':
+++			in_bracket = 0;
+++			break;
+++		case '\\':
+++			if (i < brace_end - 1)
+++				i++; /* skip */
+++			break;
 ++		}
-++	else
-++	{	gen_windowed_sine_double (data_in.d, samples / 2, normalize ? 0.95 : 1.0 * 0x7F00) ;
-++		for (k = 0 ; k < samples / 2 ; k++)
-++		{	data_out.d [2 * k] = data_in.d [k] ;
-++			data_out.d [2 * k + 1] = data_in.d [samples / 2 - k - 1] ;
-++			} ;
-++		} ;
+++		if (pattern[i] == ',' || i == brace_end - 1) {
+++			if (in_bracket || brace_level > 0)
+++				continue;
+++			/* End of a selection, emit an expanded pattern */
 ++
-++	data_out.d [0] = NAN ;
-++	data_out.d [1] = INFINITY ;
-++	data_out.d [2] = -INFINITY ;
-++	data_out.d [3] = 1.0e300 ;
-++	data_out.d [4] = -1.0e300 ;
+++			/* Adjust end index for last selection */
+++			sel_end = (i == brace_end - 1) ? brace_end : i;
+++			if (emit_expansion(pattern, brace_start, brace_end,
+++			    sel_start, sel_end, patternsp, npatternsp) != 0)
+++				return -1;
+++			/* move on to the next selection */
+++			sel_start = i + 1;
+++			continue;
+++		}
+++	}
+++	if (in_bracket || brace_level > 0) {
+++		*invalid = 1;
+++		return 0;
+++	}
+++	/* success */
+++	*expanded = 1;
+++	return 0;
+++}
 ++
-++	memset (&sfinfo, 0, sizeof (sfinfo)) ;
+++/* Expand braces from pattern. Returns 0 on success, -1 on failure */
+++static int
+++brace_expand(const char *pattern, char ***patternsp, size_t *npatternsp)
+++{
+++	char *cp, *cp2, **active = NULL, **done = NULL;
+++	size_t i, nactive = 0, ndone = 0;
+++	int ret = -1, invalid = 0, expanded = 0;
 ++
-++	/* Set up output file type. */
-++	sfinfo.format = SF_FORMAT_MPEG | SF_FORMAT_MPEG_LAYER_III ;
-++	sfinfo.channels = channels ;
-++	sfinfo.samplerate = SAMPLE_RATE ;
+++	*patternsp = NULL;
+++	*npatternsp = 0;
 ++
-++	/* Write the output file. */
-++	file = test_open_file_or_die (filename, SFM_WRITE, &sfinfo, SF_FALSE, __LINE__) ;
-++	if (! normalize)
-++		sf_command (file, SFC_SET_NORM_DOUBLE, NULL, SF_FALSE) ;
-++	test_write_double_or_die (file, 0, data_out.d, samples, __LINE__) ;
-++	sf_close (file) ;
+++	/* Start the worklist with the original pattern */
+++	if ((cp = strdup(pattern)) == NULL)
+++		return -1;
+++	if (append(cp, &active, &nactive) != 0) {
+++		free(cp);
+++		return -1;
+++	}
+++	while (nactive > 0) {
+++		cp = active[nactive - 1];
+++		nactive--;
+++		if (brace_expand_one(cp, &active, &nactive,
+++		    &expanded, &invalid) == -1) {
+++			free(cp);
+++			goto fail;
+++		}
+++		if (invalid)
+++			fatal("%s: invalid brace pattern \"%s\"", __func__, cp);
+++		if (expanded) {
+++			/*
+++			 * Current entry expanded to new entries on the
+++			 * active list; discard the progenitor pattern.
+++			 */
+++			free(cp);
+++			continue;
+++		}
+++		/*
+++		 * Pattern did not expand; append the finename component to
+++		 * the completed list
+++		 */
+++		if ((cp2 = strrchr(cp, '/')) != NULL)
+++			*cp2++ = '\0';
+++		else
+++			cp2 = cp;
+++		if (append(xstrdup(cp2), &done, &ndone) != 0) {
+++			free(cp);
+++			goto fail;
+++		}
+++		free(cp);
+++	}
+++	/* success */
+++	*patternsp = done;
+++	*npatternsp = ndone;
+++	done = NULL;
+++	ndone = 0;
+++	ret = 0;
+++ fail:
+++	for (i = 0; i < nactive; i++)
+++		free(active[i]);
+++	free(active);
+++	for (i = 0; i < ndone; i++)
+++		free(done[i]);
+++	free(done);
+++	return ret;
+++}
 ++
-++	/* Read the file in again. */
-++	memset (&sfinfo, 0, sizeof (sfinfo)) ;
-++
-++	file = test_open_file_or_die (filename, SFM_READ, &sfinfo, SF_FALSE, __LINE__) ;
-++	test_read_double_or_die (file, 0, data_in.d, samples, __LINE__) ;
-++	sf_close (file) ;
-++
-++	/* Finite and sane, as above. */
-++	for (k = 0 ; k < samples ; k++)
-++		if (! isfinite (data_in.d [k]) || fabs (data_in.d [k]) > 4.0)
-++		{	printf ("\n\nLine %d : bad decoded sample at index %u : %f.\n\n", __LINE__, k, data_in.d [k]) ;
-++			exit (1) ;
-++			} ;
-++
-++	puts ("ok") ;
-++
-++	unlink (filename) ;
-++} /* mpeg_hostile_double_case */
-++
-++static void
-++mpeg_hostile_double_test (void)
-++{	mpeg_hostile_double_case (1, SF_TRUE) ;
-++	mpeg_hostile_double_case (1, SF_FALSE) ;
-++	mpeg_hostile_double_case (2, SF_TRUE) ;
-++	mpeg_hostile_double_case (2, SF_FALSE) ;
-++} /* mpeg_hostile_double_test */
-++
++ void
++ source(int argc, char **argv)
++ {
++@@ -841,7 +1087,8 @@ sink(int argc, char **argv, const char *src)
++ 	off_t size, statbytes;
++ 	int setimes, targisdir, wrerrno = 0;
++ 	char ch, *cp, *np, *targ, *why, *vect[1], buf[2048];
++-	char *src_copy = NULL, *restrict_pattern = NULL;
+++	char **patterns = NULL;
+++	size_t n, npatterns = 0;
++ 	struct timeval tv[2];
 + 
-+ static void
-+ mpeg_stereo_seek_test (const char * filename, int format)
-+@@ -338,6 +494,8 @@ main (void)
-+ 		mpeg_int_test () ;
-+ 		mpeg_float_test () ;
-+ 		mpeg_double_test () ;
-++		mpeg_hostile_float_test () ;
-++		mpeg_hostile_double_test () ;
-+ 
-+ 		mpeg_stereo_seek_test ("mpeg_seek.mp3", SF_FORMAT_MPEG | SF_FORMAT_MPEG_LAYER_III) ;
++ #define	atime	tv[0]
++@@ -868,16 +1115,13 @@ sink(int argc, char **argv, const char *src)
++ 		 * Prepare to try to restrict incoming filenames to match
++ 		 * the requested destination file glob.
++ 		 */
++-		if ((src_copy = strdup(src)) == NULL)
++-			fatal("strdup failed");
++-		if ((restrict_pattern = strrchr(src_copy, '/')) != NULL) {
++-			*restrict_pattern++ = '\0';
++-		}
+++		if (brace_expand(src, &patterns, &npatterns) != 0)
+++			fatal("%s: could not expand pattern", __func__);
++ 	}
++ 	for (first = 1;; first = 0) {
++ 		cp = buf;
++ 		if (atomicio(read, remin, cp, 1) != 1)
++-			return;
+++			goto done;
++ 		if (*cp++ == '\n')
++ 			SCREWUP("unexpected <newline>");
++ 		do {
++@@ -900,7 +1144,7 @@ sink(int argc, char **argv, const char *src)
 + 		}
-diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
-index 5d2a2c256b0..b22f5b1e503 100644
---- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
-+++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
-@@ -14,6 +14,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/libsndfile-${PV}.tar.xz \
-            file://CVE-2025-56226-01.patch \
-            file://CVE-2025-56226-02.patch \
-            file://CVE-2026-37555.patch \
-+           file://CVE-2024-50613.patch \
-           "
- GITHUB_BASE_URI = "https://github.com/libsndfile/libsndfile/releases/"
++ 		if (buf[0] == 'E') {
++ 			(void) atomicio(vwrite, remout, "", 1);
++-			return;
+++			goto done;
++ 		}
++ 		if (ch == '\n')
++ 			*--cp = 0;
++@@ -956,9 +1200,14 @@ sink(int argc, char **argv, const char *src)
++ 			run_err("error: unexpected filename: %s", cp);
++ 			exit(1);
++ 		}
++-		if (restrict_pattern != NULL &&
++-		    fnmatch(restrict_pattern, cp, 0) != 0)
++-			SCREWUP("filename does not match request");
+++		if (npatterns > 0) {
+++			for (n = 0; n < npatterns; n++) {
+++				if (fnmatch(patterns[n], cp, 0) == 0)
+++					break;
+++			}
+++			if (n >= npatterns)
+++				SCREWUP("filename does not match request");
+++		}
++ 		if (targisdir) {
++ 			static char *namebuf = NULL;
++ 			static size_t cursize = 0;
++@@ -1122,7 +1371,15 @@ bad:			run_err("%s: %s", np, strerror(errno));
++ 			break;
++ 		}
++ 	}
+++done:
+++	for (n = 0; n < npatterns; n++)
+++		free(patterns[n]);
+++	free(patterns);
+++	return;
++ screwup:
+++	for (n = 0; n < npatterns; n++)
+++		free(patterns[n]);
+++	free(patterns);
++ 	run_err("protocol error: %s", why);
++ 	exit(1);
++ }
+diff --git a/meta/recipes-core/dropbear/dropbear/CVE-2019-6111-03.patch b/meta/recipes-core/dropbear/dropbear/CVE-2019-6111-03.patch
+new file mode 100644
+index 00000000000..1e0cd68b07d
+--- /dev/null
++++ b/meta/recipes-core/dropbear/dropbear/CVE-2019-6111-03.patch
+@@ -0,0 +1,43 @@
++From 61bd0e3e6573277de17359763aa5827a189c8d7f Mon Sep 17 00:00:00 2001
++From: Matt Johnston <matt@ucc.asn.au>
++Date: Sat, 2 May 2026 08:43:26 +0800
++Subject: [PATCH] scp: Disallow -r to an existing directory
++
++Checks of received paths don't catch all cases in -r recursive mode, so
++disallow -r when the destination directory exists. This mitigates
++CVE-2019-6111, where unexpected files would be accepted from a malicious
++scp server.
++
++Alternatives like rsync could be used in that case.
++
++The new error message may be misleading if parent path components of the
++destination are also missing, though the command would have failed
++regardless.
++
++CVE: CVE-2019-6111
++Upstream-Status: Backport [https://github.com/mkj/dropbear/commit/61bd0e3e6573277de17359763aa5827a189c8d7f]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ scp.c | 9 +++++++++
++ 1 file changed, 9 insertions(+)
++
++diff --git a/scp.c b/scp.c
++index d151587c..09297a5b 100644
++--- a/scp.c
+++++ b/scp.c
++@@ -583,6 +583,15 @@ tolocal(int argc, char **argv)
++ 			if (*suser == '\0')
++ 				suser = NULL;
++ 		}
+++
+++		char *dest = *(argv + argc - 1);
+++		if (!(access(dest, F_OK) == 0 && errno == ENOENT)) {
+++			/* paths sent from the server in recursive mode aren't adequately
+++			 * checked that they match the requested files, so disallow this */
+++			fprintf(stderr, "-r destination \"%s\" must not already exist\n", dest);
+++			exit(1);
+++		}
+++
++ 		host = cleanhostname(host);
++ 		len = strlen(src) + CMDNEEDS + 20;
++ 		bp = xmalloc(len);
+diff --git a/meta/recipes-core/dropbear/dropbear/CVE-2019-6111-04.patch b/meta/recipes-core/dropbear/dropbear/CVE-2019-6111-04.patch
+new file mode 100644
+index 00000000000..b718afc8c41
+--- /dev/null
++++ b/meta/recipes-core/dropbear/dropbear/CVE-2019-6111-04.patch
+@@ -0,0 +1,34 @@
++From 0c5629a5d543ef5e4eff43345b1eedf2afef84ca Mon Sep 17 00:00:00 2001
++From: Matt Johnston <matt@ucc.asn.au>
++Date: Mon, 4 May 2026 21:35:57 +0800
++Subject: [PATCH] scp: don't use reallocarray
++
++reallocarray() isn't portable. An overflow check can be used instead.
++
++Fixes: 143291baca6e ("scp: more CVE-2019-6111 fix")
++
++CVE: CVE-2019-6111
++Upstream-Status: Backport [https://github.com/mkj/dropbear/commit/0c5629a5d543ef5e4eff43345b1eedf2afef84ca]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ scp.c | 7 ++++++-
++ 1 file changed, 6 insertions(+), 1 deletion(-)
++
++diff --git a/scp.c b/scp.c
++index e5ce4e2f..2f7a6279 100644
++--- a/scp.c
+++++ b/scp.c
++@@ -614,7 +614,12 @@ append(char *cp, char ***ap, size_t *np)
++ {
++ 	char **tmp;
++ 
++-	if ((tmp = reallocarray(*ap, *np + 1, sizeof(*tmp))) == NULL)
+++	if (*np + 1 > (SIZE_MAX / sizeof(*tmp))) {
+++		/* overflow */
+++		return -1;
+++	}
+++
+++	if ((tmp = realloc(*ap, (*np + 1) * sizeof(*tmp))) == NULL)
++ 		return -1;
++ 	tmp[(*np)] = cp;
++ 	(*np)++;
+diff --git a/meta/recipes-core/dropbear/dropbear/CVE-2019-6111-05.patch b/meta/recipes-core/dropbear/dropbear/CVE-2019-6111-05.patch
+new file mode 100644
+index 00000000000..5e27c0ca44e
+--- /dev/null
++++ b/meta/recipes-core/dropbear/dropbear/CVE-2019-6111-05.patch
+@@ -0,0 +1,43 @@
++From 16ce059ed8e914e210af67e199041943ec747034 Mon Sep 17 00:00:00 2001
++From: Matt Johnston <matt@ucc.asn.au>
++Date: Mon, 4 May 2026 21:36:41 +0800
++Subject: [PATCH] scp: fix recursive overwrite check
++
++Non-recursive transfers were incorrectly disallowed to an existing
++destination.
++
++In addition, the destination check logic was wrong.
++
++Fixes: 61bd0e3e6573 ("scp: Disallow -r to an existing directory")
++
++CVE: CVE-2019-6111
++Upstream-Status: Backport [https://github.com/mkj/dropbear/commit/16ce059ed8e914e210af67e199041943ec747034]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ scp.c | 13 ++++++++-----
++ 1 file changed, 8 insertions(+), 5 deletions(-)
++
++diff --git a/scp.c b/scp.c
++index 2f7a6279..4b4990ea 100644
++--- a/scp.c
+++++ b/scp.c
++@@ -585,11 +585,14 @@ tolocal(int argc, char **argv)
++ 		}
++ 
++ 		char *dest = *(argv + argc - 1);
++-		if (!(access(dest, F_OK) == 0 && errno == ENOENT)) {
++-			/* paths sent from the server in recursive mode aren't adequately
++-			 * checked that they match the requested files, so disallow this */
++-			fprintf(stderr, "-r destination \"%s\" must not already exist\n", dest);
++-			exit(1);
+++		if (iamrecursive) {
+++			/* Destination must not exist */
+++			if (!(access(dest, F_OK) == -1 && errno == ENOENT)) {
+++				/* paths sent from the server in recursive mode aren't adequately
+++				 * checked that they match the requested files, so disallow this */
+++				fprintf(stderr, "-r destination \"%s\" must not already exist\n", dest);
+++				exit(1);
+++			}
++ 		}
++ 
++ 		host = cleanhostname(host);
+diff --git a/meta/recipes-core/dropbear/dropbear_2022.83.bb b/meta/recipes-core/dropbear/dropbear_2022.83.bb
+index 93563aa3b47..d06bbd3a6db 100644
+--- a/meta/recipes-core/dropbear/dropbear_2022.83.bb
++++ b/meta/recipes-core/dropbear/dropbear_2022.83.bb
+@@ -29,7 +29,11 @@ SRC_URI = "http://matt.ucc.asn.au/dropbear/releases/dropbear-${PV}.tar.bz2 \
+            file://0001-cli-runopts.c-add-missing-DROPBEAR_CLI_PUBKEY_AUTH.patch \
+            file://0001-Avoid-unused-variable-with-DROPBEAR_CLI_PUBKEY_AUTH-.patch \
+            file://CVE-2025-47203.patch \
+-           file://CVE-2019-6111.patch \
++           file://CVE-2019-6111-01.patch \
++           file://CVE-2019-6111-02.patch \
++           file://CVE-2019-6111-03.patch \
++           file://CVE-2019-6111-04.patch \
++           file://CVE-2019-6111-05.patch \
+            "
  
+ SRC_URI[sha256sum] = "bc5a121ffbc94b5171ad5ebe01be42746d50aa797c9549a4639894a16749443b"
