@@ -1,92 +1,78 @@
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4190.1795812376884706783
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4536.1795813552285815990
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Nov 2026 12:46:17 -0800
+ Fri, 27 Nov 2026 13:05:53 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=B/sMxZPb;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=fAGiW2ju;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101a21ec23dba-abb071ce-f63a-4b0e-b083-ba6b2a787f9b-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1795812376; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=L6IHX3SItxoK2q5Mc4uLemoR+34K3pDqzjnRtBWSwq0=;
-	b=B/sMxZPbFpzMP6ikxedzec8OrogYhc3pGXZixr3tkd+0EPWWR0hidwC2BRXBnuXL
-	j902wSeEn0bRnwHpoRNSuoOMUo5JTjBUmc9+rPREwTnBFnDOozbJojVg7bj5g9ZCiRo
-	HmKj0Tm54Kx0iqKxfe2/hZdF9p+3cn8iXCkdFvyw=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1795812376;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=L6IHX3SItxoK2q5Mc4uLemoR+34K3pDqzjnRtBWSwq0=;
-	b=fAGiW2jueSIYJvQQaBejW0DjWGgGikwNdbCygoMkMiVvbYidblKdudoKEuq34CuR
-	egifqZT6MCQH7fk7/psY/9CntDLwW3HXOHf06/HQcPZ9cfm2q9YpMwdeCfeZqHQJhOK
-	g0nDjUBFZDJJu4/gHr/ZNyYv9cwH7tlDKYA5x39c=
-From: patchtest@automation.yoctoproject.org
-To: Rasmus Villemoes <ravi@prevas.dk>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] classes/insane: improve HOME checks exceptions more
-In-Reply-To: <20261127203105.2860300-1-ravi@prevas.dk>
-References: <20261127203105.2860300-1-ravi@prevas.dk>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a21ec23dba-abb071ce-f63a-4b0e-b083-ba6b2a787f9b-000000@us-west-2.amazonses.com>
-Date: Fri, 27 Nov 2026 20:46:15 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.11.27-54.240.27.193
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=B+2CDaIB;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20261127210548bcee6b296e0002077d-xqiovj@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20261127210548bcee6b296e0002077d
+        for <openembedded-core@lists.openembedded.org>;
+        Fri, 27 Nov 2026 22:05:49 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=L6tevjcAzfIDBQbK4BfCs/KSe7TrU0TZkrrJYR9u7fY=;
+ b=B+2CDaIBZl4KahhYSOdd8uVCkXA10+2Byn8+aaNXdG+K5xvDQQ9SDu4uqIMdnXF+nEyUwZ
+ 2dqGJ0YcPkxW3IOgYtIQWCTAl97ymrzese+tBrWmO3KVlXaoN4tHemz4et1LQ133NZo0R9f2
+ bPazA9GEYswEVIouhLXNyx0BgHV0o7VSBY9wve3QOSfbI3pSCSmKqkzlPo4R/8VgN2PBP4N0
+ uN1CB52mzjXLlx144F8xpbF/IvCOLMIj5Sl15CXPdndSdCtihDVjTOEMvxm8N3m6Q+RD4i2b
+ fzD4/2TpkAGJjn5HD/KnhzSK5hvIdVaO1NJvSeFHNQrlaKPPZUCewc2g==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [PATCH] gpgme: upgrade 2.2.0 -> 2.3.1
+Date: Fri, 27 Nov 2026 22:05:10 +0100
+Message-ID: <20261127210510.676446-1-peter.marko@siemens.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 20:46:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251455
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 21:05:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251456
+Content-Type: text/plain; charset="utf-8"
 
---NextPart
-Content-Type: text/plain
+From: Peter Marko <peter.marko@siemens.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Release notes: https://github.com/gpg/gpgme/blob/gpgme-2.3.1/NEWS
 
+Noteworthy changes in version 2.3.1 (2026-11-19)   [C48/A3/R1]
+------------------------------------------------
+ * Fix a regression in 2.3.0
+ Release-info: https://dev.gnupg.org/T8427
+
+Noteworthy changes in version 2.3.0 (2026-11-18)   [C48/A3/R0]
+------------------------------------------------
+ * New constants GPGME_PK_MLKEM, GPGME_PK_MLDSA, and GPGME_PK_DLTHM.
+   Add mappings for algos used bei backends.   [rMa85fa49236]
+ * Fix a double free in the status line read code.
+   [T8557,CVE-2026-129975]
+ * Interface changes relative to the 2.2.0 release:
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ GPGME_PK_DLTHM                NEW.
+ GPGME_PK_MLKEM                NEW.
+ GPGME_PK_MLDSA                NEW.
+ Release-info: https://dev.gnupg.org/T8427
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
-Testing patch /home/patchtest/share/mboxes/classes-insane-improve-HOME-checks-exceptions-more.patch
+ meta/recipes-support/gpgme/{gpgme_2.2.0.bb => gpgme_2.3.1.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/gpgme/{gpgme_2.2.0.bb => gpgme_2.3.1.bb} (96%)
 
-FAIL: test max line length: Patch line too long (current length 284, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
-
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping test (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/recipes-support/gpgme/gpgme_2.2.0.bb b/meta/recipes-support/gpgme/gpgme_2.3.1.bb
+similarity index 96%
+rename from meta/recipes-support/gpgme/gpgme_2.2.0.bb
+rename to meta/recipes-support/gpgme/gpgme_2.3.1.bb
+index bffa0b40e41..739313073fc 100644
+--- a/meta/recipes-support/gpgme/gpgme_2.2.0.bb
++++ b/meta/recipes-support/gpgme/gpgme_2.3.1.bb
+@@ -24,7 +24,7 @@ SRC_URI = "${GNUPG_MIRROR}/gpgme/${BP}.tar.bz2 \
+            file://0001-autogen.sh-remove-unknown-in-version.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "7160e80e84dafd00d956c84891c533bb7ab16a6a54fbe1574b2f3acf0496977b"
++SRC_URI[sha256sum] = "2bf94e0e677e5a8fc31f79dd323f91c5416b36fb851058bc1e8bce39f2642434"
+ 
+ DEPENDS = "libgpg-error-native libgpg-error libassuan"
+ 
