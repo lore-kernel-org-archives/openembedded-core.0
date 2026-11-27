@@ -1,158 +1,289 @@
-Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1457.1795801779591701480
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1451.1795801775988262860
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Nov 2026 09:49:39 -0800
+ Fri, 27 Nov 2026 09:49:36 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=WhuAuK6T;
- spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-492fcbfaa88so5707550f8f.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 09:49:39 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=FoUq7XS2;
+ spf=pass (domain: smile.fr, ip: 209.85.221.48, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-4ac109a8a12so4966867f8f.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 09:49:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795801778; x=1796406578; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=QeiR33halZP+z4o5YxfcQeiN3mXpVz0IIa+5cl7oweg=;
-        b=WhuAuK6T/a8lrTZfmUJRaW+ZXc2P4vZY35nC/1Dmhm9SYGR6/FEBFQpb7EWRYZV7uC
-         2bJctN0kEJCbXSidiMcB1n4pvuhLiqBmVLwvWXOxJQoMWR1IweBFINAejr/l65LEiV6l
-         wCf0+ICg7P6LdRAin4QmD2hO8Ji/Ai91ZcxuL8CzMZZIPqZ1qSd48pKP1Gv73w5lPXKX
-         Y/A7qR0G6M4SH3hvL9d56LC6ujc9v3rlebPwPziIW3Mj82okBvDKI9f0kQE4q7B+/HQW
-         +hVEWEyDrzn5dth97tXGcGNLDhsvJIni3z6KsMN2D3XXK1nKOgjukKZ8G0mysa6P4hX3
-         Qstg==
+        d=smile.fr; s=google2; t=1795801774; x=1796406574; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qpJ4aO4O2TCM10VbaI0CQYNJD9X02EkF7eFvQWGqcbk=;
+        b=FoUq7XS2cW7NY80pt/0Ixx+9DVPg6uBXwLfotGY+wausyuCuVgu4qHKL8OO3yee0lf
+         mwTYBkSqUxL1AklPSmIqMxLqHY3Y08vkkNPyF8CP902Z/EXR480r3G1DORUxQ3dEbJqW
+         sulExMygHDhE4rHHg0IEQJEGi9xz1MOnno1mpzXk52wVx4W0VBcQ+W1sNomPimrmnMlI
+         tWqdi/vt3KB0pMroJuzR8xwMJpyQwAErFvG+WBelo9bfUdCyNOhXJ28VRBCNxloA9+xP
+         Pv9vBR0/ifsGw9+kpTei6kYWbtvitsB9/nACQhlTbRDGtziaW51WA+S6CKqKVMfOBvnD
+         RXLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795801778; x=1796406578;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=QeiR33halZP+z4o5YxfcQeiN3mXpVz0IIa+5cl7oweg=;
-        b=onDGQueuPt9HJCeZi2aCu3NYtGODHXJmoFKJTJiAYtCfHLkk4YdeIxWCyKMnhGNlhI
-         ClKSMSpiT9jff+7v8RTpEBfJ3kyxs0aXvyWCFpzqNEhST1PYWa1AnXC5RE33wkvl273S
-         UKEGvEIM/ZqXVen19Np8IeU9SX16hzMunyyHtwZf13XidRzIH5McpuWyT3KNsB4ANrOU
-         dOkx76F54TjBdIAd+atrLSKsWoslEatOSIuvD1TBM7J4lpBrQej6RiD0zp8pfGcQBYGE
-         u4pMpjfzkaQgSJBV4cFYxWM4RZOyc3hiXaIQnMkZFXa9pDf0o5NQ2rmt6Bt31ts+aWnw
-         qebg==
-X-Gm-Message-State: APuU4Z93z+OdLMDColF+IxBZEUDTVr9bq2K8cblVk/AvgSSOfb/Pyg9T
-	bQX+XlAZyhyda1JgHgEGvornS2B4+pxPuZbMfknh9SxppjBbX4jKBT/vgha9PCevFu13SYrF74h
-	hoD7a0U0=
-X-Gm-Gg: AZFdTZfQmi7EPHDJc4xJyVd6D3ZUpyxg9TF2IIQ6ffkyu7NoFHZxfAs0QAxPnXhdJam
-	980gB0ftAHRZm4xpdiBf5a9LzQedWFHUDvxT5fHjw7UXF1PxKi24pGkECplY+YKYI1NH6SBECyx
-	awqblpeMW6ibzG3Ty4H7CILGoHfY00G/THaMHg1TKSawLJ6EAGJ5o76Yhj0/oUizC06UILNajx4
-	bp4eDAfNx1pOZAmb9bDd3nTcL4Tx1gAlIxTv8LfH0Ve1e00zhNIbmH2cDo0vNdC6IbBnKyxl4A0
-	H9IpexHmx5u9Zj6V8CQs7wl19LcRzgyjzYw86KEwAmKFlBEmwTOgbcdGB8ekqHL3Ny0u2PXRT0a
-	J5dqjJsrNndILofpB+NLgpphGcejwxXShUpMxOElIknYOCc6CDtRzl3ReOcZYotbLGCfVF5o+yQ
-	Nx58+aBXru+QgC/ekmRz64+oEjscxRuNxRMZFdQY56MCMUPCNiZBciZjAzopUXgLLoE1TjpFDca
-	b5SAhWv+1WUSgJvwigiUkW83yVjIYn5qU6pzoXK5ExzkNEHAWFLIH2JyBzEJTsiLAvkob8b2KUB
-	DpDyaLQ+nX4l5vCNwoMkkJ07Pi6q8IbbSpQG/V59uZIyUck164oyiDoYb4mpY9+LY/UoEBgx+nT
-	3eR3L4ZEES8yNeFrRGf/qGJxKjpPv
-X-Received: by 2002:a05:6000:4705:b0:48d:f851:ee5f with SMTP id ffacd0b85a97d-4abb225e5f9mr51749941f8f.24.1795801777801;
-        Fri, 27 Nov 2026 09:49:37 -0800 (PST)
+        d=1e100.net; s=20260707; t=1795801774; x=1796406574;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=qpJ4aO4O2TCM10VbaI0CQYNJD9X02EkF7eFvQWGqcbk=;
+        b=YpM5d0VTxZzfCHtklUKcJLoJZJYYtGdZbPvITZFhmUGVFiHu5tOek9JXFERTOu9VqZ
+         owSCfWTElQJvKhkM39Wp/SpBd9M2XVUzBbaVZgrD8Lvzy+/QmQYHYie+wDetVxUEojuI
+         kh3/JeDOREDhAgd67HfsgKmxy+TlvR8RSFCm7yM38PAftNmzjUZoi9iiflwOethSRgYM
+         lgqBkx07tnZ2u3wEB6xFFOq0rtvkBRrdVtK0aVhEK7s58CnR7WNHZRzEhovCJ4QyI4HG
+         k5iauEbw70wXYPzMjAQlomb88SnPH2h719SMsvHDadE6ujoAMv2CCMP+1AEAU8jauC6V
+         45NA==
+X-Gm-Message-State: APuU4Z8Mx82uws62jb90oP1CgrDh3dF6erj8NiEpOEdDpTKf5Nx/1ydE
+	vT3kxZy4NWwnT+cOSYLL2Ooum6iNwysbHg9Tc/zpxF7Ehu75WPfI5tOQUcD+sHpdHqy80+h+8Ks
+	pTb5JUAA=
+X-Gm-Gg: AZFdTZccsH9yC4pcrEQ76ovJ1qe2ZWkWRwuUC5NotnF/Q4XbWesoYWg465TXQVZ+nPR
+	THDZr+6NcVJI9pQZ2dX9A0iZ3+fXYc4+1pn6k4B5GGRpeD069FNtsIP7TBqY1p1kv5u7Eib8ID7
+	cZJF+NLTHUIbIj/M0piA8CXKjydZIL6zr1nQWde8vi8QEstKd1FeATJ5Q6UbW/ol/iClI5Vwu2M
+	hyxaSAxP0SYHOg3V4FYcyjaBHRxT4fGKUIchjE9lxwVkwczA5z1gutX2fKNOxuKqwsLewUK+WfE
+	xwx0yEMRVumM677V6kaXr8Yoly8MNdhJ88DaSZIuEOzLVK4X04sWJ5u4XvC3bpvN4klF5TJSiIh
+	TMAOPVPAJErggt4EAoTuGgJ4roZCJouKiO83ykM/fkiRFWIaXJhbnFOa9eiSIxjAJoiVL6uGWSQ
+	jJoMo9jOskLtUfela8Cw196FZZpObcLcFpr1SFQl92tOeoYuHpFlT+dkx+yNN/EpY415YTj7/H8
+	A+3U0fp4zj21sfsOhddUhrVsrC83waHLbzvODUv/OKYipTnTHdek/mI7HKQ2lKPwq1ljSh+yNw5
+	xhdISJTpFGes77LB19OtyYjtzcETGJqBs4X3m8whjmlwnPvhSR4pkwmpmjR7GlsAKXQO1/Z6zPD
+	ocIQqXoQQfEK59Cp6dc+go/yCEbsF
+X-Received: by 2002:a5d:5d88:0:b0:4b4:510c:51da with SMTP id ffacd0b85a97d-4b4510c553amr34438525f8f.11.1795801774026;
+        Fri, 27 Nov 2026 09:49:34 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab69bf630esm49374624f8f.16.2026.11.27.09.49.37
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab69bf630esm49374624f8f.16.2026.11.27.09.49.33
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 09:49:37 -0800 (PST)
+        Fri, 27 Nov 2026 09:49:33 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 08/37] sqlite3: fix CVE-2026-119375
-Date: Fri, 27 Nov 2026 18:48:51 +0100
-Message-ID: <993996e8219dd868818edd4a790d0c4f1baf903e.1795798718.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 00/37] Patch review
+Date: Fri, 27 Nov 2026 18:48:43 +0100
+Message-ID: <cover.1795798718.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <cover.1795798718.git.yoann.congal@smile.fr>
-References: <cover.1795798718.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 17:49:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251414
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251406
 Content-Type: text/plain; charset="utf-8"
 
-From: Arpit Patel <arpitpa@cisco.com>
+Please review this set of changes for scarthgap and have comments back by
+end of day Tuesday, December 1.
 
-This patch applies the upstream fix [1], which fully initializes the
-page read when the WAL and database page sizes differ, preventing
-disclosure of uninitialized page data. The GitHub mirror commit [1]
-corresponds to the SQLite Fossil check-in shown in [2].
+This series is the last one before releasing 5.0.22.
 
-[1] https://github.com/sqlite/sqlite/commit/e5bf119821f25be1d7f10ef0a2edbe175289166e
-[2] https://sqlite.org/src/info/f9b4ee369557c36c
+Highlighted patches:
+* dropbear: add follow-up patches for CVE-2019-6111:
+  This might change user-visible behavior: a Remote to local "scp -r"
+  into an existing directory will now return an error.
+* Sunil Dora (2):
+  rust-llvm: build and install the LLVM shared library
+  rust: enable dynamic LLVM linking by default
+  These change how LLVM is integrated into the rust compiler but this
+  will allow us to officialy support Ubuntu 26.04 on scarthgap
+  See https://lore.kernel.org/openembedded-core/DJO58J8D7X5G.2FRK2OBFYWIDO@smile.fr/
 
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2026-119375
+Passed a-full on autobuilder:
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/5200
+* buildtools/5105 failed on what is most likely a NFS glitch.
+  retried in https://autobuilder.yoctoproject.org/valkyrie/?#/builders/43/builds/5108
+* oe-selftest-fedora/5159 failed with what looks like an old closed
+  AB-INT bug: https://bugzilla.yoctoproject.org/show_bug.cgi?id=13827
+  Retried in https://autobuilder.yoctoproject.org/valkyrie/?#/builders/48/builds/5162
+* qemuarm64-ptest/4991 failed with 16267 – [scarthgap] AB-INT PTEST: python3 failure (test_wrong_cert_tls13)
+  retried in https://autobuilder.yoctoproject.org/valkyrie/?#/builders/61/builds/4994
+I don't think any of those are related to this series.
 
-Signed-off-by: Arpit Patel <arpitpa@cisco.com>
-Signed-off-by: Bastien Jauny <bastien.jauny@smile.fr>
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
----
- .../sqlite/sqlite3/CVE-2026-119375.patch      | 47 +++++++++++++++++++
- meta/recipes-support/sqlite/sqlite3_3.45.3.bb |  3 ++
- 2 files changed, 50 insertions(+)
+The following changes since commit d521a7d8364fe038ce5205003170e80de218a83a:
+
+  aspell: upgrade 0.60.8.1 -> 0.60.8.2 (2026-11-20 16:25:55 +0100)
+
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-review
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-review
+
+for you to fetch changes up to 3948efd5497c7ad5dcb71aedc47cae6dfb72d65b:
+
+  rust: enable dynamic LLVM linking by default (2026-11-27 12:00:41 +0100)
+
+----------------------------------------------------------------
+
+Anders Heimer (1):
+  python3-certifi: correct license to MPL-2.0
+
+Ankur Tyagi (2):
+  aspell: upgrade 0.60.8.2 -> 0.60.8.3
+  tzdata/tzcode-native: upgrade 2026e -> 2026f
+
+Arpit Patel (8):
+  sqlite3: fix CVE-2026-119374
+  sqlite3: Fix CVE-2026-119377
+  sqlite3: fix CVE-2026-119375
+  sqlite3: fix CVE-2026-119372
+  sqlite3: fix CVE-2026-119378
+  sqlite3: fix CVE-2026-119376
+  sqlite3: fix CVE-2026-119371
+  sqlite3: fix CVE-2026-119591
+
+Bruce Ashfield (2):
+  linux-yocto/6.6: update to v6.6.162
+  linux-yocto/6.6: perf cs-etm: fix a compilation issue in
+    cs_etm_decoder__set_tid()
+
+Colin Pinnell McAllister (1):
+  ffmpeg: Fix CVE-2026-40962
+
+Deepak Rathore (1):
+  ruby: Upgrade 3.3.10 -> 3.3.14
+
+Devansh Patel (1):
+  curl: Fix CVE-2026-7168
+
+Hetvi Thakar (1):
+  go: Fix CVE-2026-33814
+
+João Marcos Costa (Schneider Electric) (3):
+  glibc: fix CVE-2026-84243
+  sqlite3: fix CVE-2026-119373
+  sqlite3: fix CVE-2026-119379
+
+Peter Marko (8):
+  boost: patch CVE-2023-34399
+  popt: patch CVE-2026-18839
+  dropbear: add follow-up patches for CVE-2019-6111
+  dropbear: patch CVE-2026-35385
+  libsndfile1: patch CVE-2024-50613
+  libsndfile1: patch CVE-2025-52194
+  libsndfile1: patch CVE-2026-109828
+  speex: patch CVE-2026-116741
+
+Prasanth R (2):
+  gnupg: fix CVE-2026-57062
+  gnupg: fix CVE-2026-105712
+
+Richard Purdie (2):
+  populate_sdk_ext: Fix locale error handling in SDK
+  rust-llvm: Disable libedit
+
+Rohini Sangam (1):
+  libxml2: Security fix for CVE-2026-74860
+
+Sunil Dora (2):
+  rust-llvm: build and install the LLVM shared library
+  rust: enable dynamic LLVM linking by default
+
+Yoann Congal (1):
+  linux-yocto/6.6: update CVE exclusions (6.6.162)
+
+Yogita Urade (1):
+  bison: fix CVE-2026-56390
+
+ meta/classes-recipe/populate_sdk_ext.bbclass  |    2 +-
+ meta/lib/oeqa/selftest/cases/rust.py          |    2 +-
+ ...2019-6111.patch => CVE-2019-6111-01.patch} |    0
+ .../dropbear/dropbear/CVE-2019-6111-02.patch  |  364 +++++
+ .../dropbear/dropbear/CVE-2019-6111-03.patch  |   43 +
+ .../dropbear/dropbear/CVE-2019-6111-04.patch  |   34 +
+ .../dropbear/dropbear/CVE-2019-6111-05.patch  |   43 +
+ .../dropbear/dropbear/CVE-2026-35385.patch    |   42 +
+ .../recipes-core/dropbear/dropbear_2022.83.bb |    7 +-
+ .../glibc/glibc/CVE-2026-84243.patch          |  193 +++
+ meta/recipes-core/glibc/glibc_2.39.bb         |    1 +
+ .../libxml/libxml2/CVE-2026-74860.patch       |   35 +
+ meta/recipes-core/libxml/libxml2_2.12.10.bb   |    1 +
+ .../bison/bison/CVE-2026-56390.patch          |  230 +++
+ meta/recipes-devtools/bison/bison_3.8.2.bb    |    1 +
+ meta/recipes-devtools/go/go-1.22.12.inc       |    1 +
+ .../go/go/CVE-2026-33814.patch                |   44 +
+ .../python/python3-certifi_2026.10.19.bb      |    2 +-
+ ...x-cross-compilation-of-external-gems.patch |   11 +-
+ ...ine-REG_S1-and-REG_S2-for-musl-riscv.patch |    7 +-
+ ...doc-build-reproducible-documentation.patch |   16 +-
+ ...-list-of-object-files-in-generated-M.patch |    7 +-
+ ...eproducible-change-fixing-784225-too.patch |    7 +-
+ .../0006-Make-gemspecs-reproducible.patch     |    5 +-
+ ..._rm_r_no_permissions-test-under-root.patch |    5 +-
+ .../ruby/{ruby_3.3.10.bb => ruby_3.3.14.bb}   |    2 +-
+ .../recipes-devtools/rust/rust-llvm_1.75.0.bb |   16 +-
+ meta/recipes-devtools/rust/rust_1.75.0.bb     |    4 +
+ meta/recipes-extended/timezone/timezone.inc   |    6 +-
+ .../linux/cve-exclusion_6.6.inc               | 1322 +++++++++++++++--
+ .../linux/linux-yocto-rt_6.6.bb               |    6 +-
+ .../linux/linux-yocto-tiny_6.6.bb             |    6 +-
+ meta/recipes-kernel/linux/linux-yocto_6.6.bb  |   28 +-
+ .../ffmpeg/ffmpeg/CVE-2026-40962.patch        |   61 +
+ .../recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb |    1 +
+ .../libsndfile1/CVE-2024-50613.patch          |  348 +++++
+ .../libsndfile1/CVE-2025-52194.patch          |   27 +
+ .../libsndfile1/CVE-2026-109828-01.patch      |  234 +++
+ .../libsndfile1/CVE-2026-109828-02.patch      |   26 +
+ .../libsndfile/libsndfile1_1.2.2.bb           |    4 +
+ .../speex/speex/CVE-2026-116741.patch         |   29 +
+ meta/recipes-multimedia/speex/speex_1.2.1.bb  |    5 +-
+ ...{aspell_0.60.8.2.bb => aspell_0.60.8.3.bb} |    2 +-
+ .../boost/boost/CVE-2023-34399.patch          |   35 +
+ meta/recipes-support/boost/boost_1.84.0.bb    |    1 +
+ .../curl/curl/CVE-2026-7168.patch             |   83 ++
+ meta/recipes-support/curl/curl_8.7.1.bb       |    1 +
+ .../gnupg/CVE-2026-105712-regression.patch    |   40 +
+ .../gnupg/gnupg/CVE-2026-105712.patch         |  194 +++
+ .../gnupg/gnupg/CVE-2026-57062.patch          |   43 +
+ meta/recipes-support/gnupg/gnupg_2.4.9.bb     |    3 +
+ .../popt/popt/CVE-2026-18839-01.patch         |   89 ++
+ .../popt/popt/CVE-2026-18839-02.patch         |  419 ++++++
+ meta/recipes-support/popt/popt_1.19.bb        |    2 +
+ .../sqlite3/CVE-2026-119371-dependent.patch   |  109 ++
+ .../sqlite/sqlite3/CVE-2026-119371.patch      |  104 ++
+ .../sqlite/sqlite3/CVE-2026-119372.patch      |   56 +
+ .../sqlite/sqlite3/CVE-2026-119373.patch      |   48 +
+ .../sqlite/sqlite3/CVE-2026-119374.patch      |   78 +
+ .../sqlite/sqlite3/CVE-2026-119375.patch      |   47 +
+ .../sqlite/sqlite3/CVE-2026-119376.patch      |   75 +
+ .../CVE-2026-119377-dependent_p1.patch        |   86 ++
+ .../CVE-2026-119377-dependent_p2.patch        |   59 +
+ .../sqlite/sqlite3/CVE-2026-119377_p1.patch   |   52 +
+ .../sqlite/sqlite3/CVE-2026-119377_p2.patch   |   51 +
+ .../sqlite/sqlite3/CVE-2026-119378.patch      |   52 +
+ .../sqlite/sqlite3/CVE-2026-119379.patch      |   70 +
+ .../sqlite/sqlite3/CVE-2026-119591.patch      |   40 +
+ meta/recipes-support/sqlite/sqlite3_3.45.3.bb |   14 +
+ 69 files changed, 4931 insertions(+), 150 deletions(-)
+ rename meta/recipes-core/dropbear/dropbear/{CVE-2019-6111.patch => CVE-2019-6111-01.patch} (100%)
+ create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2019-6111-02.patch
+ create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2019-6111-03.patch
+ create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2019-6111-04.patch
+ create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2019-6111-05.patch
+ create mode 100644 meta/recipes-core/dropbear/dropbear/CVE-2026-35385.patch
+ create mode 100644 meta/recipes-core/glibc/glibc/CVE-2026-84243.patch
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-74860.patch
+ create mode 100644 meta/recipes-devtools/bison/bison/CVE-2026-56390.patch
+ create mode 100644 meta/recipes-devtools/go/go/CVE-2026-33814.patch
+ rename meta/recipes-devtools/ruby/{ruby_3.3.10.bb => ruby_3.3.14.bb} (98%)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-40962.patch
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2024-50613.patch
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2025-52194.patch
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2026-109828-01.patch
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2026-109828-02.patch
+ create mode 100644 meta/recipes-multimedia/speex/speex/CVE-2026-116741.patch
+ rename meta/recipes-support/aspell/{aspell_0.60.8.2.bb => aspell_0.60.8.3.bb} (93%)
+ create mode 100644 meta/recipes-support/boost/boost/CVE-2023-34399.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-7168.patch
+ create mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2026-105712-regression.patch
+ create mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2026-105712.patch
+ create mode 100644 meta/recipes-support/gnupg/gnupg/CVE-2026-57062.patch
+ create mode 100644 meta/recipes-support/popt/popt/CVE-2026-18839-01.patch
+ create mode 100644 meta/recipes-support/popt/popt/CVE-2026-18839-02.patch
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119371-dependent.patch
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119371.patch
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119372.patch
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119373.patch
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119374.patch
  create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119375.patch
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119376.patch
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119377-dependent_p1.patch
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119377-dependent_p2.patch
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119377_p1.patch
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119377_p2.patch
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119378.patch
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119379.patch
+ create mode 100644 meta/recipes-support/sqlite/sqlite3/CVE-2026-119591.patch
 
-diff --git a/meta/recipes-support/sqlite/sqlite3/CVE-2026-119375.patch b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119375.patch
-new file mode 100644
-index 00000000000..390a3f5234b
---- /dev/null
-+++ b/meta/recipes-support/sqlite/sqlite3/CVE-2026-119375.patch
-@@ -0,0 +1,47 @@
-+From c9e05db641c387aad309081b35afa3e703aa075d Mon Sep 17 00:00:00 2001
-+From: drh <>
-+Date: Sun, 16 Aug 2026 10:49:39 +0000
-+Subject: [PATCH] When reading a frame from a WAL file where the WAL pagesize
-+ and the database pagesize disagree, be sure to fully initialize the page that
-+ is read.
-+
-+FossilOrigin-Name: f9b4ee369557c36c606666bd7e6d8dc4685d87531993d3ce4e7a718aa814a5ac
-+
-+CVE: CVE-2026-119375
-+Upstream-Status: Backport [https://github.com/sqlite/sqlite/commit/e5bf119821f25be1d7f10ef0a2edbe175289166e]
-+
-+Backport Changes:
-+- Applied the src/wal.c change to sqlite3.c because the recipe source
-+  uses the amalgamated SQLite layout.
-+- Omitted manifest and manifest.uuid because they are Fossil
-+  repository metadata and are not needed in this source patch.
-+
-+Signed-off-by: Arpit Patel <arpitpa@cisco.com>
-+---
-+ sqlite3.c | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
-+
-+diff --git a/sqlite3.c b/sqlite3.c
-+index a397e4d36b..afcf2b1969 100644
-+--- a/sqlite3.c
-++++ b/sqlite3.c
-+@@ -68201,11 +68201,15 @@ SQLITE_PRIVATE int sqlite3WalReadFrame(
-+   i64 iOffset;
-+   sz = pWal->hdr.szPage;
-+   sz = (sz&0xfe00) + ((sz&0x0001)<<16);
-++  if( nOut>sz ){
-++    memset(pOut+sz, 0, nOut-sz);
-++    nOut = sz;
-++  }
-+   testcase( sz<=32768 );
-+   testcase( sz>=65536 );
-+   iOffset = walFrameOffset(iRead, sz) + WAL_FRAME_HDRSIZE;
-+   /* testcase( IS_BIG_INT(iOffset) ); // requires a 4GiB WAL */
-+-  return sqlite3OsRead(pWal->pWalFd, pOut, (nOut>sz ? sz : nOut), iOffset);
-++  return sqlite3OsRead(pWal->pWalFd, pOut, nOut, iOffset);
-+ }
-+ 
-+ /*
-+-- 
-+2.35.6
-+
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.45.3.bb b/meta/recipes-support/sqlite/sqlite3_3.45.3.bb
-index 84d67ce977f..d5d5f101b0a 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.45.3.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.45.3.bb
-@@ -17,6 +17,9 @@ SRC_URI = "http://www.sqlite.org/2024/sqlite-autoconf-${SQLITE_PV}.tar.gz \
-            file://CVE-2026-119377-dependent_p2.patch \
-            file://CVE-2026-119377_p1.patch \
-            file://CVE-2026-119377_p2.patch \
-+           file://CVE-2026-119373.patch \
-+           file://CVE-2026-119374.patch \
-+           file://CVE-2026-119375.patch \
-           "
- SRC_URI[sha256sum] = "b2809ca53124c19c60f42bf627736eae011afdcc205bb48270a5ee9a38191531"
- 
