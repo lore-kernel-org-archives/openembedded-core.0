@@ -1,62 +1,62 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1547.1795801794754039838
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1548.1795801795678443104
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Nov 2026 09:49:55 -0800
+ Fri, 27 Nov 2026 09:49:56 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=JIm2V8AZ;
- spf=pass (domain: smile.fr, ip: 209.85.221.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48dee593f18so7863525f8f.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 09:49:54 -0800 (PST)
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=HtNUIvmF;
+ spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4a2153c8525so68183575e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 09:49:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google2; t=1795801793; x=1796406593; darn=lists.openembedded.org;
+        d=smile.fr; s=google2; t=1795801794; x=1796406594; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=bja3U64BOA4vSixJAX8yoQyccXEpK8pDonbnWODZh+w=;
-        b=JIm2V8AZYhG2/oXxVxlokmDZqwnYGRLYSeRoPvRyCmf3V6vw4wxX56wdcUFpmK9DW2
-         64+wIRBXvBMOkmv9tU+GGKt44AU3gsU2M53owZ91UTFv152QpJPwLcvF8Y6DlN4mZ2S2
-         GcE0CvLdZe1E0LZWHuauBndTRLWFPF5qbvHCM5SLHoSnf4PdtD6rtwP4eynghD+2cvuJ
-         RG7M7b15S5AVXstwL9LhSt9V4fHFjqPrSNHZLSfabs0+ZCXRHJO9n2ZzLo0LPEXz5KOi
-         Kxuwbik/w9SKiTXEEfp3Yyh5SKbCkw7ptM9jz6ow7VKfG0PGIM3X5HCMFBy82VMQC15t
-         Ic+Q==
+        bh=kaYjf8GRatX2PPzjAgzJjxpRLLK7OVCyGgqwZfRhwIo=;
+        b=HtNUIvmFMwLrHJSE9rSu4AQFq+nlS2aVU0NhRdVV9d1qxFrh/0ovTqkzePjL9m8/IA
+         N0KR8husBagj89/BXyOH1oeCmFrN8cISrCjW7+1WaJUMiaHvDaYTcjlfnie9LBOe3eMj
+         wJ8nsvajAVf7Www82b/RrPwzddukg9p/WdFrcQdHxTvPQDKFeUJw5tAuzQOhyEBlKWAZ
+         tLAj5x3xJ4Q7oI90pTA5SUaPpLLujC4uTX/4bsZG/wstyJJyz4AdMAF31keHjl6TCF/5
+         LwOPeSJX9jQ8SeZz+/s+qazGaOVs68dP2HVuoW/NXJC2VduI8wC4pMh+nkLoHVpDclLs
+         I0hw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795801793; x=1796406593;
+        d=1e100.net; s=20260707; t=1795801794; x=1796406594;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=bja3U64BOA4vSixJAX8yoQyccXEpK8pDonbnWODZh+w=;
-        b=F0O595dxE0yaj1gdwckyc+d0pilc4YSV9/KaG32S7Yl1TKSYKvXg5WOtzOzSHYoMK9
-         cZQqzZLOHjeBRvjqJ4pw66P3g9g5M/LUs4rGxv2Z1+DxEDl0lpcsSmd8/SVdIxvgtZim
-         UEFa8NFsL6P/jjD4AmDttQLOzytrD/h6D9b7esobNyS5MnhsEYfZ/amymVLXFSHKjmwV
-         6dnz4caWziUVuicbab6dxu4q3Djz4yHlk/CW7Nrld0yZ6jcwjPouZRxJwYVbtqHX92dv
-         PibnYM8UOZXY5kG1fBMS6Uy7aecPcbuX/jlK2QuFBIaLw9pWhyTgDJRJdtIq4y4ZFN55
-         Uk/w==
-X-Gm-Message-State: APuU4Z9Yo95yXD+UCk33gVkUP3J6aiacaviKI1aQwBaBK/tPEuWGFhhp
-	ib4VUpCAE936gFYzPaH6+JOIqL9ZmDtYmVKcEWhdZvfD26DIl3j+5kXB3V964zmy/sKBSvCgRbv
-	5NERfUjI=
-X-Gm-Gg: AZFdTZfIYu78NnIB6f1lBpWuPlS8xtAG9iPKkadU/pEqj+ZyegMrxZUbzySFpp4mB05
-	XCvNRQ4fGmQLlrFVIe+xQXfp6dOh89UVsJLGtbsozGFZigDIkG88epbniIVBHy37Ag4hTeykLXJ
-	QXNrQQvHB5V6H1JoKTkRN2KGD6vrL/+5CBBbBBbq66k+fxjuzCvjGK7eObfPF7v/kwS0S0hWnW7
-	Eo5LaVm4q3ZmY9ePo7O6/w8URq5VL1JChXYLVUJGbxu5/oN7WH4vdk/Pd4y/OzyfZ6NvGDTU+8q
-	NIRkwz8fGltntiiSK4i1xOwZILwbVd45dNNDz/BWiL5V/ZbHGNTRi23W4nD+6ydzkWoSd+AvQVn
-	dc340lsGueKYIFg+GPzoRcFjRlayy0I/hV9OCEMXPE7fyVI39HROmo08vxuMLlm0ubkd7xpZd2z
-	ES/3UwlH53QKIh/DeXYUT3lLhPz47mUDe4TT4dVe/jAf9qqZSKyvUTpd9dh/7OOEK7bD8b9O0Kp
-	jn2qnQaa+Boq0Hi/svI/Mmx8OalxUlnoqtUKmJt0f8LRCVdtgAvtJH0P2vJXu6mYjqalg6+kQtZ
-	QPtbm+3KsaPMXDslOg/flk+vrLCLU6D1nXrDpg9NXpN3K4S4m6yVV7iOPMgeVVdOsmkTjFVDzEY
-	uHMscQVDp4tCbafd6a0CeaMoRNzAqVQ==
-X-Received: by 2002:a05:600c:4e02:b0:4bb:8636:dd7d with SMTP id 5b1f17b1804b1-4bb88817f77mr507308315e9.24.1795801792950;
-        Fri, 27 Nov 2026 09:49:52 -0800 (PST)
+        bh=kaYjf8GRatX2PPzjAgzJjxpRLLK7OVCyGgqwZfRhwIo=;
+        b=GtJW4maQjP00PDD60z3rSA0fXOlYTjO52SbGmf+XhafOkpHReWtf4cCEmwWuBUs2Wx
+         LuVDzFTYBrAludGFkpHPJaxUlI/ih+LiDY2TMcyx9s8mvdAJZZ9xK3MhDzeICHE+mynZ
+         FiqC+g/zvH3xoHd1GXT7MCO3tVkxCXmhS+Z2WpJT8hylhyhgyaN74KeVAkF+zQVX1+7F
+         s9FeitR5KFARzN4ui90WV500x6cltK/wSN093QdsDfTnwkAKiHNzFd2aMwUPZlho+e22
+         2hC6dVtyB0vsu9wR2XJfzmnwjiksA4nsJP7fm347mRlpfcJzyJsZofnoqYqsAP5qAvzR
+         QP9w==
+X-Gm-Message-State: APuU4Z+Vov2BAJfkdh27YMJF0omUD9S1fCeqU8i0G7ywmf85O5cQTsM6
+	r9Me0eZdAahbtCqkdmSTWGtNoeac56kD/HVKy4oAQyZrgWcyeLaxEJ+mn3HMnCstEbuxdAJJe8H
+	D02yyl0Q=
+X-Gm-Gg: AZFdTZdGKxtsMzu8I2DBkpc862tGJEqZQZTDYDRP7UWjsrSjIaGjNL1u0sVofJW6FyL
+	c3kG190w4+h54rfh4rgqALmnqrw+tXhcsLYvKEA5JrDg/SYpqXG5g4bk0djkMSjfpZVaMt8OCby
+	oyY4mzSdwW/0uCOGCoJMlvyBFCPqz5RANFoFFwfJxVCVeJdZf1dKkxNcjUdG3qBWLI35nmVxKY0
+	4jc2D6hF77cW5PkvAorOsQ95piEgmOjp+Y14xA1nmLG38KJ4lLvJGYLkjE+RjRLJyMJRLeyP2Wp
+	hKpEVIvnYDJ9kCSlkmwruQf+IzK86ITN/zPtAzDK9Ia55kUErCb1Y49aVf93P370xrqy5CIkT4J
+	WizHgREgr02Z7MU5pQHl2Y/a59hkF3XC99u31rCkRIfiNCd6a4AZh2Q30wgisvI2Gf8BifsoXXg
+	08I3/nEdD3O+5IpgUjgYZer5woo9FSWLiLpD/J2DkVIfDpxmoQBC5LA0znLjIEoAVpp3W4lWosL
+	73kzqu0Oc3+hgygMfZkF3EKxTertLgoNo8yXEfFTz9Dsw/Yd+Wmr1LnnM9ktHWO8b35VJX8cLAe
+	rLF5pqWxftoo19CBRvt5c8WzLH4YVSM2LaROIvxVKuVanMYw/zVamKQ1AD+9evxhTmFJn+icu0o
+	NJ/x1b9SWWdyEMPqOT+7SfjTtrBjJ
+X-Received: by 2002:a05:600c:5251:b0:4a1:f8cb:7d70 with SMTP id 5b1f17b1804b1-4bb8881e837mr485535035e9.24.1795801793924;
+        Fri, 27 Nov 2026 09:49:53 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab69bf630esm49374624f8f.16.2026.11.27.09.49.52
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab69bf630esm49374624f8f.16.2026.11.27.09.49.53
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 09:49:52 -0800 (PST)
+        Fri, 27 Nov 2026 09:49:53 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 33/37] go: Fix CVE-2026-33814
-Date: Fri, 27 Nov 2026 18:49:16 +0100
-Message-ID: <683b25e165a942a550e21e46f72fcc1dc2d31d8b.1795798718.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 35/37] rust-llvm: build and install the LLVM shared library
+Date: Fri, 27 Nov 2026 18:49:18 +0100
+Message-ID: <1d4332e084848a236fa6051df1fe6b28a7c395ef.1795798718.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1795798718.git.yoann.congal@smile.fr>
 References: <cover.1795798718.git.yoann.congal@smile.fr>
@@ -64,84 +64,82 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 17:49:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251439
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251441
 Content-Type: text/plain; charset="utf-8"
 
-From: Hetvi Thakar <hthakar@cisco.com>
+From: Sunil Dora <sunilkumar.dora@windriver.com>
 
-This patch applies the upstream fix as referenced in [2],
-using the commit shown in [1].
+For the rustc segfault in [YOCTO #16058] rust has to link LLVM
+dynamically. On master libLLVM.so comes from the llvm recipe, rust-llvm
+was dropped there [1]. scarthgap still builds LLVM for rust from this
+recipe and it builds only static libs. So add the shared lib here.
 
-[1] https://github.com/golang/go/commit/9024c3f6b150fb1349d8a5dc5e9aa31d7896f67f
-[2] https://pkg.go.dev/vuln/GO-2026-4918
+Need both LLVM_BUILD_LLVM_DYLIB and LLVM_LINK_LLVM_DYLIB. With only the
+first one "llvm-config --link-shared --libs" gives the per component
+libs (which don't exist) instead of -lLLVM-17. llvm-config and
+llvm-tblgen stay static, so the native llvm-config rust uses keeps
+working. master had the same two options for rust-llvm [2] when it
+still had the recipe.
 
-Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
+LLVM installs the lib as ${libdir}/llvm-rust/lib/libLLVM-17.so. Nothing
+looks there at runtime, it is not a default loader path and the RUNPATH
+of the rust binaries does not point there. So move it to ${libdir} and
+keep a symlink behind, the -L path from llvm-config still works at link
+time.
+
+Package it as ${PN}-libllvm. Otherwise the .so goes to ${PN}-dev by the
+default rules and rust would rdepend on a -dev package. Static libs are
+still installed, rust without llvm-shared is not affected.
+
+[1] https://git.openembedded.org/openembedded-core/commit/?id=c116828a876853cd5b53f7bd4607f0037fef4ee4
+[2] https://git.openembedded.org/openembedded-core/commit/?id=2b6a6d4199e4eed65f20351d077a04a7cf9da460
+
+[YOCTO #16058]
+
+Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-devtools/go/go-1.22.12.inc       |  1 +
- .../go/go/CVE-2026-33814.patch                | 44 +++++++++++++++++++
- 2 files changed, 45 insertions(+)
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-33814.patch
+ meta/recipes-devtools/rust/rust-llvm_1.75.0.bb | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/go/go-1.22.12.inc b/meta/recipes-devtools/go/go-1.22.12.inc
-index cec3bbbb4ee..5695e907d96 100644
---- a/meta/recipes-devtools/go/go-1.22.12.inc
-+++ b/meta/recipes-devtools/go/go-1.22.12.inc
-@@ -64,6 +64,7 @@ SRC_URI += "\
-     file://CVE-2026-27145.patch \
-     file://CVE-2026-39823.patch \
-     file://CVE-2026-56862.patch \
-+    file://CVE-2026-33814.patch \
- "
- SRC_URI[main.sha256sum] = "012a7e1f37f362c0918c1dfa3334458ac2da1628c4b9cf4d9ca02db986e17d71"
+diff --git a/meta/recipes-devtools/rust/rust-llvm_1.75.0.bb b/meta/recipes-devtools/rust/rust-llvm_1.75.0.bb
+index cba41c739e9..76335dc0559 100644
+--- a/meta/recipes-devtools/rust/rust-llvm_1.75.0.bb
++++ b/meta/recipes-devtools/rust/rust-llvm_1.75.0.bb
+@@ -47,6 +47,8 @@ EXTRA_OECMAKE = " \
+     -DLLVM_ENABLE_LIBXML2=OFF \
+     -DLLVM_ENABLE_FFI=OFF \
+     -DLLVM_INSTALL_UTILS=ON \
++    -DLLVM_BUILD_LLVM_DYLIB=ON \
++    -DLLVM_LINK_LLVM_DYLIB=ON \
+     -DLLVM_BUILD_EXAMPLES=OFF \
+     -DLLVM_INCLUDE_EXAMPLES=OFF \
+     -DLLVM_BUILD_TESTS=OFF \
+@@ -84,15 +86,26 @@ export YOCTO_ALTERNATE_EXE_PATH = "${STAGING_LIBDIR}/llvm-rust/bin/llvm-config"
+ do_install:append () {
+     # we don't need any of this stuff to build Rust
+     rm -rf "${D}/usr/lib/cmake"
++
++    # rustc links to libLLVM (llvm-shared in rust). Nothing searches
++    # llvm-rust/lib at runtime, so move the library to ${libdir} and keep
++    # a symlink for the -L path given by llvm-config.
++    for lib in ${D}${libdir}/llvm-rust/lib*/libLLVM-*.so; do
++        [ -f "$lib" ] && [ ! -L "$lib" ] || continue
++        mv "$lib" ${D}${libdir}/
++        ln -s ../../$(basename "$lib") "$lib"
++    done
+ }
  
-diff --git a/meta/recipes-devtools/go/go/CVE-2026-33814.patch b/meta/recipes-devtools/go/go/CVE-2026-33814.patch
-new file mode 100644
-index 00000000000..8265bf205f6
---- /dev/null
-+++ b/meta/recipes-devtools/go/go/CVE-2026-33814.patch
-@@ -0,0 +1,44 @@
-+From 825d42a14d8ffbdbdda87a39e78795eb17e4f0f2 Mon Sep 17 00:00:00 2001
-+From: Mark Freeman <mark@golang.org>
-+Date: Fri, 17 Apr 2026 16:28:03 -0400
-+Subject: [PATCH] [release-branch.go1.25] all: update x/net to a9171bc8
-+
-+Fixes #78477
-+
-+Change-Id: I0a4c8e25f569fc1bfb8ac39ff728bfe7300b751f
-+Reviewed-on: https://go-review.googlesource.com/c/go/+/768323
-+Reviewed-by: Dmitri Shuralyov <dmitshur@google.com>
-+TryBot-Bypass: Dmitri Shuralyov <dmitshur@google.com>
-+
-+CVE: CVE-2026-33814
-+Upstream-Status: Backport [https://github.com/golang/go/commit/9024c3f6b150fb1349d8a5dc5e9aa31d7896f67f]
-+
-+Backport Changes:
-+- Omitted src/go.mod, src/go.sum, and src/vendor/modules.txt because
-+  their x/net version updates are not required for this focused backport.
-+- Omitted removal of the SETTINGS_ENABLE_CONNECT_PROTOCOL-specific
-+  s.Valid call because Go 1.22 does not contain that setting case; validation
-+  is added at the start of the settings callback instead.
-+
-+(cherry picked from commit 9024c3f6b150fb1349d8a5dc5e9aa31d7896f67f)
-+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
-+---
-+ src/net/http/h2_bundle.go | 3 +++
-+ 1 file changed, 3 insertions(+)
-+
-+diff --git a/src/net/http/h2_bundle.go b/src/net/http/h2_bundle.go
-+index c1a2e76ea4d..2f5a6d3d5a2 100644
-+--- a/src/net/http/h2_bundle.go
-++++ b/src/net/http/h2_bundle.go
-+@@ -9910,6 +9910,9 @@ func (rl *http2clientConnReadLoop) processSettingsNoWrite(f *http2SettingsFrame)
-+ 
-+ 	var seenMaxConcurrentStreams bool
-+ 	err := f.ForeachSetting(func(s http2Setting) error {
-++		if err := s.Valid(); err != nil {
-++			return err
-++		}
-+ 		switch s.ID {
-+ 		case http2SettingMaxFrameSize:
-+ 			cc.maxFrameSize = s.Val
-+-- 
-+2.35.6
+-PACKAGES =+ "${PN}-bugpointpasses ${PN}-llvmhello ${PN}-liblto"
++PACKAGES =+ "${PN}-bugpointpasses ${PN}-llvmhello ${PN}-liblto ${PN}-libllvm"
+ 
+ # Add the extra locations to avoid the complaints about unpackaged files
+ FILES:${PN}-bugpointpasses = "${libdir}/llvm-rust/lib/BugpointPasses.so"
+ FILES:${PN}-llvmhello = "${libdir}/llvm-rust/lib/LLVMHello.so"
+ FILES:${PN}-liblto = "${libdir}/llvm-rust/lib/libLTO.so.*"
++FILES:${PN}-libllvm = "${libdir}/libLLVM-*.so"
+ FILES:${PN}-staticdev =+ "${libdir}/llvm-rust/*/*.a"
++RDEPENDS:${PN}-dev += "${PN}-libllvm"
+ FILES:${PN} += "${libdir}/libLLVM*.so.* ${libdir}/llvm-rust/lib/*.so.* ${libdir}/llvm-rust/bin"
+ FILES:${PN}-dev += "${datadir}/llvm ${libdir}/llvm-rust/lib/*.so ${libdir}/llvm-rust/include ${libdir}/llvm-rust/share ${libdir}/llvm-rust/lib/cmake"
+ 
