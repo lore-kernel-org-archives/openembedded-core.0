@@ -1,105 +1,135 @@
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17782.1795793194768454732
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17799.1795793272309716807
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Nov 2026 07:26:34 -0800
+ Fri, 27 Nov 2026 07:27:52 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=TG7LSKG0;
- spf=pass (domain: gmail.com, ip: 74.125.82.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-386ab9ab619so11335954eec.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 07:26:34 -0800 (PST)
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=XODoYwxL;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=FYrDp9PQ;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: daiane.angolini@oss.qualcomm.com)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6ARE1FnA2683810
+	for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 15:27:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=7y7vIVV/ZkN2OloLL/z+c2+nVSWAycZ76/e
+	WnT/V2ZU=; b=XODoYwxLNqT/jzYrVtVVudnqAc/fvfLXWwFWneDkZsAJ0s8oexF
+	mjeSJFB4IB4SA0z/pq0uCw5saNswouLO5Bh9XFdH+GQRvX61zV3Us/la/xjqAwgc
+	VHbVNAaUdnjffIUGhskfisj0BpejK4mzO2GrBJXHfAnXYeo/tsbN3PqlZ9HehklZ
+	34PvqI6GExW1zI6/OYxdRTi8+vwxvAGeClgXZC7IWzJY6npaGNrEuRn57Qg4e/Wb
+	2rg5wcqEeX0cM68FQtgpVJ/8spwOoEvz5qOhpnatMkdRXxyFpVja04SczC840naA
+	vqsIumL4EWxnNe0rNWGD8vxoVZiDsZqE6aQ==
+Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4j73uhj81n-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 15:27:51 +0000 (GMT)
+Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-2f074b87307so51216875ad.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 07:27:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795793194; x=1796397994; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=7YJ0ZugE1BZHLwcET2KIi/+OBoo5FlZUV05q6LKfIDQ=;
-        b=TG7LSKG0Yg/3JXmI8rPSn+OBKtlr0WxK9Hi9Hy/bnbcJ0I+YIVFE8IllhYCHAJS5ca
-         LNIUmV/xPI0NYLujvjeJ5ac5EqRUrvm5Ozdp6byURFUX6Vk1b4v0sS1pEdVajiMTbXnW
-         gT483m85ng1RcYB8AdY52Hrf+FHMplXu8Kw0alR2YKTAv44aWv/WnhnCqV1RBcdM4Qzq
-         m1XW9AVbKAzBYSJ7g4wLI0cTwkQzAEf1fcdxS7VVniMxhlIYEZyyUNvIElQiqEIScsek
-         hyXN4LHnnv6KizmWH9+DWGxgLmkYRgFuZi2NLcy1VP3Jny1/wehPwfuQgpcvuAEmevCn
-         nyAA==
+        d=oss.qualcomm.com; s=google; t=1795793271; x=1796398071; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=7y7vIVV/ZkN2OloLL/z+c2+nVSWAycZ76/eWnT/V2ZU=;
+        b=FYrDp9PQle206bjrt2j7ioSk7UXVT+JzEriqBVG1KiGjOAUxaWfCc0pwTWwwMmf4Nk
+         IQwybuIuCmmOfRzrXvrHkVma4Ef4lgg8ZrzRI1aZIgYgqB1daN7YIIKMUKgvMUiGPXFh
+         oFvUdyiQPozpbg5U3NyHC7ztvKRlG89s/VlJGy1iI3u594m/RkhIbKd/RKi92TMctaaN
+         5ouZRjhf2e0rNR5w5R07tdHdkLlqe4vwQwfCdMMPzLoTLl/biEMK2JWnwT0K7I5qnUOH
+         CKzuDm/hx8eB7anI8MPJtmLEXhnb0GxDXvva2ajJxzNco+SzXtUQBa4y8mVjd8EPRBBV
+         LEmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795793194; x=1796397994;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=7YJ0ZugE1BZHLwcET2KIi/+OBoo5FlZUV05q6LKfIDQ=;
-        b=lilUagEx1PfMWvf0/1oAF//6+ishwrOxX8wc64xS0/4IYs4TYFUuBGfcP9HKO3Rbaz
-         wMOQ/O46RrR2ybLqj5eicMcYt5K5Mh6urFCYwimejzEzxnlkz+4MxpKuWAzAvFYVP3Nd
-         V1jwtTgg3I+2u4my80l6sxU+qYOyJWF8e5aTpplm0E7X02UVUBLyATSAzEuW6oEnMJuL
-         3CReRpW5uFg+9G8kN7xn3cytdcFYM0ERIiv3ZBqfznUuBsrsj7aKqICiak9YX+nOewiJ
-         pfAPzkloc7BMRmTs7SjEhazkpeo/czn9HyW2BjAxtDxnffgMRuwxcAiaqxEbBSnaAkZG
-         lpQw==
-X-Gm-Message-State: APuU4Z9Z8Eryv0yt5oj5Cssqnks1QS/+r6akI5KA6Z52YT+d/JU03Jz3
-	DQ8xPr+VV23WCbncAuZavrZggXsSSG6rESp+/K7e0PJ6DzNDJv361tltjZeTHgax
-X-Gm-Gg: AZFdTZfI3cs2s/uPJtVy8vy0K27nuWWyESnC6ms5jwbA14ZOjrblM4x4w8NFyr3hsN3
-	I8NEF+3bMOFUSL4JMGAlfvrr6I3q/aHnP/AMiwtyw+S9uat5FJw8tBUfNIzks6ykE/SjYxVUSxz
-	PaRy/mUkbtCGEF+imB3l3GoDTiGFh/yFDJTWowyboShr87tkjCUcfgEdsFfWFiRGc7Ecg+LpKac
-	W8Ugh6pEFygPz/KknHHJkkUWpsO7PUxt0gZrgXMY1i31BQ85TSkX5aMgI7+uEGEutaOz4dorav7
-	cTQE5h52UifOS1G/nPQBkWc8+m8sTU+wXqSmiIapKWtk/9ByQvlVYzBGSY2rkx6biPKfhgleJ5+
-	4Z2S9C8v/9JA6G3fJS6LvkiUtNIXdjHM2QUKK9XWSxvCRMguQTUG+ZM+XZjT/DqgdTzEanaJgiY
-	48YGTzPC6145Cq72tm7hsVBH/JxZjMct++YueDB9s0koCyk8CC4QeOq7zQEQvrA3L3uK7kYa6kF
-	28IvDEawhckTZl9nq39IO3wUYIXnlrW5qZdy5j0E0mLTgWwDAXuNEe/uShGDDJPECGeTEa8QrgS
-	qiPlHRFvX/1Im4bSE+ay5TSNoVfhmYSfobHbx7NnMqslMw/mgFInf/Th5RxCuXLF5dZiodPi3Re
-	v5hl9uE1yr7/BDxW82jdmmd9xc4gbyXOWOAV1pkwTbbmqIOoATUNb5F8L05d9UXgApaHljYUMUE
-	XUONzVsFZMq9pkjP8oAHvOnv4QIWK2Ow/fqxLI/l6aIIFpZv20ySDideK1B99agtly6eSXzM7Ri
-	8O/n+BaVv/EneN8gsGQ+1MpJLrfAyi2fqRynAmerjOUUpVIaGcS4gjTbJfyPfyOfZOIWXMwZ71K
-	v8LZ
-X-Received: by 2002:a05:7301:2e30:b0:376:19bd:2af9 with SMTP id 5a478bee46e88-3856c2c4a0dmr27373317eec.5.1795793193735;
-        Fri, 27 Nov 2026 07:26:33 -0800 (PST)
-Return-Path: <raj.khem@gmail.com>
-Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-386b1965c02sm40115730eec.27.2026.11.27.07.26.32
+        d=1e100.net; s=20260707; t=1795793271; x=1796398071;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=7y7vIVV/ZkN2OloLL/z+c2+nVSWAycZ76/eWnT/V2ZU=;
+        b=V/dN0zF/LyfryNWTOzASer5a3R0hHfXD/dgKd/Coa85w+NXtfmWFMPI5WwTI2IR0lX
+         FTwrJSKPqKKcdHuooA8puyVmTvG+MEJG7xqYG5m5mI9zKs0cPulvnDexka9ev497LmnR
+         2mVRW3FOenq4RWooh+SjeKUJ8aS/OEC7BOuo9gHyp2gIoqDJnuOEyWmK55P9uCWhjRIo
+         fzyMPAPlzF3oR6UCxyXjOAML05LEqtvBMUU68V2XiW/al93WJ6syRoqVkGPlmQM7qE39
+         ppwkiA+HANQWfI+XXlT/BlUHaA6tusKxs8moKcGR8lzAvXeJ8BGa7JuY5BFz+izxhvg/
+         hKGA==
+X-Gm-Message-State: APuU4Z83iZhdsr8vG4h40nTuWxl19ePElpfLKmFdo7O1A1wzcarYwJ2t
+	e+Re3R+go8l5YVcfHqRKoic5znlbUp0C9uPooXVu0+EmXvshCnensH/hKM/vOvKX0g3fEYAY0s7
+	7Uhi+O+IKibfPWW8MhroLd2xaK9fSypnobuixlQ8s/XTdDZwh8cGhOTRayH8gpHf9hKncUgaya7
+	YJefd4ndd7BMR7PgjVlg==
+X-Gm-Gg: AZFdTZcJlfTuVSjLlJtQfSSgMrEL69hl3Uh7mbS01upOUP0IgU7NZNBc3WxvgVFNGRr
+	VkH3ud1gnUd5DDM/OYX/v/uy3h2Q00oy3mvTVahnuY4Dnkh3h3xepZ73aE/J4RZ2p82bQEcKVgO
+	Pdj5BUD8/pk1oop5dplEdV3ero0usakk8GezlqNUx3Tbr6+VSdpW4UMZZmsd7+fe6cHYpsePeSW
+	94CPKKd0+Lh20UMAxNjoycG8wBMAqWTBz8GE0PPhoAEmrwn2+bo7SXp2xIl1xrgY3FLrnZ1EAjf
+	yhUatp2bcJegYoOxhLrxb295fJQ6X2qciSVU1X8U1FlehvSKoUGJB4pJbKTRKVsl7LGVrLRiyi9
+	IwIGzJwmvK7Q5xxq9eF3eYA0tZByqUQp5yW6zO/Ij0yb5mx4GfSbBprApmTBBQk2LEBGU/iwRQ9
+	P5MKGvFU6WocYMQpqgpMCq5DA=
+X-Received: by 2002:a17:903:32ce:b0:2ef:d0b0:c386 with SMTP id d9443c01a7336-2f03f170cb6mr274649815ad.32.1795793270702;
+        Fri, 27 Nov 2026 07:27:50 -0800 (PST)
+X-Received: by 2002:a17:903:32ce:b0:2ef:d0b0:c386 with SMTP id d9443c01a7336-2f03f170cb6mr274649425ad.32.1795793270189;
+        Fri, 27 Nov 2026 07:27:50 -0800 (PST)
+Received: from duda.lan ([187.183.48.203])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2f03f105b66sm123607145ad.51.2026.11.27.07.27.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 07:26:33 -0800 (PST)
-From: Khem Raj <raj.khem@gmail.com>
-X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
+        Fri, 27 Nov 2026 07:27:49 -0800 (PST)
+From: Daiane Angolini <daiane.angolini@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Khem Raj <khem.raj@oss.qualcomm.com>,
-	Peter Marko <peter.marko@siemens.com>,
-	Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-Subject: [PATCH v2] sqlite3: Enable unlock-notify for native builds
-Date: Fri, 27 Nov 2026 07:26:01 -0800
-Message-ID: <20261127152601.2851647-1-khem.raj@oss.qualcomm.com>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261126212957.2477520-1-khem.raj@oss.qualcomm.com>
-References: <20261126212957.2477520-1-khem.raj@oss.qualcomm.com>
+Cc: Daiane Angolini <daiane.angolini@oss.qualcomm.com>
+Subject: [PATCH] meta/conf/fragments/yocto/rm-work.conf: add fragment
+Date: Fri, 27 Nov 2026 12:27:12 -0300
+Message-ID: <20261127152712.3705004-1-daiane.angolini@oss.qualcomm.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Info: AW1haW4tMjYxMTI3MDA2MSBTYWx0ZWRfX6Ao2xKybEQ66
+ C7pMtRwmNXUlJOZ5P14hl6mQiWeTK7ESqYBzUbat1hGe7Rn6ZmCuV1F/isvmWhxtOBKbPt46eCb
+ k5DLKQ714iSEOOFIciVo8T9nu4Uf7Qc=
+X-Proofpoint-ORIG-GUID: DSvnKxTXVKOs0JErFfJpBsKlTVJIwASQ
+X-Proofpoint-GUID: DSvnKxTXVKOs0JErFfJpBsKlTVJIwASQ
+X-Authority-Analysis: v=2.4 cv=BbBNQbt2 c=1 sm=1 tr=0 ts=6b09a177 cx=c_pps
+ a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=XAuqcxNhqWdpT/c4fHa+Hw==:17
+ a=zJRp6_cAMcgA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=Um2Pa8k9VHT-vaBCBUpS:22 a=EUspDBNiAAAA:8
+ a=eOFwdvGiUY5CkF_VzuwA:9 a=GvdueXVYPmCkWapjIL-Q:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYxMTI3MDA2MSBTYWx0ZWRfX+EBtHC2JLGRs
+ 2MMfdfDEAp7geFfnSgrzZpZf3WlFeHK4tp815J8+fiKUAVUg27U0OM17w8cSKFUwoHFKALCBLQR
+ gnnGeWIgW62Blgqjvi+xCkhd96Lbbm0E5hXMJmsnYmd5+UYV68wSPb2iRcVa0PQrWZeAJjmLlyw
+ lfg04JVMB5MA5dxLo4xot2DciGrV1hvs44zWuAVGBr2UEazzdhV/a0w6ZJOV06aC8z8LwZv5BNa
+ X6akux+O51q0ObhMzgDfBkdnEo0MgS8Ke2Ba3442CekNgzd7ZuGssRrCKSYkCo+3jBH6Y8gVFdB
+ coWqDi5jEHXjpcOHbLK/5DHFY7vGPBL92JLfKUC/tvKpWOOz+NEtB4TbRmSjUjObNcwof//P47X
+ 4J+Rjg6hnK9Rpl+ZmXJYLquISBL9gJ13yMucLfC0sMWPNjwszgDN3qldV1jtne7PcTCFN4afKFt
+ 1P1+cOwIFdRCrpRskXw==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.138,FMLib:17.12.100.49
+ definitions=2026-11-27_02,2026-11-27_03,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0 lowpriorityscore=0 bulkscore=0 adultscore=0
+ priorityscore=1501 phishscore=0 spamscore=0 impostorscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2611040001 definitions=main-2611270061
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 15:26:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251399
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 15:27:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251400
 Content-Type: text/plain; charset="utf-8"
 
-Rust crates that use sqlx with the system SQLite build their sqlx
-proc macros for the build host, and those link sqlite3-native. sqlx
-needs sqlite3_unlock_notify(), so without it the macros fail to load,
-e.g. for influxdb3 in meta-oe:
+Add a fragment to enable rm_work with bitbake-config-build instead of
+adding it to INHERIT in the conf/local.conf.
 
-  libsqlx_macros-<hash>.so: undefined symbol: sqlite3_unlock_notify
-
-Drop the native PACKAGECONFIG override, so native uses the same
-defaults as target, which include unlock-notify.
+Tested by enabling and disabling the fragment.
 
 AI-Generated: Uses Claude Code
-Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+Signed-off-by: Daiane Angolini <daiane.angolini@oss.qualcomm.com>
 ---
-v2: Drop the :class-native override instead of adding unlock-notify to it,
-    as suggested by Peter Marko and Peter Kjellerstedt.
+ meta/conf/fragments/yocto/rm-work.conf | 6 ++++++
+ 1 file changed, 6 insertions(+)
+ create mode 100644 meta/conf/fragments/yocto/rm-work.conf
 
- meta/recipes-support/sqlite/sqlite3_3.54.1.bb | 1 -
- 1 file changed, 1 deletion(-)
+diff --git a/meta/conf/fragments/yocto/rm-work.conf b/meta/conf/fragments/yocto/rm-work.conf
+new file mode 100644
+index 0000000000..068223f643
+--- /dev/null
++++ b/meta/conf/fragments/yocto/rm-work.conf
+@@ -0,0 +1,6 @@
++BB_CONF_FRAGMENT_SUMMARY = "Remove recipe work directories after the build to save disk space"
++BB_CONF_FRAGMENT_DESCRIPTION = "Remove the work directory of each recipe once its tasks \
++complete, keeping only the logs in temp, to reduce disk usage. Use RM_WORK_EXCLUDE to keep \
++the work directory of recipes you need to inspect or debug."
++
++INHERIT += "rm_work"
+-- 
+2.53.0
 
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.54.1.bb b/meta/recipes-support/sqlite/sqlite3_3.54.1.bb
-index 681b8e1e20..af8158ed2d 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.54.1.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.54.1.bb
-@@ -32,7 +32,6 @@ CVE_PRODUCT = "sqlite"
- inherit pkgconfig siteinfo upstream-stable-release-point
- 
- PACKAGECONFIG ?= "fts4 fts5 rtree dyn_ext unlock-notify"
--PACKAGECONFIG:class-native ?= "fts4 fts5 rtree dyn_ext"
- 
- PACKAGECONFIG[editline] = "--enable-editline --with-readline-header=${STAGING_INCDIR}/editline/readline.h,--disable-editline,libedit ncurses"
- PACKAGECONFIG[readline] = "--enable-readline --with-readline-header=${STAGING_INCDIR}/readline/readline.h,--disable-readline,readline ncurses"
