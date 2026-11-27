@@ -1,51 +1,51 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1466.1795801788567680106
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1467.1795801789120821175
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Nov 2026 09:49:48 -0800
+ Fri, 27 Nov 2026 09:49:49 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google2 header.b=CioCxk3g;
- spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-4a3e706b5dfso5310210f8f.2
+ dkim=pass header.i=@smile.fr header.s=google2 header.b=KESx9GEE;
+ spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-491971ac844so7375802f8f.2
         for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 09:49:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile.fr; s=google2; t=1795801787; x=1796406587; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=jVwfL0AnLlCyGEnBVtY0ktDMTTh+AmZ8FZRFxRR3zcs=;
-        b=CioCxk3gpee7NqbzG1pYbAf3ep5BWflWJDeSv40VB8AjaDPm3PDPa2ST7g26S2EIDd
-         hqxkOlxRXCy2GUUw7Z0ByMAxUIctz1kQxoVd4/qMtERhjbiq2YMvfYAWhnZAfrO4c5wj
-         DsZkzGULGOljMjxaEdmJ5i7feyxEwJwFVMcHCzKDGwar5WvtHoGXTtiKKxnaYG+bCSsB
-         IoepUfzyC4E+OOvUpwRXmhcEzEVDFTCd9M4l1JPzm7x4YFAnmsjwc5MZcOUw81+jLs3R
-         F6EmjSyHTNFkfQtYlOzHwDSGxJ0JZRBjRvYt9AjAIi6JlKVPyRGAaHpb084kihPJSJSH
-         OQrg==
+        bh=7uL/iAtsNgC5IZY9uWFp+3spG799kJlY5szTzxZDn9g=;
+        b=KESx9GEEcW7xYYy3lZoneCvt+xj/Sp4s/EnBe+GkAD6jo253g4uNBrySQEkcPEy62e
+         q1qKID0sV8qzWHrTdRmKCDEsvc5nlIACMex3J+fSfFbNwYbT18QnISa1fTqKcIDwvzO4
+         /oI4dbS2wWMn3FFHVfM/HrD69gAt8Q5Y+wBMnS+8M/KIv8UWNgV8dBH9WOZdzU+Npx0Z
+         kUgrf9ZhWVrtHWo+7FA/YrFqI4FCjr57fmzTHyYvs1AYjTr8hXv7xVyxemOrDf3XikeQ
+         ht7YpL+J7KC9ldxBqoyeAvpq2bFQZAtikTm1PwM8YJjCeU9nFS9g2tnx6zGIysqDwwbk
+         Upqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1795801787; x=1796406587;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=jVwfL0AnLlCyGEnBVtY0ktDMTTh+AmZ8FZRFxRR3zcs=;
-        b=ce0OzEUvksV3QI8JuP3zTn4mTBcWoC8MYlzZWjrzQG8XBu//UHQqnl7Wxcb6+5BPC+
-         Lbzl963KXyQPKnzBi77smf6nMs6XlcV8fM3chabMM9Yr6ssZt+kldR1mbSlKbH4JbZL2
-         RX7yJ39FEVU5v5tbMorPdDW5bYmZ8yG4RHOedemPzYxXcF7wyXC7YPxYqEAUGwwA615p
-         CIoSXlIIGyOFk5NcTpUcBHe31cc8zzay5NENB1njMhCzSNJSTLZWIMTJY6FQyfvPt1Ku
-         arz03Do38ub+G8jm7zzeLFgeO1TD0LaTal1YAfN1vjSoJmC55CKxre9RCQtJ09ycN1Xy
-         EUmQ==
-X-Gm-Message-State: APuU4Z+IW93h/HLL9UZ9JIM+a8O7NL2MY2UpQ9SUcLB90VukZcE//wPj
-	jvT4qZD84r19myCMZ3nCdNmYsNVdv4SSorMsXTlYi4VPEWMOetZoUiw+I/M5WffI9m6xvxqZT7/
-	uiDB+WF4=
-X-Gm-Gg: AZFdTZf8k9umv9y7lJT/OAR3xQXixXYOCFBH2W9jLEkpqRM7su+b1XXNWwWHBAGOfHa
-	1/Nz6EOzsGJhtnq45IFOHUvHYQ8zi9Zh+iiGOQtxz3B3G+v/EuDUJg8vFY6bZy2SeQxKo2Pdcwy
-	1CUWdyEplQtuujF3STj8f819vA0tsEoRhQkj8gBPFOdfCgVO6OQQ1JU/q5m8/HpO5jSFzBjihxZ
-	Cb7aMeguXS5ZcF2afYS5rF8zp2KD1EHRNVOO7ASX5m6B4aba0WF2Ik5W11lg3NF2ivlzyl4TrkL
-	lSgsgKhSdZ/tSmPda63hmBT+dnZbelJf6VaVaMP1BppUzLKTbZD9mkvecU9ZbbOkSBFVYeT4Iez
-	hhBKp6LBcKPSSt/bpQWKlDgm0+tHCkESDC7A8lj64pXKmWfx4Sz5dz99dr/0+EoKJNEiQNgY8u7
-	BPEAOSSjC0pXT3LshsFqcrHl/eok9F1/d4SjUTvNuVEAg3zCe/Sd/Xy+h2O01bHXnvVgtrHuQAQ
-	BiLVvi2CmNrfAhsUBcH4ibzwyx9v0+7zh4EocbBkyBkNeMznScD24fWf+zdNMamukKETFLVd6Xs
-	M5giwdGSTWlRx22YU59tAMg9rBhTmR3HXl+6p4rV0lhLGWW43XknApZTy6xnPpyvLJXI+Tenssc
-	BEG8AkQGqLmXOFwc8bev17DWRbYle/w==
-X-Received: by 2002:a05:6000:4904:b0:4a6:60b2:afed with SMTP id ffacd0b85a97d-4abb3c37a2dmr48316268f8f.11.1795801786759;
-        Fri, 27 Nov 2026 09:49:46 -0800 (PST)
+        bh=7uL/iAtsNgC5IZY9uWFp+3spG799kJlY5szTzxZDn9g=;
+        b=pfOefa+fVBzkQRoeTCT9aHEyrL2LFoDAlt4oFhrbrd/Goz2Suv2tL8GJ6dKEQuu3Le
+         RQTf1t6Rfo8UnNvrTsjtVCmBVfm57tijUgLJ+btWctI5q69RAytXe+CBXRlzvUmxDKaK
+         3jyofs4Yc6UbDh8xKbyiWcWVORoNMLrAOiZX+1wVwdrkay31wb36/5wr+QMcMFB3A5FN
+         XX8EXeK6UXKIVqEQrR4jwEyy3QAPCFniVfpK4H1Q2gHm7NI1ywVb9iAYyJO9HHRcrI1X
+         KtAXEQZyZWlGwFW9oluECwdKEe1R8c+S7SygoT3352oseEfqw/bd+j2pOvCoPWGDk20Y
+         bIwA==
+X-Gm-Message-State: APuU4Z80rHOwMwtmMB+iw5lWBqKakOilpN5ZY/+4ouzMGEpbwfwfR+Nz
+	8Tp/2ypSCIQd7tnE7oLkjubSwqSuKvkxp7kv5R/oPq/kS7lxDzc/js0DsJpjSGfMftRJ+AoTiLa
+	R5SjDh10=
+X-Gm-Gg: AZFdTZf0cFagz9UCY27UWkseEM8rDVLTkVpEHtd3nsoPVHmSOiW/VPK5tyD7+sP4HnH
+	srHuH+o5TbFCOMKEwcwyi4b7pRaJlPAqEjo8eLs2iFUAJ5cpZBIX/kz2DaQY3kJ5k0lKw47LJOJ
+	4CpQfgx65Mz6AwkdO9oDjkd2em4Mo5h4h+JEJhClD13Huc5AxUERGUVUZ7S9WqlNlmOjLtbp8Nw
+	F4v63rG3WlPobUMOO7YbdeuNXxW9xQ/CLRY26DyMgxe6ToHrj8cCUrk4UfjvJWBSz2pDAFChpbD
+	HZ0A4WJ3JyT63SuxLW61oBNemJY+QvEKmqjOEsEFOS5LA21SZbXInIn5ABl1Xj5zEVd+ZrH7DqQ
+	djoBrtSZSiOYiN49GgCAXSMKAIKhZfg39wUhekj8jWUaEoEuH2r+2SNSvG5+DgRRGoeY/6Tk7lq
+	Li29sejOlmjY8QM+0kVgrCIiVoxLjCsFBjHj+AfkpDkWAdkgxlJ8T4eqX1+SqnCf6DKdylbnQCH
+	frPzYoSb4OZ+xH0tKnnG4ssfI7dQGJIM0AX4wRECdgy/csjSGQWErnHm5vg3qANFkUhTws0TjSj
+	BTlKrqbwXteluOlVygkijenLkAkKoGc2LUb3oNcNyZVh3GO/nIu3RDeS0yfqvuOQpaPSm6UP/uM
+	aDoOGZtBcCGTaggVoslKkzISJNc9M
+X-Received: by 2002:a5d:6f0d:0:b0:4af:cd40:6fcb with SMTP id ffacd0b85a97d-4afcd40712emr39321711f8f.57.1795801787260;
+        Fri, 27 Nov 2026 09:49:47 -0800 (PST)
 Return-Path: <yoann.congal@smile.fr>
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4ab69bf630esm49374624f8f.16.2026.11.27.09.49.46
@@ -54,9 +54,9 @@ Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wan
         Fri, 27 Nov 2026 09:49:46 -0800 (PST)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 22/37] ffmpeg: Fix CVE-2026-40962
-Date: Fri, 27 Nov 2026 18:49:05 +0100
-Message-ID: <40f53d038fce9297f7ca0153ee44ccd9c3d1b7f5.1795798718.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 23/37] speex: patch CVE-2026-116741
+Date: Fri, 27 Nov 2026 18:49:06 +0100
+Message-ID: <73aab73feca1b280c61045774fa590e9e77079e8.1795798718.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1795798718.git.yoann.congal@smile.fr>
 References: <cover.1795798718.git.yoann.congal@smile.fr>
@@ -64,97 +64,74 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 17:49:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251428
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251429
 Content-Type: text/plain; charset="utf-8"
 
-From: Colin Pinnell McAllister <colin.mcallister@garmin.com>
+From: Peter Marko <peter.marko@siemens.com>
 
-Backports patch for CVE-2026-40962 to ffmpeg 6.1.4.
+Pick patch from [1] linked from CVE report.
 
-Signed-off-by: Colin Pinnell McAllister <colin.mcallister@garmin.com>
+[1] https://gitlab.xiph.org/xiph/speex/-/merge_requests/32
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit acdf6b0bfcf0a2c3b858ccf2f1b385afd5b13574)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../ffmpeg/ffmpeg/CVE-2026-40962.patch        | 61 +++++++++++++++++++
- .../recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb |  1 +
- 2 files changed, 62 insertions(+)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-40962.patch
+ .../speex/speex/CVE-2026-116741.patch         | 29 +++++++++++++++++++
+ meta/recipes-multimedia/speex/speex_1.2.1.bb  |  5 +++-
+ 2 files changed, 33 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/speex/speex/CVE-2026-116741.patch
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-40962.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-40962.patch
+diff --git a/meta/recipes-multimedia/speex/speex/CVE-2026-116741.patch b/meta/recipes-multimedia/speex/speex/CVE-2026-116741.patch
 new file mode 100644
-index 00000000000..608dc638ed3
+index 00000000000..4d71f7fa82c
 --- /dev/null
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-40962.patch
-@@ -0,0 +1,61 @@
-+From 5d272b8c9541fa082dfb064e7e5847de4c4300ba Mon Sep 17 00:00:00 2001
-+From: Michael Niedermayer <michael@niedermayer.cc>
-+Date: Tue, 24 Feb 2026 03:47:15 +0100
-+Subject: [PATCH] avformat/mov: use 64bit in CENC subsample bounds checks
++++ b/meta/recipes-multimedia/speex/speex/CVE-2026-116741.patch
+@@ -0,0 +1,29 @@
++From 09b569d1b437e5edccf3406a38714ad795e46d38 Mon Sep 17 00:00:00 2001
++From: Tristan Matthews <tmatth@videolan.org>
++Date: Thu, 22 Oct 2026 09:00:44 -0400
++Subject: [PATCH] bits: fix OOB write in read_whole_bytes for non-owned buffers
 +
-+Found-by: Quang Luong <oss@engineer.ink>
-+Found-by: PrymEvol
-+Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
-+(cherry picked from commit e392fb8c9c3949d975531d2b23c645d2465a7ebc)
-+Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
++Fixes https://github.com/xiph/speex/issues/42
 +
-+CVE: CVE-2026-40962
-+Upstream-Status: Backport [https://git.ffmpeg.org/gitweb/ffmpeg.git/commit/78c944bdb170d8dcece166115d92b45379b040f4]
-+Signed-off-by: Colin Pinnell McAllister <colin.mcallister@garmin.com>
++Reported by HaiND (Nguyen Dinh Hai), Post and Telecommunication Institute of Technology, github.com/Haind03.
++
++CVE: CVE-2026-116741
++Upstream-Status: Backport [https://gitlab.xiph.org/xiph/speex/-/commit/09b569d1b437e5edccf3406a38714ad795e46d38]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ libavformat/mov.c | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
++ libspeex/bits.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/libavformat/mov.c b/libavformat/mov.c
-+index 7a7545c9b5..af103ad24d 100644
-+--- a/libavformat/mov.c
-++++ b/libavformat/mov.c
-+@@ -7178,7 +7178,7 @@ static int cenc_scheme_decrypt(MOVContext *c, MOVStreamContext *sc, AVEncryption
-+     }
++diff --git a/libspeex/bits.c b/libspeex/bits.c
++index 4f457af..c5546e8 100644
++--- a/libspeex/bits.c
+++++ b/libspeex/bits.c
++@@ -174,7 +174,7 @@ EXPORT void speex_bits_read_whole_bytes(SpeexBits *bits, const char *chars, int
++          }
++       } else {
++          speex_warning("Do not own input buffer: truncating oversize input");
++-         nchars=bits->buf_size;
+++         nchars=bits->buf_size-(bits->nbBits>>LOG2_BITS_PER_CHAR)-1;
++       }
++    }
 + 
-+     for (i = 0; i < sample->subsample_count; i++) {
-+-        if (sample->subsamples[i].bytes_of_clear_data + sample->subsamples[i].bytes_of_protected_data > size) {
-++        if (sample->subsamples[i].bytes_of_clear_data + (int64_t)sample->subsamples[i].bytes_of_protected_data > size) {
-+             av_log(c->fc, AV_LOG_ERROR, "subsample size exceeds the packet size left\n");
-+             return AVERROR_INVALIDDATA;
-+         }
-+@@ -7233,7 +7233,7 @@ static int cbc1_scheme_decrypt(MOVContext *c, MOVStreamContext *sc, AVEncryption
-+     }
-+ 
-+     for (i = 0; i < sample->subsample_count; i++) {
-+-        if (sample->subsamples[i].bytes_of_clear_data + sample->subsamples[i].bytes_of_protected_data > size) {
-++        if (sample->subsamples[i].bytes_of_clear_data + (int64_t)sample->subsamples[i].bytes_of_protected_data > size) {
-+             av_log(c->fc, AV_LOG_ERROR, "subsample size exceeds the packet size left\n");
-+             return AVERROR_INVALIDDATA;
-+         }
-+@@ -7295,7 +7295,7 @@ static int cens_scheme_decrypt(MOVContext *c, MOVStreamContext *sc, AVEncryption
-+     }
-+ 
-+     for (i = 0; i < sample->subsample_count; i++) {
-+-        if (sample->subsamples[i].bytes_of_clear_data + sample->subsamples[i].bytes_of_protected_data > size) {
-++        if (sample->subsamples[i].bytes_of_clear_data + (int64_t)sample->subsamples[i].bytes_of_protected_data > size) {
-+             av_log(c->fc, AV_LOG_ERROR, "subsample size exceeds the packet size left\n");
-+             return AVERROR_INVALIDDATA;
-+         }
-+@@ -7360,7 +7360,7 @@ static int cbcs_scheme_decrypt(MOVContext *c, MOVStreamContext *sc, AVEncryption
-+     }
-+ 
-+     for (i = 0; i < sample->subsample_count; i++) {
-+-        if (sample->subsamples[i].bytes_of_clear_data + sample->subsamples[i].bytes_of_protected_data > size) {
-++        if (sample->subsamples[i].bytes_of_clear_data + (int64_t)sample->subsamples[i].bytes_of_protected_data > size) {
-+             av_log(c->fc, AV_LOG_ERROR, "subsample size exceeds the packet size left\n");
-+             return AVERROR_INVALIDDATA;
-+         }
-+-- 
-+2.56.1
-+
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb
-index 849835c8493..44ad063e690 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_6.1.4.bb
-@@ -32,6 +32,7 @@ SRC_URI = " \
-     file://CVE-2024-35369.patch \
-     file://CVE-2025-25473.patch \
-     file://CVE-2025-22921.patch \
-+    file://CVE-2026-40962.patch \
- "
+diff --git a/meta/recipes-multimedia/speex/speex_1.2.1.bb b/meta/recipes-multimedia/speex/speex_1.2.1.bb
+index c40198fa8f3..2a174db0aa4 100644
+--- a/meta/recipes-multimedia/speex/speex_1.2.1.bb
++++ b/meta/recipes-multimedia/speex/speex_1.2.1.bb
+@@ -8,7 +8,10 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=eff3f76350f52a99a3df5eec6b79c02a \
+                     "
+ DEPENDS = "libogg speexdsp"
  
- SRC_URI[sha256sum] = "a231e3d5742c44b1cdaebfb98ad7b6200d12763e0b6db9e1e2c5891f2c083a18"
+-SRC_URI = "http://downloads.xiph.org/releases/speex/speex-${PV}.tar.gz"
++SRC_URI = " \
++    http://downloads.xiph.org/releases/speex/speex-${PV}.tar.gz \
++    file://CVE-2026-116741.patch \
++"
+ UPSTREAM_CHECK_REGEX = "speex-(?P<pver>\d+(\.\d+)+)\.tar"
+ 
+ SRC_URI[sha256sum] = "4b44d4f2b38a370a2d98a78329fefc56a0cf93d1c1be70029217baae6628feea"
