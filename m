@@ -1,185 +1,201 @@
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.14])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14003.1795777374160616251
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.75])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14198.1795778406765604417
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Nov 2026 03:02:55 -0800
+ Fri, 27 Nov 2026 03:20:08 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=XGe9HIrh;
- spf=pass (domain: est.tech, ip: 52.101.72.14, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@vaisala.com header.s=selector1 header.b=Rlt6j7Sb;
+ spf=permerror, err=parse error for token &{10 18 spf.protection.outlook.com}: limit exceeded (domain: vaisala.com, ip: 52.101.69.75, mailfrom: niko.mauno@vaisala.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EhB8K9csHJ28YW0F6NpT+0SPl9jHTz6FS50b+zJrlSRRaMx/XkAkWu+0Eu9DUO/rM97Ft+K/Iw8kkrfiB9+UzWHKi8Eygxchh21EhJl0YK3oB0S8ckp3xzB/oK0x3DhjMo8FNCuyf/3d+W5e99Poqz48V1JmUYC+ciOD+FhUXHcr9Jdkffl+gKWah6jThXXApSYxh7BZS7J/Gv5E6FPauhzTWG2yE2fLRYtC/LUzEkllYvWlBgF9UFd4DP9fWwuAklcjpO/tZT/dRX5LiTuDGu1cItzWv5wAJ4jybP23chwyiVt2zwplLdFsWUk9paBCDXfPL4ztwQ5EfMT+UPORCQ==
+ b=aigXwCNE8kFI3hYEPzKKxzsA0t6pUQm0Z2o8FeYxK61TwuCkqm2aUaZtRu4K6xylUNAlCUUT+4cxq34G18dt5CTDzdPhvzthcwlYG/3OAH/FmF5ytxmZ6cbJhtlZQ5AW3+qvHi38nuYAGOWtAomZxBAU/coPcox1hMxos8RdN3Vncm7KKsuCLmbwoEmH3JlzrrGeZ34K78DIl3UvjqRmJDDDKkEwhJsK4X5yHr4ko1JtHHesPUH2BC0M8+L8b/A7rNzGDdWiPA5yMCXi0+1A4qdo9UFWf9u8gwSa10mkEU6QVqCQe/2teeTF6H/MUxpAGKc5cxN6m7UXKV+ttYd8Jw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lEgIOpg/sTKwYfrnp5tKd5qWUts+7a2c242NOZXR464=;
- b=GZkHrzTkwITmgw1IIFI3ddTkLNQ9CUGbMjorpQ8gM8PqZUv2+EJR+SKxCw2ZZB/1WBMRQpVH1UqRs5o2XfuK+5ian8hWjTDKoOlE4kgpwD9WFUcNWYXctJk15ywe2BCp870QwTuFjkFwN4pAsf1fueJV3fpfEKVyUxfpRyM6zjAqmXmKGfJAdmcsuMAdyOH0u6NcuDPSdNSm6+uNhSKGzExKylvIEEIBCWi34uDgbGaGwgOc8vsuzpSJoQSsjQW6VIc1tmanSyNZ6PDpGLG5C7phrOBmwo2Fd5U/WsUKMPP7INqKTJJp1Rok5nuqe2//6DOaJ+jg3ZklrFA5eca6RQ==
+ bh=OBqyxpK02DapIStzFvm3IzjoCx3hTTKtzXemkMydPNs=;
+ b=c8faLwj+JWvsoeacN7khVfRFELvNlEgq48abHUW94mQ8WFL28Khg4S0lBMnYkgBFGJeMUapatraMt3Zdsz8hRsfJ1821J9FMwc1exLvHHCst5U7ShB30tCW+zoG9PwYn7IuAjiAo1OyJwFGWPBg3tMCztia6PBe6QUccctueYNC7UxPjBPQt1aKoR7CjlD9bdFnUzehhYGQIy484EmStRnf9lUXbOZdpEO50j8gZp086ofTrl81LzZVpyjnvZvUxMgdaIMIc93erHgAqHBHbUhDIiJjr7T5NXsYk5lg5im6zwXno8UOqaMRGTWTjECwA1XttDrkGRAVWMvK3ursG0A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ smtp.mailfrom=vaisala.com; dmarc=pass action=none header.from=vaisala.com;
+ dkim=pass header.d=vaisala.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vaisala.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lEgIOpg/sTKwYfrnp5tKd5qWUts+7a2c242NOZXR464=;
- b=XGe9HIrhs8oZJPnFdyvxJzRaGawsx/jMwwQIghfe0jZATv3L2KDOjWEEBzLzEaDevZGgXeHO5Y1D/ZkJYLbLIDzQo4t2eRrAHVbI/h83TTr6UWARiFiZH+RXuMDeiYsGh8gUvP+IAgZEEkAe6n1MR89qjtti2QTlu5VS+cxBhlwgnhRfCs0lMli4bngOVSUfeJzcDgeejz0VC0sKlI+Bpako0kJi/etXy8O7AWLbPEhKs7BHM5BpK861CeGMGs3OLehPdxkWb9kxlTET6yOsEoGeBzgtcZu64ToyVtK+7JZKGIBup9XOjt8epG5kndqPt56zE6H4wljbtI6VrBt17g==
+ bh=OBqyxpK02DapIStzFvm3IzjoCx3hTTKtzXemkMydPNs=;
+ b=Rlt6j7SbUk+WGU51/hWkPU+zqWJHGF4c9r0eoXw0Ek37/3T+wMByHzZglZ8pR82ujJyn+XzOJ1ek/tQqTOT/8r/Owec67s6Ab7NN9ZBthvRXrzWS9OZ8DghLQpclp5/opI4Rry77F7rz2VM6CgjLdJYBKyojd09twLPslrNfZYU/cFd1eVMoKupwIz5/AEQGi1H0lqAuhsfzgvqtwR6q+2JuIhWPao9j5bYamBFHBXXxV7D2mDydjjfQpxsf3OlZ/+CiXc7XU/gyJ5OUnmAJyW23Geq6G0kGgzfl/ldLPXxGTkFlPafJZ6U11PAHqhy/pUwv0MxCT3PtW5huerJ7EQ==
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
- by AS2P189MB2539.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:643::5) with
+ header.d=none;dmarc=none action=none header.from=vaisala.com;
+Received: from GVXPR06MB9766.eurprd06.prod.outlook.com (2603:10a6:150:1dc::17)
+ by VI0PR06MB9086.eurprd06.prod.outlook.com (2603:10a6:800:23d::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.662.9; Fri, 27 Nov
- 2026 11:02:52 +0000
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0662.007; Fri, 27 Nov 2026
- 11:02:51 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+ 2026 11:19:59 +0000
+Received: from GVXPR06MB9766.eurprd06.prod.outlook.com
+ ([fe80::485c:86c9:bd8:53bc]) by GVXPR06MB9766.eurprd06.prod.outlook.com
+ ([fe80::485c:86c9:bd8:53bc%6]) with mapi id 15.21.0662.004; Fri, 27 Nov 2026
+ 11:19:58 +0000
+From: Niko Mauno <niko.mauno@vaisala.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/3] libffi: upgrade 3.8.1 -> 3.8.2
-Date: Fri, 27 Nov 2026 12:02:46 +0100
-Message-ID: <20261127110246.512-3-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20261127110246.512-1-jaipaul.cheernam@est.tech>
-References: <20261127110246.512-1-jaipaul.cheernam@est.tech>
+CC: ross.burton@arm.com,
+	paul@pbarker.dev,
+	Niko Mauno <niko.mauno@vaisala.com>
+Subject: [PATCH v2] systemd-serialgetty: Fix console baud rates
+Date: Fri, 27 Nov 2026 13:19:44 +0200
+Message-ID: <20261127111944.23759-1-niko.mauno@vaisala.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <DN58KHZSPJW5.37L7ERKRY60B1@pbarker.dev>
+References: <DN58KHZSPJW5.37L7ERKRY60B1@pbarker.dev>
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: DU7P195CA0014.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:10:54d::25) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:6c0::19)
-Return-Path: jaipaul.cheernam@est.tech
+X-ClientProxiedBy: GV3P280CA0082.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:150:a::10) To GVXPR06MB9766.eurprd06.prod.outlook.com
+ (2603:10a6:150:1dc::17)
+Return-Path: niko.mauno@vaisala.com
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|AS2P189MB2539:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8a5cb252-f7bc-4b1a-fe9f-08df4c75fb1d
+X-MS-TrafficTypeDiagnostic: GVXPR06MB9766:EE_|VI0PR06MB9086:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3ce63b05-3d43-4388-8309-08df4c785ecd
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|11063799006|261009223027099003|18002099003|22082099003|10067099003|56012099006|261102123227099003|261028144727099003|261026140227099003|261026121527099003|261021121427099003|261021123027099003|261022105027099003;
-X-Microsoft-Antispam-Message-Info: p00uQtK3b0Ft6w3aScwfXO/ezDBno9aTNtMVLz3tTC18SGDFaDbtm09NMOR9WRHH1+L6fx67btzudEaD0mDQOi36YYIcgNDHDbNm1kybUojmoAfMIp73LNZrvMJHvn568XIfkVxVKGEHwZlDhVEXigDsSh/gfo0WCNkMvNPbfSYQiIBqrRcgGCNtE66ywtUNrN7H5bPyMqBhkDZb9Ma+lGsVB76LACKeyOH4tW6xGnEx+ZL21Nxic7FCeLQtcu73BOj0EAL2WslPOQ3TH3XlWdNbASaGfJQBuVb8y7xw00uwWNLPLjA1OUtYHRtIvr0sWUPOpYelO9XbZ57hjJ+IIpFYWuPe6pMRkLHWqL4pL3aCbMRtSHbn9TrqihK+50g1tVw0otRhZ3t3cl878XwghlPd6PL85qO+3CoqgPsCv+UF+Aohdd+BoffTGmdbXlDYJs0eJpkAd/jUeM9pN5Vmr0aynNYpMQkXy6kwoxJ/ZF3zop67nx04RKlEEhwz7DAj6Y0svG/++65jztinZhqWgKl5p92jNVjiY4UR5l4DT0hG5hnYgjHZ6XJva9+HJSi37kbBYNj65n8Z5yzKS1n4elNJUKAa+gtwE50j5tgqu3q7dcakDGk8rUmuKqe0nv1eFrrkVp3saCFgLqjUb0/gxiMMY68GE4f8YWitMkXVmJU=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(11063799006)(261009223027099003)(18002099003)(22082099003)(10067099003)(56012099006)(261102123227099003)(261028144727099003)(261026140227099003)(261026121527099003)(261021121427099003)(261021123027099003)(261022105027099003);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|52116014|23010399003|38350700014|10067099003|56012099006|261026121527099003|261026140227099003|261028144727099003|261022105027099003|261022075727099003|261021123027099003|261021121427099003|261102123227099003|261022115727099003|261009223027099003|22082099003|18002099003|11063799006|5023799004;
+X-Microsoft-Antispam-Message-Info: +zueHLTuuCfMdIvEyXIaX+svzXxCTA+7w/65PqRGdI/gLJ00vOB9+gIuZxrI3Um5pLiL65AwQloksK9E4N+HbTDv0ak4mbk0H98y3vzaOpnfzTS7y/vVTPQ+KvuDGo1F7VnVEc5k07gR+GrlHhvpxSX9WD6+LxLQGuv+YRH8ZusK8pvP8RXczKOFZMBuLpaU7VNNH+8UUnAnb70u2v5luabHHbPhwTN2XaB/L9UM5rs5Em9QXaUBNxCGle9H4ToYOxsAqwUnusQLjv0eoVoAY23P6oNw2SLkDd0EzeW1rrlohufOGOwWbfi4mpPZ+lK1B623HfM97sTPDOJ62R0Asqn/ZW4MEfx1sIAA//1YvPbNbhygZih8HIvIdDneGPiQy+qOmv2W4FUDBaXRvUF+JbgjY4E5OQkeGtS3L3xjsYAgHwAHOrUrYCzlfPeZwsie/uECzIKzL/LqMTwvtpPKzk7fnisBRiiHCNoXgw0LxY5VdZlV3Gs0zSUAxK4WZX9zp6UWt9DMG3FDMAs2UfFuUiNvmC2d7q49ZSUmqiWcYm/GhSSAjotfJZvY8HifxagN0LWBZHS1LikoZqIDjXNExxzT6JBq1VS8PDPrN6fAgdwmStCp3NKBUIQg3+SgePVM3lAL+oQxrs4s2XeKtvYyzgOjMMDQH4CHsucHShBGp9sS/K7Fb2X19Mz+uoZ+FJWJUuH7+1IF5swIjfCCQlgTNTECjS8xbfATsjcCet++zIg=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR06MB9766.eurprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(23010399003)(38350700014)(10067099003)(56012099006)(261026121527099003)(261026140227099003)(261028144727099003)(261022105027099003)(261022075727099003)(261021123027099003)(261021121427099003)(261102123227099003)(261022115727099003)(261009223027099003)(22082099003)(18002099003)(11063799006)(5023799004);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?iCtM31jkZba+SK6tABwQ4QEanTb8HdmeFfh8rBLiH23jZ1h9SCffcxVI4zJx?=
- =?us-ascii?Q?gAxMxmu5LwpTBUWOykRR87eWipmvzQnaI989aGNX9bkK97y6ZNKELICNjUZo?=
- =?us-ascii?Q?3q5o9Ik40spfcPb42ZQ0P8RGnb32G4VEbT/Fc3uMkmDGq6NUrzTAhPMH83Ck?=
- =?us-ascii?Q?ECWoLPaIF8xW49jIIrJa4tcmtxW4asEiW3m8QWwHnBvbAPOtGM5UzCgMCbmj?=
- =?us-ascii?Q?VuGN8gCOvTxkiV+qeyOPQ8HcbaRYUly66P0IQ++QoxS+UhKw3069TCilDMUZ?=
- =?us-ascii?Q?rCZLKxKKxoS1wS2oDW4m2KWf/3Nw1AAE0+sY0N+qMg8YBEFD4wgoStyblfnR?=
- =?us-ascii?Q?XAHuqLQCoIUJWaCN1eJNnHlPG9KEIDDhnDnPirAnZH47REEuLaWF7fZki8HU?=
- =?us-ascii?Q?Vf0BwAWr1Ep+7uIg9FUPkVaajUuzfPC+vqx/8Ii53k1NYQdWwvm1NXNDQcbo?=
- =?us-ascii?Q?rDu9J2jojkTjHPDp+KSIMXqYqKK4FL2Ef7oQlozOlOHiIWxktPtZYSvy1+R8?=
- =?us-ascii?Q?K/z7s/iJFAK/i6oWTW2xDoOO/P/JJTI/ivNuHI2Oh/jj8968yhJX0qysriTQ?=
- =?us-ascii?Q?h3bQnczqeVrlRJKkp8WhAiRRfL7s7SyFcKePNgyDP8IBwvACd7cFVgDnd23n?=
- =?us-ascii?Q?mak39YEW4upkr73Vm+uLyYyYwJgdzgv50TvKqNnu+FbhzlgFF98mzsE4BtGs?=
- =?us-ascii?Q?UIWo5/y8o1GnPN8q6tyU+z8IE/JF7zbxq+t9cUY82bbU1gHD8KFcQMuawf89?=
- =?us-ascii?Q?VdtDB0Icj53dfUx4PFUJMsvinJ7KelKG0P7d6NJkdcoHWHBNbIwjczPYox3X?=
- =?us-ascii?Q?r6A/B80hrysOALEhgRPPNm16so1ef48Zr5nnFxAokVRUnmmYfC5IAbYeFsZc?=
- =?us-ascii?Q?VYDtu1SEkcxI0ln/WH535X3Qkss8m1ltEbnVy6CAZAgs0Yy2UTNWgmMyWHpn?=
- =?us-ascii?Q?viXLDZ3iNFq1oLs/lMQkWHlZVaImkwVnyk8XXGNlWDlBRwW2WAiv31jD/okN?=
- =?us-ascii?Q?VqTIk0MOgXqRoP3+jDro8ZMokpFu2UOEC/zFi+9yP4U+0VZDmTy+PZeC85bD?=
- =?us-ascii?Q?E/NBEQj27exmItqrPpgsDu9qvm0KLFaEivKjU+zZj+X/DgurhSuaZLatoTOn?=
- =?us-ascii?Q?Y83myFCMO0NBwBKf6fYc1GQ7lGVXpgcWnrpm1HI+7wdRbDIPEPI1pEq2/QOH?=
- =?us-ascii?Q?ALl/EJFw7EEu8xaOWbZH4PpIiU1A55K7aQpnroZvgFLe6zUi+t3JOQfFeZvc?=
- =?us-ascii?Q?2LDF1XVyKDRB/TQoHulRGSzvgs6cbqF0bPr+NvxDYswAPt/liCyHqwTqgIr5?=
- =?us-ascii?Q?AxypRc/4QIEcVLH5VP0E9Z2TbFTvw+fX+swEuAcEllI0+b1ozx27jffn4/2X?=
- =?us-ascii?Q?mf/V5iax5fUz74gk42qOW5YzWrHF3O6p1g7Bz2BxJrrX2kJM4Ucjz1GK4WyT?=
- =?us-ascii?Q?pkc30OzGcAs+ecvWkltgqXbeRCwVLN34KpvwMA3S36Ad8XA/gBUs8/PyOSrr?=
- =?us-ascii?Q?yCGbp08rBY+YnWyeSMwHTnpZz0w7fLPp58FB167R4c4iyfGnlbIQMUorA8ga?=
- =?us-ascii?Q?s/rP76t+6LWf348nP2qBYUMdUsLQC39qwVLn3prmxdvvf0FQkGO7/1SiGzom?=
- =?us-ascii?Q?UDutI4hzC+BSglKdyBVUjbVc9MUYkstePs5TPQXO3N+ShQk//WPubHnUPd9e?=
- =?us-ascii?Q?sFPViOGZvFukBO7IUIJ4+HoTb38oAg8emPMfbsX8bLD+krCqRMPcBKkmFaeH?=
- =?us-ascii?Q?XNRkl1p2Jw=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8a5cb252-f7bc-4b1a-fe9f-08df4c75fb1d
-X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?9lFbIRkIe7HNqbwsRTu5tmAySQp9qHef0ehNJN4WW1OxsjPAbarnTWQHDPKu?=
+ =?us-ascii?Q?uR27QZ1WESeSZOs8OG2IIkvPJNAjIFD1yK7Pni8HAe+tEWUgL3dJdnvJ4KT2?=
+ =?us-ascii?Q?NSpU6jUu/0+iZFep+HOvU1CWCZPx9luQWzl6kjPcHt2qu7S0T0BIu6gUQJrE?=
+ =?us-ascii?Q?Qetnu4HEPz5tkb2f6z7BqITI74Agf8Iy0BsxeCAJKp/YxVgU8kU1BWbR0k2q?=
+ =?us-ascii?Q?Bm7GNG1qNFwiwNKiEbPfoBaXG4X5rE80PQ9lTvi24oV2SCo1xoZ6GrYF+viA?=
+ =?us-ascii?Q?AyOQFAJzVDf9l17ot73FkSDqNGB8ICiJ0lmKqrmJTXO3ti96P7RG2QZh29CG?=
+ =?us-ascii?Q?Rv/ZZ/hYE3h1eegp7U/e+Wivyn8ukyvxwbs27le7FtNis7Ie1dpuxkgLlO/W?=
+ =?us-ascii?Q?zTsNfm/eaQJxcwsRXMPLll1Vg4tQFJMaCB+tUY5NH4y8Wz90r/U0pm2R1eP4?=
+ =?us-ascii?Q?+ve/QzoDbSedi2gGUYf88izm2AQFO8LzN/CwHnMk6JQG9Ht3yd2uBivVWarq?=
+ =?us-ascii?Q?FeyeEtaLTxJrnEc+1z50VgfjUUmBKHm0GPoogb30zVux0TG9n9/zKr+gS4Rh?=
+ =?us-ascii?Q?VzlqhOsxp8CIh2GSERcqFHWJtt1Eres/oFIhKVhvAD9m7jESRSj0QlAXj/98?=
+ =?us-ascii?Q?Rg4+Xwy5y8gRmVh+HjhaAh7Tap32UkrlMWQyK7HFUyrB7drIesWtw3FvBdMc?=
+ =?us-ascii?Q?Xvglr1/cmOe52is08nKGN3WTj9ijWJqB0ipCfJMMo6X3PvCAiKzAuASjovuq?=
+ =?us-ascii?Q?vF/Smo83tER6UF8UjfO9MW64Xb1kI8Mg3/0xMzM1iyOnq7ewFFsnYYWrF5f4?=
+ =?us-ascii?Q?+ge7/E2IZVEmWRmfHlXPNa1mK05dkhWfWB0QBY4zv2rvQUUW6SVRhjQTUn5N?=
+ =?us-ascii?Q?zENeenT7lwt4PFSmI+DEC54MhZh1v5/RFusrz5VBcLPaJ/zJaShIXR3OPS8N?=
+ =?us-ascii?Q?RImK6e57C4YWZ9rzjXB8X1vnQgXxFXujZeoHd9IKCHj04CtiQ/UIYvkemEyv?=
+ =?us-ascii?Q?dKwN3lHWcRWbEWYYP7fJfZjb4g64sS9Zeqmzop1dvB8AaKMt3XOk7rZAbs5k?=
+ =?us-ascii?Q?bH5WbEq7sxUs2IqRuRTAzx7zcI1frPOCX0E5NGzWrRKVHPmS5PrpNg0w7X5G?=
+ =?us-ascii?Q?zGsGd5PxEXiu9sXwUGlK79SQh6W5ShKVWpXcatQiwzw2OITb/hoVkRgCP1Y6?=
+ =?us-ascii?Q?klkhnqDN/gJa45L4gQz0LdeQIyn4Jy/FkKDHnzWeE1W09cBLuRhbiDqKThFh?=
+ =?us-ascii?Q?yeUtOGpq/CATSzUog1wVn5B/bnGvS9q0IvaZcJL4AqVAC4dvGPc/+u/oqq22?=
+ =?us-ascii?Q?stOWa+tWUtzj+WfjFStG7bopxl6tmc7J5zmyQ1hg9nJCnRcOyRvHm9ngC4Fb?=
+ =?us-ascii?Q?3YejjdbIFQ98bt13Sm6oFFX6gN5FDFsSklcuJsaz4agHR4J5SaAO7TwmANBC?=
+ =?us-ascii?Q?xilFTJTdYMxwvC1jfvWyoaHNms75qsjY1Ue+OK+kV5kpVGIk6GP+oby5B2Xz?=
+ =?us-ascii?Q?0Kwz+P5dhMYWZj/tnRfGHLdsLT1saj0Hp/SYt+E0W4nPxRn+ngL2zrSWu0ek?=
+ =?us-ascii?Q?QSsR/HnUlzNt9slk3kBen4Eo1OjY4XDbTqZIgMT5QqdtqdJJGWPo34nl9CEn?=
+ =?us-ascii?Q?f5Jopt1nm8RNKMchx5bRYvcKqgSVz7WpTNdArhGwxXrpEloqoeXmqWQA5tbR?=
+ =?us-ascii?Q?099QiOuED5GnNoHCYSRGDiuWVnQ1WZIFO8ntKHJ3PO7K2kxt2U0JXtvmca/r?=
+ =?us-ascii?Q?DF2f8AJK/Q=3D=3D?=
+X-OriginatorOrg: vaisala.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3ce63b05-3d43-4388-8309-08df4c785ecd
+X-MS-Exchange-CrossTenant-AuthSource: GVXPR06MB9766.eurprd06.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2026 11:02:51.9292
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2026 11:19:58.2058
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-Id: 6d7393e0-41f5-4c2e-9b12-4c2be5da5c57
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: a94vDz8Dyj+o/Xo147MCBQiw6XGBi6IncyQ/Gia2yaDTVZLPaOD3+dlShPdFVkHMq5yMrubNl94gpqpDD3Yk6RCyLwZ8YEtW77S3X61n7S0=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2P189MB2539
+X-MS-Exchange-CrossTenant-UserPrincipalName: UisXgd10f0/aVqAbVlKTA0sQof6Q1f6SmmBd1XI4j7uGsz+Jya4YWkOgHJOftJ53Arhy1n438hFBdVjgTBpygw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR06MB9086
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 11:02:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251374
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 11:20:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251375
 Content-Type: text/plain; charset="utf-8"
 
-ReleaseInfo: https://github.com/libffi/libffi/releases/tag/v3.8.2
+Since commit b6a7617145c3 ("systemd-serialgetty: use existing unit
+files in systemd") removed the recipe's own serial-getty@.service, the
+baud rates in SERIAL_CONSOLES are no longer applied, and any entry
+whose rate differs from the first one fails do_install, as the unit
+template it copies no longer exists:
 
-Release 3.8.2
-ABI and argument-handling fixes for 3.8.2
-Refuse signatures too large for libffi's counters and size fields
-MIPS N32/N64: handle complex values that only partly fit in the FP register=
-s
-MIPS O32: give ffi_closure_O32 a 16-byte result slot
-powerpc64 ELFv2: do not quadword-align float/double/IBM long double aggrega=
-tes
-Static trampolines: make the temporary code-table file immutable
-RISC-V, LoongArch: one-float struct takes the integer convention once FPRs =
-run
-out
-powerpc64 ELFv2: set FLAG_ARG_NEEDS_PSAVE only when an argument is in memor=
-y
-Pass by-value aggregates aligned beyond the stack alignment correctly
-Reject vector types in the Win64 and CRIS ffi_prep_cif paths
+  install: cannot stat '.../serial-getty@.service': No such file or directo=
+ry
 
-loongarch: ignore return buffer for void calls
-testsuite: use named fields, not arrays, in cls_struct_float_psave.c
-SPARC64: fix the FP word mask for struct arguments in closures
-testsuite: use __builtin_alloca in the over-aligned struct tests
-SPARC64: keep SPARC_FLAG_FP_ARGS when ffi_call discards the result
-testsuite: skip the over-aligned struct tests under MSVC
-README: tighten the TBD changelog entries
-README: correct the size-limit wording and the MIPS N32/N64 closure note
-AIX: recompute struct alignment from the members on every layout pass
-SPARC: allocate the scratch result for a NULL rvalue in ffi_call
-README: cite the advisory for each TBD changelog entry
-i386: give a struct argument 16-byte alignment only for an aligned member
-i386: fix three raw-API bugs in ffi_raw_call and ffi_prep_raw_closure_loc
-README: shorten the over-alignment changelog entry
-aarch64: reserve 16 bytes per by-reference struct in the argument slab
-loongarch: ignore return buffer for void calls
+Enable systemd's serial-getty@.service for every console, and give each
+one with a numeric rate a drop-in that sets it with stty before agetty
+starts. That unit runs agetty with --keep-baud, so agetty keeps the
+rate, while the unit itself stays as systemd ships it.
 
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+stty comes from busybox or coreutils; without it, the getty still
+starts, at the rate the line already has. With nothing answering on
+the line, systemd's terminal setup for stty adds about a second before
+the login prompt, on top of a similar wait for agetty itself.
+
+Tested on master with qemux86-64 core-image-minimal and
+"115200;ttyS0 38400;ttyS1", also reversed: both consoles get a getty
+at their configured rate, whether or not the kernel command line sets
+one.
+
+Fixes: b6a7617145c3 ("systemd-serialgetty: use existing unit files in syste=
+md")
+AI-Generated: Uses Claude Code (Claude Opus 5.5)
+Signed-off-by: Niko Mauno <niko.mauno@vaisala.com>
 ---
- meta/recipes-support/libffi/libffi/not-win32.patch            | 4 ++--
- .../libffi/{libffi_3.8.1.bb =3D> libffi_3.8.2.bb}               | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
- rename meta/recipes-support/libffi/{libffi_3.8.1.bb =3D> libffi_3.8.2.bb} =
-(94%)
+v2:
+- Apply the SERIAL_CONSOLES baud rates with a per-tty stty drop-in
+  instead of documenting them as ignored. v1 was "systemd-serialgetty:
+  Fix do_install for mixed baud rates".
+- After a BREAK, agetty switches to the first rate in systemd's
+  115200,57600,38400,9600 list until the getty restarts; the old unit
+  ran agetty at one fixed rate.
+- Applies to wrynose as-is.
+- The code was generated with Claude Code (see the AI-Generated: tag).
+---
+ .../systemd/systemd-serialgetty.bb            | 25 +++++++++----------
+ 1 file changed, 12 insertions(+), 13 deletions(-)
 
-diff --git a/meta/recipes-support/libffi/libffi/not-win32.patch b/meta/reci=
-pes-support/libffi/libffi/not-win32.patch
-index e1a6b187f5a..880a65d2fe0 100644
---- a/meta/recipes-support/libffi/libffi/not-win32.patch
-+++ b/meta/recipes-support/libffi/libffi/not-win32.patch
-@@ -1,4 +1,4 @@
--From 948a108c78f9030d1f1ea87af62ccd257da4b82b Mon Sep 17 00:00:00 2001
-+From dc67387ff4383bbf0f77ea6a45779983ca525baf Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Thu, 4 Feb 2016 16:22:50 +0000
- Subject: [PATCH] libffi: ensure sysroot paths are not in libffi.pc
-@@ -20,7 +20,7 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+diff --git a/meta/recipes-core/systemd/systemd-serialgetty.bb b/meta/recipe=
+s-core/systemd/systemd-serialgetty.bb
+index c3fe9d5b6d..1c109536e1 100644
+--- a/meta/recipes-core/systemd/systemd-serialgetty.bb
++++ b/meta/recipes-core/systemd/systemd-serialgetty.bb
+@@ -16,25 +16,24 @@ REQUIRED_DISTRO_FEATURES +=3D "usrmerge"
 =20
- diff --git a/configure.ac b/configure.ac
--index 63731dd..cd78322 100644
-+index 2237b05..658b4ae 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -449,7 +449,7 @@ done
-diff --git a/meta/recipes-support/libffi/libffi_3.8.1.bb b/meta/recipes-sup=
-port/libffi/libffi_3.8.2.bb
-similarity index 94%
-rename from meta/recipes-support/libffi/libffi_3.8.1.bb
-rename to meta/recipes-support/libffi/libffi_3.8.2.bb
-index 318cc7ef469..317bf8d938c 100644
---- a/meta/recipes-support/libffi/libffi_3.8.1.bb
-+++ b/meta/recipes-support/libffi/libffi_3.8.2.bb
-@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D5e9a8df556846b=
-b3d1edec0d968a2311"
- SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/${BPN}-${PV}.tar.gz \
-            file://not-win32.patch \
-            "
--SRC_URI[sha256sum] =3D "81e879c094cc5ec3186c48510c6385ac6b3e866192e8bc71a3=
-5245703757ee40"
-+SRC_URI[sha256sum] =3D "a699fda2b090c4b46cb79cf60c4dacfce480eb05742c0de66a=
-cf3af174a47f92"
+ do_install() {
+ 	if [ ! -z "${SERIAL_CONSOLES}" ] ; then
+-		default_baudrate=3D`echo "${SERIAL_CONSOLES}" | sed 's/\;.*//'`
+ 		install -d ${D}${sysconfdir}/systemd/system/getty.target.wants/
 =20
- EXTRA_OECONF =3D "--disable-builddir"
- EXTRA_OECONF:class-native +=3D "--with-gcc-arch=3Dgeneric"
+ 		tmp=3D"${SERIAL_CONSOLES}"
+ 		for entry in $tmp ; do
+ 			baudrate=3D`echo $entry | sed 's/\;.*//'`
+ 			ttydev=3D`echo $entry | sed -e 's/^[0-9]*\;//' -e 's/\;.*//'`
+-			if [ "$baudrate" =3D "$default_baudrate" ] ; then
+-				# enable the service
+-				ln -sf ${systemd_system_unitdir}/serial-getty@.service \
+-					${D}${sysconfdir}/systemd/system/getty.target.wants/serial-getty@$tty=
+dev.service
+-			else
+-				# install custom service file for the non-default baudrate
+-				install -m 0644 ${S}/serial-getty@.service ${D}${systemd_system_unitdi=
+r}/serial-getty$baudrate@.service
+-				sed -i -e "s/\@BAUDRATE\@/$baudrate/g" ${D}${systemd_system_unitdir}/s=
+erial-getty$baudrate@.service
+-				# enable the service
+-				ln -sf ${systemd_system_unitdir}/serial-getty$baudrate@.service \
+-					${D}${sysconfdir}/systemd/system/getty.target.wants/serial-getty$baud=
+rate@$ttydev.service
+-			fi
++			ln -sf ${systemd_system_unitdir}/serial-getty@.service \
++				${D}${sysconfdir}/systemd/system/getty.target.wants/serial-getty@$ttyd=
+ev.service
++			# agetty runs with --keep-baud, so set the rate it keeps
++			case "$baudrate" in
++			''|*[!0-9]*)
++				;;
++			*)
++				install -d ${D}${sysconfdir}/systemd/system/serial-getty@$ttydev.servi=
+ce.d
++				printf '[Service]\nExecStartPre=3D-${base_bindir}/stty -F /dev/%%I %s\=
+n' $baudrate \
++					> ${D}${sysconfdir}/systemd/system/serial-getty@$ttydev.service.d/bau=
+drate.conf
++				;;
++			esac
+ 		done
+ 	fi
+ }
+--=20
+2.47.3
+
