@@ -1,95 +1,90 @@
-Received: from mail-dy1-f178.google.com (mail-dy1-f178.google.com [74.125.82.178])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.575.1795888074569686076
+Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.730.1795888593521992377
  for <openembedded-core@lists.openembedded.org>;
- Sat, 28 Nov 2026 09:47:54 -0800
+ Sat, 28 Nov 2026 09:56:33 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=nkxtaPeF;
- spf=pass (domain: gmail.com, ip: 74.125.82.178, mailfrom: raj.khem@gmail.com)
-Received: by mail-dy1-f178.google.com with SMTP id 5a478bee46e88-386ab9ab619so12999055eec.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 28 Nov 2026 09:47:54 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=iCX+q1Cy;
+ spf=pass (domain: gmail.com, ip: 74.125.82.171, mailfrom: raj.khem@gmail.com)
+Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-385d8a00598so14779825eec.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 28 Nov 2026 09:56:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795888074; x=1796492874; darn=lists.openembedded.org;
+        d=gmail.com; s=20260707; t=1795888593; x=1796493393; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=2facOhrhy4VpOYJq5zKvuw1mCjg7wkfaxTTs/vRuzis=;
-        b=nkxtaPeFoXQMuuj+vwU2tWuJWAVna6n+wZCLcAClonUlRY+RbQa1762f8M1iXMNXWX
-         La2cS4Ey+qCGgGxlTEmVa4jrwoNDU3qQU5/qHyjqTtP+LXg25alhYgMYkpBrkNtPJLud
-         N9unH1m/BA3LKBF+yF8BqUbWREbmixAQLbLSt7x1xOuZM/AsORu5P1b00W0yVpg/Qx1M
-         Mebxa0mFidsuaaoQ8G5v4aq0HfJ+M2TOGNZsQPtCMMkWxlSf4IA065InjAy3VOHtZVcQ
-         +3Jlh/Rlv3U7k5Xe4MRhVPQsir3ra11u+CsmJLzYLllpwUS7jEqZ9VcN0Ed9en6H7qhT
-         x09w==
+        bh=eHcJ+nX4tnW45LyJQ+qTM9pgJlTODqaKNr1ssxIDDQ4=;
+        b=iCX+q1CyNvYyHlZICAHw7Th5wKgEpk8LJzDLLobpGnl876BYsCa7zSQMSW2b1LoeeF
+         kz1avObFMySRBWXkcjq3pMyPi4OtHZHEQNK4/Qr4WJkyWznrGstir+/AlmfPowybd63P
+         zQbE30UeeH/N0kYgCZgWXoHSfsq8dR95Ztf8CdtI2yuUNDr9I2s2Pd6d3W/HXOQgRJz7
+         fKIqjwBYF6MsIePOFY4yrGzs4s+4bDMz13eOCPWR4TfsibvFGdZyZ8xrCMjYx7ULwde9
+         3A/Ae+a9cZ5tSY89q0DYxlpSuEnNUzExpXC1LUlHfk7c3Ew1Q0hoStUodJ+pdMraOolz
+         9KVQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795888074; x=1796492874;
+        d=1e100.net; s=20260707; t=1795888593; x=1796493393;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=2facOhrhy4VpOYJq5zKvuw1mCjg7wkfaxTTs/vRuzis=;
-        b=P/14vEJMQVNCnLU6BhfJwbP10wiJ9zE5GmiuC9QSRdWz9ZzdVwWWs3pvIrIECny4h7
-         /y7JtBhPdV1BtdVgSpPkloK9PfD312PSQwUTCeUnw8kMGQFO2tXA9udy3Y3ySAUP0DpE
-         tiscNPDbspmvM1YuwdbHa7tNWKmkq3JHi2gxhA2yrOqDFICr/H/KCi+YEGndvG/Geqj2
-         DyEwvEwZkaX7+Gg1OXupBq/+OL0HZgDjwyEN85/jkmEfAu5ifyyXkW/HhOZrGPRVRZJY
-         3W4A4fezItvfGw01cdirKeceJnnZU30Yp5Q/7hInP3Wo3EwA13w5YM7Mv9sWB1fDn7rM
-         E4lQ==
-X-Gm-Message-State: APuU4Z/l2N8PN4YeZBKRicKrkKxL1dnVkn6MSk59+F+D1RTC55+NiQIE
-	eh7kPaRmvAwQ38I7SmgwAfCqWQlyhdXbHIRZpfI+21v9ofr/7feceNlXH7lAYeFi
-X-Gm-Gg: AZFdTZfyblH+FUI/WtflemT+8HO8uZSxtTbz2TSnQJiC98Gw54IAsaTdKR7/6q3Vl2h
-	fw86g7cj9o0KVOdiqcYL8Xi3p/S9KSL0joJBO3znI2C3QfrVWtGCRP20cI5N9sZePrUgwDclT2S
-	7+MXnFvKNozlHenjkN8Vnxtc8QoNagyoWk3YszrArdW+fsyQ6IscWjlRXngvV2KQLX8G4T7QrY2
-	tg0UtTkkoSNx8HqVNYMiF7WHnZJ44YtC0E9/csaDYdZhXNybMVLPc/ZnA+lvc/hT01GT65LvcYe
-	4uEVP3UkE6Y+ym0hhDThAIgWf7B4BvTagDB6/Ai/UcIpWnlWBlt+M+E5tMDZAVOJh50eH/7y3DZ
-	E7Gjus7zzt4/ixbIY4KFt23REQCKJgdOe63um7xPfURJTZV2etoUkp5CAj4pydgdNRcv6uSVQdb
-	WOE+UzQX4n/eGJ5TBnXbWzGduLjONOQ3xVNnwl4KbtDOGclarezRROO+xx5rx8zXQ6rcZNoCEGQ
-	etzlrqSqDbxyx9CPnLxjjhsmT8ByzfhhmM1DAquW9SvcTN7fLd7It8EWQDGHaGvod/TgvtETXZv
-	vcoWLlmRSVG3wmv+OmcF2P+BcZGs7XUFYrrC3WqDGXszSOVhX/TxVRhJRf7wUsIp7p8I57i2aJu
-	4ywTDTNyktM8ogzqAkaljaAK4fwRJaag76KgJRrzd+B4hlulFisTMcZcSQ+InM+1iM8NqQdUiy6
-	OxUPjBAAwMtXRAQhKPFWu676W9rvlwDIuYIq9CcU0fkzNwFtptOUwWRmEKW6FkUH0Tn1vos00+2
-	PbXZ5W8UxqdfUPkIeOErhYVKF7EvryJ8g9fkOQNRv/dDF10Je09iJrn93mz3cexQri0SFv3Z8j8
-	ScMXKnSAfOV7TD5M9soe9RYhzg==
-X-Received: by 2002:a05:7301:391c:b0:384:df31:69fd with SMTP id 5a478bee46e88-3856fb6a672mr31751764eec.14.1795888073700;
-        Sat, 28 Nov 2026 09:47:53 -0800 (PST)
+        bh=eHcJ+nX4tnW45LyJQ+qTM9pgJlTODqaKNr1ssxIDDQ4=;
+        b=p1wiv+kU/w/o03x5lPiXRCZkHi/JDeJk1jhDDsXxxMVNh8hFTSUZmcZp0jEqNS/8Fk
+         o/tGF9CsxEspkJq88K8kHNnlOBK2Lu+ZdMDr/rXKULrxxR+uLdocCy9bzYNHyVi1lZOO
+         ZztKlNxPqmhaIF06gkNUV33C5OZ/pWzKXYhSoFIUh0waf7BoSBhCMxPijJ7cED+7j2/n
+         4mLUeG6uXUebSmf0yk5P9jy/F4Lg4uumbwGZUbhfV0EbMr5FE5s5zzisioPuJplxeRYh
+         6PtFvrKvsEpeWKHcjudKjHHXnfmUPy94NKh1EX8/Ibx78ZrOubz64zLrclEoTREwsAAI
+         yAgQ==
+X-Gm-Message-State: APuU4Z8xNuJBcGFh2/DQvkok+4z7xyL8QGv0Oj6G9NglE2Io808M9d96
+	CoL82ilO76zqpMtpRzdJEg4Be//2yr1gZWLXxtmcd2dAnTUby/vEg3c6pFN1H+OE
+X-Gm-Gg: AZFdTZds+oCQeD8ievt23dimRtBom75YsY9TDXTiilJ6mtrzZQbCQMYfBxiWhAe2H+8
+	V/XqFda97kF/bFKSxfHEuIgENByWy+FqAEp6iGChLnomjxdZGvfvFowrrzRaRiLg+YXsju9U4xO
+	hCWA5YpL7TCO70QSmCc3kzau9uytwebloziSPaiXIpSBiyKiJSxGe4MV/bAwL648TWtJUZClEY7
+	bvE/Y+Cha5yyPaWkREWpk4/vqCMcwoVCEUDIdmsQwlnWItTQEnUJNzLPbMfLgq0wjfTJGe/6Gti
+	2WFzFX/sG51/ezod3MuUVNredaQhplAptlQFYzvwyiObzgN3uCOd8OCT56e9syOTs2atGbh+4LI
+	vDW50JBEpe50HycNqHdoo9nKMMl14kO3oH1ZV7JeZjF/5pB2rGO0xfvXjR46oS93SvA/wS0+aSA
+	DqsSKMAFijzkdCbdgrWUcQbQKpW+ZFxMglUk5z320AJj8wNT/anTYgNq1BS7mvW1+yTfSbXfvlg
+	kNDQ/zXgyTuofglubEl4zyuMfNkUWCrctQJAmSivebARJTpquZHpmCdzNUdd41m0ZdGQgRxKDx7
+	iqPRwph3m5Lsb9P0FEJom3F+hmZbmYFXai4Ve14BuGEyWBz2nSiPxwl+ZpiDXONOyFYuz/iER36
+	k4zBcwozjHTTjyeHUMZzgXbrWiDWk955/nFjCtQbE/H+FpVITUW+p2+6dCeIfM+ahUmKKhamHwN
+	JgZltNW/eYSOwFL2lcKM7pv0GKqYupqNegyhRzoT149ntTmtzyIHgQ0CZPpJnLvPa8ekMV6QBPp
+	8GITlUdTWBgvYynW/m90fwoabut2CAvTiu+a75F2XqjRMA8gniwEXNcyGjAUR7mT7tnb4Xwp8k2
+	asaA
+X-Received: by 2002:a05:701b:21cd:b0:1b2:4871:b1f7 with SMTP id a92af1059eb24-1b5568fbfcbmr23951153c88.39.1795888592765;
+        Sat, 28 Nov 2026 09:56:32 -0800 (PST)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-385666e99fdsm99402147eec.5.2026.11.28.09.47.52
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5567ff27bsm76080399c88.6.2026.11.28.09.56.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Nov 2026 09:47:53 -0800 (PST)
+        Sat, 28 Nov 2026 09:56:32 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <khem.raj@oss.qualcomm.com>
-Subject: [PATCH] avahi: Mark the upstream version as unknown until 0.9 is released
-Date: Sat, 28 Nov 2026 09:47:50 -0800
-Message-ID: <20261128174750.1470765-1-khem.raj@oss.qualcomm.com>
+Subject: [PATCH 1/2] libtoml11: Add upstream version check
+Date: Sat, 28 Nov 2026 09:56:28 -0800
+Message-ID: <20261128175629.1475352-1-khem.raj@oss.qualcomm.com>
 X-Mailer: git-send-email 2.56.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 28 Nov 2026 17:48:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251502
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 28 Nov 2026 17:56:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251503
 Content-Type: text/plain; charset="utf-8"
 
-avahi is built from the v0.9-rc5 tag. The git upstream check ignores
-tags that contain "rc", so the newest version it finds is 0.8, older
-than PV, and check-upgrade-status reports UNKNOWN_BROKEN. Set
-UPSTREAM_VERSION_UNKNOWN; once 0.9 is tagged the check reports
-KNOWN_BROKEN, which shows that the recipe can move to the release.
+Only consider vX.Y.Z release tags.
 
 AI-Generated: Uses Claude Code
 Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
 ---
- meta/recipes-connectivity/avahi/avahi_0.9.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-devtools/libtoml11/libtoml11_4.4.0.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-connectivity/avahi/avahi_0.9.bb b/meta/recipes-connectivity/avahi/avahi_0.9.bb
-index 72be13885c..d5f8cd8ae9 100644
---- a/meta/recipes-connectivity/avahi/avahi_0.9.bb
-+++ b/meta/recipes-connectivity/avahi/avahi_0.9.bb
-@@ -30,6 +30,9 @@ SRC_URI = "git://github.com/avahi/avahi;protocol=https;branch=master;tag=v0.9-rc
- PV = "0.9~rc5"
- SRCREV = "71b640e686964efb27cb708f4457ffaed183c319"
+diff --git a/meta/recipes-devtools/libtoml11/libtoml11_4.4.0.bb b/meta/recipes-devtools/libtoml11/libtoml11_4.4.0.bb
+index d9f0fa82f0..82a29de837 100644
+--- a/meta/recipes-devtools/libtoml11/libtoml11_4.4.0.bb
++++ b/meta/recipes-devtools/libtoml11/libtoml11_4.4.0.bb
+@@ -22,6 +22,8 @@ SRC_URI = "\
+ "
+ SRCREV = "be08ba2be2a964edcdb3d3e3ea8d100abc26f286"
  
-+# The git tag check skips -rc tags and there is no 0.9 release yet
-+UPSTREAM_VERSION_UNKNOWN = "1"
++UPSTREAM_CHECK_GITTAGREGEX = "^v(?P<pver>\d+(\.\d+)+)$"
 +
- GITHUB_BASE_URI = "https://github.com/avahi/avahi/releases/"
+ inherit cmake ptest
  
- CVE_STATUS[CVE-2021-26720] = "not-applicable-platform: Issue only affects Debian/SUSE"
+ CXXFLAGS:append:toolchain-clang = " -Wno-error=c2y-extensions"
