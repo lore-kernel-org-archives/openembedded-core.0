@@ -1,90 +1,93 @@
-Received: from mail-dy1-f171.google.com (mail-dy1-f171.google.com [74.125.82.171])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.730.1795888593521992377
+Received: from mail-dl1-f42.google.com (mail-dl1-f42.google.com [74.125.82.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.692.1795888594499784886
  for <openembedded-core@lists.openembedded.org>;
- Sat, 28 Nov 2026 09:56:33 -0800
+ Sat, 28 Nov 2026 09:56:34 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=iCX+q1Cy;
- spf=pass (domain: gmail.com, ip: 74.125.82.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-dy1-f171.google.com with SMTP id 5a478bee46e88-385d8a00598so14779825eec.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 28 Nov 2026 09:56:33 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=YyNSrnBu;
+ spf=pass (domain: gmail.com, ip: 74.125.82.42, mailfrom: raj.khem@gmail.com)
+Received: by mail-dl1-f42.google.com with SMTP id a92af1059eb24-15ea896ddc8so14905487c88.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 28 Nov 2026 09:56:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795888593; x=1796493393; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=eHcJ+nX4tnW45LyJQ+qTM9pgJlTODqaKNr1ssxIDDQ4=;
-        b=iCX+q1CyNvYyHlZICAHw7Th5wKgEpk8LJzDLLobpGnl876BYsCa7zSQMSW2b1LoeeF
-         kz1avObFMySRBWXkcjq3pMyPi4OtHZHEQNK4/Qr4WJkyWznrGstir+/AlmfPowybd63P
-         zQbE30UeeH/N0kYgCZgWXoHSfsq8dR95Ztf8CdtI2yuUNDr9I2s2Pd6d3W/HXOQgRJz7
-         fKIqjwBYF6MsIePOFY4yrGzs4s+4bDMz13eOCPWR4TfsibvFGdZyZ8xrCMjYx7ULwde9
-         3A/Ae+a9cZ5tSY89q0DYxlpSuEnNUzExpXC1LUlHfk7c3Ew1Q0hoStUodJ+pdMraOolz
-         9KVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795888593; x=1796493393;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1795888594; x=1796493394; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=eHcJ+nX4tnW45LyJQ+qTM9pgJlTODqaKNr1ssxIDDQ4=;
-        b=p1wiv+kU/w/o03x5lPiXRCZkHi/JDeJk1jhDDsXxxMVNh8hFTSUZmcZp0jEqNS/8Fk
-         o/tGF9CsxEspkJq88K8kHNnlOBK2Lu+ZdMDr/rXKULrxxR+uLdocCy9bzYNHyVi1lZOO
-         ZztKlNxPqmhaIF06gkNUV33C5OZ/pWzKXYhSoFIUh0waf7BoSBhCMxPijJ7cED+7j2/n
-         4mLUeG6uXUebSmf0yk5P9jy/F4Lg4uumbwGZUbhfV0EbMr5FE5s5zzisioPuJplxeRYh
-         6PtFvrKvsEpeWKHcjudKjHHXnfmUPy94NKh1EX8/Ibx78ZrOubz64zLrclEoTREwsAAI
-         yAgQ==
-X-Gm-Message-State: APuU4Z8xNuJBcGFh2/DQvkok+4z7xyL8QGv0Oj6G9NglE2Io808M9d96
-	CoL82ilO76zqpMtpRzdJEg4Be//2yr1gZWLXxtmcd2dAnTUby/vEg3c6pFN1H+OE
-X-Gm-Gg: AZFdTZds+oCQeD8ievt23dimRtBom75YsY9TDXTiilJ6mtrzZQbCQMYfBxiWhAe2H+8
-	V/XqFda97kF/bFKSxfHEuIgENByWy+FqAEp6iGChLnomjxdZGvfvFowrrzRaRiLg+YXsju9U4xO
-	hCWA5YpL7TCO70QSmCc3kzau9uytwebloziSPaiXIpSBiyKiJSxGe4MV/bAwL648TWtJUZClEY7
-	bvE/Y+Cha5yyPaWkREWpk4/vqCMcwoVCEUDIdmsQwlnWItTQEnUJNzLPbMfLgq0wjfTJGe/6Gti
-	2WFzFX/sG51/ezod3MuUVNredaQhplAptlQFYzvwyiObzgN3uCOd8OCT56e9syOTs2atGbh+4LI
-	vDW50JBEpe50HycNqHdoo9nKMMl14kO3oH1ZV7JeZjF/5pB2rGO0xfvXjR46oS93SvA/wS0+aSA
-	DqsSKMAFijzkdCbdgrWUcQbQKpW+ZFxMglUk5z320AJj8wNT/anTYgNq1BS7mvW1+yTfSbXfvlg
-	kNDQ/zXgyTuofglubEl4zyuMfNkUWCrctQJAmSivebARJTpquZHpmCdzNUdd41m0ZdGQgRxKDx7
-	iqPRwph3m5Lsb9P0FEJom3F+hmZbmYFXai4Ve14BuGEyWBz2nSiPxwl+ZpiDXONOyFYuz/iER36
-	k4zBcwozjHTTjyeHUMZzgXbrWiDWk955/nFjCtQbE/H+FpVITUW+p2+6dCeIfM+ahUmKKhamHwN
-	JgZltNW/eYSOwFL2lcKM7pv0GKqYupqNegyhRzoT149ntTmtzyIHgQ0CZPpJnLvPa8ekMV6QBPp
-	8GITlUdTWBgvYynW/m90fwoabut2CAvTiu+a75F2XqjRMA8gniwEXNcyGjAUR7mT7tnb4Xwp8k2
-	asaA
-X-Received: by 2002:a05:701b:21cd:b0:1b2:4871:b1f7 with SMTP id a92af1059eb24-1b5568fbfcbmr23951153c88.39.1795888592765;
-        Sat, 28 Nov 2026 09:56:32 -0800 (PST)
+        bh=nKWHVa1a+GpO8FTGTR9JzrE4I8r5C76a6Nk5LFGZ/0U=;
+        b=YyNSrnBu1aWkqFpu3toCuDCj8yPPjNptujdhXRjYwgnB+03nT03WH7qH/pQeW9JuXu
+         lW3ZocbGr0b1hMFJl10HGNTvuhkiKepXDh3S9ggPxDdPYC4LBmlUfcAT6sa95N+C226T
+         O+uSrh5WjiR4JdGkl0F0zp93gdlHfxPY+E1eKoe5R4MR30vFa3dRrFbpR3guEs+FLPA7
+         2Kq60kUpNjaKpMZrkJILGRUEipgRLUw3OPiy/J0FLv9Cgzf4OdNUkgRLOJtFc0M1gEps
+         OuMH+8ehnkkbKrc/JqemzOA7RsLjEfJsgV+K3hUAKnRj5mMhQSiwXWLKk0s3WhPdO4Am
+         RM6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795888594; x=1796493394;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=nKWHVa1a+GpO8FTGTR9JzrE4I8r5C76a6Nk5LFGZ/0U=;
+        b=VPhKnVhxL0asw1s/ZdmlafqxWdcNjIsoFS17M8MHqwElzkAez4SiSs9fbX6LMNQWOU
+         4lp/oNzJ5z5aouDlMcRUVzxErdnByiMMiyCsrLrxrEeQrAaNYi0RTOo1X7ryuxaGiLgC
+         3FzHZPN9YL6IM1GbH3Gw3cvDKlJ+jKQRPOU3NCzn19fMHZoxwAxGx2q4PLPSxOA0vSol
+         oRFfxk8aGrWqcUjCqqC0uGrJCLzeNfHdqdE5FlwgYE46i7plG2CAGyX2QefgB0MLVqns
+         DW5v7aqMivcntrh9QEohcuyKqCESiBVzvd3nJfAS5m5qJr3+HISCWo4FF1noll/8tF1S
+         zBeg==
+X-Gm-Message-State: APuU4Z/SC/spBDrw6l8t2trwIRkTbUDQ15bBhoO7bmjEvS+1GrnjML7/
+	JKnCN+oxx8wJSR1rpuLeteH+OoZCwWcei3APgM1M+1ZP1dRNyiMBlkYaiUV04GOB
+X-Gm-Gg: AZFdTZdaWKfEoAtXmk946RwrozAn7XYN4a86/45My+VO+lYbqGJE3okaE8bMZCPPGFV
+	Iwab43aOXDwjmqGz9af9qVXT6Dzm40NQfwmt33fB8PpJ2aXx0cXzVH/6gLRdb1+n/4uCLkB3sjh
+	s4dErnk0euLAwXO1zTcplDXO+u50IRez8vzrOtLpGxmMGbmo3Kmji8LwbxO0+GoLsML8dafLS+s
+	3f9EeFljvP6LgJiKoas1rirsjA5rMPgmGCunroy2KjeMT3SyC/VdFo6viB9hI/2FTi9LenzfBTp
+	3RQsQyC9GBTtAAgLLT7b5bpgPx5SdfFSt+Hraaa8yZvIV2oyt1f97gO/ET9SNrF5mCLaIE8BUEm
+	aO0NA2PANYU999hybpORiIjU0Vlyp6ZgooxlMEPYnAXat8Vi9ejPfi0U84BJJEi91/ANWk9d6BI
+	axXiLll9uki+899An6K/S+T9t5l174dsYdwQJuK4qJ/nxjwsTq/NJOSJoKDKBAWYib2OsdBXcVu
+	gPq/VVe5R9o5XiDo+NN3k4M7WxwWj1sfNoIchmuG9tyij0xg1ud0DeeGxyQn2Prdj8lIYRb0L4m
+	pTRvlqxVC33QEMsC+WYtd4PZQgUNoRYaZ4D5SjXie19q1acVi+Lpj4g+7+HBu40KvT30aJD8WQb
+	d+coBjncwljgLp7t9ufUxpOZIfx7rSgMP50f2NTPMEzy4/pLAzaIWo4Sz27kASODbFmj6x+L8Mv
+	yYkzAdqDbZkhXCOodMN3qcvhCzPuVioYi5s5XwapO/5dRU+5kBuuSHSDaDZ872CgmbDpYuTbZro
+	2tgBfrcmmt+aLqeemkivqJPNwZ+PHGoBYbK608FjvQVtfuhOsJ4XwNM4WdhsyBG2di9A9H555tO
+	EYN7
+X-Received: by 2002:a05:7022:7f01:b0:1b2:490b:6fdd with SMTP id a92af1059eb24-1b5568aeb2bmr23394847c88.24.1795888593682;
+        Sat, 28 Nov 2026 09:56:33 -0800 (PST)
 Return-Path: <raj.khem@gmail.com>
 Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5567ff27bsm76080399c88.6.2026.11.28.09.56.31
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b5567ff27bsm76080399c88.6.2026.11.28.09.56.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Nov 2026 09:56:32 -0800 (PST)
+        Sat, 28 Nov 2026 09:56:33 -0800 (PST)
 From: Khem Raj <raj.khem@gmail.com>
 X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <khem.raj@oss.qualcomm.com>
-Subject: [PATCH 1/2] libtoml11: Add upstream version check
-Date: Sat, 28 Nov 2026 09:56:28 -0800
-Message-ID: <20261128175629.1475352-1-khem.raj@oss.qualcomm.com>
+Subject: [PATCH 2/2] p11-kit: Add upstream version check
+Date: Sat, 28 Nov 2026 09:56:29 -0800
+Message-ID: <20261128175629.1475352-2-khem.raj@oss.qualcomm.com>
 X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261128175629.1475352-1-khem.raj@oss.qualcomm.com>
+References: <20261128175629.1475352-1-khem.raj@oss.qualcomm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 28 Nov 2026 17:56:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251503
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251504
 Content-Type: text/plain; charset="utf-8"
 
-Only consider vX.Y.Z release tags.
+Only consider the X.Y[.Z] release tags.
 
 AI-Generated: Uses Claude Code
 Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
 ---
- meta/recipes-devtools/libtoml11/libtoml11_4.4.0.bb | 2 ++
+ meta/recipes-support/p11-kit/p11-kit_0.26.6.bb | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/libtoml11/libtoml11_4.4.0.bb b/meta/recipes-devtools/libtoml11/libtoml11_4.4.0.bb
-index d9f0fa82f0..82a29de837 100644
---- a/meta/recipes-devtools/libtoml11/libtoml11_4.4.0.bb
-+++ b/meta/recipes-devtools/libtoml11/libtoml11_4.4.0.bb
-@@ -22,6 +22,8 @@ SRC_URI = "\
- "
- SRCREV = "be08ba2be2a964edcdb3d3e3ea8d100abc26f286"
+diff --git a/meta/recipes-support/p11-kit/p11-kit_0.26.6.bb b/meta/recipes-support/p11-kit/p11-kit_0.26.6.bb
+index 18430f0a74..7a72675c20 100644
+--- a/meta/recipes-support/p11-kit/p11-kit_0.26.6.bb
++++ b/meta/recipes-support/p11-kit/p11-kit_0.26.6.bb
+@@ -13,6 +13,8 @@ DEPENDS:append = "${@' glib-2.0' if d.getVar('GTKDOC_ENABLED') == 'True' else ''
+ SRC_URI = "gitsm://github.com/p11-glue/p11-kit;branch=master;protocol=https;tag=${PV}"
+ SRCREV = "f9813f90a51761dc75b5dcd8d9766466b8904f5c"
  
-+UPSTREAM_CHECK_GITTAGREGEX = "^v(?P<pver>\d+(\.\d+)+)$"
++UPSTREAM_CHECK_GITTAGREGEX = "^(?P<pver>\d+(\.\d+)+)$"
 +
- inherit cmake ptest
- 
- CXXFLAGS:append:toolchain-clang = " -Wno-error=c2y-extensions"
+ PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'systemd', d)} trust"
+ PACKAGECONFIG[systemd] = "-Dsystemd=enabled,-Dsystemd=disabled,systemd"
+ PACKAGECONFIG[manpages] = "-Dman=true,-Dman=false,libxslt-native"
