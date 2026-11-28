@@ -1,153 +1,383 @@
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.64])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8195.1795878813362652434
+Received: from mail-dl1-f41.google.com (mail-dl1-f41.google.com [74.125.82.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.469.1795887540931555351
  for <openembedded-core@lists.openembedded.org>;
- Sat, 28 Nov 2026 07:13:33 -0800
+ Sat, 28 Nov 2026 09:39:00 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=qAwjs/lb;
- spf=pass (domain: siemens.com, ip: 52.101.72.64, mailfrom: adrian.freihofer@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rJNnqGU0YxGCTXtRyStGLrwzn//M9ub2imDvzH2ehTd+SoJhpJDarc5Q08vasIGWCi1Xaf8f1j4V7+fwOZuS4zPvvk0Ml9vTHxgKubytl279116Unf+YAAes3QsEQ2saKJsj2sCwPQ6hwouRFQZh/O7lMcjMUJRsk2s4NZfGliSZRkKq6VjRNGTA89Fe07UBb7ZnCB7bRiYC6XUSEBVscryP/mrQaSuJ0QKzE4U/UC1x+cbO0si8zlOc0GCfBfZS5NpoyMBMdu5YpxvYAJHQbYtuAAb403FNmFVcmtZva+K1cLxl/rCu9Tl61Wr2lIPTqkIYl6AzdrZMtCUMqeJplA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gApEwtQTHWbAxRepJxjaBrBvqcd4J4zR8QB7wfHyAp8=;
- b=uqe+LF+/JW6D81sKifbpHp00j+n8RGNuzrKPSYtCN0E1qjorM/JiipJWqu7mgJyUADP/gWUuiDPkjrhzIKHTG4ga1tsnYzscDucDwEn6F3q7FNl3rs4NeRx9Su1auWJBSZMTqe7drNeyT+WbboGo2sFT9xnubQWbu0JfQReE23TN2WkJR5lkVBUMTUCK4jjfIBkwEhrzSJuG1y/4Ogb/2qzEdV+Fbiwf2SWJUDOVHoWm0pkCl/X6egvP+BukxeVzTa3WajINQGr6kQKQKtlbZkV2b2Yikd3w8z0+1ZhEWdc9k+CUWD8nycSPybmGo0nSu029tGBnn+AXm39sWSKe4Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gApEwtQTHWbAxRepJxjaBrBvqcd4J4zR8QB7wfHyAp8=;
- b=qAwjs/lbiHCQkkXOWmkDLBJeg2Cku0k6pZ50hFbqrFBCHLiWRuRmCDfyR31EtmuTON/H2FgQ669IayUWJqk96puhXa/ocz8mBxVYKkrCHEjkrl4GOEzj5KmvaWnQUYVOQd4hHln0URSEUwXZzMsAikxJx3oVrwRd/QP5l0c8vccRszYG6NNhqtNJHC45d8v6nH9AWB8P4bwI3gQI9fD/mRlTxM/nfBgJ1yU84K08RWqFUIchDNJGYR3pw/B6aV3XBi5MG3hq3XsovtDYrPFQyaLCgTWRAmYKviBN7RJlseZAo8RiTYSSNredO6LuWh6iIjVclD2ijKwNhDC/UWaHtQ==
-Received: from AM7PR10MB3745.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:14e::19)
- by PR3PR10MB3947.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:40::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.688.8; Sat, 28 Nov
- 2026 15:13:28 +0000
-Received: from AM7PR10MB3745.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::7576:68aa:ea32:323f]) by AM7PR10MB3745.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::7576:68aa:ea32:323f%5]) with mapi id 15.21.0688.004; Sat, 28 Nov 2026
- 15:13:28 +0000
-From: "Freihofer, Adrian" <adrian.freihofer@siemens.com>
-To: Viswanath Kraleti <viswanath.kraleti@oss.qualcomm.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>
-CC: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>,
-	"ricardo.salveti@oss.qualcomm.com" <ricardo.salveti@oss.qualcomm.com>
-Subject: Re: [OE-core][PATCH v2 0/4] uboot-sign: support an SPL FIT with
- firmware loadables and extra configurations
-Thread-Topic: [OE-core][PATCH v2 0/4] uboot-sign: support an SPL FIT with
- firmware loadables and extra configurations
-Thread-Index: AQHdeZar0H4rE4Mnq0OCMdX9fLMx/7c7+WMAgAeo0n4=
-Date: Sat, 28 Nov 2026 15:13:28 +0000
-Message-ID: <AM7PR10MB37454EF6C492D88D76EFAB498E402@AM7PR10MB3745.EURPRD10.PROD.OUTLOOK.COM>
-References: <20261121085937.411140-1-viswanath.kraleti@oss.qualcomm.com>
- <CAA_5yovVqGo6_TgUcAMJVGi4fmMcWa3r_bPV5g37Qb5xyjCviw@mail.gmail.com>
-In-Reply-To: <CAA_5yovVqGo6_TgUcAMJVGi4fmMcWa3r_bPV5g37Qb5xyjCviw@mail.gmail.com>
-Accept-Language: en-US, de-CH
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=True;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-11-28T15:13:28.161Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=C1
- -
- Restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=1;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AM7PR10MB3745:EE_|PR3PR10MB3947:EE_
-x-ms-office365-filtering-correlation-id: c039d9a3-081b-4f88-f230-08df4d622821
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|39142699007|31052699007|366016|23010399003|1800799024|376014|38070700021|10067099003|56012099006|18002099003|22082099003|55112099003|11063799006|4143699003|8096899003;
-x-microsoft-antispam-message-info: f6Lrq1bhVtrqgo5b8vChbbUBWVcMh3Wm6rb5T6yrNXdtxlHh41CRBvA2MfPrPi2mp3tHaIj+vVz6n2WwCN2SOrES5tVeB3nJqEnXpoaewupgTtZgTvQ8wNhThsfOyfVtr8tSd0xMlAjkyTh1Yia42/dD8zZJ7ZHSBp638maqO1I3wsa09OpmXF+UnmsjRTUGQGMKNnfaJtmpLphtuFkxWPxKyU+rliOmdHPYyFhTVy7x7kK/GRb6nYHYNI03m4YBCRzvW4ftDgvRJe1MOe2eZkXfmHD2kBWQLNfaOyYdqHWJAhkMTYnoA7rGJGYY22qW6WhyrYw6w29IKCK0vCgy2A3d9l7OR5Ku7GX/pBml8/T4XqtgWFK+kK/YiJAgZ7GsiWjmc5yqQ7RF+m/6EiDnoYXyhLczIrhjjY6w9YI8FW9UCBx16XCZMlgHO5rlvCCVJiBEGBpY4W0ritkSvOoSl0DKHTM7vTlha4Kwb9LZSbgipAeVj4zFQeWv44YMsSYaUkAmDj5DumPraUKHaNcwdT/MVNJaA2aO5ePIJ+VvHq7053W3V933mLpA3i2edoHd6iEcffipicNTPlQ+7scCIqCvkyRsQ7oPL4jOlWAs15vwaCEm0NpDBKiDLpTVGuL5YgwgFP/rQWQtAUoVX8Xh509JTI6AUeowSx690RYzTjP+IHOaT7Zqe2X8TkYRF7xty8dz4KlxeE0C3nCmSPAj9Wf3RmL48dxWmtHDOjI9nrU=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR10MB3745.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(39142699007)(31052699007)(366016)(23010399003)(1800799024)(376014)(38070700021)(10067099003)(56012099006)(18002099003)(22082099003)(55112099003)(11063799006)(4143699003)(8096899003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?3BtPY+NbMzyAjj14HY/+147OOuAH5PtRejKF8YKLx9Irz4AHQXqCMQxJvd?=
- =?iso-8859-1?Q?UeC5+RhDjrvDwUDIUDoFLIN5NjdwQ+y73nQjUAffswGYmXZRrD2c3BJkEL?=
- =?iso-8859-1?Q?fQhd4tfDxLqcmN7xGvXSJqg0tiwrZGzZhC+IJYVv/ZVBdsCv2P0o7sX3HX?=
- =?iso-8859-1?Q?Rols7pS+TfhC9Vb1yg6yxTDj09g5/WgzgXY7U8uUWu6nNh+Ns3tbChy90A?=
- =?iso-8859-1?Q?Fqy2rWmZh0VNNGpWK5F3o29ULYy57hLqgh00tb7awAteytJ9FsqJooYER2?=
- =?iso-8859-1?Q?Af+8AtMfNRI/OGEOyH4e2Kf7D1JBbOm4ZjmXBXngF08G8O7byWaIlLw8oh?=
- =?iso-8859-1?Q?4sSvbK/rYabd9X5h2n6q8c6e6ADIgcUKFDADwN8h7xGk5Y+br2AyLvhrIH?=
- =?iso-8859-1?Q?nrOkL/8qXNCmoccYu/t3SC32PvAAw/4m2Mm3P82r3DN99wBcKQ/u4CycqB?=
- =?iso-8859-1?Q?uQNC8MNhYCqEkSpjVUjuHTjiFYqT+qUvYiRil4S16P4iuLeIODWWVpxR6Y?=
- =?iso-8859-1?Q?sn/j5pni0vub2ZhDi14udI7xk0V5hH/rSmnl+MPyKm/QzeV2J4b+tbiI+R?=
- =?iso-8859-1?Q?Y7AoXVv8icKU6yVHc44hNozTruNaT3dCdHPa6iLOlbSHSf5IYoT3+YgV+M?=
- =?iso-8859-1?Q?/zJQ+LUnhcSWh9LqiHonyCGa3Hn2FUduJzgzCa9hyueZkTAYfHlc2Gjbmm?=
- =?iso-8859-1?Q?1iADLedDRuVcoGj2PZfy8Jk5Tb4xWqnP5qzsaxqLioVwVjf8vMIL0j0y0P?=
- =?iso-8859-1?Q?1/O7fhsZIEyXCecSiLG12Sha5IuKlV5p6Wo5qnjX1vJGJC6F2EFIqyP6E9?=
- =?iso-8859-1?Q?xX1dMVx8L05PJJxknnH6YIeyRQE376j0/x6Ul/jDaJ2GevoBkNEcP/mbj+?=
- =?iso-8859-1?Q?ZajWat0hTHxTdU431AHqi4nxmYYbTy7kgFw9o4AKYSocIdmxqlb39IYpsC?=
- =?iso-8859-1?Q?ppucEd24i+xJgcFu4IatDjBFPY2UP+/Yu7CMpiZQ3VJoThwuTpu6hqztfg?=
- =?iso-8859-1?Q?qbBYp0yrN3/XRs84yN5c6KAD9ghSto1/WKLAecgT1SMa3PLG85KosjTw2Y?=
- =?iso-8859-1?Q?cneP5C4ZwIhstjxc2oA3t43PVRl08rHde2zPTStEp4MNgKE0Lb0ZAumzZ2?=
- =?iso-8859-1?Q?/gpBE8d+ol2FDT1DrMA/Oi++T9ZsKwF6JbSk3uTH8ntEtO7utYxuY+8fwZ?=
- =?iso-8859-1?Q?KRJdKuu+lUF69LZU/VhPlAxVgiB/rUVNT86MZHWd5DVVk5GrECHnhlvae+?=
- =?iso-8859-1?Q?dyBtRjpDOhwxx05LZbhzrZVR7WeXjNq6JBM9V9jHdvxjI43mHRKLoE3qcN?=
- =?iso-8859-1?Q?71Gtuvy6Db81aC8WRzjm3E+VGVnB/pdrKvOWpc1GjI1xRBF3BsQD1fVWDt?=
- =?iso-8859-1?Q?xgLhOZVNR5tou9vCykRTQqgCCERzVcbi+mI2FM1OMjyPTHgm0fDa7SO8Qe?=
- =?iso-8859-1?Q?WAV608pdNFQhRBu1G/8+UO/jR0cTiAXvWBlXrwxD+IMF4QInIyK6HkgwX3?=
- =?iso-8859-1?Q?7A+NNcKdhlIqbBiV+oxE3+S3E0Try0pJZ6sqMYOE6d2e6zSZ2THS0iQ4a+?=
- =?iso-8859-1?Q?vm4d1e3hs3vKsuxQcEx7O9PKS/nDmYJU0HzFkubZgDa0JePkHOI90WPpa4?=
- =?iso-8859-1?Q?zLVeKEMBIDtABYBXGw6Ai3s5FcZkO1UfPy8TuEmljFqz1+1m1yQn+3sZ/A?=
- =?iso-8859-1?Q?Q1rp1sEBAW5W9DuqinJcuBW4Zze0YfpHY053ce5h1SJN5ojDmPd2anz96E?=
- =?iso-8859-1?Q?hvKMeDcb2SJH2q75JG4Thv59W8HCQWtaTJwPc6pDZmiQjmLqjV0P8eK38y?=
- =?iso-8859-1?Q?XbsOLOw2oA=3D=3D?=
-Content-Type: multipart/alternative;
-	boundary="_000_AM7PR10MB37454EF6C492D88D76EFAB498E402AM7PR10MB3745EURP_"
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=Tg/8pBg2;
+ spf=pass (domain: gmail.com, ip: 74.125.82.41, mailfrom: raj.khem@gmail.com)
+Received: by mail-dl1-f41.google.com with SMTP id a92af1059eb24-15ea896ddc8so14890602c88.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 28 Nov 2026 09:39:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20260707; t=1795887540; x=1796492340; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=CPXfHOaDZaewI6cvNInbhxjc/yQmA1SEUvJHKyt6BjU=;
+        b=Tg/8pBg2gyxkzloDShf5G1nZX1LfeGshJHIMKymcKthyDk1iRdA9Od2QnrAiljbV9e
+         rSxEQe+I9RsBc6PfRO0VZDx+OW5GkhXkibjpp1XfAnRMR/xfDwRaOeMUYBd/iVomZ6/K
+         Xm/DlgbZcdp6hxMI4u5RYJztWSQn5Sx7NI75QbBflAwZRM21Z+Ko+jl4iZQCGgZlEFwi
+         Nhq98k9UupoCGAaL9acMN7nyqs88irSiAadDtSdxazd+FINhPIauMCyDr9/xIhwUp/ge
+         Z429H7Ooix2FWExxguw62r+JZim6tEof9NHpAlu+JCO6zs1jafHK/RNgppgibkq87i2x
+         fZ4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795887540; x=1796492340;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=CPXfHOaDZaewI6cvNInbhxjc/yQmA1SEUvJHKyt6BjU=;
+        b=EPc5mcnF4zZsjj1MvwgOetQc7His9/B05ywcggHjOS4Fe2M1gtuhstJUjtGQ7kZVMD
+         IcHFQTqehYrBlMgGuGWeKdDNr62NOCjLvpmVpffM3IGZg1eMOIdvYsrVQIOflIkRVtFv
+         k/Q7UXgsaHpflw6J4RZVBroBUW0QqZhe8mX5MN99yTEyY8SqmEaMQxocw0xZCbfr2qcC
+         HWZv35eB8Pmtal8vccrxUyOdl5bJkxJm6ntVIpmSfRbZRmimfEb4i//jXzsDdASwOpO+
+         OZpYOQUcr5Fi1pYNX+G9wndi+aEdePrgnL8phnmaDRWKlWCKJPFDbSLwGivoljA6+lRQ
+         62zA==
+X-Gm-Message-State: APuU4Z//cvYISlgQU9fCJUFoVPlmWJ/Jkh0oEuD2kPN06JCpqlvIHFJp
+	ONcGRzr0PYWX27lDRcknFQiT5JXXXjJ+2GzFKuC/SS+jE2/gyf55qK9XNOxCvhdZ
+X-Gm-Gg: AZFdTZeqhdEmQOvpHORfQwRc1J4+ek8pv+FApYYCXVRuED4rraDvKvGkjngWCSCN/va
+	ca0eZ81i8Zul91D4/cKwxvfYUGhmqqWjceLTLRM0wpJp6aMwntg5VH1mHxZcnfRBHFQr++/c9Vy
+	c+tdMPWAMv124CycluN/tKzkMTg7JvYAhd49k3Lgdc0BwwEWT6mMSDZsZ78XVre6X4o7hLxb8kk
+	v10OhTxYmkY+vGdo1QnLmZ2guke8EPp+Xw6UnYU1lO1XnwS3zWaVmfuqu9kymbAm8dRo+MotsiL
+	aMXIAPm8LhV5EkudFzqObTclxb+qOm8/IXzOVsY34DQ48cooWHv8UtQYipeHqLld7/6h8xag0bi
+	tXh4O7TUbO3umlyDAH8IywCXpaMVZ3Ye/oMLmqHYHim0eoVW5gF4err0JkC9W1rkZa6x//RKUZi
+	0wX2FkXE0U7NgfPeHg6G5XcoqSvngrySgqNHA5oOEuvIoBZIarFEvGroLda/iz9+70XXElCR/CX
+	e7BNNCr5EsCSTF2Kd988emB8+JcL75hXP6u/JP7ukl03YK7xLeJWx/yiTplW6+PrWwgb9ockRrm
+	edIONLhI8Npve1g2kFYTQlpXUG69Ei+VZpzPBjgOzYKCBuJDSq6+5nzJbITZR2ZXkccCcMSfbIw
+	pFgBjG5C7je6TSizyMxt2lPzxIgIkoGBFju0lM3S3uaVtQtEmROJaCES8W3fK6zrqoyKWNWuJLu
+	cPglHmYfzd103vOgzuj+yNmknGAztG/6Zr+bwAFnumAH6hl8haOJblykyanfovOGdTF2ptcUlF0
+	0+sXfW4DN32S+7eDFw1swsooAoR7iY5XUVClQEYnlMlvFqQGEernjFfqFPIwLQnQKJiJO+ym48H
+	uPuY
+X-Received: by 2002:a05:701a:815a:20b0:137:5b9d:cf87 with SMTP id a92af1059eb24-1b556695bf9mr25465674c88.0.1795887540105;
+        Sat, 28 Nov 2026 09:39:00 -0800 (PST)
+Return-Path: <raj.khem@gmail.com>
+Received: from apollo.tail3ccdd3.ts.net ([147.160.63.35])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1b562a82b3fsm79829348c88.5.2026.11.28.09.38.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 28 Nov 2026 09:38:59 -0800 (PST)
+From: Khem Raj <raj.khem@gmail.com>
+X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Khem Raj <khem.raj@oss.qualcomm.com>
+Subject: [PATCH] libc-test: Update to the latest master
+Date: Sat, 28 Nov 2026 09:38:56 -0800
+Message-ID: <20261128173856.1461727-1-khem.raj@oss.qualcomm.com>
+X-Mailer: git-send-email 2.56.1
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM7PR10MB3745.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: c039d9a3-081b-4f88-f230-08df4d622821
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Nov 2026 15:13:28.5025
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: iO9IyLk/RIiuh2L/tidTTdw77Z+/ZPWqXqP8eFIHadQ9BPq28OmrGw7CUsVPZv0dEVGYm7VVKwECLi6tN1hjk9Y06F8sHPAB9jgpHuCOkRA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR10MB3947
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 28 Nov 2026 15:13:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251500
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 28 Nov 2026 17:39:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251501
+Content-Type: text/plain; charset="utf-8"
 
---_000_AM7PR10MB37454EF6C492D88D76EFAB498E402AM7PR10MB3745EURP_
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+Update to the current master, which brings 18 commits, mostly new
+tests: wordexp, regex backreferences, strtod rounding and fma/pow corner
+cases.
 
-v2 looks good to me.
+Leave out the tests that fail on musl with a NAMES filter in config.mak,
+listed in LIBC_TEST_EXCLUDE, instead of deleting their sources:
+- math/fma, fmaf, fmal and powf fail because of fenv issues in musl;
+  they were deleted by 0001-math-Delete-failing-tests.patch, now dropped.
+- The new functional/wordexp, regression/regex-backref-oob and
+  regression/regexec-backref tests check for bugs that musl master does
+  not fix yet. The deep nested arithmetic case in the wordexp test also
+  crashes bash as /bin/sh.
 
-Regards,
-Adrian
+Add UPSTREAM_CHECK_COMMITS so new commits on master are reported.
 
---_000_AM7PR10MB37454EF6C492D88D76EFAB498E402AM7PR10MB3745EURP_
-Content-Type: text/html; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+AI-Generated: Uses Claude Code
+Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
+---
+ .../0001-math-Delete-failing-tests.patch      | 240 ------------------
+ meta/recipes-core/musl/libc-test_git.bb       |  10 +-
+ 2 files changed, 8 insertions(+), 242 deletions(-)
+ delete mode 100644 meta/recipes-core/musl/libc-test/0001-math-Delete-failing-tests.patch
 
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-1">
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<div class=3D"elementToProof" style=3D"font-family: Arial, Helvetica, sans-=
-serif; font-size: 10pt; color: rgb(0, 0, 0);">
-v2 looks good to me.</div>
-<div class=3D"elementToProof" style=3D"font-family: Arial, Helvetica, sans-=
-serif; font-size: 10pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Arial, Helvetica, sans-=
-serif; font-size: 10pt; color: rgb(0, 0, 0);">
-Regards,</div>
-<div class=3D"elementToProof" style=3D"font-family: Arial, Helvetica, sans-=
-serif; font-size: 10pt; color: rgb(0, 0, 0);">
-Adrian</div>
-</body>
-</html>
-
---_000_AM7PR10MB37454EF6C492D88D76EFAB498E402AM7PR10MB3745EURP_--
+diff --git a/meta/recipes-core/musl/libc-test/0001-math-Delete-failing-tests.patch b/meta/recipes-core/musl/libc-test/0001-math-Delete-failing-tests.patch
+deleted file mode 100644
+index 814d7bcb64..0000000000
+--- a/meta/recipes-core/musl/libc-test/0001-math-Delete-failing-tests.patch
++++ /dev/null
+@@ -1,240 +0,0 @@
+-From c46b87834ad13c8e1b8f4ae1655773fc946c98e5 Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 20 Aug 2025 12:41:26 -0700
+-Subject: [PATCH] math: Delete failing tests
+-
+-These tests are regularly failing due ot fenv
+-issue on musl but its not prioritized enough
+-in musl. Ignore them for now.
+-
+-Upstream-Status: Inappropriate [musl-specific]
+-
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- src/math/fma.c  | 47 --------------------------------------------
+- src/math/fmaf.c | 47 --------------------------------------------
+- src/math/fmal.c | 52 -------------------------------------------------
+- src/math/powf.c | 47 --------------------------------------------
+- 5 files changed, 236 deletions(-)
+- delete mode 100644 src/math/fma.c
+- delete mode 100644 src/math/fmaf.c
+- delete mode 100644 src/math/fmal.c
+- delete mode 100644 src/math/powf.c
+-
+-diff --git a/src/math/fma.c b/src/math/fma.c
+-deleted file mode 100644
+-index 24b65c8..0000000
+---- a/src/math/fma.c
+-+++ /dev/null
+-@@ -1,47 +0,0 @@
+--#include <stdint.h>
+--#include <stdio.h>
+--#include "mtest.h"
+--
+--static struct ddd_d t[] = {
+--#include "sanity/fma.h"
+--#include "special/fma.h"
+--};
+--
+--int main(void)
+--{
+--	#pragma STDC FENV_ACCESS ON
+--	double y;
+--	float d;
+--	int e, i, err = 0;
+--	struct ddd_d *p;
+--
+--	for (i = 0; i < sizeof t/sizeof *t; i++) {
+--		p = t + i;
+--
+--		if (p->r < 0)
+--			continue;
+--		fesetround(p->r);
+--		feclearexcept(FE_ALL_EXCEPT);
+--		y = fma(p->x, p->x2, p->x3);
+--		e = fetestexcept(INEXACT|INVALID|DIVBYZERO|UNDERFLOW|OVERFLOW);
+--
+--		/* do not check inexact by default */
+--#if defined CHECK_INEXACT || defined CHECK_INEXACT_OMISSION
+--		if (!checkexceptall(e, p->e, p->r)) {
+--#else
+--		if (!checkexceptall(e|INEXACT, p->e|INEXACT, p->r)) {
+--#endif
+--			printf("%s:%d: bad fp exception: %s fma(%a,%a,%a)=%a, want %s",
+--				p->file, p->line, rstr(p->r), p->x, p->x2, p->x3, p->y, estr(p->e));
+--			printf(" got %s\n", estr(e));
+--			err++;
+--		}
+--		d = ulperr(y, p->y, p->dy);
+--		if (!checkcr(y, p->y, p->r)) {
+--			printf("%s:%d: %s fma(%a,%a,%a) want %a got %a ulperr %.3f = %a + %a\n",
+--				p->file, p->line, rstr(p->r), p->x, p->x2, p->x3, p->y, y, d, d-p->dy, p->dy);
+--			err++;
+--		}
+--	}
+--	return !!err;
+--}
+-diff --git a/src/math/fmaf.c b/src/math/fmaf.c
+-deleted file mode 100644
+-index c4329a2..0000000
+---- a/src/math/fmaf.c
+-+++ /dev/null
+-@@ -1,47 +0,0 @@
+--#include <stdint.h>
+--#include <stdio.h>
+--#include "mtest.h"
+--
+--static struct fff_f t[] = {
+--#include "sanity/fmaf.h"
+--#include "special/fmaf.h"
+--};
+--
+--int main(void)
+--{
+--	#pragma STDC FENV_ACCESS ON
+--	float y;
+--	float d;
+--	int e, i, err = 0;
+--	struct fff_f *p;
+--
+--	for (i = 0; i < sizeof t/sizeof *t; i++) {
+--		p = t + i;
+--
+--		if (p->r < 0)
+--			continue;
+--		fesetround(p->r);
+--		feclearexcept(FE_ALL_EXCEPT);
+--		y = fmaf(p->x, p->x2, p->x3);
+--		e = fetestexcept(INEXACT|INVALID|DIVBYZERO|UNDERFLOW|OVERFLOW);
+--
+--		/* do not check inexact by default */
+--#if defined CHECK_INEXACT || defined CHECK_INEXACT_OMISSION
+--		if (!checkexceptall(e, p->e, p->r)) {
+--#else
+--		if (!checkexceptall(e|INEXACT, p->e|INEXACT, p->r)) {
+--#endif
+--			printf("%s:%d: bad fp exception: %s fmaf(%a,%a,%a)=%a, want %s",
+--				p->file, p->line, rstr(p->r), p->x, p->x2, p->x3, p->y, estr(p->e));
+--			printf(" got %s\n", estr(e));
+--			err++;
+--		}
+--		d = ulperrf(y, p->y, p->dy);
+--		if (!checkcr(y, p->y, p->r)) {
+--			printf("%s:%d: %s fmaf(%a,%a,%a) want %a got %a ulperr %.3f = %a + %a\n",
+--				p->file, p->line, rstr(p->r), p->x, p->x2, p->x3, p->y, y, d, d-p->dy, p->dy);
+--			err++;
+--		}
+--	}
+--	return !!err;
+--}
+-diff --git a/src/math/fmal.c b/src/math/fmal.c
+-deleted file mode 100644
+-index 791d5d3..0000000
+---- a/src/math/fmal.c
+-+++ /dev/null
+-@@ -1,52 +0,0 @@
+--#include <stdint.h>
+--#include <stdio.h>
+--#include "mtest.h"
+--
+--static struct lll_l t[] = {
+--#if LDBL_MANT_DIG == 53
+--#include "sanity/fma.h"
+--#include "special/fma.h"
+--#elif LDBL_MANT_DIG == 64
+--#include "sanity/fmal.h"
+--#include "special/fmal.h"
+--#endif
+--};
+--
+--int main(void)
+--{
+--	#pragma STDC FENV_ACCESS ON
+--	long double y;
+--	float d;
+--	int e, i, err = 0;
+--	struct lll_l *p;
+--
+--	for (i = 0; i < sizeof t/sizeof *t; i++) {
+--		p = t + i;
+--
+--		if (p->r < 0)
+--			continue;
+--		fesetround(p->r);
+--		feclearexcept(FE_ALL_EXCEPT);
+--		y = fmal(p->x, p->x2, p->x3);
+--		e = fetestexcept(INEXACT|INVALID|DIVBYZERO|UNDERFLOW|OVERFLOW);
+--
+--		/* do not check inexact by default */
+--#if defined CHECK_INEXACT || defined CHECK_INEXACT_OMISSION
+--		if (!checkexceptall(e, p->e, p->r)) {
+--#else
+--		if (!checkexceptall(e|INEXACT, p->e|INEXACT, p->r)) {
+--#endif
+--			printf("%s:%d: bad fp exception: %s fmal(%La,%La,%La)=%La, want %s",
+--				p->file, p->line, rstr(p->r), p->x, p->x2, p->x3, p->y, estr(p->e));
+--			printf(" got %s\n", estr(e));
+--			err++;
+--		}
+--		d = ulperrl(y, p->y, p->dy);
+--		if (!checkcr(y, p->y, p->r)) {
+--			printf("%s:%d: %s fmal(%La,%La,%La) want %La got %La ulperr %.3f = %a + %a\n",
+--				p->file, p->line, rstr(p->r), p->x, p->x2, p->x3, p->y, y, d, d-p->dy, p->dy);
+--			err++;
+--		}
+--	}
+--	return !!err;
+--}
+-diff --git a/src/math/powf.c b/src/math/powf.c
+-deleted file mode 100644
+-index 4778c2f..0000000
+---- a/src/math/powf.c
+-+++ /dev/null
+-@@ -1,47 +0,0 @@
+--#include <stdint.h>
+--#include <stdio.h>
+--#include "mtest.h"
+--
+--static struct ff_f t[] = {
+--#include "ucb/powf.h"
+--#include "sanity/powf.h"
+--#include "special/powf.h"
+--
+--};
+--
+--int main(void)
+--{
+--	#pragma STDC FENV_ACCESS ON
+--	float y;
+--	float d;
+--	int e, i, err = 0;
+--	struct ff_f *p;
+--
+--	for (i = 0; i < sizeof t/sizeof *t; i++) {
+--		p = t + i;
+--
+--		if (p->r < 0)
+--			continue;
+--		fesetround(p->r);
+--		feclearexcept(FE_ALL_EXCEPT);
+--		y = powf(p->x, p->x2);
+--		e = fetestexcept(INEXACT|INVALID|DIVBYZERO|UNDERFLOW|OVERFLOW);
+--
+--		if (!checkexcept(e, p->e, p->r)) {
+--			if (fabsf(y) < 0x1p-126f && (e|INEXACT) == (INEXACT|UNDERFLOW))
+--				printf("X ");
+--			else
+--				err++;
+--			printf("%s:%d: bad fp exception: %s powf(%a,%a)=%a, want %s",
+--				p->file, p->line, rstr(p->r), p->x, p->x2, p->y, estr(p->e));
+--			printf(" got %s\n", estr(e));
+--		}
+--		d = ulperrf(y, p->y, p->dy);
+--		if (!checkulp(d, p->r)) {
+--			printf("%s:%d: %s powf(%a,%a) want %a got %a ulperr %.3f = %a + %a\n",
+--				p->file, p->line, rstr(p->r), p->x, p->x2, p->y, y, d, d-p->dy, p->dy);
+--			err++;
+--		}
+--	}
+--	return !!err;
+--}
+diff --git a/meta/recipes-core/musl/libc-test_git.bb b/meta/recipes-core/musl/libc-test_git.bb
+index d9999ec377..060f5e339b 100644
+--- a/meta/recipes-core/musl/libc-test_git.bb
++++ b/meta/recipes-core/musl/libc-test_git.bb
+@@ -9,18 +9,19 @@ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=43ed1245085be90dc934288117d55a3b"
+ 
+ inherit ptest
+ 
+-SRCREV = "f2bac7711bec93467b73bec1465579ea0b8d5071"
++SRCREV = "63e36e934e8f2bedf645303a90b64098e2af6c8f"
+ SRC_URI = " \
+     git://repo.or.cz/libc-test;branch=master;protocol=https \
+     file://0001-Fix-strptime-on-musl.patch \
+     file://0001-api-unistd-guard-optional-obsolete-_PC-_SC-constants.patch \
+-    file://0001-math-Delete-failing-tests.patch \
+     file://run-ptest \
+     file://run-libc-ptests \
+ "
+ 
+ PV = "0+git"
+ 
++UPSTREAM_CHECK_COMMITS = "1"
++
+ # libc-test 'make' or 'make run' command is designed to build and run tests. It
+ # reports both build and test failures. The commands should be run on target.
+ do_compile() {
+@@ -43,6 +44,10 @@ RDEPENDS:${PN}-ptest = " \
+      tzdata \
+ "
+ 
++# Tests that fail on musl: fenv issues (math) and bugs not fixed yet
++LIBC_TEST_EXCLUDE ?= "math/fma math/fmaf math/fmal math/powf \
++                      functional/wordexp regression/regex-backref-oob regression/regexec-backref"
++
+ install_path = "/opt/${PN}"
+ FILES:${PN} += "${install_path}/*"
+ 
+@@ -50,6 +55,7 @@ do_install () {
+     install -d ${D}${install_path}/
+     cp ${S}/Makefile ${D}${install_path}
+     cp ${S}/config.mak.def ${D}${install_path}/config.mak
++    echo 'NAMES:=$(filter-out ${LIBC_TEST_EXCLUDE},$(NAMES))' >> ${D}${install_path}/config.mak
+     cp -r ${S}/src ${D}${install_path}
+ }
+ 
