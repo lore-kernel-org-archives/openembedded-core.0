@@ -1,65 +1,64 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.221.1795827021951489048
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.222.1795827023895458568
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Nov 2026 16:50:22 -0800
+ Fri, 27 Nov 2026 16:50:24 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=r0JlX0FZ;
- spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: c137.marques@gmail.com)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-490f38e9688so5946617f8f.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 16:50:21 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=ZdUzya3n;
+ spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: c137.marques@gmail.com)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a35ac4475dso62038835e9.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 16:50:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795827020; x=1796431820; darn=lists.openembedded.org;
+        d=gmail.com; s=20260707; t=1795827022; x=1796431822; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=IOVNoKUzyS9F/2REvZwPGDQCIbxkdeeMtkveVkJqOgo=;
-        b=r0JlX0FZ8neB3yPNcSNKjnnsppBTgAn7zdZ45hWrmWm2mjzJrYW3VsNSIyD5T6qwOO
-         kROiJusa7Yv0hwG+JXpc5nVCDUnZMtPbCjLPucvhaYDCNyHDI799yyUGHPWLuTm3ydSt
-         68nmnoUJeXhb31S1YFOsWiKnueyxbVRFQfvdm3zlQ8BQ4C8fmCO3OW1mL88wfob22QNA
-         GbvIwHI/UoyiBlJGBxIeL3cXL5QrC2RxXSiDdPsRkTNOJ1kUSeheJgXmw7LW8n9qafZQ
-         7gx9YuubJOaHLTF7x3y/tR+5gjB7LJjaoR0LW80pQYm0PiSbuCKYQqAkhKWpmuZZCnNj
-         zawQ==
+        bh=ggPwdA43quuACAiz2JyfVL1xD9LZ4yYzOtUs3+tvUlo=;
+        b=ZdUzya3nUTbXpy82C2lv5y220gR7625asZDKtEY65ydZTXZdnMpWBe2pFkbj0dvUIY
+         GnOJthnbQCUyuVUPyVg2JYUSa8s5rwizKiEPXG+R/7gTrbGK0yecDxfboGTTuh8AoESf
+         FG+t7YF5KZ7ASmMRPtvx2xwZJ9c8CQOLtBowNtKPjv4x+hLznRCyBd/BXiGzjN9CnB9i
+         2t/T00IUN0HvxP8o0GH+WnCs2I0vpH7t/qncboX9un7E8Ena0LkP1pezq9KPxIxxfPbI
+         H99MJUQHkIzpLTChst+qHVGOAgF9L4NtOBJ+FUPpwJRKGtlky4qTlfqqH2eWZ2z3aUzH
+         bXag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795827020; x=1796431820;
+        d=1e100.net; s=20260707; t=1795827022; x=1796431822;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IOVNoKUzyS9F/2REvZwPGDQCIbxkdeeMtkveVkJqOgo=;
-        b=i5T4gQ27BuxxWADlWipGeCs3NNq1qhZltc4oczdcEB7mMRJo/BUDSHSLkqk9V/3Q7e
-         oK9e45wYmjvuWFCRKA68wFD3FpgO3oO0QliTFZ+fNnImp9kaDriwsrV8iDK1kSjukmiv
-         6kHbWyWO5lPOGCScsRmAttQ4hFQjSueCb4eA+17fgwrQ89wSIxzpQr7Z5IHGSDtWLsLJ
-         epyzcYF/ChIcWeM1xp39IGa8OIKkowbzFIWtitc4CnZh2B7FQLRY7EGEfPKhqAEoh3do
-         3YQtD3vrfeWwW+FCgav9LPpMb5zA1HIx+dlxISQZlFogs8b6JdSgCqddT6FGfXItqXzV
-         Ww+A==
-X-Gm-Message-State: APuU4Z/qWiCv/0fcmHAuZrOrk/pFyPD5ut7pJjfuZb8pQTcbFcbH11Am
-	Yr3r5sb2uow5t7GMrs6BVvHcKhMlkR86z7/GOj95E6b1IkUnhbvfVWjIcOwm1W0M
-X-Gm-Gg: AZFdTZfe4ZvTpEmlCI8lbesskT5jKPR0qIgAs9X9CwpTzp/LkIo4U5Ta6Cc+CS2IXTJ
-	DcvoNsGCifGyCTJQUy3nTWkxTAks13G3pungZeb1pbRwvT5Abn5Uwc+NqFzsOHoT+DV2nFIxwMS
-	cGAxLquiUfL/JvOqxb5ZLNDwGWj1MSjzTSz/9SEmI3Hoau7h24/IuYYBaEb4LwkpgalMEGCaeaC
-	+hg5y4LxrVjOHXe0Vu7f87PUyP85g4jDHHp9OERRwzQsAMYwrj0Fl+TnpzVK8f/41CjsjdxvSoJ
-	SZgRz6Cfw+sC7mEnoH9AxhE4rgjdjSHavsMd2OrHXXZ82cA2MlpAngDkGDKx0I9nAjMrevP0AV0
-	lkK4bSKjins/aF768BGQC+o2N0q5QJP8yhKcugMJOATGa5k/nKlQgj2p4Dbl/qZG4tzVk3KGeSA
-	xgNbPTVmBEphmww2T0Oz1652NFchoPEHgsoHgtQC2H/OqtUERglc/Vyh2ykPc9BFeb0TRlMzMmq
-	6uXeH6azjenLUNGdf8kLStb579C863Cn82teCPVbecKnV9ZSxvO40wVfdblxPEXfqWD8FcEnU96
-	g3Dtu522gK21IoFxY7ROJA==
-X-Received: by 2002:a05:6000:401f:b0:48e:7475:fe7b with SMTP id ffacd0b85a97d-4aa545e305fmr54113862f8f.6.1795827020149;
-        Fri, 27 Nov 2026 16:50:20 -0800 (PST)
+        bh=ggPwdA43quuACAiz2JyfVL1xD9LZ4yYzOtUs3+tvUlo=;
+        b=0hlo+SHybUIQeazOLekaGQoVOZ6xNL/IYZlWFiEdBeoQivyF9xyCdVoba2+ho7qbxm
+         3KWi8CchZpTeFUh75Kyh5W/9Qwu15bY+pa7c7w7nvN+q1FoWu67LtiEnWegsuMc+cXSy
+         RlTOjQVYg3/JXUVD8uv+fIwr4OYVFJfRMBsbCJhesIiT/Ohq0/CuRt7ktzQLznXMSxfj
+         hRlxb9Z5dVfQJBRh2o+ABWDOOeyfLhEr3L6Yt0ZgQIMiUnA6x1bflHYD10pKljjMC8ga
+         bAifL9Udx/U69trEuliQJzjKdx+N6IrCs/iKlxf8nkoFMEvubshsU8ypLe1uVWBUTvdx
+         Xt6Q==
+X-Gm-Message-State: APuU4Z/2guBq/MJXrt4l6I7eo1Fp1M505p2Wi8ddZBG1GCW6nwNZM6TE
+	Vn59cjuUpowBoP+2vvZ3+XoQx1WBwzb6NS8j9fnlc5cM8h3/T9QX1SI4eIp7Dp9K
+X-Gm-Gg: AZFdTZdqyr9EL+lVlX46qryFlGG9JYwSr4vN5xN+Adv/bwGxkrF6/p0azcw8SEkKOy8
+	WCR9xnmUW65d99hz1xgyvf8E3vg+dNnj7sTr3lCnItUOlYwGIUpzg4SKlHpN5pUpgxEGMIKEXqI
+	qcAyYEYCKvTsVxy0KXoVSrEuBoGpOwA2A6I8QwOnniBZWkcE6ShkNtZO3smXcCdwNfhVYS/uxyR
+	SUSdphqk15oXuA8yN2p2NSLn7orIA7e5CQ79yPJb7utMkC5/y7uOHGxfZvx5kXvn2gYiS2yG7vu
+	MO0LDlxKlq/uDpoN0cetiNoR3NqDMFAbx21IHi/dNseJw8B6wsWCePlfYiT5K93201sYB+ZncAe
+	OUBYJqdJFYrzB3w/ReGmhn04Gl0VaxQHtoXTyyCNfdAMV5gvjeF155lHPw/Sk+GriwYxhQxGJMW
+	f54Km0r/XtAKrKIV1VUab1YvBtBokStPDYAWsSdCyBUj8Yfuo65ct8YJxtvKtNU93WWtSr5ZS90
+	I7DcphVx0adufl7e3fzWMDIMg7f3msq1cNhl1J6dxLQT84KFjNVBa5NoR9YuzzndG1OYrN6ftw/
+	X9aCICcY7vm91JAw7xba2g==
+X-Received: by 2002:a05:600c:3ba4:b0:4ba:493b:3401 with SMTP id 5b1f17b1804b1-4bb8880abafmr630450825e9.9.1795827021998;
+        Fri, 27 Nov 2026 16:50:21 -0800 (PST)
 Return-Path: <c137.marques@gmail.com>
 Received: from pc ([213.205.68.220])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4abbd84e661sm46864646f8f.18.2026.11.27.16.50.19
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4abbd84e661sm46864646f8f.18.2026.11.27.16.50.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 16:50:19 -0800 (PST)
+        Fri, 27 Nov 2026 16:50:21 -0800 (PST)
 From: Alexandre Marques <c137.marques@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: yoann.congal@smile.fr,
-	Prasanth R <ragaprasanth@gmail.com>,
-	Prasanth R <prasanth.r@lineo.co.jp>,
+	Pascal Eberhard <pascal.eberhard@se.com>,
 	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Alexandre Marques <alexandre.marques@ctw.bmwgroup.com>
-Subject: [wrynose][PATCH 1/2] spdx30_tasks: include the SDK target packages in the SDK SBOM
-Date: Sat, 28 Nov 2026 00:50:08 +0000
-Message-ID: <20261128005009.4101905-2-c137.marques@gmail.com>
+Subject: [wrynose][PATCH 2/2] spdx30_tasks: fix missing SPDX runtime dependencies
+Date: Sat, 28 Nov 2026 00:50:09 +0000
+Message-ID: <20261128005009.4101905-3-c137.marques@gmail.com>
 X-Mailer: git-send-email 2.56.1
 In-Reply-To: <20261128005009.4101905-1-c137.marques@gmail.com>
 References: <20261128005009.4101905-1-c137.marques@gmail.com>
@@ -67,99 +66,80 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 28 Nov 2026 00:50:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251468
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251469
 Content-Type: text/plain; charset="utf-8"
 
-From: Prasanth R <ragaprasanth@gmail.com>
+From: Pascal Eberhard <pascal.eberhard@se.com>
 
-The SDK target and host parts both write sdk-rootfs.spdx.json. The host
-part runs last and overwrites the target one, so the SDK SBOM lists the
-nativesdk packages but none of the target sysroot packages.
+The runtime dependsOn relationship entries between software_Package
+is missing from the generated SPDX files.
 
-Write separate target and host documents, with their own build IDs, and
-include both in the SDK SBOM.
+Remove the subpkgdata lookup as the final pkg_name is already resolved
+by collect_package_providers().
 
-SPDX 2.2 wrote separate host and target SBOMs, so this was lost when
-the SDK SBOM moved to SPDX 3.0.
+Rename variables to avoid shadowing the 'dep' variable and to make it
+explicit which package/pkg name is being used.
 
-AI-Generated: Uses Claude
-Signed-off-by: Prasanth R <prasanth.r@lineo.co.jp>
+Signed-off-by: Pascal Eberhard <pascal.eberhard@se.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 06452702d0694c13534555e7097a772641c39f19)
+(cherry picked from commit a67f44021f39b19f42791441616ba57d522f1d00)
+[Adjusted context: wrynose does not have 28ffcc0653 ("spdx: Reformat")]
 Signed-off-by: Alexandre Marques <alexandre.marques@ctw.bmwgroup.com>
 ---
- meta/lib/oe/spdx30_tasks.py | 34 ++++++++++++++++++++++------------
- 1 file changed, 22 insertions(+), 12 deletions(-)
+ meta/lib/oe/spdx30_tasks.py | 22 ++++++++++++----------
+ 1 file changed, 12 insertions(+), 10 deletions(-)
 
 diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index 62fc41f51a..953a4ba052 100644
+index 953a4ba052..d89763743c 100644
 --- a/meta/lib/oe/spdx30_tasks.py
 +++ b/meta/lib/oe/spdx30_tasks.py
-@@ -1588,7 +1588,9 @@ def sdk_create_spdx(d, sdk_type, spdx_work_dir, toolchain_outputname):
-     )
-     set_timestamp_now(d, sdk_rootfs, "builtTime")
+@@ -1129,9 +1129,13 @@ def create_spdx(d):
  
--    sdk_build = objset.add_root(objset.new_task_build("sdk-rootfs", "sdk-rootfs"))
-+    sdk_build = objset.add_root(
-+        objset.new_task_build("sdk-rootfs-" + sdk_type, "sdk-rootfs")
-+    )
-     set_timestamp_now(d, sdk_build, "build_buildEndTime")
+ def create_package_spdx(d):
+     deploydir = Path(d.getVar("SPDXRUNTIMEDEPLOY"))
++    pkgdatadir = Path(d.getVar('PKGDATA_DIR'))
  
-     objset.new_scoped_relationship(
-@@ -1601,28 +1603,36 @@ def sdk_create_spdx(d, sdk_type, spdx_work_dir, toolchain_outputname):
-     collect_build_package_inputs(d, objset, sdk_build, sdk_packages)
+     direct_deps = oe.spdx_common.collect_direct_deps(d, "do_create_spdx")
  
-     objset.add_aliases()
--    oe.sbom30.write_jsonld_doc(d, objset, spdx_work_dir / "sdk-rootfs.spdx.json")
-+    oe.sbom30.write_jsonld_doc(
-+        d, objset, spdx_work_dir / ("sdk-rootfs-%s.spdx.json" % sdk_type)
-+    )
++    # providers[package_name] = pkg_name, where:
++    # - package_name is the name in the recipe in PACKAGES/RDEPENDS, and
++    # - pkg_name is the final name given by the package manager.
+     providers = oe.spdx_common.collect_package_providers(d, direct_deps)
+     pkg_arch = d.getVar("SSTATE_PKGARCH")
  
+@@ -1185,26 +1189,24 @@ def create_package_spdx(d):
+             if dep not in providers:
+                 continue
  
- def create_sdk_sbom(d, sdk_deploydir, spdx_work_dir, toolchain_outputname):
--    # Load the document written earlier
--    rootfs_objset = oe.sbom30.load_jsonld(
--        d, spdx_work_dir / "sdk-rootfs.spdx.json", required=True
--    )
-+    # Load the target and host documents written earlier
-+    rootfs_objsets = []
-+    rootfs = []
-+    for sdk_type in ("target", "host"):
-+        objset = oe.sbom30.load_jsonld(
-+            d, spdx_work_dir / ("sdk-rootfs-%s.spdx.json" % sdk_type), required=True
-+        )
-+        root = objset.find_root(oe.spdx30.software_Package)
-+        if root is None:
-+            bb.fatal("Unable to find %s rootfs artifact" % sdk_type)
-+        rootfs_objsets.append(objset)
-+        rootfs.append(root)
-+
-+    rootfs_objset = rootfs_objsets[0]
+-            (dep, _) = providers[dep]
++            dep_pkg_name, _ = providers[dep]
  
-     # Create a new build for the SDK installer
-     sdk_build = rootfs_objset.new_task_build("sdk-populate", "sdk-populate")
-     set_timestamp_now(d, sdk_build, "build_buildEndTime")
+-            if not oe.packagedata.packaged(dep, localdata):
++            if not os.path.exists(pkgdatadir / "runtime-reverse" / dep_pkg_name):
++                bb.debug(1, f"pkg_name {dep_pkg_name}, package {dep} missing for {package}")
+                 continue
  
--    rootfs = rootfs_objset.find_root(oe.spdx30.software_Package)
--    if rootfs is None:
--        bb.fatal("Unable to find rootfs artifact")
+-            dep_pkg_data = oe.packagedata.read_subpkgdata_dict(dep, d)
+-            dep_pkg = dep_pkg_data["PKG"]
 -
-     rootfs_objset.new_scoped_relationship(
-         [sdk_build],
-         oe.spdx30.RelationshipType.hasInput,
-         oe.spdx30.LifecycleScopeType.build,
--        [rootfs],
-+        rootfs,
-     )
+-            if dep in dep_package_cache:
+-                dep_spdx_package = dep_package_cache[dep]
++            if dep_pkg_name in dep_package_cache:
++                dep_spdx_package = dep_package_cache[dep_pkg_name]
+             else:
+-                bb.debug(1, "Searching for %s" % dep_pkg)
++                bb.debug(1, "Searching for %s" % dep_pkg_name)
+                 dep_spdx_package, _ = oe.sbom30.find_root_obj_in_jsonld(
+                     d,
+                     "packages-staging",
+-                    "package-" + dep_pkg,
++                    "package-" + dep_pkg_name,
+                     oe.spdx30.software_Package,
+                     software_primaryPurpose=oe.spdx30.software_SoftwarePurpose.install,
+                 )
+-                dep_package_cache[dep] = dep_spdx_package
++                dep_package_cache[dep_pkg_name] = dep_spdx_package
  
-     files = set()
-@@ -1669,7 +1679,7 @@ def create_sdk_sbom(d, sdk_deploydir, spdx_work_dir, toolchain_outputname):
-         bb.warn(f"No SDK output files found in {sdk_deploydir}")
- 
-     objset, sbom = oe.sbom30.create_sbom(
--        d, toolchain_outputname, sorted(list(files)), [rootfs_objset]
-+        d, toolchain_outputname, sorted(list(files)), rootfs_objsets
-     )
- 
-     # Set supplier on root elements if SPDX_SDK_SUPPLIER is defined
+             runtime_spdx_deps.add(dep_spdx_package)
+             seen_deps.add(dep)
