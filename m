@@ -1,111 +1,161 @@
-Subject: Re: [wrynose][PATCH v2 5/5] curl: fix CVE-2026-80231
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5739.1795866753803093078
+ for <openembedded-core@lists.openembedded.org>;
+ Sat, 28 Nov 2026 03:52:35 -0800
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=MPl/E2+O;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-2026112811523096c99007c9000207ec-np6hw_@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 2026112811523096c99007c9000207ec
+        for <openembedded-core@lists.openembedded.org>;
+        Sat, 28 Nov 2026 12:52:31 +0100
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=ivMaoBEhUK74Sn3D03lrN/VQM/2LE0bYEiXu6MyoIeM=;
+ b=MPl/E2+OUVuSWQhu6atziTb281wAj/TuOtN8pNfOAIeXGkHuWh90jqxPwwH2br47tD/C1V
+ yEyfpv8kUphcv7q8KvzjYXwAySArOCyB0Ao5KDarnrmQOClhl+q9mNXAP4fQ+lzLkCaFEhye
+ 2eApfpTgtd59aVhkzXRjdBuzhIMauawmWLuLOcbd+Vm33qNifJPIgUo7DkP41fraM8a4powj
+ kBiH6YipS/biyDI/cxWzqSqUjQi1h3r1wU13SLBHo2Kw/zpWRazMXbu5VImLRRO9+pGANKSz
+ d0o+MTniYK2jks8CG27pjZStyDUtjtmD153UXFG9QfHxxMID8+JtF6cw==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
-X-Originating-Location: Mumbai, Maharashtra, IN (151.186.177.21)
-X-Originating-Platform: Windows Edge 158
-User-Agent: GROUPS.IO Web Poster
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [blacksail][PATCH] zstd: patch CVE-2026-124851
+Date: Sat, 28 Nov 2026 12:51:52 +0100
+Message-ID: <20261128115152.3079286-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-Date: Sat, 28 Nov 2026 01:09:33 -0800
-References: <20261023093331.1886272-1-dkelaiya@cisco.com> <20261023093331.1886272-6-dkelaiya@cisco.com> <DMXF11PX59DC.DCF26R7DEGAM@smile.fr>
-In-Reply-To: <DMXF11PX59DC.DCF26R7DEGAM@smile.fr>
-Message-ID: <1358740.1795856973415129422@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="XA3p2xJUapl4Nvyh7yZo"
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 28 Nov 2026 09:09:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251485
-
---XA3p2xJUapl4Nvyh7yZo
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 28 Nov 2026 11:52:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251486
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
 
-Hi Yoann,
+From: Peter Marko <peter.marko@siemens.com>
 
-I've sent the refreshed CVE-2026-80231 v3 as requested:
-https://lists.openembedded.org/g/openembedded-core/message/251484
+Pick patch per https://security-tracker.debian.org/tracker/CVE-2026-124851
 
-Thanks,
-Darsh
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ .../zstd/zstd/CVE-2026-124851.patch           | 98 +++++++++++++++++++
+ meta/recipes-extended/zstd/zstd_1.5.7.bb      |  1 +
+ 2 files changed, 99 insertions(+)
+ create mode 100644 meta/recipes-extended/zstd/zstd/CVE-2026-124851.patch
 
-On Tue, Nov 17, 2026 at 04:01 PM, Yoann Congal wrote:
-
->=20
-> On Fri Oct 23, 2026 at 11:33 AM CEST, Darsh Kelaiya -X (dkelaiya - E
-> INFOCHIPS PRIVATE LIMITED at Cisco) wrote:
->=20
->> From: Darsh Kelaiya <dkelaiya@cisco.com>
->>=20
->> Apply the native CA connection-reuse fix [1] after CVE-2026-11564.
->> Store the effective native CA setting in the primary SSL configuration
->> and include it in connection matching and cloning. Update each affected
->> TLS backend to read the connection setting using the curl 8.19.0
->> layout. The upstream advisory is referenced in [2].
->>=20
->> [1] https://github.com/curl/curl/commit/7be1e70cb6bcd83e130ecfe8cb91b6a7=
-dcdeff42
->>=20
->> [2] https://curl.se/docs/CVE-2026-80231.html
->>=20
->> Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
->> ---
->> Changes in v2:
->> - Explain the older struct/function locations and GnuTLS helpers.
->> - Document that the omitted hunk only updates a flag access in a
->> later SecTrust session-reuse exception absent from curl 8.19.0.
->> - Clarify that the existing cached-session verification check remains.
->> ---
->> .../curl/curl/CVE-2026-80231.patch | 225 ++++++++++++++++++
->> meta/recipes-support/curl/curl_8.19.0.bb | 1 +
->> 2 files changed, 226 insertions(+)
->> create mode 100644 meta/recipes-support/curl/curl/CVE-2026-80231.patch
->=20
-> Hello,
->=20
-> While I will take 4/5 into my review cycle, this one (5/5) does not apply
-> anymore with 1-3/5 held.
-> Please refresh it for the next iteration.
->=20
-> Thanks!
-> --
-> Yoann Congal
-> Smile ECS
-
---XA3p2xJUapl4Nvyh7yZo
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div>Hi Yoann,<br /><br />I've sent the refreshed CVE-2026-80231 v3 as requ=
-ested:<br /><a href=3D"https://lists.openembedded.org/g/openembedded-core/m=
-essage/251484" target=3D"_blank" rel=3D"noopener">https://lists.openembedde=
-d.org/g/openembedded-core/message/251484</a>&nbsp;<br /><br />Thanks,<br />=
-Darsh</div>
-<div>&nbsp;</div>
-<div>On Tue, Nov 17, 2026 at 04:01 PM, Yoann Congal wrote:</div>
-<div>
-<blockquote>On Fri Oct 23, 2026 at 11:33 AM CEST, Darsh Kelaiya -X (dkelaiy=
-a - E INFOCHIPS PRIVATE LIMITED at Cisco) wrote:<br />
-<blockquote>From: Darsh Kelaiya &lt;dkelaiya@cisco.com&gt;<br /><br />Apply=
- the native CA connection-reuse fix [1] after CVE-2026-11564.<br />Store th=
-e effective native CA setting in the primary SSL configuration<br />and inc=
-lude it in connection matching and cloning. Update each affected<br />TLS b=
-ackend to read the connection setting using the curl 8.19.0<br />layout. Th=
-e upstream advisory is referenced in [2].<br /><br />[1] <a href=3D"https:/=
-/github.com/curl/curl/commit/7be1e70cb6bcd83e130ecfe8cb91b6a7dcdeff42" targ=
-et=3D"_blank" rel=3D"noopener">https://github.com/curl/curl/commit/7be1e70c=
-b6bcd83e130ecfe8cb91b6a7dcdeff42</a><br />[2] <a href=3D"https://curl.se/do=
-cs/CVE-2026-80231.html" target=3D"_blank" rel=3D"noopener">https://curl.se/=
-docs/CVE-2026-80231.html</a><br /><br />Signed-off-by: Darsh Kelaiya &lt;dk=
-elaiya@cisco.com&gt;<br />---<br />Changes in v2:<br />- Explain the older =
-struct/function locations and GnuTLS helpers.<br />- Document that the omit=
-ted hunk only updates a flag access in a<br />later SecTrust session-reuse =
-exception absent from curl 8.19.0.<br />- Clarify that the existing cached-=
-session verification check remains.<br />---<br />.../curl/curl/CVE-2026-80=
-231.patch | 225 ++++++++++++++++++<br />meta/recipes-support/curl/curl_8.19=
-.0.bb | 1 +<br />2 files changed, 226 insertions(+)<br />create mode 100644=
- meta/recipes-support/curl/curl/CVE-2026-80231.patch</blockquote>
-Hello,<br /><br />While I will take 4/5 into my review cycle, this one (5/5=
-) does not apply<br />anymore with 1-3/5 held. <br />Please refresh it for =
-the next iteration.<br /><br />Thanks!<br />-- <br />Yoann Congal<br />Smil=
-e ECS</blockquote>
-</div>
-
---XA3p2xJUapl4Nvyh7yZo--
+diff --git a/meta/recipes-extended/zstd/zstd/CVE-2026-124851.patch b/meta/recipes-extended/zstd/zstd/CVE-2026-124851.patch
+new file mode 100644
+index 00000000000..23d9c99d540
+--- /dev/null
++++ b/meta/recipes-extended/zstd/zstd/CVE-2026-124851.patch
+@@ -0,0 +1,98 @@
++From 0c9d297531a9f15a717ff24604afc0843b3b1427 Mon Sep 17 00:00:00 2001
++From: Nick Terrell <terrelln@fb.com>
++Date: Fri, 6 Nov 2026 08:53:26 -0800
++Subject: [PATCH] decompress: prevent stale literal leaks after output buffer
++ wraps
++
++After the streaming output buffer wraps, the external dictionary and
++current prefix must share the frame history window. Retaining expired
++history can allow malformed offsets to expose uninitialized bytes or
++literals from earlier decompressions on the same context.
++
++Once a full window has been decoded, limit external history to the
++portion not occupied by the current prefix. Apply this bound before
++subsequent blocks even when output remains contiguous. Also zero the
++wildcopy padding after decoder-owned literals, including both parts of a
++split literal buffer, so permitted over-reads only see initialized bytes.
++
++CVE: CVE-2026-124851
++Upstream-Status: Backport [https://github.com/meta/zstd/commit/0c9d297531a9f15a717ff24604afc0843b3b1427]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ lib/decompress/zstd_decompress_block.c | 35 ++++++++++++++++++++++++++
++ 1 file changed, 35 insertions(+)
++
++diff --git a/lib/decompress/zstd_decompress_block.c b/lib/decompress/zstd_decompress_block.c
++index 7b02e9658..6c7ef11cc 100644
++--- a/lib/decompress/zstd_decompress_block.c
+++++ b/lib/decompress/zstd_decompress_block.c
++@@ -123,6 +123,25 @@ static void ZSTD_allocateLiteralsBuffer(ZSTD_DCtx* dctx, void* const dst, const
++     }
++ }
++ 
+++/**
+++ * Zeros the bytes directly after the decompressed literals so that over-reads
+++ * only read zeros, rather than potentially uninitialized memory, or bytes from
+++ * prior decompressions.
+++ */
+++static void ZSTD_zeroLiteralsBufferPadding(ZSTD_DCtx* dctx, size_t litSize)
+++{
+++    if (dctx->litBufferLocation == ZSTD_split) {
+++        BYTE* const litBufferEnd = dctx->litBuffer + litSize - ZSTD_LITBUFFEREXTRASIZE;
+++        assert(litBufferEnd == dctx->litBufferEnd);
+++        ZSTD_memset(litBufferEnd, 0, WILDCOPY_OVERLENGTH);
+++        ZSTD_memset(dctx->litExtraBuffer + ZSTD_LITBUFFEREXTRASIZE, 0, WILDCOPY_OVERLENGTH);
+++    } else {
+++        BYTE* const litBufferEnd = dctx->litBuffer + litSize;
+++        assert(litBufferEnd == dctx->litBufferEnd);
+++        ZSTD_memset(litBufferEnd, 0, WILDCOPY_OVERLENGTH);
+++    }
+++}
+++
++ /*! ZSTD_decodeLiteralsBlock() :
++  * Where it is possible to do so without being stomped by the output during decompression, the literals block will be stored
++  * in the dstBuffer.  If there is room to do so, it will be stored in full in the excess dst space after where the current
++@@ -240,6 +259,7 @@ static size_t ZSTD_decodeLiteralsBlock(ZSTD_DCtx* dctx,
++ 
++                 RETURN_ERROR_IF(HUF_isError(hufSuccess), corruption_detected, "");
++ 
+++                ZSTD_zeroLiteralsBufferPadding(dctx, litSize);
++                 dctx->litPtr = dctx->litBuffer;
++                 dctx->litSize = litSize;
++                 dctx->litEntropy = 1;
++@@ -283,6 +303,7 @@ static size_t ZSTD_decodeLiteralsBlock(ZSTD_DCtx* dctx,
++                     {
++                         ZSTD_memcpy(dctx->litBuffer, istart + lhSize, litSize);
++                     }
+++                    ZSTD_zeroLiteralsBufferPadding(dctx, litSize);
++                     dctx->litPtr = dctx->litBuffer;
++                     dctx->litSize = litSize;
++                     return lhSize+litSize;
++@@ -329,6 +350,7 @@ static size_t ZSTD_decodeLiteralsBlock(ZSTD_DCtx* dctx,
++                 {
++                     ZSTD_memset(dctx->litBuffer, istart[lhSize], litSize);
++                 }
+++                ZSTD_zeroLiteralsBufferPadding(dctx, litSize);
++                 dctx->litPtr = dctx->litBuffer;
++                 dctx->litSize = litSize;
++                 return lhSize+1;
++@@ -2183,6 +2205,19 @@ void ZSTD_checkContinuity(ZSTD_DCtx* dctx, const void* dst, size_t dstSize)
++         dctx->prefixStart = dst;
++         dctx->previousDstEnd = dst;
++     }
+++    /* The external dictionary and current prefix share the frame window.
+++     * As the prefix grows after a wrap, retaining a full external window
+++     * could let corrupt offsets alias the destination and expose stale literals.
+++     * decodedSize > 0 ensures the frame header has initialized windowSize.
+++     * Only kicks in after decoding windowSize bytes because the entire dictionary is
+++     * valid as long as a single byte of the dictionary is in the window.
+++     */
+++    if (dstSize > 0 && dctx->isFrameDecompression && dctx->decodedSize > 0 && dctx->decodedSize >= dctx->fParams.windowSize) {
+++        size_t const prefixSize = (size_t)((const char*)dctx->previousDstEnd - (const char*)dctx->prefixStart);
+++        size_t const extDictSize = (size_t)((const char*)dctx->prefixStart - (const char*)dctx->virtualStart);
+++        U64 const maxExtDictSize = prefixSize < dctx->fParams.windowSize ? dctx->fParams.windowSize - prefixSize : 0;
+++        dctx->virtualStart = (const char*)dctx->prefixStart - (size_t)MIN((U64)extDictSize, maxExtDictSize);
+++    }
++ }
++ 
++ 
+diff --git a/meta/recipes-extended/zstd/zstd_1.5.7.bb b/meta/recipes-extended/zstd/zstd_1.5.7.bb
+index 4c3b377c14c..655cb1de06f 100644
+--- a/meta/recipes-extended/zstd/zstd_1.5.7.bb
++++ b/meta/recipes-extended/zstd/zstd_1.5.7.bb
+@@ -15,6 +15,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=0822a32f7acdbe013606746641746ee8 \
+ SRC_URI = "git://github.com/facebook/zstd.git;branch=release;protocol=https;tag=v${PV} \
+            file://run-ptest \
+            file://0001-cli-tests-skip-zstd-max-level-when-memory-is-insuffi.patch \
++           file://CVE-2026-124851.patch \
+            "
+ 
+ SRCREV = "f8745da6ff1ad1e7bab384bd1f9d742439278e99"
