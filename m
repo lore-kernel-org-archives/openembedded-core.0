@@ -1,145 +1,118 @@
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.222.1795827023895458568
+Received: from aer-iport-1.cisco.com (aer-iport-1.cisco.com [173.38.203.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2710.1795844897301196803
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Nov 2026 16:50:24 -0800
+ Fri, 27 Nov 2026 21:48:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=ZdUzya3n;
- spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: c137.marques@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4a35ac4475dso62038835e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 16:50:23 -0800 (PST)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=WQUjKAmM;
+ spf=pass (domain: cisco.com, ip: 173.38.203.51, mailfrom: dkelaiya@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795827022; x=1796431822; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=ggPwdA43quuACAiz2JyfVL1xD9LZ4yYzOtUs3+tvUlo=;
-        b=ZdUzya3nUTbXpy82C2lv5y220gR7625asZDKtEY65ydZTXZdnMpWBe2pFkbj0dvUIY
-         GnOJthnbQCUyuVUPyVg2JYUSa8s5rwizKiEPXG+R/7gTrbGK0yecDxfboGTTuh8AoESf
-         FG+t7YF5KZ7ASmMRPtvx2xwZJ9c8CQOLtBowNtKPjv4x+hLznRCyBd/BXiGzjN9CnB9i
-         2t/T00IUN0HvxP8o0GH+WnCs2I0vpH7t/qncboX9un7E8Ena0LkP1pezq9KPxIxxfPbI
-         H99MJUQHkIzpLTChst+qHVGOAgF9L4NtOBJ+FUPpwJRKGtlky4qTlfqqH2eWZ2z3aUzH
-         bXag==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795827022; x=1796431822;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ggPwdA43quuACAiz2JyfVL1xD9LZ4yYzOtUs3+tvUlo=;
-        b=0hlo+SHybUIQeazOLekaGQoVOZ6xNL/IYZlWFiEdBeoQivyF9xyCdVoba2+ho7qbxm
-         3KWi8CchZpTeFUh75Kyh5W/9Qwu15bY+pa7c7w7nvN+q1FoWu67LtiEnWegsuMc+cXSy
-         RlTOjQVYg3/JXUVD8uv+fIwr4OYVFJfRMBsbCJhesIiT/Ohq0/CuRt7ktzQLznXMSxfj
-         hRlxb9Z5dVfQJBRh2o+ABWDOOeyfLhEr3L6Yt0ZgQIMiUnA6x1bflHYD10pKljjMC8ga
-         bAifL9Udx/U69trEuliQJzjKdx+N6IrCs/iKlxf8nkoFMEvubshsU8ypLe1uVWBUTvdx
-         Xt6Q==
-X-Gm-Message-State: APuU4Z/2guBq/MJXrt4l6I7eo1Fp1M505p2Wi8ddZBG1GCW6nwNZM6TE
-	Vn59cjuUpowBoP+2vvZ3+XoQx1WBwzb6NS8j9fnlc5cM8h3/T9QX1SI4eIp7Dp9K
-X-Gm-Gg: AZFdTZdqyr9EL+lVlX46qryFlGG9JYwSr4vN5xN+Adv/bwGxkrF6/p0azcw8SEkKOy8
-	WCR9xnmUW65d99hz1xgyvf8E3vg+dNnj7sTr3lCnItUOlYwGIUpzg4SKlHpN5pUpgxEGMIKEXqI
-	qcAyYEYCKvTsVxy0KXoVSrEuBoGpOwA2A6I8QwOnniBZWkcE6ShkNtZO3smXcCdwNfhVYS/uxyR
-	SUSdphqk15oXuA8yN2p2NSLn7orIA7e5CQ79yPJb7utMkC5/y7uOHGxfZvx5kXvn2gYiS2yG7vu
-	MO0LDlxKlq/uDpoN0cetiNoR3NqDMFAbx21IHi/dNseJw8B6wsWCePlfYiT5K93201sYB+ZncAe
-	OUBYJqdJFYrzB3w/ReGmhn04Gl0VaxQHtoXTyyCNfdAMV5gvjeF155lHPw/Sk+GriwYxhQxGJMW
-	f54Km0r/XtAKrKIV1VUab1YvBtBokStPDYAWsSdCyBUj8Yfuo65ct8YJxtvKtNU93WWtSr5ZS90
-	I7DcphVx0adufl7e3fzWMDIMg7f3msq1cNhl1J6dxLQT84KFjNVBa5NoR9YuzzndG1OYrN6ftw/
-	X9aCICcY7vm91JAw7xba2g==
-X-Received: by 2002:a05:600c:3ba4:b0:4ba:493b:3401 with SMTP id 5b1f17b1804b1-4bb8880abafmr630450825e9.9.1795827021998;
-        Fri, 27 Nov 2026 16:50:21 -0800 (PST)
-Return-Path: <c137.marques@gmail.com>
-Received: from pc ([213.205.68.220])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4abbd84e661sm46864646f8f.18.2026.11.27.16.50.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 16:50:21 -0800 (PST)
-From: Alexandre Marques <c137.marques@gmail.com>
+  d=cisco.com; i=@cisco.com; l=1233; q=dns/txt;
+  s=iport01; t=1795844897; x=1797054497;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=k6mjDWdZ0DMPZx5z1McbU0JMa3s/BpXvQm5O/nOYioc=;
+  b=WQUjKAmMZOB5gp4h0KRB5U+xmvqDBOAl2wtjMayyA07N7JSXeow0X11h
+   doYJy5ES+Lwn/Rn/rCO4Q5sxkCigYZUtNLuE0dNq8wOAK6uUgn8EbNW3c
+   bDwRQ/ozTDNmRNCEGxKPoZloDjZ/Y5lHl7iPQ0I5XiNS21ik84WCfkYtp
+   nuUVohBQPYCnnenY1motf9cv09BK1Za7P4wOfWekBEuaOf9upR8lt7roZ
+   8ei+8Xgw+1VulQFeqgvYaynqI8fNVeD5f7tl3uCKlhrJfM+sQ84vG8glF
+   a8sfj04/sOby6V8PE57ToNYcue4orlWNjL46ef5+j50H6N8F/91NqWhww
+   w==;
+X-CSE-ConnectionGUID: ymTVHN2gRnePdyIfqlz2Zg==
+X-CSE-MsgGUID: EFS4TfPIQkCudP6znNJ7eQ==
+X-IPAS-Result: =?us-ascii?q?A0BEAgDIaQpr/89K/pBRCYJZgld1YENJlksDnimBfg8BA?=
+ =?us-ascii?q?QEPMSAEAQGFBQKOIwImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBAQIBB?=
+ =?us-ascii?q?wWBDhOGXJATAgEDMgFGECAxKysZgwIBgnQDuiSCLIEB4DEBCxQBgTiFQogld?=
+ =?us-ascii?q?oR+JxsbgXKEf4QXeYV5BIIigQyOZYohSIEeA1ksAVUTDQoLBwWBaAM1EioVb?=
+ =?us-ascii?q?jIdgSM7F4EHGwYFgRyBHoESgQNbgSsmXQEhgQaBdgKCUYIAAgFGQQ4HRVMJJ?=
+ =?us-ascii?q?UMSRyQiCBIJARMaLAqBGjU8CSY/FQxnCxoFYQgCDQxyORAwHCQvBRcmPBsHg?=
+ =?us-ascii?q?QwnHRsXDgIoBhUhC0MYDUgRLDcVGQQ+bgeUEoMcPVGBHxlhFjqlZKERCiiDe?=
+ =?us-ascii?q?YwklToaM6pzLphapFyEaoFoPIFZcBWDIglKGQ/gfyYyPQEBBwIHDgMLgWiRf?=
+ =?us-ascii?q?gEB?=
+IronPort-Data: A9a23:SyTEqKPu5kCxerrvrR24lsFynXyQoLVcMsEvi/4bfWQNrUp01TEBm
+ zQdUDrUOfnYZDOgfI11aI/k8hgPuZeBz4JiHnM5pCpnJ55oRWUpJjg4wmPYZX76whjrFRo/h
+ ykmQoCeap1yFjmM/ErF3oHJ9RFUzbuPSqf3FNnKMyVwQR4MYCo6gHqPocZh6mJTqYb/WVzlV
+ e/a+ZWFZgb8gW4sawr41orawP9RlKWq0N8nlgRWicBj5Df2i3QTBZQDEqC9R1OQapVUBOOzW
+ 9HYx7i/+G7Dlz91Yj9yuu+mGqGiaue60Tmm0hK6aYD76vRxjnBaPpIACRYpQRw/ZwNlMDxG4
+ I4lWZSYEW/FN0BX8QgXe0Ew/ypWZcWq9FJbSJSymZT78qHIT5fj6+RrMH8WG9cXwOB6OW1f1
+ PIBLCJXXB/W0opawJrjIgVtrs0uNozveYgYoHwllW+fBvc9SpeFSKLPjTNa9G5s2oYUQKqYO
+ JZfM2IwBPjDS0Un1lM/BJEzmO6pl3DXeDxDo1XTrq0yi4TW5FIqjOW1b4OIEjCMbeh7pRqkq
+ FrnxmfSHx0ias6Z7xja/0v504cjmgu+Aur+DoaQ8/d2gFye2yofFRcRVED+q+O4g0iyc9hYL
+ FAQ+yxopq83nGSxT9L9Vge05maZpBIdVvJUEusn+A+K16zY6hqYAW5CSSROAPQhrMIwSDkg2
+ 1OFkt+sDjt1vZWRSGmB7fGTtT60NC0fIGMOaCNCShEKi+QPu6k6gwiKSpNoF7S4y4WrXzrx2
+ DuN6iM5gt3/kPI26klyxnif6xrEm3QDZlddCtn/No590j5EWQ==
+IronPort-HdrOrdr: A9a23:C9mfQqtkmyYF8+zQgg/qIyOj7skDVNV00zEX/kB9WHVpmwKj+P
+ xG+85rsiMc5wxxZJhNo7290ey7MBHhHP1OkO0s1MmZPDUO0VHAROoJ0WKh+UyEJ8SUzIBgPM
+ lbH5SWcOeAbmRSvILd/BSyFcomzZ2s9aClgvqb8lJWJDsaDZ2JK2xCe36m+oocfng+OaYE
+X-Talos-CUID: 9a23:ICvEsmHGoi0Fq9ILqmJ28XIqOuZ/fUfbwU/cMm62EGJ7Eo+aHAo=
+X-Talos-MUID: =?us-ascii?q?9a23=3A7+kAOw6AcUDBmx+1c3u+DSngxoxFzZ/yNE41sKw?=
+ =?us-ascii?q?FkNSIDXJiPRG/0zmOF9o=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.27,238,1787011200"; 
+   d="scan'208";a="63450715"
+Received: from aer-l-core-06.cisco.com ([144.254.74.207])
+  by aer-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 28 Nov 2026 05:48:14 +0000
+Received: from sjc-ads-5675.cisco.com (sjc-ads-5675.cisco.com [10.28.88.189])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by aer-l-core-06.cisco.com (Postfix) with ESMTPS id A95AE180001C6;
+	Sat, 28 Nov 2026 05:48:14 +0000 (GMT)
+Received: by sjc-ads-5675.cisco.com (Postfix, from userid 1887444)
+	id 43B18CBF201; Fri, 27 Nov 2026 21:48:13 -0800 (PST)
+From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Cc: yoann.congal@smile.fr,
-	Pascal Eberhard <pascal.eberhard@se.com>,
+Cc: Devansh Patel <devanshp@cisco.com>,
 	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
 	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Alexandre Marques <alexandre.marques@ctw.bmwgroup.com>
-Subject: [wrynose][PATCH 2/2] spdx30_tasks: fix missing SPDX runtime dependencies
-Date: Sat, 28 Nov 2026 00:50:09 +0000
-Message-ID: <20261128005009.4101905-3-c137.marques@gmail.com>
-X-Mailer: git-send-email 2.56.1
-In-Reply-To: <20261128005009.4101905-1-c137.marques@gmail.com>
-References: <20261128005009.4101905-1-c137.marques@gmail.com>
+	Darsh Kelaiya <dkelaiya@cisco.com>
+Subject: [OE-core][wrynose][PATCH 2/2] vim-tiny: add CVE_PRODUCT mapping
+Date: Fri, 27 Nov 2026 21:48:10 -0800
+Message-Id: <20261128054810.1655089-2-dkelaiya@cisco.com>
+X-Mailer: git-send-email 2.35.6
+In-Reply-To: <20261128054810.1655089-1-dkelaiya@cisco.com>
+References: <20261128054810.1655089-1-dkelaiya@cisco.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5675.cisco.com [10.28.88.189];TLSv1.3;TLS_AES_256_GCM_SHA384;256
+X-Outbound-SMTP-Client: 10.28.88.189, sjc-ads-5675.cisco.com
+X-Outbound-Node: aer-l-core-06.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
-X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 28 Nov 2026 00:50:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251469
+X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 28 Nov 2026 05:48:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251470
 Content-Type: text/plain; charset="utf-8"
 
-From: Pascal Eberhard <pascal.eberhard@se.com>
+From: Devansh Patel <devanshp@cisco.com>
 
-The runtime dependsOn relationship entries between software_Package
-is missing from the generated SPDX files.
+The inherited "vim-tiny" identity has no vulnerability records even
+though this recipe builds the official Vim source with the tiny feature
+set, so source-aligned CVEs are missed.
 
-Remove the subpkgdata lookup as the final pkg_name is already resolved
-by collect_package_providers().
+Use "vim_development_group:vim" for the historical NVD configuration
+identity and "vim:vim" for the current NVD dictionary CPE, configuration,
+and CNA affected-data identity.
 
-Rename variables to avoid shadowing the 'dep' variable and to make it
-explicit which package/pkg name is being used.
-
-Signed-off-by: Pascal Eberhard <pascal.eberhard@se.com>
+Signed-off-by: Devansh Patel <devanshp@cisco.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a67f44021f39b19f42791441616ba57d522f1d00)
-[Adjusted context: wrynose does not have 28ffcc0653 ("spdx: Reformat")]
-Signed-off-by: Alexandre Marques <alexandre.marques@ctw.bmwgroup.com>
+(cherry picked from commit 89ffb1fec8e7372b6e91ffb0b912f7a69270cf04)
+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 ---
- meta/lib/oe/spdx30_tasks.py | 22 ++++++++++++----------
- 1 file changed, 12 insertions(+), 10 deletions(-)
+ meta/recipes-support/vim/vim-tiny_9.2.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index 953a4ba052..d89763743c 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -1129,9 +1129,13 @@ def create_spdx(d):
+diff --git a/meta/recipes-support/vim/vim-tiny_9.2.bb b/meta/recipes-support/vim/vim-tiny_9.2.bb
+index e4c26d23f69..426a45ead1c 100644
+--- a/meta/recipes-support/vim/vim-tiny_9.2.bb
++++ b/meta/recipes-support/vim/vim-tiny_9.2.bb
+@@ -2,6 +2,8 @@ require vim.inc
  
- def create_package_spdx(d):
-     deploydir = Path(d.getVar("SPDXRUNTIMEDEPLOY"))
-+    pkgdatadir = Path(d.getVar('PKGDATA_DIR'))
+ SUMMARY += " (with tiny features)"
  
-     direct_deps = oe.spdx_common.collect_direct_deps(d, "do_create_spdx")
++CVE_PRODUCT = "vim_development_group:vim vim:vim"
++
+ PACKAGECONFIG += "tiny"
  
-+    # providers[package_name] = pkg_name, where:
-+    # - package_name is the name in the recipe in PACKAGES/RDEPENDS, and
-+    # - pkg_name is the final name given by the package manager.
-     providers = oe.spdx_common.collect_package_providers(d, direct_deps)
-     pkg_arch = d.getVar("SSTATE_PKGARCH")
- 
-@@ -1185,26 +1189,24 @@ def create_package_spdx(d):
-             if dep not in providers:
-                 continue
- 
--            (dep, _) = providers[dep]
-+            dep_pkg_name, _ = providers[dep]
- 
--            if not oe.packagedata.packaged(dep, localdata):
-+            if not os.path.exists(pkgdatadir / "runtime-reverse" / dep_pkg_name):
-+                bb.debug(1, f"pkg_name {dep_pkg_name}, package {dep} missing for {package}")
-                 continue
- 
--            dep_pkg_data = oe.packagedata.read_subpkgdata_dict(dep, d)
--            dep_pkg = dep_pkg_data["PKG"]
--
--            if dep in dep_package_cache:
--                dep_spdx_package = dep_package_cache[dep]
-+            if dep_pkg_name in dep_package_cache:
-+                dep_spdx_package = dep_package_cache[dep_pkg_name]
-             else:
--                bb.debug(1, "Searching for %s" % dep_pkg)
-+                bb.debug(1, "Searching for %s" % dep_pkg_name)
-                 dep_spdx_package, _ = oe.sbom30.find_root_obj_in_jsonld(
-                     d,
-                     "packages-staging",
--                    "package-" + dep_pkg,
-+                    "package-" + dep_pkg_name,
-                     oe.spdx30.software_Package,
-                     software_primaryPurpose=oe.spdx30.software_SoftwarePurpose.install,
-                 )
--                dep_package_cache[dep] = dep_spdx_package
-+                dep_package_cache[dep_pkg_name] = dep_spdx_package
- 
-             runtime_spdx_deps.add(dep_spdx_package)
-             seen_deps.add(dep)
+ do_install() {
+-- 
+2.35.6
