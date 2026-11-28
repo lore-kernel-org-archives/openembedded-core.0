@@ -1,107 +1,165 @@
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.220.1795827021070383750
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.221.1795827021951489048
  for <openembedded-core@lists.openembedded.org>;
- Fri, 27 Nov 2026 16:50:21 -0800
+ Fri, 27 Nov 2026 16:50:22 -0800
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20260707 header.b=cZLWdZYB;
- spf=pass (domain: gmail.com, ip: 209.85.221.42, mailfrom: c137.marques@gmail.com)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4a3e706b5dfso5474000f8f.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 16:50:20 -0800 (PST)
+ dkim=pass header.i=@gmail.com header.s=20260707 header.b=r0JlX0FZ;
+ spf=pass (domain: gmail.com, ip: 209.85.221.51, mailfrom: c137.marques@gmail.com)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-490f38e9688so5946617f8f.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 27 Nov 2026 16:50:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20260707; t=1795827019; x=1796431819; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=5qxLK4A8Gg8M6/JGTyJdfTcKBL4ARbjx6JuWzIcnPOU=;
-        b=cZLWdZYBOVnJ6UMHuxuFb+05gaUcD+vHL0j15mmARNKD+8nicsVwzhpcM0amqD0QxC
-         mTiK1tFa80cmbH6YjhJFydlfRUzRsuSNoPk++m4D4T9ptuwIvv4BMbXKcXa122ps4xmG
-         fcGnAAURRxxpFPcWRgBOt11kTUFMe6DwYyhgbE+Ov47+ki/VdVOJx+cKSJrVeCexHONA
-         a4vg/oZyK7kHvGuOqtqMvQZky9a6NyKFMV/IXc+PGFY6VX0IXpo58HypSJ0IQmY2Txhy
-         W+F9MiM0CJ/5VlCVPJ/HvEClEb4oejez8tyFPxSbGQ5zRKzILN81mhXRTNQaLAbXOka+
-         uiFg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1795827019; x=1796431819;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20260707; t=1795827020; x=1796431820; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=5qxLK4A8Gg8M6/JGTyJdfTcKBL4ARbjx6JuWzIcnPOU=;
-        b=exc39LSkOOs3j7P1Gi92I+N7EByjQEd0plHhoyoWC/Ye/EAadNVtyFaLKZUXKunBdM
-         +oWtBZiBMbETpCS4VgbdWEeLtNBTZH+GKyxudWM5zzHZIAJckR7SCgUXEH/4+SkClKpK
-         6zxSWBlmlzetKIG8fCVwrWY/eDU2pRk4bxl+kBPOi6xNTJ6aQBdOCvcijH5e2jKJ3iBz
-         FapNezLql1kUHly55T6VcdDOGzN+0xIvwN6fM5B3BhefRY7MlXNG1xiyQxspHrBJ2WJo
-         kIwj+RX0aEw2e1PP7NEbrpbp8o6Ym9gKKPte/ZLQ7/sraWoO1q+qQYP0GrBujh1RlP6+
-         7zAg==
-X-Gm-Message-State: APuU4Z/gm52FjNjYw2wmirGh2pOR0hIqvcJqTIs6FTQOKaokoVDK9NXI
-	whW6hT1KzhOSJuB1tfeRYmf1TSIc92LfX5JOhR76W44ft8F8reWtxAsSx+DJGw==
-X-Gm-Gg: AZFdTZc5y/MTQ3SnrT1NBbvpXWE8jpDqBcMUidvwy/0j9lnPISZwg5Mi9kpM+svj8Kn
-	+7enyP8UVHnGKT7zfTrYj8s/vk4biff6hlrZ95v/5qbp7IPRnMwAKVEsqhj4NuFWJiBvGooR1Rz
-	H1mJzcJ4BnhBUVD0R96OARLCOIfn5c+K4jEh4xLY0WVfz0EiR/me08tvpt/L7bL6xPt2p3MV4fJ
-	Sahqm38oRuO0imbVB6SXHrxgj4dmmnJEvpasDpK1A7dPU5Kh7EKBlVrBjOeITFdnCNm2Q+uk78R
-	rCLQg60N5ARXW99U6KP/G8bPXPB2NqGClucqYjg2KOiaVU21BkX2evekIFuYYEGhxt1Zoni2yNA
-	m/dm4lebm1etvMyWhSUQweNN/hEYVFyBGeTYwTscJKKXCHy3+8CIbAhd1gXBlMiop2XN7/PKq+f
-	cpsyhPuumTS4S0/dyQjGGOYYte6W99zo/JTLsctvqNxQf/nJzX9GhIrkkTDYieyCZQdANu5GCGC
-	XXVx8CsbTKLzdsad/+IdZAVtx6WQhu3b73cwbBTI/GmyzW7nqupA+ZA7XW8tAZe8QlA5QHFaoVs
-	Zeh9TcR/FRE2LLGrTcFamA==
-X-Received: by 2002:a05:6000:4211:b0:4bf:35cf:ba89 with SMTP id ffacd0b85a97d-4bf35cfbaf0mr6842494f8f.19.1795827018989;
-        Fri, 27 Nov 2026 16:50:18 -0800 (PST)
+        bh=IOVNoKUzyS9F/2REvZwPGDQCIbxkdeeMtkveVkJqOgo=;
+        b=r0JlX0FZ8neB3yPNcSNKjnnsppBTgAn7zdZ45hWrmWm2mjzJrYW3VsNSIyD5T6qwOO
+         kROiJusa7Yv0hwG+JXpc5nVCDUnZMtPbCjLPucvhaYDCNyHDI799yyUGHPWLuTm3ydSt
+         68nmnoUJeXhb31S1YFOsWiKnueyxbVRFQfvdm3zlQ8BQ4C8fmCO3OW1mL88wfob22QNA
+         GbvIwHI/UoyiBlJGBxIeL3cXL5QrC2RxXSiDdPsRkTNOJ1kUSeheJgXmw7LW8n9qafZQ
+         7gx9YuubJOaHLTF7x3y/tR+5gjB7LJjaoR0LW80pQYm0PiSbuCKYQqAkhKWpmuZZCnNj
+         zawQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1795827020; x=1796431820;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=IOVNoKUzyS9F/2REvZwPGDQCIbxkdeeMtkveVkJqOgo=;
+        b=i5T4gQ27BuxxWADlWipGeCs3NNq1qhZltc4oczdcEB7mMRJo/BUDSHSLkqk9V/3Q7e
+         oK9e45wYmjvuWFCRKA68wFD3FpgO3oO0QliTFZ+fNnImp9kaDriwsrV8iDK1kSjukmiv
+         6kHbWyWO5lPOGCScsRmAttQ4hFQjSueCb4eA+17fgwrQ89wSIxzpQr7Z5IHGSDtWLsLJ
+         epyzcYF/ChIcWeM1xp39IGa8OIKkowbzFIWtitc4CnZh2B7FQLRY7EGEfPKhqAEoh3do
+         3YQtD3vrfeWwW+FCgav9LPpMb5zA1HIx+dlxISQZlFogs8b6JdSgCqddT6FGfXItqXzV
+         Ww+A==
+X-Gm-Message-State: APuU4Z/qWiCv/0fcmHAuZrOrk/pFyPD5ut7pJjfuZb8pQTcbFcbH11Am
+	Yr3r5sb2uow5t7GMrs6BVvHcKhMlkR86z7/GOj95E6b1IkUnhbvfVWjIcOwm1W0M
+X-Gm-Gg: AZFdTZfe4ZvTpEmlCI8lbesskT5jKPR0qIgAs9X9CwpTzp/LkIo4U5Ta6Cc+CS2IXTJ
+	DcvoNsGCifGyCTJQUy3nTWkxTAks13G3pungZeb1pbRwvT5Abn5Uwc+NqFzsOHoT+DV2nFIxwMS
+	cGAxLquiUfL/JvOqxb5ZLNDwGWj1MSjzTSz/9SEmI3Hoau7h24/IuYYBaEb4LwkpgalMEGCaeaC
+	+hg5y4LxrVjOHXe0Vu7f87PUyP85g4jDHHp9OERRwzQsAMYwrj0Fl+TnpzVK8f/41CjsjdxvSoJ
+	SZgRz6Cfw+sC7mEnoH9AxhE4rgjdjSHavsMd2OrHXXZ82cA2MlpAngDkGDKx0I9nAjMrevP0AV0
+	lkK4bSKjins/aF768BGQC+o2N0q5QJP8yhKcugMJOATGa5k/nKlQgj2p4Dbl/qZG4tzVk3KGeSA
+	xgNbPTVmBEphmww2T0Oz1652NFchoPEHgsoHgtQC2H/OqtUERglc/Vyh2ykPc9BFeb0TRlMzMmq
+	6uXeH6azjenLUNGdf8kLStb579C863Cn82teCPVbecKnV9ZSxvO40wVfdblxPEXfqWD8FcEnU96
+	g3Dtu522gK21IoFxY7ROJA==
+X-Received: by 2002:a05:6000:401f:b0:48e:7475:fe7b with SMTP id ffacd0b85a97d-4aa545e305fmr54113862f8f.6.1795827020149;
+        Fri, 27 Nov 2026 16:50:20 -0800 (PST)
 Return-Path: <c137.marques@gmail.com>
 Received: from pc ([213.205.68.220])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4abbd84e661sm46864646f8f.18.2026.11.27.16.50.16
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4abbd84e661sm46864646f8f.18.2026.11.27.16.50.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2026 16:50:17 -0800 (PST)
+        Fri, 27 Nov 2026 16:50:19 -0800 (PST)
 From: Alexandre Marques <c137.marques@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: yoann.congal@smile.fr,
+	Prasanth R <ragaprasanth@gmail.com>,
+	Prasanth R <prasanth.r@lineo.co.jp>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
 	Alexandre Marques <alexandre.marques@ctw.bmwgroup.com>
-Subject: [wrynose][PATCH 0/2] spdx30_tasks: fix missing content in the image and SDK SBOMs
-Date: Sat, 28 Nov 2026 00:50:07 +0000
-Message-ID: <20261128005009.4101905-1-c137.marques@gmail.com>
+Subject: [wrynose][PATCH 1/2] spdx30_tasks: include the SDK target packages in the SDK SBOM
+Date: Sat, 28 Nov 2026 00:50:08 +0000
+Message-ID: <20261128005009.4101905-2-c137.marques@gmail.com>
 X-Mailer: git-send-email 2.56.1
+In-Reply-To: <20261128005009.4101905-1-c137.marques@gmail.com>
+References: <20261128005009.4101905-1-c137.marques@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 28 Nov 2026 00:50:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251467
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251468
 Content-Type: text/plain; charset="utf-8"
 
-From: Alexandre Marques <alexandre.marques@ctw.bmwgroup.com>
+From: Prasanth R <ragaprasanth@gmail.com>
 
-Hi Yoann,
+The SDK target and host parts both write sdk-rootfs.spdx.json. The host
+part runs last and overwrites the target one, so the SDK SBOM lists the
+nativesdk packages but none of the target sysroot packages.
 
-This series backports two SPDX 3.0 fixes from master to wrynose. Both
-restore content that is currently missing from the generated SBOMs.
+Write separate target and host documents, with their own build IDs, and
+include both in the SDK SBOM.
 
-Patch 1 makes the SDK SBOM include the target sysroot packages. The
-target and host parts of do_populate_sdk both write
-sdk-rootfs.spdx.json and the host part overwrites the target one, so
-on wrynose the SDK SBOM only lists the nativesdk packages.
+SPDX 2.2 wrote separate host and target SBOMs, so this was lost when
+the SDK SBOM moved to SPDX 3.0.
 
-Patch 2 fixes runtime dependsOn relationships between packages being
-dropped. It needed a context adjustment because wrynose does not have
-28ffcc0653 ("spdx: Reformat"); the change itself is identical to
-master.
+AI-Generated: Uses Claude
+Signed-off-by: Prasanth R <prasanth.r@lineo.co.jp>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 06452702d0694c13534555e7097a772641c39f19)
+Signed-off-by: Alexandre Marques <alexandre.marques@ctw.bmwgroup.com>
+---
+ meta/lib/oe/spdx30_tasks.py | 34 ++++++++++++++++++++++------------
+ 1 file changed, 22 insertions(+), 12 deletions(-)
 
-Tested on top of wrynose (16a03ed6c2) by building core-image-minimal
-and its SDK for qemux86-64 with and without the series and comparing
-the SBOMs:
-
-  - SDK SBOM: 292 target packages, 20604 files and 105 vulnerabilities
-    added
-  - runtime dependsOn relationships: 86 -> 209 in the image SBOM,
-    522 -> 1396 in the SDK SBOM
-  - nothing removed, apart from the sdk-rootfs build being split into
-    sdk-rootfs-host and sdk-rootfs-target
-
-oe-selftest -r spdx passes.
-
-Regards,
-Alexandre
-
-Pascal Eberhard (1):
-  spdx30_tasks: fix missing SPDX runtime dependencies
-
-Prasanth R (1):
-  spdx30_tasks: include the SDK target packages in the SDK SBOM
-
- meta/lib/oe/spdx30_tasks.py | 56 ++++++++++++++++++++++---------------
- 1 file changed, 34 insertions(+), 22 deletions(-)
-
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+index 62fc41f51a..953a4ba052 100644
+--- a/meta/lib/oe/spdx30_tasks.py
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -1588,7 +1588,9 @@ def sdk_create_spdx(d, sdk_type, spdx_work_dir, toolchain_outputname):
+     )
+     set_timestamp_now(d, sdk_rootfs, "builtTime")
+ 
+-    sdk_build = objset.add_root(objset.new_task_build("sdk-rootfs", "sdk-rootfs"))
++    sdk_build = objset.add_root(
++        objset.new_task_build("sdk-rootfs-" + sdk_type, "sdk-rootfs")
++    )
+     set_timestamp_now(d, sdk_build, "build_buildEndTime")
+ 
+     objset.new_scoped_relationship(
+@@ -1601,28 +1603,36 @@ def sdk_create_spdx(d, sdk_type, spdx_work_dir, toolchain_outputname):
+     collect_build_package_inputs(d, objset, sdk_build, sdk_packages)
+ 
+     objset.add_aliases()
+-    oe.sbom30.write_jsonld_doc(d, objset, spdx_work_dir / "sdk-rootfs.spdx.json")
++    oe.sbom30.write_jsonld_doc(
++        d, objset, spdx_work_dir / ("sdk-rootfs-%s.spdx.json" % sdk_type)
++    )
+ 
+ 
+ def create_sdk_sbom(d, sdk_deploydir, spdx_work_dir, toolchain_outputname):
+-    # Load the document written earlier
+-    rootfs_objset = oe.sbom30.load_jsonld(
+-        d, spdx_work_dir / "sdk-rootfs.spdx.json", required=True
+-    )
++    # Load the target and host documents written earlier
++    rootfs_objsets = []
++    rootfs = []
++    for sdk_type in ("target", "host"):
++        objset = oe.sbom30.load_jsonld(
++            d, spdx_work_dir / ("sdk-rootfs-%s.spdx.json" % sdk_type), required=True
++        )
++        root = objset.find_root(oe.spdx30.software_Package)
++        if root is None:
++            bb.fatal("Unable to find %s rootfs artifact" % sdk_type)
++        rootfs_objsets.append(objset)
++        rootfs.append(root)
++
++    rootfs_objset = rootfs_objsets[0]
+ 
+     # Create a new build for the SDK installer
+     sdk_build = rootfs_objset.new_task_build("sdk-populate", "sdk-populate")
+     set_timestamp_now(d, sdk_build, "build_buildEndTime")
+ 
+-    rootfs = rootfs_objset.find_root(oe.spdx30.software_Package)
+-    if rootfs is None:
+-        bb.fatal("Unable to find rootfs artifact")
+-
+     rootfs_objset.new_scoped_relationship(
+         [sdk_build],
+         oe.spdx30.RelationshipType.hasInput,
+         oe.spdx30.LifecycleScopeType.build,
+-        [rootfs],
++        rootfs,
+     )
+ 
+     files = set()
+@@ -1669,7 +1679,7 @@ def create_sdk_sbom(d, sdk_deploydir, spdx_work_dir, toolchain_outputname):
+         bb.warn(f"No SDK output files found in {sdk_deploydir}")
+ 
+     objset, sbom = oe.sbom30.create_sbom(
+-        d, toolchain_outputname, sorted(list(files)), [rootfs_objset]
++        d, toolchain_outputname, sorted(list(files)), rootfs_objsets
+     )
+ 
+     # Set supplier on root elements if SPDX_SDK_SUPPLIER is defined
