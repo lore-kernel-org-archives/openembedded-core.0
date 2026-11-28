@@ -1,69 +1,74 @@
-Received: from aer-iport-2.cisco.com (aer-iport-2.cisco.com [173.38.203.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2755.1795845257174215375
+Received: from aer-iport-5.cisco.com (aer-iport-5.cisco.com [173.38.203.67])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2744.1795845257353961804
  for <openembedded-core@lists.openembedded.org>;
  Fri, 27 Nov 2026 21:54:17 -0800
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=jz3ecgv/;
- spf=pass (domain: cisco.com, ip: 173.38.203.52, mailfrom: dkelaiya@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=ad3qTtbY;
+ spf=pass (domain: cisco.com, ip: 173.38.203.67, mailfrom: dkelaiya@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=1865; q=dns/txt;
+  d=cisco.com; i=@cisco.com; l=1233; q=dns/txt;
   s=iport01; t=1795845257; x=1797054857;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=hysIeMre1ZfbDjEzkNpHhnIN3SgB6+5QjN89LLr+cno=;
-  b=jz3ecgv/3Bw67k4u2Qm1JGmke0Y3+0WBSiWzvNHCtuZFOQvxYeXKKu2h
-   UaWbvFlWWGlRLBEo2uKchQxaMRkrc02qdRgq4gvv4+rgjyp5YMQezrOly
-   pqZfEuu3ku8LiKh5oI4m9wcRz5SVmZ3hjB8ntY4RoMEsp/BvdrEu2oBI5
-   z6Job0WYpn/TofneMBFsaYfjgrhB1nVOkA+Fjs2QI3pYD5kvV9Yi+DVyH
-   2Y0O3I646oyMrdeFKup8LIyb4sDDP/6Z1OKhWTs6/HmJeNRUv9TSSBtZX
-   NAYzMteXZAcs4XznBcxRhI40a9Ef3lg0XIrhuxtiqW3gpoBvgzH6PV3SV
-   w==;
-X-CSE-ConnectionGUID: l/MSRcNrRYWuTOUsEa0xeQ==
-X-CSE-MsgGUID: Te5KFxQPQIecDbqXzRDkRg==
-X-IPAS-Result: =?us-ascii?q?A0BFAgAWbApr/9JK/pBaglmCV3VgQ0mWSwOeKYF+DwEBA?=
- =?us-ascii?q?Q89FAQBAYUFAo4jAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQEKAQEFAQEBAgEHB?=
- =?us-ascii?q?YEOE4ZPDZATAgEDMgFGECAxKx0BDRmDAgGCdAMRugGCLIEBg2kCQ1DbMwELF?=
- =?us-ascii?q?AGBOIVCiCV2hH4nGxuBcoR/gQWBXAGCLoV5BIINFYEMgXKDAolxiiFIgR4DW?=
- =?us-ascii?q?SwBVRMNCgsHBYFoAzUSKhVuMh2BIzsXgQcbBgWBHIEegRKBA1uBKyZdASGBB?=
- =?us-ascii?q?oF2AoJRggACAUZBDgdFUwklQxJHJCIIEgkBExosCoEaNTwJJj8VDGcLGgVhC?=
- =?us-ascii?q?AINDHI5EDAcJC8FFyY8GweBDCcdGxcOAigGFSELQxgNSBEsNxUZBD5uB5QSg?=
- =?us-ascii?q?xyBDysEHIFjKQ8CpWShEQoog3mMJJU6GjOqc5kIjgqWUoRqgWg8gUcLB3AVg?=
- =?us-ascii?q?yIJShkPjjknhUPMXCYyPQEBBwIHDgMLgWiRfgEB?=
-IronPort-Data: A9a23:eFSDnaApkciR6hVW/33iw5YqxClBgxIJ4kV8jS/XYbTApGt31mdTz
- 2sXWmzTb/3ZMGfyKNh1a42/8kIGupeHn95iOVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
- /02M4eGcYZsCC+G+39BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jXGthh
- fuo+5eBYQb/i2YtWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
- P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
- 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TEx7JLN3s9G5ciy9lqPUZz7
- tERcCAAV0XW7w626OrTpuhEj8k5ac2uN4QFtzQ4nHfSDO0tRtbIRKCiCd1whWtswJoTQbCBO
- 4xDMGIHgBfoO3WjPn8bC586lea5j1H0ciZTrxSeoq9fD237klctjuO9boW9ltqiecgIvWiIn
- 1r/3mnyLhsDBM6l5Tm//Sf57gPItWahMG4IL5W/7vNsjViZy2AfBRFTXlyhrNG9i1WiQJRYM
- 0ES9y8koKQ++UDtScPyNyBUu1aNswRZX59bFPc3rVncjKHV+A2eQGMDS1atdeAbiSP/fhRyv
- nfhoj8jLWUHXGG9IZ5FyoqpkA==
-IronPort-HdrOrdr: A9a23:7Z3G46DWsy4lsdvlHemO55DYdb4zR+YMi2TDGXofdfUzSL3+qy
- nAppUmPHPP5Qr5HUtQ++xoW5PwJU80i6QU3WB5B97LN2PbUSmTXeRfBODZrQEIdReTygck79
- YCT4FOTPvtEFN9kcH2pCO8E9om3Z271ZrAv5a585+oJjsaE52JKGxCe3+mLnE=
-X-Talos-CUID: 9a23:Ani1OGFZymv+TuTzqmJjs2svIMsDaEfs82rsBHKjJG8xWLCsHAo=
-X-Talos-MUID: 9a23:DQD0ggtdFWGcFcfzqM2nuDw/F+l42pyXKU0GvZ8fi9u+GS9KNGLI
+  bh=Q8zwhe9ilru29rT844nZMtcF6Uy7CX0uvJiIqqOiXIY=;
+  b=ad3qTtbYjpsos6jJlM/HjvqPEpXfqmOdrFUwcMiKhfXla2q1UaRsVGlS
+   cBklgh34KhzxXF5bS2JpvpqBwOpfPE1Uwq+bxAjghy5u9JJ1za47+fDXO
+   Z8uXqzUijNRYmmB7S3pgbpH7jh7Tv1GcyOSR2kKgfZ2R+tg5GT6XyiIEu
+   txJ11TiujN7wzdT2071zHZcpGuOTo7Qf4qa1Y5F88JndZvdOD6YoMi11b
+   5lFDisMVZGkC/pD8Jlmwep7MMLU1tp5Sv1HtIfAHiONfviLl+0/UkPdT3
+   Mg4YqutiFoSslyJPVuVPKvDWd/CNWqoWvIpGr8+WNcITTZDBgoaHwVlTY
+   Q==;
+X-CSE-ConnectionGUID: IEOcGnGZRyusji+Ds+Bx8g==
+X-CSE-MsgGUID: cDqbSFjGQzy8W6J1gc2txg==
+X-IPAS-Result: =?us-ascii?q?A0BEAgACawpr/85K/pBRCYJZgld1YENJlksDnimBfg8BA?=
+ =?us-ascii?q?QEPMSAEAQGFBQKOIwImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBAQIBB?=
+ =?us-ascii?q?wWBDhOGXJATAgEDMgFGECAxKysZgwIBgnQDuh6CLIEB4DEBCxQBgTiFQogld?=
+ =?us-ascii?q?oR+JxsbgXKEf4QXeYV5BIIigQyOZYohSIEeA1ksAVUTDQoLBwWBaAM1EioVb?=
+ =?us-ascii?q?jIdgSM7F4EHGwYFgRyBHoESgQNbgSsmXQEhgQaBdgKCUYIAAgFGQQ4HRVMJJ?=
+ =?us-ascii?q?UMSRyQiCBIJARMaLAqBGjU8CSY/FQxnCxoFYQgCDQxyORAwHCQvBRcmPBsHg?=
+ =?us-ascii?q?QwnHRsXDgIoBhUhC0MYDUgRLDcVGQQ+bgeUEoMcPVGBHxlhFjqlZKERCiiDe?=
+ =?us-ascii?q?YwklToaM6pzLphapFyEaoFoPIFZcBWDIglKGQ/gfyYyPQEBBwIHDgMLgWiRf?=
+ =?us-ascii?q?gEB?=
+IronPort-Data: A9a23:6Ysv3qxu26wA4BLfllV6t+cqxyrEfRIJ4+MujC+fZmUNrF6WrkUAy
+ WYbX2nXa62JY2fxfotxOY3j8h5QuJ6Ay9RjT1Y9qFhgHilAwSbn6Xt1DatR0we6dJCroJdPt
+ p1GAjX4BJlqCCKa/lH9aOWJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
+ 4yaT/H3Ygf/hWctaDJMsspvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
+ evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
+ zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJGAbGoY3/MlFO3BT7
+ v4ZaxwWLTqT1+3jldpXSsE07igiBMDmJsYb/3pn1zycVatgSpHYSKKM7thdtNsyrpkSQbCEO
+ pZfNmYpNkyeC/FMEg9/5JYWkOSlgnD+YjRwo1OOrq1x6G/WpOB0+Oa1YIaJJoTaLSlTtk20v
+ 2j90WbWOwMLZOPB62OK+SiwluCayEsXX6pXTtVU7MVChVSPxm0eFVsaSFG8oOL8gFS/UtRTA
+ 0YT/TYqrK50/0uuJvHnXha4qWSI+AYBQdZRHsU+6QeQ2qTT/gCVD3QFSTgHb8Yp3OcxXTEs2
+ 1qDkt/lCDAqu7qPRFqZ96yItnW1ISUTIGoIaCMIQAdD5MPsyLzflTrGQ8wmFOu+icf4XGmth
+ TuLtyM5wb4UiKbnypmGwLwOuBr0zrChc+L/zly/sr6Nhu+hWLOYWg==
+IronPort-HdrOrdr: A9a23:pkPLIKoeUw2FoRqdLqW1KzcaV5oJeYIsimQD101hICG9vPb2qy
+ nIpoV96faaslcssR0b9OxofZPwI080lqQFhbX5Q43DYOCOggLBR+tfBMnZsljd8kbFmNK1u5
+ 0NT0EHMqySMXFKyeDn/QK/D9EshPOD8KyumKPi6k0Fd3ANV0mlhD0Jcjpy1SZNNXB7OaY=
+X-Talos-CUID: 9a23:PXXzYW+SRM9GrIeWhF+Vv285PcsKdFLv9mbNOE25SkpyC5eFGVDFrQ==
+X-Talos-MUID: =?us-ascii?q?9a23=3AuMfx1Q8sddA+bk6imOdk0wOQf8xE+q6VJkIiqIc?=
+ =?us-ascii?q?X6/baF3V/MG2BnDviFw=3D=3D?=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,238,1787011200"; 
-   d="scan'208";a="63463867"
-Received: from aer-l-core-09.cisco.com ([144.254.74.210])
-  by aer-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 28 Nov 2026 05:54:15 +0000
+   d="scan'208";a="60844408"
+Received: from aer-l-core-05.cisco.com ([144.254.74.206])
+  by aer-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 28 Nov 2026 05:54:15 +0000
 Received: from sjc-ads-5675.cisco.com (sjc-ads-5675.cisco.com [10.28.88.189])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by aer-l-core-09.cisco.com (Postfix) with ESMTPS id CD4F61800081A;
+	by aer-l-core-05.cisco.com (Postfix) with ESMTPS id BAE39180003BE;
 	Sat, 28 Nov 2026 05:54:14 +0000 (GMT)
 Received: by sjc-ads-5675.cisco.com (Postfix, from userid 1887444)
-	id 7760BCBF202; Fri, 27 Nov 2026 21:54:13 -0800 (PST)
+	id 70AA2CBF201; Fri, 27 Nov 2026 21:54:13 -0800 (PST)
 From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Darsh Kelaiya <dkelaiya@cisco.com>
-Subject: [OE-core][scarthgap][PATCH 3/3] vim: move CVE-2025-66476 status to shared include
-Date: Fri, 27 Nov 2026 21:54:10 -0800
-Message-Id: <20261128055410.1928584-3-dkelaiya@cisco.com>
+Cc: Devansh Patel <devanshp@cisco.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Darsh Kelaiya <dkelaiya@cisco.com>
+Subject: [OE-core][scarthgap][PATCH 2/3] vim-tiny: add CVE_PRODUCT mapping
+Date: Fri, 27 Nov 2026 21:54:09 -0800
+Message-Id: <20261128055410.1928584-2-dkelaiya@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20261128055410.1928584-1-dkelaiya@cisco.com>
 References: <20261128055410.1928584-1-dkelaiya@cisco.com>
@@ -71,51 +76,43 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5675.cisco.com [10.28.88.189];TLSv1.3;TLS_AES_256_GCM_SHA384;256
 X-Outbound-SMTP-Client: 10.28.88.189, sjc-ads-5675.cisco.com
-X-Outbound-Node: aer-l-core-09.cisco.com
+X-Outbound-Node: aer-l-core-05.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by lin-tor-korg-lkml-alma10-1 with HTTPS for <openembedded-core@lists.openembedded.org>; Sat, 28 Nov 2026 05:54:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251472
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/251473
 Content-Type: text/plain; charset="utf-8"
 
-From: Darsh Kelaiya <dkelaiya@cisco.com>
+From: Devansh Patel <devanshp@cisco.com>
 
-Move the existing CVE_STATUS entry from vim_9.1.bb to vim.inc so
-vim-tiny also inherits the platform exclusion. Both recipes require
-the shared include.
+The inherited "vim-tiny" identity has no vulnerability records even
+though this recipe builds the official Vim source with the tiny feature
+set, so source-aligned CVEs are missed.
 
-The vulnerability concerns command lookup through cmd.exe on Windows
-and does not apply to these Linux recipes.
+Use "vim_development_group:vim" for the historical NVD configuration
+identity and "vim:vim" for the current NVD dictionary CPE, configuration,
+and CNA affected-data identity.
 
-Reference: https://nvd.nist.gov/vuln/detail/CVE-2025-66476
-
+Signed-off-by: Devansh Patel <devanshp@cisco.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 89ffb1fec8e7372b6e91ffb0b912f7a69270cf04)
 Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 ---
- meta/recipes-support/vim/vim.inc    | 2 ++
- meta/recipes-support/vim/vim_9.1.bb | 2 --
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-support/vim/vim-tiny_9.1.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 3a8b67085a2..34201807775 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -69,6 +69,8 @@ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>\d+\.\d+)\.0"
- # Ignore that the upstream version .z in x.y.z is always newer
- UPSTREAM_VERSION_UNKNOWN = "1"
+diff --git a/meta/recipes-support/vim/vim-tiny_9.1.bb b/meta/recipes-support/vim/vim-tiny_9.1.bb
+index e4c26d23f69..426a45ead1c 100644
+--- a/meta/recipes-support/vim/vim-tiny_9.1.bb
++++ b/meta/recipes-support/vim/vim-tiny_9.1.bb
+@@ -2,6 +2,8 @@ require vim.inc
  
-+CVE_STATUS[CVE-2025-66476] = "not-applicable-platform: Issue only applies on Windows"
+ SUMMARY += " (with tiny features)"
+ 
++CVE_PRODUCT = "vim_development_group:vim vim:vim"
 +
- CVE_STATUS[CVE-2026-51400] = "not-applicable-platform: Vulnerable code is in src/os_vms.c, which is not compiled for Linux builds."
+ PACKAGECONFIG += "tiny"
  
- CVE_STATUS[CVE-2026-51401] = "not-applicable-platform: Vulnerable code is in src/os_vms.c, which is not compiled for Linux builds."
-diff --git a/meta/recipes-support/vim/vim_9.1.bb b/meta/recipes-support/vim/vim_9.1.bb
-index 5465a6ef91c..d31d277faee 100644
---- a/meta/recipes-support/vim/vim_9.1.bb
-+++ b/meta/recipes-support/vim/vim_9.1.bb
-@@ -23,5 +23,3 @@ ALTERNATIVE_LINK_NAME[xxd] = "${bindir}/xxd"
- # in many places for _FORTIFY_SOURCE=2.  Security flags become part of CC.
- #
- lcl_maybe_fortify = "${@oe.utils.conditional('DEBUG_BUILD','1','','-D_FORTIFY_SOURCE=1',d)}"
--
--CVE_STATUS[CVE-2025-66476] = "not-applicable-platform: Issue only applies on Windows"
+ do_install() {
 -- 
 2.35.6
